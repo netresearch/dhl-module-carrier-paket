@@ -1,0 +1,27 @@
+{
+  "name": "dhl/module-carrier-paket",
+  "version": "0.1.0",
+  "type": "magento2-module",
+  "description": "Carrier implementation for DHL business customer shipping",
+  "license": "OSL-3.0",
+  "authors": [
+    {
+      "email": "paul.siedler@netresearch.de",
+      "name": "Paul Siedler"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "Dhl\\Paket\\": ""
+    },
+    "files": [
+      "registration.php"
+    ]
+  },
+  "require": {
+    "magento/module-shipping": "^100.3.0",
+    "dhl/module-shipping-core": "^0.1.0",
+    "dhl/sdk-api-paket": "^0.1.0",
+    "dhl/sdk-api-parcel-management": "^1.0.0"
+  }
+}

@@ -1,0 +1,72 @@
+<?xml version="1.0" ?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <section id="carriers" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="900" translate="label">
+            <group id="dhlpaket" translate="label" type="text" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="10">
+                <label>DHL Paket</label>
+
+                <!-- General fields -->
+                <field id="general_settings" translate="label" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>General</label>
+                    <frontend_model>Dhl\ShippingCore\Block\Adminhtml\System\Config\Form\Field\Heading</frontend_model>
+                    <attribute type="shared">1</attribute>
+                </field>
+                <field id="active" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="10" translate="label"
+                       type="select">
+                    <label>Enabled</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <tooltip><![CDATA[Decide if DHL Paket is enabled.]]></tooltip>
+                </field>
+                <field id="sort_order" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="20" translate="label" type="text">
+                    <label>Sort Order</label>
+                    <frontend_class>validate-number</frontend_class>
+                    <tooltip><![CDATA[Sort order]]></tooltip>
+                </field>
+                <field id="title" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="30" translate="label" type="text">
+                    <label>Title</label>
+                    <tooltip><![CDATA[Title]]></tooltip>
+                </field>
+                <field id="emulated_carrier" showInDefault="1" showInStore="0" showInWebsite="1" sortOrder="50" translate="label comment tooltip" type="select">
+                    <label>Use rates from</label>
+                    <source_model>Dhl\ShippingCore\Model\Config\Source\OfflineCarriers</source_model>
+                    <can_be_empty>0</can_be_empty>
+                    <comment><![CDATA[Select the offline shipping method that gets used to provide rates in checkout.]]></comment>
+                    <tooltip><![CDATA[The rates will get used even if the selected shipping method is disabled. The available method names will also be those of the selected shipping method.]]></tooltip>
+                </field>
+
+                <field id="sallowspecific" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="60" translate="label" type="select">
+                    <label>Ship to Applicable Countries</label>
+                    <frontend_class>shipping-applicable-country</frontend_class>
+                    <source_model>Magento\Shipping\Model\Config\Source\Allspecificcountries</source_model>
+                    <tooltip><![CDATA[Decide if you want to ship to applicable countries.]]></tooltip>
+                </field>
+                <field id="specificcountry" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="70" translate="label" type="multiselect">
+                    <label>Ship to Specific Countries</label>
+                    <can_be_empty>1</can_be_empty>
+                    <source_model>Magento\Directory\Model\Config\Source\Country</source_model>
+                    <tooltip><![CDATA[Select specific countries you want to ship to.]]></tooltip>
+                </field>
+                <field id="specificerrmsg" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="80" translate="label" type="textarea">
+                    <label>Displayed Error Message</label>
+                    <depends>
+                        <field id="show_method_if_not_applicable">1</field>
+                    </depends>
+                    <tooltip><![CDATA[Enter a specific error message.]]></tooltip>
+                </field>
+                <field id="logging" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="90" translate="label" type="select">
+                    <label>Enable Logging</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <tooltip><![CDATA[Decide if you want to enable logging.]]></tooltip>
+                </field>
+                <field id="loglevel" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="100" translate="label" type="select">
+                    <label>Log level</label>
+                    <depends>
+                        <field id="logging">1</field>
+                    </depends>
+                    <source_model>Dhl\ShippingCore\Model\Config\Source\LogLevel</source_model>
+                    <comment><![CDATA[Log level 'Debug' may result in large log files!]]></comment>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>
