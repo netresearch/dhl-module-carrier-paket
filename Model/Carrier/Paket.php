@@ -6,14 +6,34 @@ declare(strict_types=1);
 
 namespace Dhl\Paket\Model\Carrier;
 
+use Dhl\Paket\Model\Config\ModuleConfigInterface;
 use Dhl\ShippingCore\Api\RateRequestEmulationInterface;
+use Magento\CatalogInventory\Api\StockRegistryInterface;
+use Magento\Directory\Helper\Data;
+use Magento\Directory\Model\CountryFactory;
+use Magento\Directory\Model\CurrencyFactory;
+use Magento\Directory\Model\RegionFactory;
+use Magento\Framework\App\Config\ScopeConfigInterface;
+use Magento\Framework\DataObject;
 use Magento\Framework\Xml\Security;
 use Magento\Quote\Model\Quote\Address\RateRequest;
+use Magento\Quote\Model\Quote\Address\RateResult\ErrorFactory as RateResultErrorFactory;
+use Magento\Quote\Model\Quote\Address\RateResult\Method;
+use Magento\Quote\Model\Quote\Address\RateResult\MethodFactory;
 use Magento\Shipping\Model\Carrier\AbstractCarrierOnline;
 use Magento\Shipping\Model\Carrier\CarrierInterface;
 use Magento\Shipping\Model\Rate\Result;
-use Magento\Shipping\Model\Rate\ResultFactory;
+use Magento\Shipping\Model\Rate\ResultFactory as RateResultFactory;
+use Magento\Shipping\Model\Simplexml\ElementFactory;
+use Magento\Shipping\Model\Tracking\Result\ErrorFactory as TrackingErrorFactory;
+use Magento\Shipping\Model\Tracking\Result\StatusFactory;
+use Magento\Shipping\Model\Tracking\ResultFactory as TrackingResultFactory;
+use Psr\Log\LoggerInterface;
+use RuntimeException;
 
+/**
+ * Class Paket
+ */
 class Paket extends AbstractCarrierOnline implements CarrierInterface
 {
     const CARRIER_CODE = 'dhlpaket';
@@ -29,54 +49,60 @@ class Paket extends AbstractCarrierOnline implements CarrierInterface
     private $rateRequestService;
 
     /**
-     * @var ResultFactory
+     * @var RateResultFactory
      */
     private $rateResultFactory;
 
     /**
+     * @var ModuleConfigInterface
+     */
+    private $moduleConfig;
+
+    /**
      * Paket constructor.
      *
-     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
-     * @param \Magento\Quote\Model\Quote\Address\RateResult\ErrorFactory $rateErrorFactory
-     * @param \Psr\Log\LoggerInterface $logger
-     * @param Security $xmlSecurity
-     * @param \Magento\Shipping\Model\Simplexml\ElementFactory $xmlElFactory
-     * @param ResultFactory $rateFactory
-     * @param \Magento\Quote\Model\Quote\Address\RateResult\MethodFactory $rateMethodFactory
-     * @param \Magento\Shipping\Model\Tracking\ResultFactory $trackFactory
-     * @param \Magento\Shipping\Model\Tracking\Result\ErrorFactory $trackErrorFactory
-     * @param \Magento\Shipping\Model\Tracking\Result\StatusFactory $trackStatusFactory
-     * @param \Magento\Directory\Model\RegionFactory $regionFactory
-     * @param \Magento\Directory\Model\CountryFactory $countryFactory
-     * @param \Magento\Directory\Model\CurrencyFactory $currencyFactory
-     * @param \Magento\Directory\Helper\Data $directoryData
-     * @param \Magento\CatalogInventory\Api\StockRegistryInterface $stockRegistry
+     * @param ScopeConfigInterface          $scopeConfig
+     * @param RateResultErrorFactory        $rateErrorFactory
+     * @param LoggerInterface               $logger
+     * @param Security                      $xmlSecurity
+     * @param ElementFactory                $xmlElFactory
+     * @param RateResultFactory             $rateResultFactory
+     * @param MethodFactory                 $rateMethodFactory
+     * @param TrackingResultFactory         $trackFactory
+     * @param TrackingErrorFactory          $trackErrorFactory
+     * @param StatusFactory                 $trackStatusFactory
+     * @param RegionFactory                 $regionFactory
+     * @param CountryFactory                $countryFactory
+     * @param CurrencyFactory               $currencyFactory
+     * @param Data                          $directoryData
+     * @param StockRegistryInterface        $stockRegistry
      * @param RateRequestEmulationInterface $rateRequestEmulation
-     * @param ResultFactory $resultFactory
-     * @param array $data
+     * @param ModuleConfigInterface         $moduleConfig
+     * @param array                         $data
      */
     public function __construct(
-        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
-        \Magento\Quote\Model\Quote\Address\RateResult\ErrorFactory $rateErrorFactory,
-        \Psr\Log\LoggerInterface $logger,
+        ScopeConfigInterface $scopeConfig,
+        RateResultErrorFactory $rateErrorFactory,
+        LoggerInterface $logger,
         Security $xmlSecurity,
-        \Magento\Shipping\Model\Simplexml\ElementFactory $xmlElFactory,
-        \Magento\Shipping\Model\Rate\ResultFactory $rateFactory,
-        \Magento\Quote\Model\Quote\Address\RateResult\MethodFactory $rateMethodFactory,
-        \Magento\Shipping\Model\Tracking\ResultFactory $trackFactory,
-        \Magento\Shipping\Model\Tracking\Result\ErrorFactory $trackErrorFactory,
-        \Magento\Shipping\Model\Tracking\Result\StatusFactory $trackStatusFactory,
-        \Magento\Directory\Model\RegionFactory $regionFactory,
-        \Magento\Directory\Model\CountryFactory $countryFactory,
-        \Magento\Directory\Model\CurrencyFactory $currencyFactory,
-        \Magento\Directory\Helper\Data $directoryData,
-        \Magento\CatalogInventory\Api\StockRegistryInterface $stockRegistry,
+        ElementFactory $xmlElFactory,
+        RateResultFactory $rateResultFactory,
+        MethodFactory $rateMethodFactory,
+        TrackingResultFactory $trackFactory,
+        TrackingErrorFactory $trackErrorFactory,
+        StatusFactory $trackStatusFactory,
+        RegionFactory $regionFactory,
+        CountryFactory $countryFactory,
+        CurrencyFactory $currencyFactory,
+        Data $directoryData,
+        StockRegistryInterface $stockRegistry,
         RateRequestEmulationInterface $rateRequestEmulation,
-        ResultFactory $resultFactory,
+        ModuleConfigInterface $moduleConfig,
         array $data = []
     ) {
         $this->rateRequestService = $rateRequestEmulation;
-        $this->rateResultFactory = $resultFactory;
+        $this->rateResultFactory  = $rateResultFactory;
+        $this->moduleConfig       = $moduleConfig;
 
         parent::__construct(
             $scopeConfig,
@@ -84,7 +110,7 @@ class Paket extends AbstractCarrierOnline implements CarrierInterface
             $logger,
             $xmlSecurity,
             $xmlElFactory,
-            $rateFactory,
+            $rateResultFactory,
             $rateMethodFactory,
             $trackFactory,
             $trackErrorFactory,
@@ -98,23 +124,28 @@ class Paket extends AbstractCarrierOnline implements CarrierInterface
         );
     }
 
+    /**
+     * @inheritDoc
+     */
     public function collectRates(RateRequest $request)
     {
-        if (!$this->getConfigData('active')) {
+        $storeId = $this->getStore();
+
+        if (!$this->moduleConfig->isEnabled($storeId)) {
             return false;
         }
 
-        $emulatedCarrier = $this->getConfigData('emulated_carrier');
-        $result = $this->rateResultFactory->create();
+        $emulatedCarrier = $this->moduleConfig->getEmulatedCarrier($storeId);
+        $result          = $this->rateResultFactory->create();
+
         /** @var Result $rateResult */
         $rateResult = $this->rateRequestService->emulateRateRequest($emulatedCarrier, $request);
         if ($rateResult instanceof Result) {
             $rates = $rateResult->getAllRates();
             $rates = array_map(
-                function ($rate) {
-                    /** @var Method $rate */
-                    $rate->setData('carrier', $this->_code);
-                    $rate->setData('carrier_title', $this->getConfigData('title'));
+                function (Method $rate) use ($storeId) {
+                    $rate->setCarrier($this->getCarrierCode());
+                    $rate->setCarrierTitle($this->moduleConfig->getTitle($storeId));
 
                     return $rate;
                 },
@@ -135,13 +166,16 @@ class Paket extends AbstractCarrierOnline implements CarrierInterface
      * @return array
      * @api
      */
-    public function getAllowedMethods()
+    public function getAllowedMethods(): array
     {
         return [];
     }
 
-    protected function _doShipmentRequest(\Magento\Framework\DataObject $request)
+    /**
+     * @inheritDoc
+     */
+    protected function _doShipmentRequest(DataObject $request): DataObject
     {
-        throw new \RuntimeException('Not yet implemented');
+        throw new RuntimeException('Not yet implemented');
     }
 }
