@@ -12,10 +12,14 @@ use Magento\Store\Model\ScopeInterface;
 
 class ModuleConfig implements ModuleConfigInterface
 {
-    /** @var ScopeConfigInterface */
+    /**
+     * @var ScopeConfigInterface
+     */
     private $scopeConfig;
 
-    /** @var EncryptorInterface */
+    /**
+     * @var EncryptorInterface
+     */
     private $encryptor;
 
     /**
@@ -33,8 +37,7 @@ class ModuleConfig implements ModuleConfigInterface
     }
 
     /**
-     * @param null $store
-     * @return bool
+     * @inheritDoc
      */
     public function isEnabled($store = null): bool
     {
@@ -46,10 +49,7 @@ class ModuleConfig implements ModuleConfigInterface
     }
 
     /**
-     * Get the sort order.
-     *
-     * @param string|null $store
-     * @return int
+     * @inheritDoc
      */
     public function getSortOrder($store = null): int
     {
@@ -61,10 +61,7 @@ class ModuleConfig implements ModuleConfigInterface
     }
 
     /**
-     * Get the title.
-     *
-     * @param string|null $store
-     * @return string
+     * @inheritDoc
      */
     public function getTitle($store = null): string
     {
@@ -76,10 +73,7 @@ class ModuleConfig implements ModuleConfigInterface
     }
 
     /**
-     * Get the emulated carrier.
-     *
-     * @param string|null $store
-     * @return string
+     * @inheritDoc
      */
     public function getEmulatedCarrier($store = null): string
     {
@@ -91,10 +85,7 @@ class ModuleConfig implements ModuleConfigInterface
     }
 
     /**
-     * Check if shipping only to specific countries.
-     *
-     * @param string|null $store
-     * @return bool
+     * @inheritDoc
      */
     public function shipToSpecificCountries($store = null): bool
     {
@@ -106,10 +97,7 @@ class ModuleConfig implements ModuleConfigInterface
     }
 
     /**
-     * Get the specific countries.
-     *
-     * @param string|null $store
-     * @return string[]
+     * @inheritDoc
      */
     public function getSpecificCountries($store = null): array
     {
@@ -123,10 +111,7 @@ class ModuleConfig implements ModuleConfigInterface
     }
 
     /**
-     * Get the error message.
-     *
-     * @param string|null $store
-     * @return string
+     * @inheritDoc
      */
     public function getNotApplicableErrorMessage($store = null): string
     {
@@ -138,10 +123,7 @@ class ModuleConfig implements ModuleConfigInterface
     }
 
     /**
-     * Get the Logging status.
-     *
-     * @param string|null $store
-     * @return bool
+     * @inheritDoc
      */
     public function isLoggingEnabled($store = null): bool
     {
@@ -153,10 +135,7 @@ class ModuleConfig implements ModuleConfigInterface
     }
 
     /**
-     * Get the log level.
-     *
-     * @param string|null $store
-     * @return int
+     * @inheritDoc
      */
     public function getLogLevel($store = null): int
     {

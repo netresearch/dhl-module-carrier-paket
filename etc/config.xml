@@ -2,14 +2,18 @@
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
     <default>
         <carriers>
-            <dhlecommerce>
-                <version>0.1.0</version>
+            <dhlpaket>
+                <version>1.0.0</version>
                 <model>Dhl\Paket\Model\Carrier\Paket</model>
+                <is_online>1</is_online>
+
+                <!-- Default elements -->
                 <active>0</active>
                 <title>DHL Paket</title>
+                <sort_order>0</sort_order>
                 <specificerrmsg>This shipping method is not available. To use this shipping method, please contact us.</specificerrmsg>
                 <sallowspecific>0</sallowspecific>
-            </dhlecommerce>
+            </dhlpaket>
         </carriers>
     </default>
 </config>
