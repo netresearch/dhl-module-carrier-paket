@@ -8,6 +8,7 @@ namespace Dhl\Paket\Model\Carrier;
 
 use Dhl\Paket\Model\Config\ModuleConfigInterface;
 use Dhl\ShippingCore\Api\RateRequestEmulationInterface;
+use Dhl\ShippingCore\Model\Config\CoreConfigInterface;
 use Magento\CatalogInventory\Api\StockRegistryInterface;
 use Magento\Directory\Helper\Data;
 use Magento\Directory\Model\CountryFactory;
@@ -38,6 +39,8 @@ class Paket extends AbstractCarrierOnline implements CarrierInterface
 {
     const CARRIER_CODE = 'dhlpaket';
 
+    const ALLOWED_ORIGIN_COUNTRIES = ['DE', 'AT'];
+
     /**
      * @var string
      */
@@ -59,6 +62,11 @@ class Paket extends AbstractCarrierOnline implements CarrierInterface
     private $moduleConfig;
 
     /**
+     * @var CoreConfigInterface
+     */
+    private $shippingCoreConfig;
+
+    /**
      * Paket constructor.
      *
      * @param ScopeConfigInterface          $scopeConfig
@@ -78,6 +86,7 @@ class Paket extends AbstractCarrierOnline implements CarrierInterface
      * @param StockRegistryInterface        $stockRegistry
      * @param RateRequestEmulationInterface $rateRequestEmulation
      * @param ModuleConfigInterface         $moduleConfig
+     * @parma CoreConfigInterface           $shippingCoreConfig
      * @param array                         $data
      */
     public function __construct(
@@ -98,11 +107,13 @@ class Paket extends AbstractCarrierOnline implements CarrierInterface
         StockRegistryInterface $stockRegistry,
         RateRequestEmulationInterface $rateRequestEmulation,
         ModuleConfigInterface $moduleConfig,
+        CoreConfigInterface $shippingCoreConfig,
         array $data = []
     ) {
         $this->rateRequestService = $rateRequestEmulation;
         $this->rateResultFactory  = $rateResultFactory;
         $this->moduleConfig       = $moduleConfig;
+        $this->shippingCoreConfig = $shippingCoreConfig;
 
         parent::__construct(
             $scopeConfig,
@@ -161,10 +172,22 @@ class Paket extends AbstractCarrierOnline implements CarrierInterface
     }
 
     /**
-     * Get allowed shipping methods
-     *
-     * @return array
-     * @api
+     * @inheritDoc
+     */
+    public function proccessAdditionalValidation(DataObject $request)
+    {
+        $result        = parent::proccessAdditionalValidation($request);
+        $originCountry = $this->shippingCoreConfig->getOriginCountry();
+
+        if (!\in_array($originCountry, self::ALLOWED_ORIGIN_COUNTRIES, true)) {
+            return false;
+        }
+
+        return $result;
+    }
+
+    /**
+     * @inheritDoc
      */
     public function getAllowedMethods(): array
     {
