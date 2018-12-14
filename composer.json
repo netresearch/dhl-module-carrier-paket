@@ -19,9 +19,12 @@
     ]
   },
   "require": {
-    "magento/module-shipping": "^100.3.0",
+    "magento/module-shipping": "^100.2.0",
     "dhl/module-shipping-core": "^0.1.0",
     "dhl/sdk-api-paket": "^0.1.0",
     "dhl/sdk-api-parcel-management": "^1.0.0"
-  }
+  },
+  "require-dev": {
+    "phpunit/phpunit": "~6.5.9"
+ }
 }
