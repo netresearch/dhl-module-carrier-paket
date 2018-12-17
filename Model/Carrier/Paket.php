@@ -7,6 +7,7 @@ declare(strict_types=1);
 namespace Dhl\Paket\Model\Carrier;
 
 use Dhl\Paket\Model\Config\ModuleConfigInterface;
+use Dhl\Paket\Model\Shipment\ShipmentLabelProvider;
 use Dhl\ShippingCore\Api\RateRequestEmulationInterface;
 use Dhl\ShippingCore\Model\Config\CoreConfigInterface;
 use Magento\CatalogInventory\Api\StockRegistryInterface;
@@ -25,12 +26,12 @@ use Magento\Shipping\Model\Carrier\AbstractCarrierOnline;
 use Magento\Shipping\Model\Carrier\CarrierInterface;
 use Magento\Shipping\Model\Rate\Result;
 use Magento\Shipping\Model\Rate\ResultFactory as RateResultFactory;
+use Magento\Shipping\Model\Shipment\Request;
 use Magento\Shipping\Model\Simplexml\ElementFactory;
 use Magento\Shipping\Model\Tracking\Result\ErrorFactory as TrackingErrorFactory;
 use Magento\Shipping\Model\Tracking\Result\StatusFactory;
 use Magento\Shipping\Model\Tracking\ResultFactory as TrackingResultFactory;
 use Psr\Log\LoggerInterface;
-use RuntimeException;
 
 /**
  * Class Paket
@@ -67,6 +68,11 @@ class Paket extends AbstractCarrierOnline implements CarrierInterface
     private $shippingCoreConfig;
 
     /**
+     * @var ShipmentLabelProvider
+     */
+    private $shipmentProvider;
+
+    /**
      * Paket constructor.
      *
      * @param ScopeConfigInterface          $scopeConfig
@@ -86,7 +92,8 @@ class Paket extends AbstractCarrierOnline implements CarrierInterface
      * @param StockRegistryInterface        $stockRegistry
      * @param RateRequestEmulationInterface $rateRequestEmulation
      * @param ModuleConfigInterface         $moduleConfig
-     * @parma CoreConfigInterface           $shippingCoreConfig
+     * @param CoreConfigInterface           $shippingCoreConfig
+     * @param ShipmentLabelProvider         $shipmentProvider
      * @param array                         $data
      */
     public function __construct(
@@ -108,12 +115,14 @@ class Paket extends AbstractCarrierOnline implements CarrierInterface
         RateRequestEmulationInterface $rateRequestEmulation,
         ModuleConfigInterface $moduleConfig,
         CoreConfigInterface $shippingCoreConfig,
+        ShipmentLabelProvider $shipmentProvider,
         array $data = []
     ) {
         $this->rateRequestService = $rateRequestEmulation;
         $this->rateResultFactory  = $rateResultFactory;
         $this->moduleConfig       = $moduleConfig;
         $this->shippingCoreConfig = $shippingCoreConfig;
+        $this->shipmentProvider   = $shipmentProvider;
 
         parent::__construct(
             $scopeConfig,
@@ -199,6 +208,10 @@ class Paket extends AbstractCarrierOnline implements CarrierInterface
      */
     protected function _doShipmentRequest(DataObject $request): DataObject
     {
-        throw new RuntimeException('Not yet implemented');
+        if ($request instanceof Request) {
+            return $this->shipmentProvider->getShipmentLabel($request);
+        }
+
+        throw new \InvalidArgumentException('Shipment returns are not supported');
     }
 }
