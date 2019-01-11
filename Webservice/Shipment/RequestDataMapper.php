@@ -13,6 +13,7 @@ use Dhl\ShippingCore\Model\Config\CoreConfigInterface;
 use Dhl\ShippingCore\Util\StreetSplitter;
 use Dhl\ShippingCore\Util\StreetSplitterInterface;
 use Magento\Framework\DataObjectFactory;
+use Magento\Framework\Stdlib\DateTime\TimezoneInterface;
 use Magento\Shipping\Model\Shipment\Request;
 
 /**
@@ -35,43 +36,33 @@ class RequestDataMapper implements RequestDataMapperInterface
     private $moduleConfig;
 
     /**
-     * The shipping configuration.
-     *
-     * @var CoreConfigInterface
-     */
-    private $shippingConfig;
-
-    /**
-     * @var DataObjectFactory
-     */
-    private $dataObjectFactory;
-
-    /**
      * @var StreetSplitterInterface
      */
     private $streetSplitter;
+
+    /**
+     * @var TimezoneInterface
+     */
+    private $timezone;
 
     /**
      * Constructor.
      *
      * @param ShipmentRequestBuilderInterface $requestBuilder
      * @param ModuleConfigInterface           $moduleConfig
-     * @param CoreConfigInterface             $shippingConfig
-     * @param DataObjectFactory               $dataObjectFactory
      * @param StreetSplitterInterface         $streetSplitter
+     * @param TimezoneInterface               $timezone
      */
     public function __construct(
         ShipmentRequestBuilderInterface $requestBuilder,
         ModuleConfigInterface $moduleConfig,
-        CoreConfigInterface $shippingConfig,
-        DataObjectFactory $dataObjectFactory,
-        StreetSplitterInterface $streetSplitter
+        StreetSplitterInterface $streetSplitter,
+        TimezoneInterface $timezone
     ) {
         $this->requestBuilder    = $requestBuilder;
         $this->moduleConfig      = $moduleConfig;
-        $this->shippingConfig    = $shippingConfig;
-        $this->dataObjectFactory = $dataObjectFactory;
         $this->streetSplitter    = $streetSplitter;
+        $this->timezone          = $timezone;
     }
 
     /**
@@ -103,11 +94,10 @@ class RequestDataMapper implements RequestDataMapperInterface
                 $request->getRecipientAddressCountryCode()
             );
 
-        // TODO Use values from config, Calculate shipment date?
         $this->requestBuilder->setShipmentDetails(
             $this->moduleConfig->getProduct(),
             $this->moduleConfig->getAccountNumber(),
-            '', //$this->moduleConfig->getShipmentDate(),
+            $this->getShipmentDate(),
             (float) $request->getPackageParams()->getWeight(),
             (int) $request->getPackageParams()->getLength(),
             (int) $request->getPackageParams()->getWidth(),
@@ -118,5 +108,18 @@ class RequestDataMapper implements RequestDataMapperInterface
             ->setShipmentOrder(ShipmentRequestBuilderInterface::LABEL_RESPONSE_TYPE_B64);
 
         return $this->requestBuilder->build();
+    }
+
+    /**
+     * Returns the shipment date.
+     *
+     * @return string
+     */
+    private function getShipmentDate(): string
+    {
+        $shipmentDate = $this->timezone->date();
+        $shipmentDate->modify('+1 day');
+
+        return $shipmentDate->format('Y-m-d');
     }
 }
