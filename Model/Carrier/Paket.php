@@ -8,6 +8,7 @@ namespace Dhl\Paket\Model\Carrier;
 
 use Dhl\Paket\Model\Config\ModuleConfigInterface;
 use Dhl\Paket\Model\Shipment\ShipmentLabelProvider;
+use Dhl\Paket\Model\Tracking\TrackingInfoProvider;
 use Dhl\ShippingCore\Api\RateRequestEmulationInterface;
 use Dhl\ShippingCore\Model\Config\CoreConfigInterface;
 use Magento\CatalogInventory\Api\StockRegistryInterface;
@@ -28,6 +29,7 @@ use Magento\Shipping\Model\Rate\Result;
 use Magento\Shipping\Model\Rate\ResultFactory as RateResultFactory;
 use Magento\Shipping\Model\Shipment\Request;
 use Magento\Shipping\Model\Simplexml\ElementFactory;
+use Magento\Shipping\Model\Tracking\Result as TrackingResult;
 use Magento\Shipping\Model\Tracking\Result\ErrorFactory as TrackingErrorFactory;
 use Magento\Shipping\Model\Tracking\Result\StatusFactory;
 use Magento\Shipping\Model\Tracking\ResultFactory as TrackingResultFactory;
@@ -76,6 +78,11 @@ class Paket extends AbstractCarrierOnline implements CarrierInterface
     private $shipmentProvider;
 
     /**
+     * @var TrackingInfoProvider
+     */
+    private $trackingProvider;
+
+    /**
      * Paket constructor.
      *
      * @param ScopeConfigInterface          $scopeConfig
@@ -97,7 +104,8 @@ class Paket extends AbstractCarrierOnline implements CarrierInterface
      * @param ModuleConfigInterface         $moduleConfig
      * @param CoreConfigInterface           $shippingCoreConfig
      * @param ShipmentLabelProvider         $shipmentProvider
-     * @param array                         $data
+     * @param TrackingInfoProvider          $trackingInfoProvider
+     * @param array $data
      */
     public function __construct(
         ScopeConfigInterface $scopeConfig,
@@ -119,6 +127,7 @@ class Paket extends AbstractCarrierOnline implements CarrierInterface
         ModuleConfigInterface $moduleConfig,
         CoreConfigInterface $shippingCoreConfig,
         ShipmentLabelProvider $shipmentProvider,
+        TrackingInfoProvider $trackingInfoProvider,
         array $data = []
     ) {
         $this->rateRequestService = $rateRequestEmulation;
@@ -126,6 +135,7 @@ class Paket extends AbstractCarrierOnline implements CarrierInterface
         $this->moduleConfig       = $moduleConfig;
         $this->shippingCoreConfig = $shippingCoreConfig;
         $this->shipmentProvider   = $shipmentProvider;
+        $this->trackingProvider   = $trackingInfoProvider;
 
         parent::__construct(
             $scopeConfig,
@@ -216,5 +226,28 @@ class Paket extends AbstractCarrierOnline implements CarrierInterface
         }
 
         throw new \InvalidArgumentException('Shipment returns are not supported');
+    }
+
+    /**
+     * Check if carrier has shipping tracking option available
+     * All \Magento\Usa carriers have shipping tracking option available
+     *
+     * @return boolean
+     */
+    public function isTrackingAvailable()
+    {
+        return false;
+    }
+
+    /**
+     * Returns tracking information.
+     *
+     * @param string $tracking
+     *
+     * @return TrackingResult
+     */
+    public function getTracking(string $tracking): TrackingResult
+    {
+        return $this->trackingProvider->getTrackingInfo($tracking);
     }
 }
