@@ -145,4 +145,100 @@ class ModuleConfig implements ModuleConfigInterface
             $store
         );
     }
+
+    /**
+     * @inheritDoc
+     */
+    public function getAuthUsername($store = null): string
+    {
+        return (string) $this->scopeConfig->getValue(
+            self::CONFIG_XML_PATH_AUTH_USERNAME,
+            ScopeInterface::SCOPE_STORE,
+            $store
+        );
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getAuthPassword($store = null): string
+    {
+        return (string) $this->encryptor->decrypt(
+            $this->scopeConfig->getValue(
+                self::CONFIG_XML_PATH_AUTH_PASSWORD,
+                ScopeInterface::SCOPE_STORE,
+                $store
+            )
+        );
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getApiUsername($store = null): string
+    {
+        return (string) $this->scopeConfig->getValue(
+            self::CONFIG_XML_PATH_API_USERNAME,
+            ScopeInterface::SCOPE_STORE,
+            $store
+        );
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getApiPassword($store = null): string
+    {
+        return (string) $this->encryptor->decrypt(
+            $this->scopeConfig->getValue(
+                self::CONFIG_XML_PATH_API_PASSWORD,
+                ScopeInterface::SCOPE_STORE,
+                $store
+            )
+        );
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getAccountNumber($store = null): string
+    {
+        return (string) $this->scopeConfig->getValue(
+            self::CONFIG_XML_PATH_ACCOUNT_NUMBER,
+            ScopeInterface::SCOPE_STORE,
+            $store
+        );
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function sandboxModeEnabled($store = null): bool
+    {
+        return (bool) $this->scopeConfig->getValue(
+            self::CONFIG_XML_PATH_SANDBOX_MODE,
+            ScopeInterface::SCOPE_STORE,
+            $store
+        );
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function sandboxModeDisabled($store = null): bool
+    {
+        return !$this->sandboxModeEnabled($store);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getProduct($store = null): string
+    {
+        return (string) $this->scopeConfig->getValue(
+            self::CONFIG_XML_PATH_PRODUCT,
+            ScopeInterface::SCOPE_STORE,
+            $store
+        );
+    }
 }

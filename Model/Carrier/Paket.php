@@ -34,12 +34,15 @@ use Magento\Shipping\Model\Tracking\ResultFactory as TrackingResultFactory;
 use Psr\Log\LoggerInterface;
 
 /**
- * Class Paket
+ * DHL Paket online shipping carrier model.
  */
 class Paket extends AbstractCarrierOnline implements CarrierInterface
 {
     const CARRIER_CODE = 'dhlpaket';
 
+    /**
+     * List of allowed origin country codes.
+     */
     const ALLOWED_ORIGIN_COUNTRIES = ['DE', 'AT'];
 
     /**

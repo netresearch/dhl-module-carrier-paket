@@ -23,7 +23,18 @@ interface ModuleConfigInterface
     const CONFIG_XML_PATH_ENABLE_LOGGING = self::CONFIG_ROOT . 'general_shipping_settings/logging';
     const CONFIG_XML_PATH_LOGLEVEL = self::CONFIG_ROOT . 'general_shipping_settings/loglevel';
 
-    // 200_checkout_presentation.xml
+    // 200_dhl_paket_account.xml
+    const CONFIG_XML_PATH_AUTH_USERNAME = self::CONFIG_ROOT . 'account_settings/auth_username';
+    const CONFIG_XML_PATH_AUTH_PASSWORD = self::CONFIG_ROOT . 'account_settings/auth_password';
+    const CONFIG_XML_PATH_API_USERNAME = self::CONFIG_ROOT . 'account_settings/api_username';
+    const CONFIG_XML_PATH_API_PASSWORD = self::CONFIG_ROOT . 'account_settings/api_password';
+    const CONFIG_XML_PATH_SANDBOX_MODE = self::CONFIG_ROOT . 'account_settings/sandboxmode';
+    const CONFIG_XML_PATH_ACCOUNT_NUMBER = self::CONFIG_ROOT . 'account_settings/accountnumber';
+
+    // 300_shipping_preferences.xml
+    const CONFIG_XML_PATH_PRODUCT = self::CONFIG_ROOT . 'shipment_settings/product';
+
+    // 400_checkout_presentation.xml
     const CONFIG_XML_PATH_EMULATED_CARRIER = self::CONFIG_ROOT . 'dhl_paket_checkout_settings/emulated_carrier';
 
     /**
@@ -106,4 +117,76 @@ interface ModuleConfigInterface
      * @return int
      */
     public function getLogLevel($store = null): int;
+
+    /**
+     * Get the authentication username.
+     *
+     * @param string|null $store
+     *
+     * @return string
+     */
+    public function getAuthUsername($store = null): string;
+
+    /**
+     * Get the authentication password.
+     *
+     * @param string|null $store
+     *
+     * @return string
+     */
+    public function getAuthPassword($store = null): string;
+
+    /**
+     * Get the API username.
+     *
+     * @param string|null $store
+     *
+     * @return string
+     */
+    public function getApiUsername($store = null): string;
+
+    /**
+     * Get the API password.
+     *
+     * @param string|null $store
+     *
+     * @return string
+     */
+    public function getApiPassword($store = null): string;
+
+    /**
+     * Get the account number.
+     *
+     * @param string|null $store
+     *
+     * @return string
+     */
+    public function getAccountNumber($store = null): string;
+
+    /**
+     * Returns true if sandbox mode is enabled.
+     *
+     * @param string|null $store
+     *
+     * @return bool
+     */
+    public function sandboxModeEnabled($store = null): bool;
+
+    /**
+     * Return true if sandbox mode is disabled.
+     *
+     * @param string|null $store
+     *
+     * @return bool
+     */
+    public function sandboxModeDisabled($store = null): bool;
+
+    /**
+     * Returns the selected product.
+     *
+     * @param string|null $store
+     *
+     * @return string
+     */
+    public function getProduct($store = null): string;
 }
