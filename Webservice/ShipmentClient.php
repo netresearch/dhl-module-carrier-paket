@@ -63,7 +63,7 @@ class ShipmentClient implements ShipmentClientInterface
             $this->moduleConfig->getAuthPassword(),
             $this->moduleConfig->getApiUsername(),
             $this->moduleConfig->getApiPassword(),
-            $this->moduleConfig->getLocation()
+            $this->moduleConfig->sandboxModeEnabled()
         );
 
         // Create service instance

@@ -88,7 +88,7 @@ class RequestDataMapper implements RequestDataMapperInterface
                 $request->getShipperContactPersonName(),
                 $shipperAddress['street_name'],
                 $shipperAddress['street_number'],
-                $request->getShipperAddressPostalCode(),
+                (string) $request->getShipperAddressPostalCode(),
                 $request->getShipperAddressCity(),
                 $request->getShipperAddressCountryCode()
             );
@@ -98,7 +98,7 @@ class RequestDataMapper implements RequestDataMapperInterface
                 $request->getRecipientContactPersonName(),
                 $receiverAddress['street_name'],
                 $receiverAddress['street_number'],
-                $request->getRecipientAddressPostalCode(),
+                (string) $request->getRecipientAddressPostalCode(),
                 $request->getRecipientAddressCity(),
                 $request->getRecipientAddressCountryCode()
             );
