@@ -14,11 +14,11 @@ use PHPUnit\Framework\TestCase;
 class PaketTest extends TestCase
 {
     /**
-     * @magentoConfigFixture store carriers/dhlpaket/active 1
-     * @magentoConfigFixture store carriers/dhlpaket/emulated_carrier flatrate
-     * @magentoConfigFixture store carriers/flatrate/type O
-     * @magentoConfigFixture store carriers/flatrate/handling_type F
-     * @magentoConfigFixture store carriers/flatrate/price 5.00
+     * @magentoConfigFixture current_store carriers/dhlpaket/active 1
+     * @magentoConfigFixture current_store carriers/dhlpaket/dhl_paket_checkout_settings/emulated_carrier flatrate
+     * @magentoConfigFixture current_store carriers/flatrate/type O
+     * @magentoConfigFixture current_store carriers/flatrate/handling_type F
+     * @magentoConfigFixture current_store carriers/flatrate/price 5.00
      */
     public function testCollectRates()
     {
@@ -27,6 +27,7 @@ class PaketTest extends TestCase
         $subject = $objectManager->get(Paket::class);
 
         $rateRequest = new RateRequest();
+        $rateRequest->setPackageQty(1);
         /** @var \Magento\Shipping\Model\Rate\Result $rates */
         $rates = $subject->collectRates($rateRequest);
         $this->assertCount(1, $rates->getAllRates());
