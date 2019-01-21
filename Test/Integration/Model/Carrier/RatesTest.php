@@ -11,7 +11,7 @@ use Magento\Quote\Model\Quote\Address\RateRequest;
 use Magento\TestFramework\Helper\Bootstrap;
 use PHPUnit\Framework\TestCase;
 
-class PaketTest extends TestCase
+class RatesTest extends TestCase
 {
     /**
      * @magentoConfigFixture current_store carriers/dhlpaket/active 1
