@@ -9,10 +9,8 @@ namespace Dhl\Paket\Webservice\Shipment;
 use Dhl\Paket\Model\Config\ModuleConfigInterface;
 use Dhl\Sdk\Bcs\Api\Data\ShipmentRequestInterface;
 use Dhl\Sdk\Bcs\Api\ShipmentRequestBuilderInterface;
-use Dhl\ShippingCore\Model\Config\CoreConfigInterface;
-use Dhl\ShippingCore\Util\StreetSplitter;
+use Dhl\Sdk\Bcs\Api\ShippingProductsInterface;
 use Dhl\ShippingCore\Util\StreetSplitterInterface;
-use Magento\Framework\DataObjectFactory;
 use Magento\Framework\Stdlib\DateTime\TimezoneInterface;
 use Magento\Shipping\Model\Shipment\Request;
 
@@ -96,7 +94,7 @@ class RequestDataMapper implements RequestDataMapperInterface
 
         $this->requestBuilder->setShipmentDetails(
             $this->moduleConfig->getProduct(),
-            $this->moduleConfig->getAccountNumber(),
+            $this->getBillingNumber(),
             $this->getShipmentDate(),
             (float) $request->getPackageParams()->getWeight(),
             (int) $request->getPackageParams()->getLength(),
@@ -108,6 +106,29 @@ class RequestDataMapper implements RequestDataMapperInterface
             ->setShipmentOrder(ShipmentRequestBuilderInterface::LABEL_RESPONSE_TYPE_B64);
 
         return $this->requestBuilder->build();
+    }
+
+    /**
+     * Returns the 14-digit encoded billing number.
+     *
+     * @return string
+     */
+    private function getBillingNumber(): string
+    {
+        $number        = $this->moduleConfig->getAccountNumber();
+        $product       = $this->moduleConfig->getProduct();
+        $procedure     = null;
+        $participation = '01';
+        $products      = ShippingProductsInterface::PRODUCTS;
+
+        foreach ($products as $countryProducts) {
+            if (isset($countryProducts[$product])) {
+                $procedure = $countryProducts[$product];
+                break;
+            }
+        }
+
+        return $number . $procedure . $participation;
     }
 
     /**

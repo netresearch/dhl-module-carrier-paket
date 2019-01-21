@@ -9,6 +9,7 @@ namespace Dhl\Paket\Model\Carrier;
 use Dhl\Paket\Model\Config\ModuleConfigInterface;
 use Dhl\Paket\Model\Shipment\ShipmentLabelProvider;
 use Dhl\Paket\Model\Tracking\TrackingInfoProvider;
+use Dhl\Sdk\Bcs\Api\ShipmentProductsInterface;
 use Dhl\ShippingCore\Api\RateRequestEmulationInterface;
 use Dhl\ShippingCore\Model\Config\CoreConfigInterface;
 use Magento\CatalogInventory\Api\StockRegistryInterface;
@@ -41,11 +42,6 @@ use Psr\Log\LoggerInterface;
 class Paket extends AbstractCarrierOnline implements CarrierInterface
 {
     const CARRIER_CODE = 'dhlpaket';
-
-    /**
-     * List of allowed origin country codes.
-     */
-    const ALLOWED_ORIGIN_COUNTRIES = ['DE', 'AT'];
 
     /**
      * @var string
@@ -201,7 +197,7 @@ class Paket extends AbstractCarrierOnline implements CarrierInterface
         $result        = parent::proccessAdditionalValidation($request);
         $originCountry = $this->shippingCoreConfig->getOriginCountry();
 
-        if (!\in_array($originCountry, self::ALLOWED_ORIGIN_COUNTRIES, true)) {
+        if (!\in_array($originCountry, ShipmentProductsInterface::ALLOWED_ORIGIN_COUNTRIES, true)) {
             return false;
         }
 

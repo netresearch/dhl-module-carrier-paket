@@ -15,27 +15,37 @@
             <backend_model>Magento\Config\Model\Config\Backend\Encrypted</backend_model>
         </field>
 
-        <field id="api_username" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="30"
+        <field id="sandboxmode" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="30"
+               translate="tooltip label comment" type="Dhl\ShippingCore\Model\Data\Form\Element\Checkbox">
+            <label><![CDATA[Sandbox Mode]]></label>
+            <button_label>Use sandbox mode.</button_label>
+        </field>
+
+        <field id="api_username" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="40"
                translate="tooltip label comment" type="text">
             <label><![CDATA[API Credentials]]></label>
             <comment>Please talk to your account representative to add API access to your business account</comment>
+            <depends>
+                <field id="sandboxmode">0</field>
+            </depends>
         </field>
-        <field id="api_password" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="40"
+        <field id="api_password" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="50"
                translate="tooltip label comment" type="obscure">
             <label><![CDATA[Password]]></label>
             <backend_model>Magento\Config\Model\Config\Backend\Encrypted</backend_model>
+            <depends>
+                <field id="sandboxmode">0</field>
+            </depends>
         </field>
 
-        <field id="accountnumber" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="50"
+        <!-- EKP -->
+        <field id="account_number" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="60"
                translate="tooltip label comment" type="text">
-            <label><![CDATA[Account Number]]></label>
-            <validate>validate-length maximum-length-14 minimum-length-14 validate-digits</validate>
-        </field>
-
-        <field id="sandboxmode" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="60"
-               translate="tooltip label comment" type="Dhl\ShippingCore\Model\Data\Form\Element\Checkbox">
-            <label><![CDATA[Sandbox Mode]]></label>
-            <button_label>Enable sandbox mode to use test webservice.</button_label>
+            <label><![CDATA[EKP - Uniform customer and product number]]></label>
+            <validate>validate-length maximum-length-10 minimum-length-10 validate-digits</validate>
+            <depends>
+                <field id="sandboxmode">0</field>
+            </depends>
         </field>
     </group>
 </include>

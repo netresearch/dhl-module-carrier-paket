@@ -26,10 +26,15 @@ interface ModuleConfigInterface
     // 200_dhl_paket_account.xml
     const CONFIG_XML_PATH_AUTH_USERNAME = self::CONFIG_ROOT . 'account_settings/auth_username';
     const CONFIG_XML_PATH_AUTH_PASSWORD = self::CONFIG_ROOT . 'account_settings/auth_password';
+    const CONFIG_XML_PATH_SANDBOX_MODE = self::CONFIG_ROOT . 'account_settings/sandboxmode';
+
     const CONFIG_XML_PATH_API_USERNAME = self::CONFIG_ROOT . 'account_settings/api_username';
     const CONFIG_XML_PATH_API_PASSWORD = self::CONFIG_ROOT . 'account_settings/api_password';
-    const CONFIG_XML_PATH_SANDBOX_MODE = self::CONFIG_ROOT . 'account_settings/sandboxmode';
-    const CONFIG_XML_PATH_ACCOUNT_NUMBER = self::CONFIG_ROOT . 'account_settings/accountnumber';
+    const CONFIG_XML_PATH_API_ACCOUNT_NUMBER = self::CONFIG_ROOT . 'account_settings/account_number';
+
+    const CONFIG_XML_PATH_API_SANDBOX_USERNAME = self::CONFIG_ROOT . 'account_settings/sandbox_username';
+    const CONFIG_XML_PATH_API_SANDBOX_PASSWORD = self::CONFIG_ROOT . 'account_settings/sandbox_password';
+    const CONFIG_XML_PATH_API_SANDBOX_ACCOUNT_NUMBER = self::CONFIG_ROOT . 'account_settings/sandbox_account_number';
 
     // 300_shipping_preferences.xml
     const CONFIG_XML_PATH_PRODUCT = self::CONFIG_ROOT . 'shipment_settings/product';

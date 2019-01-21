@@ -10,6 +10,9 @@ use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\Encryption\EncryptorInterface;
 use Magento\Store\Model\ScopeInterface;
 
+/**
+ * Class ModuleConfig
+ */
 class ModuleConfig implements ModuleConfigInterface
 {
     /**
@@ -26,14 +29,14 @@ class ModuleConfig implements ModuleConfigInterface
      * ModuleConfig constructor.
      *
      * @param ScopeConfigInterface $scopeConfig
-     * @param EncryptorInterface $encryptor
+     * @param EncryptorInterface   $encryptor
      */
     public function __construct(
         ScopeConfigInterface $scopeConfig,
         EncryptorInterface $encryptor
     ) {
         $this->scopeConfig = $scopeConfig;
-        $this->encryptor = $encryptor;
+        $this->encryptor   = $encryptor;
     }
 
     /**
@@ -41,7 +44,7 @@ class ModuleConfig implements ModuleConfigInterface
      */
     public function isEnabled($store = null): bool
     {
-        return (bool)$this->scopeConfig->getValue(
+        return (bool) $this->scopeConfig->getValue(
             self::CONFIG_XML_PATH_ENABLED,
             ScopeInterface::SCOPE_STORE,
             $store
@@ -53,7 +56,7 @@ class ModuleConfig implements ModuleConfigInterface
      */
     public function getSortOrder($store = null): int
     {
-        return (int)$this->scopeConfig->getValue(
+        return (int) $this->scopeConfig->getValue(
             self::CONFIG_XML_PATH_SORT_ORDER,
             ScopeInterface::SCOPE_STORE,
             $store
@@ -65,7 +68,7 @@ class ModuleConfig implements ModuleConfigInterface
      */
     public function getTitle($store = null): string
     {
-        return (string)$this->scopeConfig->getValue(
+        return (string) $this->scopeConfig->getValue(
             self::CONFIG_XML_PATH_TITLE,
             ScopeInterface::SCOPE_STORE,
             $store
@@ -77,7 +80,7 @@ class ModuleConfig implements ModuleConfigInterface
      */
     public function getEmulatedCarrier($store = null): string
     {
-        return (string)$this->scopeConfig->getValue(
+        return (string) $this->scopeConfig->getValue(
             self::CONFIG_XML_PATH_EMULATED_CARRIER,
             ScopeInterface::SCOPE_STORE,
             $store
@@ -89,7 +92,7 @@ class ModuleConfig implements ModuleConfigInterface
      */
     public function shipToSpecificCountries($store = null): bool
     {
-        return (bool)$this->scopeConfig->getValue(
+        return (bool) $this->scopeConfig->getValue(
             self::CONFIG_XML_PATH_SHIP_TO_SPECIFIC_COUNTRIES,
             ScopeInterface::SCOPE_STORE,
             $store
@@ -115,7 +118,7 @@ class ModuleConfig implements ModuleConfigInterface
      */
     public function getNotApplicableErrorMessage($store = null): string
     {
-        return (string)$this->scopeConfig->getValue(
+        return (string) $this->scopeConfig->getValue(
             self::CONFIG_XML_PATH_ERROR_MESSAGE,
             ScopeInterface::SCOPE_STORE,
             $store
@@ -127,7 +130,7 @@ class ModuleConfig implements ModuleConfigInterface
      */
     public function isLoggingEnabled($store = null): bool
     {
-        return (bool)$this->scopeConfig->getValue(
+        return (bool) $this->scopeConfig->getValue(
             self::CONFIG_XML_PATH_ENABLE_LOGGING,
             ScopeInterface::SCOPE_STORE,
             $store
@@ -175,44 +178,6 @@ class ModuleConfig implements ModuleConfigInterface
     /**
      * @inheritDoc
      */
-    public function getApiUsername($store = null): string
-    {
-        return (string) $this->scopeConfig->getValue(
-            self::CONFIG_XML_PATH_API_USERNAME,
-            ScopeInterface::SCOPE_STORE,
-            $store
-        );
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getApiPassword($store = null): string
-    {
-        return (string) $this->encryptor->decrypt(
-            $this->scopeConfig->getValue(
-                self::CONFIG_XML_PATH_API_PASSWORD,
-                ScopeInterface::SCOPE_STORE,
-                $store
-            )
-        );
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getAccountNumber($store = null): string
-    {
-        return (string) $this->scopeConfig->getValue(
-            self::CONFIG_XML_PATH_ACCOUNT_NUMBER,
-            ScopeInterface::SCOPE_STORE,
-            $store
-        );
-    }
-
-    /**
-     * @inheritDoc
-     */
     public function sandboxModeEnabled($store = null): bool
     {
         return (bool) $this->scopeConfig->getValue(
@@ -228,6 +193,104 @@ class ModuleConfig implements ModuleConfigInterface
     public function sandboxModeDisabled($store = null): bool
     {
         return !$this->sandboxModeEnabled($store);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getApiUsername($store = null): string
+    {
+        if ($this->sandboxModeEnabled($store)) {
+            return $this->getSandboxUsername($store);
+        }
+
+        return (string) $this->scopeConfig->getValue(
+            self::CONFIG_XML_PATH_API_USERNAME,
+            ScopeInterface::SCOPE_STORE,
+            $store
+        );
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getApiPassword($store = null): string
+    {
+        if ($this->sandboxModeEnabled($store)) {
+            return $this->getSandboxPassword($store);
+        }
+
+        return (string) $this->encryptor->decrypt(
+            $this->scopeConfig->getValue(
+                self::CONFIG_XML_PATH_API_PASSWORD,
+                ScopeInterface::SCOPE_STORE,
+                $store
+            )
+        );
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getAccountNumber($store = null): string
+    {
+        if ($this->sandboxModeEnabled($store)) {
+            return $this->getSandboxAccountNumber($store);
+        }
+
+        return (string) $this->scopeConfig->getValue(
+            self::CONFIG_XML_PATH_API_ACCOUNT_NUMBER,
+            ScopeInterface::SCOPE_STORE,
+            $store
+        );
+    }
+
+    /**
+     * Returns the API username in sandbox mode.
+     *
+     * @param string|null $store
+     *
+     * @return string
+     */
+    private function getSandboxUsername($store = null): string
+    {
+        return (string) $this->scopeConfig->getValue(
+            self::CONFIG_XML_PATH_API_SANDBOX_USERNAME,
+            ScopeInterface::SCOPE_STORE,
+            $store
+        );
+    }
+
+    /**
+     * Returns the API password in sandbox mode.
+     *
+     * @param string|null $store
+     *
+     * @return string
+     */
+    private function getSandboxPassword($store = null): string
+    {
+        return (string) $this->scopeConfig->getValue(
+            self::CONFIG_XML_PATH_API_SANDBOX_PASSWORD,
+            ScopeInterface::SCOPE_STORE,
+            $store
+        );
+    }
+
+    /**
+     * Returns the API account number in sandbox mode.
+     *
+     * @param string|null $store
+     *
+     * @return string
+     */
+    private function getSandboxAccountNumber($store = null): string
+    {
+        return (string) $this->scopeConfig->getValue(
+            self::CONFIG_XML_PATH_API_SANDBOX_ACCOUNT_NUMBER,
+            ScopeInterface::SCOPE_STORE,
+            $store
+        );
     }
 
     /**

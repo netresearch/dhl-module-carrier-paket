@@ -6,8 +6,9 @@ declare(strict_types=1);
 
 namespace Dhl\Paket\Model\Config\Source;
 
-use Dhl\Sdk\Bcs\Api\ShipmentRequestBuilderInterface;
+use Dhl\Sdk\Bcs\Api\ShippingProductsInterface;
 use Dhl\ShippingCore\Model\Config\CoreConfigInterface;
+use Magento\Framework\Option\ArrayInterface;
 
 /**
  * Class ShipmentProducts
@@ -16,7 +17,7 @@ use Dhl\ShippingCore\Model\Config\CoreConfigInterface;
  * @license https://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  * @link    https://www.netresearch.de/
  */
-class ShipmentProducts implements \Magento\Framework\Option\ArrayInterface
+class ShipmentProducts implements ArrayInterface
 {
     const DELIMITER = ';';
 
@@ -41,8 +42,8 @@ class ShipmentProducts implements \Magento\Framework\Option\ArrayInterface
      */
     public function toOptionArray(): array
     {
-        $originCountryCode = $this->shippingCoreConfig->getOriginCountry();
-        $options           = ShipmentRequestBuilderInterface::PRODUCTS[$originCountryCode] ?? [];
+        $originCountry = $this->shippingCoreConfig->getOriginCountry();
+        $options       = ShippingProductsInterface::PRODUCTS[$originCountry] ?? [];
 
         return array_map(
             function ($value) {
@@ -51,7 +52,7 @@ class ShipmentProducts implements \Magento\Framework\Option\ArrayInterface
                     'label' => __($value),
                 ];
             },
-            $options
+            array_keys($options)
         );
     }
 }
