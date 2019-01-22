@@ -44,7 +44,7 @@ class ErrorHandler
     public function createErrorResult(\Exception $ex): DataObject
     {
         if ($ex instanceof ValidationStatusException) {
-            $messages = array_unique($ex->getStatus()->getStatusMessage());
+            $messages = array_unique($ex->getStatusMessages());
             $message  = 'Failed to create shipment label: ' . implode(', ', $messages);
         } else {
             $message = $ex->getMessage();

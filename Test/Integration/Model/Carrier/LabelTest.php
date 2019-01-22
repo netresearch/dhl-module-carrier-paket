@@ -11,10 +11,13 @@ use Dhl\Paket\Test\Integration\Mock\TestLabelServiceFactory;
 use Dhl\Paket\Test\Integration\Mock\TestSoapClientFactory;
 use Dhl\Sdk\Bcs\Model\CreateShipmentOrderResponse;
 use Dhl\Sdk\Bcs\Model\Response\CreateShipmentOrder\LabelData;
+use Dhl\Sdk\Bcs\Webservice\Exception\GeneralErrorException;
+use Dhl\Sdk\Bcs\Webservice\Exception\HardValidationException;
 use Dhl\Sdk\Bcs\Webservice\ServiceFactory;
 use Dhl\Sdk\Bcs\Webservice\Soap\Service\CreateShipmentOrderService;
 use Dhl\Sdk\Bcs\Webservice\Soap\SoapClientInterface;
 use Dhl\Sdk\Bcs\Webservice\SoapClientFactory;
+use Dhl\Sdk\Ecommerce\Exception\AuthenticationException;
 use Magento\Framework\DataObject;
 use Magento\Shipping\Model\Shipment\Request as ShipmentRequest;
 use Magento\TestFramework\Helper\Bootstrap;
@@ -93,6 +96,123 @@ class LabelTest extends TestCase
 
         self::assertEquals('123', $info['tracking_number']);
         self::assertEquals('my label', $info['label_content']);
+    }
+
+    /**
+     * @magentoConfigFixture current_store carriers/dhlpaket/active 1
+     * @magentoConfigFixture current_store shipping/origin/city Berlin
+     * @magentoConfigFixture current_store shipping/origin/street_line1 kurfürstendamm 12
+     * @magentoConfigFixture current_store shipping/origin/country_id DE
+     * @magentoConfigFixture current_store shipping/origin/region_id 91
+     * @magentoConfigFixture current_store shipping/origin/postcode 10719
+     *
+     * @magentoConfigFixture current_store general/store_information/name SER-Local-23
+     * @magentoConfigFixture current_store general/store_information/phone 234324234
+     * @magentoConfigFixture current_store general/store_information/country_id DE
+     * @magentoConfigFixture current_store general/store_information/region_id 91
+     * @magentoConfigFixture current_store general/store_information/postcode 04229
+     * @magentoConfigFixture current_store general/store_information/city Leipzig
+     * @magentoConfigFixture current_store general/store_information/street_line1 Nonnenstraße 11d
+     *
+     * @magentoConfigFixture current_store carriers/dhlpaket/shipment_settings/product V01PAK
+     *
+     * @throws \Magento\Framework\Exception\LocalizedException
+     */
+    public function testRequestToShipmentThrowsAuthenticationException()
+    {
+        $this->labelService
+            ->expects($this->once())
+            ->method('performRequest')
+            ->willThrowException(new AuthenticationException('auth failed'));
+
+        /** @var Paket $subject */
+        $subject = $this->objectManager->get(Paket::class);
+        $result = $subject->requestToShipment($this->getRequest());
+
+        $info = current($result->getData('info'));
+
+        self::assertFalse($info);
+        self::assertEquals('auth failed', $result->getData('errors'));
+    }
+
+    /**
+     * @magentoConfigFixture current_store carriers/dhlpaket/active 1
+     * @magentoConfigFixture current_store shipping/origin/city Berlin
+     * @magentoConfigFixture current_store shipping/origin/street_line1 kurfürstendamm 12
+     * @magentoConfigFixture current_store shipping/origin/country_id DE
+     * @magentoConfigFixture current_store shipping/origin/region_id 91
+     * @magentoConfigFixture current_store shipping/origin/postcode 10719
+     *
+     * @magentoConfigFixture current_store general/store_information/name SER-Local-23
+     * @magentoConfigFixture current_store general/store_information/phone 234324234
+     * @magentoConfigFixture current_store general/store_information/country_id DE
+     * @magentoConfigFixture current_store general/store_information/region_id 91
+     * @magentoConfigFixture current_store general/store_information/postcode 04229
+     * @magentoConfigFixture current_store general/store_information/city Leipzig
+     * @magentoConfigFixture current_store general/store_information/street_line1 Nonnenstraße 11d
+     *
+     * @magentoConfigFixture current_store carriers/dhlpaket/shipment_settings/product V01PAK
+     *
+     * @throws \Magento\Framework\Exception\LocalizedException
+     */
+    public function testRequestToShipmentThrowsGeneralErrorException()
+    {
+        $this->labelService
+            ->expects($this->once())
+            ->method('performRequest')
+            ->willThrowException(new GeneralErrorException('general error'));
+
+        /** @var Paket $subject */
+        $subject = $this->objectManager->get(Paket::class);
+        $result = $subject->requestToShipment($this->getRequest());
+
+        $info = current($result->getData('info'));
+
+        self::assertFalse($info);
+        self::assertEquals('general error', $result->getData('errors'));
+    }
+
+    /**
+     * @magentoConfigFixture current_store carriers/dhlpaket/active 1
+     * @magentoConfigFixture current_store shipping/origin/city Berlin
+     * @magentoConfigFixture current_store shipping/origin/street_line1 kurfürstendamm 12
+     * @magentoConfigFixture current_store shipping/origin/country_id DE
+     * @magentoConfigFixture current_store shipping/origin/region_id 91
+     * @magentoConfigFixture current_store shipping/origin/postcode 10719
+     *
+     * @magentoConfigFixture current_store general/store_information/name SER-Local-23
+     * @magentoConfigFixture current_store general/store_information/phone 234324234
+     * @magentoConfigFixture current_store general/store_information/country_id DE
+     * @magentoConfigFixture current_store general/store_information/region_id 91
+     * @magentoConfigFixture current_store general/store_information/postcode 04229
+     * @magentoConfigFixture current_store general/store_information/city Leipzig
+     * @magentoConfigFixture current_store general/store_information/street_line1 Nonnenstraße 11d
+     *
+     * @magentoConfigFixture current_store carriers/dhlpaket/shipment_settings/product V01PAK
+     *
+     * @throws \Magento\Framework\Exception\LocalizedException
+     */
+    public function testRequestToShipmentThrowsHardValidationException()
+    {
+        $this->labelService
+            ->expects($this->once())
+            ->method('performRequest')
+            ->willThrowException(
+                new HardValidationException(
+                    'Hard validation error',
+                    1101,
+                    ['statusMessage']
+                )
+            );
+
+        /** @var Paket $subject */
+        $subject = $this->objectManager->get(Paket::class);
+        $result = $subject->requestToShipment($this->getRequest());
+
+        $info = current($result->getData('info'));
+
+        self::assertFalse($info);
+        self::assertEquals('Failed to create shipment label: statusMessage', $result->getData('errors'));
     }
 
     /**
