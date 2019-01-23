@@ -113,13 +113,20 @@ class RequestDataMapper implements RequestDataMapperInterface
      *
      * @return string
      */
-    private function getBillingNumber(): string
+    private function getBillingNumber(Request $request): string
     {
+//        $storeId        = $request->getOrderShipment()->getStoreId();
+//        $productCode    = $request->getData('packaging_type');
+//        $ekp            = $this->bcsConfig->getAccountEkp($storeId);
+//        $participations = $this->bcsConfig->getAccountParticipations($storeId);
+//
+//        return $this->shippingProducts->getBillingNumber($productCode, $ekp, $participations);
+
         $number        = $this->moduleConfig->getAccountNumber();
         $product       = $this->moduleConfig->getProduct();
         $procedure     = null;
         $participation = '01';
-        $products      = ShippingProductsInterface::PRODUCTS;
+        $products      = [];//ShippingProductsInterface::PRODUCTS;
 
         foreach ($products as $countryProducts) {
             if (isset($countryProducts[$product])) {

@@ -246,6 +246,32 @@ class ModuleConfig implements ModuleConfigInterface
     }
 
     /**
+     * @inheritDoc
+     */
+    public function getAccountParticipations($store = null): array
+    {
+        if ($this->sandboxModeEnabled($store)) {
+            return $this->getSandboxAccountParticipations($store);
+        }
+
+        $participations = $this->scopeConfig->getValue(
+            self::CONFIG_XML_PATH_API_ACCOUNT_PARTICIPATIONS,
+            ScopeInterface::SCOPE_STORE,
+            $store
+        );
+
+        return array_column($participations, 'participation', 'procedure');
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getAccountParticipation(string $procedure, $store = null): string
+    {
+        return $this->getAccountParticipations()[$procedure] ?? '';
+    }
+
+    /**
      * Returns the API username in sandbox mode.
      *
      * @param string|null $store
@@ -291,6 +317,24 @@ class ModuleConfig implements ModuleConfigInterface
             ScopeInterface::SCOPE_STORE,
             $store
         );
+    }
+
+    /**
+     * Returns the participation numbers.
+     *
+     * @param string|null $store
+     *
+     * @return string[]
+     */
+    private function getSandboxAccountParticipations($store = null): array
+    {
+        $participations = $this->scopeConfig->getValue(
+            self::CONFIG_XML_PATH_API_SANDBOX_ACCOUNT_PARTICIPATIONS,
+            ScopeInterface::SCOPE_STORE,
+            $store
+        );
+
+        return array_column($participations, 'participation', 'procedure');
     }
 
     /**

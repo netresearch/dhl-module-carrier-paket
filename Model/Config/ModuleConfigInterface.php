@@ -6,6 +6,9 @@ declare(strict_types=1);
 
 namespace Dhl\Paket\Model\Config;
 
+/**
+ * Interface ModuleConfigInterface
+ */
 interface ModuleConfigInterface
 {
     const CONFIG_ROOT = 'carriers/dhlpaket/';
@@ -31,10 +34,12 @@ interface ModuleConfigInterface
     const CONFIG_XML_PATH_API_USERNAME = self::CONFIG_ROOT . 'account_settings/api_username';
     const CONFIG_XML_PATH_API_PASSWORD = self::CONFIG_ROOT . 'account_settings/api_password';
     const CONFIG_XML_PATH_API_ACCOUNT_NUMBER = self::CONFIG_ROOT . 'account_settings/account_number';
+    const CONFIG_XML_PATH_API_ACCOUNT_PARTICIPATIONS = self::CONFIG_ROOT . 'account_settings/account_participations';
 
     const CONFIG_XML_PATH_API_SANDBOX_USERNAME = self::CONFIG_ROOT . 'account_settings/sandbox_username';
     const CONFIG_XML_PATH_API_SANDBOX_PASSWORD = self::CONFIG_ROOT . 'account_settings/sandbox_password';
     const CONFIG_XML_PATH_API_SANDBOX_ACCOUNT_NUMBER = self::CONFIG_ROOT . 'account_settings/sandbox_account_number';
+    const CONFIG_XML_PATH_API_SANDBOX_ACCOUNT_PARTICIPATIONS = self::CONFIG_ROOT . 'account_settings/sandbox_account_participations';
 
     // 300_shipping_preferences.xml
     const CONFIG_XML_PATH_PRODUCT = self::CONFIG_ROOT . 'shipment_settings/product';
@@ -167,6 +172,25 @@ interface ModuleConfigInterface
      * @return string
      */
     public function getAccountNumber($store = null): string;
+
+    /**
+     * Returns the participation numbers.
+     *
+     * @param string|null $store
+     *
+     * @return string[]
+     */
+    public function getAccountParticipations($store = null): array;
+
+    /**
+     * Returns the participation number for a given procedure.
+     *
+     * @param string      $procedure
+     * @param string|null $store
+     *
+     * @return string
+     */
+    public function getAccountParticipation(string $procedure, $store = null): string;
 
     /**
      * Returns true if sandbox mode is enabled.

@@ -11,6 +11,7 @@
     <!-- SDK preferences -->
     <preference for="Dhl\Sdk\Bcs\Api\ShipmentRequestBuilderInterface" type="Dhl\Sdk\Bcs\RequestBuilder\ShipmentRequestBuilder"/>
     <preference for="Dhl\Sdk\Bcs\Api\ServiceFactoryInterface" type="Dhl\Sdk\Bcs\Webservice\ServiceFactory"/>
+    <preference for="Dhl\Sdk\Bcs\Api\ShippingProductsInterface" type="Dhl\Sdk\Bcs\Model\ShippingProducts"/>
 
     <!-- Argument overrides -->
     <type name="\Dhl\Paket\Model\Carrier\Paket">

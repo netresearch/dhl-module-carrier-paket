@@ -19,6 +19,7 @@
     ]
   },
   "require": {
+    "ext-json": "*",
     "magento/module-shipping": "^100.2.0",
     "dhl/module-shipping-core": "^0.1.0",
     "dhl/sdk-api-paket": "^0.1.0",

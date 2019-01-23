@@ -21,6 +21,16 @@
             <button_label>Use sandbox mode.</button_label>
         </field>
 
+        <field id="test" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="40"
+               translate="tooltip label comment">
+            <frontend_model>Dhl\ShippingCore\Block\Adminhtml\System\Config\Form\Field\Heading</frontend_model>
+            <label>Business Customer Shipping Account Data</label>
+            <comment>DHL contract customers receive the access data to the DHL Business Customer Portal via DHL Paket sales.</comment>
+            <depends>
+                <field id="sandboxmode">0</field>
+            </depends>
+        </field>
+
         <field id="api_username" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="40"
                translate="tooltip label comment" type="text">
             <label><![CDATA[API Credentials]]></label>
@@ -41,8 +51,19 @@
         <!-- EKP -->
         <field id="account_number" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="60"
                translate="tooltip label comment" type="text">
-            <label><![CDATA[EKP - Uniform customer and product number]]></label>
+            <label><![CDATA[EKP - Uniform Customer And Product Number]]></label>
             <validate>validate-length maximum-length-10 minimum-length-10 validate-digits</validate>
+            <depends>
+                <field id="sandboxmode">0</field>
+            </depends>
+        </field>
+
+        <!-- Participation numbers -->
+        <field id="account_participations" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="70"
+               translate="tooltip label comment" type="select">
+            <label>Participation Numbers</label>
+            <frontend_model>Dhl\Paket\Block\Adminhtml\System\Config\Form\Field\Participation</frontend_model>
+            <backend_model>Dhl\Paket\Model\Adminhtml\System\Config\Backend\ArraySerialized</backend_model>
             <depends>
                 <field id="sandboxmode">0</field>
             </depends>

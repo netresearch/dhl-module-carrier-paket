@@ -7,7 +7,6 @@
 
                 <include path="Dhl_Paket::system/100_general_settings.xml"/>
                 <include path="Dhl_Paket::system/200_dhl_paket_account.xml"/>
-                <include path="Dhl_Paket::system/300_shipping_preferences.xml"/>
                 <include path="Dhl_Paket::system/400_checkout_presentation.xml"/>
             </group>
         </section>
