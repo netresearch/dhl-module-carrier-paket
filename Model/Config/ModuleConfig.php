@@ -8,6 +8,7 @@ namespace Dhl\Paket\Model\Config;
 
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\Encryption\EncryptorInterface;
+use Magento\Shipping\Helper\Carrier;
 use Magento\Store\Model\ScopeInterface;
 
 /**
@@ -340,12 +341,14 @@ class ModuleConfig implements ModuleConfigInterface
     /**
      * @inheritDoc
      */
-    public function getProduct($store = null): string
+    public function getEuCountryList($store = null): array
     {
-        return (string) $this->scopeConfig->getValue(
-            self::CONFIG_XML_PATH_PRODUCT,
+        $euCountries = $this->scopeConfig->getValue(
+            Carrier::XML_PATH_EU_COUNTRIES_LIST,
             ScopeInterface::SCOPE_STORE,
             $store
         );
+
+        return explode(',', $euCountries);
     }
 }

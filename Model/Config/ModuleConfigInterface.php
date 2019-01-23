@@ -41,9 +41,6 @@ interface ModuleConfigInterface
     const CONFIG_XML_PATH_API_SANDBOX_ACCOUNT_NUMBER = self::CONFIG_ROOT . 'account_settings/sandbox_account_number';
     const CONFIG_XML_PATH_API_SANDBOX_ACCOUNT_PARTICIPATIONS = self::CONFIG_ROOT . 'account_settings/sandbox_account_participations';
 
-    // 300_shipping_preferences.xml
-    const CONFIG_XML_PATH_PRODUCT = self::CONFIG_ROOT . 'shipment_settings/product';
-
     // 400_checkout_presentation.xml
     const CONFIG_XML_PATH_EMULATED_CARRIER = self::CONFIG_ROOT . 'dhl_paket_checkout_settings/emulated_carrier';
 
@@ -211,11 +208,11 @@ interface ModuleConfigInterface
     public function sandboxModeDisabled($store = null): bool;
 
     /**
-     * Returns the selected product.
+     * Returns the EU countries list.
      *
-     * @param string|null $store
+     * @param mixed $store
      *
-     * @return string
+     * @return array
      */
-    public function getProduct($store = null): string;
+    public function getEuCountryList($store = null): array;
 }

@@ -44,23 +44,31 @@ class RequestDataMapper implements RequestDataMapperInterface
     private $timezone;
 
     /**
+     * @var ShippingProductsInterface
+     */
+    private $shippingProducts;
+
+    /**
      * Constructor.
      *
      * @param ShipmentRequestBuilderInterface $requestBuilder
      * @param ModuleConfigInterface           $moduleConfig
      * @param StreetSplitterInterface         $streetSplitter
      * @param TimezoneInterface               $timezone
+     * @param ShippingProductsInterface       $shippingProducts
      */
     public function __construct(
         ShipmentRequestBuilderInterface $requestBuilder,
         ModuleConfigInterface $moduleConfig,
         StreetSplitterInterface $streetSplitter,
-        TimezoneInterface $timezone
+        TimezoneInterface $timezone,
+        ShippingProductsInterface $shippingProducts
     ) {
-        $this->requestBuilder    = $requestBuilder;
-        $this->moduleConfig      = $moduleConfig;
-        $this->streetSplitter    = $streetSplitter;
-        $this->timezone          = $timezone;
+        $this->requestBuilder   = $requestBuilder;
+        $this->moduleConfig     = $moduleConfig;
+        $this->streetSplitter   = $streetSplitter;
+        $this->timezone         = $timezone;
+        $this->shippingProducts = $shippingProducts;
     }
 
     /**
@@ -93,8 +101,8 @@ class RequestDataMapper implements RequestDataMapperInterface
             );
 
         $this->requestBuilder->setShipmentDetails(
-            $this->moduleConfig->getProduct(),
-            $this->getBillingNumber(),
+            $this->getProduct($request),
+            $this->getBillingNumber($request),
             $this->getShipmentDate(),
             (float) $request->getPackageParams()->getWeight(),
             (int) $request->getPackageParams()->getLength(),
@@ -109,33 +117,32 @@ class RequestDataMapper implements RequestDataMapperInterface
     }
 
     /**
+     * Returns the selected product.
+     *
+     * @param Request $request The shipment request
+     *
+     * @return string
+     */
+    private function getProduct(Request $request): string
+    {
+        return $request->getData('packaging_type');
+    }
+
+    /**
      * Returns the 14-digit encoded billing number.
+     *
+     * @param Request $request The shipment request
      *
      * @return string
      */
     private function getBillingNumber(Request $request): string
     {
-//        $storeId        = $request->getOrderShipment()->getStoreId();
-//        $productCode    = $request->getData('packaging_type');
-//        $ekp            = $this->bcsConfig->getAccountEkp($storeId);
-//        $participations = $this->bcsConfig->getAccountParticipations($storeId);
-//
-//        return $this->shippingProducts->getBillingNumber($productCode, $ekp, $participations);
+        $storeId        = $request->getOrderShipment()->getStoreId();
+        $productCode    = $this->getProduct($request);
+        $ekp            = $this->moduleConfig->getAccountNumber($storeId);
+        $participations = $this->moduleConfig->getAccountParticipations($storeId);
 
-        $number        = $this->moduleConfig->getAccountNumber();
-        $product       = $this->moduleConfig->getProduct();
-        $procedure     = null;
-        $participation = '01';
-        $products      = [];//ShippingProductsInterface::PRODUCTS;
-
-        foreach ($products as $countryProducts) {
-            if (isset($countryProducts[$product])) {
-                $procedure = $countryProducts[$product];
-                break;
-            }
-        }
-
-        return $number . $procedure . $participation;
+        return $this->shippingProducts->getBillingNumber($productCode, $ekp, $participations);
     }
 
     /**

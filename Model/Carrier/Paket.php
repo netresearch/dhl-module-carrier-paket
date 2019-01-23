@@ -9,9 +9,11 @@ namespace Dhl\Paket\Model\Carrier;
 use Dhl\Paket\Model\Config\ModuleConfigInterface;
 use Dhl\Paket\Model\Shipment\ShipmentLabelProvider;
 use Dhl\Paket\Model\Tracking\TrackingInfoProvider;
+use Dhl\Sdk\Bcs\Api\ShippingProductsInterface;
 use Dhl\Sdk\Bcs\Model\ShippingProducts;
 use Dhl\ShippingCore\Api\RateRequestEmulationInterface;
 use Dhl\ShippingCore\Model\Config\CoreConfigInterface;
+use InvalidArgumentException;
 use Magento\CatalogInventory\Api\StockRegistryInterface;
 use Magento\Directory\Helper\Data;
 use Magento\Directory\Model\CountryFactory;
@@ -79,6 +81,11 @@ class Paket extends AbstractCarrierOnline implements CarrierInterface
     private $trackingProvider;
 
     /**
+     * @var ShippingProductsInterface
+     */
+    private $shippingProducts;
+
+    /**
      * Paket constructor.
      *
      * @param ScopeConfigInterface          $scopeConfig
@@ -101,6 +108,7 @@ class Paket extends AbstractCarrierOnline implements CarrierInterface
      * @param CoreConfigInterface           $shippingCoreConfig
      * @param ShipmentLabelProvider         $shipmentProvider
      * @param TrackingInfoProvider          $trackingInfoProvider
+     * @param ShippingProductsInterface     $shippingProducts
      * @param array $data
      */
     public function __construct(
@@ -124,6 +132,7 @@ class Paket extends AbstractCarrierOnline implements CarrierInterface
         CoreConfigInterface $shippingCoreConfig,
         ShipmentLabelProvider $shipmentProvider,
         TrackingInfoProvider $trackingInfoProvider,
+        ShippingProductsInterface $shippingProducts,
         array $data = []
     ) {
         $this->rateRequestService = $rateRequestEmulation;
@@ -132,6 +141,7 @@ class Paket extends AbstractCarrierOnline implements CarrierInterface
         $this->shippingCoreConfig = $shippingCoreConfig;
         $this->shipmentProvider   = $shipmentProvider;
         $this->trackingProvider   = $trackingInfoProvider;
+        $this->shippingProducts   = $shippingProducts;
 
         parent::__construct(
             $scopeConfig,
@@ -213,6 +223,80 @@ class Paket extends AbstractCarrierOnline implements CarrierInterface
     }
 
     /**
+     * Returns container types of carrier.
+     *
+     * @param DataObject|null $params
+     *
+     * @return string[]
+     */
+    public function getContainerTypes(DataObject $params = null): array
+    {
+        $containerTypes   = parent::getContainerTypes($params);
+        $countryShipper   = null;
+        $countryRecipient = null;
+        $store            = null;
+
+        if ($params !== null) {
+            $countryShipper   = $params->getData('country_shipper');
+            $countryRecipient = $params->getData('country_recipient');
+            $store            = $this->getStore();
+        }
+
+        return array_merge(
+            $containerTypes,
+            $this->getShippingProducts($countryShipper, $countryRecipient, $store)
+        );
+    }
+
+    /**
+     * Obtain the shipping products that match the given route. List might get
+     * lengthy, so we move the product that was configured as default to the top.
+     *
+     * @param string $countryShipper
+     * @param string $countryRecipient
+     * @param mixed  $store
+     *
+     * @return string[]
+     */
+    private function getShippingProducts(string $countryShipper = null, string $countryRecipient = null, $store = null): array
+    {
+        // read available codes
+        if (!$countryShipper || !$countryRecipient) {
+            $codes = $this->shippingProducts->getAllCodes();
+        } else {
+            $euCountries = $this->moduleConfig->getEuCountryList();
+            $codes = $this->shippingProducts->getApplicableCodes($countryShipper, $countryRecipient, $euCountries);
+        }
+
+        // obtain human readable names, combine to array
+        $names = array_map(function (string $code) {
+            return $this->shippingProducts->getProductName($code);
+        }, $codes);
+
+        $shippingProducts = array_combine($codes, $names);
+
+        // <=>
+
+//        $defaultProduct = $this->moduleConfig->getDefaultProduct($countryRecipient, $store);
+//
+//        // move default product to top of the list, if available
+//        if ($defaultProduct) {
+//            uksort($shippingProducts, function ($keyA, $keyB) use ($defaultProduct) {
+//                if ($keyA === $defaultProduct) {
+//                    return -1;
+//                }
+//
+//                if ($keyB === $defaultProduct) {
+//                    return 1;
+//                }
+//                return 0;
+//            });
+//        }
+
+        return $shippingProducts;
+    }
+
+    /**
      * @inheritDoc
      */
     protected function _doShipmentRequest(DataObject $request): DataObject
@@ -221,7 +305,7 @@ class Paket extends AbstractCarrierOnline implements CarrierInterface
             return $this->shipmentProvider->getShipmentLabel($request);
         }
 
-        throw new \InvalidArgumentException('Shipment returns are not supported');
+        throw new InvalidArgumentException('Shipment returns are not supported');
     }
 
     /**
