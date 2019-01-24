@@ -234,17 +234,15 @@ class Paket extends AbstractCarrierOnline implements CarrierInterface
         $containerTypes   = parent::getContainerTypes($params);
         $countryShipper   = null;
         $countryRecipient = null;
-        $store            = null;
 
         if ($params !== null) {
             $countryShipper   = $params->getData('country_shipper');
             $countryRecipient = $params->getData('country_recipient');
-            $store            = $this->getStore();
         }
 
         return array_merge(
             $containerTypes,
-            $this->getShippingProducts($countryShipper, $countryRecipient, $store)
+            $this->getShippingProducts($countryShipper, $countryRecipient)
         );
     }
 
@@ -252,15 +250,16 @@ class Paket extends AbstractCarrierOnline implements CarrierInterface
      * Obtain the shipping products that match the given route. List might get
      * lengthy, so we move the product that was configured as default to the top.
      *
-     * @param string $countryShipper
-     * @param string $countryRecipient
-     * @param mixed  $store
+     * @param string $countryShipper   The shipper country code
+     * @param string $countryRecipient The recipient country code
      *
      * @return string[]
      */
-    private function getShippingProducts(string $countryShipper = null, string $countryRecipient = null, $store = null): array
-    {
-        // read available codes
+    private function getShippingProducts(
+        string $countryShipper = null,
+        string $countryRecipient = null
+    ): array {
+        // Read available codes
         if (!$countryShipper || !$countryRecipient) {
             $codes = $this->shippingProducts->getAllCodes();
         } else {
@@ -268,32 +267,15 @@ class Paket extends AbstractCarrierOnline implements CarrierInterface
             $codes = $this->shippingProducts->getApplicableCodes($countryShipper, $countryRecipient, $euCountries);
         }
 
-        // obtain human readable names, combine to array
-        $names = array_map(function (string $code) {
-            return $this->shippingProducts->getProductName($code);
-        }, $codes);
+        // Obtain human readable names, combine to array
+        $names = array_map(
+            function (string $code) {
+                return $this->shippingProducts->getProductName($code);
+            },
+            $codes
+        );
 
-        $shippingProducts = array_combine($codes, $names);
-
-        // <=>
-
-//        $defaultProduct = $this->moduleConfig->getDefaultProduct($countryRecipient, $store);
-//
-//        // move default product to top of the list, if available
-//        if ($defaultProduct) {
-//            uksort($shippingProducts, function ($keyA, $keyB) use ($defaultProduct) {
-//                if ($keyA === $defaultProduct) {
-//                    return -1;
-//                }
-//
-//                if ($keyB === $defaultProduct) {
-//                    return 1;
-//                }
-//                return 0;
-//            });
-//        }
-
-        return $shippingProducts;
+        return array_combine($codes, $names);
     }
 
     /**
