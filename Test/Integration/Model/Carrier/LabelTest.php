@@ -9,6 +9,7 @@ namespace Dhl\Paket\Test\Integration\Model\Carrier;
 use Dhl\Paket\Model\Carrier\Paket;
 use Dhl\Paket\Test\Integration\Mock\TestLabelServiceFactory;
 use Dhl\Paket\Test\Integration\Mock\TestSoapClientFactory;
+use Dhl\Sdk\Bcs\Api\ShippingProductsInterface;
 use Dhl\Sdk\Bcs\Model\CreateShipmentOrderResponse;
 use Dhl\Sdk\Bcs\Model\Response\CreateShipmentOrder\LabelData;
 use Dhl\Sdk\Bcs\Webservice\Exception\AuthenticationException;
@@ -19,6 +20,7 @@ use Dhl\Sdk\Bcs\Webservice\Soap\Service\CreateShipmentOrderService;
 use Dhl\Sdk\Bcs\Webservice\Soap\SoapClientInterface;
 use Dhl\Sdk\Bcs\Webservice\SoapClientFactory;
 use Magento\Framework\DataObject;
+use Magento\Framework\Exception\LocalizedException;
 use Magento\Shipping\Model\Shipment\Request as ShipmentRequest;
 use Magento\TestFramework\Helper\Bootstrap;
 use Magento\TestFramework\ObjectManager;
@@ -27,7 +29,6 @@ use PHPUnit_Framework_MockObject_MockObject as MockObject;
 
 class LabelTest extends TestCase
 {
-
     /**
      * @var ObjectManager
      */
@@ -41,9 +42,10 @@ class LabelTest extends TestCase
     public function setUp()
     {
         parent::setUp();
+
         $this->objectManager = Bootstrap::getObjectManager();
 
-        /** @var SoapClientInterface| MockObject $soapClientMock */
+        /** @var SoapClientInterface|MockObject $soapClientMock */
         $soapClientMock = $this->getMockBuilder(SoapClientInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
@@ -78,13 +80,15 @@ class LabelTest extends TestCase
      *
      * @magentoConfigFixture current_store carriers/dhlpaket/shipment_settings/product V01PAK
      *
-     * @throws \Magento\Framework\Exception\LocalizedException
+     * @throws LocalizedException
+     *
+     * @runInSeparateProcess
      */
     public function testRequestToShipment()
     {
         $labelData = new LabelData('123', 'some url', 'my label');
         $this->labelService
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('performRequest')
             ->willReturn(new CreateShipmentOrderResponse(true, [$labelData]));
 
@@ -116,12 +120,14 @@ class LabelTest extends TestCase
      *
      * @magentoConfigFixture current_store carriers/dhlpaket/shipment_settings/product V01PAK
      *
-     * @throws \Magento\Framework\Exception\LocalizedException
+     * @throws LocalizedException
+     *
+     * @runInSeparateProcess
      */
     public function testRequestToShipmentThrowsAuthenticationException()
     {
         $this->labelService
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('performRequest')
             ->willThrowException(new AuthenticationException('auth failed'));
 
@@ -153,12 +159,14 @@ class LabelTest extends TestCase
      *
      * @magentoConfigFixture current_store carriers/dhlpaket/shipment_settings/product V01PAK
      *
-     * @throws \Magento\Framework\Exception\LocalizedException
+     * @throws LocalizedException
+     *
+     * @runInSeparateProcess
      */
     public function testRequestToShipmentThrowsGeneralErrorException()
     {
         $this->labelService
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('performRequest')
             ->willThrowException(new GeneralErrorException('general error'));
 
@@ -190,12 +198,14 @@ class LabelTest extends TestCase
      *
      * @magentoConfigFixture current_store carriers/dhlpaket/shipment_settings/product V01PAK
      *
-     * @throws \Magento\Framework\Exception\LocalizedException
+     * @throws LocalizedException
+     *
+     * @runInSeparateProcess
      */
     public function testRequestToShipmentThrowsHardValidationException()
     {
         $this->labelService
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('performRequest')
             ->willThrowException(
                 new HardValidationException(
@@ -221,23 +231,31 @@ class LabelTest extends TestCase
     private function getRequest(): ShipmentRequest
     {
         $packageId = 1;
-        /** @var \Magento\Sales\Model\Order $order */
-        $orderId = 1;
+        $orderId   = 1;
+
+        /** @var \Magento\Sales\Model\Order|MockObject $order */
         $order = $this->createMock(\Magento\Sales\Model\Order::class);
-        $order->expects($this->any())
+        $order->expects(self::any())
             ->method('getId')
             ->willReturn($orderId);
-        $order->expects($this->any())
+        $order->expects(self::any())
             ->method('getShippingMethod')
             ->willReturn(new DataObject(['carrier_code' => 'dhlshipping']));
         $order->method('getIsVirtual')
             ->willReturn(1);
-        $shipment = $this->objectManager->create(DataObject::class, ['data' => [
-            'order' => $order,
-        ]]);
+
+        $shipment = $this->objectManager->create(
+            DataObject::class,
+            [
+                'data' => [
+                    'order' => $order,
+                ]
+            ]
+        );
+
         $package = [
             'params' => [
-                'container' => 'foo',
+                'container' => ShippingProductsInterface::CODE_NATIONAL,
                 'weight' => 42
             ],
             'items' => [],
