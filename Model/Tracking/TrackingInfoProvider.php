@@ -52,6 +52,13 @@ class TrackingInfoProvider
         $this->moduleConfig  = $moduleConfig;
     }
 
+    /**
+     * Returns the tracking information.
+     *
+     * @param string $trackingNumber
+     *
+     * @return Result
+     */
     public function getTrackingInfo(string $trackingNumber): Result
     {
         $result = $this->resultFactory->create();

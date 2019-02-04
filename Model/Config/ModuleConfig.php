@@ -143,7 +143,7 @@ class ModuleConfig implements ModuleConfigInterface
      */
     public function getLogLevel($store = null): int
     {
-        return (int)$this->scopeConfig->getValue(
+        return (int) $this->scopeConfig->getValue(
             self::CONFIG_XML_PATH_LOGLEVEL,
             ScopeInterface::SCOPE_STORE,
             $store
