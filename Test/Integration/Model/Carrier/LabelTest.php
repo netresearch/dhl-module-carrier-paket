@@ -27,6 +27,13 @@ use Magento\TestFramework\ObjectManager;
 use PHPUnit\Framework\TestCase;
 use PHPUnit_Framework_MockObject_MockObject as MockObject;
 
+/**
+ * Class LabelTest
+ *
+ * @package Dhl\Paket\Test
+ * @copyright 2018 Netresearch DTT GmbH
+ * @link      http://www.netresearch.de/
+ */
 class LabelTest extends TestCase
 {
     /**
@@ -235,11 +242,9 @@ class LabelTest extends TestCase
 
         /** @var \Magento\Sales\Model\Order|MockObject $order */
         $order = $this->createMock(\Magento\Sales\Model\Order::class);
-        $order->expects(self::any())
-            ->method('getId')
+        $order->method('getId')
             ->willReturn($orderId);
-        $order->expects(self::any())
-            ->method('getShippingMethod')
+        $order->method('getShippingMethod')
             ->willReturn(new DataObject(['carrier_code' => 'dhlshipping']));
         $order->method('getIsVirtual')
             ->willReturn(1);
