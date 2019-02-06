@@ -6,7 +6,7 @@ declare(strict_types=1);
 
 namespace Dhl\Paket\Model\Tracking;
 
-use Dhl\Paket\Model\Config\ModuleConfigInterface;
+use Dhl\Paket\Model\Config\ModuleConfig;
 use Magento\Shipping\Model\Tracking\Result;
 use Magento\Shipping\Model\Tracking\Result\StatusFactory;
 use Magento\Shipping\Model\Tracking\ResultFactory;
@@ -31,7 +31,7 @@ class TrackingInfoProvider
     private $statusFactory;
 
     /**
-     * @var ModuleConfigInterface
+     * @var ModuleConfig
      */
     private $moduleConfig;
 
@@ -40,12 +40,12 @@ class TrackingInfoProvider
      *
      * @param ResultFactory         $trackingResultFactory
      * @param StatusFactory         $trackingStatusFactory
-     * @param ModuleConfigInterface $moduleConfig
+     * @param ModuleConfig $moduleConfig
      */
     public function __construct(
         ResultFactory $trackingResultFactory,
         StatusFactory $trackingStatusFactory,
-        ModuleConfigInterface $moduleConfig
+        ModuleConfig $moduleConfig
     ) {
         $this->resultFactory = $trackingResultFactory;
         $this->statusFactory = $trackingStatusFactory;
@@ -68,7 +68,7 @@ class TrackingInfoProvider
                    'tracking'      => $trackingNumber,
                    'carrier_title' => $this->moduleConfig->getTitle(),
                ],
-           ])
+            ])
         );
 
         return $result;

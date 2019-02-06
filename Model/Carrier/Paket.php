@@ -6,7 +6,7 @@ declare(strict_types=1);
 
 namespace Dhl\Paket\Model\Carrier;
 
-use Dhl\Paket\Model\Config\ModuleConfigInterface;
+use Dhl\Paket\Model\Config\ModuleConfig;
 use Dhl\Paket\Model\Shipment\ShipmentLabelProvider;
 use Dhl\Paket\Model\Tracking\TrackingInfoProvider;
 use Dhl\Sdk\Bcs\Api\ShippingProductsInterface;
@@ -61,7 +61,7 @@ class Paket extends AbstractCarrierOnline implements CarrierInterface
     private $rateResultFactory;
 
     /**
-     * @var ModuleConfigInterface
+     * @var ModuleConfig
      */
     private $moduleConfig;
 
@@ -104,7 +104,7 @@ class Paket extends AbstractCarrierOnline implements CarrierInterface
      * @param Data                          $directoryData
      * @param StockRegistryInterface        $stockRegistry
      * @param RateRequestEmulationInterface $rateRequestEmulation
-     * @param ModuleConfigInterface         $moduleConfig
+     * @param ModuleConfig         $moduleConfig
      * @param CoreConfigInterface           $shippingCoreConfig
      * @param ShipmentLabelProvider         $shipmentProvider
      * @param TrackingInfoProvider          $trackingInfoProvider
@@ -128,7 +128,7 @@ class Paket extends AbstractCarrierOnline implements CarrierInterface
         Data $directoryData,
         StockRegistryInterface $stockRegistry,
         RateRequestEmulationInterface $rateRequestEmulation,
-        ModuleConfigInterface $moduleConfig,
+        ModuleConfig $moduleConfig,
         CoreConfigInterface $shippingCoreConfig,
         ShipmentLabelProvider $shipmentProvider,
         TrackingInfoProvider $trackingInfoProvider,
@@ -202,9 +202,9 @@ class Paket extends AbstractCarrierOnline implements CarrierInterface
     /**
      * @inheritDoc
      */
-    public function proccessAdditionalValidation(DataObject $request)
+    public function processAdditionalValidation(DataObject $request)
     {
-        $result        = parent::proccessAdditionalValidation($request);
+        $result        = parent::processAdditionalValidation($request);
         $originCountry = $this->shippingCoreConfig->getOriginCountry();
 
         if (!\array_key_exists($originCountry, ShippingProducts::ORIGIN_DEST_CODES)) {
@@ -296,7 +296,7 @@ class Paket extends AbstractCarrierOnline implements CarrierInterface
      *
      * @return boolean
      */
-    public function isTrackingAvailable()
+    public function isTrackingAvailable(): bool
     {
         return false;
     }

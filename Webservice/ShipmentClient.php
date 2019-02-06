@@ -6,7 +6,7 @@ declare(strict_types=1);
 
 namespace Dhl\Paket\Webservice;
 
-use Dhl\Paket\Model\Config\ModuleConfigInterface;
+use Dhl\Paket\Model\Config\ModuleConfig;
 use Dhl\Sdk\Bcs\Api\Data\CreateShipmentOrderResponseInterface;
 use Dhl\Sdk\Bcs\Api\Data\ShipmentRequestInterface;
 use Dhl\Sdk\Bcs\Api\ServiceFactoryInterface;
@@ -29,7 +29,7 @@ class ShipmentClient implements ShipmentClientInterface
     private $soapClientFactory;
 
     /**
-     * @var ModuleConfigInterface
+     * @var ModuleConfig
      */
     private $moduleConfig;
 
@@ -43,13 +43,13 @@ class ShipmentClient implements ShipmentClientInterface
      *
      * @param ServiceFactoryInterface $serviceFactory The service factory instance
      * @param SoapClientFactory $soapClientFactory
-     * @param ModuleConfigInterface $moduleConfig The module configuration instance
+     * @param ModuleConfig $moduleConfig The module configuration instance
      * @param LoggerInterface $logger A logger instance
      */
     public function __construct(
         ServiceFactoryInterface $serviceFactory,
         SoapClientFactory $soapClientFactory,
-        ModuleConfigInterface $moduleConfig,
+        ModuleConfig $moduleConfig,
         LoggerInterface $logger
     ) {
         $this->serviceFactory = $serviceFactory;
@@ -69,7 +69,7 @@ class ShipmentClient implements ShipmentClientInterface
             $this->moduleConfig->getAuthPassword(),
             $this->moduleConfig->getApiUsername(),
             $this->moduleConfig->getApiPassword(),
-            $this->moduleConfig->sandboxModeEnabled()
+            $this->moduleConfig->isSandboxMode()
         );
 
         // Create service instance

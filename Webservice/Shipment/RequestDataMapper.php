@@ -6,7 +6,7 @@ declare(strict_types=1);
 
 namespace Dhl\Paket\Webservice\Shipment;
 
-use Dhl\Paket\Model\Config\ModuleConfigInterface;
+use Dhl\Paket\Model\Config\ModuleConfig;
 use Dhl\Sdk\Bcs\Api\Data\ShipmentRequestInterface;
 use Dhl\Sdk\Bcs\Api\ShipmentRequestBuilderInterface;
 use Dhl\Sdk\Bcs\Api\ShippingProductsInterface;
@@ -29,7 +29,7 @@ class RequestDataMapper implements RequestDataMapperInterface
     /**
      * The module configuration.
      *
-     * @var ModuleConfigInterface
+     * @var ModuleConfig
      */
     private $moduleConfig;
 
@@ -52,14 +52,14 @@ class RequestDataMapper implements RequestDataMapperInterface
      * Constructor.
      *
      * @param ShipmentRequestBuilderInterface $requestBuilder
-     * @param ModuleConfigInterface           $moduleConfig
+     * @param ModuleConfig           $moduleConfig
      * @param StreetSplitterInterface         $streetSplitter
      * @param TimezoneInterface               $timezone
      * @param ShippingProductsInterface       $shippingProducts
      */
     public function __construct(
         ShipmentRequestBuilderInterface $requestBuilder,
-        ModuleConfigInterface $moduleConfig,
+        ModuleConfig $moduleConfig,
         StreetSplitterInterface $streetSplitter,
         TimezoneInterface $timezone,
         ShippingProductsInterface $shippingProducts

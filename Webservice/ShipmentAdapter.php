@@ -38,12 +38,12 @@ class ShipmentAdapter implements ShipmentAdapterInterface
     private $errorHandler;
 
     /**
-     * Constructor.
+     * ShipmentAdapter constructor.
      *
-     * @param RequestDataMapper       $requestDataMapper
-     * @param ResponseDataMapper      $responseDataMapper
+     * @param RequestDataMapper $requestDataMapper
+     * @param ResponseDataMapper $responseDataMapper
      * @param ShipmentClientInterface $client
-     * @param ErrorHandler            $errorHandler
+     * @param ErrorHandler $errorHandler
      */
     public function __construct(
         RequestDataMapper $requestDataMapper,

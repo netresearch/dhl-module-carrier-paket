@@ -7,31 +7,26 @@ declare(strict_types=1);
 namespace Dhl\Paket\Test\Integration\Model\Carrier;
 
 use Dhl\Paket\Model\Carrier\Paket;
-use Dhl\Paket\Test\Integration\Mock\TestLabelServiceFactory;
-use Dhl\Paket\Test\Integration\Mock\TestSoapClientFactory;
-use Dhl\Sdk\Bcs\Api\ShippingProductsInterface;
+use Dhl\Paket\Test\Integration\Fake\CreateShipmentOrderService;
+use Dhl\Paket\Test\Integration\Fake\TestLabelServiceFactory;
+use Dhl\Paket\Test\Integration\Provider\MagentoShipmentRequestProvider;
+use Dhl\Sdk\Bcs\Api\Data\ShipmentRequestInterface;
+use Dhl\Sdk\Bcs\Api\ShipmentRequestBuilderInterface;
 use Dhl\Sdk\Bcs\Model\CreateShipmentOrderResponse;
 use Dhl\Sdk\Bcs\Model\Response\CreateShipmentOrder\LabelData;
-use Dhl\Sdk\Bcs\Webservice\Exception\AuthenticationException;
-use Dhl\Sdk\Bcs\Webservice\Exception\GeneralErrorException;
-use Dhl\Sdk\Bcs\Webservice\Exception\HardValidationException;
 use Dhl\Sdk\Bcs\Webservice\ServiceFactory;
-use Dhl\Sdk\Bcs\Webservice\Soap\Service\CreateShipmentOrderService;
-use Dhl\Sdk\Bcs\Webservice\Soap\SoapClientInterface;
-use Dhl\Sdk\Bcs\Webservice\SoapClientFactory;
-use Magento\Framework\DataObject;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Shipping\Model\Shipment\Request as ShipmentRequest;
 use Magento\TestFramework\Helper\Bootstrap;
 use Magento\TestFramework\ObjectManager;
 use PHPUnit\Framework\TestCase;
-use PHPUnit_Framework_MockObject_MockObject as MockObject;
 
 /**
  * Class LabelTest
  *
- * @package Dhl\Paket\Test
- * @copyright 2018 Netresearch DTT GmbH
+ * @package Dhl\Paket\Test\Integration\Model\Carrier
+ * @author    Max Melzer <max.melzer@netresearch.de>
+ * @copyright 2019 Netresearch DTT GmbH
  * @link      http://www.netresearch.de/
  */
 class LabelTest extends TestCase
@@ -41,32 +36,21 @@ class LabelTest extends TestCase
      */
     private $objectManager;
 
-    /**
-     * @var CreateShipmentOrderService|MockObject
-     */
-    private $labelService;
-
     public function setUp()
     {
         parent::setUp();
 
         $this->objectManager = Bootstrap::getObjectManager();
+    }
 
-        /** @var SoapClientInterface|MockObject $soapClientMock */
-        $soapClientMock = $this->getMockBuilder(SoapClientInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $soapClientFactory = new TestSoapClientFactory($soapClientMock);
-        $this->objectManager->addSharedInstance($soapClientFactory, SoapClientFactory::class);
-
-        $this->labelService = $this->getMockBuilder(CreateShipmentOrderService::class)
-            ->disableOriginalConstructor()
-            ->setMethods(['performRequest'])
-            ->getMock();
-
-        $labelServiceFactory = new TestLabelServiceFactory($this->labelService);
-        $this->objectManager->addSharedInstance($labelServiceFactory, ServiceFactory::class);
+    /**
+     * @return ShipmentRequest[][]
+     */
+    public function getMagentoShipmentRequestProvider(): array
+    {
+        return [
+            ['request 1' => MagentoShipmentRequestProvider::getRequest()]
+        ];
     }
 
     /**
@@ -87,24 +71,38 @@ class LabelTest extends TestCase
      *
      * @magentoConfigFixture current_store carriers/dhlpaket/shipment_settings/product V01PAK
      *
+     * @dataProvider getMagentoShipmentRequestProvider
+     * @magentoAppIsolation enabled
+     *
+     * @param ShipmentRequest $magentoRequest
      * @throws LocalizedException
      *
-     * @runInSeparateProcess
      */
-    public function testRequestToShipment()
+    public function testRequestToShipment(ShipmentRequest $magentoRequest)
     {
+        $labelService = new CreateShipmentOrderService();
+
         $labelData = new LabelData('123', 'some url', 'my label');
-        $this->labelService
-            ->expects(self::once())
-            ->method('performRequest')
-            ->willReturn(new CreateShipmentOrderResponse(true, [$labelData]));
+        $labelServiceResponse = new CreateShipmentOrderResponse(true, [$labelData]);
+        $labelService->setResponse($labelServiceResponse);
+
+        $labelServiceFactory = new TestLabelServiceFactory($labelService);
+        $this->objectManager->addSharedInstance($labelServiceFactory, ServiceFactory::class);
 
         /** @var Paket $subject */
         $subject = $this->objectManager->get(Paket::class);
-        $result = $subject->requestToShipment($this->getRequest());
+        $result = $subject->requestToShipment($magentoRequest);
 
-        $info = current($result->getData('info'));
+        $lastRequest = $labelService->getLastRequest();
 
+        $this->assertMagentoAndSdkRequestMatch($magentoRequest, $lastRequest);
+
+        self::assertEquals(
+            $lastRequest->getShipmentOrder()->getLabelResponseType(),
+            ShipmentRequestBuilderInterface::LABEL_RESPONSE_TYPE_B64
+        );
+
+        $info = $result->getData('info')[0];
         self::assertEquals('123', $info['tracking_number']);
         self::assertEquals('my label', $info['label_content']);
     }
@@ -127,25 +125,30 @@ class LabelTest extends TestCase
      *
      * @magentoConfigFixture current_store carriers/dhlpaket/shipment_settings/product V01PAK
      *
+     * @dataProvider getMagentoShipmentRequestProvider
+     * @magentoAppIsolation enabled
+     *
+     * @param ShipmentRequest $magentoRequest
      * @throws LocalizedException
      *
-     * @runInSeparateProcess
      */
-    public function testRequestToShipmentThrowsAuthenticationException()
+    public function testRequestToShipmentThrowsAuthenticationException(ShipmentRequest $magentoRequest)
     {
-        $this->labelService
-            ->expects(self::once())
-            ->method('performRequest')
-            ->willThrowException(new AuthenticationException('auth failed'));
+        $exceptionMessage = 'Auth failed';
+
+        $labelService = new CreateShipmentOrderService();
+        $labelService->setExpectAuthenticationException($exceptionMessage);
+        $labelServiceFactory = new TestLabelServiceFactory($labelService);
+        $this->objectManager->addSharedInstance($labelServiceFactory, ServiceFactory::class);
 
         /** @var Paket $subject */
         $subject = $this->objectManager->get(Paket::class);
-        $result = $subject->requestToShipment($this->getRequest());
+        $result = $subject->requestToShipment($magentoRequest);
 
         $info = current($result->getData('info'));
 
         self::assertFalse($info);
-        self::assertEquals('auth failed', $result->getData('errors'));
+        self::assertEquals($exceptionMessage, $result->getData('errors'));
     }
 
     /**
@@ -166,25 +169,29 @@ class LabelTest extends TestCase
      *
      * @magentoConfigFixture current_store carriers/dhlpaket/shipment_settings/product V01PAK
      *
+     * @dataProvider getMagentoShipmentRequestProvider
+     * @magentoAppIsolation enabled
+     *
+     * @param ShipmentRequest $magentoRequest
      * @throws LocalizedException
      *
-     * @runInSeparateProcess
      */
-    public function testRequestToShipmentThrowsGeneralErrorException()
+    public function testRequestToShipmentThrowsGeneralErrorException(ShipmentRequest $magentoRequest)
     {
-        $this->labelService
-            ->expects(self::once())
-            ->method('performRequest')
-            ->willThrowException(new GeneralErrorException('general error'));
+        $exceptionMessage = 'General error';
+        $labelService = new CreateShipmentOrderService();
+        $labelService->setExpectGeneralErrorException($exceptionMessage);
+        $labelServiceFactory = new TestLabelServiceFactory($labelService);
+        $this->objectManager->addSharedInstance($labelServiceFactory, ServiceFactory::class);
 
         /** @var Paket $subject */
         $subject = $this->objectManager->get(Paket::class);
-        $result = $subject->requestToShipment($this->getRequest());
+        $result = $subject->requestToShipment($magentoRequest);
 
         $info = current($result->getData('info'));
 
         self::assertFalse($info);
-        self::assertEquals('general error', $result->getData('errors'));
+        self::assertEquals($exceptionMessage, $result->getData('errors'));
     }
 
     /**
@@ -205,82 +212,87 @@ class LabelTest extends TestCase
      *
      * @magentoConfigFixture current_store carriers/dhlpaket/shipment_settings/product V01PAK
      *
+     * @dataProvider getMagentoShipmentRequestProvider
+     * @magentoAppIsolation enabled
+     *
+     * @param ShipmentRequest $magentoRequest
      * @throws LocalizedException
      *
-     * @runInSeparateProcess
      */
-    public function testRequestToShipmentThrowsHardValidationException()
+    public function testRequestToShipmentThrowsHardValidationException(ShipmentRequest $magentoRequest)
     {
-        $this->labelService
-            ->expects(self::once())
-            ->method('performRequest')
-            ->willThrowException(
-                new HardValidationException(
-                    'Hard validation error',
-                    1101,
-                    ['statusMessage']
-                )
-            );
+        $exceptionMessage = 'Hard validation error';
+        $labelService = new CreateShipmentOrderService();
+        $labelService->setExpectHardValidationException($exceptionMessage);
+        $labelServiceFactory = new TestLabelServiceFactory($labelService);
+        $this->objectManager->addSharedInstance($labelServiceFactory, ServiceFactory::class);
 
         /** @var Paket $subject */
         $subject = $this->objectManager->get(Paket::class);
-        $result = $subject->requestToShipment($this->getRequest());
+        $result = $subject->requestToShipment($magentoRequest);
 
         $info = current($result->getData('info'));
 
         self::assertFalse($info);
-        self::assertEquals('Failed to create shipment label: statusMessage', $result->getData('errors'));
+        self::assertContains($exceptionMessage, $result->getData('errors'));
     }
 
     /**
-     * @return ShipmentRequest
+     * @param ShipmentRequest $mageRequest
+     * @param ShipmentRequestInterface $sdkRequest
      */
-    private function getRequest(): ShipmentRequest
-    {
-        $packageId = 1;
-        $orderId   = 1;
+    private function assertMagentoAndSdkRequestMatch(
+        ShipmentRequest $mageRequest,
+        ShipmentRequestInterface $sdkRequest
+    ) {
+        /** Verify Receiver */
+        $sdkReceiver = $sdkRequest->getReceiver();
+        self::assertEquals($mageRequest->getRecipientAddressCity(), $sdkRequest->getReceiver()->getCity());
+        self::assertEquals($mageRequest->getRecipientAddressCountryCode(), $sdkReceiver->getCountryCode());
+        self::assertEquals($mageRequest->getRecipientAddressPostalCode(), $sdkReceiver->getPostalCode());
+        self::assertEquals(
+            $mageRequest->getRecipientAddressStreet(),
+            implode(' ', [$sdkReceiver->getStreetName(), $sdkReceiver->getStreetNumber()])
+        );
+        self::assertEquals(
+            $mageRequest->getRecipientAddressStreet1(),
+            implode(' ', [$sdkReceiver->getStreetName(), $sdkReceiver->getStreetNumber()])
+        );
+        self::assertEquals(
+            implode(' ', [$mageRequest->getRecipientContactPersonFirstName(), $mageRequest->getRecipientContactPersonLastName()]),
+            $sdkReceiver->getName()
+        );
+        self::assertEquals($mageRequest->getRecipientContactPersonName(), $sdkReceiver->getName());
 
-        /** @var \Magento\Sales\Model\Order|MockObject $order */
-        $order = $this->createMock(\Magento\Sales\Model\Order::class);
-        $order->method('getId')
-            ->willReturn($orderId);
-        $order->method('getShippingMethod')
-            ->willReturn(new DataObject(['carrier_code' => 'dhlshipping']));
-        $order->method('getIsVirtual')
-            ->willReturn(1);
-
-        $shipment = $this->objectManager->create(
-            DataObject::class,
-            [
-                'data' => [
-                    'order' => $order,
-                ]
-            ]
+        /** Verify Shipper */
+        $sdkShipper = $sdkRequest->getShipper();
+        self::assertEquals($mageRequest->getShipperContactPersonName(), $sdkShipper->getName());
+        self::assertEquals(
+            implode(' ', [$mageRequest->getShipperContactPersonFirstName(), $mageRequest->getShipperContactPersonLastName()]),
+            $sdkShipper->getName()
+        );
+        self::assertEquals($mageRequest->getShipperAddressCountryCode(), $sdkShipper->getCountryCode());
+        self::assertEquals($mageRequest->getShipperAddressCity(), $sdkShipper->getCity());
+        self::assertEquals($mageRequest->getShipperAddressPostalCode(), $sdkShipper->getPostalCode());
+        self::assertEquals(
+            $mageRequest->getShipperAddressStreet(),
+            implode(' ', [$sdkShipper->getStreetName(), $sdkShipper->getStreetNumber()])
+        );
+        self::assertEquals(
+            $mageRequest->getShipperAddressStreet1(),
+            implode(' ', [$sdkShipper->getStreetName(), $sdkShipper->getStreetNumber()])
         );
 
-        $package = [
-            'params' => [
-                'container' => ShippingProductsInterface::CODE_NATIONAL,
-                'weight' => 42
-            ],
-            'items' => [],
-        ];
+        /** Verify Shipment Order */
+        $sdkShipmentDetails = $sdkRequest->getShipmentDetails();
+        self::assertEquals($mageRequest->getData('packages/0/params/weight'), $sdkShipmentDetails->getWeight());
+        self::assertEquals($mageRequest->getData('packages/0/params/container'), $sdkShipmentDetails->getProduct());
+        self::assertEquals($mageRequest->getData('packaging_type'), $sdkShipmentDetails->getProduct());
+        self::assertEquals($mageRequest->getData('package_weight'), $sdkShipmentDetails->getWeight());
 
-        $request = new ShipmentRequest();
-        $request->setData('packages', [$packageId => $package]);
-        $request->setOrderShipment($shipment);
-        $request->setShipperContactPersonName('Hans Mueller');
-        $request->setShipperAddressStreet('MusterStreet 12');
-        $request->setShipperAddressCity('Berlin');
-        $request->setShipperAddressPostalCode('01234');
-        $request->setShipperAddressCountryCode('DE');
-
-        $request->setRecipientContactPersonName('Elfriede Bloed');
-        $request->setRecipientAddressStreet('Nonnenstraße 11d');
-        $request->setRecipientAddressCity('Leipzig');
-        $request->setRecipientAddressPostalCode('04229');
-        $request->setRecipientAddressCountryCode('DE');
-
-        return $request;
+        /** Verify Package Params */
+        $magePackageParams = $mageRequest->getData('package_params');
+        self::assertEquals($magePackageParams->getData('container'), $sdkShipmentDetails->getProduct());
+        self::assertEquals($magePackageParams->getData('weight'), $sdkShipmentDetails->getWeight());
     }
 }

@@ -1,11 +1,19 @@
 <?php
-
-
-namespace Dhl\Paket\Test\Integration\Mock;
+/**
+ * See LICENSE.md for license details.
+ */
+namespace Dhl\Paket\Test\Integration\Fake;
 
 use Dhl\Sdk\Bcs\Webservice\Soap\SoapClientInterface;
 use Dhl\Sdk\Bcs\Webservice\SoapClientFactory;
 
+/**
+ * Class TestSoapClientFactory
+ *
+ * @package Dhl\Paket\Test
+ * @copyright 2018 Netresearch DTT GmbH
+ * @link      http://www.netresearch.de/
+ */
 class TestSoapClientFactory extends SoapClientFactory
 {
     /**
