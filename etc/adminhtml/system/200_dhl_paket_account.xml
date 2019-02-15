@@ -63,7 +63,7 @@
                translate="tooltip label comment" type="select">
             <label>Participation Numbers</label>
             <frontend_model>Dhl\Paket\Block\Adminhtml\System\Config\Form\Field\Participation</frontend_model>
-            <backend_model>Magento\Config\Model\Config\Backend\Serialized\ArraySerialized</backend_model>
+            <backend_model>Dhl\Paket\Model\Adminhtml\System\Config\Backend\ArraySerialized</backend_model>
             <depends>
                 <field id="sandboxmode">0</field>
             </depends>
