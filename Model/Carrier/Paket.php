@@ -13,6 +13,7 @@ use Dhl\Sdk\Bcs\Api\ShippingProductsInterface;
 use Dhl\Sdk\Bcs\Model\ShippingProducts;
 use Dhl\ShippingCore\Api\RateRequestEmulationInterface;
 use Dhl\ShippingCore\Model\Config\CoreConfigInterface;
+use Dhl\ShippingCore\Model\Emulation\ProxyCarrierFactory;
 use InvalidArgumentException;
 use Magento\CatalogInventory\Api\StockRegistryInterface;
 use Magento\Directory\Helper\Data;
@@ -56,11 +57,6 @@ class Paket extends AbstractCarrierOnline implements CarrierInterface
     private $rateRequestService;
 
     /**
-     * @var RateResultFactory
-     */
-    private $rateResultFactory;
-
-    /**
      * @var ModuleConfig
      */
     private $moduleConfig;
@@ -86,6 +82,11 @@ class Paket extends AbstractCarrierOnline implements CarrierInterface
     private $shippingProducts;
 
     /**
+     * @var ProxyCarrierFactory
+     */
+    private $proxyCarrierFactory;
+
+    /**
      * Paket constructor.
      *
      * @param ScopeConfigInterface          $scopeConfig
@@ -104,11 +105,12 @@ class Paket extends AbstractCarrierOnline implements CarrierInterface
      * @param Data                          $directoryData
      * @param StockRegistryInterface        $stockRegistry
      * @param RateRequestEmulationInterface $rateRequestEmulation
-     * @param ModuleConfig         $moduleConfig
+     * @param ModuleConfig                  $moduleConfig
      * @param CoreConfigInterface           $shippingCoreConfig
      * @param ShipmentLabelProvider         $shipmentProvider
      * @param TrackingInfoProvider          $trackingInfoProvider
      * @param ShippingProductsInterface     $shippingProducts
+     * @param ProxyCarrierFactory           $proxyCarrierFactory
      * @param array $data
      */
     public function __construct(
@@ -133,15 +135,16 @@ class Paket extends AbstractCarrierOnline implements CarrierInterface
         ShipmentLabelProvider $shipmentProvider,
         TrackingInfoProvider $trackingInfoProvider,
         ShippingProductsInterface $shippingProducts,
+        ProxyCarrierFactory $proxyCarrierFactory,
         array $data = []
     ) {
-        $this->rateRequestService = $rateRequestEmulation;
-        $this->rateResultFactory  = $rateResultFactory;
-        $this->moduleConfig       = $moduleConfig;
-        $this->shippingCoreConfig = $shippingCoreConfig;
-        $this->shipmentProvider   = $shipmentProvider;
-        $this->trackingProvider   = $trackingInfoProvider;
-        $this->shippingProducts   = $shippingProducts;
+        $this->rateRequestService  = $rateRequestEmulation;
+        $this->moduleConfig        = $moduleConfig;
+        $this->shippingCoreConfig  = $shippingCoreConfig;
+        $this->shipmentProvider    = $shipmentProvider;
+        $this->trackingProvider    = $trackingInfoProvider;
+        $this->shippingProducts    = $shippingProducts;
+        $this->proxyCarrierFactory = $proxyCarrierFactory;
 
         parent::__construct(
             $scopeConfig,
@@ -175,7 +178,7 @@ class Paket extends AbstractCarrierOnline implements CarrierInterface
         }
 
         $emulatedCarrier = $this->moduleConfig->getEmulatedCarrier($storeId);
-        $result          = $this->rateResultFactory->create();
+        $result          = $this->_rateFactory->create();
 
         /** @var Result $rateResult */
         $rateResult = $this->rateRequestService->emulateRateRequest($emulatedCarrier, $request);
@@ -193,6 +196,14 @@ class Paket extends AbstractCarrierOnline implements CarrierInterface
 
             foreach ($rates as $rate) {
                 $result->append($rate);
+            }
+        }
+
+        /** @var Method $rate */
+        foreach ($result->getAllRates() as $rate) {
+            // Check if cart price rule was applied
+            if ($request->getFreeShipping()) {
+                $rate->setPrice(0.0);
             }
         }
 
@@ -219,7 +230,13 @@ class Paket extends AbstractCarrierOnline implements CarrierInterface
      */
     public function getAllowedMethods(): array
     {
-        return [];
+        $storeId     = $this->getStore();
+        $carrierCode = $this->moduleConfig->getEmulatedCarrier($storeId);
+        $carrier     = $this->proxyCarrierFactory->create($carrierCode);
+
+        return \is_callable([$carrier, 'getAllowedMethods'])
+            ? $carrier->getAllowedMethods()
+            : [];
     }
 
     /**
