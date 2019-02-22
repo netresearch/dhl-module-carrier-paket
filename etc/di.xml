@@ -27,11 +27,13 @@
     </type>
 
     <!-- virtual types -->
-    <virtualType name="Dhl\Paket\Model\Logger\Virtual" type="Magento\Framework\Logger\Monolog">
+    <virtualType name="Dhl\Paket\Model\Logger\Virtual" type="Dhl\ShippingCore\Model\Log\ApiLogger">
         <arguments>
             <argument name="handlers" xsi:type="array">
                 <item name="loggerHandler" xsi:type="object">Dhl\Paket\Model\Logger\Handler</item>
             </argument>
+            <argument name="logEnabledConfigPath" xsi:type="const">\Dhl\Paket\Model\Config\ModuleConfig::CONFIG_XML_PATH_ENABLE_LOGGING</argument>
+            <argument name="logLevelConfigPath" xsi:type="const">\Dhl\Paket\Model\Config\ModuleConfig::CONFIG_XML_PATH_LOGLEVEL</argument>
         </arguments>
     </virtualType>
 </config>

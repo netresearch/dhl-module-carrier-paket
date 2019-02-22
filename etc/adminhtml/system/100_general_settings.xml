@@ -43,8 +43,8 @@
             <depends>
                 <field id="logging">1</field>
             </depends>
-            <source_model>Dhl\ShippingCore\Model\Config\Source\LogLevel</source_model>
-            <comment><![CDATA[The log level Debug should only be set while resolving problems. It may result in very large log files]]></comment>
+            <source_model>Dhl\Paket\Model\Config\Source\LogLevel</source_model>
+            <comment><![CDATA[The log level Info should only be set while resolving problems. It may result in very large log files]]></comment>
         </field>
     </group>
 </include>
