@@ -20,6 +20,7 @@ use Magento\Shipping\Model\Tracking\ResultFactory;
  */
 class TrackingInfoProvider
 {
+    const TRACKING_PORTAL_URL = 'https://nolp.dhl.de/nextt-online-public/set_identcodes.do?lang=de&idc=';
     /**
      * @var ResultFactory
      */
@@ -67,6 +68,7 @@ class TrackingInfoProvider
                'data' => [
                    'tracking'      => $trackingNumber,
                    'carrier_title' => $this->moduleConfig->getTitle(),
+                   'url' => self::TRACKING_PORTAL_URL . $trackingNumber
                ],
             ])
         );
