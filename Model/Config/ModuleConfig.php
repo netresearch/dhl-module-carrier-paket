@@ -45,6 +45,8 @@ class ModuleConfig
     const CONFIG_XML_PATH_API_ACCOUNT_NUMBER = self::CONFIG_ROOT . 'account_settings/account_number';
     const CONFIG_XML_PATH_API_ACCOUNT_PARTICIPATIONS = self::CONFIG_ROOT . 'account_settings/account_participations';
 
+    const CONFIG_XML_PATH_API_SANDBOX_AUTH_USERNAME = self::CONFIG_ROOT . 'account_settings/sandbox_auth_username';
+    const CONFIG_XML_PATH_API_SANDBOX_AUTH_PASSWORD = self::CONFIG_ROOT . 'account_settings/sandbox_auth_password';
     const CONFIG_XML_PATH_API_SANDBOX_USERNAME = self::CONFIG_ROOT . 'account_settings/sandbox_username';
     const CONFIG_XML_PATH_API_SANDBOX_PASSWORD = self::CONFIG_ROOT . 'account_settings/sandbox_password';
     const CONFIG_XML_PATH_API_SANDBOX_ACCOUNT_NUMBER = self::CONFIG_ROOT . 'account_settings/sandbox_account_number';
@@ -232,6 +234,10 @@ class ModuleConfig
      */
     public function getAuthUsername($store = null): string
     {
+        if ($this->isSandboxMode($store)) {
+            return $this->getSandboxAuthUsername($store);
+        }
+
         return (string) $this->scopeConfig->getValue(
             self::CONFIG_XML_PATH_AUTH_USERNAME,
             ScopeInterface::SCOPE_STORE,
@@ -248,6 +254,10 @@ class ModuleConfig
      */
     public function getAuthPassword($store = null): string
     {
+        if ($this->isSandboxMode($store)) {
+            return $this->getSandboxAuthPassword($store);
+        }
+
         return (string) $this->encryptor->decrypt(
             $this->scopeConfig->getValue(
                 self::CONFIG_XML_PATH_AUTH_PASSWORD,
@@ -368,6 +378,38 @@ class ModuleConfig
     public function getAccountParticipation(string $procedure, $store = null): string
     {
         return $this->getAccountParticipations($store)[$procedure] ?? '';
+    }
+
+    /**
+     * Returns the AUTH username in sandbox mode.
+     *
+     * @param string|null $store
+     *
+     * @return string
+     */
+    private function getSandboxAuthUsername($store = null): string
+    {
+        return (string) $this->scopeConfig->getValue(
+            self::CONFIG_XML_PATH_API_SANDBOX_AUTH_USERNAME,
+            ScopeInterface::SCOPE_STORE,
+            $store
+        );
+    }
+
+    /**
+     * Returns the AUTH password in sandbox mode.
+     *
+     * @param string|null $store
+     *
+     * @return string
+     */
+    private function getSandboxAuthPassword($store = null): string
+    {
+        return (string) $this->scopeConfig->getValue(
+            self::CONFIG_XML_PATH_API_SANDBOX_AUTH_PASSWORD,
+            ScopeInterface::SCOPE_STORE,
+            $store
+        );
     }
 
     /**

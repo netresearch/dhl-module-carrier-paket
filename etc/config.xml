@@ -16,6 +16,9 @@
                 <sallowspecific>0</sallowspecific>
 
                 <account_settings>
+                    <auth_username>NRMAG_2</auth_username>
+                    <auth_password>ivVTCAke61I6cTTilV1eBltp2rvSQb</auth_password>
+
                     <account_participations backend_model="Dhl\Paket\Model\Adminhtml\System\Config\Backend\ArraySerialized">
                         <![CDATA[
                             {
@@ -31,7 +34,9 @@
 
                     <!-- Sandbox -->
                     <sandboxmode>1</sandboxmode>
-                    <sandbox_api_endpoint>https://cig.dhl.de/services/sandbox/soap</sandbox_api_endpoint>
+                    <sandbox_auth_username>magento_1</sandbox_auth_username>
+                    <sandbox_auth_password>2de26b775e59279464d1c2f8546432e62413372421c672db36eaacfc2f</sandbox_auth_password>
+                    <!--<sandbox_api_endpoint>https://cig.dhl.de/services/sandbox/soap</sandbox_api_endpoint>-->
                     <sandbox_username>2222222222_01</sandbox_username>
                     <sandbox_password>pass</sandbox_password>
                     <sandbox_account_number>2222222222</sandbox_account_number>
