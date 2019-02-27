@@ -13,7 +13,7 @@
 
         <field id="api_username" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="40"
                translate="tooltip label comment" type="text">
-            <label><![CDATA[API Credentials]]></label>
+            <label><![CDATA[User]]></label>
             <comment>Please talk to your account representative to add API access to your business account</comment>
             <depends>
                 <field id="sandboxmode">0</field>
@@ -21,7 +21,7 @@
         </field>
         <field id="api_password" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="50"
                translate="tooltip label comment" type="obscure">
-            <label><![CDATA[Password]]></label>
+            <label><![CDATA[Password (Signature)]]></label>
             <backend_model>Magento\Config\Model\Config\Backend\Encrypted</backend_model>
             <depends>
                 <field id="sandboxmode">0</field>
@@ -31,7 +31,7 @@
         <!-- EKP -->
         <field id="account_number" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="60"
                translate="tooltip label comment" type="text">
-            <label><![CDATA[EKP - Uniform Customer And Product Number]]></label>
+            <label><![CDATA[DHL Customer Number (EKP)]]></label>
             <validate>validate-length maximum-length-10 minimum-length-10 validate-digits</validate>
             <depends>
                 <field id="sandboxmode">0</field>
