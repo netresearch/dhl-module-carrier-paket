@@ -30,7 +30,6 @@
     <virtualType name="Dhl\Paket\Model\Logger\Virtual" type="Magento\Framework\Logger\Monolog">
         <arguments>
             <argument name="handlers" xsi:type="array">
-                <item name="debug" xsi:type="object">Dhl\Paket\Model\Logger\Handler\Virtual</item>
                 <item name="system" xsi:type="object">Dhl\Paket\Model\Logger\Handler\Virtual</item>
                 <item name="syslog" xsi:type="object">Dhl\Paket\Model\Logger\Handler\Virtual</item>
             </argument>
