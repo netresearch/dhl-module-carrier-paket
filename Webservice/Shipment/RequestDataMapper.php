@@ -7,12 +7,11 @@ declare(strict_types=1);
 namespace Dhl\Paket\Webservice\Shipment;
 
 use Dhl\Paket\Model\Config\ModuleConfig;
-use Dhl\Sdk\Bcs\Api\Data\ShipmentRequestInterface;
-use Dhl\Sdk\Bcs\Api\ShipmentRequestBuilderInterface;
-use Dhl\Sdk\Bcs\Api\ShippingProductsInterface;
+use Dhl\Sdk\Paket\Bcs\Api\ShipmentOrderRequestBuilderInterface;
 use Dhl\ShippingCore\Util\StreetSplitterInterface;
 use Magento\Framework\Stdlib\DateTime\TimezoneInterface;
 use Magento\Shipping\Model\Shipment\Request;
+use Dhl\Paket\Model\ShippingProduct\ShippingProductsInterface;
 
 /**
  * @inheritDoc
@@ -22,7 +21,7 @@ class RequestDataMapper implements RequestDataMapperInterface
     /**
      * The shipment request builder.
      *
-     * @var ShipmentRequestBuilderInterface
+     * @var ShipmentOrderRequestBuilderInterface
      */
     private $requestBuilder;
 
@@ -44,21 +43,21 @@ class RequestDataMapper implements RequestDataMapperInterface
     private $timezone;
 
     /**
-     * @var ShippingProductsInterface
+     * @var \Dhl\Paket\Model\ShippingProduct\ShippingProductsInterface
      */
     private $shippingProducts;
 
     /**
      * Constructor.
      *
-     * @param ShipmentRequestBuilderInterface $requestBuilder
+     * @param ShipmentOrderRequestBuilderInterface $requestBuilder
      * @param ModuleConfig           $moduleConfig
      * @param StreetSplitterInterface         $streetSplitter
      * @param TimezoneInterface               $timezone
      * @param ShippingProductsInterface       $shippingProducts
      */
     public function __construct(
-        ShipmentRequestBuilderInterface $requestBuilder,
+        ShipmentOrderRequestBuilderInterface $requestBuilder,
         ModuleConfig $moduleConfig,
         StreetSplitterInterface $streetSplitter,
         TimezoneInterface $timezone,
@@ -74,56 +73,67 @@ class RequestDataMapper implements RequestDataMapperInterface
     /**
      * @inheritDoc
      */
-    public function mapRequest(Request $request): ShipmentRequestInterface
+    public function mapRequest(Request $request)
     {
         // Split address into street name and street number as required by the webservice
         $shipperAddress  = $this->streetSplitter->splitStreet($request->getShipperAddressStreet());
         $receiverAddress = $this->streetSplitter->splitStreet($request->getRecipientAddressStreet());
 
-        $this->requestBuilder
-            ->setShipperAddress(
-                $request->getShipperContactPersonName(),
-                $shipperAddress['street_name'],
-                $shipperAddress['street_number'],
-                (string) $request->getShipperAddressPostalCode(),
-                $request->getShipperAddressCity(),
-                $request->getShipperAddressCountryCode()
-            );
+        $this->requestBuilder->setShipperAccount($this->getBillingNumber($request));
 
-        $this->requestBuilder
-            ->setReceiverAddress(
-                $request->getRecipientContactPersonName(),
-                $receiverAddress['street_name'],
-                $receiverAddress['street_number'],
-                (string) $request->getRecipientAddressPostalCode(),
-                $request->getRecipientAddressCity(),
-                $request->getRecipientAddressCountryCode()
-            );
-
-        $this->requestBuilder->setShipmentDetails(
-            $this->getProduct($request),
-            $this->getBillingNumber($request),
-            $this->getShipmentDate(),
-            (float) $request->getPackageParams()->getWeight(),
-            (int) $request->getPackageParams()->getLength(),
-            (int) $request->getPackageParams()->getWidth(),
-            (int) $request->getPackageParams()->getHeight()
+        $this->requestBuilder->setShipperAddress(
+            $request->getShipperAddressCountryCode(),
+            $request->getShipperAddressPostalCode(),
+            $request->getShipperAddressCity(),
+            $shipperAddress['street_name'],
+            $shipperAddress['street_number'],
+            $request->getShipperContactCompanyName(),
+            $request->getShipperContactPersonName()
         );
 
-        $this->requestBuilder
-            ->setShipmentOrder(ShipmentRequestBuilderInterface::LABEL_RESPONSE_TYPE_B64);
+        $this->requestBuilder->setRecipientAddress(
+            $request->getRecipientAddressCountryCode(),
+            (string) $request->getRecipientAddressPostalCode(),
+            $request->getRecipientAddressCity(),
+            $receiverAddress['street_name'],
+            $receiverAddress['street_number'],
+            $request->getRecipientContactPersonName()
+        );
 
-        return $this->requestBuilder->build();
+//        $this->requestBuilder->setShipperBankData();
+//        $this->requestBuilder->setRecipientNotification();
+//        $this->requestBuilder->setReturnAddress();
+//        $this->requestBuilder->setInsuredValue();
+//        $this->requestBuilder->setCodAmount();
+//        $this->requestBuilder->setCustomsDetails();
+
+        $orderShipment = $request->getOrderShipment();
+        $order = $orderShipment->getOrder();
+
+        $this->requestBuilder->setShipmentDetails(
+            $this->getProductCode($request),
+            $this->getShipmentDate(),
+            $order->getIncrementId()
+        );
+        $this->requestBuilder->setPackageDetails($request->getPackageParams()->getWeight());
+
+        $this->requestBuilder->setPackageDimensions(
+            $request->getPackageParams()->getWidth(),
+            $request->getPackageParams()->getLength(),
+            $request->getPackageParams()->getHeight()
+        );
+
+        return $this->requestBuilder->create();
     }
 
     /**
-     * Returns the selected product.
+     * Returns the selected product code.
      *
      * @param Request $request The shipment request
      *
      * @return string
      */
-    private function getProduct(Request $request): string
+    private function getProductCode(Request $request): string
     {
         return $request->getData('packaging_type');
     }
@@ -138,7 +148,7 @@ class RequestDataMapper implements RequestDataMapperInterface
     private function getBillingNumber(Request $request): string
     {
         $storeId        = $request->getOrderShipment()->getStoreId();
-        $productCode    = $this->getProduct($request);
+        $productCode    = $request->getData('packaging_type');
         $ekp            = $this->moduleConfig->getAccountNumber($storeId);
         $participations = $this->moduleConfig->getAccountParticipations($storeId);
 

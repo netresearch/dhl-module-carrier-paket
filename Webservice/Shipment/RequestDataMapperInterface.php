@@ -6,7 +6,7 @@ declare(strict_types=1);
 
 namespace Dhl\Paket\Webservice\Shipment;
 
-use Dhl\Sdk\Bcs\Api\Data\ShipmentRequestInterface;
+use Dhl\Sdk\Paket\Bcs\Model\CreateShipment\RequestType\ShipmentOrderType;
 use Magento\Shipping\Model\Shipment\Request;
 
 /**
@@ -23,7 +23,7 @@ interface RequestDataMapperInterface
      *
      * @param Request $request The shipment request
      *
-     * @return ShipmentRequestInterface
+     * @return object
      */
-    public function mapRequest(Request $request): ShipmentRequestInterface;
+    public function mapRequest(Request $request);
 }

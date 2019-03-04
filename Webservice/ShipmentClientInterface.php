@@ -28,7 +28,7 @@ interface ShipmentClientInterface
     /**
      * Performs the create shipment order request and returns the response.
      *
-     * @param ShipmentRequestInterface $request The shipment request
+     * @param object $request The shipment request
      *
      * @return CreateShipmentOrderResponseInterface
      *

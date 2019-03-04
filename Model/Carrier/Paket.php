@@ -9,8 +9,6 @@ namespace Dhl\Paket\Model\Carrier;
 use Dhl\Paket\Model\Config\ModuleConfig;
 use Dhl\Paket\Model\Shipment\ShipmentLabelProvider;
 use Dhl\Paket\Model\Tracking\TrackingInfoProvider;
-use Dhl\Sdk\Bcs\Api\ShippingProductsInterface;
-use Dhl\Sdk\Bcs\Model\ShippingProducts;
 use Dhl\ShippingCore\Api\RateRequestEmulationInterface;
 use Dhl\ShippingCore\Model\Config\CoreConfigInterface;
 use Dhl\ShippingCore\Model\Emulation\ProxyCarrierFactory;
@@ -77,11 +75,6 @@ class Paket extends AbstractCarrierOnline implements CarrierInterface
     private $trackingProvider;
 
     /**
-     * @var ShippingProductsInterface
-     */
-    private $shippingProducts;
-
-    /**
      * @var ProxyCarrierFactory
      */
     private $proxyCarrierFactory;
@@ -109,7 +102,6 @@ class Paket extends AbstractCarrierOnline implements CarrierInterface
      * @param CoreConfigInterface           $shippingCoreConfig
      * @param ShipmentLabelProvider         $shipmentProvider
      * @param TrackingInfoProvider          $trackingInfoProvider
-     * @param ShippingProductsInterface     $shippingProducts
      * @param ProxyCarrierFactory           $proxyCarrierFactory
      * @param array $data
      */
@@ -134,7 +126,6 @@ class Paket extends AbstractCarrierOnline implements CarrierInterface
         CoreConfigInterface $shippingCoreConfig,
         ShipmentLabelProvider $shipmentProvider,
         TrackingInfoProvider $trackingInfoProvider,
-        ShippingProductsInterface $shippingProducts,
         ProxyCarrierFactory $proxyCarrierFactory,
         array $data = []
     ) {
@@ -143,7 +134,6 @@ class Paket extends AbstractCarrierOnline implements CarrierInterface
         $this->shippingCoreConfig  = $shippingCoreConfig;
         $this->shipmentProvider    = $shipmentProvider;
         $this->trackingProvider    = $trackingInfoProvider;
-        $this->shippingProducts    = $shippingProducts;
         $this->proxyCarrierFactory = $proxyCarrierFactory;
 
         parent::__construct(
@@ -218,9 +208,10 @@ class Paket extends AbstractCarrierOnline implements CarrierInterface
         $result        = parent::processAdditionalValidation($request);
         $originCountry = $this->shippingCoreConfig->getOriginCountry();
 
-        if (!\array_key_exists($originCountry, ShippingProducts::ORIGIN_DEST_CODES)) {
-            return false;
-        }
+        //@todo(nr) is this still needed ?
+//        if (!\array_key_exists($originCountry, ShippingProducts::ORIGIN_DEST_CODES)) {
+//            return false;
+//        }
 
         return $result;
     }
@@ -237,62 +228,6 @@ class Paket extends AbstractCarrierOnline implements CarrierInterface
         return \is_callable([$carrier, 'getAllowedMethods'])
             ? $carrier->getAllowedMethods()
             : [];
-    }
-
-    /**
-     * Returns container types of carrier.
-     *
-     * @param DataObject|null $params
-     *
-     * @return string[]
-     */
-    public function getContainerTypes(DataObject $params = null): array
-    {
-        $containerTypes   = parent::getContainerTypes($params);
-        $countryShipper   = null;
-        $countryRecipient = null;
-
-        if ($params !== null) {
-            $countryShipper   = $params->getData('country_shipper');
-            $countryRecipient = $params->getData('country_recipient');
-        }
-
-        return array_merge(
-            $containerTypes,
-            $this->getShippingProducts($countryShipper, $countryRecipient)
-        );
-    }
-
-    /**
-     * Obtain the shipping products that match the given route. List might get
-     * lengthy, so we move the product that was configured as default to the top.
-     *
-     * @param string $countryShipper   The shipper country code
-     * @param string $countryRecipient The recipient country code
-     *
-     * @return string[]
-     */
-    private function getShippingProducts(
-        string $countryShipper = null,
-        string $countryRecipient = null
-    ): array {
-        // Read available codes
-        if (!$countryShipper || !$countryRecipient) {
-            $codes = $this->shippingProducts->getAllCodes();
-        } else {
-            $euCountries = $this->moduleConfig->getEuCountryList();
-            $codes = $this->shippingProducts->getApplicableCodes($countryShipper, $countryRecipient, $euCountries);
-        }
-
-        // Obtain human readable names, combine to array
-        $names = array_map(
-            function (string $code) {
-                return $this->shippingProducts->getProductName($code);
-            },
-            $codes
-        );
-
-        return array_combine($codes, $names);
     }
 
     /**
