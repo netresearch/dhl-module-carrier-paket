@@ -6,7 +6,6 @@ declare(strict_types=1);
 
 namespace Dhl\Paket\Webservice\Shipment;
 
-use Dhl\Sdk\Paket\Bcs\Model\CreateShipment\RequestType\ShipmentOrderType;
 use Magento\Shipping\Model\Shipment\Request;
 
 /**

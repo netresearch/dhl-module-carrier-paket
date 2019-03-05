@@ -6,7 +6,7 @@ declare(strict_types=1);
 
 namespace Dhl\Paket\Model\Adminhtml\System\Config\Source;
 
-use Dhl\Sdk\Bcs\Model\ShippingProducts;
+use Dhl\Paket\Model\ShippingProducts\ShippingProducts;
 use Magento\Framework\Option\ArrayInterface;
 
 /**

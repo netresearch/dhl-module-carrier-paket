@@ -7,10 +7,8 @@ declare(strict_types=1);
 namespace Dhl\Paket\Webservice;
 
 use Dhl\Paket\Model\Config\ModuleConfig;
-use Dhl\Sdk\Bcs\Api\Data\CreateShipmentOrderResponseInterface;
-use Dhl\Sdk\Bcs\Api\Data\ShipmentRequestInterface;
-use Dhl\Sdk\Bcs\Api\ServiceFactoryInterface;
-use Dhl\Sdk\Bcs\Webservice\SoapClientFactory;
+use Dhl\Sdk\Paket\Bcs\Api\Data\AuthenticationStorageInterfaceFactory;
+use Dhl\Sdk\Paket\Bcs\Api\ServiceFactoryInterface;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -18,15 +16,16 @@ use Psr\Log\LoggerInterface;
  */
 class ShipmentClient implements ShipmentClientInterface
 {
+
     /**
      * @var ServiceFactoryInterface
      */
     private $serviceFactory;
 
     /**
-     * @var SoapClientFactory
+     * @var AuthenticationStorageInterfaceFactory
      */
-    private $soapClientFactory;
+    private $authStorageFactory;
 
     /**
      * @var ModuleConfig
@@ -39,21 +38,20 @@ class ShipmentClient implements ShipmentClientInterface
     private $logger;
 
     /**
-     * Constructor.
-     *
-     * @param ServiceFactoryInterface $serviceFactory The service factory instance
-     * @param SoapClientFactory $soapClientFactory
-     * @param ModuleConfig $moduleConfig The module configuration instance
-     * @param LoggerInterface $logger A logger instance
+     * ShipmentClient constructor.
+     * @param ServiceFactoryInterface $serviceFactory
+     * @param AuthenticationStorageInterfaceFactory $authStorageFactory
+     * @param ModuleConfig $moduleConfig
+     * @param LoggerInterface $logger
      */
     public function __construct(
         ServiceFactoryInterface $serviceFactory,
-        SoapClientFactory $soapClientFactory,
+        AuthenticationStorageInterfaceFactory $authStorageFactory,
         ModuleConfig $moduleConfig,
         LoggerInterface $logger
     ) {
         $this->serviceFactory = $serviceFactory;
-        $this->soapClientFactory = $soapClientFactory;
+        $this->authStorageFactory = $authStorageFactory;
         $this->moduleConfig = $moduleConfig;
         $this->logger = $logger;
     }
@@ -61,23 +59,24 @@ class ShipmentClient implements ShipmentClientInterface
     /**
      * @inheritDoc
      */
-    public function performShipmentOrderRequest(ShipmentRequestInterface $request): CreateShipmentOrderResponseInterface
+    public function performShipmentOrderRequest($request): array
     {
-        // Create a new soap client instance
-        $soapClient = $this->soapClientFactory->create(
-            $this->moduleConfig->getAuthUsername(),
-            $this->moduleConfig->getAuthPassword(),
-            $this->moduleConfig->getApiUsername(),
-            $this->moduleConfig->getApiPassword(),
+        //@todo(nr) use store id to get configs
+        $authStorage = $this->authStorageFactory->create([
+            'applicationId' => $this->moduleConfig->getAuthUsername(),
+            'applicationToken' => $this->moduleConfig->getAuthPassword(),
+            'user' => $this->moduleConfig->getApiUsername(),
+            'signature' => $this->moduleConfig->getApiPassword(),
+            'ekp' => $this->moduleConfig->getAccountNumber()
+        ]);
+
+        // Create service instance
+        $service = $this->serviceFactory->createShipmentService(
+            $authStorage,
+            $this->logger,
             $this->moduleConfig->isSandboxMode()
         );
 
-        // Create service instance
-        $service = $this->serviceFactory->createShipmentOrderService(
-            $soapClient,
-            $this->logger
-        );
-
-        return $service->performRequest($request);
+        return $service->createShipments([$request]);
     }
 }

@@ -13,10 +13,12 @@
     <preference for="Dhl\Paket\Webservice\Shipment\RequestDataMapperInterface" type="Dhl\Paket\Webservice\Shipment\RequestDataMapper"/>
     <preference for="Dhl\Paket\Webservice\Shipment\ResponseDataMapperInterface" type="Dhl\Paket\Webservice\Shipment\ResponseDataMapper"/>
 
+    <preference for="Dhl\Paket\Model\ShippingProducts\ShippingProductsInterface" type="Dhl\Paket\Model\ShippingProducts\ShippingProducts"/>
+
     <!-- SDK preferences -->
-    <preference for="Dhl\Sdk\Bcs\Api\ShipmentRequestBuilderInterface" type="Dhl\Sdk\Bcs\RequestBuilder\ShipmentRequestBuilder"/>
-    <preference for="Dhl\Sdk\Bcs\Api\ServiceFactoryInterface" type="Dhl\Sdk\Bcs\Webservice\ServiceFactory"/>
-    <preference for="Dhl\Sdk\Bcs\Api\ShippingProductsInterface" type="Dhl\Sdk\Bcs\Model\ShippingProducts"/>
+    <preference for="Dhl\Sdk\Paket\Bcs\Api\ShipmentOrderRequestBuilderInterface" type="Dhl\Sdk\Paket\Bcs\RequestBuilder\ShipmentOrderRequestBuilder"/>
+    <preference for="Dhl\Sdk\Paket\Bcs\Api\ServiceFactoryInterface" type="Dhl\Sdk\Paket\Bcs\Service\ServiceFactory"/>
+    <preference for="Dhl\Sdk\Paket\Bcs\Api\Data\AuthenticationStorageInterface" type="Dhl\Sdk\Paket\Bcs\Auth\AuthenticationStorage" />
 
     <!-- Argument overrides -->
     <type name="\Dhl\Paket\Model\Carrier\Paket">

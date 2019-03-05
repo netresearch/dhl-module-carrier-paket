@@ -6,15 +6,10 @@ declare(strict_types=1);
 
 namespace Dhl\Paket\Webservice;
 
-use Dhl\Sdk\Bcs\Api\Data\CreateShipmentOrderResponseInterface;
-use Dhl\Sdk\Bcs\Api\Data\ShipmentRequestInterface;
-use Dhl\Sdk\Bcs\Webservice\Exception\AuthenticationException;
-use Dhl\Sdk\Bcs\Webservice\Exception\GeneralErrorException;
-use Dhl\Sdk\Bcs\Webservice\Exception\HardValidationException;
-use Dhl\Sdk\Bcs\Webservice\Exception\ServiceUnavailableException;
-use Dhl\Sdk\Bcs\Webservice\Exception\SoapException;
-use Dhl\Sdk\Bcs\Webservice\Exception\UnknownShipmentNumberException;
-use Dhl\Sdk\Bcs\Webservice\Exception\WeakValidationException;
+use Dhl\Sdk\Paket\Bcs\Api\Data\ShipmentInterface;
+use Dhl\Sdk\Paket\Bcs\Exception\AuthenticationException;
+use Dhl\Sdk\Paket\Bcs\Exception\ClientException;
+use Dhl\Sdk\Paket\Bcs\Exception\ServerException;
 
 /**
  * The shipment client that directly uses the SDK services/service factories.
@@ -30,15 +25,11 @@ interface ShipmentClientInterface
      *
      * @param object $request The shipment request
      *
-     * @return CreateShipmentOrderResponseInterface
+     * @return ShipmentInterface[]
      *
      * @throws AuthenticationException
-     * @throws GeneralErrorException
-     * @throws HardValidationException
-     * @throws ServiceUnavailableException
-     * @throws UnknownShipmentNumberException
-     * @throws WeakValidationException
-     * @throws SoapException
+     * @throws ClientException
+     * @throws ServerException
      */
-    public function performShipmentOrderRequest(ShipmentRequestInterface $request): CreateShipmentOrderResponseInterface;
+    public function performShipmentOrderRequest($request): array;
 }

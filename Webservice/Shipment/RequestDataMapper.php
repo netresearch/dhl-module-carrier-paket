@@ -11,7 +11,7 @@ use Dhl\Sdk\Paket\Bcs\Api\ShipmentOrderRequestBuilderInterface;
 use Dhl\ShippingCore\Util\StreetSplitterInterface;
 use Magento\Framework\Stdlib\DateTime\TimezoneInterface;
 use Magento\Shipping\Model\Shipment\Request;
-use Dhl\Paket\Model\ShippingProduct\ShippingProductsInterface;
+use Dhl\Paket\Model\ShippingProducts\ShippingProductsInterface;
 
 /**
  * @inheritDoc
@@ -43,7 +43,7 @@ class RequestDataMapper implements RequestDataMapperInterface
     private $timezone;
 
     /**
-     * @var \Dhl\Paket\Model\ShippingProduct\ShippingProductsInterface
+     * @var ShippingProductsInterface
      */
     private $shippingProducts;
 
@@ -82,22 +82,22 @@ class RequestDataMapper implements RequestDataMapperInterface
         $this->requestBuilder->setShipperAccount($this->getBillingNumber($request));
 
         $this->requestBuilder->setShipperAddress(
+            $request->getShipperContactCompanyName(),
             $request->getShipperAddressCountryCode(),
             $request->getShipperAddressPostalCode(),
             $request->getShipperAddressCity(),
             $shipperAddress['street_name'],
             $shipperAddress['street_number'],
-            $request->getShipperContactCompanyName(),
             $request->getShipperContactPersonName()
         );
 
         $this->requestBuilder->setRecipientAddress(
+            $request->getRecipientContactPersonName(),
             $request->getRecipientAddressCountryCode(),
             (string) $request->getRecipientAddressPostalCode(),
             $request->getRecipientAddressCity(),
             $receiverAddress['street_name'],
-            $receiverAddress['street_number'],
-            $request->getRecipientContactPersonName()
+            $receiverAddress['street_number']
         );
 
 //        $this->requestBuilder->setShipperBankData();
@@ -115,12 +115,12 @@ class RequestDataMapper implements RequestDataMapperInterface
             $this->getShipmentDate(),
             $order->getIncrementId()
         );
-        $this->requestBuilder->setPackageDetails($request->getPackageParams()->getWeight());
+        $this->requestBuilder->setPackageDetails((float) $request->getPackageParams()->getWeight());
 
         $this->requestBuilder->setPackageDimensions(
-            $request->getPackageParams()->getWidth(),
-            $request->getPackageParams()->getLength(),
-            $request->getPackageParams()->getHeight()
+            (int) $request->getPackageParams()->getWidth(),
+            (int) $request->getPackageParams()->getLength(),
+            (int) $request->getPackageParams()->getHeight()
         );
 
         return $this->requestBuilder->create();
@@ -135,7 +135,7 @@ class RequestDataMapper implements RequestDataMapperInterface
      */
     private function getProductCode(Request $request): string
     {
-        return $request->getData('packaging_type');
+        return  'V01PAK'; //$request->getData('packaging_type');
     }
 
     /**
@@ -148,7 +148,7 @@ class RequestDataMapper implements RequestDataMapperInterface
     private function getBillingNumber(Request $request): string
     {
         $storeId        = $request->getOrderShipment()->getStoreId();
-        $productCode    = $request->getData('packaging_type');
+        $productCode    = 'V01PAK'; //$request->getData('packaging_type');
         $ekp            = $this->moduleConfig->getAccountNumber($storeId);
         $participations = $this->moduleConfig->getAccountParticipations($storeId);
 

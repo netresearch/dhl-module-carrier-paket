@@ -7,7 +7,7 @@ declare(strict_types=1);
 namespace Dhl\Paket\Block\Adminhtml\System\Config\Form\Field;
 
 use Dhl\Paket\Model\Adminhtml\System\Config\Source\Procedure;
-use Dhl\Sdk\Bcs\Api\ShippingProductsInterface;
+use Dhl\Paket\Model\ShippingProducts\ShippingProductsInterface;
 use Dhl\ShippingCore\Model\Config\CoreConfigInterface;
 use Magento\Framework\View\Element\Context;
 use Magento\Framework\View\Element\Html\Select;

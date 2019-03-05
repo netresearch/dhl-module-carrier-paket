@@ -67,6 +67,7 @@ class ShipmentAdapter implements ShipmentAdapterInterface
             $response      = $this->client->performShipmentOrderRequest($mappedRequest);
             $result        = $this->responseDataMapper->mapResult($response);
         } catch (\Exception $ex) {
+            //@todo(nr) implement proper exception handling
             $result = $this->errorHandler->createErrorResult($ex);
         }
 

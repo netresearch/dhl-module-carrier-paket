@@ -6,7 +6,7 @@ declare(strict_types=1);
 
 namespace Dhl\Paket\Webservice\Shipment;
 
-use Dhl\Sdk\Bcs\Api\Data\CreateShipmentOrderResponseInterface;
+use Dhl\Sdk\Paket\Bcs\Api\Data\ShipmentInterface;
 use Magento\Framework\DataObject;
 
 /**
@@ -21,9 +21,9 @@ interface ResponseDataMapperInterface
     /**
      * Maps the SDK response object into an Magento response data object.
      *
-     * @param CreateShipmentOrderResponseInterface $shipmentResponse The shipment response
+     * @param ShipmentInterface[] $shipmentResponse The shipment response
      *
      * @return DataObject
      */
-    public function mapResult(CreateShipmentOrderResponseInterface $shipmentResponse): DataObject;
+    public function mapResult(array $shipmentResponse): DataObject;
 }

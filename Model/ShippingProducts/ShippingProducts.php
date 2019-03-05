@@ -4,7 +4,7 @@
  */
 declare(strict_types=1);
 
-namespace Dhl\Paket\Model\ShippingProduct;
+namespace Dhl\Paket\Model\ShippingProducts;
 
 /**
  * Shipment products.
