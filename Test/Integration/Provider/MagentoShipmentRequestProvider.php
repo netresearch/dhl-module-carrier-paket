@@ -4,7 +4,7 @@
  */
 namespace Dhl\Paket\Test\Integration\Provider;
 
-use Dhl\Sdk\Bcs\Api\ShippingProductsInterface;
+use Dhl\Paket\Model\ShippingProducts\ShippingProductsInterface;
 use Magento\Framework\App\ObjectManager;
 use Magento\Framework\DataObject;
 use Magento\Sales\Model\Order;
