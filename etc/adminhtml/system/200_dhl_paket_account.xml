@@ -13,7 +13,7 @@
         <field id="sandboxmode" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="30"
                translate="label button_label" type="Netresearch\ConfigFields\Model\Type\Checkbox">
             <label><![CDATA[Sandbox Mode]]></label>
-            <button_label>Use sandbox mode.</button_label>
+            <button_label>Use sandbox mode</button_label>
         </field>
 
         <field id="api_username" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="40"

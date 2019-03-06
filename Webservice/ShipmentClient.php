@@ -14,6 +14,9 @@ use Magento\Store\Api\Data\StoreInterface;
 use Psr\Log\LoggerInterface;
 
 /**
+ * @deprecated
+ * @see \Dhl\Paket\Model\Carrier\ApiGateway
+ *
  * @inheritDoc
  */
 class ShipmentClient implements ShipmentClientInterface

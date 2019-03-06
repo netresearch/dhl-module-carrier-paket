@@ -10,6 +10,9 @@ use Dhl\Sdk\Paket\Bcs\Api\Data\ShipmentInterface;
 use Magento\Framework\DataObject;
 
 /**
+ * @deprecated
+ * @see \Dhl\Paket\Model\Carrier\ApiGateway::createShipmentResponse
+ *
  * Response mapper.
  *
  * @author  Rico Sonntag <rico.sonntag@netresearch.de>

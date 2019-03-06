@@ -6,38 +6,12 @@ declare(strict_types=1);
 
 namespace Dhl\Paket\Model\Carrier;
 
-use Dhl\Paket\Model\Config\ModuleConfig;
-use Dhl\Paket\Model\Shipment\ShipmentLabelProvider;
-use Dhl\Paket\Model\ShippingProducts\ShippingProducts;
-use Dhl\Paket\Model\ShippingProducts\ShippingProductsInterface;
-use Dhl\Paket\Model\Tracking\TrackingInfoProvider;
-use Dhl\ShippingCore\Api\RateRequestEmulationInterface;
-use Dhl\ShippingCore\Model\Config\CoreConfigInterface;
-use Dhl\ShippingCore\Model\Emulation\ProxyCarrierFactory;
-use InvalidArgumentException;
-use Magento\CatalogInventory\Api\StockRegistryInterface;
-use Magento\Directory\Helper\Data;
-use Magento\Directory\Model\CountryFactory;
-use Magento\Directory\Model\CurrencyFactory;
-use Magento\Directory\Model\RegionFactory;
-use Magento\Framework\App\Config\ScopeConfigInterface;
+use Dhl\Sdk\Bcs\Model\ShippingProducts;
 use Magento\Framework\DataObject;
-use Magento\Framework\Xml\Security;
 use Magento\Quote\Model\Quote\Address\RateRequest;
-use Magento\Quote\Model\Quote\Address\RateResult\ErrorFactory as RateResultErrorFactory;
-use Magento\Quote\Model\Quote\Address\RateResult\Method;
-use Magento\Quote\Model\Quote\Address\RateResult\MethodFactory;
 use Magento\Shipping\Model\Carrier\AbstractCarrierOnline;
 use Magento\Shipping\Model\Carrier\CarrierInterface;
 use Magento\Shipping\Model\Rate\Result;
-use Magento\Shipping\Model\Rate\ResultFactory as RateResultFactory;
-use Magento\Shipping\Model\Shipment\Request;
-use Magento\Shipping\Model\Simplexml\ElementFactory;
-use Magento\Shipping\Model\Tracking\Result as TrackingResult;
-use Magento\Shipping\Model\Tracking\Result\ErrorFactory as TrackingErrorFactory;
-use Magento\Shipping\Model\Tracking\Result\StatusFactory;
-use Magento\Shipping\Model\Tracking\ResultFactory as TrackingResultFactory;
-use Psr\Log\LoggerInterface;
 
 /**
  * DHL Paket online shipping carrier model.
@@ -46,104 +20,123 @@ class Paket extends AbstractCarrierOnline implements CarrierInterface
 {
     const CARRIER_CODE = 'dhlpaket';
 
+    const TRACKING_URL_TEMPLATE = 'https://nolp.dhl.de/nextt-online-public/set_identcodes.do?lang=de&idc=%s';
+
     /**
      * @var string
      */
     protected $_code = self::CARRIER_CODE;
 
     /**
-     * @var RateRequestEmulationInterface
+     * @var \Magento\Framework\DataObjectFactory
+     */
+    private $dataObjectFactory;
+
+    /**
+     * @var \Dhl\ShippingCore\Api\RateRequestEmulationInterface
      */
     private $rateRequestService;
 
     /**
-     * @var ModuleConfig
+     * @var \Dhl\Paket\Model\Carrier\ApiGatewayFactory
+     */
+    private $apiGatewayFactory;
+
+    /**
+     * @var \Dhl\Paket\Model\Config\ModuleConfig
      */
     private $moduleConfig;
 
     /**
-     * @var CoreConfigInterface
+     * @var \Dhl\ShippingCore\Model\Config\CoreConfigInterface
      */
     private $shippingCoreConfig;
 
     /**
-     * @var ShipmentLabelProvider
+     * @var \Dhl\Paket\Model\Shipment\ShipmentLabelProvider
      */
     private $shipmentProvider;
 
     /**
-     * @var TrackingInfoProvider
+     * @var \Dhl\Paket\Model\Tracking\TrackingInfoProvider
      */
     private $trackingProvider;
 
     /**
-     * @var ProxyCarrierFactory
-     */
-    private $proxyCarrierFactory;
-
-    /**
-     * @var ShippingProductsInterface
+     * @var \Dhl\Sdk\Bcs\Api\ShippingProductsInterface
      */
     private $shippingProducts;
 
     /**
-     * Paket constructor.
+     * @var \Dhl\ShippingCore\Model\Emulation\ProxyCarrierFactory
+     */
+    private $proxyCarrierFactory;
+
+    /**
+     * Paket carrier constructor.
      *
-     * @param ScopeConfigInterface          $scopeConfig
-     * @param RateResultErrorFactory        $rateErrorFactory
-     * @param LoggerInterface               $logger
-     * @param Security                      $xmlSecurity
-     * @param ElementFactory                $xmlElFactory
-     * @param RateResultFactory             $rateResultFactory
-     * @param MethodFactory                 $rateMethodFactory
-     * @param TrackingResultFactory         $trackFactory
-     * @param TrackingErrorFactory          $trackErrorFactory
-     * @param StatusFactory                 $trackStatusFactory
-     * @param RegionFactory                 $regionFactory
-     * @param CountryFactory                $countryFactory
-     * @param CurrencyFactory               $currencyFactory
-     * @param Data                          $directoryData
-     * @param StockRegistryInterface        $stockRegistry
-     * @param RateRequestEmulationInterface $rateRequestEmulation
-     * @param ModuleConfig                  $moduleConfig
-     * @param CoreConfigInterface           $shippingCoreConfig
-     * @param ShipmentLabelProvider         $shipmentProvider
-     * @param TrackingInfoProvider          $trackingInfoProvider
-     * @param ProxyCarrierFactory           $proxyCarrierFactory
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Magento\Quote\Model\Quote\Address\RateResult\ErrorFactory $rateErrorFactory
+     * @param \Psr\Log\LoggerInterface $logger
+     * @param \Magento\Framework\Xml\Security $xmlSecurity
+     * @param \Magento\Shipping\Model\Simplexml\ElementFactory $xmlElFactory
+     * @param \Magento\Shipping\Model\Rate\ResultFactory $rateFactory
+     * @param \Magento\Quote\Model\Quote\Address\RateResult\MethodFactory $rateMethodFactory
+     * @param \Magento\Shipping\Model\Tracking\ResultFactory $trackFactory
+     * @param \Magento\Shipping\Model\Tracking\Result\ErrorFactory $trackErrorFactory
+     * @param \Magento\Shipping\Model\Tracking\Result\StatusFactory $trackStatusFactory
+     * @param \Magento\Directory\Model\RegionFactory $regionFactory
+     * @param \Magento\Directory\Model\CountryFactory $countryFactory
+     * @param \Magento\Directory\Model\CurrencyFactory $currencyFactory
+     * @param \Magento\Directory\Helper\Data $directoryData
+     * @param \Magento\CatalogInventory\Api\StockRegistryInterface $stockRegistry
+     * @param \Magento\Framework\DataObjectFactory $dataObjectFactory
+     * @param \Dhl\ShippingCore\Api\RateRequestEmulationInterface $rateRequestService
+     * @param \Dhl\Paket\Model\Carrier\ApiGatewayFactory $apiGatewayFactory
+     * @param \Dhl\Paket\Model\Config\ModuleConfig $moduleConfig
+     * @param \Dhl\ShippingCore\Model\Config\CoreConfigInterface $shippingCoreConfig
+     * @param \Dhl\Paket\Model\Shipment\ShipmentLabelProvider $shipmentProvider
+     * @param \Dhl\Paket\Model\Tracking\TrackingInfoProvider $trackingProvider
+     * @param \Dhl\Sdk\Bcs\Api\ShippingProductsInterface $shippingProducts
+     * @param \Dhl\ShippingCore\Model\Emulation\ProxyCarrierFactory $proxyCarrierFactory
      * @param array $data
      */
     public function __construct(
-        ScopeConfigInterface $scopeConfig,
-        RateResultErrorFactory $rateErrorFactory,
-        LoggerInterface $logger,
-        Security $xmlSecurity,
-        ElementFactory $xmlElFactory,
-        RateResultFactory $rateResultFactory,
-        MethodFactory $rateMethodFactory,
-        TrackingResultFactory $trackFactory,
-        TrackingErrorFactory $trackErrorFactory,
-        StatusFactory $trackStatusFactory,
-        RegionFactory $regionFactory,
-        CountryFactory $countryFactory,
-        CurrencyFactory $currencyFactory,
-        Data $directoryData,
-        StockRegistryInterface $stockRegistry,
-        RateRequestEmulationInterface $rateRequestEmulation,
-        ModuleConfig $moduleConfig,
-        CoreConfigInterface $shippingCoreConfig,
-        ShipmentLabelProvider $shipmentProvider,
-        TrackingInfoProvider $trackingInfoProvider,
-        ProxyCarrierFactory $proxyCarrierFactory,
-        ShippingProductsInterface $shippingProducts,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
+        \Magento\Quote\Model\Quote\Address\RateResult\ErrorFactory $rateErrorFactory,
+        \Psr\Log\LoggerInterface $logger,
+        \Magento\Framework\Xml\Security $xmlSecurity,
+        \Magento\Shipping\Model\Simplexml\ElementFactory $xmlElFactory,
+        \Magento\Shipping\Model\Rate\ResultFactory $rateFactory,
+        \Magento\Quote\Model\Quote\Address\RateResult\MethodFactory $rateMethodFactory,
+        \Magento\Shipping\Model\Tracking\ResultFactory $trackFactory,
+        \Magento\Shipping\Model\Tracking\Result\ErrorFactory $trackErrorFactory,
+        \Magento\Shipping\Model\Tracking\Result\StatusFactory $trackStatusFactory,
+        \Magento\Directory\Model\RegionFactory $regionFactory,
+        \Magento\Directory\Model\CountryFactory $countryFactory,
+        \Magento\Directory\Model\CurrencyFactory $currencyFactory,
+        \Magento\Directory\Helper\Data $directoryData,
+        \Magento\CatalogInventory\Api\StockRegistryInterface $stockRegistry,
+        \Magento\Framework\DataObjectFactory $dataObjectFactory,
+        \Dhl\ShippingCore\Api\RateRequestEmulationInterface $rateRequestService,
+        \Dhl\Paket\Model\Carrier\ApiGatewayFactory $apiGatewayFactory,
+        \Dhl\Paket\Model\Config\ModuleConfig $moduleConfig,
+        \Dhl\ShippingCore\Model\Config\CoreConfigInterface $shippingCoreConfig,
+        \Dhl\Paket\Model\Shipment\ShipmentLabelProvider $shipmentProvider,
+        \Dhl\Paket\Model\Tracking\TrackingInfoProvider $trackingProvider,
+        \Dhl\Sdk\Bcs\Api\ShippingProductsInterface $shippingProducts,
+        \Dhl\ShippingCore\Model\Emulation\ProxyCarrierFactory $proxyCarrierFactory,
         array $data = []
     ) {
-        $this->rateRequestService  = $rateRequestEmulation;
-        $this->moduleConfig        = $moduleConfig;
-        $this->shippingCoreConfig  = $shippingCoreConfig;
-        $this->shipmentProvider    = $shipmentProvider;
-        $this->trackingProvider    = $trackingInfoProvider;
+        $this->dataObjectFactory = $dataObjectFactory;
+        $this->rateRequestService = $rateRequestService;
+        $this->apiGatewayFactory = $apiGatewayFactory;
+        $this->moduleConfig = $moduleConfig;
+        $this->shippingCoreConfig = $shippingCoreConfig;
+        $this->shipmentProvider = $shipmentProvider;
+        $this->trackingProvider = $trackingProvider;
+        $this->shippingProducts = $shippingProducts;
         $this->proxyCarrierFactory = $proxyCarrierFactory;
-        $this->shippingProducts    = $shippingProducts;
 
         parent::__construct(
             $scopeConfig,
@@ -151,7 +144,7 @@ class Paket extends AbstractCarrierOnline implements CarrierInterface
             $logger,
             $xmlSecurity,
             $xmlElFactory,
-            $rateResultFactory,
+            $rateFactory,
             $rateMethodFactory,
             $trackFactory,
             $trackErrorFactory,
@@ -166,93 +159,97 @@ class Paket extends AbstractCarrierOnline implements CarrierInterface
     }
 
     /**
-     * @inheritDoc
-     */
-    public function collectRates(RateRequest $request)
-    {
-        $storeId = $this->getStore();
-
-        if (!$this->moduleConfig->isEnabled($storeId)) {
-            return false;
-        }
-
-        $emulatedCarrier = $this->moduleConfig->getEmulatedCarrier($storeId);
-        $result          = $this->_rateFactory->create();
-
-        /** @var Result $rateResult */
-        $rateResult = $this->rateRequestService->emulateRateRequest($emulatedCarrier, $request);
-        if ($rateResult instanceof Result) {
-            $rates = $rateResult->getAllRates();
-            $rates = array_map(
-                function (Method $rate) use ($storeId) {
-                    $rate->setCarrier($this->getCarrierCode());
-                    $rate->setCarrierTitle($this->moduleConfig->getTitle($storeId));
-
-                    return $rate;
-                },
-                $rates
-            );
-
-            foreach ($rates as $rate) {
-                $result->append($rate);
-            }
-        }
-
-        /** @var Method $rate */
-        foreach ($result->getAllRates() as $rate) {
-            // Check if cart price rule was applied
-            if ($request->getFreeShipping()) {
-                $rate->setPrice(0.0);
-            }
-        }
-
-        return $result;
-    }
-
-    /**
-     * @inheritDoc
+     * Check if the carrier can handle the given rate request.
+     *
+     * DHL Paket carrier only ships from DE or AT.
+     *
+     * @fixme(nr): ShippingProducts moved to carrier module.
+     * @param DataObject $request
+     * @return bool|DataObject|AbstractCarrierOnline
      */
     public function processAdditionalValidation(DataObject $request)
     {
-        $result        = parent::processAdditionalValidation($request);
         $originCountry = $this->shippingCoreConfig->getOriginCountry();
-
         if (!\array_key_exists($originCountry, ShippingProducts::ORIGIN_DEST_CODES)) {
             return false;
         }
 
-        return $result;
+        return parent::processAdditionalValidation($request);
     }
 
     /**
      * @inheritDoc
      */
+    public function collectRates(RateRequest $request)
+    {
+        $result = $this->_rateFactory->create();
+
+        $activeFlag = $this->getData('active_flag');
+        if ($activeFlag && !$this->getConfigFlag($activeFlag)) {
+            return $result;
+        }
+
+        $storeId = $this->getData('store');
+        $carrierCode = $this->moduleConfig->getProxyCarrierCode($storeId);
+
+        /** @var Result $rateResult */
+        $rateResult = $this->rateRequestService->emulateRateRequest($carrierCode, $request);
+        if (!$rateResult instanceof Result) {
+            return $result;
+        }
+
+        foreach ($rateResult->getAllRates() as $rate) {
+            $rate->setData('carrier', $this->getCarrierCode());
+            $rate->setData('carrier_title', $this->getConfigData('title'));
+
+            // Check if cart price rule was applied
+            if ($request->getFreeShipping()) {
+                $rate->setPrice(0.0);
+            }
+
+            $result->append($rate);
+        }
+
+        return $result;
+    }
+
+    /**
+     * Obtain shipping methods offered by the carrier.
+     *
+     * The DHL Paket carrier does not offer own methods. The call gets
+     * forwarded to another carrier as configured via module settings.
+     *
+     * @return string[] Associative array of method names with method code as key.
+     */
     public function getAllowedMethods(): array
     {
-        $storeId     = $this->getStore();
-        $carrierCode = $this->moduleConfig->getEmulatedCarrier($storeId);
-        $carrier     = $this->proxyCarrierFactory->create($carrierCode);
+        $storeId = $this->getData('store');
 
-        return \is_callable([$carrier, 'getAllowedMethods'])
-            ? $carrier->getAllowedMethods()
-            : [];
+        $carrierCode = $this->moduleConfig->getProxyCarrierCode($storeId);
+        $carrier = $this->proxyCarrierFactory->create($carrierCode);
+        if (!$carrier instanceof CarrierInterface) {
+            return [];
+        }
+
+        return $carrier->getAllowedMethods();
     }
 
     /**
      * Returns container types of carrier.
      *
-     * @param DataObject|null $params
+     * @fixme(nr): The DHL Paket carrier has no pre-defined containers. Package dimensions are optional. Remove this.
      *
+     * @param DataObject|null $params
      * @return string[]
      */
     public function getContainerTypes(DataObject $params = null): array
     {
-        $containerTypes   = parent::getContainerTypes($params);
-        $countryShipper   = null;
+        $containerTypes = parent::getContainerTypes($params);
+        $countryShipper = null;
         $countryRecipient = null;
 
         if ($params !== null) {
-            $countryShipper   = $params->getData('country_shipper');
+            $countryShipper = $params->getData('country_shipper');
             $countryRecipient = $params->getData('country_recipient');
         }
 
@@ -263,10 +260,12 @@ class Paket extends AbstractCarrierOnline implements CarrierInterface
     }
 
     /**
-     * Obtain the shipping products that match the given route. List might get
-     * lengthy, so we move the product that was configured as default to the top.
+     * Obtain the shipping products that match the given route.
      *
-     * @param string $countryShipper   The shipper country code
+     * List might get lengthy, so we move the product that was configured as default to the top.
+     *
+     * @fixme(nr): these are the actual shipping methods provided by DHL Paket. Only used for booking the label, not for quoting. Move out of carrier?
+     * @param string $countryShipper The shipper country code
      * @param string $countryRecipient The recipient country code
      *
      * @return string[]
@@ -294,39 +293,91 @@ class Paket extends AbstractCarrierOnline implements CarrierInterface
         return array_combine($codes, $names);
     }
 
-
     /**
-     * @inheritDoc
+     * Perform a shipment request to the DHL Paket web service.
+     *
+     * Return either tracking number and label data or a shipment error.
+     * Note that Magento triggers one web service request per package in multi-package shipments.
+     *
+     * @see \Magento\Shipping\Model\Carrier\AbstractCarrierOnline::requestToShipment
+     * @see \Magento\Shipping\Model\Carrier\AbstractCarrierOnline::returnOfShipment
+     *
+     * @param DataObject|\Magento\Shipping\Model\Shipment\Request $request
+     * @return \Magento\Framework\DataObject
      */
     protected function _doShipmentRequest(DataObject $request): DataObject
     {
-        if ($request instanceof Request) {
-            return $this->shipmentProvider->getShipmentLabel($request);
-        }
+        $api = $this->apiGatewayFactory->create([
+            'logger' => $this->_logger,
+            'storeId' => (int) $this->getConfigData('store'),
+        ]);
 
-        throw new InvalidArgumentException('Shipment returns are not supported');
+        $apiResult = $api->createShipments([$request]);
+
+        // one request, one response.
+        return $apiResult[0];
+
+        return $this->shipmentProvider->getShipmentLabel($request);
     }
 
     /**
-     * Check if carrier has shipping tracking option available
-     * All \Magento\Usa carriers have shipping tracking option available
+     * Delete requested shipments if the current shipment request is failed
+     *
+     * In case one request succeeded and another request failed, Magento will
+     * discard the successfully created label. That means, labels created through
+     * BCS API must be cancelled.
+     *
+     * @param string[][] $data Arrays of info data with tracking_number and label_content
+     * @return bool
+     */
+    public function rollBack($data)
+    {
+        $shipmentNumbers = array_map(function (array $info) {
+            return $info['tracking_number'];
+        }, $data);
+
+        $api = $this->apiGatewayFactory->create([
+            'logger' => $this->_logger,
+            'storeId' => (int) $this->getConfigData('store'),
+        ]);
+
+        $apiResult = $api->cancelShipments($shipmentNumbers);
+
+        // if the diff between request and result is empty, then all shipments were successfully cancelled.
+        $diff = array_diff($shipmentNumbers, $apiResult);
+
+        return (empty($diff) && parent::rollBack($data));
+    }
+
+    /**
+     * Check if carrier has shipping tracking option available.
      *
      * @return boolean
      */
     public function isTrackingAvailable(): bool
     {
-        return false;
+        return true;
     }
 
     /**
      * Returns tracking information.
      *
-     * @param string $tracking
-     *
-     * @return TrackingResult
+     * @see \Magento\Shipping\Model\Carrier\AbstractCarrierOnline::getTrackingInfo
+     * @param string $shipmentNumber
+     * @return \Magento\Shipping\Model\Tracking\Result
      */
-    public function getTracking(string $tracking): TrackingResult
+    public function getTracking(string $shipmentNumber): \Magento\Shipping\Model\Tracking\Result
     {
-        return $this->trackingProvider->getTrackingInfo($tracking);
+        $result = $this->_trackFactory->create();
+
+        $statusData = [
+            'tracking' => $shipmentNumber,
+            'carrier_title' => $this->moduleConfig->getTitle(),
+            'url' => sprintf(self::TRACKING_URL_TEMPLATE, $shipmentNumber),
+        ];
+        $status = $this->_trackStatusFactory->create(['data' => $statusData]);
+        $result->append($status);
+
+        return $result;
     }
 }

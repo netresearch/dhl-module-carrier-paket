@@ -12,6 +12,7 @@ use Magento\Framework\Option\ArrayInterface;
 /**
  * Class Procedure
  *
+ * @package Dhl\Paket\Model
  * @author  Rico Sonntag <rico.sonntag@netresearch.de>
  * @link    https://www.netresearch.de/
  */
@@ -41,6 +42,7 @@ class Procedure implements ArrayInterface
     /**
      * Get options in "key-value" format.
      *
+     * @fixme(nr): product definitions moved to carrier module
      * @return string[]
      */
     private function toArray(): array

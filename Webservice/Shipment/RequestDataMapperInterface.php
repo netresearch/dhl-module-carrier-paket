@@ -11,6 +11,8 @@ use Magento\Shipping\Model\Shipment\Request;
 /**
  * Request mapper.
  *
+ * @deprecated | convert shipment request to shipment order using an "extractor" in DHL shipping core.
+ *
  * @author  Rico Sonntag <rico.sonntag@netresearch.de>
  * @link    https://www.netresearch.de/
  */

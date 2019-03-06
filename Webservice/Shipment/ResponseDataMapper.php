@@ -12,6 +12,9 @@ use Magento\Framework\DataObjectFactory;
 use Magento\Shipping\Model\Shipping\LabelGenerator;
 
 /**
+ * @deprecated
+ * @see \Dhl\Paket\Model\Carrier\ApiGateway::createShipmentResponse
+ *
  * @inheritDoc
  */
 class ResponseDataMapper implements ResponseDataMapperInterface

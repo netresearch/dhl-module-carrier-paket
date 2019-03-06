@@ -7,6 +7,7 @@ declare(strict_types=1);
 namespace Dhl\Paket\Model\Config;
 
 use Magento\Framework\App\Config\ScopeConfigInterface;
+use Magento\Framework\Encryption\EncryptorInterface;
 use Magento\Shipping\Helper\Carrier;
 use Magento\Store\Model\ScopeInterface;
 
@@ -14,44 +15,38 @@ use Magento\Store\Model\ScopeInterface;
  * Class ModuleConfig
  *
  * @package Dhl\Paket\Model
- * @link      http://www.netresearch.de/
+ * @author  Rico Sonntag <rico.sonntag@netresearch.de>
+ * @link    https://www.netresearch.de/
  */
 class ModuleConfig
 {
-    const CONFIG_ROOT = 'carriers/dhlpaket/';
-
     // Defaults
-    const CONFIG_XML_PATH_ENABLED = self::CONFIG_ROOT . 'active';
-    const CONFIG_XML_PATH_SHIP_TO_SPECIFIC_COUNTRIES = self::CONFIG_ROOT . 'sallowspecific';
-    const CONFIG_XML_PATH_SPECIFIC_COUNTRIES = self::CONFIG_ROOT . 'specificcountry';
-    const CONFIG_XML_PATH_SHOW_IF_NOT_APPLICABLE = self::CONFIG_ROOT . 'showmethod';
-    const CONFIG_XML_PATH_ERROR_MESSAGE = self::CONFIG_ROOT . 'specificerrmsg';
-    const CONFIG_XML_PATH_TITLE = self::CONFIG_ROOT . 'title';
-    const CONFIG_XML_PATH_SORT_ORDER = self::CONFIG_ROOT . 'sort_order';
+    const CONFIG_PATH_ENABLED = 'carriers/dhlpaket/active';
+    const CONFIG_PATH_TITLE = 'carriers/dhlpaket/title';
 
     // 100_general_settings.xml
-    const CONFIG_XML_PATH_ENABLE_LOGGING = self::CONFIG_ROOT . 'general_shipping_settings/logging';
-    const CONFIG_XML_PATH_LOGLEVEL = self::CONFIG_ROOT . 'general_shipping_settings/loglevel';
+    const CONFIG_PATH_ENABLE_LOGGING = 'carriers/dhlpaket/general_shipping_settings/logging';
+    const CONFIG_PATH_LOGLEVEL = 'carriers/dhlpaket/general_shipping_settings/loglevel';
 
     // 200_dhl_paket_account.xml
-    const CONFIG_XML_PATH_AUTH_USERNAME = self::CONFIG_ROOT . 'account_settings/auth_username';
-    const CONFIG_XML_PATH_AUTH_PASSWORD = self::CONFIG_ROOT . 'account_settings/auth_password';
-    const CONFIG_XML_PATH_SANDBOX_MODE = self::CONFIG_ROOT . 'account_settings/sandboxmode';
+    const CONFIG_PATH_AUTH_USERNAME = 'carriers/dhlpaket/account_settings/auth_username';
+    const CONFIG_PATH_AUTH_PASSWORD = 'carriers/dhlpaket/account_settings/auth_password';
+    const CONFIG_PATH_SANDBOX_MODE = 'carriers/dhlpaket/account_settings/sandboxmode';
 
-    const CONFIG_XML_PATH_API_USERNAME = self::CONFIG_ROOT . 'account_settings/api_username';
-    const CONFIG_XML_PATH_API_PASSWORD = self::CONFIG_ROOT . 'account_settings/api_password';
-    const CONFIG_XML_PATH_API_ACCOUNT_NUMBER = self::CONFIG_ROOT . 'account_settings/account_number';
-    const CONFIG_XML_PATH_API_ACCOUNT_PARTICIPATIONS = self::CONFIG_ROOT . 'account_settings/account_participations';
+    const CONFIG_PATH_USER = 'carriers/dhlpaket/account_settings/api_username';
+    const CONFIG_PATH_SIGNATURE = 'carriers/dhlpaket/account_settings/api_password';
+    const CONFIG_PATH_EKP = 'carriers/dhlpaket/account_settings/account_number';
+    const CONFIG_PATH_PARTICIPATIONS = 'carriers/dhlpaket/account_settings/account_participations';
 
-    const CONFIG_XML_PATH_API_SANDBOX_AUTH_USERNAME = self::CONFIG_ROOT . 'account_settings/sandbox_auth_username';
-    const CONFIG_XML_PATH_API_SANDBOX_AUTH_PASSWORD = self::CONFIG_ROOT . 'account_settings/sandbox_auth_password';
-    const CONFIG_XML_PATH_API_SANDBOX_USERNAME = self::CONFIG_ROOT . 'account_settings/sandbox_username';
-    const CONFIG_XML_PATH_API_SANDBOX_PASSWORD = self::CONFIG_ROOT . 'account_settings/sandbox_password';
-    const CONFIG_XML_PATH_API_SANDBOX_ACCOUNT_NUMBER = self::CONFIG_ROOT . 'account_settings/sandbox_account_number';
-    const CONFIG_XML_PATH_API_SANDBOX_ACCOUNT_PARTICIPATIONS = self::CONFIG_ROOT . 'account_settings/sandbox_account_participations';
+    const CONFIG_PATH_SANDBOX_AUTH_USERNAME = 'carriers/dhlpaket/account_settings/sandbox_auth_username';
+    const CONFIG_PATH_SANDBOX_AUTH_PASSWORD = 'carriers/dhlpaket/account_settings/sandbox_auth_password';
+    const CONFIG_PATH_SANDBOX_USER = 'carriers/dhlpaket/account_settings/sandbox_username';
+    const CONFIG_PATH_SANDBOX_SIGNATURE = 'carriers/dhlpaket/account_settings/sandbox_password';
+    const CONFIG_PATH_SANDBOX_EKP = 'carriers/dhlpaket/account_settings/sandbox_account_number';
+    const CONFIG_PATH_SANDBOX_PARTICIPATIONS = 'carriers/dhlpaket/account_settings/sandbox_account_participations';
 
     // 400_checkout_presentation.xml
-    const CONFIG_XML_PATH_EMULATED_CARRIER = self::CONFIG_ROOT . 'dhl_paket_checkout_settings/emulated_carrier';
+    const CONFIG_PATH_PROXY_CARRIER = 'carriers/dhlpaket/dhl_paket_checkout_settings/emulated_carrier';
 
     // 500_additional_services.xml
     const CONFIG_XML_PATH_PRINT_ONLY_IF_CODEABLE = self::CONFIG_ROOT . 'dhl_paket_additional_services/print_only_if_codeable';
@@ -62,42 +57,34 @@ class ModuleConfig
     private $scopeConfig;
 
     /**
+     * @var EncryptorInterface
+     */
+    private $encryptor;
+
+    /**
      * ModuleConfig constructor.
      *
      * @param ScopeConfigInterface $scopeConfig
+     * @param EncryptorInterface $encryptor
      */
-    public function __construct(ScopeConfigInterface $scopeConfig)
-    {
+    public function __construct(
+        ScopeConfigInterface $scopeConfig,
+        EncryptorInterface $encryptor
+    ) {
         $this->scopeConfig = $scopeConfig;
+        $this->encryptor = $encryptor;
     }
 
     /**
-     * Check whether the module is enabled or not.
+     * Check whether the module is enabled for checkout or not.
      *
-     * @param string|null $store
-     *
+     * @param mixed|null $store
      * @return bool
      */
     public function isEnabled($store = null): bool
     {
         return (bool) $this->scopeConfig->getValue(
-            self::CONFIG_XML_PATH_ENABLED,
-            ScopeInterface::SCOPE_STORE,
-            $store
-        );
-    }
-
-    /**
-     * Get the sort order.
-     *
-     * @param string|null $store
-     *
-     * @return int
-     */
-    public function getSortOrder($store = null): int
-    {
-        return (int) $this->scopeConfig->getValue(
-            self::CONFIG_XML_PATH_SORT_ORDER,
+            self::CONFIG_PATH_ENABLED,
             ScopeInterface::SCOPE_STORE,
             $store
         );
@@ -106,80 +93,28 @@ class ModuleConfig
     /**
      * Get the title.
      *
-     * @param string|null $store
-     *
+     * @param mixed|null $store
      * @return string
      */
     public function getTitle($store = null): string
     {
         return (string) $this->scopeConfig->getValue(
-            self::CONFIG_XML_PATH_TITLE,
+            self::CONFIG_PATH_TITLE,
             ScopeInterface::SCOPE_STORE,
             $store
         );
     }
 
     /**
-     * Get the emulated carrier.
+     * Get the code of the carrier to forward rate requests to.
      *
-     * @param string|null $store
-     *
+     * @param mixed|null $store
      * @return string
      */
-    public function getEmulatedCarrier($store = null): string
+    public function getProxyCarrierCode($store = null): string
     {
         return (string) $this->scopeConfig->getValue(
-            self::CONFIG_XML_PATH_EMULATED_CARRIER,
-            ScopeInterface::SCOPE_STORE,
-            $store
-        );
-    }
-
-    /**
-     * Check if shipping only to specific countries.
-     *
-     * @param string|null $store
-     *
-     * @return bool
-     */
-    public function shipToSpecificCountries($store = null): bool
-    {
-        return (bool) $this->scopeConfig->getValue(
-            self::CONFIG_XML_PATH_SHIP_TO_SPECIFIC_COUNTRIES,
-            ScopeInterface::SCOPE_STORE,
-            $store
-        );
-    }
-
-    /**
-     * Get the specific countries that the carrier can ship to.
-     *
-     * @param string|null $store
-     *
-     * @return string[]
-     */
-    public function getSpecificCountries($store = null): array
-    {
-        $countries = $this->scopeConfig->getValue(
-            self::CONFIG_XML_PATH_SPECIFIC_COUNTRIES,
-            ScopeInterface::SCOPE_STORE,
-            $store
-        );
-
-        return explode(',', $countries);
-    }
-
-    /**
-     * Get the error message to show in checkout if there are no rates available.
-     *
-     * @param string|null $store
-     *
-     * @return string
-     */
-    public function getNotApplicableErrorMessage($store = null): string
-    {
-        return (string) $this->scopeConfig->getValue(
-            self::CONFIG_XML_PATH_ERROR_MESSAGE,
+            self::CONFIG_PATH_PROXY_CARRIER,
             ScopeInterface::SCOPE_STORE,
             $store
         );
@@ -188,14 +123,13 @@ class ModuleConfig
     /**
      * Get the logging status.
      *
-     * @param string|null $store
-     *
+     * @param mixed|null $store
      * @return bool
      */
     public function isLoggingEnabled($store = null): bool
     {
         return (bool) $this->scopeConfig->getValue(
-            self::CONFIG_XML_PATH_ENABLE_LOGGING,
+            self::CONFIG_PATH_ENABLE_LOGGING,
             ScopeInterface::SCOPE_STORE,
             $store
         );
@@ -204,24 +138,37 @@ class ModuleConfig
     /**
      * Get the log level.
      *
-     * @param string|null $store
-     *
+     * @param mixed|null $store
      * @return int
      */
     public function getLogLevel($store = null): int
     {
         return (int) $this->scopeConfig->getValue(
-            self::CONFIG_XML_PATH_LOGLEVEL,
+            self::CONFIG_PATH_LOGLEVEL,
             ScopeInterface::SCOPE_STORE,
             $store
         );
     }
 
     /**
-     * Get the authentication username.
+     * Returns true if sandbox mode is enabled.
      *
-     * @param string|null $store
+     * @param mixed|null $store
+     * @return bool
+     */
+    public function isSandboxMode($store = null): bool
+    {
+        return (bool) $this->scopeConfig->getValue(
+            self::CONFIG_PATH_SANDBOX_MODE,
+            ScopeInterface::SCOPE_STORE,
+            $store
+        );
+    }
+
+    /**
+     * Get the HTTP basic authentication username (CIG application authentication).
      *
+     * @param mixed|null $store
      * @return string
      */
     public function getAuthUsername($store = null): string
@@ -231,17 +178,16 @@ class ModuleConfig
         }
 
         return (string) $this->scopeConfig->getValue(
-            self::CONFIG_XML_PATH_AUTH_USERNAME,
+            self::CONFIG_PATH_AUTH_USERNAME,
             ScopeInterface::SCOPE_STORE,
             $store
         );
     }
 
     /**
-     * Get the authentication password.
+     * Get the HTTP basic authentication password (CIG application authentication).
      *
-     * @param string|null $store
-     *
+     * @param mixed|null $store
      * @return string
      */
     public function getAuthPassword($store = null): string
@@ -250,104 +196,88 @@ class ModuleConfig
             return $this->getSandboxAuthPassword($store);
         }
 
-        return (string) $this->scopeConfig->getValue(
-            self::CONFIG_XML_PATH_AUTH_PASSWORD,
-            ScopeInterface::SCOPE_STORE,
-            $store
+        return (string) $this->encryptor->decrypt(
+            $this->scopeConfig->getValue(
+                self::CONFIG_PATH_AUTH_PASSWORD,
+                ScopeInterface::SCOPE_STORE,
+                $store
+            )
         );
     }
 
     /**
-     * Returns true if sandbox mode is enabled.
+     * Get the user's name (API user credentials).
      *
-     * @param string|null $store
-     *
-     * @return bool
-     */
-    public function isSandboxMode($store = null): bool
-    {
-        return (bool) $this->scopeConfig->getValue(
-            self::CONFIG_XML_PATH_SANDBOX_MODE,
-            ScopeInterface::SCOPE_STORE,
-            $store
-        );
-    }
-
-    /**
-     * Get the API username.
-     *
-     * @param string|null $store
-     *
+     * @param mixed|null $store
      * @return string
      */
-    public function getApiUsername($store = null): string
+    public function getUser($store = null): string
     {
         if ($this->isSandboxMode($store)) {
-            return $this->getSandboxUsername($store);
+            return $this->getSandboxUser($store);
         }
 
         return (string) $this->scopeConfig->getValue(
-            self::CONFIG_XML_PATH_API_USERNAME,
+            self::CONFIG_PATH_USER,
             ScopeInterface::SCOPE_STORE,
             $store
         );
     }
 
     /**
-     * Get the API password.
+     * Get the user's password (API user credentials).
      *
-     * @param string|null $store
-     *
+     * @param mixed|null $store
      * @return string
      */
-    public function getApiPassword($store = null): string
+    public function getSignature($store = null): string
     {
         if ($this->isSandboxMode($store)) {
-            return $this->getSandboxPassword($store);
+            return $this->getSandboxSignature($store);
         }
 
-        return (string)$this->scopeConfig->getValue(
-            self::CONFIG_XML_PATH_API_PASSWORD,
-            ScopeInterface::SCOPE_STORE,
-            $store
+        return (string) $this->encryptor->decrypt(
+            $this->scopeConfig->getValue(
+                self::CONFIG_PATH_SIGNATURE,
+                ScopeInterface::SCOPE_STORE,
+                $store
+            )
         );
     }
 
     /**
-     * Get the account number.
+     * Get the user's EKP (standardised customer and product number).
      *
-     * @param string|null $store
-     *
+     * @param mixed|null $store
      * @return string
      */
-    public function getAccountNumber($store = null): string
+    public function getEkp($store = null): string
     {
         if ($this->isSandboxMode($store)) {
-            return $this->getSandboxAccountNumber($store);
+            return $this->getSandboxEkp($store);
         }
 
         return (string) $this->scopeConfig->getValue(
-            self::CONFIG_XML_PATH_API_ACCOUNT_NUMBER,
+            self::CONFIG_PATH_EKP,
             ScopeInterface::SCOPE_STORE,
             $store
         );
     }
 
     /**
-     * Returns the participation numbers.
+     * Get the user's participation numbers (partner IDs).
      *
-     * @param string|null $store
-     *
+     * @param mixed|null $store
      * @return string[]
      */
-    public function getAccountParticipations($store = null): array
+    public function getParticipations($store = null): array
     {
         if ($this->isSandboxMode($store)) {
-            return $this->getSandboxAccountParticipations($store);
+            return $this->getSandboxParticipations($store);
         }
 
         $participations = $this->scopeConfig->getValue(
-            self::CONFIG_XML_PATH_API_ACCOUNT_PARTICIPATIONS,
+            self::CONFIG_PATH_PARTICIPATIONS,
             ScopeInterface::SCOPE_STORE,
             $store
         );
@@ -356,109 +286,102 @@ class ModuleConfig
     }
 
     /**
-     * Returns the participation number for a given procedure.
+     * Get the user's participation number for a given procedure.
      *
      * @param string $procedure
-     * @param string|null $store
-     *
+     * @param mixed|null $store
      * @return string
      */
-    public function getAccountParticipation(string $procedure, $store = null): string
+    public function getParticipation(string $procedure, $store = null): string
     {
-        return $this->getAccountParticipations($store)[$procedure] ?? '';
+        return $this->getParticipations($store)[$procedure] ?? '';
     }
 
     /**
-     * Returns the AUTH username in sandbox mode.
+     * Get the HTTP basic sandbox authentication username (CIG application authentication).
      *
-     * @param string|null $store
-     *
+     * @param mixed|null $store
      * @return string
      */
     private function getSandboxAuthUsername($store = null): string
     {
         return (string) $this->scopeConfig->getValue(
-            self::CONFIG_XML_PATH_API_SANDBOX_AUTH_USERNAME,
+            self::CONFIG_PATH_SANDBOX_AUTH_USERNAME,
             ScopeInterface::SCOPE_STORE,
             $store
         );
     }
 
     /**
-     * Returns the AUTH password in sandbox mode.
+     * Get the HTTP basic sandbox authentication password (CIG application authentication).
      *
-     * @param string|null $store
-     *
+     * @param mixed|null $store
      * @return string
      */
     private function getSandboxAuthPassword($store = null): string
     {
         return (string) $this->scopeConfig->getValue(
-            self::CONFIG_XML_PATH_API_SANDBOX_AUTH_PASSWORD,
+            self::CONFIG_PATH_SANDBOX_AUTH_PASSWORD,
             ScopeInterface::SCOPE_STORE,
             $store
         );
     }
 
     /**
-     * Returns the API username in sandbox mode.
+     * Get the user's name (API user sandbox credentials).
      *
-     * @param string|null $store
-     *
+     * @param mixed|null $store
      * @return string
      */
-    private function getSandboxUsername($store = null): string
+    private function getSandboxUser($store = null): string
     {
         return (string) $this->scopeConfig->getValue(
-            self::CONFIG_XML_PATH_API_SANDBOX_USERNAME,
+            self::CONFIG_PATH_SANDBOX_USER,
             ScopeInterface::SCOPE_STORE,
             $store
         );
     }
 
     /**
-     * Returns the API password in sandbox mode.
+     * Get the user's password (API user sandbox credentials).
      *
-     * @param string|null $store
-     *
+     * @param mixed|null $store
      * @return string
      */
-    private function getSandboxPassword($store = null): string
+    private function getSandboxSignature($store = null): string
     {
         return (string) $this->scopeConfig->getValue(
-            self::CONFIG_XML_PATH_API_SANDBOX_PASSWORD,
+            self::CONFIG_PATH_SANDBOX_SIGNATURE,
             ScopeInterface::SCOPE_STORE,
             $store
         );
     }
 
     /**
-     * Returns the API account number in sandbox mode.
+     * Get the user's sandbox EKP (standardised customer and product number).
      *
-     * @param string|null $store
-     *
+     * @param mixed|null $store
      * @return string
      */
-    private function getSandboxAccountNumber($store = null): string
+    private function getSandboxEkp($store = null): string
     {
         return (string) $this->scopeConfig->getValue(
-            self::CONFIG_XML_PATH_API_SANDBOX_ACCOUNT_NUMBER,
+            self::CONFIG_PATH_SANDBOX_EKP,
             ScopeInterface::SCOPE_STORE,
             $store
         );
     }
 
     /**
-     * Returns the participation numbers.
+     * Get the user's sandbox participation numbers (partner IDs).
      *
-     * @param string|null $store
-     *
+     * @param mixed|null $store
      * @return string[]
      */
-    private function getSandboxAccountParticipations($store = null): array
+    private function getSandboxParticipations($store = null): array
     {
         $participations = $this->scopeConfig->getValue(
-            self::CONFIG_XML_PATH_API_SANDBOX_ACCOUNT_PARTICIPATIONS,
+            self::CONFIG_PATH_SANDBOX_PARTICIPATIONS,
             ScopeInterface::SCOPE_STORE,
             $store
         );
@@ -485,9 +408,8 @@ class ModuleConfig
     /**
      * Returns the EU countries list.
      *
-     * @param mixed $store
-     *
-     * @return array
+     * @param mixed|null $store
+     * @return string[]
      */
     public function getEuCountryList($store = null): array
     {

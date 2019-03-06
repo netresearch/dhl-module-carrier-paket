@@ -16,30 +16,28 @@ use Magento\Framework\Stdlib\DateTime\TimezoneInterface;
 use Magento\Shipping\Model\Shipment\Request;
 
 /**
+ * Convert shipment request to shipment order.
+ *
+ * @deprecated | convert shipment request to shipment order using an "extractor" in DHL shipping core.
+ *
  * @inheritDoc
  */
 class RequestDataMapper implements RequestDataMapperInterface
 {
     /**
-     * The shipment request builder.
-     *
      * @var ShipmentOrderRequestBuilderInterface
      */
     private $requestBuilder;
 
     /**
-     * The module configuration.
-     *
-     * @var ModuleConfig
-     */
-    private $moduleConfig;
-
-    /**
-     * The shipping configuration.
-     *
      * @var CoreConfigInterface
      */
     private $shippingConfig;
+
+    /**
+     * @var ModuleConfig
+     */
+    private $moduleConfig;
 
     /**
      * @var StreetSplitterInterface
@@ -64,8 +62,8 @@ class RequestDataMapper implements RequestDataMapperInterface
     /**
      * RequestDataMapper constructor.
      * @param ShipmentOrderRequestBuilderInterface $requestBuilder
-     * @param ModuleConfig $moduleConfig
      * @param CoreConfigInterface $shippingConfig
+     * @param ModuleConfig $moduleConfig
      * @param StreetSplitterInterface $streetSplitter
      * @param TimezoneInterface $timezone
      * @param ShippingProductsInterface $shippingProducts
@@ -73,20 +71,20 @@ class RequestDataMapper implements RequestDataMapperInterface
      */
     public function __construct(
         ShipmentOrderRequestBuilderInterface $requestBuilder,
-        ModuleConfig $moduleConfig,
         CoreConfigInterface $shippingConfig,
+        ModuleConfig $moduleConfig,
         StreetSplitterInterface $streetSplitter,
         TimezoneInterface $timezone,
         ShippingProductsInterface $shippingProducts,
         UnitConverterInterface $unitConverter
     ) {
-        $this->requestBuilder   = $requestBuilder;
-        $this->moduleConfig     = $moduleConfig;
-        $this->shippingConfig   = $shippingConfig;
-        $this->streetSplitter   = $streetSplitter;
-        $this->timezone         = $timezone;
+        $this->requestBuilder = $requestBuilder;
+        $this->shippingConfig = $shippingConfig;
+        $this->moduleConfig = $moduleConfig;
+        $this->streetSplitter = $streetSplitter;
+        $this->timezone = $timezone;
         $this->shippingProducts = $shippingProducts;
-        $this->unitConverter    = $unitConverter;
+        $this->unitConverter = $unitConverter;
     }
 
     /**
@@ -95,7 +93,7 @@ class RequestDataMapper implements RequestDataMapperInterface
     public function mapRequest(Request $request)
     {
         // Split address into street name and street number as required by the webservice
-        $shipperAddress  = $this->streetSplitter->splitStreet($request->getShipperAddressStreet());
+        $shipperAddress = $this->streetSplitter->splitStreet($request->getShipperAddressStreet());
         $receiverAddress = $this->streetSplitter->splitStreet($request->getRecipientAddressStreet());
 
         $this->requestBuilder->setShipperAccount($this->getBillingNumber($request));
@@ -113,7 +111,7 @@ class RequestDataMapper implements RequestDataMapperInterface
         $this->requestBuilder->setRecipientAddress(
             $request->getRecipientContactPersonName(),
             $request->getRecipientAddressCountryCode(),
-            (string) $request->getRecipientAddressPostalCode(),
+            (string)$request->getRecipientAddressPostalCode(),
             $request->getRecipientAddressCity(),
             $receiverAddress['street_name'],
             $receiverAddress['street_number']
@@ -131,18 +129,19 @@ class RequestDataMapper implements RequestDataMapperInterface
 
         $weight = (float) $request->getPackageParams()->getWeight();
         $weightUom = $request->getPackageParams()->getWeightUnits();
-        $this->requestBuilder->setPackageDetails($this->getWeightInKilograms($weight, $weightUom));
+        $weightInKg = $this->unitConverter->convertWeight($weight, $weightUom, \Zend_Measure_Weight::KILOGRAM);
 
-        $dimensionUnits = $request->getPackageParams()->getDimensionUnits();
-        $width = (float)$request->getPackageParams()->getWidth();
-        $length = (float)$request->getPackageParams()->getLength();
-        $height = (float)$request->getPackageParams()->getHeight();
+        $this->requestBuilder->setPackageDetails($weightInKg);
 
-        $this->requestBuilder->setPackageDimensions(
-            $this->getDimensionInCentimeter($width, $dimensionUnits),
-            $this->getDimensionInCentimeter($length, $dimensionUnits),
-            $this->getDimensionInCentimeter($height, $dimensionUnits)
-        );
+        $dimensionsUom = $request->getPackageParams()->getDimensionUnits();
+        $width = (float) $request->getPackageParams()->getWidth();
+        $length = (float) $request->getPackageParams()->getLength();
+        $height = (float) $request->getPackageParams()->getHeight();
+        $widthInCm = $this->unitConverter->convertDimension($width, $dimensionsUom, \Zend_Measure_Length::CENTIMETER);
+        $lengthInCm = $this->unitConverter->convertDimension($length, $dimensionsUom, \Zend_Measure_Length::CENTIMETER);
+        $heightInCm = $this->unitConverter->convertDimension($height, $dimensionsUom, \Zend_Measure_Length::CENTIMETER);
+
+        $this->requestBuilder->setPackageDimensions((int) $widthInCm, (int) $lengthInCm, (int) $heightInCm);
 
         if ($this->moduleConfig->printOnlyIfCodeable($storeId)) {
             $this->requestBuilder->setPrintOnlyIfCodeable();
@@ -166,7 +165,7 @@ class RequestDataMapper implements RequestDataMapperInterface
      */
     private function getProductCode(Request $request): string
     {
-        return  $request->getData('packaging_type');
+        return $request->getData('packaging_type');
     }
 
     /**
@@ -178,16 +177,18 @@ class RequestDataMapper implements RequestDataMapperInterface
      */
     private function getBillingNumber(Request $request): string
     {
-        $storeId        = $request->getOrderShipment()->getStoreId();
-        $productCode    = $this->getProductCode($request);
-        $ekp            = $this->moduleConfig->getAccountNumber($storeId);
-        $participations = $this->moduleConfig->getAccountParticipations($storeId);
+        $storeId = $request->getOrderShipment()->getStoreId();
+        $productCode = $this->getProductCode($request);
+        $ekp = $this->moduleConfig->getEkp($storeId);
+        $participations = $this->moduleConfig->getParticipations($storeId);
 
         return $this->shippingProducts->getBillingNumber($productCode, $ekp, $participations);
     }
 
     /**
      * Returns the shipment date.
+     *
+     * fixme(nr): "tomorrow" is not the correct shipment date
      *
      * @return string
      */
@@ -197,43 +198,5 @@ class RequestDataMapper implements RequestDataMapperInterface
         $shipmentDate->modify('+1 day');
 
         return $shipmentDate->format('Y-m-d');
-    }
-
-    /**
-     * Convert weight to Kilograms.
-     *
-     * @param float $weightValue
-     * @param string $weightUom
-     * @return float
-     */
-    private function getWeightInKilograms(float $weightValue, string $weightUom): float
-    {
-        //@todo(nr) use other constant and move ayway from Zf1
-        $weightConverted = $this->unitConverter->convertWeight(
-            $weightValue,
-            $weightUom,
-            \Zend_Measure_Weight::KILOGRAM
-        );
-
-        return $weightConverted;
-    }
-
-    /**
-     * Convert dimension in centimeter.
-     *
-     * @param $dimensionValue
-     * @param $dimensionUnit
-     * @return int
-     */
-    private function getDimensionInCentimeter(float $dimensionValue, string $dimensionUnit): int
-    {
-        //@todo(nr) use other constant and move ayway from Zf1
-        $dimensionConverted = $this->unitConverter->convertDimension(
-            $dimensionValue,
-            $dimensionUnit,
-            \Zend_Measure_Length::CENTIMETER
-        );
-
-        return (int) $dimensionConverted;
     }
 }

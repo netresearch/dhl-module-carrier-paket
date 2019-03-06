@@ -12,6 +12,9 @@ use Magento\Shipping\Model\Shipment\Request;
 /**
  * The shipment adapter that can be used from outside of the "Webservice" namespace.
  *
+ * @deprecated
+ * @see \Dhl\Paket\Model\Carrier\ApiGateway
+ *
  * @author  Rico Sonntag <rico.sonntag@netresearch.de>
  * @link    https://www.netresearch.de/
  */

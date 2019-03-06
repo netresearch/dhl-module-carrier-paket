@@ -16,6 +16,9 @@ use Magento\Store\Api\Data\StoreInterface;
 /**
  * The shipment client that directly uses the SDK services/service factories.
  *
+ * @deprecated
+ * @see \Dhl\Paket\Model\Carrier\ApiGateway
+ *
  * @author  Rico Sonntag <rico.sonntag@netresearch.de>
  * @link    https://www.netresearch.de/
  */

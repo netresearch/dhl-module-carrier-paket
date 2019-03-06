@@ -5,8 +5,6 @@
  */
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
-    <preference for="Dhl\Paket\Model\Config\ModuleConfigInterface" type="Dhl\Paket\Model\Config\ModuleConfig"/>
-
     <!-- Shipment classes -->
     <preference for="Dhl\Paket\Webservice\ShipmentAdapterInterface" type="Dhl\Paket\Webservice\ShipmentAdapter"/>
     <preference for="Dhl\Paket\Webservice\ShipmentClientInterface" type="Dhl\Paket\Webservice\ShipmentClient"/>
@@ -37,8 +35,12 @@
     <virtualType name="Dhl\Paket\Model\Logger\Handler\Virtual" type="Dhl\ShippingCore\Model\Log\ApiLogHandler">
         <arguments>
             <argument name="fileName" xsi:type="string">var/log/dhl_paket.log</argument>
-            <argument name="logEnabledConfigPath" xsi:type="const">\Dhl\Paket\Model\Config\ModuleConfig::CONFIG_XML_PATH_ENABLE_LOGGING</argument>
-            <argument name="logLevelConfigPath" xsi:type="const">\Dhl\Paket\Model\Config\ModuleConfig::CONFIG_XML_PATH_LOGLEVEL</argument>
+            <argument name="logEnabledConfigPath" xsi:type="const">
+                \Dhl\Paket\Model\Config\ModuleConfig::CONFIG_PATH_ENABLE_LOGGING
+            </argument>
+            <argument name="logLevelConfigPath" xsi:type="const">
+                \Dhl\Paket\Model\Config\ModuleConfig::CONFIG_PATH_LOGLEVEL
+            </argument>
         </arguments>
     </virtualType>
 

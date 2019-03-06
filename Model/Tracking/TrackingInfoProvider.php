@@ -14,6 +14,8 @@ use Magento\Shipping\Model\Tracking\ResultFactory;
 /**
  * Class TrackingInfoProvider
  *
+ * @deprecated | moved to carrier model
+ *
  * @author  Rico Sonntag <rico.sonntag@netresearch.de>
  * @link    https://www.netresearch.de/
  */

@@ -14,6 +14,9 @@ use Magento\Shipping\Model\Shipment\Request;
 use Magento\Store\Model\StoreManagerInterface;
 
 /**
+ * @deprecated
+ * @see \Dhl\Paket\Model\Carrier\ApiGateway
+ *
  * @inheritDoc
  */
 class ShipmentAdapter implements ShipmentAdapterInterface
