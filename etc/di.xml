@@ -1,4 +1,9 @@
 <?xml version="1.0"?>
+<!--
+/**
+ * See LICENSE.md for license details.
+ */
+-->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
     <preference for="Dhl\Paket\Model\Config\ModuleConfigInterface" type="Dhl\Paket\Model\Config\ModuleConfig"/>
 
