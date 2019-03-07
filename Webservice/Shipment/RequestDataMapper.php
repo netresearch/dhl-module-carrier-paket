@@ -100,13 +100,6 @@ class RequestDataMapper implements RequestDataMapperInterface
             $receiverAddress['street_number']
         );
 
-//        $this->requestBuilder->setShipperBankData();
-//        $this->requestBuilder->setRecipientNotification();
-//        $this->requestBuilder->setReturnAddress();
-//        $this->requestBuilder->setInsuredValue();
-//        $this->requestBuilder->setCodAmount();
-//        $this->requestBuilder->setCustomsDetails();
-
         $orderShipment = $request->getOrderShipment();
         $order = $orderShipment->getOrder();
 
@@ -135,7 +128,7 @@ class RequestDataMapper implements RequestDataMapperInterface
      */
     private function getProductCode(Request $request): string
     {
-        return  'V01PAK'; //$request->getData('packaging_type');
+        return  $request->getData('packaging_type');
     }
 
     /**
@@ -148,7 +141,7 @@ class RequestDataMapper implements RequestDataMapperInterface
     private function getBillingNumber(Request $request): string
     {
         $storeId        = $request->getOrderShipment()->getStoreId();
-        $productCode    = 'V01PAK'; //$request->getData('packaging_type');
+        $productCode    = $this->getProductCode($request);
         $ekp            = $this->moduleConfig->getAccountNumber($storeId);
         $participations = $this->moduleConfig->getAccountParticipations($storeId);
 

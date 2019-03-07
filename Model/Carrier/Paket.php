@@ -8,6 +8,8 @@ namespace Dhl\Paket\Model\Carrier;
 
 use Dhl\Paket\Model\Config\ModuleConfig;
 use Dhl\Paket\Model\Shipment\ShipmentLabelProvider;
+use Dhl\Paket\Model\ShippingProducts\ShippingProducts;
+use Dhl\Paket\Model\ShippingProducts\ShippingProductsInterface;
 use Dhl\Paket\Model\Tracking\TrackingInfoProvider;
 use Dhl\ShippingCore\Api\RateRequestEmulationInterface;
 use Dhl\ShippingCore\Model\Config\CoreConfigInterface;
@@ -80,6 +82,11 @@ class Paket extends AbstractCarrierOnline implements CarrierInterface
     private $proxyCarrierFactory;
 
     /**
+     * @var ShippingProductsInterface
+     */
+    private $shippingProducts;
+
+    /**
      * Paket constructor.
      *
      * @param ScopeConfigInterface          $scopeConfig
@@ -127,6 +134,7 @@ class Paket extends AbstractCarrierOnline implements CarrierInterface
         ShipmentLabelProvider $shipmentProvider,
         TrackingInfoProvider $trackingInfoProvider,
         ProxyCarrierFactory $proxyCarrierFactory,
+        ShippingProductsInterface $shippingProducts,
         array $data = []
     ) {
         $this->rateRequestService  = $rateRequestEmulation;
@@ -135,6 +143,7 @@ class Paket extends AbstractCarrierOnline implements CarrierInterface
         $this->shipmentProvider    = $shipmentProvider;
         $this->trackingProvider    = $trackingInfoProvider;
         $this->proxyCarrierFactory = $proxyCarrierFactory;
+        $this->shippingProducts    = $shippingProducts;
 
         parent::__construct(
             $scopeConfig,
@@ -208,10 +217,9 @@ class Paket extends AbstractCarrierOnline implements CarrierInterface
         $result        = parent::processAdditionalValidation($request);
         $originCountry = $this->shippingCoreConfig->getOriginCountry();
 
-        //@todo(nr) is this still needed ?
-//        if (!\array_key_exists($originCountry, ShippingProducts::ORIGIN_DEST_CODES)) {
-//            return false;
-//        }
+        if (!\array_key_exists($originCountry, ShippingProducts::ORIGIN_DEST_CODES)) {
+            return false;
+        }
 
         return $result;
     }
@@ -229,6 +237,63 @@ class Paket extends AbstractCarrierOnline implements CarrierInterface
             ? $carrier->getAllowedMethods()
             : [];
     }
+
+    /**
+     * Returns container types of carrier.
+     *
+     * @param DataObject|null $params
+     *
+     * @return string[]
+     */
+    public function getContainerTypes(DataObject $params = null): array
+    {
+        $containerTypes   = parent::getContainerTypes($params);
+        $countryShipper   = null;
+        $countryRecipient = null;
+
+        if ($params !== null) {
+            $countryShipper   = $params->getData('country_shipper');
+            $countryRecipient = $params->getData('country_recipient');
+        }
+
+        return array_merge(
+            $containerTypes,
+            $this->getShippingProducts($countryShipper, $countryRecipient)
+        );
+    }
+
+    /**
+     * Obtain the shipping products that match the given route. List might get
+     * lengthy, so we move the product that was configured as default to the top.
+     *
+     * @param string $countryShipper   The shipper country code
+     * @param string $countryRecipient The recipient country code
+     *
+     * @return string[]
+     */
+    private function getShippingProducts(
+        string $countryShipper = null,
+        string $countryRecipient = null
+    ): array {
+        // Read available codes
+        if (!$countryShipper || !$countryRecipient) {
+            $codes = $this->shippingProducts->getAllCodes();
+        } else {
+            $euCountries = $this->moduleConfig->getEuCountryList();
+            $codes = $this->shippingProducts->getApplicableCodes($countryShipper, $countryRecipient, $euCountries);
+        }
+
+        // Obtain human readable names, combine to array
+        $names = array_map(
+            function (string $code) {
+                return $this->shippingProducts->getProductName($code);
+            },
+            $codes
+        );
+
+        return array_combine($codes, $names);
+    }
+
 
     /**
      * @inheritDoc
