@@ -11,7 +11,7 @@
         <attribute type="expanded">1</attribute>
 
         <field id="sandboxmode" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="30"
-               translate="tooltip label comment" type="Dhl\ShippingCore\Model\Data\Form\Element\Checkbox">
+               translate="tooltip label comment" type="Netresearch\ConfigFields\Model\Type\Checkbox">
             <label><![CDATA[Sandbox Mode]]></label>
             <button_label>Use sandbox mode.</button_label>
         </field>

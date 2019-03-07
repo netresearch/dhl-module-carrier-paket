@@ -10,7 +10,7 @@
         <attribute type="expanded">1</attribute>
 
         <field id="active" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="10"
-               translate="tooltip label comment" type="Dhl\ShippingCore\Model\Data\Form\Element\Checkbox">
+               translate="tooltip label comment" type="Netresearch\ConfigFields\Model\Type\Checkbox">
             <label><![CDATA[Enabled]]></label>
             <button_label><![CDATA[Display DHL Paket rates at checkout]]></button_label>
             <config_path>carriers/dhlpaket/active</config_path>
@@ -18,7 +18,7 @@
 
         <!-- Applicable Countries -->
         <field id="sallowspecific" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="20"
-               translate="tooltip label comment" type="Dhl\ShippingCore\Model\Data\Form\Element\Radioset">
+               translate="tooltip label comment" type="Netresearch\ConfigFields\Model\Type\Radioset">
             <label><![CDATA[Applicable Countries]]></label>
             <source_model>Dhl\ShippingCore\Model\Config\Source\CustomizeApplicableCountries</source_model>
             <config_path>carriers/dhlpaket/sallowspecific</config_path>
@@ -37,13 +37,13 @@
 
         <!-- Logging -->
         <field id="logging" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="40"
-               translate="tooltip label comment" type="Dhl\ShippingCore\Model\Data\Form\Element\Checkbox">
+               translate="tooltip label comment" type="Netresearch\ConfigFields\Model\Type\Checkbox">
             <label><![CDATA[Logging]]></label>
             <button_label>Record messages in Magento Global Logging</button_label>
             <comment><![CDATA[You must have Global Logging activated for this to record.]]></comment>
         </field>
         <field id="loglevel" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="50"
-               translate="tooltip label comment" type="Dhl\ShippingCore\Model\Data\Form\Element\Radioset">
+               translate="tooltip label comment" type="Netresearch\ConfigFields\Model\Type\Radioset">
             <label><![CDATA[Logging Level]]></label>
             <depends>
                 <field id="logging">1</field>
