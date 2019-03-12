@@ -68,7 +68,11 @@ class ArraySerialized extends Value implements ProcessorInterface
      */
     public function processValue($value)
     {
-        return json_decode($value, true);
+        if ($value) {
+            return json_decode($value, true);
+        }
+
+        return '';
     }
 
     /**
