@@ -1,0 +1,18 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * See LICENSE.md for license details.
+ */
+-->
+<include xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_include.xsd">
+    <group id="dhl_paket_additional_services" translate="label" sortOrder="500" showInDefault="1" showInWebsite="1" showInStore="1">
+        <label><![CDATA[Additional Shipping Services]]></label>
+        <attribute type="expanded">1</attribute>
+
+        <field id="print_only_if_codeable" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="10"
+               translate="tooltip label comment" type="Netresearch\ConfigFields\Model\Type\Checkbox">
+            <label><![CDATA[Use Print Only If Codeable Service]]></label>
+            <comment><![CDATA[If set to <em>Yes</em>, shipment orders will only return a label if the DHL delivery address verification succeeds.]]></comment>
+        </field>
+    </group>
+</include>

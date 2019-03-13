@@ -109,7 +109,8 @@ class RequestDataMapper implements RequestDataMapperInterface
         );
 
         $orderShipment = $request->getOrderShipment();
-        $order = $orderShipment->getOrder();
+        $order         = $orderShipment->getOrder();
+        $storeId       = $orderShipment->getStoreId();
 
         $this->requestBuilder->setShipmentDetails(
             $this->getProductCode($request),
@@ -131,6 +132,10 @@ class RequestDataMapper implements RequestDataMapperInterface
             $this->getDimensionInCentimeter($length, $dimensionUnits),
             $this->getDimensionInCentimeter($height, $dimensionUnits)
         );
+
+        if ($this->moduleConfig->printOnlyIfCodeable($storeId)) {
+            $this->requestBuilder->setPrintOnlyIfCodeable();
+        }
 
         return $this->requestBuilder->create();
     }

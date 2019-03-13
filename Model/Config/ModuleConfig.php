@@ -54,6 +54,9 @@ class ModuleConfig
     // 400_checkout_presentation.xml
     const CONFIG_XML_PATH_EMULATED_CARRIER = self::CONFIG_ROOT . 'dhl_paket_checkout_settings/emulated_carrier';
 
+    // 500_additional_services.xml
+    const CONFIG_XML_PATH_PRINT_ONLY_IF_CODEABLE = self::CONFIG_ROOT . 'dhl_paket_additional_services/print_only_if_codeable';
+
     /**
      * @var ScopeConfigInterface
      */
@@ -462,5 +465,39 @@ class ModuleConfig
         );
 
         return array_column($participations, 'participation', 'procedure');
+    }
+
+    /**
+     * Returns TRUE if the "print only if codeable" service should be used or not.
+     *
+     * @param string|null $store
+     *
+     * @return bool
+     */
+    public function printOnlyIfCodeable($store = null): bool
+    {
+        return (bool) $this->scopeConfig->getValue(
+            self::CONFIG_XML_PATH_PRINT_ONLY_IF_CODEABLE,
+            ScopeInterface::SCOPE_STORE,
+            $store
+        );
+    }
+
+    /**
+     * Returns the EU countries list.
+     *
+     * @param mixed $store
+     *
+     * @return array
+     */
+    public function getEuCountryList($store = null): array
+    {
+        $euCountries = $this->scopeConfig->getValue(
+            Carrier::XML_PATH_EU_COUNTRIES_LIST,
+            ScopeInterface::SCOPE_STORE,
+            $store
+        );
+
+        return explode(',', $euCountries);
     }
 }
