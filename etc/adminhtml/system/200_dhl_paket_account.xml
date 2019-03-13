@@ -5,19 +5,19 @@
  */
 -->
 <include xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_include.xsd">
-    <group id="account_settings" translate="label" sortOrder="200" showInDefault="1" showInWebsite="1" showInStore="1">
+    <group id="account_settings" translate="label comment" sortOrder="200" showInDefault="1" showInWebsite="1" showInStore="1">
         <label><![CDATA[DHL Paket Account]]></label>
         <comment>DHL contract customers receive the access data to the DHL Business Customer Portal via DHL Paket sales.</comment>
         <attribute type="expanded">1</attribute>
 
         <field id="sandboxmode" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="30"
-               translate="tooltip label comment" type="Netresearch\ConfigFields\Model\Type\Checkbox">
+               translate="label button_label" type="Netresearch\ConfigFields\Model\Type\Checkbox">
             <label><![CDATA[Sandbox Mode]]></label>
             <button_label>Use sandbox mode.</button_label>
         </field>
 
         <field id="api_username" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="40"
-               translate="tooltip label comment" type="text">
+               translate="label comment" type="text">
             <label><![CDATA[User]]></label>
             <comment>Please talk to your account representative to add API access to your business account</comment>
             <depends>
@@ -25,7 +25,7 @@
             </depends>
         </field>
         <field id="api_password" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="50"
-               translate="tooltip label comment" type="obscure">
+               translate="label" type="obscure">
             <label><![CDATA[Password (Signature)]]></label>
             <backend_model>Magento\Config\Model\Config\Backend\Encrypted</backend_model>
             <depends>
@@ -35,7 +35,7 @@
 
         <!-- EKP -->
         <field id="account_number" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="60"
-               translate="tooltip label comment" type="text">
+               translate="label" type="text">
             <label><![CDATA[DHL Customer Number (EKP)]]></label>
             <validate>validate-length maximum-length-10 minimum-length-10 validate-digits</validate>
             <depends>
@@ -45,7 +45,7 @@
 
         <!-- Participation numbers -->
         <field id="account_participations" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="70"
-               translate="tooltip label comment" type="select">
+               translate="label" type="select">
             <label>Participation Numbers</label>
             <frontend_model>Dhl\Paket\Block\Adminhtml\System\Config\Form\Field\Participation</frontend_model>
             <backend_model>Dhl\Paket\Model\Adminhtml\System\Config\Backend\ArraySerialized</backend_model>

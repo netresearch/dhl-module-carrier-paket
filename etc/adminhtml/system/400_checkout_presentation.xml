@@ -10,12 +10,12 @@
         <attribute type="expanded">1</attribute>
 
         <field id="title" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="10"
-               translate="tooltip label comment" type="text" canRestore="1">
+               translate="label" type="text" canRestore="1">
             <label><![CDATA[Display Title]]></label>
             <config_path>carriers/dhlpaket/title</config_path>
         </field>
         <field id="sort_order" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="20"
-               translate="tooltip label comment" type="text">
+               translate="tooltip label" type="text">
             <label><![CDATA[Sort Order]]></label>
             <frontend_class>validate-number</frontend_class>
             <tooltip><![CDATA[This field determines where DHL Paket will be displayed on the Checkout page. To display after Flat Rate or Free Shipping, enter a number just higher than the sort order value configured for those Shipping Methods.]]></tooltip>
@@ -33,13 +33,13 @@
 
         <!-- Not available message -->
         <field id="showmethod" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="40"
-               translate="tooltip label comment" type="Netresearch\ConfigFields\Model\Type\Radioset">
+               translate="label" type="Netresearch\ConfigFields\Model\Type\Radioset">
             <label><![CDATA[If No DHL Shipping Option Available]]></label>
             <source_model>Dhl\ShippingCore\Model\Config\Source\ShowIfNotApplicable</source_model>
             <config_path>carriers/dhlpaket/showmethod</config_path>
         </field>
         <field id="specificerrmsg" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="50"
-               translate="tooltip label comment" type="textarea" canRestore="1">
+               translate="label" type="textarea" canRestore="1">
             <label><![CDATA[Custom Message]]></label>
             <depends>
                 <field id="showmethod">1</field>
