@@ -9,6 +9,7 @@ namespace Dhl\Paket\Webservice\Shipment;
 use Dhl\Paket\Model\Config\ModuleConfig;
 use Dhl\Paket\Model\ShippingProducts\ShippingProductsInterface;
 use Dhl\Sdk\Paket\Bcs\Api\ShipmentOrderRequestBuilderInterface;
+use Dhl\ShippingCore\Model\Config\CoreConfigInterface;
 use Dhl\ShippingCore\Util\StreetSplitterInterface;
 use Dhl\ShippingCore\Util\UnitConverterInterface;
 use Magento\Framework\Stdlib\DateTime\TimezoneInterface;
@@ -34,6 +35,13 @@ class RequestDataMapper implements RequestDataMapperInterface
     private $moduleConfig;
 
     /**
+     * The shipping configuration.
+     *
+     * @var CoreConfigInterface
+     */
+    private $shippingConfig;
+
+    /**
      * @var StreetSplitterInterface
      */
     private $streetSplitter;
@@ -57,6 +65,7 @@ class RequestDataMapper implements RequestDataMapperInterface
      * RequestDataMapper constructor.
      * @param ShipmentOrderRequestBuilderInterface $requestBuilder
      * @param ModuleConfig $moduleConfig
+     * @param CoreConfigInterface $shippingConfig
      * @param StreetSplitterInterface $streetSplitter
      * @param TimezoneInterface $timezone
      * @param ShippingProductsInterface $shippingProducts
@@ -65,6 +74,7 @@ class RequestDataMapper implements RequestDataMapperInterface
     public function __construct(
         ShipmentOrderRequestBuilderInterface $requestBuilder,
         ModuleConfig $moduleConfig,
+        CoreConfigInterface $shippingConfig,
         StreetSplitterInterface $streetSplitter,
         TimezoneInterface $timezone,
         ShippingProductsInterface $shippingProducts,
@@ -72,6 +82,7 @@ class RequestDataMapper implements RequestDataMapperInterface
     ) {
         $this->requestBuilder   = $requestBuilder;
         $this->moduleConfig     = $moduleConfig;
+        $this->shippingConfig   = $shippingConfig;
         $this->streetSplitter   = $streetSplitter;
         $this->timezone         = $timezone;
         $this->shippingProducts = $shippingProducts;
@@ -135,6 +146,12 @@ class RequestDataMapper implements RequestDataMapperInterface
 
         if ($this->moduleConfig->printOnlyIfCodeable($storeId)) {
             $this->requestBuilder->setPrintOnlyIfCodeable();
+        }
+
+        // Add cash on delivery amount if COD payment method
+        $payment = $order->getPayment();
+        if ($this->shippingConfig->isCodPaymentMethod($payment->getMethod(), $storeId)) {
+            $this->requestBuilder->setCodAmount((float) $order->getBaseGrandTotal());
         }
 
         return $this->requestBuilder->create();
