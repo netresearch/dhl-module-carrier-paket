@@ -279,7 +279,7 @@ class Paket extends AbstractCarrierOnline implements CarrierInterface
         if (!$countryShipper || !$countryRecipient) {
             $codes = $this->shippingProducts->getAllCodes();
         } else {
-            $euCountries = $this->moduleConfig->getEuCountryList();
+            $euCountries = $this->shippingCoreConfig->getEuCountries();
             $codes = $this->shippingProducts->getApplicableCodes($countryShipper, $countryRecipient, $euCountries);
         }
 

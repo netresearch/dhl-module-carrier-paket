@@ -463,22 +463,4 @@ class ModuleConfig
 
         return array_column($participations, 'participation', 'procedure');
     }
-
-    /**
-     * Returns the EU countries list.
-     *
-     * @param mixed $store
-     *
-     * @return array
-     */
-    public function getEuCountryList($store = null): array
-    {
-        $euCountries = $this->scopeConfig->getValue(
-            Carrier::XML_PATH_EU_COUNTRIES_LIST,
-            ScopeInterface::SCOPE_STORE,
-            $store
-        );
-
-        return explode(',', $euCountries);
-    }
 }
