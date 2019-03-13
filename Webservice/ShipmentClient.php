@@ -7,8 +7,12 @@ declare(strict_types=1);
 namespace Dhl\Paket\Webservice;
 
 use Dhl\Paket\Model\Config\ModuleConfig;
+use Dhl\Sdk\Paket\Bcs\Api\Data\AuthenticationStorageInterface;
 use Dhl\Sdk\Paket\Bcs\Api\Data\AuthenticationStorageInterfaceFactory;
 use Dhl\Sdk\Paket\Bcs\Api\ServiceFactoryInterface;
+use Dhl\Sdk\Paket\Bcs\Model\CreateShipment\RequestType\ShipmentOrderType;
+use JsonSerializable;
+use Magento\Store\Api\Data\StoreInterface;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -59,24 +63,27 @@ class ShipmentClient implements ShipmentClientInterface
     /**
      * @inheritDoc
      */
-    public function performShipmentOrderRequest($request): array
-    {
-        //@todo(nr) use store id to get configs
+    public function performShipmentOrderRequest(
+        ShipmentOrderType $shipmentOrder,
+        StoreInterface $store
+    ): array {
+        $storeCode = $store->getCode();
+
         $authStorage = $this->authStorageFactory->create([
-            'applicationId' => $this->moduleConfig->getAuthUsername(),
-            'applicationToken' => $this->moduleConfig->getAuthPassword(),
-            'user' => $this->moduleConfig->getApiUsername(),
-            'signature' => $this->moduleConfig->getApiPassword(),
-            'ekp' => $this->moduleConfig->getAccountNumber()
+            'applicationId'    => $this->moduleConfig->getAuthUsername($storeCode),
+            'applicationToken' => $this->moduleConfig->getAuthPassword($storeCode),
+            'user'             => $this->moduleConfig->getApiUsername($storeCode),
+            'signature'        => $this->moduleConfig->getApiPassword($storeCode),
+            'ekp'              => $this->moduleConfig->getAccountNumber($storeCode)
         ]);
 
         // Create service instance
         $service = $this->serviceFactory->createShipmentService(
             $authStorage,
             $this->logger,
-            $this->moduleConfig->isSandboxMode()
+            $this->moduleConfig->isSandboxMode($storeCode)
         );
 
-        return $service->createShipments([$request]);
+        return $service->createShipments([ $shipmentOrder ]);
     }
 }

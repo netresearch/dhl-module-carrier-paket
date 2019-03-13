@@ -10,6 +10,8 @@ use Dhl\Sdk\Paket\Bcs\Api\Data\ShipmentInterface;
 use Dhl\Sdk\Paket\Bcs\Exception\AuthenticationException;
 use Dhl\Sdk\Paket\Bcs\Exception\ClientException;
 use Dhl\Sdk\Paket\Bcs\Exception\ServerException;
+use Dhl\Sdk\Paket\Bcs\Model\CreateShipment\RequestType\ShipmentOrderType;
+use Magento\Store\Api\Data\StoreInterface;
 
 /**
  * The shipment client that directly uses the SDK services/service factories.
@@ -23,7 +25,8 @@ interface ShipmentClientInterface
     /**
      * Performs the create shipment order request and returns the response.
      *
-     * @param object $request The shipment request
+     * @param ShipmentOrderType $shipmentOrder The shipment order request
+     * @param StoreInterface    $store
      *
      * @return ShipmentInterface[]
      *
@@ -31,5 +34,8 @@ interface ShipmentClientInterface
      * @throws ClientException
      * @throws ServerException
      */
-    public function performShipmentOrderRequest($request): array;
+    public function performShipmentOrderRequest(
+        ShipmentOrderType $shipmentOrder,
+        StoreInterface $store
+    ): array;
 }

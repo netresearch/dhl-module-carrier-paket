@@ -11,6 +11,7 @@ use Dhl\Paket\Webservice\Shipment\RequestDataMapper;
 use Dhl\Paket\Webservice\Shipment\ResponseDataMapper;
 use Magento\Framework\DataObject;
 use Magento\Shipping\Model\Shipment\Request;
+use Magento\Store\Model\StoreManagerInterface;
 
 /**
  * @inheritDoc
@@ -33,6 +34,11 @@ class ShipmentAdapter implements ShipmentAdapterInterface
     private $client;
 
     /**
+     * @var StoreManagerInterface
+     */
+    private $storeManager;
+
+    /**
      * @var ErrorHandler
      */
     private $errorHandler;
@@ -43,17 +49,20 @@ class ShipmentAdapter implements ShipmentAdapterInterface
      * @param RequestDataMapper $requestDataMapper
      * @param ResponseDataMapper $responseDataMapper
      * @param ShipmentClientInterface $client
+     * @param StoreManagerInterface $storeManager
      * @param ErrorHandler $errorHandler
      */
     public function __construct(
         RequestDataMapper $requestDataMapper,
         ResponseDataMapper $responseDataMapper,
         ShipmentClientInterface $client,
+        StoreManagerInterface $storeManager,
         ErrorHandler $errorHandler
     ) {
         $this->requestDataMapper  = $requestDataMapper;
         $this->responseDataMapper = $responseDataMapper;
         $this->client             = $client;
+        $this->storeManager       = $storeManager;
         $this->errorHandler       = $errorHandler;
     }
 
@@ -63,8 +72,9 @@ class ShipmentAdapter implements ShipmentAdapterInterface
     public function getShipmentLabel(Request $request): DataObject
     {
         try {
+            $store         = $this->storeManager->getStore($request->getStoreId());
             $mappedRequest = $this->requestDataMapper->mapRequest($request);
-            $response      = $this->client->performShipmentOrderRequest($mappedRequest);
+            $response      = $this->client->performShipmentOrderRequest($mappedRequest, $store);
             $result        = $this->responseDataMapper->mapResult($response);
         } catch (\Exception $ex) {
             //@todo(nr) implement proper exception handling
