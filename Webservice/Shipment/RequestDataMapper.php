@@ -7,11 +7,12 @@ declare(strict_types=1);
 namespace Dhl\Paket\Webservice\Shipment;
 
 use Dhl\Paket\Model\Config\ModuleConfig;
+use Dhl\Paket\Model\ShippingProducts\ShippingProductsInterface;
 use Dhl\Sdk\Paket\Bcs\Api\ShipmentOrderRequestBuilderInterface;
 use Dhl\ShippingCore\Util\StreetSplitterInterface;
+use Dhl\ShippingCore\Util\UnitConverterInterface;
 use Magento\Framework\Stdlib\DateTime\TimezoneInterface;
 use Magento\Shipping\Model\Shipment\Request;
-use Dhl\Paket\Model\ShippingProducts\ShippingProductsInterface;
 
 /**
  * @inheritDoc
@@ -48,26 +49,33 @@ class RequestDataMapper implements RequestDataMapperInterface
     private $shippingProducts;
 
     /**
-     * Constructor.
-     *
+     * @var UnitConverterInterface
+     */
+    private $unitConverter;
+
+    /**
+     * RequestDataMapper constructor.
      * @param ShipmentOrderRequestBuilderInterface $requestBuilder
-     * @param ModuleConfig           $moduleConfig
-     * @param StreetSplitterInterface         $streetSplitter
-     * @param TimezoneInterface               $timezone
-     * @param ShippingProductsInterface       $shippingProducts
+     * @param ModuleConfig $moduleConfig
+     * @param StreetSplitterInterface $streetSplitter
+     * @param TimezoneInterface $timezone
+     * @param ShippingProductsInterface $shippingProducts
+     * @param UnitConverterInterface $unitConverter
      */
     public function __construct(
         ShipmentOrderRequestBuilderInterface $requestBuilder,
         ModuleConfig $moduleConfig,
         StreetSplitterInterface $streetSplitter,
         TimezoneInterface $timezone,
-        ShippingProductsInterface $shippingProducts
+        ShippingProductsInterface $shippingProducts,
+        UnitConverterInterface $unitConverter
     ) {
         $this->requestBuilder   = $requestBuilder;
         $this->moduleConfig     = $moduleConfig;
         $this->streetSplitter   = $streetSplitter;
         $this->timezone         = $timezone;
         $this->shippingProducts = $shippingProducts;
+        $this->unitConverter    = $unitConverter;
     }
 
     /**
@@ -108,12 +116,20 @@ class RequestDataMapper implements RequestDataMapperInterface
             $this->getShipmentDate(),
             $order->getIncrementId()
         );
-        $this->requestBuilder->setPackageDetails((float) $request->getPackageParams()->getWeight());
+
+        $weight = (float) $request->getPackageParams()->getWeight();
+        $weightUom = $request->getPackageParams()->getWeightUnits();
+        $this->requestBuilder->setPackageDetails($this->getWeightInKilograms($weight, $weightUom));
+
+        $dimensionUnits = $request->getPackageParams()->getDimensionUnits();
+        $width = (float)$request->getPackageParams()->getWidth();
+        $length = (float)$request->getPackageParams()->getLength();
+        $height = (float)$request->getPackageParams()->getHeight();
 
         $this->requestBuilder->setPackageDimensions(
-            (int) $request->getPackageParams()->getWidth(),
-            (int) $request->getPackageParams()->getLength(),
-            (int) $request->getPackageParams()->getHeight()
+            $this->getDimensionInCentimeter($width, $dimensionUnits),
+            $this->getDimensionInCentimeter($length, $dimensionUnits),
+            $this->getDimensionInCentimeter($height, $dimensionUnits)
         );
 
         return $this->requestBuilder->create();
@@ -159,5 +175,43 @@ class RequestDataMapper implements RequestDataMapperInterface
         $shipmentDate->modify('+1 day');
 
         return $shipmentDate->format('Y-m-d');
+    }
+
+    /**
+     * Convert weight to Kilograms.
+     *
+     * @param float $weightValue
+     * @param string $weightUom
+     * @return float
+     */
+    private function getWeightInKilograms(float $weightValue, string $weightUom): float
+    {
+        //@todo(nr) use other constant and move ayway from Zf1
+        $weightConverted = $this->unitConverter->convertWeight(
+            $weightValue,
+            $weightUom,
+            \Zend_Measure_Weight::KILOGRAM
+        );
+
+        return $weightConverted;
+    }
+
+    /**
+     * Convert dimension in centimeter.
+     *
+     * @param $dimensionValue
+     * @param $dimensionUnit
+     * @return int
+     */
+    private function getDimensionInCentimeter(float $dimensionValue, string $dimensionUnit): int
+    {
+        //@todo(nr) use other constant and move ayway from Zf1
+        $dimensionConverted = $this->unitConverter->convertDimension(
+            $dimensionValue,
+            $dimensionUnit,
+            \Zend_Measure_Length::CENTIMETER
+        );
+
+        return (int) $dimensionConverted;
     }
 }
