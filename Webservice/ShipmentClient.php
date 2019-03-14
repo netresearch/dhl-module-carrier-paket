@@ -7,11 +7,9 @@ declare(strict_types=1);
 namespace Dhl\Paket\Webservice;
 
 use Dhl\Paket\Model\Config\ModuleConfig;
-use Dhl\Sdk\Paket\Bcs\Api\Data\AuthenticationStorageInterface;
 use Dhl\Sdk\Paket\Bcs\Api\Data\AuthenticationStorageInterfaceFactory;
 use Dhl\Sdk\Paket\Bcs\Api\ServiceFactoryInterface;
 use Dhl\Sdk\Paket\Bcs\Model\CreateShipment\RequestType\ShipmentOrderType;
-use JsonSerializable;
 use Magento\Store\Api\Data\StoreInterface;
 use Psr\Log\LoggerInterface;
 
