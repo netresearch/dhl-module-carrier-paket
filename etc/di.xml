@@ -6,30 +6,13 @@
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
     <!-- Shipment classes -->
-    <preference for="Dhl\Paket\Webservice\ShipmentAdapterInterface" type="Dhl\Paket\Webservice\ShipmentAdapter"/>
-    <preference for="Dhl\Paket\Webservice\ShipmentClientInterface" type="Dhl\Paket\Webservice\ShipmentClient"/>
     <preference for="Dhl\Paket\Webservice\Shipment\RequestDataMapperInterface" type="Dhl\Paket\Webservice\Shipment\RequestDataMapper"/>
-    <preference for="Dhl\Paket\Webservice\Shipment\ResponseDataMapperInterface" type="Dhl\Paket\Webservice\Shipment\ResponseDataMapper"/>
-
     <preference for="Dhl\Paket\Model\ShippingProducts\ShippingProductsInterface" type="Dhl\Paket\Model\ShippingProducts\ShippingProducts"/>
 
     <!-- SDK preferences -->
     <preference for="Dhl\Sdk\Paket\Bcs\Api\ShipmentOrderRequestBuilderInterface" type="Dhl\Sdk\Paket\Bcs\RequestBuilder\ShipmentOrderRequestBuilder"/>
     <preference for="Dhl\Sdk\Paket\Bcs\Api\ServiceFactoryInterface" type="Dhl\Sdk\Paket\Bcs\Service\ServiceFactory"/>
     <preference for="Dhl\Sdk\Paket\Bcs\Api\Data\AuthenticationStorageInterface" type="Dhl\Sdk\Paket\Bcs\Auth\AuthenticationStorage" />
-
-    <!-- Argument overrides -->
-    <type name="\Dhl\Paket\Model\Carrier\Paket">
-        <arguments>
-            <argument name="shipmentProvider" xsi:type="object">Dhl\Paket\Model\Shipment\ShipmentLabelProvider\Proxy</argument>
-        </arguments>
-    </type>
-
-    <type name="Dhl\Paket\Webservice\ShipmentClient">
-        <arguments>
-            <argument name="logger" xsi:type="object">Dhl\Paket\Model\Logger\Virtual</argument>
-        </arguments>
-    </type>
 
     <!-- virtual types -->
     <virtualType name="Dhl\Paket\Model\Logger\Handler\Virtual" type="Dhl\ShippingCore\Model\Log\ApiLogHandler">
@@ -51,4 +34,11 @@
             </argument>
         </arguments>
     </virtualType>
+
+    <!-- Argument overrides -->
+    <type name="Dhl\Paket\Model\Carrier\Paket">
+        <arguments>
+            <argument name="logger" xsi:type="object">Dhl\Paket\Model\Logger\Virtual</argument>
+        </arguments>
+    </type>
 </config>

@@ -8,10 +8,16 @@ namespace Dhl\Paket\Model\Carrier;
 
 use Dhl\Paket\Model\Config\ModuleConfig;
 use Dhl\Paket\Webservice\Shipment\RequestDataMapper;
+use Dhl\Sdk\Paket\Bcs\Api\Data\AuthenticationStorageInterfaceFactory;
+use Dhl\Sdk\Paket\Bcs\Api\Data\ShipmentInterface;
+use Dhl\Sdk\Paket\Bcs\Api\ServiceFactoryInterface;
+use Dhl\Sdk\Paket\Bcs\Api\ShipmentServiceInterface;
+use Dhl\Sdk\Paket\Bcs\Exception\ServiceException;
 use Magento\Framework\DataObject;
 use Magento\Framework\DataObjectFactory;
 use Magento\Shipping\Model\Shipment\Request;
 use Magento\Shipping\Model\Shipment\ReturnShipment;
+use Magento\Shipping\Model\Shipping\LabelGenerator;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -26,6 +32,11 @@ use Psr\Log\LoggerInterface;
 class ApiGateway
 {
     /**
+     * @var AuthenticationStorageInterfaceFactory
+     */
+    private $authStorageFactory;
+
+    /**
      * @var ModuleConfig
      */
     private $moduleConfig;
@@ -34,6 +45,16 @@ class ApiGateway
      * @var RequestDataMapper
      */
     private $requestDataMapper;
+
+    /**
+     * @var ServiceFactoryInterface
+     */
+    private $serviceFactory;
+
+    /**
+     * @var LabelGenerator
+     */
+    private $labelGenerator;
 
     /**
      * @var DataObjectFactory
@@ -52,22 +73,31 @@ class ApiGateway
 
     /**
      * ApiGateway constructor.
-     * @param ModuleConfig $moduleConfig
-     * @param RequestDataMapper $requestDataMapper
      * @param DataObjectFactory $dataObjectFactory
+     * @param ModuleConfig $moduleConfig
+     * @param AuthenticationStorageInterfaceFactory $authStorageFactory
+     * @param RequestDataMapper $requestDataMapper
+     * @param ServiceFactoryInterface $serviceFactory
+     * @param LabelGenerator $labelGenerator
      * @param LoggerInterface $logger
      * @param int $storeId
      */
     public function __construct(
-        ModuleConfig $moduleConfig,
-        RequestDataMapper $requestDataMapper,
         DataObjectFactory $dataObjectFactory,
+        ModuleConfig $moduleConfig,
+        AuthenticationStorageInterfaceFactory $authStorageFactory,
+        RequestDataMapper $requestDataMapper,
+        ServiceFactoryInterface $serviceFactory,
+        LabelGenerator $labelGenerator,
         LoggerInterface $logger,
         int $storeId = 0
     ) {
-        $this->moduleConfig = $moduleConfig;
-        $this->requestDataMapper = $requestDataMapper;
         $this->dataObjectFactory = $dataObjectFactory;
+        $this->moduleConfig = $moduleConfig;
+        $this->authStorageFactory = $authStorageFactory;
+        $this->requestDataMapper = $requestDataMapper;
+        $this->serviceFactory = $serviceFactory;
+        $this->labelGenerator = $labelGenerator;
         $this->logger = $logger;
         $this->storeId = $storeId;
     }
@@ -75,18 +105,18 @@ class ApiGateway
     /**
      * Create the SDK service.
      *
-     * @return \Dhl\Sdk\Paket\Bcs\Service\ShipmentService
+     * @return ShipmentServiceInterface
      */
-    private function getShipmentService(): \Dhl\Sdk\Paket\Bcs\Service\ShipmentService
+    private function getShipmentService(): ShipmentServiceInterface
     {
-        $authStorage = new \Dhl\Sdk\Paket\Bcs\Auth\AuthenticationStorage(
-            $this->moduleConfig->getAuthUsername($this->storeId),
-            $this->moduleConfig->getAuthPassword($this->storeId),
-            $this->moduleConfig->getUser($this->storeId),
-            $this->moduleConfig->getSignature($this->storeId)
-        );
-        $serviceFactory = new \Dhl\Sdk\Paket\Bcs\Service\ServiceFactory();
-        $service = $serviceFactory->createShipmentService(
+        $authStorage = $this->authStorageFactory->create([
+            'applicationId' => $this->moduleConfig->getAuthUsername($this->storeId),
+            'applicationToken' => $this->moduleConfig->getAuthPassword($this->storeId),
+            'user' => $this->moduleConfig->getUser($this->storeId),
+            'signature' => $this->moduleConfig->getSignature($this->storeId)
+        ]);
+
+        $service = $this->serviceFactory->createShipmentService(
             $authStorage,
             $this->logger,
             $this->moduleConfig->isSandboxMode($this->storeId)
@@ -111,15 +141,37 @@ class ApiGateway
     /**
      * Map created shipments into data objects.
      *
-     * @param \Dhl\Sdk\Paket\Bcs\Api\Data\ShipmentInterface[] $shipments
+     * @param ShipmentInterface[] $shipments
      * @return DataObject[]
      */
     private function createShipmentResponse(array $shipments): array
     {
-        $response = array_map(function (\Dhl\Sdk\Paket\Bcs\Api\Data\ShipmentInterface $shipment) {
+        $response = array_map(function (ShipmentInterface $shipment) {
+            // todo(nr): move label combination to shipping core?
+            // convert b64 into binary strings
+            foreach ($shipment->getLabels() as $b64LabelData) {
+                if (empty($b64LabelData)) {
+                    continue;
+                }
+
+                $labelsContent[]= base64_decode($b64LabelData);
+            }
+
+            // merge labels if necessary
+            if (empty($labelsContent)) {
+                // no label returned
+                $shippingLabelContent = '';
+            } elseif (count($labelsContent) < 2) {
+                // exactly one label returned, use it as-is
+                $shippingLabelContent = $labelsContent[0];
+            } else {
+                // multiple labels returned, merge into one pdf file
+                $shippingLabelContent = $this->labelGenerator->combineLabelsPdf($labelsContent)->render();
+            }
+
             $responseData = [
                 'tracking_number' => $shipment->getShipmentNumber(),
-                'shipping_label_content' => $shipment->getLabels(),
+                'shipping_label_content' => $shippingLabelContent,
             ];
 
             return $this->dataObjectFactory->create(['data' => $responseData]);
@@ -162,7 +214,7 @@ class ApiGateway
             $response = $this->createShipmentResponse($shipments);
 
             return $response;
-        } catch (\Dhl\Sdk\Paket\Bcs\Exception\ServiceException $exception) {
+        } catch (ServiceException $exception) {
             $message = __('Requested shipments could not be created: %s', $exception->getMessage());
             $response = $this->createErrorResponse([$message]);
 
@@ -182,7 +234,7 @@ class ApiGateway
         try {
             $cancelled = $service->cancelShipments($shipmentNumbers);
             return $cancelled;
-        } catch (\Dhl\Sdk\Paket\Bcs\Exception\ServiceException $exception) {
+        } catch (ServiceException $exception) {
             return [];
         }
     }

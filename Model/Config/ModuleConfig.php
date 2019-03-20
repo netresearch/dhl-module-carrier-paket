@@ -49,7 +49,7 @@ class ModuleConfig
     const CONFIG_PATH_PROXY_CARRIER = 'carriers/dhlpaket/dhl_paket_checkout_settings/emulated_carrier';
 
     // 500_additional_services.xml
-    const CONFIG_XML_PATH_PRINT_ONLY_IF_CODEABLE = self::CONFIG_ROOT . 'dhl_paket_additional_services/print_only_if_codeable';
+    const CONFIG_PATH_PRINT_ONLY_IF_CODEABLE = 'carriers/dhlpaket/dhl_paket_additional_services/print_only_if_codeable';
 
     /**
      * @var ScopeConfigInterface
@@ -399,7 +399,7 @@ class ModuleConfig
     public function printOnlyIfCodeable($store = null): bool
     {
         return (bool) $this->scopeConfig->getValue(
-            self::CONFIG_XML_PATH_PRINT_ONLY_IF_CODEABLE,
+            self::CONFIG_PATH_PRINT_ONLY_IF_CODEABLE,
             ScopeInterface::SCOPE_STORE,
             $store
         );

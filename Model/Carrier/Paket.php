@@ -6,7 +6,6 @@ declare(strict_types=1);
 
 namespace Dhl\Paket\Model\Carrier;
 
-use Dhl\Sdk\Bcs\Model\ShippingProducts;
 use Magento\Framework\DataObject;
 use Magento\Quote\Model\Quote\Address\RateRequest;
 use Magento\Shipping\Model\Carrier\AbstractCarrierOnline;
@@ -53,17 +52,7 @@ class Paket extends AbstractCarrierOnline implements CarrierInterface
     private $shippingCoreConfig;
 
     /**
-     * @var \Dhl\Paket\Model\Shipment\ShipmentLabelProvider
-     */
-    private $shipmentProvider;
-
-    /**
-     * @var \Dhl\Paket\Model\Tracking\TrackingInfoProvider
-     */
-    private $trackingProvider;
-
-    /**
-     * @var \Dhl\Sdk\Bcs\Api\ShippingProductsInterface
+     * @var \Dhl\Paket\Model\ShippingProducts\ShippingProductsInterface
      */
     private $shippingProducts;
 
@@ -95,11 +84,9 @@ class Paket extends AbstractCarrierOnline implements CarrierInterface
      * @param \Dhl\Paket\Model\Carrier\ApiGatewayFactory $apiGatewayFactory
      * @param \Dhl\Paket\Model\Config\ModuleConfig $moduleConfig
      * @param \Dhl\ShippingCore\Model\Config\CoreConfigInterface $shippingCoreConfig
-     * @param \Dhl\Paket\Model\Shipment\ShipmentLabelProvider $shipmentProvider
-     * @param \Dhl\Paket\Model\Tracking\TrackingInfoProvider $trackingProvider
-     * @param \Dhl\Sdk\Bcs\Api\ShippingProductsInterface $shippingProducts
+     * @param \Dhl\Paket\Model\ShippingProducts\ShippingProductsInterface $shippingProducts
      * @param \Dhl\ShippingCore\Model\Emulation\ProxyCarrierFactory $proxyCarrierFactory
-     * @param array $data
+     * @param mixed[] $data
      */
     public function __construct(
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
@@ -122,9 +109,7 @@ class Paket extends AbstractCarrierOnline implements CarrierInterface
         \Dhl\Paket\Model\Carrier\ApiGatewayFactory $apiGatewayFactory,
         \Dhl\Paket\Model\Config\ModuleConfig $moduleConfig,
         \Dhl\ShippingCore\Model\Config\CoreConfigInterface $shippingCoreConfig,
-        \Dhl\Paket\Model\Shipment\ShipmentLabelProvider $shipmentProvider,
-        \Dhl\Paket\Model\Tracking\TrackingInfoProvider $trackingProvider,
-        \Dhl\Sdk\Bcs\Api\ShippingProductsInterface $shippingProducts,
+        \Dhl\Paket\Model\ShippingProducts\ShippingProductsInterface $shippingProducts,
         \Dhl\ShippingCore\Model\Emulation\ProxyCarrierFactory $proxyCarrierFactory,
         array $data = []
     ) {
@@ -133,8 +118,6 @@ class Paket extends AbstractCarrierOnline implements CarrierInterface
         $this->apiGatewayFactory = $apiGatewayFactory;
         $this->moduleConfig = $moduleConfig;
         $this->shippingCoreConfig = $shippingCoreConfig;
-        $this->shipmentProvider = $shipmentProvider;
-        $this->trackingProvider = $trackingProvider;
         $this->shippingProducts = $shippingProducts;
         $this->proxyCarrierFactory = $proxyCarrierFactory;
 
@@ -163,14 +146,14 @@ class Paket extends AbstractCarrierOnline implements CarrierInterface
      *
      * DHL Paket carrier only ships from DE or AT.
      *
-     * @fixme(nr): ShippingProducts moved to carrier module.
      * @param DataObject $request
      * @return bool|DataObject|AbstractCarrierOnline
      */
     public function processAdditionalValidation(DataObject $request)
     {
         $originCountry = $this->shippingCoreConfig->getOriginCountry();
-        if (!\array_key_exists($originCountry, ShippingProducts::ORIGIN_DEST_CODES)) {
+        $destCodes = \Dhl\Paket\Model\ShippingProducts\ShippingProductsInterface::ORIGIN_DEST_CODES;
+        if (!\array_key_exists($originCountry, $destCodes)) {
             return false;
         }
 
@@ -237,7 +220,7 @@ class Paket extends AbstractCarrierOnline implements CarrierInterface
     /**
      * Returns container types of carrier.
      *
-     * @fixme(nr): The DHL Paket carrier has no pre-defined containers. Package dimensions are optional. Remove this.
+     * @fixme(nr): DHL Paket carrier has no pre-defined containers. Package dimensions are optional. Support DHLGW-86?
      *
      * @param DataObject|null $params
      * @return string[]
@@ -264,7 +247,7 @@ class Paket extends AbstractCarrierOnline implements CarrierInterface
      *
      * List might get lengthy, so we move the product that was configured as default to the top.
      *
-     * @fixme(nr): these are the actual shipping methods provided by DHL Paket. Only used for booking the label, not for quoting. Move out of carrier?
+     * @fixme(nr): Move somewhere else, only needed for product selection in packaging popup.
      * @param string $countryShipper The shipper country code
      * @param string $countryRecipient The recipient country code
      *
@@ -309,15 +292,13 @@ class Paket extends AbstractCarrierOnline implements CarrierInterface
     {
         $api = $this->apiGatewayFactory->create([
             'logger' => $this->_logger,
-            'storeId' => (int) $this->getConfigData('store'),
+            'storeId' => (int) $this->getData('store'),
         ]);
 
         $apiResult = $api->createShipments([$request]);
 
         // one request, one response.
         return $apiResult[0];
-
-        return $this->shipmentProvider->getShipmentLabel($request);
     }
 
     /**
@@ -338,7 +319,7 @@ class Paket extends AbstractCarrierOnline implements CarrierInterface
 
         $api = $this->apiGatewayFactory->create([
             'logger' => $this->_logger,
-            'storeId' => (int) $this->getConfigData('store'),
+            'storeId' => (int) $this->getData('store'),
         ]);
 
         $apiResult = $api->cancelShipments($shipmentNumbers);
