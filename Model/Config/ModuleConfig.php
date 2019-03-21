@@ -14,7 +14,6 @@ use Magento\Store\Model\ScopeInterface;
  * Class ModuleConfig
  *
  * @package Dhl\Paket\Model
- * @copyright 2018 Netresearch DTT GmbH
  * @link      http://www.netresearch.de/
  */
 class ModuleConfig

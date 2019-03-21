@@ -16,7 +16,6 @@ use Magento\Framework\Setup\UninstallInterface;
  *
  * @package Dhl\Paket\Setup
  * @author  Sebastian Ertner <sebastian.ertner@netresearch.de>
- * @copyright 2019 Netresearch DTT GmbH
  * @link http://www.netresearch.de/
  */
 class Uninstall implements UninstallInterface

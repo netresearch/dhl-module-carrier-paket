@@ -17,7 +17,6 @@ use Magento\TestFramework\Helper\Bootstrap;
  *
  * @package Dhl\Bcs\Test\Integration\Provider
  * @author    Max Melzer <max.melzer@netresearch.de>
- * @copyright 2019 Netresearch DTT GmbH
  * @link      http://www.netresearch.de/
  */
 class MagentoShipmentRequestProvider

@@ -13,7 +13,6 @@ use Magento\Framework\Option\ArrayInterface;
  * Class LogLevel
  *
  * @author    Ronny Gertler <ronny.gertler@netresearch.de>
- * @copyright 2018 Netresearch GmbH & Co. KG
  * @link      http://www.netresearch.de/
  */
 class LogLevel implements ArrayInterface

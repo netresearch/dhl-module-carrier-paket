@@ -15,7 +15,6 @@ use PHPUnit\Framework\TestCase;
  * Class RatesTest
  *
  * @package Dhl\Paket\Test
- * @copyright 2018 Netresearch DTT GmbH
  * @link      http://www.netresearch.de/
  */
 class RatesTest extends TestCase

@@ -10,7 +10,6 @@ namespace Dhl\Paket\Model\ShippingProducts;
  * Shipment products.
  *
  * @author  Rico Sonntag <rico.sonntag@netresearch.de>
- * @license https://choosealicense.com/licenses/mit/ The MIT License
  * @link    https://www.netresearch.de/
  */
 class ShippingProducts implements ShippingProductsInterface
