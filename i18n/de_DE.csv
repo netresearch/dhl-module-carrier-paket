@@ -41,3 +41,6 @@
 "The rates will get used even if the selected shipping method is disabled. The available method names will also be those of the selected shipping method.","Die Tarife werden auch verwendet, wenn die ausgewählte Versandmethode deaktiviert ist. Die verfügbaren Methodennamen sind auch die der ausgewählten Versandmethode."
 "If No DHL Shipping Option Available","Wenn keine DHL-Versandoption verfügbar ist"
 "Custom Message","Benutzerdefinierte Nachricht"
+"Additional Shipping Services","Zusätzliche Versandservices"
+"Use Print Only If Codeable Service","Nur leitkodierbare Versandaufträge erteilen"
+"If set to <em>Yes</em>, shipment orders will only return a label if the DHL delivery address verification succeeds.","Wählen Sie <em>Ja</em>, werden nur Paketaufkleber im Versandauftrag erstellt, wenn die DHL Versandadressen-Überprüfung erfolgreich war."

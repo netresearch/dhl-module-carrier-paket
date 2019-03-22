@@ -41,3 +41,6 @@
 "The rates will get used even if the selected shipping method is disabled. The available method names will also be those of the selected shipping method.","The rates will get used even if the selected shipping method is disabled. The available method names will also be those of the selected shipping method."
 "If No DHL Shipping Option Available","If No DHL Shipping Option Available"
 "Custom Message","Custom Message"
+"Additional Shipping Services","Additional Shipping Services"
+"Use Print Only If Codeable Service","Use Print Only If Codeable Service"
+"If set to <em>Yes</em>, shipment orders will only return a label if the DHL delivery address verification succeeds.", "If set to <em>Yes</em>, shipment orders will only return a label if the DHL delivery address verification succeeds."
