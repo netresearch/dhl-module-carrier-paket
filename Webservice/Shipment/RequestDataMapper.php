@@ -6,13 +6,11 @@ declare(strict_types=1);
 
 namespace Dhl\Paket\Webservice\Shipment;
 
-use Dhl\Paket\Model\Config\ModuleConfig;
-use Dhl\Paket\Model\ShippingProducts\ShippingProductsInterface;
+use Dhl\Paket\Model\ShipmentRequest\RequestExtractor;
+use Dhl\Paket\Model\ShipmentRequest\RequestExtractorFactory;
 use Dhl\Sdk\Paket\Bcs\Api\ShipmentOrderRequestBuilderInterface;
-use Dhl\ShippingCore\Model\Config\CoreConfigInterface;
-use Dhl\ShippingCore\Util\StreetSplitterInterface;
 use Dhl\ShippingCore\Util\UnitConverterInterface;
-use Magento\Framework\Stdlib\DateTime\TimezoneInterface;
+use Magento\Framework\Exception\LocalizedException;
 use Magento\Shipping\Model\Shipment\Request;
 
 /**
@@ -24,34 +22,18 @@ use Magento\Shipping\Model\Shipment\Request;
 class RequestDataMapper
 {
     /**
+     * Utility for extracting data from shipment request.
+     *
+     * @var RequestExtractor
+     */
+    private $requestExtractorFactory;
+
+    /**
+     * The shipment request builder.
+     *
      * @var ShipmentOrderRequestBuilderInterface
      */
     private $requestBuilder;
-
-    /**
-     * @var CoreConfigInterface
-     */
-    private $shippingConfig;
-
-    /**
-     * @var ModuleConfig
-     */
-    private $moduleConfig;
-
-    /**
-     * @var StreetSplitterInterface
-     */
-    private $streetSplitter;
-
-    /**
-     * @var TimezoneInterface
-     */
-    private $timezone;
-
-    /**
-     * @var ShippingProductsInterface
-     */
-    private $shippingProducts;
 
     /**
      * @var UnitConverterInterface
@@ -61,141 +43,96 @@ class RequestDataMapper
     /**
      * RequestDataMapper constructor.
      * @param ShipmentOrderRequestBuilderInterface $requestBuilder
-     * @param CoreConfigInterface $shippingConfig
-     * @param ModuleConfig $moduleConfig
-     * @param StreetSplitterInterface $streetSplitter
-     * @param TimezoneInterface $timezone
-     * @param ShippingProductsInterface $shippingProducts
+     * @param RequestExtractorFactory $requestExtractorFactory
      * @param UnitConverterInterface $unitConverter
      */
     public function __construct(
         ShipmentOrderRequestBuilderInterface $requestBuilder,
-        CoreConfigInterface $shippingConfig,
-        ModuleConfig $moduleConfig,
-        StreetSplitterInterface $streetSplitter,
-        TimezoneInterface $timezone,
-        ShippingProductsInterface $shippingProducts,
+        RequestExtractorFactory $requestExtractorFactory,
         UnitConverterInterface $unitConverter
     ) {
         $this->requestBuilder = $requestBuilder;
-        $this->shippingConfig = $shippingConfig;
-        $this->moduleConfig = $moduleConfig;
-        $this->streetSplitter = $streetSplitter;
-        $this->timezone = $timezone;
-        $this->shippingProducts = $shippingProducts;
+        $this->requestExtractorFactory = $requestExtractorFactory;
         $this->unitConverter = $unitConverter;
     }
 
     /**
      * @inheritDoc
+     *
+     * @throws LocalizedException
+     * @throws \ReflectionException
      */
     public function mapRequest(Request $request)
     {
-        // Split address into street name and street number as required by the webservice
-        $shipperAddress = $this->streetSplitter->splitStreet($request->getShipperAddressStreet());
-        $receiverAddress = $this->streetSplitter->splitStreet($request->getRecipientAddressStreet());
+        $requestExtractor = $this->requestExtractorFactory->create([
+            'shipmentRequest' => $request,
+        ]);
 
-        $this->requestBuilder->setShipperAccount($this->getBillingNumber($request));
+        $this->requestBuilder->setShipperAccount($requestExtractor->getBillingNumber());
 
+        //todo(nr): add "address addition" from split street
         $this->requestBuilder->setShipperAddress(
-            $request->getShipperContactCompanyName(),
-            $request->getShipperAddressCountryCode(),
-            $request->getShipperAddressPostalCode(),
-            $request->getShipperAddressCity(),
-            $shipperAddress['street_name'],
-            $shipperAddress['street_number'],
-            $request->getShipperContactPersonName()
+            $requestExtractor->getShipper()->getContactCompanyName(),
+            $requestExtractor->getShipper()->getCountryCode(),
+            $requestExtractor->getShipper()->getPostalCode(),
+            $requestExtractor->getShipper()->getCity(),
+            $requestExtractor->getShipper()->getStreetName(),
+            $requestExtractor->getShipper()->getStreetNumber(),
+            $requestExtractor->getShipper()->getContactPersonName(),
+            null,
+            $requestExtractor->getShipper()->getContactEmail(),
+            $requestExtractor->getShipper()->getContactPhoneNumber(),
+            null,
+            $requestExtractor->getShipper()->getState()
         );
 
+        //todo(nr): add "address addition" from split street
         $this->requestBuilder->setRecipientAddress(
-            $request->getRecipientContactPersonName(),
-            $request->getRecipientAddressCountryCode(),
-            (string)$request->getRecipientAddressPostalCode(),
-            $request->getRecipientAddressCity(),
-            $receiverAddress['street_name'],
-            $receiverAddress['street_number']
+            $requestExtractor->getRecipient()->getContactPersonName(),
+            $requestExtractor->getRecipient()->getCountryCode(),
+            $requestExtractor->getRecipient()->getPostalCode(),
+            $requestExtractor->getRecipient()->getCity(),
+            $requestExtractor->getRecipient()->getStreetName(),
+            $requestExtractor->getRecipient()->getStreetNumber(),
+            $requestExtractor->getRecipient()->getContactCompanyName(),
+            null,
+            $requestExtractor->getRecipient()->getContactEmail(),
+            $requestExtractor->getRecipient()->getContactPhoneNumber(),
+            null,
+            $requestExtractor->getRecipient()->getRegionCode()
         );
-
-        $orderShipment = $request->getOrderShipment();
-        $order         = $orderShipment->getOrder();
-        $storeId       = $orderShipment->getStoreId();
 
         $this->requestBuilder->setShipmentDetails(
-            $this->getProductCode($request),
-            $this->getShipmentDate(),
-            $order->getIncrementId()
+            $requestExtractor->getPackage()->getProductCode(),
+            $requestExtractor->getShipmentDate(),
+            $requestExtractor->getOrder()->getIncrementId()
         );
 
-        $weight = (float) $request->getPackageParams()->getWeight();
-        $weightUom = $request->getPackageParams()->getWeightUnits();
+        $weight = (float) $requestExtractor->getPackage()->getWeight();
+        $weightUom = $requestExtractor->getPackage()->getWeightUom();
         $weightInKg = $this->unitConverter->convertWeight($weight, $weightUom, \Zend_Measure_Weight::KILOGRAM);
 
         $this->requestBuilder->setPackageDetails($weightInKg);
 
-        $dimensionsUom = $request->getPackageParams()->getDimensionUnits();
-        $width = (float) $request->getPackageParams()->getWidth();
-        $length = (float) $request->getPackageParams()->getLength();
-        $height = (float) $request->getPackageParams()->getHeight();
+        $dimensionsUom = $requestExtractor->getPackage()->getDimensionsUom();
+        $width = (float) $requestExtractor->getPackage()->getWidth();
+        $length = (float) $requestExtractor->getPackage()->getLength();
+        $height = (float) $requestExtractor->getPackage()->getHeight();
         $widthInCm = $this->unitConverter->convertDimension($width, $dimensionsUom, \Zend_Measure_Length::CENTIMETER);
         $lengthInCm = $this->unitConverter->convertDimension($length, $dimensionsUom, \Zend_Measure_Length::CENTIMETER);
         $heightInCm = $this->unitConverter->convertDimension($height, $dimensionsUom, \Zend_Measure_Length::CENTIMETER);
 
         $this->requestBuilder->setPackageDimensions((int) $widthInCm, (int) $lengthInCm, (int) $heightInCm);
 
-        if ($this->moduleConfig->printOnlyIfCodeable($storeId)) {
+        if ($requestExtractor->isPrintOnlyIfCodeable()) {
             $this->requestBuilder->setPrintOnlyIfCodeable();
         }
 
         // Add cash on delivery amount if COD payment method
-        $payment = $order->getPayment();
-        if ($this->shippingConfig->isCodPaymentMethod($payment->getMethod(), $storeId)) {
-            $this->requestBuilder->setCodAmount((float) $order->getBaseGrandTotal());
+        if ($requestExtractor->isCashOnDelivery()) {
+            $this->requestBuilder->setCodAmount((float) $requestExtractor->getOrder()->getBaseGrandTotal());
         }
 
         return $this->requestBuilder->create();
-    }
-
-    /**
-     * Returns the selected product code.
-     *
-     * @param Request $request The shipment request
-     *
-     * @return string
-     */
-    private function getProductCode(Request $request): string
-    {
-        return $request->getData('packaging_type');
-    }
-
-    /**
-     * Returns the 14-digit encoded billing number.
-     *
-     * @param Request $request The shipment request
-     *
-     * @return string
-     */
-    private function getBillingNumber(Request $request): string
-    {
-        $storeId = $request->getOrderShipment()->getStoreId();
-        $productCode = $this->getProductCode($request);
-        $ekp = $this->moduleConfig->getEkp($storeId);
-        $participations = $this->moduleConfig->getParticipations($storeId);
-
-        return $this->shippingProducts->getBillingNumber($productCode, $ekp, $participations);
-    }
-
-    /**
-     * Returns the shipment date.
-     *
-     * fixme(nr): "tomorrow" is not the correct shipment date
-     *
-     * @return string
-     */
-    private function getShipmentDate(): string
-    {
-        $shipmentDate = $this->timezone->date();
-        $shipmentDate->modify('+1 day');
-
-        return $shipmentDate->format('Y-m-d');
     }
 }
