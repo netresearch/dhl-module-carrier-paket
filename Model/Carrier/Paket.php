@@ -11,6 +11,7 @@ use Magento\Quote\Model\Quote\Address\RateRequest;
 use Magento\Shipping\Model\Carrier\AbstractCarrierOnline;
 use Magento\Shipping\Model\Carrier\CarrierInterface;
 use Magento\Shipping\Model\Rate\Result;
+use Magento\Shipping\Model\Tracking\Result as TrackingResult;
 
 /**
  * DHL Paket online shipping carrier model.
@@ -25,11 +26,6 @@ class Paket extends AbstractCarrierOnline implements CarrierInterface
      * @var string
      */
     protected $_code = self::CARRIER_CODE;
-
-    /**
-     * @var \Magento\Framework\DataObjectFactory
-     */
-    private $dataObjectFactory;
 
     /**
      * @var \Dhl\ShippingCore\Api\RateRequestEmulationInterface
@@ -79,7 +75,6 @@ class Paket extends AbstractCarrierOnline implements CarrierInterface
      * @param \Magento\Directory\Model\CurrencyFactory $currencyFactory
      * @param \Magento\Directory\Helper\Data $directoryData
      * @param \Magento\CatalogInventory\Api\StockRegistryInterface $stockRegistry
-     * @param \Magento\Framework\DataObjectFactory $dataObjectFactory
      * @param \Dhl\ShippingCore\Api\RateRequestEmulationInterface $rateRequestService
      * @param \Dhl\Paket\Webservice\ApiGatewayFactory $apiGatewayFactory
      * @param \Dhl\Paket\Model\Config\ModuleConfig $moduleConfig
@@ -104,7 +99,6 @@ class Paket extends AbstractCarrierOnline implements CarrierInterface
         \Magento\Directory\Model\CurrencyFactory $currencyFactory,
         \Magento\Directory\Helper\Data $directoryData,
         \Magento\CatalogInventory\Api\StockRegistryInterface $stockRegistry,
-        \Magento\Framework\DataObjectFactory $dataObjectFactory,
         \Dhl\ShippingCore\Api\RateRequestEmulationInterface $rateRequestService,
         \Dhl\Paket\Webservice\ApiGatewayFactory $apiGatewayFactory,
         \Dhl\Paket\Model\Config\ModuleConfig $moduleConfig,
@@ -113,7 +107,6 @@ class Paket extends AbstractCarrierOnline implements CarrierInterface
         \Dhl\ShippingCore\Model\Emulation\ProxyCarrierFactory $proxyCarrierFactory,
         array $data = []
     ) {
-        $this->dataObjectFactory = $dataObjectFactory;
         $this->rateRequestService = $rateRequestService;
         $this->apiGatewayFactory = $apiGatewayFactory;
         $this->moduleConfig = $moduleConfig;
@@ -290,10 +283,12 @@ class Paket extends AbstractCarrierOnline implements CarrierInterface
      */
     protected function _doShipmentRequest(DataObject $request): DataObject
     {
-        $api = $this->apiGatewayFactory->create([
-            'logger' => $this->_logger,
-            'storeId' => (int) $this->getData('store'),
-        ]);
+        $api = $this->apiGatewayFactory->create(
+            [
+                'logger' => $this->_logger,
+                'storeId' => (int) $this->getData('store'),
+            ]
+        );
 
         $apiResult = $api->createShipments([$request]);
 
@@ -311,16 +306,21 @@ class Paket extends AbstractCarrierOnline implements CarrierInterface
      * @param string[][] $data Arrays of info data with tracking_number and label_content
      * @return bool
      */
-    public function rollBack($data)
+    public function rollBack($data): bool
     {
-        $shipmentNumbers = array_map(function (array $info) {
-            return $info['tracking_number'];
-        }, $data);
+        $shipmentNumbers = array_map(
+            function (array $info) {
+                return $info['tracking_number'];
+            },
+            $data
+        );
 
-        $api = $this->apiGatewayFactory->create([
-            'logger' => $this->_logger,
-            'storeId' => (int) $this->getData('store'),
-        ]);
+        $api = $this->apiGatewayFactory->create(
+            [
+                'logger' => $this->_logger,
+                'storeId' => (int) $this->getData('store'),
+            ]
+        );
 
         $apiResult = $api->cancelShipments($shipmentNumbers);
 
@@ -331,23 +331,13 @@ class Paket extends AbstractCarrierOnline implements CarrierInterface
     }
 
     /**
-     * Check if carrier has shipping tracking option available.
-     *
-     * @return boolean
-     */
-    public function isTrackingAvailable(): bool
-    {
-        return true;
-    }
-
-    /**
      * Returns tracking information.
      *
      * @see \Magento\Shipping\Model\Carrier\AbstractCarrierOnline::getTrackingInfo
      * @param string $shipmentNumber
-     * @return \Magento\Shipping\Model\Tracking\Result
+     * @return TrackingResult
      */
-    public function getTracking(string $shipmentNumber): \Magento\Shipping\Model\Tracking\Result
+    public function getTracking(string $shipmentNumber): TrackingResult
     {
         $result = $this->_trackFactory->create();
 

@@ -10,10 +10,8 @@ use Dhl\Paket\Webservice\Shipment\RequestDataMapper;
 use Dhl\Paket\Webservice\Shipment\ResponseDataMapper;
 use Dhl\Sdk\Paket\Bcs\Exception\ServiceException;
 use Magento\Framework\DataObject;
-use Magento\Framework\DataObjectFactory;
 use Magento\Shipping\Model\Shipment\Request;
 use Magento\Shipping\Model\Shipment\ReturnShipment;
-use Magento\Shipping\Model\Shipping\LabelGenerator;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -43,23 +41,11 @@ class ApiGateway
     private $responseDataMapper;
 
     /**
-     * @var LabelGenerator
-     */
-    private $labelGenerator;
-
-    /**
-     * @var DataObjectFactory
-     */
-    private $dataObjectFactory;
-
-    /**
      * ApiGateway constructor.
      *
      * @param ShipmentServiceFactory $serviceFactory
      * @param RequestDataMapper $requestDataMapper
      * @param ResponseDataMapper $responseDataMapper
-     * @param LabelGenerator $labelGenerator
-     * @param DataObjectFactory $dataObjectFactory
      * @param LoggerInterface $logger
      * @param int $storeId
      */
@@ -67,19 +53,17 @@ class ApiGateway
         ShipmentServiceFactory $serviceFactory,
         RequestDataMapper $requestDataMapper,
         ResponseDataMapper $responseDataMapper,
-        LabelGenerator $labelGenerator,
-        DataObjectFactory $dataObjectFactory,
         LoggerInterface $logger,
         int $storeId = 0
     ) {
         $this->requestDataMapper = $requestDataMapper;
         $this->responseDataMapper = $responseDataMapper;
-        $this->labelGenerator = $labelGenerator;
-        $this->dataObjectFactory = $dataObjectFactory;
-        $this->shipmentService = $serviceFactory->create([
-            'logger' => $logger,
-            'storeId' => $storeId,
-        ]);
+        $this->shipmentService = $serviceFactory->create(
+            [
+                'logger' => $logger,
+                'storeId' => $storeId,
+            ]
+        );
     }
 
     /**
@@ -96,19 +80,26 @@ class ApiGateway
      */
     public function createShipments(array $shipmentRequests): array
     {
-        $returnRequests = array_filter($shipmentRequests, function (DataObject $request) {
-            return ($request->getData('is_return') || $request instanceof ReturnShipment);
-        });
+        $returnRequests = array_filter(
+            $shipmentRequests,
+            function (DataObject $request) {
+                return ($request->getData('is_return') || $request instanceof ReturnShipment);
+            }
+        );
 
         if (!empty($returnRequests)) {
             $message = __('Return shipments are not supported.');
             $response = $this->responseDataMapper->createErrorResponse([$message]);
+
             return $response;
         }
 
-        $shipmentOrders = array_map(function (Request $shipmentRequest) {
-            return $this->requestDataMapper->mapRequest($shipmentRequest);
-        }, $shipmentRequests);
+        $shipmentOrders = array_map(
+            function (Request $shipmentRequest) {
+                return $this->requestDataMapper->mapRequest($shipmentRequest);
+            },
+            $shipmentRequests
+        );
 
         try {
             $shipments = $this->shipmentService->createShipments($shipmentOrders);
@@ -132,8 +123,7 @@ class ApiGateway
     public function cancelShipments(array $shipmentNumbers): array
     {
         try {
-            $cancelled = $this->shipmentService->cancelShipments($shipmentNumbers);
-            return $cancelled;
+            return $this->shipmentService->cancelShipments($shipmentNumbers);
         } catch (ServiceException $exception) {
             return [];
         }

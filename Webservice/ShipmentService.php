@@ -51,7 +51,7 @@ class ShipmentService implements ShipmentServiceInterface
     private $storeId;
 
     /**
-     * @var ShipmentServiceInterface
+     * @var ShipmentServiceInterface|null
      */
     private $shipmentService;
 
@@ -85,13 +85,15 @@ class ShipmentService implements ShipmentServiceInterface
      */
     private function getService()
     {
-        if (!isset($this->shipmentService)) {
-            $authStorage = $this->authStorageFactory->create([
-                'applicationId' => $this->moduleConfig->getAuthUsername($this->storeId),
-                'applicationToken' => $this->moduleConfig->getAuthPassword($this->storeId),
-                'user' => $this->moduleConfig->getUser($this->storeId),
-                'signature' => $this->moduleConfig->getSignature($this->storeId)
-            ]);
+        if ($this->shipmentService === null) {
+            $authStorage = $this->authStorageFactory->create(
+                [
+                    'applicationId' => $this->moduleConfig->getAuthUsername($this->storeId),
+                    'applicationToken' => $this->moduleConfig->getAuthPassword($this->storeId),
+                    'user' => $this->moduleConfig->getUser($this->storeId),
+                    'signature' => $this->moduleConfig->getSignature($this->storeId),
+                ]
+            );
 
             $this->shipmentService = $this->serviceFactory->createShipmentService(
                 $authStorage,
