@@ -40,11 +40,11 @@ class Procedures extends Select
     /**
      * Procedures constructor.
      *
-     * @param Context                   $context
-     * @param CoreConfigInterface       $shippingCoreConfig
-     * @param Procedure                 $source
+     * @param Context $context
+     * @param CoreConfigInterface $shippingCoreConfig
+     * @param Procedure $source
      * @param ShippingProductsInterface $shippingProducts
-     * @param array                     $data
+     * @param array $data
      */
     public function __construct(
         Context $context,
@@ -53,9 +53,9 @@ class Procedures extends Select
         ShippingProductsInterface $shippingProducts,
         array $data = []
     ) {
-        $this->source             = $source;
+        $this->source = $source;
         $this->shippingCoreConfig = $shippingCoreConfig;
-        $this->shippingProducts   = $shippingProducts;
+        $this->shippingProducts = $shippingProducts;
 
         parent::__construct($context, $data);
     }
@@ -97,12 +97,15 @@ class Procedures extends Select
      */
     private function filterAvailable(array $data): array
     {
-        $originCountry       = $this->shippingCoreConfig->getOriginCountry(null, ScopeInterface::SCOPE_WEBSITE);
+        $originCountry = $this->shippingCoreConfig->getOriginCountry(null, ScopeInterface::SCOPE_WEBSITE);
         $availableProcedures = $this->shippingProducts->getApplicableProcedures($originCountry);
 
-        $data = array_filter($data, function ($element) use ($availableProcedures) {
-            return \in_array($element['value'], $availableProcedures, true);
-        });
+        $data = array_filter(
+            $data,
+            function ($element) use ($availableProcedures) {
+                return \in_array($element['value'], $availableProcedures, true);
+            }
+        );
 
         return $data;
     }

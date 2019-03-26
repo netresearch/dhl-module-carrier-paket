@@ -44,3 +44,4 @@
 "Additional Shipping Services","Additional Shipping Services"
 "Use Print Only If Codeable Service","Use Print Only If Codeable Service"
 "If set to <em>Yes</em>, shipment orders will only return a label if the DHL delivery address verification succeeds.", "If set to <em>Yes</em>, shipment orders will only return a label if the DHL delivery address verification succeeds."
+"Return shipments are not supported.","Return shipments are not supported."

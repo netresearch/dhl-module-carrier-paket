@@ -44,3 +44,4 @@
 "Additional Shipping Services","Zusätzliche Versandservices"
 "Use Print Only If Codeable Service","Nur leitkodierbare Versandaufträge erteilen"
 "If set to <em>Yes</em>, shipment orders will only return a label if the DHL delivery address verification succeeds.","Wählen Sie <em>Ja</em>, werden nur Paketaufkleber im Versandauftrag erstellt, wenn die DHL Versandadressen-Überprüfung erfolgreich war."
+"Return shipments are not supported.","Retouren-Labels werden nicht unterstützt."

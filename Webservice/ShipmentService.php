@@ -62,7 +62,7 @@ class ShipmentService implements ShipmentServiceInterface
      * @param ModuleConfig $moduleConfig
      * @param ServiceFactoryInterface $serviceFactory
      * @param LoggerInterface $logger
-     * @param int $storeId
+     * @param \int $storeId
      */
     public function __construct(
         AuthenticationStorageInterfaceFactory $authStorageFactory,

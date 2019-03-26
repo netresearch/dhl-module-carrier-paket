@@ -13,7 +13,6 @@ use Dhl\ShippingCore\Api\Data\ShipmentRequest\RecipientInterface;
 use Dhl\ShippingCore\Api\Data\ShipmentRequest\ShipperInterface;
 use Dhl\ShippingCore\Api\RequestExtractorInterface;
 use Dhl\ShippingCore\Api\RequestExtractorInterfaceFactory;
-use Dhl\ShippingCore\Model\Config\CoreConfigInterface;
 use Dhl\ShippingCore\Util\StreetSplitterInterface;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Sales\Model\Order;
@@ -48,11 +47,6 @@ class RequestExtractor implements RequestExtractorInterface
     private $moduleConfig;
 
     /**
-     * @var CoreConfigInterface
-     */
-    private $coreConfig;
-
-    /**
      * @var ShippingProductsInterface
      */
     private $shippingProducts;
@@ -73,11 +67,20 @@ class RequestExtractor implements RequestExtractorInterface
     private $coreExtractor;
 
     /**
+     * @var ShipperInterface
+     */
+    private $shipper;
+
+    /**
+     * @var RecipientInterface
+     */
+    private $recipient;
+
+    /**
      * RequestExtractor constructor.
      * @param RequestExtractorInterfaceFactory $requestExtractorFactory
      * @param Request $shipmentRequest
      * @param ModuleConfig $moduleConfig
-     * @param CoreConfigInterface $coreConfig
      * @param ShippingProductsInterface $shippingProducts
      * @param Reflection $hydrator
      * @param StreetSplitterInterface $streetSplitter
@@ -86,7 +89,6 @@ class RequestExtractor implements RequestExtractorInterface
         RequestExtractorInterfaceFactory $requestExtractorFactory,
         Request $shipmentRequest,
         ModuleConfig $moduleConfig,
-        CoreConfigInterface $coreConfig,
         ShippingProductsInterface $shippingProducts,
         Reflection $hydrator,
         StreetSplitterInterface $streetSplitter
@@ -94,7 +96,6 @@ class RequestExtractor implements RequestExtractorInterface
         $this->requestExtractorFactory = $requestExtractorFactory;
         $this->shipmentRequest = $shipmentRequest;
         $this->moduleConfig = $moduleConfig;
-        $this->coreConfig = $coreConfig;
         $this->shippingProducts = $shippingProducts;
         $this->hydrator = $hydrator;
         $this->streetSplitter = $streetSplitter;
@@ -150,21 +151,25 @@ class RequestExtractor implements RequestExtractorInterface
      */
     public function getShipper(): ShipperInterface
     {
-        $shipper = $this->coreExtractor->getShipper();
-        $shipperData = $this->hydrator->extract($shipper);
+        if (empty($this->shipper)) {
+            $shipper = $this->coreExtractor->getShipper();
+            $shipperData = $this->hydrator->extract($shipper);
 
-        $street = (string) $this->shipmentRequest->getShipperAddressStreet();
-        $streetParts = $this->streetSplitter->splitStreet($street);
+            $street = (string)$this->shipmentRequest->getShipperAddressStreet();
+            $streetParts = $this->streetSplitter->splitStreet($street);
 
-        $shipperData['streetName'] = $streetParts['street_name'];
-        $shipperData['streetNumber'] = $streetParts['street_number'];
-        $shipperData['addressAddition'] = $streetParts['supplement'];
+            $shipperData['streetName'] = $streetParts['street_name'];
+            $shipperData['streetNumber'] = $streetParts['street_number'];
+            $shipperData['addressAddition'] = $streetParts['supplement'];
 
-        /** @var Shipper $shipper */
-        $shipper = (new \ReflectionClass(Shipper::class))->newInstanceWithoutConstructor();
-        $this->hydrator->hydrate($shipperData, $shipper);
+            /** @var Shipper $shipper */
+            $shipper = (new \ReflectionClass(Shipper::class))->newInstanceWithoutConstructor();
+            $this->hydrator->hydrate($shipperData, $shipper);
 
-        return $shipper;
+            $this->shipper = $shipper;
+        }
+
+        return $this->shipper;
     }
 
     /**
@@ -175,21 +180,25 @@ class RequestExtractor implements RequestExtractorInterface
      */
     public function getRecipient(): RecipientInterface
     {
-        $recipient = $this->coreExtractor->getRecipient();
-        $recipientData = $this->hydrator->extract($recipient);
+        if (empty($this->recipient)) {
+            $recipient = $this->coreExtractor->getRecipient();
+            $recipientData = $this->hydrator->extract($recipient);
 
-        $street = (string) $this->shipmentRequest->getRecipientAddressStreet();
-        $streetParts = $this->streetSplitter->splitStreet($street);
+            $street = (string)$this->shipmentRequest->getRecipientAddressStreet();
+            $streetParts = $this->streetSplitter->splitStreet($street);
 
-        $recipientData['streetName'] = $streetParts['street_name'];
-        $recipientData['streetNumber'] = $streetParts['street_number'];
-        $recipientData['addressAddition'] = $streetParts['supplement'];
+            $recipientData['streetName'] = $streetParts['street_name'];
+            $recipientData['streetNumber'] = $streetParts['street_number'];
+            $recipientData['addressAddition'] = $streetParts['supplement'];
 
-        /** @var Recipient $recipient */
-        $recipient = (new \ReflectionClass(Recipient::class))->newInstanceWithoutConstructor();
-        $this->hydrator->hydrate($recipientData, $recipient);
+            /** @var Recipient $recipient */
+            $recipient = (new \ReflectionClass(Recipient::class))->newInstanceWithoutConstructor();
+            $this->hydrator->hydrate($recipientData, $recipient);
 
-        return $recipient;
+            $this->recipient = $recipient;
+        }
+
+        return $this->recipient;
     }
 
     /**
@@ -241,6 +250,14 @@ class RequestExtractor implements RequestExtractorInterface
     }
 
     /**
+     * @inheritdoc
+     */
+    public function isCashOnDelivery(): bool
+    {
+        return $this->coreExtractor->isCashOnDelivery();
+    }
+
+    /**
      * Check if "print only if codeable" should be set for the current shipment request.
      *
      * @todo(nr): read flag from shipment request once it's available there.
@@ -250,19 +267,6 @@ class RequestExtractor implements RequestExtractorInterface
     {
         $storeId = $this->coreExtractor->getStoreId();
         return $this->moduleConfig->printOnlyIfCodeable($storeId);
-    }
-
-    /**
-     * Check if "cash on delivery" was chosen for the current shipment request.
-     *
-     * @return bool
-     */
-    public function isCashOnDelivery(): bool
-    {
-        $storeId = $this->coreExtractor->getStoreId();
-        $order = $this->coreExtractor->getOrder();
-
-        return $this->coreConfig->isCodPaymentMethod($order->getPayment()->getMethod(), $storeId);
     }
 
     /**
@@ -277,8 +281,8 @@ class RequestExtractor implements RequestExtractorInterface
         $storeId = $this->coreExtractor->getStoreId();
 
         $productCode = $this->coreExtractor->getPackage()->getContainerType();
-        $ekp = $this->moduleConfig->getAccountNumber($storeId);
-        $participations = $this->moduleConfig->getAccountParticipations($storeId);
+        $ekp = $this->moduleConfig->getEkp($storeId);
+        $participations = $this->moduleConfig->getParticipations($storeId);
 
         return $this->shippingProducts->getBillingNumber($productCode, $ekp, $participations);
     }
