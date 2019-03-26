@@ -16,13 +16,12 @@ use Magento\Framework\Stdlib\DateTime\TimezoneInterface;
 use Magento\Shipping\Model\Shipment\Request;
 
 /**
- * Convert shipment request to shipment order.
+ * Request mapper.
  *
- * @deprecated | convert shipment request to shipment order using an "extractor" in DHL shipping core.
- *
- * @inheritDoc
+ * @author Rico Sonntag <rico.sonntag@netresearch.de>
+ * @link https://www.netresearch.de/
  */
-class RequestDataMapper implements RequestDataMapperInterface
+class RequestDataMapper
 {
     /**
      * @var ShipmentOrderRequestBuilderInterface

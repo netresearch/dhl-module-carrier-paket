@@ -37,7 +37,7 @@ class Paket extends AbstractCarrierOnline implements CarrierInterface
     private $rateRequestService;
 
     /**
-     * @var \Dhl\Paket\Model\Carrier\ApiGatewayFactory
+     * @var \Dhl\Paket\Webservice\ApiGatewayFactory
      */
     private $apiGatewayFactory;
 
@@ -81,7 +81,7 @@ class Paket extends AbstractCarrierOnline implements CarrierInterface
      * @param \Magento\CatalogInventory\Api\StockRegistryInterface $stockRegistry
      * @param \Magento\Framework\DataObjectFactory $dataObjectFactory
      * @param \Dhl\ShippingCore\Api\RateRequestEmulationInterface $rateRequestService
-     * @param \Dhl\Paket\Model\Carrier\ApiGatewayFactory $apiGatewayFactory
+     * @param \Dhl\Paket\Webservice\ApiGatewayFactory $apiGatewayFactory
      * @param \Dhl\Paket\Model\Config\ModuleConfig $moduleConfig
      * @param \Dhl\ShippingCore\Model\Config\CoreConfigInterface $shippingCoreConfig
      * @param \Dhl\Paket\Model\ShippingProducts\ShippingProductsInterface $shippingProducts
@@ -106,7 +106,7 @@ class Paket extends AbstractCarrierOnline implements CarrierInterface
         \Magento\CatalogInventory\Api\StockRegistryInterface $stockRegistry,
         \Magento\Framework\DataObjectFactory $dataObjectFactory,
         \Dhl\ShippingCore\Api\RateRequestEmulationInterface $rateRequestService,
-        \Dhl\Paket\Model\Carrier\ApiGatewayFactory $apiGatewayFactory,
+        \Dhl\Paket\Webservice\ApiGatewayFactory $apiGatewayFactory,
         \Dhl\Paket\Model\Config\ModuleConfig $moduleConfig,
         \Dhl\ShippingCore\Model\Config\CoreConfigInterface $shippingCoreConfig,
         \Dhl\Paket\Model\ShippingProducts\ShippingProductsInterface $shippingProducts,
