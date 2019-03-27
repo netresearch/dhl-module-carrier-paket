@@ -6,6 +6,7 @@
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
     <!-- # interface preferences -->
+    <preference for="Dhl\Paket\Webservice\Processor\OperationProcessorInterface" type="Dhl\Paket\Webservice\Processor\LabelStatusProcessor"/>
     <preference for="Dhl\Paket\Model\ShippingProducts\ShippingProductsInterface" type="Dhl\Paket\Model\ShippingProducts\ShippingProducts"/>
 
     <!-- # sdk preferences -->

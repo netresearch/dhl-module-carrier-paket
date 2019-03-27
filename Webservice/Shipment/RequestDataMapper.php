@@ -10,7 +10,6 @@ use Dhl\Paket\Model\ShipmentRequest\RequestExtractor;
 use Dhl\Paket\Model\ShipmentRequest\RequestExtractorFactory;
 use Dhl\Sdk\Paket\Bcs\Api\ShipmentOrderRequestBuilderInterface;
 use Dhl\ShippingCore\Util\UnitConverterInterface;
-use Magento\Framework\Exception\LocalizedException;
 use Magento\Shipping\Model\Shipment\Request;
 
 /**
@@ -57,17 +56,19 @@ class RequestDataMapper
     }
 
     /**
-     * @inheritDoc
+     * Map the Magento shipment request to an SDK request object using the SDK request builder.
      *
-     * @throws LocalizedException
-     * @throws \ReflectionException
+     * @param string $sequenceNumber Request identifier to associate request-response pairs
+     * @param Request $request The shipment request
+     * @return object
      */
-    public function mapRequest(Request $request)
+    public function mapRequest(string $sequenceNumber, Request $request)
     {
         $requestExtractor = $this->requestExtractorFactory->create([
             'shipmentRequest' => $request,
         ]);
 
+        $this->requestBuilder->setSequenceNumber($sequenceNumber);
         $this->requestBuilder->setShipperAccount($requestExtractor->getBillingNumber());
 
         //todo(nr): add "address addition" from split street
