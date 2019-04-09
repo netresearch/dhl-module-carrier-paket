@@ -12,6 +12,15 @@ use Magento\Shipping\Controller\Adminhtml\Order\ShipmentLoader;
 use Magento\Shipping\Model\Shipping\LabelGenerator;
 use Magento\TestFramework\Helper\Bootstrap;
 use PHPUnit\Framework\TestCase;
+use TddWizard\Fixtures\Catalog\ProductBuilder;
+use TddWizard\Fixtures\Catalog\ProductFixture;
+use TddWizard\Fixtures\Catalog\ProductFixtureRollback;
+use TddWizard\Fixtures\Checkout\CartBuilder;
+use TddWizard\Fixtures\Checkout\CustomerCheckout;
+use TddWizard\Fixtures\Customer\AddressBuilder;
+use TddWizard\Fixtures\Customer\CustomerBuilder;
+use TddWizard\Fixtures\Customer\CustomerFixture;
+use TddWizard\Fixtures\Customer\CustomerFixtureRollback;
 
 /**
  * Class CreateLabelTest
@@ -30,12 +39,102 @@ class CreateLabelTest extends TestCase
      */
     private $labelGenerator;
 
+    /**
+     * @var \Magento\Backend\Model\Auth
+     */
+    private $auth;
+
+    /**
+     * @var \Magento\Backend\Model\Auth\Session
+     */
+    private $authSession;
+
+    /**
+     * @var \Magento\Framework\ObjectManagerInterface
+     */
+    private $objectManager;
+
+    /**
+     * @var CustomerFixture
+     */
+    private $customerFixture;
+
+    /**
+     * @var ProductFixture
+     */
+    private $productFixture;
+
     protected function setUp()
     {
         parent::setUp();
 
         $this->shipmentLoader = Bootstrap::getObjectManager()->get(ShipmentLoader::class);
         $this->labelGenerator = Bootstrap::getObjectManager()->get(LabelGenerator::class);
+
+        $this->objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        $this->objectManager->get(\Magento\Framework\Config\ScopeInterface::class)
+            ->setCurrentScope(\Magento\Backend\App\Area\FrontNameResolver::AREA_CODE);
+        $this->auth = $this->objectManager->create(\Magento\Backend\Model\Auth::class);
+        $this->authSession = $this->objectManager->create(\Magento\Backend\Model\Auth\Session::class);
+        $this->auth->setAuthStorage($this->authSession);
+        $this->auth->logout();
+    }
+
+    protected function tearDown()
+    {
+        $this->auth = null;
+        $this->objectManager->get(\Magento\Framework\Config\ScopeInterface::class)->setCurrentScope(null);
+    }
+
+    private function getOrder(): OrderInterface
+    {
+        $this->productFixture = new ProductFixture(
+            ProductBuilder::aSimpleProduct()
+                ->withPrice(35.0)
+                ->withWeight(1.0)
+                ->withCustomAttributes(
+                    [
+                        'dhl_tariff_number' => 123,
+                    ]
+                )
+                ->build()
+        );
+
+        $shippingAddressBuilder = AddressBuilder::anAddress()
+            ->withFirstname('Max')
+            ->withLastname('Mustermann')
+            ->withCompany(null)
+            ->withCountryId('DE')
+            ->withRegionId(91) // Sachsen
+            ->withCity('Leipzig')
+            ->withPostcode('04229')
+            ->withStreet('Nonnenstraße 11d');
+
+        $customerBuilder = CustomerBuilder::aCustomer()
+            ->withFirstname('Max')
+            ->withLastname('Mustermann')
+            ->withAddresses(
+                $shippingAddressBuilder->asDefaultBilling(),
+                $shippingAddressBuilder->asDefaultShipping()
+            )
+            ->build();
+
+        $this->customerFixture = new CustomerFixture($customerBuilder);
+        $this->customerFixture->login();
+
+        $checkout = CustomerCheckout::fromCart(
+            CartBuilder::forCurrentSession()
+                ->withSimpleProduct(
+                    $this->productFixture->getSku()
+                )
+                ->build()
+        );
+
+        $order = $checkout
+            ->withShippingMethodCode('dhlpaket_flatrate')
+            ->placeOrder();
+
+        return $order;
     }
 
     /**
@@ -49,7 +148,7 @@ class CreateLabelTest extends TestCase
      */
     public function domesticShipmentDataProvider()
     {
-        $order = Bootstrap::getObjectManager()->create(OrderInterface::class, ['data' => []]);
+        $order = $this->getOrder();
 
         $shipmentDataDe = [
             'items' => [($orderItemId = 124) => ($qty = '1')],
@@ -98,15 +197,36 @@ class CreateLabelTest extends TestCase
      * @test
      * @dataProvider domesticShipmentDataProvider
      *
+     * @magentoAppArea adminhtml
+     *
      * @param OrderInterface $order The order to request a shipping label for
      * @param string[] $shipmentData The shipment data coming from the packaging popup (POST['shipment']).
      * @param string[] $packagesData The packages data coming from the packaging popup (POST['packages']).
+     *
+     * @magentoConfigFixture current_store shipping/origin/country_id DE
+     * @magentoConfigFixture current_store shipping/origin/region_id 91
+     * @magentoConfigFixture current_store shipping/origin/postcode 04229
+     * @magentoConfigFixture current_store shipping/origin/city Leipzig
+     * @magentoConfigFixture current_store shipping/origin/street_line1 Nonnenstraße 11
+     *
+     * @magentoConfigFixture current_store carriers/dhlpaket/active 1
+     * @magentoConfigFixture current_store carriers/dhlpaket/dhl_paket_checkout_settings/emulated_carrier flatrate
+     *
+     * @magentoConfigFixture current_store carriers/flatrate/type O
+     * @magentoConfigFixture current_store carriers/flatrate/handling_type F
+     * @magentoConfigFixture current_store carriers/flatrate/price 5.00
+     *
      * @return void
-     * @throws \Magento\Framework\Exception\LocalizedException
+     * @throws \Exception
      */
     public function domesticShipment(OrderInterface $order, array $shipmentData, array $packagesData)
     {
-        $this->markTestIncomplete('Pass in order fixture.');
+        $this->auth->login(
+            \Magento\TestFramework\Bootstrap::ADMIN_NAME,
+            \Magento\TestFramework\Bootstrap::ADMIN_PASSWORD
+        );
+
+//        $this->markTestIncomplete('Pass in order fixture.');
 
         /** @var Http $request */
         $request = Bootstrap::getObjectManager()->create(Http::class);
@@ -121,5 +241,9 @@ class CreateLabelTest extends TestCase
         self::assertEmpty($shipment->getShippingLabel());
         $this->labelGenerator->create($shipment, $request);
         self::assertNotEmpty($shipment->getShippingLabel());
+
+
+        CustomerFixtureRollback::create()->execute($this->customerFixture);
+        ProductFixtureRollback::create()->execute($this->productFixture);
     }
 }
