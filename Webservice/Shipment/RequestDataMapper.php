@@ -81,13 +81,13 @@ class RequestDataMapper
             $requestExtractor->getShipper()->getStreetNumber(),
             $requestExtractor->getShipper()->getContactPersonName(),
             null,
-            $requestExtractor->getShipper()->getContactEmail(),
-            $requestExtractor->getShipper()->getContactPhoneNumber(),
+            null,
+            null,
             null,
             $requestExtractor->getShipper()->getState()
         );
 
-        //todo(nr): add "address addition" from split street
+        //todo(nr): check if customer did select parcel announcement service
         $this->requestBuilder->setRecipientAddress(
             $requestExtractor->getRecipient()->getContactPersonName(),
             $requestExtractor->getRecipient()->getCountryCode(),
@@ -97,10 +97,12 @@ class RequestDataMapper
             $requestExtractor->getRecipient()->getStreetNumber(),
             $requestExtractor->getRecipient()->getContactCompanyName(),
             null,
-            $requestExtractor->getRecipient()->getContactEmail(),
-            $requestExtractor->getRecipient()->getContactPhoneNumber(),
+            ($parcelAnnouncement = false) ? $requestExtractor->getRecipient()->getContactEmail() : null,
             null,
-            $requestExtractor->getRecipient()->getRegionCode()
+            null,
+            $requestExtractor->getRecipient()->getRegionCode(),
+            null,
+            [$requestExtractor->getRecipient()->getAddressAddition()]
         );
 
         $this->requestBuilder->setShipmentDetails(
@@ -119,11 +121,14 @@ class RequestDataMapper
         $width = (float) $requestExtractor->getPackage()->getWidth();
         $length = (float) $requestExtractor->getPackage()->getLength();
         $height = (float) $requestExtractor->getPackage()->getHeight();
-        $widthInCm = $this->unitConverter->convertDimension($width, $dimensionsUom, \Zend_Measure_Length::CENTIMETER);
-        $lengthInCm = $this->unitConverter->convertDimension($length, $dimensionsUom, \Zend_Measure_Length::CENTIMETER);
-        $heightInCm = $this->unitConverter->convertDimension($height, $dimensionsUom, \Zend_Measure_Length::CENTIMETER);
 
-        $this->requestBuilder->setPackageDimensions((int) $widthInCm, (int) $lengthInCm, (int) $heightInCm);
+        if ($width && $length && $height) {
+            $targetUom = \Zend_Measure_Length::CENTIMETER;
+            $widthInCm = $this->unitConverter->convertDimension($width, $dimensionsUom, $targetUom);
+            $lengthInCm = $this->unitConverter->convertDimension($length, $dimensionsUom, $targetUom);
+            $heightInCm = $this->unitConverter->convertDimension($height, $dimensionsUom, $targetUom);
+            $this->requestBuilder->setPackageDimensions((int) $widthInCm, (int) $lengthInCm, (int) $heightInCm);
+        }
 
         if ($requestExtractor->isPrintOnlyIfCodeable()) {
             $this->requestBuilder->setPrintOnlyIfCodeable();
