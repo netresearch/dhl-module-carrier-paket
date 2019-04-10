@@ -4,14 +4,36 @@
  */
 declare(strict_types=1);
 
-namespace Dhl\Paket\Model\Carrier;
+namespace Dhl\Paket\Test\Integration\Model\Shipping;
 
+use Dhl\Paket\Model\Carrier\Paket;
+use Dhl\Paket\Test\Integration\Provider\CreateLabelTestProvider;
+use Dhl\Paket\Webservice\ApiGatewayFactory;
+use Dhl\Paket\Webservice\CarrierResponse\ShipmentResponse;
+use Dhl\Paket\Webservice\CarrierResponse\ShipmentResponseFactory;
+use Dhl\Paket\Webservice\Processor\OperationProcessorInterface;
+use Dhl\Paket\Webservice\Shipment\RequestDataMapper;
+use Dhl\Paket\Webservice\Shipment\ResponseDataMapper;
+use Dhl\Paket\Webservice\ShipmentServiceFactory;
+use Dhl\ShippingCore\Api\LabelStatusManagementInterface;
+use Magento\Backend\App\Area\FrontNameResolver;
+use Magento\Backend\Model\Auth;
+use Magento\Backend\Model\Auth\Session;
 use Magento\Framework\App\Request\Http;
+use Magento\Framework\Config\ScopeInterface;
+use Magento\Framework\Exception\AuthenticationException;
+use Magento\Framework\ObjectManagerInterface;
 use Magento\Sales\Api\Data\OrderInterface;
+use Magento\Sales\Model\Order\Shipment;
 use Magento\Shipping\Controller\Adminhtml\Order\ShipmentLoader;
+use Magento\Shipping\Model\CarrierFactory;
 use Magento\Shipping\Model\Shipping\LabelGenerator;
-use Magento\TestFramework\Helper\Bootstrap;
+use Magento\Shipping\Model\Shipping\Labels;
+use Magento\Shipping\Model\Shipping\LabelsFactory;
+use Magento\TestFramework\Bootstrap;
+use Magento\TestFramework\Helper\Bootstrap as BootstrapHelper;
 use PHPUnit\Framework\TestCase;
+use Psr\Log\LoggerInterface;
 use TddWizard\Fixtures\Catalog\ProductBuilder;
 use TddWizard\Fixtures\Catalog\ProductFixture;
 use TddWizard\Fixtures\Catalog\ProductFixtureRollback;
@@ -25,72 +47,74 @@ use TddWizard\Fixtures\Customer\CustomerFixtureRollback;
 /**
  * Class CreateLabelTest
  *
- * @package Dhl\ShippingCore\Test\Integration
+ * @package Dhl\Paket\Test
  */
 class CreateLabelTest extends TestCase
 {
     /**
-     * @var ShipmentLoader
-     */
-    private $shipmentLoader;
-
-    /**
-     * @var LabelGenerator
-     */
-    private $labelGenerator;
-
-    /**
-     * @var \Magento\Backend\Model\Auth
+     * @var Auth
      */
     private $auth;
 
     /**
-     * @var \Magento\Backend\Model\Auth\Session
+     * @var Session
      */
     private $authSession;
 
     /**
-     * @var \Magento\Framework\ObjectManagerInterface
+     * @var ObjectManagerInterface
      */
     private $objectManager;
 
     /**
-     * @var CustomerFixture
+     * @throws AuthenticationException
      */
-    private $customerFixture;
-
-    /**
-     * @var ProductFixture
-     */
-    private $productFixture;
-
     protected function setUp()
     {
         parent::setUp();
 
-        $this->shipmentLoader = Bootstrap::getObjectManager()->get(ShipmentLoader::class);
-        $this->labelGenerator = Bootstrap::getObjectManager()->get(LabelGenerator::class);
+        $this->objectManager = BootstrapHelper::getObjectManager();
 
-        $this->objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        $this->objectManager->get(\Magento\Framework\Config\ScopeInterface::class)
-            ->setCurrentScope(\Magento\Backend\App\Area\FrontNameResolver::AREA_CODE);
-        $this->auth = $this->objectManager->create(\Magento\Backend\Model\Auth::class);
-        $this->authSession = $this->objectManager->create(\Magento\Backend\Model\Auth\Session::class);
+        // Set "adminhtml"
+        $this->objectManager->get(ScopeInterface::class)
+            ->setCurrentScope(FrontNameResolver::AREA_CODE);
+
+        $this->auth        = $this->objectManager->create(Auth::class);
+        $this->authSession = $this->objectManager->create(Session::class);
+
         $this->auth->setAuthStorage($this->authSession);
         $this->auth->logout();
     }
 
+    /**
+     *
+     */
     protected function tearDown()
     {
         $this->auth = null;
-        $this->objectManager->get(\Magento\Framework\Config\ScopeInterface::class)->setCurrentScope(null);
+        $this->objectManager->get(ScopeInterface::class)->setCurrentScope(null);
     }
 
+    /**
+     * @throws AuthenticationException
+     */
+    private function doAdminLogin()
+    {
+        $this->auth->login(
+            Bootstrap::ADMIN_NAME,
+            Bootstrap::ADMIN_PASSWORD
+        );
+    }
+
+    /**
+     * @return OrderInterface
+     * @throws \Exception
+     */
     private function getOrder(): OrderInterface
     {
-        $this->productFixture = new ProductFixture(
+        $productFixture = new ProductFixture(
             ProductBuilder::aSimpleProduct()
-                ->withPrice(35.0)
+                ->withPrice(45.0)
                 ->withWeight(1.0)
                 ->withCustomAttributes(
                     [
@@ -119,13 +143,13 @@ class CreateLabelTest extends TestCase
             )
             ->build();
 
-        $this->customerFixture = new CustomerFixture($customerBuilder);
-        $this->customerFixture->login();
+        $customerFixture = new CustomerFixture($customerBuilder);
+        $customerFixture->login();
 
         $checkout = CustomerCheckout::fromCart(
             CartBuilder::forCurrentSession()
                 ->withSimpleProduct(
-                    $this->productFixture->getSku()
+                    $productFixture->getSku()
                 )
                 ->build()
         );
@@ -134,35 +158,41 @@ class CreateLabelTest extends TestCase
             ->withShippingMethodCode('dhlpaket_flatrate')
             ->placeOrder();
 
+        CustomerFixtureRollback::create()->execute($customerFixture);
+        ProductFixtureRollback::create()->execute($productFixture);
+
         return $order;
     }
 
     /**
      * Provide order and packaging popup request data.
      *
-     * @todo(nr): create order fixtures to put into the process.
-     * @todo(nr): this will get lengthy, move to separate provider class.
-     * @todo(nr): use order and request data from fixture.
-     *
      * @return mixed[]
+     * @throws \Exception
+     *
+     * @todo(nr): use order and request data from fixture.
+     * @todo(nr): this will get lengthy, move to separate provider class.
      */
     public function domesticShipmentDataProvider()
     {
         $order = $this->getOrder();
 
         $shipmentDataDe = [
-            'items' => [($orderItemId = 124) => ($qty = '1')],
+            'items' => [
+                // orderItemId => qty
+                124 => 1,
+            ],
             'create_shipping_label' => '1',
         ];
         $packagesDataDe = [
             1 => [
                 'params' => [
                     'container' => 'V01PAK',
-                    'weight' => '0.9',
-                    'customs_value' => '55',
-                    'length' => '',
-                    'width' => '',
-                    'height' => '',
+                    'weight' => 0.9,
+                    'customs_value' => 55,
+                    'length' => 1.0,
+                    'width' => 1.0,
+                    'height' => 1.0,
                     'weight_units' => 'KILOGRAM',
                     'dimension_units' => 'CENTIMETER',
                     'content_type' => '',
@@ -170,13 +200,13 @@ class CreateLabelTest extends TestCase
                 ],
                 'items' => [
                     124 => [
-                        'qty' => '1',
-                        'customs_value' => '55',
-                        'price' => '55.0000',
+                        'qty' => 1,
+                        'customs_value' => 55.0,
+                        'price' => 55.0,
                         'name' => 'Cruise Dual Analog Watch',
                         'weight' => '',
-                        'product_id' => '22',
-                        'order_item_id' => '124',
+                        'product_id' => 22,
+                        'order_item_id' => 124,
                     ],
                 ],
             ],
@@ -190,24 +220,53 @@ class CreateLabelTest extends TestCase
     }
 
     /**
+     * @param int $sequenceNumber
+     * @param string $trackingNumber
+     * @param string $labelContent
+     *
+     * @return ShipmentResponse
+     */
+    private function getShipmentResponse(
+        int $sequenceNumber, string $trackingNumber, string $labelContent
+    ): ShipmentResponse {
+        $shipmentResponseFactory = $this->objectManager->create(ShipmentResponseFactory::class);
+
+        return $shipmentResponseFactory->create(
+            ['data' => [
+                'sequence_number'        => $sequenceNumber,
+                'tracking_number'        => $trackingNumber,
+                'shipping_label_content' => $labelContent,
+            ]
+        ]);
+    }
+
+    /**
      * Test the leanest use case: Domestic shipments with no extras.
      *
      * todo(nr): mock SDK access. test focus is the correct transformation of POST data into request builder args.
-     *
-     * @test
-     * @dataProvider domesticShipmentDataProvider
-     *
-     * @magentoAppArea adminhtml
      *
      * @param OrderInterface $order The order to request a shipping label for
      * @param string[] $shipmentData The shipment data coming from the packaging popup (POST['shipment']).
      * @param string[] $packagesData The packages data coming from the packaging popup (POST['packages']).
      *
-     * @magentoConfigFixture current_store shipping/origin/country_id DE
-     * @magentoConfigFixture current_store shipping/origin/region_id 91
-     * @magentoConfigFixture current_store shipping/origin/postcode 04229
-     * @magentoConfigFixture current_store shipping/origin/city Leipzig
-     * @magentoConfigFixture current_store shipping/origin/street_line1 Nonnenstraße 11
+     * @test
+     * @dataProvider domesticShipmentDataProvider
+     *
+     * @magentoDbIsolation enabled
+     *
+     * @magentoConfigFixture default_store general/store_information/name NR-Test-Store
+     * @magentoConfigFixture default_store general/store_information/region_id 91
+     * @magentoConfigFixture default_store general/store_information/phone 000
+     * @magentoConfigFixture default_store general/store_information/country_id DE
+     * @magentoConfigFixture default_store general/store_information/postcode 04229
+     * @magentoConfigFixture default_store general/store_information/city Leipzig
+     * @magentoConfigFixture default_store general/store_information/street_line1 Nonnenstraße 11
+     *
+     * @magentoConfigFixture default_store shipping/origin/country_id DE
+     * @magentoConfigFixture default_store shipping/origin/region_id 91
+     * @magentoConfigFixture default_store shipping/origin/postcode 04229
+     * @magentoConfigFixture default_store shipping/origin/city Leipzig
+     * @magentoConfigFixture default_store shipping/origin/street_line1 Nonnenstraße 11
      *
      * @magentoConfigFixture current_store carriers/dhlpaket/active 1
      * @magentoConfigFixture current_store carriers/dhlpaket/dhl_paket_checkout_settings/emulated_carrier flatrate
@@ -221,29 +280,96 @@ class CreateLabelTest extends TestCase
      */
     public function domesticShipment(OrderInterface $order, array $shipmentData, array $packagesData)
     {
-        $this->auth->login(
-            \Magento\TestFramework\Bootstrap::ADMIN_NAME,
-            \Magento\TestFramework\Bootstrap::ADMIN_PASSWORD
-        );
-
-//        $this->markTestIncomplete('Pass in order fixture.');
+        $this->doAdminLogin();
 
         /** @var Http $request */
-        $request = Bootstrap::getObjectManager()->create(Http::class);
+        $request = $this->objectManager->create(Http::class);
         $request->setPostValue('shipment', $shipmentData);
         $request->setPostValue('packages', $packagesData);
 
-        $this->shipmentLoader->setOrderId($order->getEntityId());
-        $this->shipmentLoader->setShipment($shipmentData);
-        $shipment = $this->shipmentLoader->load();
+        $shipmentLoader = $this->objectManager->create(ShipmentLoader::class);
+        $shipmentLoader->setOrderId($order->getEntityId());
+        $shipmentLoader->setShipment($shipmentData);
+
+        /** @var Shipment $shipment */
+        $shipment = $shipmentLoader->load();
         $shipment->register();
 
         self::assertEmpty($shipment->getShippingLabel());
-        $this->labelGenerator->create($shipment, $request);
+
+        $responseDataMapperMock = $this->getMockBuilder(ResponseDataMapper::class)
+            ->setMethods(['createShipmentResponse', 'createErrorResponse', 'createFailureResponse'])
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $apiGatewayMock = $this->getMockBuilder(\Dhl\Paket\Webservice\ApiGateway::class)
+            ->setMethods(['handleRequestAndResponse'])
+            ->setConstructorArgs([
+                'serviceFactory'        => $this->objectManager->create(ShipmentServiceFactory::class),
+                'requestDataMapper'     => $this->objectManager->create(RequestDataMapper::class),
+                'responseDataMapper'    => $responseDataMapperMock,
+                'operationProcessor'    => $this->objectManager->create(OperationProcessorInterface::class),
+                'labelStatusManagement' => $this->objectManager->create(LabelStatusManagementInterface::class),
+                'logger'                => $this->objectManager->create(LoggerInterface::class),
+            ])
+            ->getMock();
+        $apiGatewayMock
+            ->expects(self::any())
+            ->method('handleRequestAndResponse')
+            ->willReturn([
+                // Create a dummy response
+                $this->getShipmentResponse(
+                    1,
+                    'TRACKING-NUMBER-123',
+                    CreateLabelTestProvider::getLabelPdf()
+                ),
+            ]);
+
+        $apiGatewayFactoryMock = $this->getMockBuilder(ApiGatewayFactory::class)
+            ->setMethods(['create'])
+            ->disableOriginalConstructor()
+            ->getMock();
+        $apiGatewayFactoryMock
+            ->expects(self::any())
+            ->method('create')
+            ->willReturn(
+                $apiGatewayMock
+            );
+
+        $carrierFactoryMock = $this->getMockBuilder(CarrierFactory::class)
+            ->setMethods(['create'])
+            ->disableOriginalConstructor()
+            ->getMock();
+        $carrierFactoryMock
+            ->expects(self::any())
+            ->method('create')
+            ->willReturn(
+                $this->objectManager->create(Paket::class, [
+                    'apiGatewayFactory' => $apiGatewayFactoryMock,
+                ])
+            );
+
+        $labelFactoryMock = $this->getMockBuilder(LabelsFactory::class)
+            ->setMethods(['create'])
+            ->disableOriginalConstructor()
+            ->getMock();
+        $labelFactoryMock
+            ->expects(self::any())
+            ->method('create')
+            ->willReturn(
+                $this->objectManager->create(Labels::class, [
+                    'carrierFactory' => $carrierFactoryMock,
+                ])
+            );
+
+        $labelGenerator = $this->objectManager->create(LabelGenerator::class, [
+            'carrierFactory' => $carrierFactoryMock,
+            'labelFactory'   => $labelFactoryMock,
+        ]);
+
+        $labelGenerator->create($shipment, $request);
+
         self::assertNotEmpty($shipment->getShippingLabel());
-
-
-        CustomerFixtureRollback::create()->execute($this->customerFixture);
-        ProductFixtureRollback::create()->execute($this->productFixture);
+        self::assertSame('TRACKING-NUMBER-123', $shipment->getAllTracks()[0]->getNumber());
     }
 }
