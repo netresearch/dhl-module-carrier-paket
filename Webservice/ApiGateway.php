@@ -114,6 +114,17 @@ class ApiGateway
             $shipmentOrders[$sequenceNumber] = $this->requestDataMapper->mapRequest($sequenceNumber, $shipmentRequest);
         }
 
+        return $this->handleRequestAndResponse($shipmentRequests, $shipmentOrders);
+    }
+
+    /**
+     * @param \Magento\Shipping\Model\Shipment\Request[] $shipmentRequests
+     * @param array $shipmentOrders
+     *
+     * @return ShipmentResponse[]|ErrorResponse[]|FailureResponse[]
+     */
+    public function handleRequestAndResponse(array $shipmentRequests, array $shipmentOrders): array
+    {
         try {
             $createdShipments = [];
             $response = [];
