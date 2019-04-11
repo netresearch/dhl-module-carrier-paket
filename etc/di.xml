@@ -37,6 +37,11 @@
             <argument name="logger" xsi:type="object">Dhl\Paket\Model\Logger\Virtual</argument>
         </arguments>
     </type>
+    <type name="Dhl\Paket\Model\ShipmentManagement">
+        <arguments>
+            <argument name="logger" xsi:type="object">Dhl\Paket\Model\Logger\Virtual</argument>
+        </arguments>
+    </type>
     <type name="Dhl\ShippingCore\Model\LabelStatus\LabelStatusManagement">
         <arguments>
             <argument name="carrierCodes" xsi:type="array">

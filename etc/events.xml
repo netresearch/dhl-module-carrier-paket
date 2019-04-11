@@ -6,7 +6,7 @@
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
-    <event name="sales_order_shipment_track_delete_before">
-        <observer name="dhl_paket_disallow_delete_track" instance="Dhl\Paket\Observer\DeleteTrackObserver"/>
+    <event name="controller_action_predispatch_adminhtml_order_shipment_removeTrack">
+        <observer name="dhl_paket_disallow_delete_track" instance="Dhl\Paket\Observer\PreventTrackDeletion"/>
     </event>
 </config>
