@@ -6,6 +6,7 @@ declare(strict_types=1);
 
 namespace Dhl\Paket\Webservice\Processor;
 
+use Dhl\Paket\Model\Cancel\Request as CancelRequest;
 use Dhl\Paket\Webservice\CarrierResponse\ErrorResponse;
 use Dhl\Paket\Webservice\CarrierResponse\FailureResponse;
 use Dhl\Paket\Webservice\CarrierResponse\ShipmentResponse;
@@ -65,29 +66,37 @@ class LabelStatusProcessor implements OperationProcessorInterface
     {
         if (count($shipmentResponses) === 1 && ($shipmentResponses[0] instanceof FailureResponse)) {
             // set failure status to all orders
-            array_walk($shipmentRequests, function (Request $request) use ($shipmentResponses) {
-                $this->setLabelStatus($shipmentResponses[0], $request->getOrderShipment()->getOrder());
-            });
+            array_walk(
+                $shipmentRequests,
+                function (Request $request) use ($shipmentResponses) {
+                    $this->setLabelStatus($shipmentResponses[0], $request->getOrderShipment()->getOrder());
+                }
+            );
         } else {
             // set status per order
-            array_walk($shipmentResponses, function (DataObject $response) use ($shipmentRequests) {
-                /** @var ShipmentResponse|ErrorResponse $response */
-                $request = $shipmentRequests[$response->getSequenceNumber()];
-                $this->setLabelStatus($response, $request->getOrderShipment()->getOrder());
-            });
+            array_walk(
+                $shipmentResponses,
+                function (DataObject $response) use ($shipmentRequests) {
+                    /** @var ShipmentResponse|ErrorResponse $response */
+                    $request = $shipmentRequests[$response->getSequenceNumber()];
+                    $this->setLabelStatus($response, $request->getOrderShipment()->getOrder());
+                }
+            );
         }
     }
 
     /**
      * Mark orders with cancelled shipments "pending".
      *
-     * @param string[] $requested Shipment numbers to be cancelled.
+     * @param CancelRequest[] $requested Shipment cancellation requests
      * @param string[] $cancelled Shipment numbers cancelled successfully.
      */
     public function processCancelShipmentsResponse(array $requested, array $cancelled)
     {
-        foreach ($cancelled as $success) {
-            // TODO: obtain order assigned to the successfully cancelled shipment number, then set to pending
+        foreach ($requested as $cancelRequest) {
+            if (\in_array($cancelRequest->getTrackId(), $cancelled)) {
+                $this->labelStatusManagement->setLabelStatusPending($cancelRequest->getOrder());
+            }
         }
     }
 }

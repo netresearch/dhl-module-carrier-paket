@@ -6,6 +6,7 @@ declare(strict_types=1);
 
 namespace Dhl\Paket\Webservice;
 
+use Dhl\Paket\Model\Cancel\Request as CancelRequest;
 use Dhl\Paket\Webservice\CarrierResponse\ErrorResponse;
 use Dhl\Paket\Webservice\CarrierResponse\FailureResponse;
 use Dhl\Paket\Webservice\CarrierResponse\ShipmentResponse;
@@ -13,7 +14,6 @@ use Dhl\Paket\Webservice\Processor\OperationProcessorInterface;
 use Dhl\Paket\Webservice\Shipment\RequestDataMapper;
 use Dhl\Paket\Webservice\Shipment\ResponseDataMapper;
 use Dhl\Sdk\Paket\Bcs\Exception\ServiceException;
-use Dhl\ShippingCore\Api\LabelStatusManagementInterface;
 use Magento\Framework\DataObject;
 use Magento\Shipping\Model\Shipment\ReturnShipment;
 use Psr\Log\LoggerInterface;
@@ -50,18 +50,12 @@ class ApiGateway
     private $operationProcessor;
 
     /**
-     * @var LabelStatusManagementInterface
-     */
-    private $labelStatusManagement;
-
-    /**
      * ApiGateway constructor.
      *
      * @param ShipmentServiceFactory $serviceFactory
      * @param RequestDataMapper $requestDataMapper
      * @param ResponseDataMapper $responseDataMapper
      * @param OperationProcessorInterface $operationProcessor
-     * @param LabelStatusManagementInterface $labelStatusManagement
      * @param LoggerInterface $logger
      * @param int $storeId
      */
@@ -70,14 +64,12 @@ class ApiGateway
         RequestDataMapper $requestDataMapper,
         ResponseDataMapper $responseDataMapper,
         OperationProcessorInterface $operationProcessor,
-        LabelStatusManagementInterface $labelStatusManagement,
         LoggerInterface $logger,
         int $storeId = 0
     ) {
         $this->requestDataMapper = $requestDataMapper;
         $this->responseDataMapper = $responseDataMapper;
         $this->operationProcessor = $operationProcessor;
-        $this->labelStatusManagement = $labelStatusManagement;
         $this->shipmentService = $serviceFactory->create(
             [
                 'logger' => $logger,
@@ -87,7 +79,7 @@ class ApiGateway
     }
 
     /**
-     * Convert shipment requests to shipment orders, send to API, return result.
+     * Convert shipment requests to shipment orders, inform label status management, send to API, return result.
      *
      * The mapped result can be
      * - an array of tracking-label pairs or
@@ -138,12 +130,12 @@ class ApiGateway
             foreach ($shipmentOrders as $sequenceNumber => $shipmentOrder) {
                 $sequenceNumber = (string) $sequenceNumber;
                 if (isset($createdShipments[$sequenceNumber])) {
-                    $response[]= $this->responseDataMapper->createShipmentResponse(
+                    $response[] = $this->responseDataMapper->createShipmentResponse(
                         $sequenceNumber,
                         $createdShipments[$sequenceNumber]
                     );
                 } else {
-                    $response[]= $this->responseDataMapper->createErrorResponse(
+                    $response[] = $this->responseDataMapper->createErrorResponse(
                         $sequenceNumber,
                         __('Label for shipment request %1 could not be created.', $sequenceNumber)
                     );
@@ -155,20 +147,32 @@ class ApiGateway
         } finally {
             // post-process response, i.e. set new label status to order
             $this->operationProcessor->processCreateShipmentsResponse($shipmentRequests, $response);
+
             return $response;
         }
     }
 
     /**
-     * Send cancellation request to API, return result.
+     * Send cancellation request to API, inform label status management, return result.
      *
-     * @param string[] $shipmentNumbers
+     * @param CancelRequest[] $cancelRequests
      * @return string[]
      */
-    public function cancelShipments(array $shipmentNumbers): array
+    public function cancelShipments(array $cancelRequests): array
     {
         try {
-            return $this->shipmentService->cancelShipments($shipmentNumbers);
+            $cancelledShipments = $this->shipmentService->cancelShipments(
+                array_map(
+                    function ($cancelRequest) {
+                        /** @var CancelRequest $cancelRequest */
+                        return $cancelRequest->getTrackId();
+                    },
+                    $cancelRequests
+                )
+            );
+            $this->operationProcessor->processCancelShipmentsResponse($cancelRequests, $cancelledShipments);
+
+            return $cancelledShipments;
         } catch (ServiceException $exception) {
             return [];
         }

@@ -10,6 +10,7 @@ use Dhl\Paket\Webservice\CarrierResponse\ErrorResponse;
 use Dhl\Paket\Webservice\CarrierResponse\FailureResponse;
 use Dhl\Paket\Webservice\CarrierResponse\ShipmentResponse;
 use Magento\Shipping\Model\Shipment\Request;
+use Dhl\Paket\Model\Cancel\Request as CancelRequest;
 
 /**
  * Interface OperationProcessorInterface
@@ -33,7 +34,7 @@ interface OperationProcessorInterface
     /**
      * Perform actions after receiving the "delete shipments" response.
      *
-     * @param string[] $requested Shipment numbers to be cancelled.
+     * @param CancelRequest[] $requested Shipment cancellation requests
      * @param string[] $cancelled Shipment numbers cancelled successfully.
      */
     public function processCancelShipmentsResponse(array $requested, array $cancelled);

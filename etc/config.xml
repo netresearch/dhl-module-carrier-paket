@@ -21,6 +21,10 @@
                 <specificerrmsg>This shipping method is not available. To use this shipping method, please contact us.</specificerrmsg>
                 <sallowspecific>0</sallowspecific>
 
+                <general_shipping_settings>
+                    <loglevel>400</loglevel>
+                </general_shipping_settings>
+
                 <account_settings>
                     <auth_username>NRMAG_2</auth_username>
                     <auth_password>ivVTCAke61I6cTTilV1eBltp2rvSQb</auth_password>
