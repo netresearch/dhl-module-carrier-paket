@@ -47,3 +47,4 @@
 "Return shipments are not supported.","Retourenaufkleber werden nicht unterstützt."
 "Label for shipment request %1 could not be created.","Der Paketaufkleber für die Sendungsanfrage %1 konnte nicht erzeugt werden."
 "Requested shipments could not be created: %1","Paketaufkleber konnten nicht erzeugt werden: %1"
+"Multi package shipments are not supported.","Mehrpaketsendungen werden nicht unterstützt."

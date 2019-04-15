@@ -13,12 +13,10 @@ use Dhl\ShippingCore\Api\Data\ShipmentRequest\RecipientInterface;
 use Dhl\ShippingCore\Api\Data\ShipmentRequest\ShipperInterface;
 use Dhl\ShippingCore\Api\RequestExtractorInterface;
 use Dhl\ShippingCore\Api\RequestExtractorInterfaceFactory;
-use Dhl\ShippingCore\Util\StreetSplitterInterface;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Sales\Model\Order;
 use Magento\Sales\Model\Order\Shipment;
 use Magento\Shipping\Model\Shipment\Request;
-use Zend\Hydrator\Reflection;
 
 /**
  * Class RequestExtractor
@@ -52,29 +50,9 @@ class RequestExtractor implements RequestExtractorInterface
     private $shippingProducts;
 
     /**
-     * @var StreetSplitterInterface
-     */
-    private $streetSplitter;
-
-    /**
-     * @var Reflection
-     */
-    private $hydrator;
-
-    /**
      * @var RequestExtractorInterface
      */
     private $coreExtractor;
-
-    /**
-     * @var ShipperInterface
-     */
-    private $shipper;
-
-    /**
-     * @var RecipientInterface
-     */
-    private $recipient;
 
     /**
      * RequestExtractor constructor.
@@ -82,25 +60,33 @@ class RequestExtractor implements RequestExtractorInterface
      * @param Request $shipmentRequest
      * @param ModuleConfig $moduleConfig
      * @param ShippingProductsInterface $shippingProducts
-     * @param Reflection $hydrator
-     * @param StreetSplitterInterface $streetSplitter
      */
     public function __construct(
         RequestExtractorInterfaceFactory $requestExtractorFactory,
         Request $shipmentRequest,
         ModuleConfig $moduleConfig,
-        ShippingProductsInterface $shippingProducts,
-        Reflection $hydrator,
-        StreetSplitterInterface $streetSplitter
+        ShippingProductsInterface $shippingProducts
     ) {
         $this->requestExtractorFactory = $requestExtractorFactory;
         $this->shipmentRequest = $shipmentRequest;
         $this->moduleConfig = $moduleConfig;
         $this->shippingProducts = $shippingProducts;
-        $this->hydrator = $hydrator;
-        $this->streetSplitter = $streetSplitter;
+    }
 
-        $this->coreExtractor = $this->requestExtractorFactory->create(['shipmentRequest' => $shipmentRequest]);
+    /**
+     * Obtain core extractor for forwarding generic shipment data calls.
+     *
+     * @return RequestExtractorInterface
+     */
+    private function getCoreExtractor(): RequestExtractorInterface
+    {
+        if (empty($this->coreExtractor)) {
+            $this->coreExtractor = $this->requestExtractorFactory->create(
+                ['shipmentRequest' => $this->shipmentRequest]
+            );
+        }
+
+        return $this->coreExtractor;
     }
 
     /**
@@ -108,7 +94,7 @@ class RequestExtractor implements RequestExtractorInterface
      */
     public function isReturnShipmentRequest(): bool
     {
-        return $this->coreExtractor->isReturnShipmentRequest();
+        return $this->getCoreExtractor()->isReturnShipmentRequest();
     }
 
     /**
@@ -116,7 +102,7 @@ class RequestExtractor implements RequestExtractorInterface
      */
     public function getStoreId(): int
     {
-        return $this->coreExtractor->getStoreId();
+        return $this->getCoreExtractor()->getStoreId();
     }
 
     /**
@@ -124,7 +110,7 @@ class RequestExtractor implements RequestExtractorInterface
      */
     public function getBaseCurrencyCode(): string
     {
-        return $this->coreExtractor->getBaseCurrencyCode();
+        return $this->getCoreExtractor()->getBaseCurrencyCode();
     }
 
     /**
@@ -132,7 +118,7 @@ class RequestExtractor implements RequestExtractorInterface
      */
     public function getOrder(): Order
     {
-        return $this->coreExtractor->getOrder();
+        return $this->getCoreExtractor()->getOrder();
     }
 
     /**
@@ -140,121 +126,80 @@ class RequestExtractor implements RequestExtractorInterface
      */
     public function getShipment(): Shipment
     {
-        return $this->coreExtractor->getShipment();
+        return $this->getCoreExtractor()->getShipment();
     }
 
     /**
      * Extract shipper from shipment request.
      *
-     * @return Shipper
-     * @throws \ReflectionException
+     * @return ShipperInterface
      */
     public function getShipper(): ShipperInterface
     {
-        if (empty($this->shipper)) {
-            $shipper = $this->coreExtractor->getShipper();
-            $shipperData = $this->hydrator->extract($shipper);
-
-            $street = (string)$this->shipmentRequest->getShipperAddressStreet();
-            $streetParts = $this->streetSplitter->splitStreet($street);
-
-            $shipperData['streetName'] = $streetParts['street_name'];
-            $shipperData['streetNumber'] = $streetParts['street_number'];
-            $shipperData['addressAddition'] = $streetParts['supplement'];
-
-            /** @var Shipper $shipper */
-            $shipper = (new \ReflectionClass(Shipper::class))->newInstanceWithoutConstructor();
-            $this->hydrator->hydrate($shipperData, $shipper);
-
-            $this->shipper = $shipper;
-        }
-
-        return $this->shipper;
+        return $this->getCoreExtractor()->getShipper();
     }
 
     /**
      * Extract recipient from shipment request.
      *
-     * @return Recipient
-     * @throws \ReflectionException
+     * @return RecipientInterface
      */
     public function getRecipient(): RecipientInterface
     {
-        if (empty($this->recipient)) {
-            $recipient = $this->coreExtractor->getRecipient();
-            $recipientData = $this->hydrator->extract($recipient);
-
-            $street = (string)$this->shipmentRequest->getRecipientAddressStreet();
-            $streetParts = $this->streetSplitter->splitStreet($street);
-
-            $recipientData['streetName'] = $streetParts['street_name'];
-            $recipientData['streetNumber'] = $streetParts['street_number'];
-            $recipientData['addressAddition'] = $streetParts['supplement'];
-
-            /** @var Recipient $recipient */
-            $recipient = (new \ReflectionClass(Recipient::class))->newInstanceWithoutConstructor();
-            $this->hydrator->hydrate($recipientData, $recipient);
-
-            $this->recipient = $recipient;
-        }
-
-        return $this->recipient;
+        return $this->getCoreExtractor()->getRecipient();
     }
 
     /**
-     * @inheritdoc
+     * @inheritDoc
      */
     public function getShippingMethod(): string
     {
-        return $this->coreExtractor->getShippingMethod();
+        return $this->getCoreExtractor()->getShippingMethod();
     }
 
     /**
-     * @inheritdoc
+     * @inheritDoc
      */
     public function getPackageWeight(): float
     {
-        return $this->coreExtractor->getPackageWeight();
+        return $this->getCoreExtractor()->getPackageWeight();
     }
 
     /**
-     * @inheritdoc
+     * @inheritDoc
      */
-    public function getAllPackages(): array
+    public function getPackages(): array
     {
-        return $this->coreExtractor->getAllPackages();
+        $packages = $this->getCoreExtractor()->getPackages();
+        if (count($packages) > 1) {
+            throw new LocalizedException(__('Multi package shipments are not supported.'));
+        }
+
+        return $packages;
     }
 
     /**
-     * @inheritdoc
-     */
-    public function getPackage(): PackageInterface
-    {
-        return $this->coreExtractor->getPackage();
-    }
-
-    /**
-     * @inheritdoc
+     * @inheritDoc
      */
     public function getAllItems(): array
     {
-        return $this->coreExtractor->getAllItems();
+        return $this->getCoreExtractor()->getAllItems();
     }
 
     /**
-     * @inheritdoc
+     * @inheritDoc
      */
     public function getPackageItems(): array
     {
-        return $this->coreExtractor->getPackageItems();
+        return $this->getCoreExtractor()->getPackageItems();
     }
 
     /**
-     * @inheritdoc
+     * @inheritDoc
      */
     public function isCashOnDelivery(): bool
     {
-        return $this->coreExtractor->isCashOnDelivery();
+        return $this->getCoreExtractor()->isCashOnDelivery();
     }
 
     /**
@@ -265,22 +210,25 @@ class RequestExtractor implements RequestExtractorInterface
      */
     public function isPrintOnlyIfCodeable(): bool
     {
-        $storeId = $this->coreExtractor->getStoreId();
+        $storeId = $this->getCoreExtractor()->getStoreId();
         return $this->moduleConfig->printOnlyIfCodeable($storeId);
     }
 
     /**
      * Obtain the 14-digit billing number for the current package.
      *
-     * @todo(nr): pull product code from proper field in shipment request once it's available there.
      * @return string
      * @throws LocalizedException
      */
     public function getBillingNumber(): string
     {
-        $storeId = $this->coreExtractor->getStoreId();
+        /** @var PackageInterface $package */
+        $package = current($this->getPackages());
 
-        $productCode = $this->coreExtractor->getPackage()->getContainerType();
+        $storeId = $this->getCoreExtractor()->getStoreId();
+
+        //todo(nr): pull product code from proper field in shipment request once it's available there.
+        $productCode = $package->getContainerType();
         $ekp = $this->moduleConfig->getEkp($storeId);
         $participations = $this->moduleConfig->getParticipations($storeId);
 

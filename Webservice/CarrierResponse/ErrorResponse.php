@@ -35,7 +35,7 @@ class ErrorResponse extends DataObject
     }
 
     /**
-     * Get tracking number from response.
+     * Get errors from response.
      *
      * @return string
      */

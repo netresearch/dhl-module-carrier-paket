@@ -47,3 +47,4 @@
 "Return shipments are not supported.","Return shipments are not supported."
 "Label for shipment request %1 could not be created.","Label for shipment request %1 could not be created."
 "Requested shipments could not be created: %1","Requested shipments could not be created: %1"
+"Multi package shipments are not supported.","Multi package shipments are not supported."

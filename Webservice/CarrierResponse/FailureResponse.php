@@ -23,7 +23,7 @@ use Magento\Framework\DataObject;
 class FailureResponse extends DataObject
 {
     /**
-     * Get tracking number from response.
+     * Get errors from response.
      *
      * @return string
      */

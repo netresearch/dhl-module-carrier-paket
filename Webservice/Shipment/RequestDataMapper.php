@@ -6,10 +6,11 @@ declare(strict_types=1);
 
 namespace Dhl\Paket\Webservice\Shipment;
 
-use Dhl\Paket\Model\ShipmentRequest\RequestExtractor;
 use Dhl\Paket\Model\ShipmentRequest\RequestExtractorFactory;
 use Dhl\Sdk\Paket\Bcs\Api\ShipmentOrderRequestBuilderInterface;
-use Dhl\ShippingCore\Util\UnitConverterInterface;
+use Dhl\ShippingCore\Api\Data\ShipmentRequest\PackageInterface;
+use Dhl\ShippingCore\Api\UnitConverterInterface;
+use Magento\Framework\Exception\LocalizedException;
 use Magento\Shipping\Model\Shipment\Request;
 
 /**
@@ -23,7 +24,7 @@ class RequestDataMapper
     /**
      * Utility for extracting data from shipment request.
      *
-     * @var RequestExtractor
+     * @var RequestExtractorFactory
      */
     private $requestExtractorFactory;
 
@@ -61,6 +62,7 @@ class RequestDataMapper
      * @param string $sequenceNumber Request identifier to associate request-response pairs
      * @param Request $request The shipment request
      * @return object
+     * @throws LocalizedException
      */
     public function mapRequest(string $sequenceNumber, Request $request)
     {
@@ -71,7 +73,6 @@ class RequestDataMapper
         $this->requestBuilder->setSequenceNumber($sequenceNumber);
         $this->requestBuilder->setShipperAccount($requestExtractor->getBillingNumber());
 
-        //todo(nr): add "address addition" from split street
         $this->requestBuilder->setShipperAddress(
             $requestExtractor->getShipper()->getContactCompanyName(),
             $requestExtractor->getShipper()->getCountryCode(),
@@ -105,31 +106,6 @@ class RequestDataMapper
             [$requestExtractor->getRecipient()->getAddressAddition()]
         );
 
-        $this->requestBuilder->setShipmentDetails(
-            $requestExtractor->getPackage()->getProductCode(),
-            $requestExtractor->getShipmentDate(),
-            $requestExtractor->getOrder()->getIncrementId()
-        );
-
-        $weight = (float) $requestExtractor->getPackage()->getWeight();
-        $weightUom = $requestExtractor->getPackage()->getWeightUom();
-        $weightInKg = $this->unitConverter->convertWeight($weight, $weightUom, \Zend_Measure_Weight::KILOGRAM);
-
-        $this->requestBuilder->setPackageDetails($weightInKg);
-
-        $dimensionsUom = $requestExtractor->getPackage()->getDimensionsUom();
-        $width = (float) $requestExtractor->getPackage()->getWidth();
-        $length = (float) $requestExtractor->getPackage()->getLength();
-        $height = (float) $requestExtractor->getPackage()->getHeight();
-
-        if ($width && $length && $height) {
-            $targetUom = \Zend_Measure_Length::CENTIMETER;
-            $widthInCm = $this->unitConverter->convertDimension($width, $dimensionsUom, $targetUom);
-            $lengthInCm = $this->unitConverter->convertDimension($length, $dimensionsUom, $targetUom);
-            $heightInCm = $this->unitConverter->convertDimension($height, $dimensionsUom, $targetUom);
-            $this->requestBuilder->setPackageDimensions((int) $widthInCm, (int) $lengthInCm, (int) $heightInCm);
-        }
-
         if ($requestExtractor->isPrintOnlyIfCodeable()) {
             $this->requestBuilder->setPrintOnlyIfCodeable();
         }
@@ -137,6 +113,34 @@ class RequestDataMapper
         // Add cash on delivery amount if COD payment method
         if ($requestExtractor->isCashOnDelivery()) {
             $this->requestBuilder->setCodAmount((float) $requestExtractor->getOrder()->getBaseGrandTotal());
+        }
+
+        /** @var PackageInterface $package */
+        foreach ($requestExtractor->getPackages() as $package) {
+            $this->requestBuilder->setShipmentDetails(
+                $package->getProductCode(),
+                $requestExtractor->getShipmentDate(),
+                $requestExtractor->getOrder()->getIncrementId()
+            );
+
+            $weight = $package->getWeight();
+            $weightUom = $package->getWeightUom();
+            $weightInKg = $this->unitConverter->convertWeight($weight, $weightUom, \Zend_Measure_Weight::KILOGRAM);
+
+            $this->requestBuilder->setPackageDetails($weightInKg);
+
+            $dimensionsUom = $package->getDimensionsUom();
+            $width = $package->getWidth();
+            $length = $package->getLength();
+            $height = $package->getHeight();
+
+            if ($width && $length && $height) {
+                $targetUom = \Zend_Measure_Length::CENTIMETER;
+                $widthInCm = $this->unitConverter->convertDimension($width, $dimensionsUom, $targetUom);
+                $lengthInCm = $this->unitConverter->convertDimension($length, $dimensionsUom, $targetUom);
+                $heightInCm = $this->unitConverter->convertDimension($height, $dimensionsUom, $targetUom);
+                $this->requestBuilder->setPackageDimensions((int) $widthInCm, (int) $lengthInCm, (int) $heightInCm);
+            }
         }
 
         return $this->requestBuilder->create();
