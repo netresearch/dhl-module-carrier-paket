@@ -12,7 +12,6 @@ use Dhl\Paket\Model\Carrier\Paket;
 use Dhl\Paket\Webservice\ApiGateway;
 use Dhl\Paket\Webservice\ApiGatewayFactory;
 use Dhl\ShippingCore\Api\LabelStatusManagementInterface;
-use Magento\Framework\Api\Filter;
 use Magento\Framework\Api\FilterBuilder;
 use Magento\Framework\Api\Search\SearchCriteria;
 use Magento\Framework\Api\Search\SearchCriteriaBuilderFactory;
@@ -23,6 +22,7 @@ use Magento\Sales\Api\Data\ShipmentInterface;
 use Magento\Sales\Api\Data\ShipmentTrackInterface;
 use Magento\Sales\Model\Order\Shipment\TrackRepository;
 use Magento\Sales\Model\ResourceModel\Order\Shipment;
+use Magento\Sales\Model\ResourceModel\Order\Shipment\Track\Collection;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -143,11 +143,11 @@ class ShipmentManagement
 
         /** @var \Magento\Sales\Model\Order\Shipment $shipment */
         foreach ($shipments as $shipment) {
-            $searchCriteria = $this->buildShipmentSearchCriteria($shipment);
+            $searchCriteria = $this->buildShipmentSearchCriteria($shipment->getId());
 
-            /** @var \Magento\Sales\Model\ResourceModel\Order\Shipment\Track\Collection $searchResult */
-            $searchResult = $this->trackRepository->getList($searchCriteria);
-            $trackNumbers = $searchResult->getColumnValues(ShipmentTrackInterface::TRACK_NUMBER);
+            /** @var Collection $trackCollection */
+            $trackCollection = $this->trackRepository->getList($searchCriteria);
+            $trackNumbers = $trackCollection->getColumnValues(ShipmentTrackInterface::TRACK_NUMBER);
 
             $cancelRequests = $this->createCancelRequests($shipment, $trackNumbers);
 
@@ -155,24 +155,23 @@ class ShipmentManagement
             $api = $this->getApiGateway((int) $shipment->getStoreId());
             $apiResult = $api->cancelShipments($cancelRequests);
 
-            $diff = array_diff($trackNumbers, $apiResult);
-            if (!empty($diff)) {
-                $bulkException->addError(__('Shipment orders %1 could not be cancelled.', implode(', ', $diff)));
-                continue;
+            $unCancelled = array_diff($trackNumbers, $apiResult);
+            if (!empty($unCancelled)) {
+                $bulkException->addError(__('Shipment orders %1 could not be cancelled.', implode(', ', $unCancelled)));
             }
 
-            // delete tracks and unset shipping label
-            $this->shipmentResource->beginTransaction();
-
             try {
-                foreach ($searchResult as $track) {
-                    if (in_array($track->getNumber(), $apiResult, true)) {
+                // delete tracks and unset shipping label
+                $this->shipmentResource->beginTransaction();
+                foreach ($trackCollection as $track) {
+                    if (\in_array($track->getNumber(), $apiResult, true)) {
                         $this->trackRepository->delete($track);
                     }
                 }
-
-                $shipment->setShippingLabel(null);
-                $this->shipmentResource->save($shipment);
+                if (empty($unCancelled)) {
+                    $shipment->setShippingLabel(null);
+                    $this->shipmentResource->save($shipment);
+                }
                 $this->shipmentResource->commit();
             } catch (LocalizedException $exception) {
                 $bulkException->addException($exception);
@@ -192,48 +191,27 @@ class ShipmentManagement
     }
 
     /**
-     * Create filter for shipmentId
+     * Create search criteria from shipmentId and carrierCode filter
      *
-     * @param ShipmentInterface $shipment
-     * @return Filter
+     * @param string $shipmentId
+     * @return SearchCriteria
+     *
      */
-    private function createShipmentIdFilter(ShipmentInterface $shipment): Filter
+    private function buildShipmentSearchCriteria($shipmentId): SearchCriteria
     {
         $this->filterBuilder->setField(ShipmentTrackInterface::PARENT_ID);
         $this->filterBuilder->setConditionType('eq');
-        $this->filterBuilder->setValue($shipment->getEntityId());
+        $this->filterBuilder->setValue($shipmentId);
+        $shipmentIdFilter = $this->filterBuilder->create();
 
-        return $this->filterBuilder->create();
-    }
-
-    /**
-     * Create filter for carrier code
-     *
-     * @return Filter
-     */
-    private function createCarrierCodeFilter(): Filter
-    {
         $this->filterBuilder->setField(ShipmentTrackInterface::CARRIER_CODE);
         $this->filterBuilder->setConditionType('eq');
         $this->filterBuilder->setValue(Paket::CARRIER_CODE);
+        $carrierCodeFilter = $this->filterBuilder->create();
 
-        return $this->filterBuilder->create();
-    }
-
-    /**
-     * Create search criteria from shipmentId and carrierCode filter
-     *
-     * @param $shipment
-     * @return SearchCriteria
-     * @see createCarrierCodeFilter
-     * @see createShipmentIdFilter
-     *
-     */
-    private function buildShipmentSearchCriteria($shipment): SearchCriteria
-    {
         $searchCriteriaBuilder = $this->searchCriteriaBuilderFactory->create();
-        $searchCriteriaBuilder->addFilter($this->createShipmentIdFilter($shipment));
-        $searchCriteriaBuilder->addFilter($this->createCarrierCodeFilter());
+        $searchCriteriaBuilder->addFilter($shipmentIdFilter);
+        $searchCriteriaBuilder->addFilter($carrierCodeFilter);
 
         return $searchCriteriaBuilder->create();
     }
