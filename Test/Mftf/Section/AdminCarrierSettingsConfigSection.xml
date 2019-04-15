@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+ /**
+  * See LICENSE.md for license details.
+  */
+-->
+<sections xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:mftf:Page/etc/SectionObject.xsd">
+    <section name="AdminCarrierSettingsConfigSection">
+        <element name="carrierGroup" type="button" selector="#carriers_dhlpaket-head"/>
+        <element name="carrierGroupExpanded" type="button" selector="#carriers_dhlpaket-head:not(.open)"/>
+
+        <!-- General settings -->
+        <element name="generalSettingsGroup" type="button" selector="#carriers_dhlpaket_general_shipping_settings-head"/>
+        <element name="generalSettingsGroupExpanded" type="button" selector="#carriers_dhlpaket_general_shipping_settings-head:not(.open)"/>
+        <element name="displayRatesAtCheckoutCheckbox" type="checkbox" selector="#carriers_dhlpaket_general_shipping_settings_active"/>
+        <element name="recordMessagesCheckbox" type="checkbox" selector="#carriers_dhlpaket_general_shipping_settings_logging"/>
+
+        <!-- Checkout presentation -->
+        <element name="checkoutPresentationGroup" type="button" selector="#carriers_dhlpaket_dhl_paket_checkout_settings-head"/>
+        <element name="checkoutPresentationGroupExpanded" type="button" selector="#carriers_dhlpaket_dhl_paket_checkout_settings-head:not(.open)"/>
+
+        <element name="checkoutPresentationUseRatesFromSelect" type="select" selector="#carriers_dhlpaket_dhl_paket_checkout_settings_emulated_carrier"/>
+    </section>
+</sections>

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ /**
+  * See LICENSE.md for license details.
+  */
+-->
+<tests xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/testSchema.xsd">
+    <test name="DhlCarrierPaketConfigure">
+        <annotations>
+            <features value="Configuration"/>
+            <stories value="Configuration of carrier DHL Paket"/>
+            <title value="Configuration of carrier DHL Paket"/>
+            <description value="Verify that carrier DHL Paket can be configured"/>
+            <severity value="CRITICAL"/>
+            <group value="carrier-paket-configuration"/>
+        </annotations>
+        <before>
+            <actionGroup ref="LoginAsAdmin" stepKey="loginAsAdmin"/>
+        </before>
+        <after>
+            <actionGroup ref="logout" stepKey="logout"/>
+        </after>
+        <actionGroup ref="NavigateToCarrierSettings" stepKey="navigateToCarrierSettingsConfigInTest"/>
+
+        <!-- General settings -->
+        <seeElement selector="{{AdminCarrierSettingsConfigSection.generalSettingsGroup}}" stepKey="seeGeneralSettingsGroup"/>
+        <conditionalClick stepKey="expandGeneralSettingsGroup"
+                          selector="{{AdminCarrierSettingsConfigSection.generalSettingsGroup}}"
+                          dependentSelector="{{AdminCarrierSettingsConfigSection.generalSettingsGroupExpanded}}"
+                          visible="true"/>
+
+        <see selector="{{AdminCarrierSettingsConfigSection.displayRatesAtCheckoutCheckbox}} + label"
+             userInput="{{CarrierSettingsData.displayRatesAtCheckoutCheckboxLabel}}"
+             stepKey="seeDisplayRatesAtCheckoutCheckboxLabel"/>
+        <dontSeeCheckboxIsChecked selector="{{AdminCarrierSettingsConfigSection.displayRatesAtCheckoutCheckbox}}"
+                                  stepKey="displayRatesAtCheckoutCheckboxNotChecked"/>
+
+        <see selector="{{AdminCarrierSettingsConfigSection.recordMessagesCheckbox}} + label"
+             userInput="{{CarrierSettingsData.recordMessagesCheckboxLabel}}"
+             stepKey="seeRecordMessagesCheckboxLabel"/>
+        <dontSeeCheckboxIsChecked selector="{{AdminCarrierSettingsConfigSection.recordMessagesCheckbox}}"
+                                  stepKey="recordMessagesCheckboxNotChecked"/>
+
+        <click selector="{{AdminCarrierSettingsConfigSection.displayRatesAtCheckoutCheckbox}} + label"
+               stepKey="seeDisplayRatesAtCheckoutCheckboxClick"/>
+
+        <!-- Checkout presentation -->
+        <seeElement selector="{{AdminCarrierSettingsConfigSection.checkoutPresentationGroup}}" stepKey="seeCheckoutPresentationGroup"/>
+        <conditionalClick stepKey="expandCheckoutPresentationGroup"
+                          selector="{{AdminCarrierSettingsConfigSection.checkoutPresentationGroup}}"
+                          dependentSelector="{{AdminCarrierSettingsConfigSection.checkoutPresentationGroupExpanded}}"
+                          visible="true"/>
+
+        <seeElement selector="{{AdminCarrierSettingsConfigSection.checkoutPresentationUseRatesFromSelect}}"
+                    stepKey="seeCheckoutPresentationUseRatesFromSelect"/>
+
+        <selectOption selector="{{AdminCarrierSettingsConfigSection.checkoutPresentationUseRatesFromSelect}}"
+                      userInput="{{CarrierSettingsData.useRatesFromFlatRate}}"
+                      stepKey="selectCheckoutPresentationUseRatesFrom"/>
+
+        <!-- Save -->
+        <actionGroup ref="SaveAdminConfigSection" stepKey="saveAdminConfigSection"/>
+
+        <!-- Confirm selection is persisted -->
+        <seeCheckboxIsChecked selector="{{AdminCarrierSettingsConfigSection.displayRatesAtCheckoutCheckbox}}"
+                              stepKey="seeDisplayRatesAtCheckoutCheckboxChecked"/>
+
+        <seeOptionIsSelected selector="{{AdminCarrierSettingsConfigSection.checkoutPresentationUseRatesFromSelect}}"
+                             userInput="{{CarrierSettingsData.useRatesFromFlatRate}}"
+                             stepKey="validateCheckoutPresentationUseRatesFromSelect"/>
+    </test>
+</tests>
