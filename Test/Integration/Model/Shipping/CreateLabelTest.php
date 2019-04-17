@@ -216,7 +216,7 @@ class CreateLabelTest extends TestCase
             'de-de' => [$order, $shipmentDataDe, $packagesDataDe],
         ];
 
-        return $requests;
+        return [$order, $shipmentDataDe, $packagesDataDe];
     }
 
     /**
@@ -250,9 +250,9 @@ class CreateLabelTest extends TestCase
      * @param string[] $packagesData The packages data coming from the packaging popup (POST['packages']).
      *
      * @test
-     * @dataProvider domesticShipmentDataProvider
      *
      * @magentoDbIsolation enabled
+     * @magentoAppArea adminhtml
      *
      * @magentoConfigFixture default_store general/store_information/name NR-Test-Store
      * @magentoConfigFixture default_store general/store_information/region_id 91
@@ -278,8 +278,9 @@ class CreateLabelTest extends TestCase
      * @return void
      * @throws \Exception
      */
-    public function domesticShipment(OrderInterface $order, array $shipmentData, array $packagesData)
+    public function domesticShipment()
     {
+        list($order, $shipmentData, $packagesData) = $this->domesticShipmentDataProvider();
         $this->doAdminLogin();
 
         /** @var Http $request */
