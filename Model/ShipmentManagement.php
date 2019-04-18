@@ -130,7 +130,7 @@ class ShipmentManagement
                 $shipmentId = $storeApiRequest->getShipment()->getEntityId();
                 if (!in_array($trackNumber, $apiResult, true)) {
                     // shipment was not cancelled at the api, mark overall shipment failed and add error.
-                    $failedShipments[$shipmentId]= $shipmentId;
+                    $failedShipments[$shipmentId] = $shipmentId;
                     $bulkException->addError(__('Shipment order %1 could not be cancelled.', $trackNumber));
                 } else {
                     $cancelledTracks[$shipmentId][]= $storeApiRequest->getTrack();
@@ -150,8 +150,8 @@ class ShipmentManagement
                         $this->trackRepository->delete($track);
                     });
 
-                    // unset label
-                    if (!in_array($shipmentId, $failedShipments, true)) {
+                    // unset combined label if all tracks (=labels) were cancelled at the api
+                    if (!array_key_exists($shipmentId, $failedShipments)) {
                         /** @var \Magento\Sales\Model\Order\Shipment $shipment */
                         $shipment = $shipmentTracks[0]->getShipment();
                         $shipment->setShippingLabel(null);
