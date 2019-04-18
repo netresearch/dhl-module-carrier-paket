@@ -6,6 +6,7 @@ declare(strict_types=1);
 
 namespace Dhl\Paket\Controller\Adminhtml\Shipment;
 
+use Dhl\Paket\Model\Shipment\CancelRequestBuilder;
 use Dhl\Paket\Model\ShipmentManagement;
 use Magento\Backend\App\Action;
 use Magento\Backend\App\Action\Context;
@@ -32,6 +33,11 @@ class Cancel extends Action
     private $shipmentRepository;
 
     /**
+     * @var CancelRequestBuilder
+     */
+    private $cancelRequestBuilder;
+
+    /**
      * @var ShipmentManagement
      */
     private $shipmentManagement;
@@ -41,14 +47,17 @@ class Cancel extends Action
      *
      * @param Context $context
      * @param ShipmentRepositoryInterface $shipmentRepository
+     * @param CancelRequestBuilder $cancelRequestBuilder
      * @param ShipmentManagement $shipmentManagement
      */
     public function __construct(
         Context $context,
         ShipmentRepositoryInterface $shipmentRepository,
+        CancelRequestBuilder $cancelRequestBuilder,
         ShipmentManagement $shipmentManagement
     ) {
         $this->shipmentRepository = $shipmentRepository;
+        $this->cancelRequestBuilder = $cancelRequestBuilder;
         $this->shipmentManagement = $shipmentManagement;
 
         parent::__construct($context);
@@ -65,7 +74,11 @@ class Cancel extends Action
 
         try {
             $shipment = $this->shipmentRepository->get($shipmentId);
-            $this->shipmentManagement->cancelShipments([$shipment]);
+
+            $this->cancelRequestBuilder->setShipment($shipment);
+            $cancelRequests = $this->cancelRequestBuilder->build();
+            $this->shipmentManagement->cancelLabels($cancelRequests);
+
             $this->messageManager->addSuccessMessage(__('The shipment order was successfully cancelled.'));
         } catch (LocalizedException $exception) {
             $this->messageManager->addExceptionMessage($exception, __('The shipment order could not be cancelled.'));

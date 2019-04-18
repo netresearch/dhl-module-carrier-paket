@@ -15,7 +15,7 @@ use Magento\Quote\Model\Quote;
  *
  * @package Dhl\Paket\Model\Carrier
  * @author Paul Siedler <paul.siedler@netresearch.de>
- * @link http://www.netresearch.de/
+ * @link https://www.netresearch.de/
  */
 class CodSupportHandler implements CodSupportInterface
 {

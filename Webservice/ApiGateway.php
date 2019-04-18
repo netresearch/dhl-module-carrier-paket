@@ -6,7 +6,7 @@ declare(strict_types=1);
 
 namespace Dhl\Paket\Webservice;
 
-use Dhl\Paket\Model\Cancel\Request as CancelRequest;
+use Dhl\Paket\Model\Shipment\CancelRequest;
 use Dhl\Paket\Webservice\CarrierResponse\ErrorResponse;
 use Dhl\Paket\Webservice\CarrierResponse\FailureResponse;
 use Dhl\Paket\Webservice\CarrierResponse\ShipmentResponse;
@@ -161,15 +161,12 @@ class ApiGateway
     public function cancelShipments(array $cancelRequests): array
     {
         try {
-            $cancelledShipments = $this->shipmentService->cancelShipments(
-                array_map(
-                    function ($cancelRequest) {
-                        /** @var CancelRequest $cancelRequest */
-                        return $cancelRequest->getTrackId();
-                    },
-                    $cancelRequests
-                )
-            );
+            $shipmentNumbers = array_map(function (CancelRequest $cancelRequest) {
+                return $cancelRequest->getTrack()->getTrackNumber();
+            }, $cancelRequests);
+
+            $cancelledShipments = $this->shipmentService->cancelShipments($shipmentNumbers);
+
             $this->operationProcessor->processCancelShipmentsResponse($cancelRequests, $cancelledShipments);
 
             return $cancelledShipments;

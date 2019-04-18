@@ -50,7 +50,7 @@
 "Multi package shipments are not supported.","Multi package shipments are not supported."
 "Cancel Shipment","Cancel Shipment"
 "The shipment order was successfully cancelled.","The shipment order was successfully cancelled."
-"Shipment orders %1 could not be cancelled.","Shipment orders %1 could not be cancelled."
+"Shipment order %1 could not be cancelled.","Shipment order %1 could not be cancelled."
 "The shipment order could not be cancelled.","The shipment order could not be cancelled."
 "An error occurred during shipment order cancellation.","An error occurred during shipment order cancellation."
 "Unable to delete tracks or shipping label.","Unable to delete tracks or shipping label."

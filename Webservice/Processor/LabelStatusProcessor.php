@@ -6,7 +6,7 @@ declare(strict_types=1);
 
 namespace Dhl\Paket\Webservice\Processor;
 
-use Dhl\Paket\Model\Cancel\Request as CancelRequest;
+use Dhl\Paket\Model\Shipment\CancelRequest;
 use Dhl\Paket\Webservice\CarrierResponse\ErrorResponse;
 use Dhl\Paket\Webservice\CarrierResponse\FailureResponse;
 use Dhl\Paket\Webservice\CarrierResponse\ShipmentResponse;
@@ -88,14 +88,16 @@ class LabelStatusProcessor implements OperationProcessorInterface
     /**
      * Mark orders with cancelled shipments "pending".
      *
-     * @param CancelRequest[] $requested Shipment cancellation requests
+     * @param CancelRequest[] $cancelRequests Shipment cancellation requests
      * @param string[] $cancelled Shipment numbers cancelled successfully.
      */
-    public function processCancelShipmentsResponse(array $requested, array $cancelled)
+    public function processCancelShipmentsResponse(array $cancelRequests, array $cancelled)
     {
-        foreach ($requested as $cancelRequest) {
-            if (\in_array($cancelRequest->getTrackId(), $cancelled)) {
-                $this->labelStatusManagement->setLabelStatusPending($cancelRequest->getOrder());
+        foreach ($cancelRequests as $cancelRequest) {
+            if (\in_array($cancelRequest->getTrack()->getTrackNumber(), $cancelled, true)) {
+                /** @var \Magento\Sales\Model\Order\Shipment $shipment */
+                $shipment = $cancelRequest->getShipment();
+                $this->labelStatusManagement->setLabelStatusPending($shipment->getOrder());
             }
         }
     }

@@ -50,7 +50,7 @@
 "Multi package shipments are not supported.","Mehrpaketsendungen werden nicht unterstützt."
 "Cancel Shipment","Sendung stornieren"
 "The shipment order was successfully cancelled.","Der Versandauftrag wurde erfolgreich storniert."
-"Shipment orders %1 could not be cancelled.","Die Versandaufträge %1 konnten nicht storniert werden."
+"Shipment order %1 could not be cancelled.","Der Versandauftrag %1 konnten nicht storniert werden."
 "The shipment order could not be cancelled.","Der Versandauftrag konnte nicht storniert werden."
 "An error occurred during shipment order cancellation.","Während der Stornierung des Versandauftrags ist ein Fehler aufgetreten."
 "Unable to delete tracks or shipping label.","Die Sendungsnummer oder der Paketaufklaber konnte nicht gelöscht werden."
