@@ -133,7 +133,7 @@ class ShipmentManagement
                     $failedShipments[$shipmentId] = $shipmentId;
                     $bulkException->addError(__('Shipment order %1 could not be cancelled.', $trackNumber));
                 } else {
-                    $cancelledTracks[$shipmentId][]= $storeApiRequest->getTrack();
+                    $cancelledTracks[$shipmentId][] = $storeApiRequest->getTrack();
                 }
             }
 
@@ -146,9 +146,12 @@ class ShipmentManagement
                     $this->shipmentResource->beginTransaction();
 
                     // delete cancelled tracks of a shipment
-                    array_walk($shipmentTracks, function (ShipmentTrackInterface $track) {
-                        $this->trackRepository->delete($track);
-                    });
+                    array_walk(
+                        $shipmentTracks,
+                        function (ShipmentTrackInterface $track) {
+                            $this->trackRepository->delete($track);
+                        }
+                    );
 
                     // unset combined label if all tracks (=labels) were cancelled at the api
                     if (!array_key_exists($shipmentId, $failedShipments)) {
@@ -163,7 +166,9 @@ class ShipmentManagement
                     $bulkException->addException($exception);
                     $this->shipmentResource->rollBack();
                 } catch (\Exception $exception) {
-                    $bulkException->addError(__('Unable to delete tracks or shipping label: %1', $exception->getMessage()));
+                    $bulkException->addError(
+                        __('Unable to delete tracks or shipping label: %1', $exception->getMessage())
+                    );
                     $this->shipmentResource->rollBack();
                 }
             }
