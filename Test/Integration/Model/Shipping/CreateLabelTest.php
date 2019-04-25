@@ -15,7 +15,6 @@ use Dhl\Paket\Webservice\Processor\OperationProcessorInterface;
 use Dhl\Paket\Webservice\Shipment\RequestDataMapper;
 use Dhl\Paket\Webservice\Shipment\ResponseDataMapper;
 use Dhl\Paket\Webservice\ShipmentServiceFactory;
-use Dhl\ShippingCore\Api\LabelStatusManagementInterface;
 use Magento\Backend\App\Area\FrontNameResolver;
 use Magento\Backend\Model\Auth;
 use Magento\Backend\Model\Auth\Session;
@@ -280,8 +279,11 @@ class CreateLabelTest extends TestCase
      */
     public function domesticShipment()
     {
-        list($order, $shipmentData, $packagesData) = $this->domesticShipmentDataProvider();
+        self::markTestSkipped('moved to controller test');
+
         $this->doAdminLogin();
+
+        list($order, $shipmentData, $packagesData) = $this->domesticShipmentDataProvider();
 
         /** @var Http $request */
         $request = $this->objectManager->create(Http::class);
@@ -310,7 +312,6 @@ class CreateLabelTest extends TestCase
                 'requestDataMapper'     => $this->objectManager->create(RequestDataMapper::class),
                 'responseDataMapper'    => $responseDataMapperMock,
                 'operationProcessor'    => $this->objectManager->create(OperationProcessorInterface::class),
-                'labelStatusManagement' => $this->objectManager->create(LabelStatusManagementInterface::class),
                 'logger'                => $this->objectManager->create(LoggerInterface::class),
             ])
             ->getMock();
