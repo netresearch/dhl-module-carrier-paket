@@ -290,7 +290,7 @@ class Paket extends AbstractCarrierOnline implements CarrierInterface
             ]
         );
 
-        $apiResult = $api->createShipments([$request]);
+        $apiResult = $api->createShipments([$request->getData('package_id') => $request]);
 
         // one request, one response.
         return $apiResult[0];

@@ -4,9 +4,8 @@
  */
 declare(strict_types=1);
 
-namespace Dhl\Paket\Test\Integration\Model\Carrier;
+namespace Dhl\Paket\Model\Carrier;
 
-use Dhl\Paket\Model\Carrier\Paket;
 use Magento\Quote\Model\Quote\Address\RateRequest;
 use Magento\TestFramework\Helper\Bootstrap;
 use PHPUnit\Framework\TestCase;
