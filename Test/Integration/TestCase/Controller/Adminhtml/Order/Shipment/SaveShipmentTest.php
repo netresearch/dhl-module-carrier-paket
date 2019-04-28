@@ -9,6 +9,7 @@ use Dhl\Paket\Test\Integration\TestDouble\ShipmentServiceStub;
 use Dhl\Paket\Webservice\ApiGateway;
 use Dhl\Paket\Webservice\ApiGatewayFactory;
 use Dhl\Paket\Webservice\ShipmentServiceFactory;
+use Magento\Framework\Data\Form\FormKey;
 use Magento\Sales\Api\Data\OrderInterface;
 use Magento\Sales\Model\Order;
 use Magento\TestFramework\Helper\Bootstrap;
@@ -89,6 +90,26 @@ abstract class SaveShipmentTest extends AbstractBackendController
         $apiGatewayFactoryMock->method('create')->willReturn($apiGateway);
 
         Bootstrap::getObjectManager()->addSharedInstance($apiGatewayFactoryMock, ApiGatewayFactory::class);
+    }
+
+    /**
+     * Run request.
+     *
+     * Set form key if not available (required for Magento < 2.2.8).
+     *
+     * @link https://github.com/magento/magento2/blob/2.2.7/dev/tests/integration/framework/Magento/TestFramework/TestCase/AbstractController.php#L100
+     * @link https://github.com/magento/magento2/blob/2.2.8/dev/tests/integration/framework/Magento/TestFramework/TestCase/AbstractController.php#L109-L116
+     * @param string $uri
+     */
+    public function dispatch($uri)
+    {
+        if (!array_key_exists('form_key', $this->getRequest()->getPost())) {
+            /** @var FormKey $formKey */
+            $formKey = $this->_objectManager->get(FormKey::class);
+            $this->getRequest()->setPostValue('form_key', $formKey->getFormKey());
+        }
+
+        parent::dispatch($uri);
     }
 
     /**
