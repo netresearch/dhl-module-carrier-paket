@@ -126,8 +126,6 @@ abstract class SaveShipmentTest extends AbstractBackendController
      * @test
      * @magentoDataFixture createOrder
      *
-     * @magentoConfigFixture default_store catalog/price/scope 0
-     * @magentoConfigFixture default_store currency/options/base EUR
      * @magentoConfigFixture default_store general/store_information/name NR-Test-Store
      * @magentoConfigFixture default_store general/store_information/region_id 91
      * @magentoConfigFixture default_store general/store_information/phone 000
@@ -141,6 +139,9 @@ abstract class SaveShipmentTest extends AbstractBackendController
      * @magentoConfigFixture default_store shipping/origin/postcode 04229
      * @magentoConfigFixture default_store shipping/origin/city Leipzig
      * @magentoConfigFixture default_store shipping/origin/street_line1 Nonnenstraße 11
+     *
+     * @magentoConfigFixture default_store catalog/price/scope 0
+     * @magentoConfigFixture default_store currency/options/base EUR
      *
      * @magentoConfigFixture current_store carriers/dhlpaket/active 1
      * @magentoConfigFixture current_store carriers/dhlpaket/dhl_paket_checkout_settings/emulated_carrier flatrate

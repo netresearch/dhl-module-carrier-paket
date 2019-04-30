@@ -5,13 +5,13 @@
 
 namespace Dhl\Paket\Controller\Adminhtml\Order\Shipment;
 
-use Dhl\Paket\Test\Integration\Fixture\Data\RecipientDe;
-use Dhl\Paket\Test\Integration\Fixture\Data\SimpleProduct;
-use Dhl\Paket\Test\Integration\Fixture\OrderFixture;
+use Dhl\Paket\Test\Integration\Generator\ShipmentRequestData;
 use Dhl\Paket\Test\Integration\TestCase\Controller\Adminhtml\Order\Shipment\SaveShipmentTest;
 use Dhl\Sdk\Paket\Bcs\Service\ShipmentService\Shipment;
+use Dhl\ShippingCore\Test\Integration\Fixture\Data\AddressDe;
+use Dhl\ShippingCore\Test\Integration\Fixture\Data\SimpleProduct;
+use Dhl\ShippingCore\Test\Integration\Fixture\OrderFixture;
 use Magento\Sales\Api\Data\OrderInterface;
-use Magento\Sales\Api\Data\OrderItemInterface;
 use Magento\Sales\Api\Data\ShipmentInterface;
 use Magento\Sales\Model\ResourceModel\Order\Shipment\Collection;
 use Magento\TestFramework\Helper\Bootstrap;
@@ -35,7 +35,7 @@ class SaveDeDomesticShipmentTest extends SaveShipmentTest
      */
     public static function createOrder()
     {
-        self::$order = OrderFixture::createPaketOrder(new RecipientDe(), new SimpleProduct());
+        self::$order = OrderFixture::createPaketOrder(new AddressDe(), new SimpleProduct());
     }
 
     /**
@@ -44,61 +44,14 @@ class SaveDeDomesticShipmentTest extends SaveShipmentTest
      */
     private function getPackagingPostData(OrderInterface $order)
     {
-        $shipment = [
-            'items' => [],
-            'create_shipping_label' => '1',
-        ];
-
-        $packageWeight = 0;
-        $packageValue = 0;
-        $package = [
-            'params' => [],
-            'items' => [],
-        ];
-
-        /** @var OrderItemInterface $item */
-        foreach ($order->getItems() as $item) {
-            $shipment['items'][$item->getItemId()] = $item->getQtyOrdered();
-
-            $package['items'][$item->getItemId()] = [
-                'qty' => $item->getQtyOrdered(),
-                'customs_value' => $item->getBasePrice(),
-                'price' => $item->getBasePrice(),
-                'name' => $item->getName(),
-                'weight' => $item->getWeight(),
-                'product_id' => $item->getProductId(),
-                'order_item_id' => $item->getItemId(),
-            ];
-
-            $packageWeight += $item->getRowWeight();
-            $packageValue += $item->getRowTotalInclTax();
-        }
-
-        $package['params'] = [
-            'container' => 'V01PAK',
-            'weight' => $packageWeight,
-            'customs_value' => $packageValue,
-            'length' => '30.0',
-            'width' => '20.0',
-            'height' => '20.0',
-            'weight_units' => \Zend_Measure_Weight::KILOGRAM,
-            'dimension_units' => \Zend_Measure_Length::CENTIMETER,
-            'content_type' => '',
-            'content_type_other' => '',
-        ];
-
-        $postData = [
-            'shipment' => $shipment,
-            'packages' => ['1' => $package],
-        ];
-
-        return $postData;
+        return ShipmentRequestData::generatePostData($order);
     }
 
     /**
      * Assert that label requests are properly processed to the carrier api and back.
      *
      * Possible entrypoints for test:
+     *
      * @see \Dhl\Paket\Model\Carrier\Paket::requestToShipment
      * @see \Magento\Shipping\Model\Shipping\LabelGenerator::create
      * @see \Magento\Shipping\Controller\Adminhtml\Order\Shipment\CreateLabel::execute
@@ -133,9 +86,12 @@ class SaveDeDomesticShipmentTest extends SaveShipmentTest
         $postData = $this->getPackagingPostData(self::$order);
 
         // create shipments from packaging data and set as api response
-        $createdShipments = array_map(function (string $sequenceNumber) {
-            return new Shipment($sequenceNumber, "shipment $sequenceNumber", '', "pdf $sequenceNumber", '', '', '');
-        }, array_keys($postData['packages']));
+        $createdShipments = array_map(
+            function (string $sequenceNumber) {
+                return new Shipment($sequenceNumber, "shipment $sequenceNumber", '', "pdf $sequenceNumber", '', '', '');
+            },
+            array_keys($postData['packages'])
+        );
         $this->shipmentService->setCreatedShipments($createdShipments);
 
         // dispatch
@@ -152,18 +108,23 @@ class SaveDeDomesticShipmentTest extends SaveShipmentTest
         self::assertCount(count($postData['packages']), $shipments);
 
         // assert that labels and tracks were persisted with the shipment
-        $createdTracks = array_map(function (Shipment $shipment) {
-            return $shipment->getShipmentNumber();
-        }, $createdShipments);
+        $createdTracks = array_map(
+            function (Shipment $shipment) {
+                return $shipment->getShipmentNumber();
+            },
+            $createdShipments
+        );
 
-        array_walk($shipments, function (ShipmentInterface $shipment) use ($createdTracks) {
-            self::assertNotEmpty($shipment->getShippingLabel());
+        array_walk(
+            $shipments,
+            function (ShipmentInterface $shipment) use ($createdTracks) {
+                self::assertNotEmpty($shipment->getShippingLabel());
 
-            foreach ($shipment->getTracks() as $track) {
-                self::assertContains($track->getTrackNumber(), $createdTracks);
+                foreach ($shipment->getTracks() as $track) {
+                    self::assertContains($track->getTrackNumber(), $createdTracks);
+                }
             }
-        });
-
+        );
         //todo(nr): verify data passed to the api (shipment orders), e.g. addresses, shipment details, …
     }
 }
