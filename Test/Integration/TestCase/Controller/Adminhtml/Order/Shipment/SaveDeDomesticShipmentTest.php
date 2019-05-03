@@ -5,6 +5,7 @@
 
 namespace Dhl\Paket\Controller\Adminhtml\Order\Shipment;
 
+use Dhl\Paket\Model\Carrier\Paket;
 use Dhl\Paket\Test\Integration\Generator\ShipmentRequestData;
 use Dhl\Paket\Test\Integration\TestCase\Controller\Adminhtml\Order\Shipment\SaveShipmentTest;
 use Dhl\Sdk\Paket\Bcs\Service\ShipmentService\Shipment;
@@ -35,7 +36,7 @@ class SaveDeDomesticShipmentTest extends SaveShipmentTest
      */
     public static function createOrder()
     {
-        self::$order = OrderFixture::createPaketOrder(new AddressDe(), new SimpleProduct());
+        self::$order = OrderFixture::createOrder(new AddressDe(), new SimpleProduct(), Paket::CARRIER_CODE.'_flatrate');
     }
 
     /**
