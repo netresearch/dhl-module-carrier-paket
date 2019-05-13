@@ -8,6 +8,7 @@ namespace Dhl\Paket\Model\Carrier;
 
 use Magento\Framework\DataObject;
 use Magento\Quote\Model\Quote\Address\RateRequest;
+use Magento\Shipping\Model\Carrier\AbstractCarrierInterface;
 use Magento\Shipping\Model\Carrier\AbstractCarrierOnline;
 use Magento\Shipping\Model\Carrier\CarrierInterface;
 use Magento\Shipping\Model\Rate\Result;
@@ -199,10 +200,8 @@ class Paket extends AbstractCarrierOnline implements CarrierInterface
      */
     public function getAllowedMethods(): array
     {
-        $storeId = $this->getData('store');
+        $carrier = $this->getProxiedCarrier();
 
-        $carrierCode = $this->moduleConfig->getProxyCarrierCode($storeId);
-        $carrier = $this->proxyCarrierFactory->create($carrierCode);
         if (!$carrier instanceof CarrierInterface) {
             return [];
         }
@@ -350,5 +349,39 @@ class Paket extends AbstractCarrierOnline implements CarrierInterface
         $result->append($status);
 
         return $result;
+    }
+
+    /**
+     * Returns the configured proxied carrier instance.
+     *
+     * @return CarrierInterface|AbstractCarrierInterface
+     */
+    private function getProxiedCarrier()
+    {
+        $storeId     = $this->getData('store');
+        $carrierCode = $this->moduleConfig->getProxyCarrierCode($storeId);
+
+        return $this->proxyCarrierFactory->create($carrierCode);
+    }
+
+    /**
+     * Check if city option required.
+     *
+     * @return boolean
+     */
+    public function isCityRequired(): bool
+    {
+        return $this->getProxiedCarrier()->isCityRequired();
+    }
+
+    /**
+     * Determine whether zip-code is required for the country of destination.
+     *
+     * @param string|null $countryId
+     * @return bool
+     */
+    public function isZipCodeRequired($countryId = null): bool
+    {
+        return $this->getProxiedCarrier()->isZipCodeRequired($countryId);
     }
 }
