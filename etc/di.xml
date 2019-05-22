@@ -63,4 +63,12 @@
             </argument>
         </arguments>
     </type>
+    
+    <type name="\Dhl\ShippingCore\Model\Checkout\CheckoutDataCompositeProcessor">
+        <arguments>
+            <argument name="processors" xsi:type="array">
+                <item name="dhlpaketDateTimeOptionsProcessor" xsi:type="object">Dhl\Paket\Model\Checkout\DataProcessor\PreferredDayTimeOptionsProcessor</item>
+            </argument>
+        </arguments>
+    </type>
 </config>
