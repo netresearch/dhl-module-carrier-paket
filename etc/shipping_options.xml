@@ -3,12 +3,7 @@
     <carrier code="dhlpaket">
         <packageLevelOptions>
             <shippingOption code="preferredDay">
-                <label>Wunschtag: Lieferung zum gewüschten Tag</label>
-                <enabledForCheckout>true</enabledForCheckout>
-                <enabledForAutocreate>true</enabledForAutocreate>
-                <enabledForPackaging>true</enabledForPackaging>
-                <availableAtPostalFacility>true</availableAtPostalFacility>
-                <packagingReadonly>true</packagingReadonly>
+                <label>Preferred Day: Delivery on your preferred day</label>
                 <sortOrder>10</sortOrder>
                 <routes>
                     <route>
@@ -21,93 +16,61 @@
                 </routes>
                 <inputs>
                     <input code="date">
-                        <label>Wunschtag</label>
+                        <label>Preferred Day</label>
                         <labelVisible>false</labelVisible>
                         <inputType>date</inputType>
-                        <options>
-                            <option id="none">
-                                <label>keiner</label>
-                            </option>
-                            <option>
-                                <label>Do, 21.</label>
-                                <value>2019-05-21</value>
-                                <disabled>true</disabled>
-                            </option>
-                        </options>
                         <sortOrder>0</sortOrder>
                         <validationRules>
                             <rule name="dhl_not_allowed_with_parcelshop"/>
                         </validationRules>
                         <comment>
-                            <content><![CDATA[Für diesen Service fallen zusätzliche Versandkosten in Höhe von <strong>3,00 €</strong> inkl. MwSt. an.]]></content>
+                            <content><![CDATA[This service will incur additional shipping costs of $1 including VAT.]]></content>
                             <footnoteId>footnote-combined-cost</footnoteId>
                         </comment>
-                        <tooltip>Sie haben die Möglichkeit einen der angezeigten Tage als Wunschtag für die Lieferung Ihrer Waren auszuwählen. Andere Tage sind aufgrund der Lieferprozesse aktuell nicht möglich.</tooltip>
+                        <tooltip>Choose one of the displayed days as your preferred day for your parcel delivery. Other days are not possible due to delivery processes.</tooltip>
                     </input>
                 </inputs>
             </shippingOption>
             <shippingOption code="preferredTime">
-                <label>Wunschzeit: Lieferung im gewüschten Zeitfenster</label>
-                <enabledForCheckout>true</enabledForCheckout>
-                <enabledForAutocreate>true</enabledForAutocreate>
-                <enabledForPackaging>true</enabledForPackaging>
-                <availableAtPostalFacility>true</availableAtPostalFacility>
-                <packagingReadonly>true</packagingReadonly>
+                <label>Preferred Time: Delivery at your preferred time</label>
                 <sortOrder>20</sortOrder>
                 <inputs>
                     <input code="time">
                         <inputType>time</inputType>
-                        <label>Wunschzeit</label>
+                        <label>Enable Preferred Time</label>
                         <labelVisible>false</labelVisible>
-                        <options>
-                            <option id="none">
-                                <label>keine</label>
-                            </option>
-                            <option>
-                                <label>10:00-12:00</label>
-                                <value>10001200</value>
-                            </option>
-                            <option>
-                                <label>12:00-14:00</label>
-                                <value>12001400</value>
-                            </option>
-                        </options>
                         <sortOrder>0</sortOrder>
                         <comment>
-                            <content><![CDATA[Für diesen Service fallen zusätzliche Versandkosten in Höhe von <strong>4,00 €</strong> inkl. MwSt. an]]></content>
+                            <content><![CDATA[This service will incur additional shipping costs of $1 including VAT.]]></content>
                             <footnoteId>footnote-combined-cost</footnoteId>
                         </comment>
-                        <tooltip>Damit Sie besser planen können, haben Sie die Möglichkeit eine Wunschzeit für die Lieferung auszuwählen. Sie können eine der dargestellten Zeiten für die Lieferung auswählen.</tooltip>
+                        <tooltip>Indicate a preferred time, which suits you best for your parcel delivery by choosing one of the displayed time windows.</tooltip>
                     </input>
                 </inputs>
             </shippingOption>
             <shippingOption code="parcelAnnouncement">
-                <label>Paketankündigung</label>
+                <label>Parcel Announcement</label>
                 <sortOrder>30</sortOrder>
                 <inputs>
                     <input code="enabled">
                         <inputType>checkbox</inputType>
-                        <label>Paketankündigung aktivieren</label>
-                        <tooltip>Ihre E-Mail-Adresse wird bei Aktivierung an DHL übermittelt, worauf DHL eine Paketankündigung zu Ihrer Sendung auslöst. Die E-Mail-Adresse wird ausschließlich für die Ankündigung zu dieser Sendung verwendet.</tooltip>
+                        <label>Enable DHL Parcel Notification</label>
+                        <tooltip>Your e-mail address will be sent to DHL upon enabling, after which DHL will trigger a package announcement for your shipment. The e-mail address will exclusively be used for the announcement of this shipment.</tooltip>
                         <comment>
-                            <content>Mit der Aktivierung der Paketankündigung informiert Sie DHL per E-Mail über die geplante Lieferung Ihrer Sendung.</content>
+                            <content>Allow customers to request parcel notification updates via e-mail by DHL during checkout.</content>
                         </comment>
                     </input>
                 </inputs>
             </shippingOption>
             <shippingOption code="preferredLocation">
-                <label>Wunschort: Lieferung an den gewüschten Ablageort</label>
-                <enabledForAutocreate>false</enabledForAutocreate>
-                <enabledForPackaging>false</enabledForPackaging>
-                <availableAtPostalFacility>false</availableAtPostalFacility>
-                <packagingReadonly>true</packagingReadonly>
+                <label>Preferred Location: Delivery to your preferred drop-off location</label>
                 <sortOrder>40</sortOrder>
                 <inputs>
                     <input code="details">
-                        <label>Wunschort</label>
+                        <label>Enable preferred location</label>
                         <inputType>text</inputType>
-                        <tooltip>Bestimmen Sie einen wettergeschützten und nicht einsehbaren Platz auf Ihrem Grundstück, an dem wir das Paket während Ihrer Abwesenheit hinterlegen dürfen.</tooltip>
-                        <placeholder>z.B. Garage, Terrasse</placeholder>
+                        <tooltip>Choose a weather-protected and non-visible place on your property where we can deposit the parcel in your absence.</tooltip>
+                        <placeholder>E.g. garage, terrace</placeholder>
                         <validationRules>
                             <rule name="maxLength">
                                 <param>40</param>
@@ -115,20 +78,18 @@
                             <rule name="validate-no-html-tags"/>
                             <rule name="dhl_filter_special_chars"/>
                         </validationRules>
-                        <defaultValue>test</defaultValue>
                     </input>
                 </inputs>
             </shippingOption>
             <shippingOption code="preferredNeighbour">
-                <label>Wunschnachbar: Lieferung an den Nachbar Ihrer Wahl</label>
-                <packagingReadonly>true</packagingReadonly>
+                <label>Preferred Neighbour: Delivery to a neighbour of your choice</label>
                 <sortOrder>50</sortOrder>
                 <inputs>
                     <input code="name">
-                        <label>Name des Nachbarn</label>
+                        <label>Neighbour Name</label>
                         <inputType>text</inputType>
-                        <tooltip>Bestimmen Sie eine Person in Ihrer unmittelbaren Nachbarschaft, bei der wir Ihr Paket abgeben dürfen. Diese sollte im gleichen Haus, direkt gegenüber oder nebenan wohnen.</tooltip>
-                        <placeholder>Vorname, Nachname des Nachbarn</placeholder>
+                        <tooltip>Declare a person in your immediate neighborhood whom we can hand out your parcel. This person should live in the same building, directly opposite or next door.</tooltip>
+                        <placeholder>First name, last name of neighbour</placeholder>
                         <validationRules>
                             <rule name="maxLength">
                                 <param>40</param>
@@ -138,10 +99,9 @@
                         </validationRules>
                     </input>
                     <input code="address">
-                        <label>Adresse des Nachbarn</label>
+                        <label>Neighbour Address</label>
                         <inputType>text</inputType>
-                        <tooltip>Test tooltip</tooltip>
-                        <placeholder>Strasse, Hausnummer, PLZ, Ort</placeholder>
+                        <placeholder>Street, number, postal code, city</placeholder>
                         <validationRules>
                             <rule name="maxLength">
                                 <param>40</param>
@@ -155,23 +115,18 @@
         </packageLevelOptions>
         <metaData>
             <title>DHL Preferred Delivery. Delivered just the way you want.</title>
-            <imageUrl>test.jpg</imageUrl>
+            <imageUrl>Dhl_Ui::images/logo-dhl-wide.svg</imageUrl>
             <commentsBefore>
                 <comment>
-                    <content>DHL Preferred Delivery. Delivered just the way you want.</content>
+                    <content>You decide when and where you want to receive your parcels with the recipient services of DHL.</content>
                 </comment>
                 <comment>
-                    <content>Ut a lorem vel quam finibus venenatis. Phasellus urna libero, sollicitudin id leo nec.</content>
+                    <content>Please choose your preferred delivery options.</content>
                 </comment>
             </commentsBefore>
-            <commentsAfter>
-                <comment>
-                    <content>A test comment below the service selection.</content>
-                </comment>
-            </commentsAfter>
             <footnotes>
                 <footnote id="footnote-combined-cost">
-                    <content><![CDATA[When booked together, the price of Preferred Day and Preferred Time is <strong>11 €</strong>.]]></content>
+                    <content><![CDATA[For a combined booking of preferred day and preferred time, the shipping costs are a total of $1 including VAT.]]></content>
                     <subjects>
                         <subject>preferredTime</subject>
                         <subject>preferredDay</subject>
@@ -198,7 +153,7 @@
                 </subjects>
                 <errorMessage>Some values for Preferred Neighbour service are missing.</errorMessage>
             </rule>
-            <rule>
+            <rule id="test">
                 <incompatibilityRule>false</incompatibilityRule>
                 <subjects>
                     <subject>preferredDay</subject>
