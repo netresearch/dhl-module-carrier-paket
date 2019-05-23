@@ -167,4 +167,11 @@
             </argument>
         </arguments>
     </type>
+    <type name="Dhl\ShippingCore\Model\Support\PackagingPopup">
+        <arguments>
+            <argument name="supportMap" xsi:type="array">
+                <item name="dhlpaket" xsi:type="const">Dhl\Paket\Model\Carrier\Paket::CARRIER_CODE</item>
+            </argument>
+        </arguments>
+    </type>
 </config>
