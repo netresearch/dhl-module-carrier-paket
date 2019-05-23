@@ -42,7 +42,8 @@
   },
   "extra": {
     "branch-alias": {
-      "dev-develop": "0.1.x-dev"
+      "dev-develop": "0.1.x-dev",
+      "dev-feature-shipping-options": "0.3.x-dev"
     }
   }
 }
