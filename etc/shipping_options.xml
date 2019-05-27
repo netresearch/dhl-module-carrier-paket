@@ -8,10 +8,10 @@
                 <routes>
                     <route>
                         <origin>de</origin>
-                        <destinations>
+                        <includeDestinations>
                             <destination>de</destination>
                             <destination>at</destination>
-                        </destinations>
+                        </includeDestinations>
                     </route>
                 </routes>
                 <inputs>
