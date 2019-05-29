@@ -1,7 +1,7 @@
 <?xml version="1.0" ?>
 <carriers xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Dhl_ShippingCore/etc/shipping_options.xsd">
     <carrier code="dhlpaket">
-        <packageLevelOptions>
+        <serviceOptions>
             <shippingOption code="preferredDay">
                 <label>Preferred Day: Delivery on your preferred day</label>
                 <sortOrder>10</sortOrder>
@@ -112,7 +112,7 @@
                     </input>
                 </inputs>
             </shippingOption>
-        </packageLevelOptions>
+        </serviceOptions>
         <metaData>
             <title>DHL Preferred Delivery. Delivered just the way you want.</title>
             <imageUrl>Dhl_Ui::images/logo-dhl-wide.svg</imageUrl>

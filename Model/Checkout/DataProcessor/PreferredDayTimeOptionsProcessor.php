@@ -38,14 +38,19 @@ class PreferredDayTimeOptionsProcessor extends AbstractProcessor
             [
                 'label' => 'Test 1',
                 'value' => 'test1',
+                'id' => 'test1',
+                'disabled' => false,
             ],
             [
                 'label' => 'Test 2',
                 'value' => 'test2',
+                'id' => 'test2',
+                'disabled' => false,
             ],
             [
                 'label' => 'Test 3',
                 'value' => 'test3',
+                'id' => 'test3',
                 'disabled' => true,
             ],
         ];
@@ -57,10 +62,14 @@ class PreferredDayTimeOptionsProcessor extends AbstractProcessor
             [
                 'label' => 'Test time 1',
                 'value' => 'test1',
+                'id' => 'test1',
+                'disabled' => false,
             ],
             [
                 'label' => 'Test time 2',
                 'value' => 'test2',
+                'id' => 'test2',
+                'disabled' => false,
             ],
         ];
     }
