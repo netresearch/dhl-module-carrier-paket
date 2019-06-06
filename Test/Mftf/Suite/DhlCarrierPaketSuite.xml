@@ -4,6 +4,7 @@
     <suite name="DhlCarrierPaket">
         <include>
             <group name="carrier-paket-configuration"/>
+            <group name="carrier-paket-checkout"/>
         </include>
     </suite>
 </suites>

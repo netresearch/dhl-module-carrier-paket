@@ -16,58 +16,53 @@
             <group value="carrier-paket-configuration"/>
         </annotations>
         <before>
+            <comment userInput="-> Run required steps before starting with the test" stepKey="setupTestComment"/>
+
             <actionGroup ref="LoginAsAdmin" stepKey="loginAsAdmin"/>
         </before>
         <after>
+            <comment userInput="-> Clean up carrier configuration settings after test" stepKey="cleanTestComment"/>
+
             <actionGroup ref="logout" stepKey="logout"/>
         </after>
-        <actionGroup ref="NavigateToCarrierSettings" stepKey="navigateToCarrierSettingsConfigInTest"/>
+
+        <comment userInput="-> Perform actual test" stepKey="runTestComment"/>
+
+        <actionGroup ref="NavigateToCarrierSettingsPageActionGroup" stepKey="navigateToCarrierSettingsConfig"/>
+        <actionGroup ref="DhlPaketCarrierSettingsOpenActionGroup" stepKey="openCarrierSettingsDhlPaket"/>
 
         <!-- General settings -->
-        <seeElement selector="{{AdminCarrierSettingsConfigSection.generalSettingsGroup}}" stepKey="seeGeneralSettingsGroup"/>
-        <conditionalClick stepKey="expandGeneralSettingsGroup"
-                          selector="{{AdminCarrierSettingsConfigSection.generalSettingsGroup}}"
-                          dependentSelector="{{AdminCarrierSettingsConfigSection.generalSettingsGroupExpanded}}"
-                          visible="true"/>
 
-        <see selector="{{AdminCarrierSettingsConfigSection.displayRatesAtCheckoutCheckbox}} + label"
-             userInput="{{CarrierSettingsData.displayRatesAtCheckoutCheckboxLabel}}"
-             stepKey="seeDisplayRatesAtCheckoutCheckboxLabel"/>
-        <dontSeeCheckboxIsChecked selector="{{AdminCarrierSettingsConfigSection.displayRatesAtCheckoutCheckbox}}"
+        <!-- Expand "General" tab -->
+        <actionGroup ref="DhlPaketCarrierSettingsExpandGeneralTabActionGroup" stepKey="expandCarrierSettingsDhlPaketGeneralTab"/>
+
+        <!-- Check active state -->
+        <dontSeeCheckboxIsChecked selector="{{AdminSystemConfigCarriersDhlPaketSection.displayRatesAtCheckoutCheckbox}}"
                                   stepKey="displayRatesAtCheckoutCheckboxNotChecked"/>
+        <actionGroup ref="DhlPaketCarrierSettingsEnableActionGroup" stepKey="enableCarrierSettingsDhlPaket"/>
 
-        <see selector="{{AdminCarrierSettingsConfigSection.recordMessagesCheckbox}} + label"
-             userInput="{{CarrierSettingsData.recordMessagesCheckboxLabel}}"
-             stepKey="seeRecordMessagesCheckboxLabel"/>
-        <dontSeeCheckboxIsChecked selector="{{AdminCarrierSettingsConfigSection.recordMessagesCheckbox}}"
+        <!-- Check logging configuration -->
+        <dontSeeCheckboxIsChecked selector="{{AdminSystemConfigCarriersDhlPaketSection.recordMessagesCheckbox}}"
                                   stepKey="recordMessagesCheckboxNotChecked"/>
+        <see selector="{{AdminSystemConfigCarriersDhlPaketSection.recordMessagesCheckboxLabel}}"
+             userInput="{{CarriersDhlPaketSettings.recordMessagesCheckboxLabel}}"
+             stepKey="seeRecordMessagesCheckboxLabel"/>
 
-        <click selector="{{AdminCarrierSettingsConfigSection.displayRatesAtCheckoutCheckbox}} + label"
-               stepKey="seeDisplayRatesAtCheckoutCheckboxClick"/>
-
-        <!-- Checkout presentation -->
-        <seeElement selector="{{AdminCarrierSettingsConfigSection.checkoutPresentationGroup}}" stepKey="seeCheckoutPresentationGroup"/>
-        <conditionalClick stepKey="expandCheckoutPresentationGroup"
-                          selector="{{AdminCarrierSettingsConfigSection.checkoutPresentationGroup}}"
-                          dependentSelector="{{AdminCarrierSettingsConfigSection.checkoutPresentationGroupExpanded}}"
-                          visible="true"/>
-
-        <seeElement selector="{{AdminCarrierSettingsConfigSection.checkoutPresentationUseRatesFromSelect}}"
-                    stepKey="seeCheckoutPresentationUseRatesFromSelect"/>
-
-        <selectOption selector="{{AdminCarrierSettingsConfigSection.checkoutPresentationUseRatesFromSelect}}"
-                      userInput="{{CarrierSettingsData.useRatesFromFlatRate}}"
-                      stepKey="selectCheckoutPresentationUseRatesFrom"/>
+        <!-- Checkout presentation, Select "Use Rates From" -->
+        <actionGroup ref="DhlPaketCarrierSettingsExpandCheckoutPresentationTabActionGroup" stepKey="expandCarrierSettingsDhlPaketCheckoutPresentationTab"/>
+        <actionGroup ref="DhlPaketCarrierSettingsSelectUseRatesFromActionGroup" stepKey="selectCarrierSettingsUseRatesFrom">
+            <argument name="useRatesFrom" value="CarriersDhlPaketSettings.useRatesFromFlatRate"/>
+        </actionGroup>
 
         <!-- Save -->
-        <actionGroup ref="SaveAdminConfigSection" stepKey="saveAdminConfigSection"/>
+        <actionGroup ref="SaveAdminSystemConfigSectionActionGroup" stepKey="saveAdminConfigSection"/>
 
         <!-- Confirm selection is persisted -->
-        <seeCheckboxIsChecked selector="{{AdminCarrierSettingsConfigSection.displayRatesAtCheckoutCheckbox}}"
+        <seeCheckboxIsChecked selector="{{AdminSystemConfigCarriersDhlPaketSection.displayRatesAtCheckoutCheckbox}}"
                               stepKey="seeDisplayRatesAtCheckoutCheckboxChecked"/>
 
-        <seeOptionIsSelected selector="{{AdminCarrierSettingsConfigSection.checkoutPresentationUseRatesFromSelect}}"
-                             userInput="{{CarrierSettingsData.useRatesFromFlatRate}}"
+        <seeOptionIsSelected selector="{{AdminSystemConfigCarriersDhlPaketSection.checkoutPresentationUseRatesFromSelect}}"
+                             userInput="{{CarriersDhlPaketSettings.useRatesFromFlatRate}}"
                              stepKey="validateCheckoutPresentationUseRatesFromSelect"/>
     </test>
 </tests>

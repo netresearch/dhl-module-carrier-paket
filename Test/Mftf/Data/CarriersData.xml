@@ -6,9 +6,18 @@
 -->
 <entities xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/dataProfileSchema.xsd">
-    <entity name="CarrierSettingsData" type="carrier">
+    <!-- DHL Paket -->
+    <entity name="CarriersDhlPaketSettings" type="carrier">
         <data key="displayRatesAtCheckoutCheckboxLabel">Display DHL Paket rates at checkout</data>
         <data key="recordMessagesCheckboxLabel">Record messages in Magento Global Logging</data>
         <data key="useRatesFromFlatRate">flatrate</data>
+    </entity>
+
+    <entity name="CarriersFlatRateSettings_DhlPaketPerOrder" extends="CarriersFlatRateSettings_TestPerOrder" type="carrier">
+        <data key="carriers_flatrate_price">5.55</data>
+    </entity>
+
+    <entity name="CarriersFlatRateSettings_DhlPaketPerItem" extends="CarriersFlatRateSettings_TestPerItem" type="carrier">
+        <data key="carriers_flatrate_price">5.55</data>
     </entity>
 </entities>

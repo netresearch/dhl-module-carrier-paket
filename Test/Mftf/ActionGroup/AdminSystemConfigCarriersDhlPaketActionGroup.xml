@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ /**
+  * See LICENSE.md for license details.
+  */
+-->
+<actionGroups xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/actionGroupSchema.xsd">
+    <!-- Open carrier settings group -->
+    <actionGroup name="DhlPaketCarrierSettingsOpenActionGroup">
+        <scrollTo selector="{{AdminSystemConfigCarriersDhlPaketSection.carrierGroup}}" stepKey="scrollToCarrierGroup" x="0" y="-85"/>
+        <seeElement selector="{{AdminSystemConfigCarriersDhlPaketSection.carrierGroup}}" stepKey="seeCarrierConfigGroup"/>
+        <conditionalClick stepKey="expandCarrierConfiguration"
+                          selector="{{AdminSystemConfigCarriersDhlPaketSection.carrierGroup}}"
+                          dependentSelector="{{AdminSystemConfigCarriersDhlPaketSection.carrierGroupExpanded}}"
+                          visible="true"/>
+    </actionGroup>
+
+    <!-- Expand "General" tab -->
+    <actionGroup name="DhlPaketCarrierSettingsExpandGeneralTabActionGroup">
+        <scrollTo selector="{{AdminSystemConfigCarriersDhlPaketSection.generalSettingsGroup}}"
+                  stepKey="scrollToPickupAccountNumber" x="0" y="-85"/>
+        <seeElement selector="{{AdminSystemConfigCarriersDhlPaketSection.generalSettingsGroup}}" stepKey="seeGeneralSettingsGroup"/>
+        <conditionalClick stepKey="expandGeneralSettingsGroup"
+                          selector="{{AdminSystemConfigCarriersDhlPaketSection.generalSettingsGroup}}"
+                          dependentSelector="{{AdminSystemConfigCarriersDhlPaketSection.generalSettingsGroupExpanded}}"
+                          visible="true"/>
+    </actionGroup>
+
+    <!-- Expand "Checkout presentation" tab -->
+    <actionGroup name="DhlPaketCarrierSettingsExpandCheckoutPresentationTabActionGroup">
+        <scrollTo selector="{{AdminSystemConfigCarriersDhlPaketSection.checkoutPresentationGroup}}"
+                  stepKey="scrollToCheckoutPresentationGroup" x="0" y="-85"/>
+        <seeElement selector="{{AdminSystemConfigCarriersDhlPaketSection.checkoutPresentationGroup}}" stepKey="seeCheckoutPresentationGroup"/>
+        <conditionalClick stepKey="expandCheckoutPresentationGroup"
+                          selector="{{AdminSystemConfigCarriersDhlPaketSection.checkoutPresentationGroup}}"
+                          dependentSelector="{{AdminSystemConfigCarriersDhlPaketSection.checkoutPresentationGroupExpanded}}"
+                          visible="true"/>
+    </actionGroup>
+
+    <!-- Unset carrier configuration to restore initial state -->
+    <actionGroup name="DhlPaketResetCarrierSettingsActionGroup">
+        <scrollTo selector="{{AdminSystemConfigCarriersDhlPaketSection.carrierGroup}}" stepKey="scrollToCarrierGroup" x="0" y="-85"/>
+
+        <uncheckOption selector="{{AdminSystemConfigCarriersDhlPaketSection.displayRatesAtCheckoutCheckbox}}"
+                       stepKey="uncheckOptionDisplayRatesAtCheckout"/>
+
+        <conditionalClick stepKey="collapseCarrierConfiguration"
+                          selector="{{AdminSystemConfigCarriersDhlPaketSection.carrierGroup}}"
+                          dependentSelector="{{AdminSystemConfigCarriersDhlPaketSection.carrierGroupExpanded}}"
+                          visible="false"/>
+    </actionGroup>
+
+    <!-- Enabled DHL Paket carrier in "Shipping methods" configuration -->
+    <actionGroup name="DhlPaketCarrierSettingsEnableActionGroup">
+        <!-- Enable "active" checkbox -->
+        <see selector="{{AdminSystemConfigCarriersDhlPaketSection.displayRatesAtCheckoutCheckboxLabel}}"
+             userInput="{{CarriersDhlPaketSettings.displayRatesAtCheckoutCheckboxLabel}}"
+             stepKey="seeDisplayRatesAtCheckoutCheckboxLabel"/>
+        <checkOption selector="{{AdminSystemConfigCarriersDhlPaketSection.displayRatesAtCheckoutCheckbox}}"
+                     stepKey="checkOptionDisplayRatesAtCheckout"/>
+    </actionGroup>
+
+    <!-- Select "Use Rates From" -->
+    <actionGroup name="DhlPaketCarrierSettingsSelectUseRatesFromActionGroup">
+        <arguments>
+            <argument name="useRatesFrom" defaultValue="CarriersDhlPaketSettings.useRatesFromFlatRate"/>
+        </arguments>
+
+        <seeElement selector="{{AdminSystemConfigCarriersDhlPaketSection.checkoutPresentationUseRatesFromSelect}}"
+                    stepKey="seeCheckoutPresentationUseRatesFromSelect"/>
+        <selectOption selector="{{AdminSystemConfigCarriersDhlPaketSection.checkoutPresentationUseRatesFromSelect}}"
+                      userInput="{{useRatesFrom}}"
+                      stepKey="selectCheckoutPresentationUseRatesFrom"/>
+    </actionGroup>
+</actionGroups>
