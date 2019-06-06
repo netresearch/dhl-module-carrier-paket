@@ -113,7 +113,7 @@
                 </inputs>
             </shippingOption>
         </serviceOptions>
-        <metaData>
+        <metadata>
             <title>DHL Preferred Delivery. Delivered just the way you want.</title>
             <imageUrl>Dhl_Ui::images/logo-dhl-wide.svg</imageUrl>
             <commentsBefore>
@@ -135,7 +135,7 @@
                     <subjectsMustBeSelected>true</subjectsMustBeSelected>
                 </footnote>
             </footnotes>
-        </metaData>
+        </metadata>
         <compatibilityData>
             <rule id="preferredLocationTimeExclusion">
                 <incompatibilityRule>true</incompatibilityRule>
