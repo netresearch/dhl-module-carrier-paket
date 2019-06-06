@@ -6,7 +6,7 @@
 -->
 <include xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_include.xsd">
     <group id="account_settings" translate="label comment" sortOrder="200" showInDefault="1" showInWebsite="1" showInStore="1">
-        <label><![CDATA[DHL Paket Account]]></label>
+        <label><![CDATA[Account Settings]]></label>
         <comment>DHL contract customers receive the access data to the DHL Business Customer Portal via DHL Paket sales.</comment>
         <attribute type="expanded">1</attribute>
 

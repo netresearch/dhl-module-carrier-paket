@@ -75,7 +75,7 @@ class SaveDeDomesticShipmentTest extends SaveShipmentTest
      * @magentoConfigFixture default_store shipping/origin/street_line1 Nonnenstraße 11
      *
      * @magentoConfigFixture current_store carriers/dhlpaket/active 1
-     * @magentoConfigFixture current_store carriers/dhlpaket/dhl_paket_checkout_settings/emulated_carrier flatrate
+     * @magentoConfigFixture current_store dhlshippingsolutions/dhlpaket/dhl_paket_checkout_settings/emulated_carrier flatrate
      *
      * @magentoConfigFixture current_store carriers/flatrate/type O
      * @magentoConfigFixture current_store carriers/flatrate/handling_type F

@@ -25,31 +25,31 @@ class ModuleConfig
     const CONFIG_PATH_TITLE = 'carriers/dhlpaket/title';
 
     // 100_general_settings.xml
-    const CONFIG_PATH_ENABLE_LOGGING = 'carriers/dhlpaket/general_shipping_settings/logging';
-    const CONFIG_PATH_LOGLEVEL = 'carriers/dhlpaket/general_shipping_settings/loglevel';
+    const CONFIG_PATH_ENABLE_LOGGING = 'dhlshippingsolutions/dhlpaket/general_shipping_settings/logging';
+    const CONFIG_PATH_LOGLEVEL = 'dhlshippingsolutions/dhlpaket/general_shipping_settings/loglevel';
 
     // 200_dhl_paket_account.xml
-    const CONFIG_PATH_AUTH_USERNAME = 'carriers/dhlpaket/account_settings/auth_username';
-    const CONFIG_PATH_AUTH_PASSWORD = 'carriers/dhlpaket/account_settings/auth_password';
-    const CONFIG_PATH_SANDBOX_MODE = 'carriers/dhlpaket/account_settings/sandboxmode';
+    const CONFIG_PATH_AUTH_USERNAME = 'dhlshippingsolutions/dhlpaket/account_settings/auth_username';
+    const CONFIG_PATH_AUTH_PASSWORD = 'dhlshippingsolutions/dhlpaket/account_settings/auth_password';
+    const CONFIG_PATH_SANDBOX_MODE = 'dhlshippingsolutions/dhlpaket/account_settings/sandboxmode';
 
-    const CONFIG_PATH_USER = 'carriers/dhlpaket/account_settings/api_username';
-    const CONFIG_PATH_SIGNATURE = 'carriers/dhlpaket/account_settings/api_password';
-    const CONFIG_PATH_EKP = 'carriers/dhlpaket/account_settings/account_number';
-    const CONFIG_PATH_PARTICIPATIONS = 'carriers/dhlpaket/account_settings/account_participations';
+    const CONFIG_PATH_USER = 'dhlshippingsolutions/dhlpaket/account_settings/api_username';
+    const CONFIG_PATH_SIGNATURE = 'dhlshippingsolutions/dhlpaket/account_settings/api_password';
+    const CONFIG_PATH_EKP = 'dhlshippingsolutions/dhlpaket/account_settings/account_number';
+    const CONFIG_PATH_PARTICIPATIONS = 'dhlshippingsolutions/dhlpaket/account_settings/account_participations';
 
-    const CONFIG_PATH_SANDBOX_AUTH_USERNAME = 'carriers/dhlpaket/account_settings/sandbox_auth_username';
-    const CONFIG_PATH_SANDBOX_AUTH_PASSWORD = 'carriers/dhlpaket/account_settings/sandbox_auth_password';
-    const CONFIG_PATH_SANDBOX_USER = 'carriers/dhlpaket/account_settings/sandbox_username';
-    const CONFIG_PATH_SANDBOX_SIGNATURE = 'carriers/dhlpaket/account_settings/sandbox_password';
-    const CONFIG_PATH_SANDBOX_EKP = 'carriers/dhlpaket/account_settings/sandbox_account_number';
-    const CONFIG_PATH_SANDBOX_PARTICIPATIONS = 'carriers/dhlpaket/account_settings/sandbox_account_participations';
+    const CONFIG_PATH_SANDBOX_AUTH_USERNAME = 'dhlshippingsolutions/dhlpaket/account_settings/sandbox_auth_username';
+    const CONFIG_PATH_SANDBOX_AUTH_PASSWORD = 'dhlshippingsolutions/dhlpaket/account_settings/sandbox_auth_password';
+    const CONFIG_PATH_SANDBOX_USER = 'dhlshippingsolutions/dhlpaket/account_settings/sandbox_username';
+    const CONFIG_PATH_SANDBOX_SIGNATURE = 'dhlshippingsolutions/dhlpaket/account_settings/sandbox_password';
+    const CONFIG_PATH_SANDBOX_EKP = 'dhlshippingsolutions/dhlpaket/account_settings/sandbox_account_number';
+    const CONFIG_PATH_SANDBOX_PARTICIPATIONS = 'dhlshippingsolutions/dhlpaket/account_settings/sandbox_account_participations';
 
     // 400_checkout_presentation.xml
-    const CONFIG_PATH_PROXY_CARRIER = 'carriers/dhlpaket/dhl_paket_checkout_settings/emulated_carrier';
+    const CONFIG_PATH_PROXY_CARRIER = 'dhlshippingsolutions/dhlpaket/dhl_paket_checkout_settings/emulated_carrier';
 
     // 500_additional_services.xml
-    const CONFIG_PATH_PRINT_ONLY_IF_CODEABLE = 'carriers/dhlpaket/dhl_paket_additional_services/print_only_if_codeable';
+    const CONFIG_PATH_PRINT_ONLY_IF_CODEABLE = 'dhlshippingsolutions/dhlpaket/dhl_paket_additional_services/print_only_if_codeable';
 
     /**
      * @var ScopeConfigInterface

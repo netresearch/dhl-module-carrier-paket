@@ -7,20 +7,20 @@
 <sections xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:mftf:Page/etc/SectionObject.xsd">
     <!-- DHL Paket -->
     <section name="AdminSystemConfigCarriersDhlPaketSection">
-        <element name="carrierGroup" type="button" selector="#carriers_dhlpaket-head"/>
-        <element name="carrierGroupExpanded" type="button" selector="#carriers_dhlpaket-head:not(.open)"/>
+        <element name="carrierGroup" type="button" selector="#dhlshippingsolutions_dhlpaket-head"/>
+        <element name="carrierGroupExpanded" type="button" selector="#dhlshippingsolutions_dhlpaket-head:not(.open)"/>
 
         <!-- General settings -->
-        <element name="generalSettingsGroup" type="button" selector="#carriers_dhlpaket_general_shipping_settings-head"/>
-        <element name="generalSettingsGroupExpanded" type="button" selector="#carriers_dhlpaket_general_shipping_settings-head:not(.open)"/>
+        <element name="generalSettingsGroup" type="button" selector="#dhlshippingsolutions_dhlpaket_general_shipping_settings-head"/>
+        <element name="generalSettingsGroupExpanded" type="button" selector="#dhlshippingsolutions_dhlpaket_general_shipping_settings-head:not(.open)"/>
         <element name="displayRatesAtCheckoutCheckbox" type="checkbox" selector="[data-ui-id='checkbox-groups-dhlpaket-groups-general-shipping-settings-fields-active-value']"/>
-        <element name="displayRatesAtCheckoutCheckboxLabel" type="checkbox" selector="[data-ui-id='checkbox-groups-dhlpaket-groups-general-shipping-settings-fields-active-value'] + label"/>
+        <element name="displayRatesAtCheckoutCheckboxLabel" type="text" selector="[data-ui-id='checkbox-groups-dhlpaket-groups-general-shipping-settings-fields-active-value'] + label"/>
         <element name="recordMessagesCheckbox" type="checkbox" selector="[data-ui-id='checkbox-groups-dhlpaket-groups-general-shipping-settings-fields-logging-value']"/>
-        <element name="recordMessagesCheckboxLabel" type="checkbox" selector="[data-ui-id='checkbox-groups-dhlpaket-groups-general-shipping-settings-fields-logging-value'] + label"/>
+        <element name="recordMessagesCheckboxLabel" type="text" selector="[data-ui-id='checkbox-groups-dhlpaket-groups-general-shipping-settings-fields-logging-value'] + label"/>
 
         <!-- Checkout presentation -->
-        <element name="checkoutPresentationGroup" type="button" selector="#carriers_dhlpaket_dhl_paket_checkout_settings-head"/>
-        <element name="checkoutPresentationGroupExpanded" type="button" selector="#carriers_dhlpaket_dhl_paket_checkout_settings-head:not(.open)"/>
+        <element name="checkoutPresentationGroup" type="button" selector="#dhlshippingsolutions_dhlpaket_dhl_paket_checkout_settings-head"/>
+        <element name="checkoutPresentationGroupExpanded" type="button" selector="#dhlshippingsolutions_dhlpaket_dhl_paket_checkout_settings-head:not(.open)"/>
         <element name="checkoutPresentationUseRatesFromSelect" type="select" selector="[data-ui-id='select-groups-dhlpaket-groups-dhl-paket-checkout-settings-fields-emulated-carrier-value']"/>
     </section>
 </sections>
