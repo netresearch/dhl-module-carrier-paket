@@ -19,7 +19,6 @@
                         <label>Preferred Day</label>
                         <labelVisible>false</labelVisible>
                         <inputType>date</inputType>
-                        <sortOrder>0</sortOrder>
                         <validationRules>
                             <rule name="dhl_not_allowed_with_parcelshop"/>
                         </validationRules>
@@ -39,7 +38,6 @@
                         <inputType>time</inputType>
                         <label>Enable Preferred Time</label>
                         <labelVisible>false</labelVisible>
-                        <sortOrder>0</sortOrder>
                         <comment>
                             <content><![CDATA[This service will incur additional shipping costs of $1 including VAT.]]></content>
                             <footnoteId>footnote-combined-cost</footnoteId>
