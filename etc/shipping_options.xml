@@ -110,6 +110,44 @@
                     </input>
                 </inputs>
             </shippingOption>
+            <shippingOption code="parcelstation">
+                <label>Parcel station delivery: Delivery to a parcel station of your choice.</label>
+                <sortOrder>60</sortOrder>
+                <routes>
+                    <route>
+                        <origin>de</origin>
+                        <includeDestinations>
+                            <destination>de</destination>
+                            <destination>at</destination>
+                        </includeDestinations>
+                    </route>
+                </routes>
+                <inputs>
+                    <input code="enabled">
+                        <label>Select parcel station</label>
+                        <labelVisible>false</labelVisible>
+                        <inputType>checkbox</inputType>
+                        <comment>
+                            <content>Lorem ipsum dolor sit amet, consetetur sadipscing elitr.</content>
+                        </comment>
+                    </input>
+                    <input code="id">
+                        <label>Parcelshop id</label>
+                        <labelVisible>true</labelVisible>
+                        <inputType>select</inputType>
+                        <placeholder>Please select a parcel shop...</placeholder>
+                        <validationRules>
+                            <rule name="required-entry"/>
+                        </validationRules>
+                    </input>
+                    <input code="postNumber">
+                        <label>post number</label>
+                        <labelVisible>true</labelVisible>
+                        <inputType>text</inputType>
+                        <tooltip>Lorem ipsum dolor sit amet, consetetur sadipscing elitr.</tooltip>
+                    </input>
+                </inputs>
+            </shippingOption>
         </serviceOptions>
         <metadata>
             <title>DHL Preferred Delivery. Delivered just the way you want.</title>
@@ -158,6 +196,27 @@
                     <subject>preferredTime</subject>
                 </subjects>
                 <errorMessage>Services %1 require each other.</errorMessage>
+            </rule>
+            <rule id="parcelstationEnabledExclusion">
+                <incompatibilityRule>true</incompatibilityRule>
+                <subjects>
+                    <subject>parcelstation.enabled</subject>
+                    <subject>preferredLocation</subject>
+                    <subject>preferredNeighbour</subject>
+                </subjects>
+                <errorMessage>Delivery only possible to either parcel station or preferred location / preferred neighbour.</errorMessage>
+            </rule>
+            <rule id="parcelstationExclusion">
+                <incompatibilityRule>false</incompatibilityRule>
+                <hideSubjects>true</hideSubjects>
+                <masters>
+                    <master>parcelstation.enabled</master>
+                </masters>
+                <subjects>
+                    <subject>parcelstation.id</subject>
+                    <subject>parcelstation.postNumber</subject>
+                </subjects>
+                <errorMessage>Delivery only possible to either parcel station or preferred location / preferred neighbour.</errorMessage>
             </rule>
         </compatibilityData>
     </carrier>
