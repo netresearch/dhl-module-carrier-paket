@@ -86,3 +86,10 @@
 "Please choose only one of %1.","Bitte wählen sie nur eins von %1."
 "Some values for Preferred Neighbour service are missing.","Einige Werte für die Wunschnachbar-Option fehlen."
 "Services %1 require each other.","Die Optionen %1 benötigen einander."
+"Parcel station delivery: Delivery to a parcel station of your choice","Packstation: Lieferung an eine Packstation Ihrer Wahl"
+"Select parcel station","Packstation wählen"
+"Please select a parcel shop...","Bitte wählen sie einen Paket Shop..."
+"Parcelshop ID","Paket Shop ID",
+"Post number","Post Nummer."
+"Allow customers to get shipments delivered to a parcel station.","Versand an Packstation erlauben."
+"Use Parcel Station delivery Service","Packstation erlauben"

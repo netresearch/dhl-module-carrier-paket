@@ -14,5 +14,10 @@
             <label><![CDATA[Use Print Only If Codeable Service]]></label>
             <comment><![CDATA[If set to <em>Yes</em>, shipment orders will only return a label if the DHL delivery address verification succeeds.]]></comment>
         </field>
+        <field id="parcel_station_delivery" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="10"
+            translate="tooltip label comment" type="Netresearch\ConfigFields\Model\Type\Checkbox">
+            <label><![CDATA[Use Parcel Station delivery Service]]></label>
+            <comment><![CDATA[Allow customers to get shipments delivered to a parcel station.]]></comment>
+        </field>
     </group>
 </include>

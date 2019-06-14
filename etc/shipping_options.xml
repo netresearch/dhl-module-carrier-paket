@@ -111,7 +111,7 @@
                 </inputs>
             </shippingOption>
             <shippingOption code="parcelstation">
-                <label>Parcel station delivery: Delivery to a parcel station of your choice.</label>
+                <label>Parcel station delivery: Delivery to a parcel station of your choice</label>
                 <sortOrder>60</sortOrder>
                 <routes>
                     <route>
@@ -127,12 +127,9 @@
                         <label>Select parcel station</label>
                         <labelVisible>false</labelVisible>
                         <inputType>checkbox</inputType>
-                        <comment>
-                            <content>Lorem ipsum dolor sit amet, consetetur sadipscing elitr.</content>
-                        </comment>
                     </input>
                     <input code="id">
-                        <label>Parcelshop id</label>
+                        <label>Parcelshop ID</label>
                         <labelVisible>true</labelVisible>
                         <inputType>select</inputType>
                         <placeholder>Please select a parcel shop...</placeholder>
@@ -141,9 +138,17 @@
                         </validationRules>
                     </input>
                     <input code="postNumber">
-                        <label>post number</label>
+                        <label>Post number</label>
                         <labelVisible>true</labelVisible>
                         <inputType>text</inputType>
+                        <placeholder>Post number</placeholder>
+                        <validationRules>
+                            <rule name="maxLength">
+                                <param>10</param>
+                            </rule>
+                            <rule name="validate-no-html-tags"/>
+                            <rule name="dhl_filter_special_chars"/>
+                        </validationRules>
                         <tooltip>Lorem ipsum dolor sit amet, consetetur sadipscing elitr.</tooltip>
                     </input>
                 </inputs>
