@@ -6,10 +6,18 @@ declare(strict_types=1);
 
 namespace Dhl\Paket\Model\Checkout\DataProcessor;
 
+use Dhl\Paket\Model\Config\ModuleConfig;
+use Dhl\Paket\Model\Service\StartDate;
+use Dhl\Sdk\Paket\ParcelManagement\Api\Data\CarrierServiceInterface;
+use Dhl\Sdk\Paket\ParcelManagement\Service\CheckoutService\IntervalOption;
+use Dhl\Sdk\Paket\ParcelManagement\Service\CheckoutService\TimeFrameOption;
+use Dhl\Sdk\Paket\ParcelManagement\Service\ServiceFactory;
 use Dhl\ShippingCore\Api\Data\ShippingOption\OptionInterface;
 use Dhl\ShippingCore\Api\Data\ShippingOption\OptionInterfaceFactory;
 use Dhl\ShippingCore\Api\Data\ShippingOption\ShippingOptionInterface;
 use Dhl\ShippingCore\Model\Checkout\AbstractProcessor;
+use Magento\Framework\Stdlib\DateTime\TimezoneInterface;
+use Psr\Log\LoggerInterface;
 
 /**
  * Class PreferredDayTimeOptionsProcessor
@@ -25,13 +33,53 @@ class PreferredDayTimeOptionsProcessor extends AbstractProcessor
     private $optionFactory;
 
     /**
-     * PreferredDayTimeOptionsProcessor constructor.
-     *
-     * @param OptionInterfaceFactory $optionFactory
+     * @var ServiceFactory
      */
-    public function __construct(OptionInterfaceFactory $optionFactory)
-    {
+    private $serviceFactory;
+
+    /**
+     * @var ModuleConfig
+     */
+    private $moduleConfig;
+
+    /**
+     * @var StartDate
+     */
+    private $startDate;
+
+    /**
+     * @var TimezoneInterface
+     */
+    private $timeZone;
+
+    /**
+     * @var LoggerInterface
+     */
+    private $logger;
+
+    /**
+     * PreferredDayTimeOptionsProcessor constructor.
+     * @param OptionInterfaceFactory $optionFactory
+     * @param ServiceFactory $serviceFactory
+     * @param ModuleConfig $moduleConfig
+     * @param StartDate $startDate
+     * @param TimezoneInterface $timeZone
+     * @param LoggerInterface $logger
+     */
+    public function __construct(
+        OptionInterfaceFactory $optionFactory,
+        ServiceFactory $serviceFactory,
+        ModuleConfig $moduleConfig,
+        StartDate $startDate,
+        TimezoneInterface $timeZone,
+        LoggerInterface $logger
+    ) {
         $this->optionFactory = $optionFactory;
+        $this->serviceFactory = $serviceFactory;
+        $this->moduleConfig = $moduleConfig;
+        $this->startDate = $startDate;
+        $this->timeZone = $timeZone;
+        $this->logger = $logger;
     }
 
     /**
@@ -48,6 +96,15 @@ class PreferredDayTimeOptionsProcessor extends AbstractProcessor
         string $postalCode,
         int $scopeId = null
     ): array {
+
+        $services = $this->getCheckoutServices($scopeId, $postalCode);
+
+        foreach ($services as $service) {
+            $serviceCode = $service->getCode();
+            if (array_key_exists($serviceCode, $optionsData) && $service->isAvailable()) {
+                //TODO: create options
+            }
+        }
         foreach ($optionsData as $shippingOption) {
             if ($shippingOption->getCode() === 'preferredDay') {
                 foreach ($shippingOption->getInputs() as $input) {
@@ -69,42 +126,67 @@ class PreferredDayTimeOptionsProcessor extends AbstractProcessor
     }
 
     /**
-     * @return OptionInterface[]
+     * @param int $scopeId
+     * @param string $postalCode
+     *
+     * @return array|CarrierServiceInterface[]
      */
-    private function getPreferredDayOptions(): array
+    private function getCheckoutServices(int $scopeId, string $postalCode): array
     {
+        $service = $this->serviceFactory->createCheckoutService(
+            $applicationId = $this->moduleConfig->getAuthUsername(),
+            $applicationToken = $this->moduleConfig->getAuthPassword(),
+            $ekp = $this->moduleConfig->getEkp($scopeId),
+            $logger = $this->logger,
+            $sandbox = true
+        );
+        $startDate = $this->startDate->getStartDate($scopeId);
+        $dropOffDate = $startDate->format('Y-m-d');
+        try {
+            $carrierServices = $service->getCarrierServices($postalCode, $dropOffDate);
+        } catch (\Exception $exception) {
+            $this->logger->error($exception->getMessage());
+            $carrierServices = [];
+        }
 
-        return [
-            $this->optionFactory->create([
-                'label' => 'Test 1',
-                'value' => 'test1',
-            ]),
-            $this->optionFactory->create([
-                'label' => 'Test 2',
-                'value' => 'test2',
-            ]),
-            $this->optionFactory->create([
-                'label' => 'Test 3',
-                'value' => 'test3',
-                'disabled' => true,
-            ]),
-        ];
+        return $carrierServices;
     }
 
     /**
+     * @var IntervalOption[] $options
      * @return OptionInterface[]
      */
-    private function getPreferredTimeOptions(): array
+    private function getPreferredDayOptions(array $options): array
     {
-        return [
-            $this->optionFactory->create([
-                'label' => 'Test time 1',
-                'value' => 'test1',
-            ]),
-            $this->optionFactory->create([
-                'label' => 'Test time 2',
-                'value' => 'test2',
-            ]),
-        ];
+        $dayOptions = [];
+        /**
+         * @var IntervalOption $option
+         */
+        foreach ($options as $option) {
+            $optionDate = $this->timeZone->formatDate($option->getStart(), 'Y-m-d');
+            $dayOptions[] = $this->optionFactory->create([
+                'label' => $optionDate,
+                'value' => $optionDate
+            ]);
+        }
+
+        return $dayOptions;
+    }
+
+    /**
+     * @param TimeFrameOption[] $options
+     * @return OptionInterface[]
+     */
+    private function getPreferredTimeOptions(array $options): array
+    {
+        $timeOptions = [];
+        foreach ($options as $option) {
+            $timeOptions[] = $this->optionFactory->create([
+                'label' => $option->getStart() . ' - ' . $option->getEnd(),
+                'value' => $option->getCode()
+             ]);
+        }
+
+        return $timeOptions;
     }
 }
