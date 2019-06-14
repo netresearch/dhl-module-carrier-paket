@@ -71,6 +71,7 @@
     <type name="\Dhl\ShippingCore\Model\Checkout\CheckoutDataCompositeProcessor">
         <arguments>
             <argument name="processors" xsi:type="array">
+                <item name="dhlpaketServiceDataFilterprocessor" xsi:type="object">Dhl\Paket\Model\Checkout\DataProcessor\ServiceDataFilterProcessor</item>
                 <item name="dhlpaketDateTimeOptionsProcessor" xsi:type="object">Dhl\Paket\Model\Checkout\DataProcessor\PreferredDayTimeOptionsProcessor</item>
                 <item name="dhlpaketParcelStationOptionsProcessor" xsi:type="object">Dhl\Paket\Model\Checkout\DataProcessor\ParcelStationOptionsProcessor</item>
             </argument>
