@@ -50,6 +50,7 @@ class ModuleConfig
 
     // 500_additional_services.xml
     const CONFIG_PATH_PRINT_ONLY_IF_CODEABLE = 'dhlshippingsolutions/dhlpaket/dhl_paket_additional_services/print_only_if_codeable';
+    const CONFIG_PATH_PARCEL_STATION_DELIVERY = 'dhlshippingsolutions/dhlpaket/dhl_paket_additional_services/parcel_station_delivery';
 
     /**
      * @var ScopeConfigInterface
@@ -400,6 +401,22 @@ class ModuleConfig
     {
         return (bool) $this->scopeConfig->getValue(
             self::CONFIG_PATH_PRINT_ONLY_IF_CODEABLE,
+            ScopeInterface::SCOPE_STORE,
+            $store
+        );
+    }
+
+    /**
+     * Returns TRUE if the "parcel station delivery" service should be used or not.
+     *
+     * @param string|null $store
+     *
+     * @return bool
+     */
+    public function isParcelStationDeliveryEnabled($store = null): bool
+    {
+        return (bool) $this->scopeConfig->getValue(
+            self::CONFIG_PATH_PARCEL_STATION_DELIVERY,
             ScopeInterface::SCOPE_STORE,
             $store
         );
