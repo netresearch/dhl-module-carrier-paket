@@ -46,22 +46,22 @@
         </field>
         <field id="service_preferredlocation_enabled" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="20"
                translate="label comment" type="Netresearch\ConfigFields\Model\Type\Checkbox">
-            <label><![CDATA[Enable preferred location]]></label>
+            <label><![CDATA[Enable Preferred Location]]></label>
             <comment><![CDATA[Allow customers to declare a preferred parcel location during checkout.]]></comment>
         </field>
         <field id="service_preferredneighbour_enabled" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="30"
                 translate="label comment" type="Netresearch\ConfigFields\Model\Type\Checkbox">
-            <label><![CDATA[Enable preferred neighbour]]></label>
+            <label><![CDATA[Enable Preferred Neighbour]]></label>
             <comment><![CDATA[Allow customers to declare a preferred neighbour during checkout.]]></comment>
         </field>
         <field id="service_preferredday_enabled" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="40"
                 translate="label comment" type="Netresearch\ConfigFields\Model\Type\Checkbox">
-            <label><![CDATA[Enable preferred day]]></label>
+            <label><![CDATA[Enable Preferred Day]]></label>
             <comment><![CDATA[Allow customers to select a preferred day of delivery.]]></comment>
         </field>
         <field id="service_preferredtime_enabled" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="50"
                translate="label comment" type="Netresearch\ConfigFields\Model\Type\Checkbox">
-            <label><![CDATA[Enable preferred time]]></label>
+            <label><![CDATA[Enable Preferred Time]]></label>
             <comment><![CDATA[Allow customers to select a preferred time of delivery.]]></comment>
         </field>
         <field id="service_parcelannouncement_enabled" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="60"

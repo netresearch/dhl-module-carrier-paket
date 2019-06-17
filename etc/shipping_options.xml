@@ -65,7 +65,7 @@
                 <sortOrder>40</sortOrder>
                 <inputs>
                     <input code="details">
-                        <label>Enable preferred location</label>
+                        <label>Enable Preferred Location</label>
                         <inputType>text</inputType>
                         <tooltip>Choose a weather-protected and non-visible place on your property where we can deposit the parcel in your absence.</tooltip>
                         <placeholder>E.g. garage, terrace</placeholder>
