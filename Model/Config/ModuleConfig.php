@@ -407,7 +407,7 @@ class ModuleConfig
     }
 
     /**
-     * Returns TRUE if the "parcel station delivery" service should be used or not.
+     * Returns TRUE if the Parcel Station Delivery service should be available in checkout.
      *
      * @param string|null $store
      *

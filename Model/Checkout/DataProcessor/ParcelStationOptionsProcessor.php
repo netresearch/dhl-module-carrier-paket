@@ -69,15 +69,15 @@ class ParcelStationOptionsProcessor extends AbstractProcessor
 
         return [
             $this->optionFactory->create([
-                'label' => 'Test 1',
+                'label' => 'Parcel Station 1',
                 'value' => 'test1',
             ]),
             $this->optionFactory->create([
-                'label' => 'Test 2',
+                'label' => 'Parcel Station 2',
                 'value' => 'test2',
             ]),
             $this->optionFactory->create([
-                'label' => 'Test 3',
+                'label' => 'Parcel Station 3',
                 'value' => 'test3',
             ]),
         ];

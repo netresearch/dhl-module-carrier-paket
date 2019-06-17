@@ -129,10 +129,10 @@
                         <inputType>checkbox</inputType>
                     </input>
                     <input code="id">
-                        <label>Parcelshop ID</label>
+                        <label>Parcel Station ID</label>
                         <labelVisible>true</labelVisible>
                         <inputType>select</inputType>
-                        <placeholder>Please select a parcel shop...</placeholder>
+                        <placeholder>Please select a parcel station …</placeholder>
                         <comment>
                             <content>Select a nearby parcel shop. Your package will be sent there for you to pick up.</content>
                         </comment>
@@ -212,7 +212,6 @@
                     <subject>preferredLocation</subject>
                     <subject>preferredNeighbour</subject>
                 </subjects>
-                <errorMessage>Delivery only possible to either parcel station or preferred location / preferred neighbour.</errorMessage>
             </rule>
             <rule id="parcelstationExclusion">
                 <incompatibilityRule>false</incompatibilityRule>
