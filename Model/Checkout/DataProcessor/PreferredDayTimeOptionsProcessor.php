@@ -101,22 +101,25 @@ class PreferredDayTimeOptionsProcessor extends AbstractProcessor
 
         foreach ($services as $service) {
             $serviceCode = $service->getCode();
-            if (array_key_exists($serviceCode, $optionsData) && $service->isAvailable()) {
-                //TODO: create options
+            if (array_key_exists($serviceCode, $optionsData) && !$service->isAvailable()) {
+                unset($optionsData[$serviceCode]);
             }
-        }
-        foreach ($optionsData as $shippingOption) {
-            if ($shippingOption->getCode() === 'preferredDay') {
-                foreach ($shippingOption->getInputs() as $input) {
+
+            if ($service->getCode() === 'preferredDay') {
+                $dayOptions = $this->getPreferredDayOptions($service->getOptions());
+                $inputs = $optionsData[$service->getCode()]->getInputs();
+                foreach ($inputs as $input) {
                     if ($input->getCode() === 'date') {
-                        $input->setOptions($input->getOptions() + $this->getPreferredDayOptions());
+                        $input->setOptions($input->getOptions() + $dayOptions);
                     }
                 }
             }
-            if ($shippingOption->getCode() === 'preferredTime') {
-                foreach ($shippingOption->getInputs() as $input) {
+            if ($service->getCode() === 'preferredTime') {
+                $timeOptions = $this->getPreferredTimeOptions($service->getOptions());
+                $inputs = $optionsData[$service->getCode()]->getInputs();
+                foreach ($inputs as $input) {
                     if ($input->getCode() === 'time') {
-                        $input->setOptions($input->getOptions() + $this->getPreferredTimeOptions());
+                        $input->setOptions($input->getOptions() + $timeOptions);
                     }
                 }
             }
@@ -140,10 +143,9 @@ class PreferredDayTimeOptionsProcessor extends AbstractProcessor
             $logger = $this->logger,
             $sandbox = true
         );
-        $startDate = $this->startDate->getStartDate($scopeId);
-        $dropOffDate = $startDate->format('Y-m-d');
+        $startDate = $this->startDate->getStartDate($scopeId)->format('Y-m-d');
         try {
-            $carrierServices = $service->getCarrierServices($postalCode, $dropOffDate);
+            $carrierServices = $service->getCarrierServices($postalCode, $startDate);
         } catch (\Exception $exception) {
             $this->logger->error($exception->getMessage());
             $carrierServices = [];
@@ -163,10 +165,11 @@ class PreferredDayTimeOptionsProcessor extends AbstractProcessor
          * @var IntervalOption $option
          */
         foreach ($options as $option) {
-            $optionDate = $this->timeZone->formatDate($option->getStart(), 'Y-m-d');
+            $optionLabel = $this->timeZone->formatDate($option->getStart());
+            $optionValue = $this->timeZone->date($option->getStart())->format('Y-m-d');
             $dayOptions[] = $this->optionFactory->create([
-                'label' => $optionDate,
-                'value' => $optionDate
+                'label' => $optionLabel,
+                'value' => $optionValue
             ]);
         }
 
@@ -183,7 +186,7 @@ class PreferredDayTimeOptionsProcessor extends AbstractProcessor
         foreach ($options as $option) {
             $timeOptions[] = $this->optionFactory->create([
                 'label' => $option->getStart() . ' - ' . $option->getEnd(),
-                'value' => $option->getCode()
+                'value' => str_replace(':', '', $option->getStart() . $option->getEnd())
              ]);
         }
 
