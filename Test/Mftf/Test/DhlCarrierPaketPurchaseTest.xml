@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ /**
+  * See LICENSE.md for license details.
+  */
+-->
+<tests xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/testSchema.xsd">
+    <test name="DhlCarrierPaketPurchaseOneProduct"
+          extends="DhlCarrierPaketRateEmulationInCheckoutOneProduct">
+        <annotations>
+            <features value="Checkout"/>
+            <stories value="Purchase a single product using DHL Paket carrier"/>
+            <title value="Purchase a single product using DHL Paket carrier"/>
+            <description value="Purchase a single product using DHL Paket carrier"/>
+            <severity value="CRITICAL"/>
+            <group value="carrier-paket-purchase"/>
+        </annotations>
+
+        <remove keyForRemoval="guestCheckoutFillingShippingSection"/>
+
+        <actionGroup ref="GuestCheckoutFillingShippingSectionWithCountryActionGroup" stepKey="guestCheckoutFillingShippingSectionWithCountry">
+            <argument name="customerVar" value="Customer_DE"/>
+            <argument name="customerAddressVar" value="CustomerAddress_DE_with_Supplement"/>
+            <argument name="shippingMethod" value="DHL Paket"/>
+        </actionGroup>
+
+        <actionGroup ref="CheckoutSelectCheckMoneyOrderPaymentActionGroup" stepKey="guestSelectCheckMoneyOrderPayment"/>
+        <actionGroup ref="CheckoutPlaceOrderActionGroup" stepKey="guestPlaceorder">
+            <argument name="orderNumberMessage" value="CONST.successGuestCheckoutOrderNumberMessage"/>
+            <argument name="emailYouMessage" value="CONST.successCheckoutEmailYouMessage"/>
+        </actionGroup>
+
+        <grabTextFrom selector="{{StorefrontCheckoutSection.orderNumber}}" stepKey="grabOrderNumber"/>
+
+        <!-- Shipment order page -->
+        <amOnPage url="{{AdminOrderShipmentViewPage.url({$grabOrderNumber})}}" stepKey="navigateToAdminOrderShipmentViewPage"/>
+        <waitForPageLoad stepKey="waitForAdminOrderShipmentViewPageLoad"/>
+        <seeElement selector="{{AdminOrderShipmentSection.dhlRecipientStreetContainer}}" stepKey="seeDhlRecipientStreet1"/>
+
+        <!-- Sales order page -->
+        <amOnPage url="{{AdminSalesOrderViewPage.url({$grabOrderNumber})}}" stepKey="navigateToAdminSalesOrderViewPage"/>
+        <waitForPageLoad stepKey="waitForAdminSalesOrderViewPageLoad"/>
+        <seeElement selector="{{AdminSalesOrderSection.dhlRecipientStreetContainer}}" stepKey="seeDhlRecipientStreet2"/>
+
+        <!-- Validate initial values -->
+        <grabTextFrom selector="{{AdminSalesOrderSection.dhlRecipientStreetName}}" stepKey="streetNameValue1"/>
+        <assertEquals stepKey="assertStreetNameIsEqual1">
+            <actualResult type="variable">streetNameValue1</actualResult>
+            <expectedResult type="string">Nonnenstraße</expectedResult>
+        </assertEquals>
+
+        <grabTextFrom selector="{{AdminSalesOrderSection.dhlRecipientStreetSupplement}}" stepKey="streetSupplementValue1"/>
+        <assertEquals stepKey="assertStreetSupplementIsEqual1">
+            <actualResult type="variable">streetSupplementValue1</actualResult>
+            <expectedResult type="string">2. Etage</expectedResult>
+        </assertEquals>
+
+        <seeElement selector="{{AdminSalesOrderSection.dhlRecipientStreetEditLink}}" stepKey="seeDhlRecipientStreetEditLink"/>
+        <click selector="{{AdminSalesOrderSection.dhlRecipientStreetEditLink}}" stepKey="clickLinkToRecipientStreetEdit"/>
+        <waitForPageLoad stepKey="waitForDhlRecipientStreetEditLinkPageLoad"/>
+
+        <fillField selector="{{AdminSalesOrderSection.streetNameField}}" userInput="{{Address_with_Supplement_Replace.street}}" stepKey="fillStreetName"/>
+        <fillField selector="{{AdminSalesOrderSection.streetNumberField}}" userInput="{{Address_with_Supplement_Replace.streetNumber}}" stepKey="fillStreetNumber"/>
+        <fillField selector="{{AdminSalesOrderSection.streetSupplementField}}" userInput="{{Address_with_Supplement_Replace.streetSupplement}}" stepKey="fillStreetSupplement"/>
+
+        <!-- Save -->
+        <actionGroup ref="SaveAdminSystemConfigSectionActionGroup" stepKey="saveAdminConfigSection"/>
+        <waitForPageLoad stepKey="waitForDhlRecipientStreetEditLinkPageLoad1"/>
+
+        <!-- Validate changed values -->
+        <grabTextFrom selector="{{AdminSalesOrderSection.dhlRecipientStreetName}}" stepKey="streetNameValue2"/>
+        <assertEquals stepKey="assertStreetNameIsEqual2">
+            <actualResult type="variable">streetNameValue2</actualResult>
+            <expectedResult type="string">{{Address_with_Supplement_Replace.street}}</expectedResult>
+        </assertEquals>
+
+        <grabTextFrom selector="{{AdminSalesOrderSection.dhlRecipientStreetSupplement}}" stepKey="streetSupplementValue2"/>
+        <assertEquals stepKey="assertStreetSupplementIsEqual2">
+            <actualResult type="variable">streetSupplementValue2</actualResult>
+            <expectedResult type="string">{{Address_with_Supplement_Replace.streetSupplement}}</expectedResult>
+        </assertEquals>
+    </test>
+</tests>

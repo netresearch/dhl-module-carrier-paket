@@ -5,6 +5,7 @@
         <include>
             <group name="carrier-paket-configuration"/>
             <group name="carrier-paket-checkout"/>
+            <group name="carrier-paket-purchase"/>
         </include>
     </suite>
 </suites>

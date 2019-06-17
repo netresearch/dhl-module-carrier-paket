@@ -45,16 +45,12 @@
             <actionGroup ref="DhlPaketCarrierSettingsEnableActionGroup" stepKey="enableCarrierSettingsDhlPaket"/>
             <actionGroup ref="DhlPaketCarrierSettingsSelectUseRatesFromActionGroup" stepKey="selectCarrierSettingsUseRatesFrom"/>
             <actionGroup ref="SaveAdminSystemConfigSectionActionGroup" stepKey="saveAdminSystemConfigSection3"/>
-
-            <actionGroup ref="logout" stepKey="logout"/>
         </before>
         <after>
             <comment userInput="-> Clean up carrier configuration settings after test" stepKey="cleanTestComment"/>
 
             <deleteData createDataKey="SimpleProduct" stepKey="deleteProduct"/>
             <deleteData createDataKey="SimpleCategory" stepKey="deleteCategory"/>
-
-            <actionGroup ref="LoginAsAdmin" stepKey="loginAsAdmin"/>
 
             <!-- Unset carrier settings to restore initial state -->
             <actionGroup ref="NavigateToCarrierSettingsPageActionGroup" stepKey="navigateToCarrierSettingsConfig"/>
@@ -128,16 +124,12 @@
             <actionGroup ref="DhlPaketCarrierSettingsEnableActionGroup" stepKey="enableCarrierSettingsDhlPaket"/>
             <actionGroup ref="DhlPaketCarrierSettingsSelectUseRatesFromActionGroup" stepKey="selectCarrierSettingsUseRatesFrom"/>
             <actionGroup ref="SaveAdminSystemConfigSectionActionGroup" stepKey="saveAdminSystemConfigSection3"/>
-
-            <actionGroup ref="logout" stepKey="logout"/>
         </before>
         <after>
             <comment userInput="-> Clean up carrier configuration settings after test" stepKey="cleanTestComment"/>
 
             <deleteData createDataKey="SimpleProduct" stepKey="deleteProduct"/>
             <deleteData createDataKey="SimpleCategory" stepKey="deleteCategory"/>
-
-            <actionGroup ref="LoginAsAdmin" stepKey="loginAsAdmin"/>
 
             <!-- Unset carrier settings to restore initial state -->
             <actionGroup ref="NavigateToCarrierSettingsPageActionGroup" stepKey="navigateToCarrierSettingsConfig"/>
