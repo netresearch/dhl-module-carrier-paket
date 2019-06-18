@@ -48,15 +48,14 @@ class ServiceDataFilterProcessor extends AbstractProcessor
         int $scopeId = null
     ): array {
 
+        $configValues = $this->scopeConfig->getValue(
+            'dhlshippingsolutions/dhlpaket/additional_services',
+            ScopeInterface::SCOPE_STORE,
+            $scopeId
+        );
         foreach ($optionsData as $optionData) {
-            $code = $optionData->getCode();
-            $isEnabled = (bool)$this->scopeConfig->getValue(
-                'dhlshippingsolutions/dhlpaket/dhl_paket_additional_services/service_'.strtolower($code).'_enabled',
-                ScopeInterface::SCOPE_STORE,
-                $scopeId
-            );
-
-            if (!$isEnabled) {
+            if (!isset($configValues[strtolower($optionData->getCode())]) ||
+                !(bool)$configValues[strtolower($optionData->getCode())]) {
                 unset($optionsData[$optionData->getCode()]);
             }
         }

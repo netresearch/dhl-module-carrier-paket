@@ -14,11 +14,12 @@
             <label><![CDATA[Use Print Only If Codeable Service]]></label>
             <comment><![CDATA[If set to <em>Yes</em>, shipment orders will only return a label if the DHL delivery address verification succeeds.]]></comment>
         </field>
-        <field id="parcel_station_delivery" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="10"
+        <field id="parcel_station_delivery" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="20"
             translate="tooltip label comment" type="Netresearch\ConfigFields\Model\Type\Checkbox">
             <label><![CDATA[Use Parcel Station Delivery Service]]></label>
             <comment><![CDATA[Allow customers to get shipments delivered to a parcel station.]]></comment>
         </field>
+
         <!-- Visual Check of Age -->
         <field id="visual_check_of_age" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="20"
                translate="label comment" type="select">
@@ -44,27 +45,28 @@
             <label>Use Bulky Goods Service</label>
             <comment><![CDATA[If set to <em>Yes</em>, shipments will be marked as bulk freight.]]></comment>
         </field>
-        <field id="service_preferredlocation_enabled" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="20"
+
+        <field id="preferredlocation" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="30"
                translate="label comment" type="Netresearch\ConfigFields\Model\Type\Checkbox">
             <label><![CDATA[Enable Preferred Location]]></label>
             <comment><![CDATA[Allow customers to declare a preferred parcel location during checkout.]]></comment>
         </field>
-        <field id="service_preferredneighbour_enabled" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="30"
+        <field id="preferredneighbour" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="40"
                 translate="label comment" type="Netresearch\ConfigFields\Model\Type\Checkbox">
             <label><![CDATA[Enable Preferred Neighbour]]></label>
             <comment><![CDATA[Allow customers to declare a preferred neighbour during checkout.]]></comment>
         </field>
-        <field id="service_preferredday_enabled" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="40"
+        <field id="preferredday" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="50"
                 translate="label comment" type="Netresearch\ConfigFields\Model\Type\Checkbox">
             <label><![CDATA[Enable Preferred Day]]></label>
             <comment><![CDATA[Allow customers to select a preferred day of delivery.]]></comment>
         </field>
-        <field id="service_preferredtime_enabled" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="50"
+        <field id="preferredtime" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="60"
                translate="label comment" type="Netresearch\ConfigFields\Model\Type\Checkbox">
             <label><![CDATA[Enable Preferred Time]]></label>
             <comment><![CDATA[Allow customers to select a preferred time of delivery.]]></comment>
         </field>
-        <field id="service_parcelannouncement_enabled" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="60"
+        <field id="parcelannouncement" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="70"
                translate="label comment" type="Netresearch\ConfigFields\Model\Type\Checkbox">
             <label><![CDATA[Enable DHL Parcel Notification]]></label>
             <comment><![CDATA[Allow customers to request parcel notification updates via e-mail by DHL during checkout.]]></comment>
