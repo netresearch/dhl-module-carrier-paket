@@ -20,6 +20,7 @@ use Magento\Store\Model\ScopeInterface;
 class ModuleConfig
 {
     // Defaults
+    const CONFIG_PATH_VERSION = 'carriers/dhlpaket/version';
     const CONFIG_PATH_ENABLED = 'carriers/dhlpaket/active';
     const CONFIG_PATH_TITLE = 'carriers/dhlpaket/title';
 
@@ -81,6 +82,14 @@ class ModuleConfig
     ) {
         $this->scopeConfig = $scopeConfig;
         $this->encryptor = $encryptor;
+    }
+
+    /**
+     * @return string
+     */
+    public function getModuleVersion(): string
+    {
+        return $this->scopeConfig->getValue(self::CONFIG_PATH_VERSION);
     }
 
     /**
