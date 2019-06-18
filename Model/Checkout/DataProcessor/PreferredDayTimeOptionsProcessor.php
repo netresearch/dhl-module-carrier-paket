@@ -12,6 +12,7 @@ use Dhl\Sdk\Paket\ParcelManagement\Api\Data\CarrierServiceInterface;
 use Dhl\Sdk\Paket\ParcelManagement\Service\CheckoutService\IntervalOption;
 use Dhl\Sdk\Paket\ParcelManagement\Service\CheckoutService\TimeFrameOption;
 use Dhl\Sdk\Paket\ParcelManagement\Service\ServiceFactory;
+use Dhl\ShippingCore\Api\Data\ShippingOption\InputInterface;
 use Dhl\ShippingCore\Api\Data\ShippingOption\OptionInterface;
 use Dhl\ShippingCore\Api\Data\ShippingOption\OptionInterfaceFactory;
 use Dhl\ShippingCore\Api\Data\ShippingOption\ShippingOptionInterface;
@@ -27,6 +28,9 @@ use Psr\Log\LoggerInterface;
  */
 class PreferredDayTimeOptionsProcessor extends AbstractProcessor
 {
+    const preferredDay = 'preferredDay';
+    const perferredTime = 'preferredTime';
+
     /**
      * @var OptionInterfaceFactory
      */
@@ -105,23 +109,13 @@ class PreferredDayTimeOptionsProcessor extends AbstractProcessor
                 unset($optionsData[$serviceCode]);
             }
 
-            if ($service->getCode() === 'preferredDay') {
+            if ($service->getCode() === self::preferredDay && isset($optionsData[$service->getCode()])) {
                 $dayOptions = $this->getPreferredDayOptions($service->getOptions());
-                $inputs = $optionsData[$service->getCode()]->getInputs();
-                foreach ($inputs as $input) {
-                    if ($input->getCode() === 'date') {
-                        $input->setOptions($input->getOptions() + $dayOptions);
-                    }
-                }
+                $this->setServiceIpnutOptions($optionsData, $service, $dayOptions);
             }
-            if ($service->getCode() === 'preferredTime') {
+            if ($service->getCode() === 'preferredTime' && isset($optionsData[$service->getCode()])) {
                 $timeOptions = $this->getPreferredTimeOptions($service->getOptions());
-                $inputs = $optionsData[$service->getCode()]->getInputs();
-                foreach ($inputs as $input) {
-                    if ($input->getCode() === 'time') {
-                        $input->setOptions($input->getOptions() + $timeOptions);
-                    }
-                }
+                $this->setServiceIpnutOptions($optionsData, $service, $timeOptions);
             }
         }
 
@@ -191,5 +185,24 @@ class PreferredDayTimeOptionsProcessor extends AbstractProcessor
         }
 
         return $timeOptions;
+    }
+
+    /**
+     * @param ShippingOptionInterface[] $optionsData
+     * @param CarrierServiceInterface $service
+     * @param OptionInterface[] $serviceOptions
+     */
+    private function setServiceIpnutOptions(array $optionsData, $service, array $serviceOptions)
+    {
+        /** @var InputInterface[] $inputs */
+        $inputs = $optionsData[$service->getCode()]->getInputs();
+        if (!empty($inputs)) {
+            foreach ($inputs as $input) {
+                if (($input->getCode() === 'date' && $service->getCode() === self::preferredDay) ||
+                    ($input->getCode() === 'time' && $service->getCode() === self::perferredTime)) {
+                    $input->setOptions($input->getOptions() + $serviceOptions);
+                }
+            }
+        }
     }
 }

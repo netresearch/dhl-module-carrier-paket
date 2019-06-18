@@ -54,8 +54,9 @@ class ServiceDataFilterProcessor extends AbstractProcessor
             $scopeId
         );
         foreach ($optionsData as $optionData) {
-            if (!isset($configValues[strtolower($optionData->getCode())]) ||
-                !(bool)$configValues[strtolower($optionData->getCode())]) {
+            $code = strtolower($optionData->getCode());
+            if (!isset($configValues[$code]) ||
+                !(bool)$configValues[$code]) {
                 unset($optionsData[$optionData->getCode()]);
             }
         }
