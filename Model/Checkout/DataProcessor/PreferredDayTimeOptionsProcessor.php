@@ -28,8 +28,8 @@ use Psr\Log\LoggerInterface;
  */
 class PreferredDayTimeOptionsProcessor extends AbstractProcessor
 {
-    const preferredDay = 'preferredDay';
-    const perferredTime = 'preferredTime';
+    const PREFERRED_DAY = 'preferredDay';
+    const PREFERRED_TIME = 'preferredTime';
 
     /**
      * @var OptionInterfaceFactory
@@ -110,11 +110,11 @@ class PreferredDayTimeOptionsProcessor extends AbstractProcessor
                 unset($optionsData[$serviceCode]);
             }
 
-            if ($service->getCode() === self::preferredDay && isset($optionsData[$service->getCode()])) {
+            if ($service->getCode() === self::PREFERRED_DAY && isset($optionsData[$service->getCode()])) {
                 $dayOptions = $this->getPreferredDayOptions($service->getOptions());
                 $this->setServiceIpnutOptions($optionsData, $service, $dayOptions);
             }
-            if ($service->getCode() === self::perferredTime && isset($optionsData[$service->getCode()])) {
+            if ($service->getCode() === self::PREFERRED_TIME && isset($optionsData[$service->getCode()])) {
                 $timeOptions = $this->getPreferredTimeOptions($service->getOptions());
                 $this->setServiceIpnutOptions($optionsData, $service, $timeOptions);
             }
@@ -199,8 +199,8 @@ class PreferredDayTimeOptionsProcessor extends AbstractProcessor
         $inputs = $optionsData[$service->getCode()]->getInputs();
         if (!empty($inputs)) {
             foreach ($inputs as $input) {
-                if (($input->getCode() === 'date' && $service->getCode() === self::preferredDay) ||
-                    ($input->getCode() === 'time' && $service->getCode() === self::perferredTime)) {
+                if (($input->getCode() === 'date' && $service->getCode() === self::PREFERRED_DAY) ||
+                    ($input->getCode() === 'time' && $service->getCode() === self::PREFERRED_TIME)) {
                     $input->setOptions($input->getOptions() + $serviceOptions);
                 }
             }
