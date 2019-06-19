@@ -1,6 +1,6 @@
 {
   "name": "dhl/module-carrier-paket",
-  "version": "0.1.0",
+  "version": "0.3.0",
   "type": "magento2-module",
   "description": "Carrier implementation for DHL Business Customer Shipping",
   "license": "OSL-3.0",
@@ -43,7 +43,7 @@
   },
   "extra": {
     "branch-alias": {
-      "dev-develop": "0.1.x-dev"
+      "dev-develop": "0.3.x-dev"
     }
   }
 }
