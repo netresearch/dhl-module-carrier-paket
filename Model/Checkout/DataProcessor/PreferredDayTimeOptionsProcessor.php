@@ -63,6 +63,7 @@ class PreferredDayTimeOptionsProcessor extends AbstractProcessor
 
     /**
      * PreferredDayTimeOptionsProcessor constructor.
+     *
      * @param OptionInterfaceFactory $optionFactory
      * @param ServiceFactory $serviceFactory
      * @param ModuleConfig $moduleConfig
@@ -113,7 +114,7 @@ class PreferredDayTimeOptionsProcessor extends AbstractProcessor
                 $dayOptions = $this->getPreferredDayOptions($service->getOptions());
                 $this->setServiceIpnutOptions($optionsData, $service, $dayOptions);
             }
-            if ($service->getCode() === 'preferredTime' && isset($optionsData[$service->getCode()])) {
+            if ($service->getCode() === self::perferredTime && isset($optionsData[$service->getCode()])) {
                 $timeOptions = $this->getPreferredTimeOptions($service->getOptions());
                 $this->setServiceIpnutOptions($optionsData, $service, $timeOptions);
             }
