@@ -51,5 +51,10 @@
             <source_model>Dhl\Paket\Model\Config\Source\LogLevel</source_model>
             <comment><![CDATA[The log level <em>Info</em> should only be set while resolving problems. It may result in very large log files.]]></comment>
         </field>
+        <field id="print_only_if_codeable" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="60"
+               translate="tooltip label comment" type="Netresearch\ConfigFields\Model\Type\Checkbox">
+            <label><![CDATA[Use Print Only If Codeable Service]]></label>
+            <comment><![CDATA[If set to <em>Yes</em>, shipment orders will only return a label if the DHL delivery address verification succeeds.]]></comment>
+        </field>
     </group>
 </include>

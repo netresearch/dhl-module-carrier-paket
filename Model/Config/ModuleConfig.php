@@ -27,6 +27,7 @@ class ModuleConfig
     // 100_general_settings.xml
     const CONFIG_PATH_ENABLE_LOGGING = 'dhlshippingsolutions/dhlpaket/general_shipping_settings/logging';
     const CONFIG_PATH_LOGLEVEL = 'dhlshippingsolutions/dhlpaket/general_shipping_settings/loglevel';
+    const CONFIG_PATH_PRINT_ONLY_IF_CODEABLE = 'dhlshippingsolutions/dhlpaket/general_shipping_settings/print_only_if_codeable';
 
     // 200_dhl_paket_account.xml
     const CONFIG_PATH_AUTH_USERNAME = 'dhlshippingsolutions/dhlpaket/account_settings/auth_username';
@@ -49,7 +50,6 @@ class ModuleConfig
     const CONFIG_PATH_PROXY_CARRIER = 'dhlshippingsolutions/dhlpaket/checkout_settings/emulated_carrier';
 
     // 500_additional_services.xml
-    const CONFIG_PATH_PRINT_ONLY_IF_CODEABLE = 'dhlshippingsolutions/dhlpaket/additional_services/print_only_if_codeable';
     const CONFIG_PATH_PARCEL_STATION_DELIVERY = 'dhlshippingsolutions/dhlpaket/additional_services/parcel_station_delivery';
     const CONFIG_PATH_VISUAL_CHECK_OF_AGE = 'dhlshippingsolutions/dhlpaket/additional_services/visual_check_of_age';
     const CONFIG_PATH_RETURN_SHIPMENT = 'dhlshippingsolutions/dhlpaket/additional_services/return_shipment';
