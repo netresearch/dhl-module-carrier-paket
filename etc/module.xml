@@ -8,6 +8,7 @@
     <module name="Dhl_Paket" setup_version="0.1.0">
         <sequence>
             <module name="Dhl_ShippingCore"/>
+            <module name="Magento_Backend"/>
             <module name="Magento_CatalogInventory"/>
             <module name="Magento_Config"/>
             <module name="Magento_Directory"/>

@@ -25,6 +25,7 @@
     "dhl/sdk-api-bcs": "^0.1.0",
     "dhl/sdk-api-parcel-management": "^1.0.0",
     "magento/framework": "^101.0.0||^102.0.0",
+    "magento/module-backend": "^100.2.0|^101.0.0",
     "magento/module-catalog-inventory": "^100.2.0",
     "magento/module-config": "^101.0.0",
     "magento/module-directory": "^100.2.0",
@@ -42,8 +43,7 @@
   },
   "extra": {
     "branch-alias": {
-      "dev-develop": "0.1.x-dev",
-      "dev-feature-shipping-options": "0.3.x-dev"
+      "dev-develop": "0.1.x-dev"
     }
   }
 }

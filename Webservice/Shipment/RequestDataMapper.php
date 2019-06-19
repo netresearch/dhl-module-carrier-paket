@@ -57,6 +57,26 @@ class RequestDataMapper
     }
 
     /**
+     * Add the generated sequence number (unique package id) to the shipment request's package for later association.
+     *
+     * @param Request $request
+     * @param int $packageId
+     * @param string $sequenceNumber
+     */
+    private function addSequenceNumber(Request $request, int $packageId, string $sequenceNumber)
+    {
+        $packages = $request->getData('packages');
+
+        foreach ($packages as $requestPackageId => &$package) {
+            if ($requestPackageId === $packageId) {
+                $package['sequence_number'] = $sequenceNumber;
+            }
+        }
+
+        $request->setData('packages', $packages);
+    }
+
+    /**
      * Map the Magento shipment request to an SDK request object using the SDK request builder.
      *
      * @param string $sequenceNumber Request identifier to associate request-response pairs
@@ -116,7 +136,10 @@ class RequestDataMapper
         }
 
         /** @var PackageInterface $package */
-        foreach ($requestExtractor->getPackages() as $package) {
+        foreach ($requestExtractor->getPackages() as $packageId => $package) {
+            //fixme(nr): request data are overridden silently for shipment requests with multiple packages
+            $this->addSequenceNumber($request, $packageId, $sequenceNumber);
+
             $this->requestBuilder->setShipmentDetails(
                 $package->getProductCode(),
                 $requestExtractor->getShipmentDate(),

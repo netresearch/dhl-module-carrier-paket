@@ -2,7 +2,6 @@
 /**
  * See LICENSE.md for license details.
  */
-declare(strict_types=1);
 
 namespace Dhl\Paket\Controller\Adminhtml\Order\Shipment;
 
@@ -15,8 +14,8 @@ use Dhl\ShippingCore\Test\Integration\Fixture\Data\SimpleProduct;
 use Dhl\ShippingCore\Test\Integration\Fixture\OrderFixture;
 use Magento\Sales\Api\Data\OrderInterface;
 use Magento\Sales\Api\Data\ShipmentInterface;
+use Magento\Sales\Model\Order;
 use Magento\Sales\Model\ResourceModel\Order\Shipment\Collection;
-use Magento\TestFramework\Helper\Bootstrap;
 
 /**
  * Test basic shipment creation for DE-DE route with no value-added services.
@@ -31,17 +30,24 @@ use Magento\TestFramework\Helper\Bootstrap;
 class SaveDeDomesticShipmentTest extends SaveShipmentTest
 {
     /**
+     * @var OrderInterface[]|Order[]
+     */
+    private static $orders;
+
+    /**
      * Create order fixture for DE recipient address.
      *
      * @throws \Exception
      */
     public static function createOrder()
     {
-        self::$order = OrderFixture::createOrder(new AddressDe(), new SimpleProduct(), Paket::CARRIER_CODE.'_flatrate');
+        $shippingMethod = Paket::CARRIER_CODE . '_flatrate';
+        $order = OrderFixture::createOrder(new AddressDe(), [new SimpleProduct()], $shippingMethod);
+        self::$orders = [$order];
     }
 
     /**
-     * @param OrderInterface $order
+     * @param OrderInterface|Order $order
      * @return mixed[]
      */
     private function getPackagingPostData(OrderInterface $order)
@@ -76,7 +82,7 @@ class SaveDeDomesticShipmentTest extends SaveShipmentTest
      * @magentoConfigFixture default_store shipping/origin/street_line1 Nonnenstraße 11
      *
      * @magentoConfigFixture current_store carriers/dhlpaket/active 1
-     * @magentoConfigFixture current_store dhlshippingsolutions/dhlpaket/dhl_paket_checkout_settings/emulated_carrier flatrate
+     * @magentoConfigFixture current_store dhlshippingsolutions/dhlpaket/checkout_settings/emulated_carrier flatrate
      *
      * @magentoConfigFixture current_store carriers/flatrate/type O
      * @magentoConfigFixture current_store carriers/flatrate/handling_type F
@@ -84,49 +90,33 @@ class SaveDeDomesticShipmentTest extends SaveShipmentTest
      */
     public function saveShipment()
     {
-        // create packaging post data from order fixture
-        $postData = $this->getPackagingPostData(self::$order);
+        $order = self::$orders[0];
 
-        // create shipments from packaging data and set as api response
-        $createdShipments = array_map(
-            function (string $sequenceNumber) {
-                return new Shipment($sequenceNumber, "shipment $sequenceNumber", '', "pdf $sequenceNumber", '', '', '');
-            },
-            array_keys($postData['packages'])
-        );
-        $this->shipmentService->setCreatedShipments($createdShipments);
+        // create packaging post data from order fixture
+        $postData = $this->getPackagingPostData($order);
 
         // dispatch
         $this->getRequest()->setMethod($this->httpMethod);
         $this->getRequest()->setPostValue($postData);
-        $this->getRequest()->setParam('order_id', self::$order->getEntityId());
+        $this->getRequest()->setParam('order_id', $order->getEntityId());
         $this->dispatch($this->uri);
 
         /** @var Collection $shipmentCollection */
-        $shipmentCollection = Bootstrap::getObjectManager()->create(Collection::class);
-        $shipments = $shipmentCollection->setOrderFilter(self::$order)->getItems();
+        $shipmentCollection = $this->objectManager->create(Collection::class);
+        $shipments = $shipmentCollection->setOrderFilter($order)->getItems();
+        $shipments = array_values($shipments);
 
-        // assert that shipments count equals packages count
-        self::assertCount(count($postData['packages']), $shipments);
+        // assert that exactly one shipment was created for the order
+        self::assertCount(1, $shipments);
+        $shipment = $shipments[0];
 
-        // assert that labels and tracks were persisted with the shipment
-        $createdTracks = array_map(
-            function (Shipment $shipment) {
-                return $shipment->getShipmentNumber();
-            },
-            $createdShipments
-        );
+        // assert shipping label was persisted with shipment
+        self::assertStringStartsWith('%PDF-1', $shipment->getShippingLabel());
 
-        array_walk(
-            $shipments,
-            function (ShipmentInterface $shipment) use ($createdTracks) {
-                self::assertNotEmpty($shipment->getShippingLabel());
+        // assert that one track was created per package
+        $tracks = $shipment->getTracks();
+        self::assertCount(count($postData['packages']), $tracks);
 
-                foreach ($shipment->getTracks() as $track) {
-                    self::assertContains($track->getTrackNumber(), $createdTracks);
-                }
-            }
-        );
         //todo(nr): verify data passed to the api (shipment orders), e.g. addresses, shipment details, …
     }
 }

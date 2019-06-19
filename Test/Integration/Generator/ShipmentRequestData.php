@@ -7,14 +7,13 @@ declare(strict_types=1);
 namespace Dhl\Paket\Test\Integration\Generator;
 
 use Dhl\Paket\Model\ShippingProducts\ShippingProductsInterface;
-use Dhl\ShippingCore\Model\Config\CoreConfigInterface;
+use Dhl\ShippingCore\Api\ConfigInterface;
 use Dhl\ShippingCore\Test\Integration\Generator\ShipmentRequestData as ShippingCoreGenerator;
 use Magento\Sales\Model\Order;
 use Magento\TestFramework\Helper\Bootstrap;
 
 class ShipmentRequestData
 {
-
     /**
      * Generate a POST request array to use for shipment save controller, enhanced with DHL Paket specific data
      *
@@ -40,8 +39,8 @@ class ShipmentRequestData
     private static function getContainerType(Order $order): string
     {
         $objectManager = Bootstrap::getObjectManager();
-        /** @var CoreConfigInterface $config */
-        $config = $objectManager->get(CoreConfigInterface::class);
+        /** @var ConfigInterface $config */
+        $config = $objectManager->get(ConfigInterface::class);
         /** @var ShippingProductsInterface $shippingProducts */
         $shippingProducts = $objectManager->get(ShippingProductsInterface::class);
         $originCountry = $config->getOriginCountry($order->getStoreId());

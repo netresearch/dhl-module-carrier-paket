@@ -1,0 +1,18 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * See LICENSE.md for license details.
+ */
+-->
+<include xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_include.xsd">
+    <group id="bulk_settings" translate="label" sortOrder="600" showInDefault="1" showInWebsite="1" showInStore="1">
+        <label><![CDATA[Bulk / Cron Settings]]></label>
+        <attribute type="expanded">1</attribute>
+
+        <field id="autocreate_notify" showInDefault="1" showInWebsite="0" showInStore="0" sortOrder="10"
+               translate="tooltip label comment" type="Netresearch\ConfigFields\Model\Type\Checkbox">
+            <label><![CDATA[Email Copy of Shipment]]></label>
+            <comment><![CDATA[If set to <em>Yes</em>, a shipment confirmation email will be sent to the customer when shipment and label were created.]]></comment>
+        </field>
+    </group>
+</include>

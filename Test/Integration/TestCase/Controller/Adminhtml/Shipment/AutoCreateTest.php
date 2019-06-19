@@ -2,39 +2,40 @@
 /**
  * See LICENSE.md for license details.
  */
+declare(strict_types=1);
 
-namespace Dhl\Paket\Test\Integration\TestCase\Controller\Adminhtml\Order\Shipment;
+namespace Dhl\Paket\Test\Integration\TestCase\Controller\Adminhtml\Shipment;
 
 use Dhl\Paket\Test\Integration\TestCase\Controller\Adminhtml\ControllerTest;
 use Magento\Framework\Data\Form\FormKey;
 
 /**
- * Base test to build various shipment creation scenarios on.
+ * Class AutoCreateTest
  *
- * @package Dhl\Paket\Test\Integration
- * @author  Christoph Aßmann <christoph.assmann@netresearch.de>
- * @link    https://www.netresearch.de/
+ * Base controller test for the auto-create route.
+ *
+ * @package Dhl\Paket\Test\Integration\Controller
  */
-abstract class SaveShipmentTest extends ControllerTest
+abstract class AutoCreateTest extends ControllerTest
 {
     /**
      * The resource used to authorize action
      *
      * @var string
      */
-    protected $resource = 'Magento_Sales::shipment';
+    protected $resource = 'Magento_Sales::ship';
 
     /**
      * The uri at which to access the controller
      *
      * @var string
      */
-    protected $uri = 'backend/admin/order_shipment/save';
+    protected $uri = 'backend/dhl/shipment/autocreate';
 
     /**
      * The actual test to be implemented.
      */
-    abstract public function saveShipment();
+    abstract public function createLabels();
 
     /**
      * Run request.
@@ -57,6 +58,8 @@ abstract class SaveShipmentTest extends ControllerTest
     }
 
     /**
+     * @magentoConfigFixture default/dhlshippingsolutions/dhlglobalwebservices/retry_failed_shipments 0
+     *
      * @magentoConfigFixture default_store general/store_information/name NR-Test-Store
      * @magentoConfigFixture default_store general/store_information/region_id 91
      * @magentoConfigFixture default_store general/store_information/phone 000
@@ -75,7 +78,7 @@ abstract class SaveShipmentTest extends ControllerTest
      * @magentoConfigFixture default_store currency/options/base EUR
      *
      * @magentoConfigFixture current_store carriers/dhlpaket/active 1
-     * @magentoConfigFixture current_store dhlshippingsolutions/dhlpaket/checkout_settings/emulated_carrier flatrate
+     * @magentoConfigFixture current_store carriers/dhlpaket/checkout_settings/emulated_carrier flatrate
      *
      * @magentoConfigFixture current_store carriers/flatrate/type O
      * @magentoConfigFixture current_store carriers/flatrate/handling_type F
@@ -83,8 +86,11 @@ abstract class SaveShipmentTest extends ControllerTest
      */
     public function testAclHasAccess()
     {
-        $this->getRequest()->setParam('order_id', '123456789');
-        $this->getRequest()->setParam('shipment', ['create_shipping_label' => true]);
+        $postData = [
+            'selected' => ['123456789', '987654321'],
+            'namespace' => 'sales_order_grid'
+        ];
+        $this->getRequest()->setPostValue($postData);
 
         parent::testAclHasAccess();
     }

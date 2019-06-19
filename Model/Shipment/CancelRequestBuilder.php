@@ -7,6 +7,8 @@ declare(strict_types=1);
 namespace Dhl\Paket\Model\Shipment;
 
 use Dhl\Paket\Model\Carrier\Paket;
+use Dhl\ShippingCore\Api\Data\TrackRequest\TrackRequestInterface;
+use Dhl\ShippingCore\Api\Data\TrackRequest\TrackRequestInterfaceFactory;
 use Magento\Framework\Api\FilterBuilder;
 use Magento\Framework\Api\Search\SearchCriteriaBuilderFactory;
 use Magento\Framework\Exception\LocalizedException;
@@ -43,7 +45,7 @@ class CancelRequestBuilder
     private $trackRepository;
 
     /**
-     * @var CancelRequestFactory
+     * @var TrackRequestInterfaceFactory
      */
     private $requestFactory;
 
@@ -57,13 +59,13 @@ class CancelRequestBuilder
      * @param SearchCriteriaBuilderFactory $searchCriteriaBuilderFactory
      * @param FilterBuilder $filterBuilder
      * @param TrackRepository $trackRepository
-     * @param CancelRequestFactory $requestFactory
+     * @param TrackRequestInterfaceFactory $requestFactory
      */
     public function __construct(
         SearchCriteriaBuilderFactory $searchCriteriaBuilderFactory,
         FilterBuilder $filterBuilder,
         TrackRepository $trackRepository,
-        CancelRequestFactory $requestFactory
+        TrackRequestInterfaceFactory $requestFactory
     ) {
         $this->searchCriteriaBuilderFactory = $searchCriteriaBuilderFactory;
         $this->filterBuilder = $filterBuilder;
@@ -85,7 +87,7 @@ class CancelRequestBuilder
     /**
      * Build the cancel requests.
      *
-     * @return CancelRequest[]
+     * @return TrackRequestInterface[]
      */
     public function build(): array
     {
@@ -119,9 +121,11 @@ class CancelRequestBuilder
                 return [];
             }
 
-            $cancelRequests[]= $this->requestFactory->create([
-                'track' => $track,
-                'shipment' => $shipment,
+            $cancelRequests[$track->getTrackNumber()]= $this->requestFactory->create([
+                'storeId' => (int) $shipment->getStoreId(),
+                'trackNumber' => (string) $track->getTrackNumber(),
+                'salesShipment' => $shipment,
+                'salesTrack' => $track,
             ]);
         }
 

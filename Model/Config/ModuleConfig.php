@@ -46,11 +46,14 @@ class ModuleConfig
     const CONFIG_PATH_SANDBOX_PARTICIPATIONS = 'dhlshippingsolutions/dhlpaket/account_settings/sandbox_account_participations';
 
     // 400_checkout_presentation.xml
-    const CONFIG_PATH_PROXY_CARRIER = 'dhlshippingsolutions/dhlpaket/dhl_paket_checkout_settings/emulated_carrier';
+    const CONFIG_PATH_PROXY_CARRIER = 'dhlshippingsolutions/dhlpaket/checkout_settings/emulated_carrier';
 
     // 500_additional_services.xml
-    const CONFIG_PATH_PRINT_ONLY_IF_CODEABLE = 'dhlshippingsolutions/dhlpaket/dhl_paket_additional_services/print_only_if_codeable';
-    const CONFIG_PATH_PARCEL_STATION_DELIVERY = 'dhlshippingsolutions/dhlpaket/dhl_paket_additional_services/parcel_station_delivery';
+    const CONFIG_PATH_PRINT_ONLY_IF_CODEABLE = 'dhlshippingsolutions/dhlpaket/additional_services/print_only_if_codeable';
+    const CONFIG_PATH_PARCEL_STATION_DELIVERY = 'dhlshippingsolutions/dhlpaket/additional_services/parcel_station_delivery';
+
+    // 600_bulk_cron_settings.xml
+    const CONFIG_PATH_BULK_NOTIFY = 'dhlshippingsolutions/dhlpaket/bulk_settings/autocreate_notify';
 
     /**
      * @var ScopeConfigInterface
@@ -437,5 +440,20 @@ class ModuleConfig
         );
 
         return explode(',', $euCountries);
+    }
+
+    /**
+     * Check if a shipment confirmation email should be sent after shipment auto-creation.
+     *
+     * @param mixed|null $store
+     * @return bool
+     */
+    public function isNotificationEnabled($store = null): bool
+    {
+        return (bool) $this->scopeConfig->getValue(
+            self::CONFIG_PATH_BULK_NOTIFY,
+            ScopeInterface::SCOPE_STORE,
+            $store
+        );
     }
 }

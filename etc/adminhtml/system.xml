@@ -14,6 +14,7 @@
                 <include path="Dhl_Paket::system/200_dhl_paket_account.xml"/>
                 <include path="Dhl_Paket::system/400_checkout_presentation.xml"/>
                 <include path="Dhl_Paket::system/500_additional_services.xml"/>
+                <include path="Dhl_Paket::system/600_bulk_settings.xml"/>
             </group>
         </section>
     </system>

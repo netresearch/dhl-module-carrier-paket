@@ -6,13 +6,11 @@ declare(strict_types=1);
 
 namespace Dhl\Paket\Webservice\Shipment;
 
-use Dhl\Paket\Webservice\CarrierResponse\ErrorResponse;
-use Dhl\Paket\Webservice\CarrierResponse\ErrorResponseFactory;
-use Dhl\Paket\Webservice\CarrierResponse\FailureResponse;
-use Dhl\Paket\Webservice\CarrierResponse\FailureResponseFactory;
-use Dhl\Paket\Webservice\CarrierResponse\ShipmentResponse;
-use Dhl\Paket\Webservice\CarrierResponse\ShipmentResponseFactory;
 use Dhl\Sdk\Paket\Bcs\Api\Data\ShipmentInterface;
+use Dhl\ShippingCore\Api\Data\ShipmentResponse\ShipmentErrorResponseInterface;
+use Dhl\ShippingCore\Api\Data\ShipmentResponse\ShipmentErrorResponseInterfaceFactory;
+use Dhl\ShippingCore\Api\Data\ShipmentResponse\LabelResponseInterface;
+use Dhl\ShippingCore\Api\Data\ShipmentResponse\LabelResponseInterfaceFactory;
 use Dhl\ShippingCore\Api\PdfCombinatorInterface;
 use Magento\Framework\Exception\RuntimeException;
 use Magento\Framework\Phrase;
@@ -42,49 +40,43 @@ class ResponseDataMapper
     private $logger;
 
     /**
-     * @var ShipmentResponseFactory
+     * @var LabelResponseInterfaceFactory
      */
     private $shipmentResponseFactory;
 
     /**
-     * @var ErrorResponseFactory
+     * @var ShipmentErrorResponseInterfaceFactory
      */
     private $errorResponseFactory;
-
-    /**
-     * @var FailureResponseFactory
-     */
-    private $failureResponseFactory;
 
     /**
      * ResponseDataMapper constructor.
      *
      * @param PdfCombinatorInterface $pdfCombinator
-     * @param ShipmentResponseFactory $shipmentResponseFactory
-     * @param ErrorResponseFactory $errorResponseFactory
-     * @param FailureResponseFactory $failureResponseFactory
+     * @param LabelResponseInterfaceFactory $shipmentResponseFactory
+     * @param ShipmentErrorResponseInterfaceFactory $errorResponseFactory
      */
     public function __construct(
         PdfCombinatorInterface $pdfCombinator,
-        ShipmentResponseFactory $shipmentResponseFactory,
-        ErrorResponseFactory $errorResponseFactory,
-        FailureResponseFactory $failureResponseFactory
+        LabelResponseInterfaceFactory $shipmentResponseFactory,
+        ShipmentErrorResponseInterfaceFactory $errorResponseFactory
     ) {
         $this->pdfCombinator = $pdfCombinator;
         $this->shipmentResponseFactory = $shipmentResponseFactory;
         $this->errorResponseFactory = $errorResponseFactory;
-        $this->failureResponseFactory = $failureResponseFactory;
     }
 
     /**
      * Map created shipment into response object as required by the shipping module.
      *
-     * @param string $sequenceNumber
      * @param ShipmentInterface $shipment
-     * @return ShipmentResponse
+     * @param \Magento\Sales\Api\Data\ShipmentInterface $salesShipment
+     * @return LabelResponseInterface
      */
-    public function createShipmentResponse(string $sequenceNumber, ShipmentInterface $shipment): ShipmentResponse
-    {
+    public function createShipmentResponse(
+        ShipmentInterface $shipment,
+        \Magento\Sales\Api\Data\ShipmentInterface $salesShipment
+    ): LabelResponseInterface {
         $labelsContent = [];
 
         // collect all labels from all shipments
@@ -105,9 +97,10 @@ class ResponseDataMapper
         }
 
         $responseData = [
-            'sequence_number' => $sequenceNumber,
-            'tracking_number' => $shipment->getShipmentNumber(),
-            'shipping_label_content' => $shippingLabelContent,
+            LabelResponseInterface::REQUEST_INDEX => $shipment->getSequenceNumber(),
+            LabelResponseInterface::SALES_SHIPMENT => $salesShipment,
+            LabelResponseInterface::TRACKING_NUMBER => $shipment->getShipmentNumber(),
+            LabelResponseInterface::SHIPPING_LABEL_CONTENT => $shippingLabelContent,
         ];
 
         return $this->shipmentResponseFactory->create(['data' => $responseData]);
@@ -116,30 +109,21 @@ class ResponseDataMapper
     /**
      * Map error message into response object as required by the shipping module.
      *
-     * @param string $sequenceNumber
+     * @param string $requestIndex
      * @param Phrase $message
-     * @return ErrorResponse
+     * @param \Magento\Sales\Api\Data\ShipmentInterface $salesShipment
+     * @return ShipmentErrorResponseInterface
      */
-    public function createErrorResponse(string $sequenceNumber, Phrase $message): ErrorResponse
-    {
+    public function createErrorResponse(
+        string $requestIndex,
+        Phrase $message,
+        \Magento\Sales\Api\Data\ShipmentInterface $salesShipment
+    ): ShipmentErrorResponseInterface {
         $responseData = [
-            'sequence_number' => $sequenceNumber,
-            'errors' => $message
+            ShipmentErrorResponseInterface::REQUEST_INDEX => $requestIndex,
+            ShipmentErrorResponseInterface::ERRORS => $message,
+            ShipmentErrorResponseInterface::SALES_SHIPMENT => $salesShipment,
         ];
         return $this->errorResponseFactory->create(['data' => $responseData]);
-    }
-
-    /**
-     * Map web service error into response object as required by the shipping module.
-     *
-     * @param Phrase $message
-     * @return FailureResponse
-     */
-    public function createFailureResponse(Phrase $message)
-    {
-        $responseData = [
-            'errors' => $message
-        ];
-        return $this->failureResponseFactory->create(['data' => $responseData]);
     }
 }

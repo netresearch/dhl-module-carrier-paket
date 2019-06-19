@@ -50,10 +50,10 @@
                         ]]>
                     </sandbox_account_participations>
                 </account_settings>
-                <dhl_paket_additional_services>
+                <additional_services>
                     <print_only_if_codeable>1</print_only_if_codeable>
                     <parcel_station_delivery>1</parcel_station_delivery>
-                </dhl_paket_additional_services>
+                </additional_services>
             </dhlpaket>
         </dhlshippingsolutions>
         <carriers>

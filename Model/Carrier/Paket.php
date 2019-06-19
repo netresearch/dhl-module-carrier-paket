@@ -6,16 +6,20 @@ declare(strict_types=1);
 
 namespace Dhl\Paket\Model\Carrier;
 
+use Dhl\ShippingCore\Api\Data\TrackResponse\TrackErrorResponseInterface;
+use Dhl\ShippingCore\Api\Data\TrackResponse\TrackResponseInterface;
 use Magento\Framework\DataObject;
+use Magento\Framework\Exception\LocalizedException;
 use Magento\Quote\Model\Quote\Address\RateRequest;
 use Magento\Shipping\Model\Carrier\AbstractCarrierInterface;
 use Magento\Shipping\Model\Carrier\AbstractCarrierOnline;
 use Magento\Shipping\Model\Carrier\CarrierInterface;
-use Magento\Shipping\Model\Rate\Result;
 use Magento\Shipping\Model\Tracking\Result as TrackingResult;
 
 /**
  * DHL Paket online shipping carrier model.
+ *
+ * @package Dhl\Paket\Model
  */
 class Paket extends AbstractCarrierOnline implements CarrierInterface
 {
@@ -34,9 +38,9 @@ class Paket extends AbstractCarrierOnline implements CarrierInterface
     private $rateRequestService;
 
     /**
-     * @var \Dhl\Paket\Webservice\ApiGatewayFactory
+     * @var \Dhl\Paket\Model\ShipmentManagement
      */
-    private $apiGatewayFactory;
+    private $shipmentManagement;
 
     /**
      * @var \Dhl\Paket\Model\Config\ModuleConfig
@@ -44,14 +48,19 @@ class Paket extends AbstractCarrierOnline implements CarrierInterface
     private $moduleConfig;
 
     /**
-     * @var \Dhl\ShippingCore\Model\Config\CoreConfigInterface
+     * @var \Dhl\ShippingCore\Api\ConfigInterface
      */
-    private $shippingCoreConfig;
+    private $dhlConfig;
 
     /**
      * @var \Dhl\Paket\Model\ShippingProducts\ShippingProductsInterface
      */
     private $shippingProducts;
+
+    /**
+     * @var \Dhl\ShippingCore\Api\Data\TrackRequest\TrackRequestInterfaceFactory
+     */
+    private $trackRequestFactory;
 
     /**
      * @var \Dhl\ShippingCore\Model\Emulation\ProxyCarrierFactory
@@ -77,10 +86,11 @@ class Paket extends AbstractCarrierOnline implements CarrierInterface
      * @param \Magento\Directory\Helper\Data $directoryData
      * @param \Magento\CatalogInventory\Api\StockRegistryInterface $stockRegistry
      * @param \Dhl\ShippingCore\Api\RateRequestEmulationInterface $rateRequestService
-     * @param \Dhl\Paket\Webservice\ApiGatewayFactory $apiGatewayFactory
+     * @param \Dhl\Paket\Model\ShipmentManagement $shipmentManagement
      * @param \Dhl\Paket\Model\Config\ModuleConfig $moduleConfig
-     * @param \Dhl\ShippingCore\Model\Config\CoreConfigInterface $shippingCoreConfig
+     * @param \Dhl\ShippingCore\Api\ConfigInterface $dhlConfig
      * @param \Dhl\Paket\Model\ShippingProducts\ShippingProductsInterface $shippingProducts
+     * @param \Dhl\ShippingCore\Api\Data\TrackRequest\TrackRequestInterfaceFactory $trackRequestFactory
      * @param \Dhl\ShippingCore\Model\Emulation\ProxyCarrierFactory $proxyCarrierFactory
      * @param mixed[] $data
      */
@@ -101,18 +111,20 @@ class Paket extends AbstractCarrierOnline implements CarrierInterface
         \Magento\Directory\Helper\Data $directoryData,
         \Magento\CatalogInventory\Api\StockRegistryInterface $stockRegistry,
         \Dhl\ShippingCore\Api\RateRequestEmulationInterface $rateRequestService,
-        \Dhl\Paket\Webservice\ApiGatewayFactory $apiGatewayFactory,
+        \Dhl\Paket\Model\ShipmentManagement $shipmentManagement,
         \Dhl\Paket\Model\Config\ModuleConfig $moduleConfig,
-        \Dhl\ShippingCore\Model\Config\CoreConfigInterface $shippingCoreConfig,
+        \Dhl\ShippingCore\Api\ConfigInterface $dhlConfig,
         \Dhl\Paket\Model\ShippingProducts\ShippingProductsInterface $shippingProducts,
+        \Dhl\ShippingCore\Api\Data\TrackRequest\TrackRequestInterfaceFactory $trackRequestFactory,
         \Dhl\ShippingCore\Model\Emulation\ProxyCarrierFactory $proxyCarrierFactory,
         array $data = []
     ) {
         $this->rateRequestService = $rateRequestService;
-        $this->apiGatewayFactory = $apiGatewayFactory;
+        $this->shipmentManagement = $shipmentManagement;
         $this->moduleConfig = $moduleConfig;
-        $this->shippingCoreConfig = $shippingCoreConfig;
+        $this->dhlConfig = $dhlConfig;
         $this->shippingProducts = $shippingProducts;
+        $this->trackRequestFactory = $trackRequestFactory;
         $this->proxyCarrierFactory = $proxyCarrierFactory;
 
         parent::__construct(
@@ -145,7 +157,7 @@ class Paket extends AbstractCarrierOnline implements CarrierInterface
      */
     public function processAdditionalValidation(DataObject $request)
     {
-        $originCountry = $this->shippingCoreConfig->getOriginCountry();
+        $originCountry = $this->dhlConfig->getOriginCountry();
         $destCodes = \Dhl\Paket\Model\ShippingProducts\ShippingProductsInterface::ORIGIN_DEST_CODES;
         if (!\array_key_exists($originCountry, $destCodes)) {
             return false;
@@ -169,22 +181,36 @@ class Paket extends AbstractCarrierOnline implements CarrierInterface
         $storeId = $this->getData('store');
         $carrierCode = $this->moduleConfig->getProxyCarrierCode($storeId);
 
-        /** @var Result $rateResult */
-        $rateResult = $this->rateRequestService->emulateRateRequest($carrierCode, $request);
-        if (!$rateResult instanceof Result) {
-            return $result;
-        }
+        try {
+            $proxyResult = $this->rateRequestService->emulateRateRequest($carrierCode, $request);
 
-        foreach ($rateResult->getAllRates() as $rate) {
-            $rate->setData('carrier', $this->getCarrierCode());
-            $rate->setData('carrier_title', $this->getConfigData('title'));
+            foreach ($proxyResult->getAllRates() as $rate) {
+                // override carrier details
+                $rate->setData('carrier', $this->getCarrierCode());
+                $rate->setData('carrier_title', $this->getConfigData('title'));
 
-            // Check if cart price rule was applied
-            if ($request->getFreeShipping()) {
-                $rate->setPrice(0.0);
+                // check if cart price rule was applied
+                if ($request->getFreeShipping()) {
+                    $rate->setPrice(0.0);
+                }
+
+                $result->append($rate);
+            }
+        } catch (\Exception $exception) {
+            $error = $this->_rateErrorFactory->create(['data' => [
+                'carrier' => $this->_code,
+                'carrier_title' => $this->getConfigData('title'),
+                'error_message' => $this->getConfigData('specificerrmsg'),
+            ]]);
+            $result->append($error);
+
+            if ($exception instanceof LocalizedException) {
+                $logMessage = $exception->getLogMessage();
+            } else {
+                $logMessage = $exception->getMessage();
             }
 
-            $result->append($rate);
+            $this->_logger->error($logMessage, ['exception' => $exception]);
         }
 
         return $result;
@@ -253,7 +279,7 @@ class Paket extends AbstractCarrierOnline implements CarrierInterface
         if (!$countryShipper || !$countryRecipient) {
             $codes = $this->shippingProducts->getAllCodes();
         } else {
-            $euCountries = $this->shippingCoreConfig->getEuCountries();
+            $euCountries = $this->dhlConfig->getEuCountries();
             $codes = $this->shippingProducts->getApplicableCodes($countryShipper, $countryRecipient, $euCountries);
         }
 
@@ -282,14 +308,7 @@ class Paket extends AbstractCarrierOnline implements CarrierInterface
      */
     protected function _doShipmentRequest(DataObject $request): DataObject
     {
-        $api = $this->apiGatewayFactory->create(
-            [
-                'logger' => $this->_logger,
-                'storeId' => (int) $this->getData('store'),
-            ]
-        );
-
-        $apiResult = $api->createShipments([$request->getData('package_id') => $request]);
+        $apiResult = $this->shipmentManagement->createLabels([$request->getData('package_id') => $request]);
 
         // one request, one response.
         return $apiResult[0];
@@ -307,26 +326,25 @@ class Paket extends AbstractCarrierOnline implements CarrierInterface
      */
     public function rollBack($data): bool
     {
-        $shipmentNumbers = array_map(
-            function (array $info) {
-                return $info['tracking_number'];
-            },
-            $data
-        );
+        if (!is_array($data) || empty($data)) {
+            return parent::rollBack($data);
+        }
 
-        $api = $this->apiGatewayFactory->create(
-            [
-                'logger' => $this->_logger,
-                'storeId' => (int) $this->getData('store'),
-            ]
-        );
+        $cancelRequests = [];
+        foreach ($data as $rollbackInfo) {
+            $trackNumber = $rollbackInfo['tracking_number'];
+            $cancelRequests[$trackNumber]= $this->trackRequestFactory->create([
+                'storeId' => $this->getData('store'),
+                'trackNumber' => $trackNumber,
+            ]);
+        }
 
-        $apiResult = $api->cancelShipments($shipmentNumbers);
+        $result = $this->shipmentManagement->cancelLabels($cancelRequests);
+        $errors = array_filter($result, function (TrackResponseInterface $trackResponse) {
+            return ($trackResponse instanceof TrackErrorResponseInterface);
+        });
 
-        // if the diff between request and result is empty, then all shipments were successfully cancelled.
-        $diff = array_diff($shipmentNumbers, $apiResult);
-
-        return (empty($diff) && parent::rollBack($data));
+        return (empty($errors) && parent::rollBack($data));
     }
 
     /**

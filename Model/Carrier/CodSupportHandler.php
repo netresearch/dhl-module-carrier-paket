@@ -7,8 +7,8 @@ declare(strict_types=1);
 namespace Dhl\Paket\Model\Carrier;
 
 use Dhl\ShippingCore\Api\CodSupportInterface;
+use Dhl\ShippingCore\Api\ConfigInterface;
 use Dhl\ShippingCore\Api\Data\ShippingOption\Selection\AssignedSelectionInterface;
-use Dhl\ShippingCore\Model\Config\CoreConfig;
 use Dhl\ShippingCore\Model\ShippingOption\Selection\QuoteSelectionRepository;
 use Magento\Framework\Api\FilterBuilder;
 use Magento\Framework\Api\Search\SearchCriteriaBuilderFactory;
@@ -24,7 +24,7 @@ use Magento\Quote\Model\Quote;
 class CodSupportHandler implements CodSupportInterface
 {
     /**
-     * @var CoreConfig
+     * @var ConfigInterface
      */
     private $config;
 
@@ -49,13 +49,13 @@ class CodSupportHandler implements CodSupportInterface
      * @param SearchCriteriaBuilderFactory $searchCriteriaBuilderFactory
      * @param FilterBuilder $filterBuilder
      * @param QuoteSelectionRepository $quoteSelectionRepository
-     * @param CoreConfig $config
+     * @param ConfigInterface $config
      */
     public function __construct(
         SearchCriteriaBuilderFactory $searchCriteriaBuilderFactory,
         FilterBuilder $filterBuilder,
         QuoteSelectionRepository $quoteSelectionRepository,
-        CoreConfig $config
+        ConfigInterface $config
     ) {
         $this->searchCriteriaBuilderFactory = $searchCriteriaBuilderFactory;
         $this->filterBuilder                = $filterBuilder;

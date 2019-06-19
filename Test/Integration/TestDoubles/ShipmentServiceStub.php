@@ -4,7 +4,7 @@
  */
 declare(strict_types=1);
 
-namespace Dhl\Paket\Test\Integration\TestDouble;
+namespace Dhl\Paket\Test\Integration\TestDoubles;
 
 use Dhl\Sdk\Paket\Bcs\Api\Data\ShipmentInterface;
 use Dhl\Sdk\Paket\Bcs\Api\ShipmentServiceInterface;

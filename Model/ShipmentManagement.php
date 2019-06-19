@@ -6,38 +6,46 @@ declare(strict_types=1);
 
 namespace Dhl\Paket\Model;
 
-use Dhl\Paket\Model\Shipment\CancelRequest;
 use Dhl\Paket\Webservice\ApiGateway;
 use Dhl\Paket\Webservice\ApiGatewayFactory;
-use Magento\Framework\Exception\BulkException;
-use Magento\Framework\Exception\CouldNotDeleteException;
-use Magento\Framework\Exception\LocalizedException;
-use Magento\Sales\Api\Data\ShipmentTrackInterface;
-use Magento\Sales\Model\Order\Shipment\TrackRepository;
-use Magento\Sales\Model\ResourceModel\Order\Shipment;
+use Dhl\Paket\Webservice\ShipmentServiceFactory;
+use Dhl\ShippingCore\Api\BulkLabelCreationInterface;
+use Dhl\ShippingCore\Api\Data\ShipmentResponse\ShipmentResponseInterface;
+use Dhl\ShippingCore\Api\Data\TrackRequest\TrackRequestInterface;
+use Dhl\ShippingCore\Api\Data\TrackResponse\TrackResponseInterface;
+use Dhl\ShippingCore\Api\ShipmentResponseProcessorInterface;
+use Dhl\ShippingCore\Api\TrackResponseProcessorInterface;
+use Magento\Shipping\Model\Shipment\Request;
 use Psr\Log\LoggerInterface;
 
 /**
  * Class ShipmentManagement
  *
+ * Central entrypoint for creating and deleting shipments.
+ *
  * @package Dhl\Paket\Model
  */
-class ShipmentManagement
+class ShipmentManagement implements BulkLabelCreationInterface
 {
+    /**
+     * @var ShipmentServiceFactory
+     */
+    private $shipmentServiceFactory;
+
     /**
      * @var ApiGatewayFactory
      */
     private $apiGatewayFactory;
 
     /**
-     * @var TrackRepository
+     * @var ShipmentResponseProcessorInterface
      */
-    private $trackRepository;
+    private $creationProcessor;
 
     /**
-     * @var Shipment
+     * @var TrackResponseProcessorInterface
      */
-    private $shipmentResource;
+    private $deletionProcessor;
 
     /**
      * @var LoggerInterface
@@ -52,20 +60,23 @@ class ShipmentManagement
     /**
      * ShipmentManagement constructor.
      *
+     * @param ShipmentServiceFactory $shipmentServiceFactory
      * @param ApiGatewayFactory $apiGatewayFactory
-     * @param TrackRepository $trackRepository
-     * @param Shipment $shipmentResource
+     * @param ShipmentResponseProcessorInterface $creationProcessor
+     * @param TrackResponseProcessorInterface $deletionProcessor
      * @param LoggerInterface $logger
      */
     public function __construct(
+        ShipmentServiceFactory $shipmentServiceFactory,
         ApiGatewayFactory $apiGatewayFactory,
-        TrackRepository $trackRepository,
-        Shipment $shipmentResource,
+        ShipmentResponseProcessorInterface $creationProcessor,
+        TrackResponseProcessorInterface $deletionProcessor,
         LoggerInterface $logger
     ) {
+        $this->shipmentServiceFactory = $shipmentServiceFactory;
         $this->apiGatewayFactory = $apiGatewayFactory;
-        $this->trackRepository = $trackRepository;
-        $this->shipmentResource = $shipmentResource;
+        $this->creationProcessor = $creationProcessor;
+        $this->deletionProcessor = $deletionProcessor;
         $this->logger = $logger;
     }
 
@@ -78,10 +89,18 @@ class ShipmentManagement
     private function getApiGateway(int $storeId): ApiGateway
     {
         if (!isset($this->apiGateways[$storeId])) {
-            $api = $this->apiGatewayFactory->create(
+            $shipmentService = $this->shipmentServiceFactory->create(
                 [
                     'logger' => $this->logger,
                     'storeId' => $storeId,
+                ]
+            );
+
+            $api = $this->apiGatewayFactory->create(
+                [
+                    'shipmentService' => $shipmentService,
+                    'creationProcessor' => $this->creationProcessor,
+                    'deletionProcessor' => $this->deletionProcessor,
                 ]
             );
 
@@ -92,93 +111,71 @@ class ShipmentManagement
     }
 
     /**
+     * Create shipment labels at DHL Paket API
+     *
+     * Shipment requests are divided by store for multi-store support (different DHL account configurations).
+     *
+     * @param Request[] $shipmentRequests
+     * @return ShipmentResponseInterface[]
+     */
+    public function createLabels(array $shipmentRequests): array
+    {
+        if (empty($shipmentRequests)) {
+            return [];
+        }
+
+        $apiRequests = [];
+        $apiResults = [];
+
+        foreach ($shipmentRequests as $shipmentRequest) {
+            $storeId = (int) $shipmentRequest->getOrderShipment()->getStoreId();
+            $apiRequests[$storeId][] = $shipmentRequest;
+        }
+
+        foreach ($apiRequests as $storeId => $storeApiRequests) {
+            $api = $this->getApiGateway($storeId);
+            $apiResults[$storeId] = $api->createShipments($storeApiRequests);
+        }
+
+        if (!empty($apiResults)) {
+            // convert results per store to flat response
+            $apiResults = array_reduce($apiResults, 'array_merge', []);
+        }
+
+        return $apiResults;
+    }
+
+    /**
      * Cancel shipment orders at the DHL Paket API alongside associated tracks and shipping labels.
      *
-     * @param CancelRequest[] $cancelRequests
-     * @throws CouldNotDeleteException
+     * @param TrackRequestInterface[] $cancelRequests
+     * @return TrackResponseInterface[]
      */
     public function cancelLabels(array $cancelRequests)
     {
         if (empty($cancelRequests)) {
-            return;
+            return [];
         }
 
-        $bulkException = new BulkException();
         $apiRequests = [];
+        $apiResults = [];
 
         // divide cancel requests by store as they may use different api configurations
-        foreach ($cancelRequests as $cancelRequest) {
-            $storeId = (int) $cancelRequest->getShipment()->getStoreId();
-            $apiRequests[$storeId][] = $cancelRequest;
+        foreach ($cancelRequests as $shipmentNumber => $cancelRequest) {
+            $storeId = $cancelRequest->getStoreId();
+            $apiRequests[$storeId][$shipmentNumber] = $cancelRequest;
         }
 
-        /**
-         * @var int $storeId
-         * @var CancelRequest[] $storeApiRequests
-         */
         foreach ($apiRequests as $storeId => $storeApiRequests) {
-            // send all cancel requests of one store to the api
             $api = $this->getApiGateway($storeId);
-            $apiResult = $api->cancelShipments($storeApiRequests);
-
-            // process response
-            $cancelledTracks = [];
-            $failedShipments = [];
-
-            foreach ($storeApiRequests as $storeApiRequest) {
-                $trackNumber = $storeApiRequest->getTrack()->getTrackNumber();
-                $shipmentId = $storeApiRequest->getShipment()->getEntityId();
-                if (!in_array($trackNumber, $apiResult, true)) {
-                    // shipment was not cancelled at the api, mark overall shipment failed and add error.
-                    $failedShipments[$shipmentId] = $shipmentId;
-                    $bulkException->addError(__('Shipment order %1 could not be cancelled.', $trackNumber));
-                } else {
-                    $cancelledTracks[$shipmentId][] = $storeApiRequest->getTrack();
-                }
-            }
-
-            /**
-             * @var int $shipmentId
-             * @var CancelRequest[] $shipmentTracks
-             */
-            foreach ($cancelledTracks as $shipmentId => $shipmentTracks) {
-                try {
-                    $this->shipmentResource->beginTransaction();
-
-                    // delete cancelled tracks of a shipment
-                    array_walk(
-                        $shipmentTracks,
-                        function (ShipmentTrackInterface $track) {
-                            $this->trackRepository->delete($track);
-                        }
-                    );
-
-                    // unset combined label if all tracks (=labels) were cancelled at the api
-                    if (!array_key_exists($shipmentId, $failedShipments)) {
-                        /** @var \Magento\Sales\Model\Order\Shipment $shipment */
-                        $shipment = $shipmentTracks[0]->getShipment();
-                        $shipment->setShippingLabel(null);
-                        $this->shipmentResource->save($shipment);
-                    }
-
-                    $this->shipmentResource->commit();
-                } catch (LocalizedException $exception) {
-                    $bulkException->addException($exception);
-                    $this->shipmentResource->rollBack();
-                } catch (\Exception $exception) {
-                    $bulkException->addError(
-                        __('Unable to delete tracks or shipping label: %1', $exception->getMessage())
-                    );
-                    $this->shipmentResource->rollBack();
-                }
-            }
+            $apiResults[$storeId] = $api->cancelShipments($storeApiRequests);
         }
 
-        if ($bulkException->wasErrorAdded()) {
-            throw new CouldNotDeleteException(
-                __('An error occurred during shipment order cancellation.'),
-                $bulkException
-            );
+        if (!empty($apiResults)) {
+            // convert results per store to flat response
+            $apiResults = array_reduce($apiResults, 'array_merge', []);
         }
+
+        return $apiResults;
     }
 }

@@ -8,7 +8,7 @@ namespace Dhl\Paket\Block\Adminhtml\System\Config\Form\Field;
 
 use Dhl\Paket\Model\Adminhtml\System\Config\Source\Procedure;
 use Dhl\Paket\Model\ShippingProducts\ShippingProductsInterface;
-use Dhl\ShippingCore\Model\Config\CoreConfigInterface;
+use Dhl\ShippingCore\Api\ConfigInterface;
 use Magento\Framework\View\Element\Context;
 use Magento\Framework\View\Element\Html\Select;
 use Magento\Store\Model\ScopeInterface;
@@ -28,9 +28,9 @@ class Procedures extends Select
     private $source;
 
     /**
-     * @var CoreConfigInterface
+     * @var ConfigInterface
      */
-    private $shippingCoreConfig;
+    private $dhlConfig;
 
     /**
      * @var ShippingProductsInterface
@@ -41,20 +41,20 @@ class Procedures extends Select
      * Procedures constructor.
      *
      * @param Context $context
-     * @param CoreConfigInterface $shippingCoreConfig
+     * @param ConfigInterface $dhlConfig
      * @param Procedure $source
      * @param ShippingProductsInterface $shippingProducts
      * @param array $data
      */
     public function __construct(
         Context $context,
-        CoreConfigInterface $shippingCoreConfig,
+        ConfigInterface $dhlConfig,
         Procedure $source,
         ShippingProductsInterface $shippingProducts,
         array $data = []
     ) {
         $this->source = $source;
-        $this->shippingCoreConfig = $shippingCoreConfig;
+        $this->dhlConfig = $dhlConfig;
         $this->shippingProducts = $shippingProducts;
 
         parent::__construct($context, $data);
@@ -97,7 +97,7 @@ class Procedures extends Select
      */
     private function filterAvailable(array $data): array
     {
-        $originCountry = $this->shippingCoreConfig->getOriginCountry(null, ScopeInterface::SCOPE_WEBSITE);
+        $originCountry = $this->dhlConfig->getOriginCountry(null, ScopeInterface::SCOPE_WEBSITE);
         $availableProcedures = $this->shippingProducts->getApplicableProcedures($originCountry);
 
         $data = array_filter(
