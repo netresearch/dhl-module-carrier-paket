@@ -112,11 +112,11 @@ class PreferredDayTimeOptionsProcessor extends AbstractProcessor
 
             if ($service->getCode() === self::PREFERRED_DAY && isset($optionsData[$service->getCode()])) {
                 $dayOptions = $this->getPreferredDayOptions($service->getOptions());
-                $this->setServiceIpnutOptions($optionsData, $service, $dayOptions);
+                $this->setServiceInputOptions($optionsData, $service, $dayOptions);
             }
             if ($service->getCode() === self::PREFERRED_TIME && isset($optionsData[$service->getCode()])) {
                 $timeOptions = $this->getPreferredTimeOptions($service->getOptions());
-                $this->setServiceIpnutOptions($optionsData, $service, $timeOptions);
+                $this->setServiceInputOptions($optionsData, $service, $timeOptions);
             }
         }
 
@@ -193,7 +193,7 @@ class PreferredDayTimeOptionsProcessor extends AbstractProcessor
      * @param CarrierServiceInterface $service
      * @param OptionInterface[] $serviceOptions
      */
-    private function setServiceIpnutOptions(array $optionsData, $service, array $serviceOptions)
+    private function setServiceInputOptions(array $optionsData, $service, array $serviceOptions)
     {
         /** @var InputInterface[] $inputs */
         $inputs = $optionsData[$service->getCode()]->getInputs();

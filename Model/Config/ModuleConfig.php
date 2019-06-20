@@ -507,4 +507,19 @@ class ModuleConfig
             $store
         );
     }
+
+    /**
+     * Get enable config values for all checkout services
+     *
+     * @param mixed|null $scopeId
+     * @return array
+     */
+    public function getCheckoutServices($scopeId = null): array
+    {
+        return $this->scopeConfig->getValue(
+            'dhlshippingsolutions/dhlpaket/additional_services',
+            ScopeInterface::SCOPE_STORE,
+            $scopeId
+        );
+    }
 }

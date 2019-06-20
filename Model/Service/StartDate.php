@@ -6,9 +6,8 @@ declare(strict_types=1);
 
 namespace Dhl\Paket\Model\Service;
 
-use Magento\Framework\Exception\LocalizedException;
-use Magento\Framework\Locale\ResolverInterfaceFactory;
 use Magento\Framework\Stdlib\DateTime\TimezoneInterfaceFactory;
+use \DateTime;
 
 /**
  * Class StartDate
@@ -24,32 +23,24 @@ class StartDate
     private $timezoneFactory;
 
     /**
-     * @var ResolverInterfaceFactory
-     */
-    private $localResolverFactory;
-
-    /**
      * StartDate constructor.
      * @param TimezoneInterfaceFactory $timezoneFactory
-     * @param ResolverInterfaceFactory $localResolverFactory
      */
     public function __construct(
-        TimezoneInterfaceFactory $timezoneFactory,
-        ResolverInterfaceFactory $localResolverFactory
+        TimezoneInterfaceFactory $timezoneFactory
     ) {
         $this->timezoneFactory = $timezoneFactory;
-        $this->localResolverFactory = $localResolverFactory;
     }
 
     /**
-     * @param int $storeId
-     * @return \DateTime
+     * Get actual date
+     *
+     * @return DateTime
      */
-    public function getStartDate(int $storeId)
+    public function getStartDate():DateTime
     {
         $timezone = $this->timezoneFactory->create();
-        $currentDateTime = $timezone->date();
 
-        return $currentDateTime;
+        return $timezone->date();
     }
 }
