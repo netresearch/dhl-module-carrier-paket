@@ -2,118 +2,9 @@
 <carriers xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Dhl_ShippingCore/etc/shipping_options.xsd">
     <carrier code="dhlpaket">
         <serviceOptions>
-            <shippingOption code="preferredDay">
-                <label>Preferred Day: Delivery on your preferred day</label>
-                <sortOrder>10</sortOrder>
-                <routes>
-                    <route>
-                        <origin>de</origin>
-                        <includeDestinations>
-                            <destination>de</destination>
-                            <destination>at</destination>
-                        </includeDestinations>
-                    </route>
-                </routes>
-                <inputs>
-                    <input code="date">
-                        <label>Preferred Day</label>
-                        <labelVisible>false</labelVisible>
-                        <inputType>date</inputType>
-                        <validationRules>
-                            <rule name="dhl_not_allowed_with_parcelshop"/>
-                        </validationRules>
-                        <comment>
-                            <content><![CDATA[This service will incur additional shipping costs of $1 including VAT.]]></content>
-                            <footnoteId>footnote-combined-cost</footnoteId>
-                        </comment>
-                        <tooltip>Choose one of the displayed days as your preferred day for your parcel delivery. Other days are not possible due to delivery processes.</tooltip>
-                    </input>
-                </inputs>
-            </shippingOption>
-            <shippingOption code="preferredTime">
-                <label>Preferred Time: Delivery at your preferred time</label>
-                <sortOrder>20</sortOrder>
-                <inputs>
-                    <input code="time">
-                        <inputType>time</inputType>
-                        <label>Enable Preferred Time</label>
-                        <labelVisible>false</labelVisible>
-                        <comment>
-                            <content><![CDATA[This service will incur additional shipping costs of $1 including VAT.]]></content>
-                            <footnoteId>footnote-combined-cost</footnoteId>
-                        </comment>
-                        <tooltip>Indicate a preferred time, which suits you best for your parcel delivery by choosing one of the displayed time windows.</tooltip>
-                    </input>
-                </inputs>
-            </shippingOption>
-            <shippingOption code="parcelAnnouncement">
-                <label>Parcel Announcement</label>
-                <sortOrder>30</sortOrder>
-                <inputs>
-                    <input code="enabled">
-                        <inputType>checkbox</inputType>
-                        <label>Enable DHL Parcel Notification</label>
-                        <tooltip>Your e-mail address will be sent to DHL upon enabling, after which DHL will trigger a package announcement for your shipment. The e-mail address will exclusively be used for the announcement of this shipment.</tooltip>
-                        <comment>
-                            <content>Allow customers to request parcel notification updates via e-mail by DHL during checkout.</content>
-                        </comment>
-                    </input>
-                </inputs>
-            </shippingOption>
-            <shippingOption code="preferredLocation">
-                <label>Preferred Location: Delivery to your preferred drop-off location</label>
-                <sortOrder>40</sortOrder>
-                <inputs>
-                    <input code="details">
-                        <label>Preferred Location</label>
-                        <labelVisible>false</labelVisible>
-                        <inputType>text</inputType>
-                        <tooltip>Choose a weather-protected and non-visible place on your property where we can deposit the parcel in your absence.</tooltip>
-                        <placeholder>E.g. garage, terrace</placeholder>
-                        <validationRules>
-                            <rule name="maxLength">
-                                <param>40</param>
-                            </rule>
-                            <rule name="validate-no-html-tags"/>
-                            <rule name="dhl_filter_special_chars"/>
-                        </validationRules>
-                    </input>
-                </inputs>
-            </shippingOption>
-            <shippingOption code="preferredNeighbour">
-                <label>Preferred Neighbour: Delivery to a neighbour of your choice</label>
-                <sortOrder>50</sortOrder>
-                <inputs>
-                    <input code="name">
-                        <label>Neighbour Name</label>
-                        <inputType>text</inputType>
-                        <tooltip>Declare a person in your immediate neighborhood whom we can hand out your parcel. This person should live in the same building, directly opposite or next door.</tooltip>
-                        <placeholder>First name, last name of neighbour</placeholder>
-                        <validationRules>
-                            <rule name="maxLength">
-                                <param>40</param>
-                            </rule>
-                            <rule name="validate-no-html-tags"/>
-                            <rule name="dhl_filter_special_chars"/>
-                        </validationRules>
-                    </input>
-                    <input code="address">
-                        <label>Neighbour Address</label>
-                        <inputType>text</inputType>
-                        <placeholder>Street, number, postal code, city</placeholder>
-                        <validationRules>
-                            <rule name="maxLength">
-                                <param>40</param>
-                            </rule>
-                            <rule name="validate-no-html-tags"/>
-                            <rule name="dhl_filter_special_chars"/>
-                        </validationRules>
-                    </input>
-                </inputs>
-            </shippingOption>
             <shippingOption code="parcelstation">
                 <label>Parcel station delivery: Delivery to a parcel station of your choice</label>
-                <sortOrder>60</sortOrder>
+                <sortOrder>10</sortOrder>
                 <routes>
                     <route>
                         <origin>de</origin>
@@ -154,6 +45,114 @@
                             <rule name="dhl_filter_special_chars"/>
                         </validationRules>
                         <tooltip>Lorem ipsum dolor sit amet, consetetur sadipscing elitr.</tooltip>
+                    </input>
+                </inputs>
+            </shippingOption>
+            <shippingOption code="preferredDay">
+                <label>Preferred Day: Delivery on your preferred day</label>
+                <sortOrder>20</sortOrder>
+                <routes>
+                    <route>
+                        <origin>de</origin>
+                        <includeDestinations>
+                            <destination>de</destination>
+                            <destination>at</destination>
+                        </includeDestinations>
+                    </route>
+                </routes>
+                <inputs>
+                    <input code="date">
+                        <label>Preferred Day</label>
+                        <labelVisible>false</labelVisible>
+                        <inputType>date</inputType>
+                        <comment>
+                            <content><![CDATA[This service will incur additional shipping costs of $1 including VAT.]]></content>
+                            <footnoteId>footnote-combined-cost</footnoteId>
+                        </comment>
+                        <tooltip>Choose one of the displayed days as your preferred day for your parcel delivery. Other days are not possible due to delivery processes.</tooltip>
+                    </input>
+                </inputs>
+            </shippingOption>
+            <shippingOption code="preferredTime">
+                <label>Preferred Time: Delivery at your preferred time</label>
+                <sortOrder>30</sortOrder>
+                <inputs>
+                    <input code="time">
+                        <inputType>time</inputType>
+                        <label>Enable Preferred Time</label>
+                        <labelVisible>false</labelVisible>
+                        <comment>
+                            <content><![CDATA[This service will incur additional shipping costs of $1 including VAT.]]></content>
+                            <footnoteId>footnote-combined-cost</footnoteId>
+                        </comment>
+                        <tooltip>Indicate a preferred time, which suits you best for your parcel delivery by choosing one of the displayed time windows.</tooltip>
+                    </input>
+                </inputs>
+            </shippingOption>
+            <shippingOption code="parcelAnnouncement">
+                <label>Parcel Announcement</label>
+                <sortOrder>40</sortOrder>
+                <inputs>
+                    <input code="enabled">
+                        <inputType>checkbox</inputType>
+                        <label>Enable DHL Parcel Notification</label>
+                        <tooltip>Your e-mail address will be sent to DHL upon enabling, after which DHL will trigger a package announcement for your shipment. The e-mail address will exclusively be used for the announcement of this shipment.</tooltip>
+                        <comment>
+                            <content>Allow customers to request parcel notification updates via e-mail by DHL during checkout.</content>
+                        </comment>
+                    </input>
+                </inputs>
+            </shippingOption>
+            <shippingOption code="preferredLocation">
+                <label>Preferred Location: Delivery to your preferred drop-off location</label>
+                <sortOrder>50</sortOrder>
+                <inputs>
+                    <input code="details">
+                        <label>Preferred Location</label>
+                        <labelVisible>false</labelVisible>
+                        <inputType>text</inputType>
+                        <tooltip>Choose a weather-protected and non-visible place on your property where we can deposit the parcel in your absence.</tooltip>
+                        <placeholder>E.g. garage, terrace</placeholder>
+                        <validationRules>
+                            <rule name="maxLength">
+                                <param>40</param>
+                            </rule>
+                            <rule name="validate-no-html-tags"/>
+                            <rule name="dhl_filter_special_chars"/>
+                            <rule name="dhl_filter_packing_station"/>
+                        </validationRules>
+                    </input>
+                </inputs>
+            </shippingOption>
+            <shippingOption code="preferredNeighbour">
+                <label>Preferred Neighbour: Delivery to a neighbour of your choice</label>
+                <sortOrder>60</sortOrder>
+                <inputs>
+                    <input code="name">
+                        <label>Neighbour Name</label>
+                        <inputType>text</inputType>
+                        <tooltip>Declare a person in your immediate neighborhood whom we can hand out your parcel. This person should live in the same building, directly opposite or next door.</tooltip>
+                        <placeholder>First name, last name of neighbour</placeholder>
+                        <validationRules>
+                            <rule name="maxLength">
+                                <param>40</param>
+                            </rule>
+                            <rule name="validate-no-html-tags"/>
+                            <rule name="dhl_filter_special_chars"/>
+                            <rule name="dhl_filter_packing_station"/>
+                        </validationRules>
+                    </input>
+                    <input code="address">
+                        <label>Neighbour Address</label>
+                        <inputType>text</inputType>
+                        <placeholder>Street, number, postal code, city</placeholder>
+                        <validationRules>
+                            <rule name="maxLength">
+                                <param>40</param>
+                            </rule>
+                            <rule name="validate-no-html-tags"/>
+                            <rule name="dhl_filter_special_chars"/>
+                        </validationRules>
                     </input>
                 </inputs>
             </shippingOption>
@@ -198,14 +197,6 @@
                 </subjects>
                 <errorMessage>Some values for Preferred Neighbour service are missing.</errorMessage>
             </rule>
-            <rule id="test">
-                <incompatibilityRule>false</incompatibilityRule>
-                <subjects>
-                    <subject>preferredDay</subject>
-                    <subject>preferredTime</subject>
-                </subjects>
-                <errorMessage>Services %1 require each other.</errorMessage>
-            </rule>
             <rule id="parcelstationEnabledExclusion">
                 <incompatibilityRule>true</incompatibilityRule>
                 <subjects>
@@ -225,6 +216,31 @@
                     <subject>parcelstation.postNumber</subject>
                 </subjects>
             </rule>
+            <rule id="parcelstationExcludeAllOthers">
+                <incompatibilityRule>true</incompatibilityRule>
+                <masters>
+                    <master>parcelstation.enabled</master>
+                </masters>
+                <subjects>
+                    <subject>preferredDay</subject>
+                    <subject>preferredTime</subject>
+                    <subject>preferredLocation</subject>
+                    <subject>preferredNeighbour</subject>
+                </subjects>
+            </rule>
+            <rule id="disableParcelStationOnAny">
+                <incompatibilityRule>true</incompatibilityRule>
+                <subjects>
+                    <subject>parcelstation.enabled</subject>
+                </subjects>
+                <masters>
+                    <master>preferredDay</master>
+                    <master>preferredTime</master>
+                    <master>preferredLocation</master>
+                    <master>preferredNeighbour</master>
+                </masters>
+            </rule>
+
         </compatibilityData>
     </carrier>
 </carriers>
