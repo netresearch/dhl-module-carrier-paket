@@ -53,6 +53,10 @@
                 <additional_services>
                     <print_only_if_codeable>1</print_only_if_codeable>
                     <parcel_station_delivery>1</parcel_station_delivery>
+                    <visual_check_of_age>0</visual_check_of_age>
+                    <return_shipment>0</return_shipment>
+                    <additional_insurance>0</additional_insurance>
+                    <bulky_goods>0</bulky_goods>
                 </additional_services>
             </dhlpaket>
         </dhlshippingsolutions>

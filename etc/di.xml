@@ -97,4 +97,11 @@
             </argument>
         </arguments>
     </type>
+    <type name="Dhl\ShippingCore\Model\Packaging\PackagingDataCompositeProcessor">
+        <arguments>
+            <argument name="processors" xsi:type="array">
+                <item name="dhlpaketConfigProcessor" sortOrder="10" xsi:type="object">Dhl\Paket\Model\Packaging\DataProcessor\ConfigProcessor</item>
+            </argument>
+        </arguments>
+    </type>
 </config>

@@ -51,6 +51,10 @@ class ModuleConfig
     // 500_additional_services.xml
     const CONFIG_PATH_PRINT_ONLY_IF_CODEABLE = 'dhlshippingsolutions/dhlpaket/additional_services/print_only_if_codeable';
     const CONFIG_PATH_PARCEL_STATION_DELIVERY = 'dhlshippingsolutions/dhlpaket/additional_services/parcel_station_delivery';
+    const CONFIG_PATH_VISUAL_CHECK_OF_AGE = 'dhlshippingsolutions/dhlpaket/additional_services/visual_check_of_age';
+    const CONFIG_PATH_RETURN_SHIPMENT = 'dhlshippingsolutions/dhlpaket/additional_services/return_shipment';
+    const CONFIG_PATH_ADDITIONAL_INSURANCE = 'dhlshippingsolutions/dhlpaket/additional_services/additional_insurance';
+    const CONFIG_PATH_BULKY_GOODS = 'dhlshippingsolutions/dhlpaket/additional_services/bulky_goods';
 
     // 600_bulk_cron_settings.xml
     const CONFIG_PATH_BULK_NOTIFY = 'dhlshippingsolutions/dhlpaket/bulk_settings/autocreate_notify';
@@ -394,6 +398,21 @@ class ModuleConfig
     }
 
     /**
+     * Check if a shipment confirmation email should be sent after shipment auto-creation.
+     *
+     * @param mixed|null $store
+     * @return bool
+     */
+    public function isNotificationEnabled($store = null): bool
+    {
+        return (bool) $this->scopeConfig->getValue(
+            self::CONFIG_PATH_BULK_NOTIFY,
+            ScopeInterface::SCOPE_STORE,
+            $store
+        );
+    }
+
+    /**
      * Returns TRUE if the "print only if codeable" service should be used or not.
      *
      * @param string|null $store
@@ -426,32 +445,64 @@ class ModuleConfig
     }
 
     /**
-     * Returns the EU countries list.
+     * Returns the selected "visual check of age" service which should be used.
      *
-     * @param mixed|null $store
-     * @return string[]
+     * @param string|null $store
+     *
+     * @return string
      */
-    public function getEuCountryList($store = null): array
+    public function visualCheckOfAge($store = null): string
     {
-        $euCountries = $this->scopeConfig->getValue(
-            Carrier::XML_PATH_EU_COUNTRIES_LIST,
+        return $this->scopeConfig->getValue(
+            self::CONFIG_PATH_VISUAL_CHECK_OF_AGE,
             ScopeInterface::SCOPE_STORE,
             $store
         );
-
-        return explode(',', $euCountries);
     }
 
     /**
-     * Check if a shipment confirmation email should be sent after shipment auto-creation.
+     * Returns TRUE if the "return shipment" service should be used or not.
      *
-     * @param mixed|null $store
+     * @param string|null $store
+     *
      * @return bool
      */
-    public function isNotificationEnabled($store = null): bool
+    public function returnShipment($store = null): bool
     {
         return (bool) $this->scopeConfig->getValue(
-            self::CONFIG_PATH_BULK_NOTIFY,
+            self::CONFIG_PATH_RETURN_SHIPMENT,
+            ScopeInterface::SCOPE_STORE,
+            $store
+        );
+    }
+
+    /**
+     * Returns TRUE if the "additional insurance" service should be used or not.
+     *
+     * @param string|null $store
+     *
+     * @return bool
+     */
+    public function additionalInsurance($store = null): bool
+    {
+        return (bool) $this->scopeConfig->getValue(
+            self::CONFIG_PATH_ADDITIONAL_INSURANCE,
+            ScopeInterface::SCOPE_STORE,
+            $store
+        );
+    }
+
+    /**
+     * Returns TRUE if the "bulky goods" service should be used or not.
+     *
+     * @param string|null $store
+     *
+     * @return bool
+     */
+    public function bulkyGoods($store = null): bool
+    {
+        return (bool) $this->scopeConfig->getValue(
+            self::CONFIG_PATH_BULKY_GOODS,
             ScopeInterface::SCOPE_STORE,
             $store
         );
