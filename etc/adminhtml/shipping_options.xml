@@ -9,6 +9,30 @@
                     </input>
                 </inputs>
             </shippingOption>
+            <shippingOption code="preferredDay">
+                <inputs>
+                    <input code="date">
+                        <inputType>text</inputType>
+                        <disabled>true</disabled>
+                    </input>
+                </inputs>
+            </shippingOption>
+            <shippingOption code="preferredTime">
+                <inputs>
+                    <input code="time">
+                        <inputType>text</inputType>
+                        <disabled>true</disabled>
+                    </input>
+                </inputs>
+            </shippingOption>
+            <shippingOption code="parcelstation">
+                <inputs>
+                    <input code="id">
+                        <inputType>text</inputType>
+                        <disabled>true</disabled>
+                    </input>
+                </inputs>
+            </shippingOption>
         </serviceOptions>
     </carrier>
 </carriers>
