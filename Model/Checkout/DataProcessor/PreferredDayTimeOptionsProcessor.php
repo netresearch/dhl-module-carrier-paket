@@ -138,7 +138,7 @@ class PreferredDayTimeOptionsProcessor extends AbstractProcessor
             $logger = $this->logger,
             $sandbox = true
         );
-        $startDate = $this->startDate->getStartDate($scopeId)->format('Y-m-d');
+        $startDate = $this->startDate->getStartDate()->format('Y-m-d');
         try {
             $carrierServices = $service->getCarrierServices($postalCode, $startDate);
         } catch (\Exception $exception) {

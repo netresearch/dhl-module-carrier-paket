@@ -9,8 +9,6 @@ namespace Dhl\Paket\Model\Checkout\DataProcessor;
 use Dhl\Paket\Model\Config\ModuleConfig;
 use Dhl\ShippingCore\Api\Data\ShippingOption\ShippingOptionInterface;
 use Dhl\ShippingCore\Model\Checkout\AbstractProcessor;
-use Magento\Framework\App\Config\ScopeConfigInterface;
-use Magento\Store\Model\ScopeInterface;
 
 /**
  * Class ServiceDataFilterProcessor
@@ -23,7 +21,7 @@ class ServiceDataFilterProcessor extends AbstractProcessor
     /**
      * @var ModuleConfig
      */
-    private $modulConfig;
+    private $moduleConfig;
 
     /**
      * ServiceDataFilterProcessor constructor.
@@ -32,7 +30,7 @@ class ServiceDataFilterProcessor extends AbstractProcessor
     public function __construct(
         ModuleConfig $moduleConfig
     ) {
-        $this->modulConfig = $moduleConfig;
+        $this->moduleConfig = $moduleConfig;
     }
 
     /**
@@ -49,7 +47,7 @@ class ServiceDataFilterProcessor extends AbstractProcessor
         int $scopeId = null
     ): array {
 
-        $configValues = $this->modulConfig->getCheckoutServices($scopeId);
+        $configValues = $this->moduleConfig->getCheckoutServices($scopeId);
 
         foreach ($optionsData as $optionData) {
             $code = strtolower($optionData->getCode());

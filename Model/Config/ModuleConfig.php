@@ -50,7 +50,9 @@ class ModuleConfig
     const CONFIG_PATH_PROXY_CARRIER = 'dhlshippingsolutions/dhlpaket/checkout_settings/emulated_carrier';
 
     // 500_additional_services.xml
-    const CONFIG_PATH_PARCEL_STATION_DELIVERY = 'dhlshippingsolutions/dhlpaket/additional_services/parcel_station_delivery';
+
+    const CONFIG_PATH_ADDITIONAL_SERVICES = 'dhlshippingsolutions/dhlpaket/additional_services';
+    const CONFIG_PATH_PARCEL_STATION_DELIVERY = 'dhlshippingsolutions/dhlpaket/additional_services/parcelstation';
     const CONFIG_PATH_VISUAL_CHECK_OF_AGE = 'dhlshippingsolutions/dhlpaket/additional_services/visual_check_of_age';
     const CONFIG_PATH_RETURN_SHIPMENT = 'dhlshippingsolutions/dhlpaket/additional_services/return_shipment';
     const CONFIG_PATH_ADDITIONAL_INSURANCE = 'dhlshippingsolutions/dhlpaket/additional_services/additional_insurance';
@@ -517,7 +519,7 @@ class ModuleConfig
     public function getCheckoutServices($scopeId = null): array
     {
         return $this->scopeConfig->getValue(
-            'dhlshippingsolutions/dhlpaket/additional_services',
+            self::CONFIG_PATH_ADDITIONAL_SERVICES,
             ScopeInterface::SCOPE_STORE,
             $scopeId
         );
