@@ -44,6 +44,7 @@
                         <comment>
                             <content><![CDATA[If set to <em>Yes</em>, shipment orders will only return a label if the DHL delivery address verification succeeds.]]></content>
                         </comment>
+                        <defaultConfigValue>dhlshippingsolutions/dhlpaket/general_shipping_settings/print_only_if_codeable</defaultConfigValue>
                     </input>
                 </inputs>
             </shippingOption>
@@ -70,6 +71,7 @@
                         <comment>
                             <content>If enabled, the visual age check service will be booked during shipment orders.</content>
                         </comment>
+                        <defaultConfigValue>dhlshippingsolutions/dhlpaket/additional_services/visual_check_of_age</defaultConfigValue>
                     </input>
                 </inputs>
             </shippingOption>
@@ -82,6 +84,7 @@
                         <comment>
                             <content><![CDATA[If set to <em>Yes</em>, a return shipment label will be requested from the webservice.]]></content>
                         </comment>
+                        <defaultConfigValue>dhlshippingsolutions/dhlpaket/additional_services/return_shipment</defaultConfigValue>
                     </input>
                 </inputs>
             </shippingOption>
@@ -94,6 +97,7 @@
                         <comment>
                             <content><![CDATA[If set to <em>Yes</em>, shipments will be insured with higher than standard amount.]]></content>
                         </comment>
+                        <defaultConfigValue>dhlshippingsolutions/dhlpaket/additional_services/additional_insurance</defaultConfigValue>
                     </input>
                 </inputs>
             </shippingOption>
@@ -106,6 +110,7 @@
                         <comment>
                             <content><![CDATA[If set to <em>Yes</em>, shipments will be marked as bulk freight.]]></content>
                         </comment>
+                        <defaultConfigValue>dhlshippingsolutions/dhlpaket/additional_services/bulky_goods</defaultConfigValue>
                     </input>
                 </inputs>
             </shippingOption>
