@@ -58,12 +58,12 @@
                                 <label>No</label>
                                 <value>0</value>
                             </option>
-                            <option id="no">
+                            <option id="A16">
                                 <label>A16</label>
                                 <value>A16</value>
                             </option>
-                            <option id="no">
-                                <label>A16</label>
+                            <option id="A18">
+                                <label>A18</label>
                                 <value>A18</value>
                             </option>
                         </options>
