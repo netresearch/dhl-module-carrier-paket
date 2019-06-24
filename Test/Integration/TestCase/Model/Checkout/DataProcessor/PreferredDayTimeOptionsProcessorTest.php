@@ -6,7 +6,6 @@ declare(strict_types=1);
 
 namespace Dhl\Paket\Test\Integration\TestCase\Model\Checkout;
 
-
 use Dhl\Paket\Model\Carrier\Paket;
 use Dhl\Paket\Test\Integration\TestDouble\CheckoutServiceStub;
 use Dhl\Sdk\Paket\ParcelManagement\Service\ServiceFactory;
@@ -27,7 +26,6 @@ use PHPUnit\Framework\TestCase;
  */
 class PreferredDayTimeOptionsProcessorTest extends TestCase
 {
-
     /**
      * @var ObjectManagerInterface
      */

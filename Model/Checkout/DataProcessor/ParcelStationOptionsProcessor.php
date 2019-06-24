@@ -14,6 +14,8 @@ use Dhl\ShippingCore\Model\Checkout\AbstractProcessor;
 /**
  * Class ParcelStationOptionsProcessor
  *
+ * @todo(nr): the processor currently adds fake data. use postfinder api.
+ *
  * @package Dhl\Paket\Model\Checkout\DataProcessor
  * @author Sebastian Ertner <sebastian.ertner@netresearch.de>
  */
@@ -66,20 +68,14 @@ class ParcelStationOptionsProcessor extends AbstractProcessor
      */
     private function getParcelStationId(): array
     {
+        $options = [];
+        for ($i = 1; $i < 4; $i++) {
+            $option = $this->optionFactory->create();
+            $option->setValue("test{$i}");
+            $option->setLabel("Parcel Station {$i}");
+            $options[]= $option;
+        }
 
-        return [
-            $this->optionFactory->create([
-                'label' => 'Parcel Station 1',
-                'value' => 'test1',
-            ]),
-            $this->optionFactory->create([
-                'label' => 'Parcel Station 2',
-                'value' => 'test2',
-            ]),
-            $this->optionFactory->create([
-                'label' => 'Parcel Station 3',
-                'value' => 'test3',
-            ]),
-        ];
+        return $options;
     }
 }

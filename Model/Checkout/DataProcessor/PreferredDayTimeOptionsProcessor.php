@@ -162,10 +162,10 @@ class PreferredDayTimeOptionsProcessor extends AbstractProcessor
         foreach ($options as $option) {
             $optionLabel = $this->timeZone->formatDate($option->getStart());
             $optionValue = $this->timeZone->date($option->getStart())->format('Y-m-d');
-            $dayOptions[] = $this->optionFactory->create([
-                'label' => $optionLabel,
-                'value' => $optionValue
-            ]);
+            $dayOption = $this->optionFactory->create();
+            $dayOption->setLabel($optionLabel);
+            $dayOption->setValue($optionValue);
+            $dayOptions[] = $dayOption;
         }
 
         return $dayOptions;
@@ -179,10 +179,10 @@ class PreferredDayTimeOptionsProcessor extends AbstractProcessor
     {
         $timeOptions = [];
         foreach ($options as $option) {
-            $timeOptions[] = $this->optionFactory->create([
-                'label' => $option->getStart() . ' - ' . $option->getEnd(),
-                'value' => str_replace(':', '', $option->getStart() . $option->getEnd())
-             ]);
+            $timeOption = $this->optionFactory->create();
+            $timeOption->setLabel($option->getStart() . ' - ' . $option->getEnd());
+            $timeOption->setValue(str_replace(':', '', $option->getStart() . $option->getEnd()));
+            $timeOptions[] = $timeOption;
         }
 
         return $timeOptions;
