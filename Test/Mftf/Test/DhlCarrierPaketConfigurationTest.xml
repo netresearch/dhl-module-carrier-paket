@@ -39,16 +39,13 @@
         <actionGroup ref="DhlPaketCarrierSettingsExpandGeneralTabActionGroup" stepKey="expandCarrierSettingsDhlPaketGeneralTab"/>
 
         <!-- Check active state -->
-        <dontSeeCheckboxIsChecked selector="{{AdminSystemConfigCarriersDhlPaketSection.displayRatesAtCheckoutCheckbox}}"
-                                  stepKey="displayRatesAtCheckoutCheckboxNotChecked"/>
+        <dontSeeCheckboxIsChecked selector="{{AdminSystemConfigCarriersDhlPaketSection.carrierActive}}"
+                                  stepKey="carrierActiveNotChecked"/>
         <actionGroup ref="DhlPaketCarrierSettingsEnableActionGroup" stepKey="enableCarrierSettingsDhlPaket"/>
 
         <!-- Check logging configuration -->
-        <dontSeeCheckboxIsChecked selector="{{AdminSystemConfigCarriersDhlPaketSection.recordMessagesCheckbox}}"
-                                  stepKey="recordMessagesCheckboxNotChecked"/>
-        <see selector="{{AdminSystemConfigCarriersDhlPaketSection.recordMessagesCheckboxLabel}}"
-             userInput="{{CarriersDhlPaketSettings.recordMessagesCheckboxLabel}}"
-             stepKey="seeRecordMessagesCheckboxLabel"/>
+        <dontSeeCheckboxIsChecked selector="{{AdminSystemConfigCarriersDhlPaketSection.carrierLogging}}"
+                                  stepKey="carrierLoggingNotChecked"/>
 
         <!-- Checkout presentation, Select "Use Rates From" -->
         <actionGroup ref="DhlPaketCarrierSettingsExpandCheckoutPresentationTabActionGroup" stepKey="expandCarrierSettingsDhlPaketCheckoutPresentationTab"/>
@@ -60,8 +57,8 @@
         <actionGroup ref="SaveAdminSystemConfigSectionActionGroup" stepKey="saveAdminConfigSection"/>
 
         <!-- Confirm selection is persisted -->
-        <seeCheckboxIsChecked selector="{{AdminSystemConfigCarriersDhlPaketSection.displayRatesAtCheckoutCheckbox}}"
-                              stepKey="seeDisplayRatesAtCheckoutCheckboxChecked"/>
+        <seeCheckboxIsChecked selector="{{AdminSystemConfigCarriersDhlPaketSection.carrierActive}}"
+                              stepKey="seeCarrierActiveChecked"/>
 
         <seeOptionIsSelected selector="{{AdminSystemConfigCarriersDhlPaketSection.checkoutPresentationUseRatesFromSelect}}"
                              userInput="{{CarriersDhlPaketSettings.useRatesFromFlatRate}}"
