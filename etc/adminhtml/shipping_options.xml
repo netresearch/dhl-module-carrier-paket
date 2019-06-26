@@ -12,7 +12,7 @@
             <shippingOption code="preferredDay">
                 <inputs>
                     <input code="date">
-                        <inputType>text</inputType>
+                        <inputType>static</inputType>
                         <disabled>true</disabled>
                     </input>
                 </inputs>
@@ -20,7 +20,7 @@
             <shippingOption code="preferredTime">
                 <inputs>
                     <input code="time">
-                        <inputType>text</inputType>
+                        <inputType>static</inputType>
                         <disabled>true</disabled>
                     </input>
                 </inputs>
