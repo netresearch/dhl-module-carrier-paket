@@ -8,7 +8,6 @@ namespace Dhl\Paket\Model\Config;
 
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\Encryption\EncryptorInterface;
-use Magento\Shipping\Helper\Carrier;
 use Magento\Store\Model\ScopeInterface;
 
 /**

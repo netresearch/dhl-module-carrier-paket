@@ -8,12 +8,10 @@ namespace Dhl\Paket\Controller\Adminhtml\Order\Shipment;
 use Dhl\Paket\Model\Carrier\Paket;
 use Dhl\Paket\Test\Integration\Generator\ShipmentRequestData;
 use Dhl\Paket\Test\Integration\TestCase\Controller\Adminhtml\Order\Shipment\SaveShipmentTest;
-use Dhl\Sdk\Paket\Bcs\Service\ShipmentService\Shipment;
 use Dhl\ShippingCore\Test\Integration\Fixture\Data\AddressDe;
 use Dhl\ShippingCore\Test\Integration\Fixture\Data\SimpleProduct;
 use Dhl\ShippingCore\Test\Integration\Fixture\OrderFixture;
 use Magento\Sales\Api\Data\OrderInterface;
-use Magento\Sales\Api\Data\ShipmentInterface;
 use Magento\Sales\Model\Order;
 use Magento\Sales\Model\ResourceModel\Order\Shipment\Collection;
 

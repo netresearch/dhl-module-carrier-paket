@@ -19,12 +19,12 @@ use Magento\TestFramework\Helper\Bootstrap;
 use PHPUnit\Framework\TestCase;
 
 /**
- * Class PreferredDayTimeOptionsProcessorTest
+ * Class ParcelManagementOptionsProcessorTest
  *
  * @package Dhl\Paket\Test\Integration\TestCase\Model\Checkout
  * @author   Andreas Müller <andreas.mueller@netresearch.de>
  */
-class PreferredDayTimeOptionsProcessorTest extends TestCase
+class ParcelManagementOptionsProcessorTest extends TestCase
 {
     /**
      * @var ObjectManagerInterface

@@ -12,6 +12,7 @@
     <!-- # sdk preferences -->
     <preference for="Dhl\Sdk\Paket\Bcs\Api\ShipmentOrderRequestBuilderInterface" type="Dhl\Sdk\Paket\Bcs\RequestBuilder\ShipmentOrderRequestBuilder"/>
     <preference for="Dhl\Sdk\Paket\Bcs\Api\ServiceFactoryInterface" type="Dhl\Sdk\Paket\Bcs\Service\ServiceFactory"/>
+    <preference for="Dhl\Sdk\Paket\ParcelManagement\Api\ServiceFactoryInterface" type="Dhl\Sdk\Paket\ParcelManagement\Service\ServiceFactory"/>
     <preference for="Dhl\Sdk\Paket\Bcs\Api\Data\AuthenticationStorageInterface" type="Dhl\Sdk\Paket\Bcs\Auth\AuthenticationStorage" />
 
     <!-- # virtual types -->
@@ -72,7 +73,7 @@
         <arguments>
             <argument name="processors" xsi:type="array">
                 <item name="dhlpaketServiceDataFilterprocessor" xsi:type="object">Dhl\Paket\Model\Checkout\DataProcessor\ServiceDataFilterProcessor</item>
-                <item name="dhlpaketDateTimeOptionsProcessor" xsi:type="object">Dhl\Paket\Model\Checkout\DataProcessor\PreferredDayTimeOptionsProcessor</item>
+                <item name="dhlpaketParcelManagementOptionsProcessor" xsi:type="object">Dhl\Paket\Model\Checkout\DataProcessor\ParcelManagementOptionsProcessor</item>
                 <item name="dhlpaketParcelStationOptionsProcessor" xsi:type="object">Dhl\Paket\Model\Checkout\DataProcessor\ParcelStationOptionsProcessor</item>
             </argument>
         </arguments>

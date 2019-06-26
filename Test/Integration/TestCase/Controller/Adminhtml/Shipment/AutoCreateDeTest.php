@@ -6,7 +6,6 @@ declare(strict_types=1);
 
 namespace Dhl\Paket\Test\Integration\TestCase\Controller\Adminhtml\Shipment;
 
-use Dhl\Sdk\Paket\Bcs\Service\ShipmentService\Shipment;
 use Dhl\ShippingCore\Test\Integration\Fixture\Data\AddressDe;
 use Dhl\ShippingCore\Test\Integration\Fixture\Data\SimpleProduct;
 use Dhl\ShippingCore\Test\Integration\Fixture\OrderFixture;

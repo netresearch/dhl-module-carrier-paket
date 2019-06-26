@@ -12,6 +12,10 @@ use Dhl\ShippingCore\Test\Integration\Generator\ShipmentRequestData as ShippingC
 use Magento\Sales\Model\Order;
 use Magento\TestFramework\Helper\Bootstrap;
 
+/**
+ * Class ShipmentRequestData
+ * @package Dhl\Paket\Test\Integration
+ */
 class ShipmentRequestData
 {
     /**

@@ -20,12 +20,12 @@ use Dhl\ShippingCore\Api\TrackResponseProcessorInterface;
 class DeleteShipmentsProcessor implements TrackResponseProcessorInterface
 {
     /**
-     * @var DeleteShipmentsProcessorInterface[]
+     * @var TrackResponseProcessorInterface[]
      */
     private $processors;
 
     /**
-     * @param DeleteShipmentsProcessorInterface[] $processors
+     * @param TrackResponseProcessorInterface[] $processors
      */
     public function __construct(array $processors = [])
     {

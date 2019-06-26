@@ -68,6 +68,11 @@ class Paket extends AbstractCarrierOnline implements CarrierInterface
     private $proxyCarrierFactory;
 
     /**
+     * @var \Magento\Shipping\Model\Carrier\AbstractCarrierInterface
+     */
+    private $proxyCarrier;
+
+    /**
      * Paket carrier constructor.
      *
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
@@ -226,7 +231,11 @@ class Paket extends AbstractCarrierOnline implements CarrierInterface
      */
     public function getAllowedMethods(): array
     {
-        $carrier = $this->getProxiedCarrier();
+        try {
+            $carrier = $this->getProxyCarrier();
+        } catch (LocalizedException $exception) {
+            return [];
+        }
 
         if (!$carrier instanceof CarrierInterface) {
             return [];
@@ -372,14 +381,19 @@ class Paket extends AbstractCarrierOnline implements CarrierInterface
     /**
      * Returns the configured proxied carrier instance.
      *
-     * @return CarrierInterface|AbstractCarrierInterface
+     * @return AbstractCarrierInterface
+     * @throws \Magento\Framework\Exception\NotFoundException
      */
-    private function getProxiedCarrier()
+    private function getProxyCarrier()
     {
-        $storeId     = $this->getData('store');
-        $carrierCode = $this->moduleConfig->getProxyCarrierCode($storeId);
+        if (!$this->proxyCarrier) {
+            $storeId = $this->getData('store');
+            $carrierCode = $this->moduleConfig->getProxyCarrierCode($storeId);
 
-        return $this->proxyCarrierFactory->create($carrierCode);
+            $this->proxyCarrier = $this->proxyCarrierFactory->create($carrierCode);
+        }
+
+        return $this->proxyCarrier;
     }
 
     /**
@@ -389,7 +403,11 @@ class Paket extends AbstractCarrierOnline implements CarrierInterface
      */
     public function isCityRequired(): bool
     {
-        return $this->getProxiedCarrier()->isCityRequired();
+        try {
+            return $this->getProxyCarrier()->isCityRequired();
+        } catch (LocalizedException $exception) {
+            return parent::isCityRequired();
+        }
     }
 
     /**
@@ -400,6 +418,10 @@ class Paket extends AbstractCarrierOnline implements CarrierInterface
      */
     public function isZipCodeRequired($countryId = null): bool
     {
-        return $this->getProxiedCarrier()->isZipCodeRequired($countryId);
+        try {
+            return $this->getProxyCarrier()->isZipCodeRequired($countryId);
+        } catch (LocalizedException $exception) {
+            return parent::isZipCodeRequired($countryId);
+        }
     }
 }

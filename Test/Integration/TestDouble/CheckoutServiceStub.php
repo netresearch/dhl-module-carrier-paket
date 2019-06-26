@@ -6,16 +6,15 @@ declare(strict_types=1);
 
 namespace Dhl\Paket\Test\Integration\TestDouble;
 
-
 use Dhl\Sdk\Paket\ParcelManagement\Api\CheckoutServiceInterface;
-use Dhl\Sdk\Paket\ParcelManagement\Api\Data\CarrierServiceInterface;
-use Dhl\Sdk\Paket\ParcelManagement\Exception\AuthenticationException;
-use Dhl\Sdk\Paket\ParcelManagement\Exception\ClientException;
-use Dhl\Sdk\Paket\ParcelManagement\Exception\ServerException;
 use Dhl\Sdk\Paket\ParcelManagement\Service\CheckoutService\CarrierService;
 use Dhl\Sdk\Paket\ParcelManagement\Service\CheckoutService\IntervalOption;
 use Dhl\Sdk\Paket\ParcelManagement\Service\CheckoutService\TimeFrameOption;
 
+/**
+ * Class CheckoutServiceStub
+ * @package Dhl\Paket\Test\Integration\TestDouble
+ */
 class CheckoutServiceStub implements CheckoutServiceInterface
 {
     public function getCarrierServices(
