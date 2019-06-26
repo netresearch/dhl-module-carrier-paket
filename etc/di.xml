@@ -133,7 +133,6 @@
     <type name="Dhl\ShippingCore\Model\Checkout\CheckoutDataCompositeProcessor">
         <arguments>
             <argument name="processors" xsi:type="array">
-                <item name="dhlpaketServiceDataFilterprocessor" xsi:type="object">Dhl\Paket\Model\Checkout\DataProcessor\ServiceDataFilterProcessor</item>
                 <item name="dhlpaketParcelManagementOptionsProcessor" xsi:type="object">Dhl\Paket\Model\Checkout\DataProcessor\ParcelManagementOptionsProcessor</item>
                 <item name="dhlpaketParcelStationOptionsProcessor" xsi:type="object">Dhl\Paket\Model\Checkout\DataProcessor\ParcelStationOptionsProcessor</item>
             </argument>
@@ -157,13 +156,6 @@
         <arguments>
             <argument name="carrierCodes" xsi:type="array">
                 <item name="dhlpaket" xsi:type="const">Dhl\Paket\Model\Carrier\Paket::CARRIER_CODE</item>
-            </argument>
-        </arguments>
-    </type>
-    <type name="Dhl\ShippingCore\Model\Packaging\PackagingDataCompositeProcessor">
-        <arguments>
-            <argument name="processors" xsi:type="array">
-                <item name="dhlpaketConfigProcessor" sortOrder="10" xsi:type="object">Dhl\Paket\Model\Packaging\DataProcessor\ConfigProcessor</item>
             </argument>
         </arguments>
     </type>
