@@ -134,7 +134,7 @@
         <arguments>
             <argument name="processors" xsi:type="array">
                 <item name="dhlpaketParcelManagementOptionsProcessor" xsi:type="object">Dhl\Paket\Model\Checkout\DataProcessor\ParcelManagementOptionsProcessor</item>
-                <item name="dhlpaketDateTimeOptionsProcessor" xsi:type="object">Dhl\Paket\Model\Checkout\DataProcessor\PreferredDayTimeOptionsProcessor</item>
+                <item name="dhlpaketParcelStationOptionsProcessor" xsi:type="object">Dhl\Paket\Model\Checkout\DataProcessor\ParcelStationOptionsProcessor</item>
             </argument>
         </arguments>
     </type>
