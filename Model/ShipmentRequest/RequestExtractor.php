@@ -9,6 +9,7 @@ namespace Dhl\Paket\Model\ShipmentRequest;
 use Dhl\Paket\Model\Config\ModuleConfig;
 use Dhl\Paket\Model\ShippingProducts\ShippingProductsInterface;
 use Dhl\ShippingCore\Api\Data\ShipmentRequest\PackageInterface;
+use Dhl\ShippingCore\Api\Data\ShipmentRequest\PackageItemInterface;
 use Dhl\ShippingCore\Api\Data\ShipmentRequest\RecipientInterface;
 use Dhl\ShippingCore\Api\Data\ShipmentRequest\ShipperInterface;
 use Dhl\ShippingCore\Api\RequestExtractorInterface;
@@ -179,7 +180,9 @@ class RequestExtractor implements RequestExtractorInterface
     }
 
     /**
-     * @inheritDoc
+     * Obtain all items from all packages.
+     *
+     * @return PackageItemInterface[]
      */
     public function getAllItems(): array
     {

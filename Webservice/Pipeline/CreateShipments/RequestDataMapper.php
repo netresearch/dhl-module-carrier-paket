@@ -10,6 +10,7 @@ use Dhl\Paket\Model\ShipmentRequest\RequestExtractorFactory;
 use Dhl\Sdk\Paket\Bcs\Api\ShipmentOrderRequestBuilderInterface;
 use Dhl\Sdk\Paket\Bcs\Model\CreateShipment\RequestType\ShipmentOrderType;
 use Dhl\ShippingCore\Api\Data\ShipmentRequest\PackageInterface;
+use Dhl\ShippingCore\Api\Data\ShipmentRequest\PackageItemInterface;
 use Dhl\ShippingCore\Api\UnitConverterInterface;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Shipping\Model\Shipment\Request;
@@ -165,6 +166,24 @@ class RequestDataMapper
                 $heightInCm = $this->unitConverter->convertDimension($height, $dimensionsUom, $targetUom);
                 $this->requestBuilder->setPackageDimensions((int) $widthInCm, (int) $lengthInCm, (int) $heightInCm);
             }
+        }
+
+        $this->requestBuilder->setCustomsDetails(
+            '',
+            '',
+            0.0
+        );
+
+        /** @var PackageItemInterface $item */
+        foreach ($requestExtractor->getAllItems() as $item) {
+            $this->requestBuilder->addExportItem(
+                (int) $item->getQty(),
+                $item->getExportDescription(),
+                $item->getCustomsValue(),
+                $item->getWeight(),
+                (string) $item->getHsCode(),
+                ''
+            );
         }
 
         return $this->requestBuilder->create();
