@@ -33,8 +33,6 @@
                     </input>
                 </inputs>
             </shippingOption>
-        </serviceOptions>
-        <packageOptions>
             <shippingOption code="printOnlyIfCodeable">
                 <label>Use Print Only If Codeable Service</label>
                 <sortOrder>10</sortOrder>
@@ -109,6 +107,6 @@
                     </input>
                 </inputs>
             </shippingOption>
-        </packageOptions>
+        </serviceOptions>
     </carrier>
 </carriers>
