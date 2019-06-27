@@ -245,4 +245,14 @@ class RequestExtractor implements RequestExtractorInterface
     {
         return date('Y-m-d');
     }
+
+    /**
+     * Returns the dangerous goods category of an item.
+     *
+     * @return null|string
+     */
+    public function getDangerousGoodsCategory()
+    {
+        return $this->getCoreExtractor()->getDangerousGoodsCategory();
+    }
 }
