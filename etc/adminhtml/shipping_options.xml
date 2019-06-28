@@ -39,12 +39,11 @@
                 <label>Use Print Only If Codeable Service</label>
                 <sortOrder>10</sortOrder>
                 <inputs>
-                    <input code="enabled">
+                    <input code="enabled" defaultConfigValue="dhlshippingsolutions/dhlpaket/general_shipping_settings/print_only_if_codeable">
                         <inputType>checkbox</inputType>
                         <comment>
                             <content><![CDATA[If set to <em>Yes</em>, shipment orders will only return a label if the DHL delivery address verification succeeds.]]></content>
                         </comment>
-                        <defaultConfigValue>dhlshippingsolutions/dhlpaket/general_shipping_settings/print_only_if_codeable</defaultConfigValue>
                     </input>
                 </inputs>
             </shippingOption>
@@ -52,7 +51,7 @@
                 <label>Use Visual Check of Age Service</label>
                 <sortOrder>20</sortOrder>
                 <inputs>
-                    <input code="enabled">
+                    <input code="enabled" defaultConfigValue="dhlshippingsolutions/dhlpaket/additional_services/visual_check_of_age">
                         <inputType>select</inputType>
                         <options>
                             <option id="no">
@@ -71,7 +70,6 @@
                         <comment>
                             <content>If enabled, the visual age check service will be booked during shipment orders.</content>
                         </comment>
-                        <defaultConfigValue>dhlshippingsolutions/dhlpaket/additional_services/visual_check_of_age</defaultConfigValue>
                     </input>
                 </inputs>
             </shippingOption>
@@ -79,12 +77,11 @@
                 <label>Use Return Shipment Service</label>
                 <sortOrder>30</sortOrder>
                 <inputs>
-                    <input code="enabled">
+                    <input code="enabled" defaultConfigValue="dhlshippingsolutions/dhlpaket/additional_services/return_shipment">
                         <inputType>checkbox</inputType>
                         <comment>
                             <content><![CDATA[If set to <em>Yes</em>, a return shipment label will be requested from the webservice.]]></content>
                         </comment>
-                        <defaultConfigValue>dhlshippingsolutions/dhlpaket/additional_services/return_shipment</defaultConfigValue>
                     </input>
                 </inputs>
             </shippingOption>
@@ -92,12 +89,11 @@
                 <label>Use Additional Insurance Service</label>
                 <sortOrder>40</sortOrder>
                 <inputs>
-                    <input code="enabled">
+                    <input code="enabled" defaultConfigValue="dhlshippingsolutions/dhlpaket/additional_services/additional_insurance">
                         <inputType>checkbox</inputType>
                         <comment>
                             <content><![CDATA[If set to <em>Yes</em>, shipments will be insured with higher than standard amount.]]></content>
                         </comment>
-                        <defaultConfigValue>dhlshippingsolutions/dhlpaket/additional_services/additional_insurance</defaultConfigValue>
                     </input>
                 </inputs>
             </shippingOption>
@@ -105,12 +101,11 @@
                 <label>Use Bulky Goods Service</label>
                 <sortOrder>50</sortOrder>
                 <inputs>
-                    <input code="enabled">
+                    <input code="enabled" defaultConfigValue="dhlshippingsolutions/dhlpaket/additional_services/bulky_goods">
                         <inputType>checkbox</inputType>
                         <comment>
                             <content><![CDATA[If set to <em>Yes</em>, shipments will be marked as bulk freight.]]></content>
                         </comment>
-                        <defaultConfigValue>dhlshippingsolutions/dhlpaket/additional_services/bulky_goods</defaultConfigValue>
                     </input>
                 </inputs>
             </shippingOption>
