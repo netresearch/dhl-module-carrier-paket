@@ -21,27 +21,25 @@ class VisualCheckOfAge implements OptionSourceInterface
     const OPTION_A18 = 'A18';
 
     /**
-     * Options getter
+     * Return array of options as value-label pairs
      *
-     * @return array
+     * @return string[][]
      */
     public function toOptionArray(): array
     {
-        $optionsArray = [
+        return [
             [
                 'value' => 0,
                 'label' => __('No')
             ],
             [
                 'value' => self::OPTION_A16,
-                'label' => self::OPTION_A16,
+                'label' => __('Minimum age +16 years'),
             ],
             [
                 'value' => self::OPTION_A18,
-                'label' => self::OPTION_A18,
+                'label' => __('Minimum age +18 years'),
             ]
         ];
-
-        return $optionsArray;
     }
 }

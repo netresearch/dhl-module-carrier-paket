@@ -114,3 +114,5 @@
 "You decide when and where you want to receive your parcels with the recipient services of DHL.","Mit den Services von DHL Wunschpaket entscheiden Sie, wann und wo Sie Ihre Pakete empfangen."
 "You must also have Magento general logging enabled.","Logging allgemein muss in Magento aktiviert sein, damit die modulspezifische Protokollierung funktioniert."
 "Your e-mail address will be sent to DHL upon enabling, after which DHL will trigger a package announcement for your shipment. The e-mail address will exclusively be used for the announcement of this shipment.",""
+"Minimum age +16 years","Mindestalter 16 Jahre"
+"Minimum age +18 years","Mindestalter 18 Jahre"

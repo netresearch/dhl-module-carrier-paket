@@ -9,6 +9,7 @@
         <label><![CDATA[Additional Shipping Services]]></label>
         <attribute type="expanded">1</attribute>
 
+        <!-- Frontend dependent -->
         <field id="parcelstation" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="10"
             translate="tooltip label comment" type="Netresearch\ConfigFields\Model\Type\Checkbox">
             <label><![CDATA[Use Parcel Station Delivery Service]]></label>
@@ -40,13 +41,15 @@
             <comment><![CDATA[Allow customers to request parcel notification updates via e-mail by DHL during checkout.]]></comment>
         </field>
 
+        <!-- Backend dependent -->
         <!-- Visual Check of Age -->
         <field id="visual_check_of_age" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="70"
-               translate="label comment" type="select">
+               translate="label comment" type="Netresearch\ConfigFields\Model\Type\Radioset">
             <label>Use Visual Check of Age Service</label>
             <comment>If enabled, the visual age check service will be booked during shipment orders.</comment>
             <source_model>Dhl\Paket\Model\Adminhtml\System\Config\Source\VisualCheckOfAge</source_model>
         </field>
+
         <!-- Return Shipment -->
         <field id="return_shipment" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="80"
                translate="label comment" type="Netresearch\ConfigFields\Model\Type\Checkbox">
