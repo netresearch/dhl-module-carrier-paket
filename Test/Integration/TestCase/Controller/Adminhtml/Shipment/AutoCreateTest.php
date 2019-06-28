@@ -58,7 +58,7 @@ abstract class AutoCreateTest extends ControllerTest
     }
 
     /**
-     * @magentoConfigFixture default/dhlshippingsolutions/dhlglobalwebservices/retry_failed_shipments 0
+     * @magentoConfigFixture default/dhlshippingsolutions/dhlglobalwebservices/bulk_settings/retry_failed_shipments 0
      *
      * @magentoConfigFixture default_store general/store_information/name NR-Test-Store
      * @magentoConfigFixture default_store general/store_information/region_id 91

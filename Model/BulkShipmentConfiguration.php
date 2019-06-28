@@ -83,14 +83,4 @@ class BulkShipmentConfiguration implements BulkShipmentConfigurationInterface
     {
         return $this->shipmentManagement;
     }
-
-    /**
-     * Check if the customer should be notified after auto-creating the shipment (shipment confirmation email).
-     *
-     * @return bool
-     */
-    public function notify(): bool
-    {
-        return $this->moduleConfig->isNotificationEnabled();
-    }
 }
