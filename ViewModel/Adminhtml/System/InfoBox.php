@@ -7,7 +7,7 @@ declare(strict_types=1);
 namespace Dhl\Paket\ViewModel\Adminhtml\System;
 
 use Dhl\Paket\Model\Config\ModuleConfig;
-use Dhl\ShippingCore\Model\Config\CoreConfig;
+use Dhl\ShippingCore\Model\Config\Config;
 use Magento\Framework\View\Element\Block\ArgumentInterface;
 
 /**
@@ -27,9 +27,9 @@ class InfoBox implements ArgumentInterface
     /**
      * InfoBox constructor.
      *
-     * @param CoreConfig $config
+     * @param Config $config
      */
-    public function __construct(CoreConfig $config)
+    public function __construct(Config $config)
     {
         $this->config = $config;
     }
