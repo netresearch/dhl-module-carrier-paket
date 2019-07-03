@@ -42,25 +42,17 @@
             <button_label>Record communication with the DHL web services.</button_label>
             <comment><![CDATA[You must also have Magento general logging enabled.]]></comment>
         </field>
-        <group id="logging_group" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="50"
-               translate="label">
-            <fieldset_css>simple</fieldset_css>
-            <attribute type="expanded">1</attribute>
+        <field id="loglevel" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="50"
+               translate="label comment" type="Netresearch\ConfigFields\Model\Type\Radioset">
+            <label><![CDATA[Log Level]]></label>
             <depends>
                 <field id="logging">1</field>
             </depends>
-            <label>Error logging level</label>
-
-            <field id="loglevel" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="10"
-                   translate="label comment" type="Netresearch\ConfigFields\Model\Type\Radioset">
-                <label><![CDATA[Log Level]]></label>
-                <source_model>Dhl\Paket\Model\Config\Source\LogLevel</source_model>
-                <comment><![CDATA[The log level <em>Info</em> should only be set while resolving problems. It may result in very large log files.]]></comment>
-            </field>
-        </group>
-
+            <source_model>Dhl\Paket\Model\Config\Source\LogLevel</source_model>
+            <comment><![CDATA[The log level <em>Info</em> should only be set while resolving problems. It may result in very large log files.]]></comment>
+        </field>
         <field id="print_only_if_codeable" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="60"
-               translate="tooltip label comment" type="Netresearch\ConfigFields\Model\Type\Checkbox">
+               translate="label comment" type="Netresearch\ConfigFields\Model\Type\Checkbox">
             <label><![CDATA[Use Print Only If Codeable Service]]></label>
             <comment><![CDATA[If set to <em>Yes</em>, shipment orders will only return a label if the DHL delivery address verification succeeds.]]></comment>
         </field>

@@ -11,7 +11,7 @@
 
         <!-- Frontend dependent -->
         <field id="parcelstation" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="10"
-            translate="tooltip label comment" type="Netresearch\ConfigFields\Model\Type\Checkbox">
+            translate="label comment" type="Netresearch\ConfigFields\Model\Type\Checkbox">
             <label><![CDATA[Use Parcel Station Delivery Service]]></label>
             <comment><![CDATA[Allow customers to get shipments delivered to a parcel station.]]></comment>
         </field>

@@ -15,10 +15,10 @@
             <config_path>carriers/dhlpaket/title</config_path>
         </field>
         <field id="sort_order" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="20"
-               translate="tooltip label" type="text">
+               translate="label comment" type="text">
             <label><![CDATA[Sort Order]]></label>
             <frontend_class>validate-number</frontend_class>
-            <tooltip><![CDATA[This field determines where DHL Paket will be displayed on the Checkout page. To display after Flat Rate or Free Shipping, enter a number just higher than the sort order value configured for those Shipping Methods.]]></tooltip>
+            <comment><![CDATA[This field determines where DHL Paket will be displayed on the Checkout page. To display after Flat Rate or Free Shipping, enter a number just higher than the sort order value configured for those Shipping Methods.]]></comment>
             <config_path>carriers/dhlpaket/sort_order</config_path>
         </field>
 
