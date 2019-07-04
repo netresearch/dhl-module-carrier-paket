@@ -86,7 +86,7 @@ class ModuleConfig
     /**
      * Check whether the module is enabled for checkout or not.
      *
-     * @param mixed|null $store
+     * @param mixed $store
      * @return bool
      */
     public function isEnabled($store = null): bool
@@ -101,7 +101,7 @@ class ModuleConfig
     /**
      * Get the title.
      *
-     * @param mixed|null $store
+     * @param mixed $store
      * @return string
      */
     public function getTitle($store = null): string
@@ -116,7 +116,7 @@ class ModuleConfig
     /**
      * Get the code of the carrier to forward rate requests to.
      *
-     * @param mixed|null $store
+     * @param mixed $store
      * @return string
      */
     public function getProxyCarrierCode($store = null): string
@@ -131,7 +131,7 @@ class ModuleConfig
     /**
      * Get the logging status.
      *
-     * @param mixed|null $store
+     * @param mixed $store
      * @return bool
      */
     public function isLoggingEnabled($store = null): bool
@@ -146,7 +146,7 @@ class ModuleConfig
     /**
      * Get the log level.
      *
-     * @param mixed|null $store
+     * @param mixed $store
      * @return int
      */
     public function getLogLevel($store = null): int
@@ -161,7 +161,7 @@ class ModuleConfig
     /**
      * Returns true if sandbox mode is enabled.
      *
-     * @param mixed|null $store
+     * @param mixed $store
      * @return bool
      */
     public function isSandboxMode($store = null): bool
@@ -176,7 +176,7 @@ class ModuleConfig
     /**
      * Get the HTTP basic authentication username (CIG application authentication).
      *
-     * @param mixed|null $store
+     * @param mixed $store
      * @return string
      */
     public function getAuthUsername($store = null): string
@@ -195,7 +195,7 @@ class ModuleConfig
     /**
      * Get the HTTP basic authentication password (CIG application authentication).
      *
-     * @param mixed|null $store
+     * @param mixed $store
      * @return string
      */
     public function getAuthPassword($store = null): string
@@ -216,7 +216,7 @@ class ModuleConfig
     /**
      * Get the user's name (API user credentials).
      *
-     * @param mixed|null $store
+     * @param mixed $store
      * @return string
      */
     public function getUser($store = null): string
@@ -235,7 +235,7 @@ class ModuleConfig
     /**
      * Get the user's password (API user credentials).
      *
-     * @param mixed|null $store
+     * @param mixed $store
      * @return string
      */
     public function getSignature($store = null): string
@@ -256,7 +256,7 @@ class ModuleConfig
     /**
      * Get the user's EKP (standardised customer and product number).
      *
-     * @param mixed|null $store
+     * @param mixed $store
      * @return string
      */
     public function getEkp($store = null): string
@@ -275,7 +275,7 @@ class ModuleConfig
     /**
      * Get the user's participation numbers (partner IDs).
      *
-     * @param mixed|null $store
+     * @param mixed $store
      * @return string[]
      */
     public function getParticipations($store = null): array
@@ -297,7 +297,7 @@ class ModuleConfig
      * Get the user's participation number for a given procedure.
      *
      * @param string $procedure
-     * @param mixed|null $store
+     * @param mixed $store
      * @return string
      */
     public function getParticipation(string $procedure, $store = null): string
@@ -308,7 +308,7 @@ class ModuleConfig
     /**
      * Get the HTTP basic sandbox authentication username (CIG application authentication).
      *
-     * @param mixed|null $store
+     * @param mixed $store
      * @return string
      */
     private function getSandboxAuthUsername($store = null): string
@@ -323,7 +323,7 @@ class ModuleConfig
     /**
      * Get the HTTP basic sandbox authentication password (CIG application authentication).
      *
-     * @param mixed|null $store
+     * @param mixed $store
      * @return string
      */
     private function getSandboxAuthPassword($store = null): string
@@ -338,7 +338,7 @@ class ModuleConfig
     /**
      * Get the user's name (API user sandbox credentials).
      *
-     * @param mixed|null $store
+     * @param mixed $store
      * @return string
      */
     private function getSandboxUser($store = null): string
@@ -353,7 +353,7 @@ class ModuleConfig
     /**
      * Get the user's password (API user sandbox credentials).
      *
-     * @param mixed|null $store
+     * @param mixed $store
      * @return string
      */
     private function getSandboxSignature($store = null): string
@@ -368,7 +368,7 @@ class ModuleConfig
     /**
      * Get the user's sandbox EKP (standardised customer and product number).
      *
-     * @param mixed|null $store
+     * @param mixed $store
      * @return string
      */
     private function getSandboxEkp($store = null): string
@@ -383,7 +383,7 @@ class ModuleConfig
     /**
      * Get the user's sandbox participation numbers (partner IDs).
      *
-     * @param mixed|null $store
+     * @param mixed $store
      * @return string[]
      */
     private function getSandboxParticipations($store = null): array
@@ -400,7 +400,7 @@ class ModuleConfig
     /**
      * Check if a shipment confirmation email should be sent after shipment auto-creation.
      *
-     * @param mixed|null $store
+     * @param mixed $store
      * @return bool
      */
     public function isNotificationEnabled($store = null): bool
@@ -415,7 +415,7 @@ class ModuleConfig
     /**
      * Returns TRUE if the "print only if codeable" service should be used or not.
      *
-     * @param string|null $store
+     * @param mixed $store
      *
      * @return bool
      */
@@ -431,7 +431,7 @@ class ModuleConfig
     /**
      * Returns TRUE if the Parcel Station Delivery service should be available in checkout.
      *
-     * @param string|null $store
+     * @param mixed $store
      *
      * @return bool
      */
@@ -447,7 +447,7 @@ class ModuleConfig
     /**
      * Returns the selected "visual check of age" service which should be used.
      *
-     * @param string|null $store
+     * @param mixed $store
      *
      * @return string
      */
@@ -463,7 +463,7 @@ class ModuleConfig
     /**
      * Returns TRUE if the "return shipment" service should be used or not.
      *
-     * @param string|null $store
+     * @param mixed $store
      *
      * @return bool
      */
@@ -479,7 +479,7 @@ class ModuleConfig
     /**
      * Returns TRUE if the "additional insurance" service should be used or not.
      *
-     * @param string|null $store
+     * @param mixed $store
      *
      * @return bool
      */
@@ -495,7 +495,7 @@ class ModuleConfig
     /**
      * Returns TRUE if the "bulky goods" service should be used or not.
      *
-     * @param string|null $store
+     * @param mixed $store
      *
      * @return bool
      */
@@ -511,15 +511,15 @@ class ModuleConfig
     /**
      * Get enable config values for all checkout services
      *
-     * @param mixed|null $scopeId
+     * @param mixed $store
      * @return array
      */
-    public function getCheckoutServices($scopeId = null): array
+    public function getCheckoutServices($store = null): array
     {
         return $this->scopeConfig->getValue(
             self::CONFIG_PATH_ADDITIONAL_SERVICES,
             ScopeInterface::SCOPE_STORE,
-            $scopeId
+            $store
         );
     }
 }
