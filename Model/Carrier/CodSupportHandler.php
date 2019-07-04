@@ -115,7 +115,7 @@ class CodSupportHandler implements CodSupportInterface
         $optionCodeFilter = $this->filterBuilder
             ->setField(AssignedSelectionInterface::SHIPPING_OPTION_CODE)
             ->setConditionType('in')
-            ->setValue(implode(',', ['preferredLocation', 'preferredNeighbour']))
+            ->setValue(implode(',', ['preferredLocation', 'preferredNeighbour', 'parcelstation']))
             ->create();
 
         $searchCriteria = $this->searchCriteriaBuilderFactory

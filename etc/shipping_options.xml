@@ -218,29 +218,14 @@
             </rule>
             <rule id="parcelstationExcludeAllOthers">
                 <incompatibilityRule>true</incompatibilityRule>
-                <masters>
-                    <master>parcelstation.enabled</master>
-                </masters>
                 <subjects>
+                    <subject>parcelstation.enabled</subject>
                     <subject>preferredDay</subject>
                     <subject>preferredTime</subject>
                     <subject>preferredLocation</subject>
                     <subject>preferredNeighbour</subject>
                 </subjects>
             </rule>
-            <rule id="disableParcelStationOnAny">
-                <incompatibilityRule>true</incompatibilityRule>
-                <subjects>
-                    <subject>parcelstation.enabled</subject>
-                </subjects>
-                <masters>
-                    <master>preferredDay</master>
-                    <master>preferredTime</master>
-                    <master>preferredLocation</master>
-                    <master>preferredNeighbour</master>
-                </masters>
-            </rule>
-
         </compatibilityData>
     </carrier>
 </carriers>
