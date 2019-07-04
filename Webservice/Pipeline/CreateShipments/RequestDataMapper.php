@@ -6,11 +6,11 @@ declare(strict_types=1);
 
 namespace Dhl\Paket\Webservice\Pipeline\CreateShipments;
 
+use Dhl\Paket\Model\ShipmentRequest\Package;
 use Dhl\Paket\Model\ShipmentRequest\RequestExtractorFactory;
 use Dhl\Sdk\Paket\Bcs\Api\ShipmentOrderRequestBuilderInterface;
 use Dhl\Sdk\Paket\Bcs\Model\CreateShipment\RequestType\ShipmentOrderType;
-use Dhl\ShippingCore\Api\Data\ShipmentRequest\PackageInterface;
-use Dhl\ShippingCore\Api\Data\ShipmentRequest\PackageItemInterface;
+use Dhl\ShippingCore\Api\ConfigInterface;
 use Dhl\ShippingCore\Api\UnitConverterInterface;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Shipping\Model\Shipment\Request;
@@ -38,6 +38,11 @@ class RequestDataMapper
     private $requestBuilder;
 
     /**
+     * @var ConfigInterface
+     */
+    private $dhlConfig;
+
+    /**
      * @var UnitConverterInterface
      */
     private $unitConverter;
@@ -46,15 +51,18 @@ class RequestDataMapper
      * RequestDataMapper constructor.
      * @param ShipmentOrderRequestBuilderInterface $requestBuilder
      * @param RequestExtractorFactory $requestExtractorFactory
+     * @param ConfigInterface $dhlConfig
      * @param UnitConverterInterface $unitConverter
      */
     public function __construct(
         ShipmentOrderRequestBuilderInterface $requestBuilder,
         RequestExtractorFactory $requestExtractorFactory,
+        ConfigInterface $dhlConfig,
         UnitConverterInterface $unitConverter
     ) {
         $this->requestBuilder = $requestBuilder;
         $this->requestExtractorFactory = $requestExtractorFactory;
+        $this->dhlConfig = $dhlConfig;
         $this->unitConverter = $unitConverter;
     }
 
@@ -137,7 +145,7 @@ class RequestDataMapper
             $this->requestBuilder->setCodAmount((float) $requestExtractor->getOrder()->getBaseGrandTotal());
         }
 
-        /** @var PackageInterface $package */
+        /** @var Package $package */
         foreach ($requestExtractor->getPackages() as $packageId => $package) {
             //fixme(nr): request data are overridden silently for shipment requests with multiple packages
             $this->addSequenceNumber($request, $packageId, $sequenceNumber);
@@ -166,24 +174,36 @@ class RequestDataMapper
                 $heightInCm = $this->unitConverter->convertDimension($height, $dimensionsUom, $targetUom);
                 $this->requestBuilder->setPackageDimensions((int) $widthInCm, (int) $lengthInCm, (int) $heightInCm);
             }
-        }
 
-        $this->requestBuilder->setCustomsDetails(
-            '',
-            '',
-            0.0
-        );
-
-        /** @var PackageItemInterface $item */
-        foreach ($requestExtractor->getAllItems() as $item) {
-            $this->requestBuilder->addExportItem(
-                (int) $item->getQty(),
-                $item->getExportDescription(),
-                $item->getCustomsValue(),
-                $item->getWeight(),
-                (string) $item->getHsCode(),
-                ''
+            //todo(nr): update/remove this condition once intl options are removed from domestic packaging popup
+            $isEuShipping = in_array(
+                $requestExtractor->getRecipient()->getCountryCode(),
+                $this->dhlConfig->getEuCountries($request->getOrderShipment()->getStoreId()),
+                true
             );
+            if (!$isEuShipping) {
+                $this->requestBuilder->setCustomsDetails(
+                    $package->getContentType(),
+                    $package->getPlaceOfCommittal(),
+                    $package->getAdditionalFee(),
+                    $package->getContentExplanation(),
+                    $package->getTermsOfTrade(),
+                    null,
+                    $package->getPermitNumber(),
+                    $package->getAttestationNumber(),
+                    $package->getElectronicExportNotification()
+                );
+                foreach ($requestExtractor->getPackageItems() as $packageItem) {
+                    $this->requestBuilder->addExportItem(
+                        (int) round($packageItem->getQty()),
+                        $packageItem->getExportDescription(),
+                        $packageItem->getCustomsValue(),
+                        $packageItem->getWeight(),
+                        $packageItem->getHsCode(),
+                        $packageItem->getCountryOfOrigin()
+                    );
+                }
+            }
         }
 
         return $this->requestBuilder->create();

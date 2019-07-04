@@ -7,9 +7,11 @@ declare(strict_types=1);
 namespace Dhl\Paket\Model\ShipmentRequest;
 
 use Dhl\Paket\Model\Carrier\PaketFactory;
-use Dhl\Paket\Model\Config\ModuleConfig;
+use Dhl\ShippingCore\Api\ConfigInterface;
+use Dhl\ShippingCore\Api\PackagingOptionReaderInterfaceFactory;
 use Dhl\ShippingCore\Api\RequestModifierInterface;
 use Magento\Framework\DataObjectFactory;
+use Magento\Framework\Exception\LocalizedException;
 use Magento\Shipping\Model\Shipment\Request;
 
 /**
@@ -19,14 +21,19 @@ use Magento\Shipping\Model\Shipment\Request;
 class RequestModifier implements RequestModifierInterface
 {
     /**
-     * @var ModuleConfig
+     * @var ConfigInterface
      */
-    private $moduleConfig;
+    private $dhlConfig;
 
     /**
      * @var RequestModifierInterface
      */
     private $coreModifier;
+
+    /**
+     * @var PackagingOptionReaderInterfaceFactory
+     */
+    private $packagingOptionReaderFactory;
 
     /**
      * @var PaketFactory
@@ -40,80 +47,152 @@ class RequestModifier implements RequestModifierInterface
 
     /**
      * RequestModifier constructor.
-     * @param ModuleConfig $moduleConfig
+     *
+     * @param ConfigInterface $dhlConfig
      * @param RequestModifierInterface $coreModifier
+     * @param PackagingOptionReaderInterfaceFactory $packagingOptionReaderFactory
      * @param PaketFactory $carrierFactory
      * @param DataObjectFactory $dataObjectFactory
      */
     public function __construct(
-        ModuleConfig $moduleConfig,
+        ConfigInterface $dhlConfig,
         RequestModifierInterface $coreModifier,
+        PackagingOptionReaderInterfaceFactory $packagingOptionReaderFactory,
         PaketFactory $carrierFactory,
         DataObjectFactory $dataObjectFactory
     ) {
-        $this->moduleConfig = $moduleConfig;
+        $this->dhlConfig = $dhlConfig;
         $this->coreModifier = $coreModifier;
+        $this->packagingOptionReaderFactory = $packagingOptionReaderFactory;
         $this->carrierFactory = $carrierFactory;
         $this->dataObjectFactory = $dataObjectFactory;
     }
 
     /**
-     * @param Request $shipmentRequest
+     * Determine product used for the current route.
+     *
+     * @fixme(nr): introduce separate service class, do not instantiate carrier model,
+     *
+     * @param string $origin Shipper country code
+     * @param string $destination Recipient country code
+     * @return string mixed
      */
-    private function modifyPackageData(Request $shipmentRequest)
+    private function getProductForRoute($origin, $destination)
     {
-        $orderShipment = $shipmentRequest->getOrderShipment();
-        $package = $orderShipment->getPackages()[1];
-        $shipperCountry = $shipmentRequest->getShipperAddressCountryCode();
-        $destCountry = $shipmentRequest->getRecipientAddressCountryCode();
-        $services = $this->getServiceSelection($shipmentRequest);
-
         $params = $this->dataObjectFactory->create(
             [
                 'data' => [
-                    'country_shipper' => $shipperCountry,
-                    'country_recipient' => $destCountry
+                    'country_shipper' => $origin,
+                    'country_recipient' => $destination
                 ]
             ]
         );
 
-        //fixme(nr): do not create the carrier. the called methods should not be in the carrier anyway (see comments there).
         $carrier = $this->carrierFactory->create();
-        $container = current(array_keys($carrier->getContainerTypes($params)));
-        $package['params']['container'] = $container;
-        $package['params']['services'] = $services;
+        $productCode = current(array_keys($carrier->getContainerTypes($params)));
 
-        $packages = [1 => $package];
-        $shipmentRequest->setData('packages', $packages);
-        $shipmentRequest->getOrderShipment()->setPackages($packages);
+        return $productCode;
     }
 
     /**
-     * @param Request $shipmentRequest
+     * Add default shipping product, e.g. V01PAK or V53PAK
      *
-     * @return Request
+     * @param Request $shipmentRequest
      */
-    public function modify(Request $shipmentRequest): Request
+    private function modifyPackage(Request $shipmentRequest)
     {
-        $this->coreModifier->modify($shipmentRequest);
-        $this->modifyPackageData($shipmentRequest);
+        $productCode = $this->getProductForRoute(
+            $shipmentRequest->getShipperAddressCountryCode(),
+            $shipmentRequest->getRecipientAddressCountryCode()
+        );
 
-        return $shipmentRequest;
+        $packageId = $shipmentRequest->getData('package_id');
+        $package = $shipmentRequest->getData('packages')[$packageId];
+        $package['params']['container'] = $productCode;
+
+        $shipmentRequest->setData('packages', [$packageId => $package]);
+        $shipmentRequest->setData('package_params', $package['params']);
     }
 
     /**
+     * Add service selection to shipment request.
+     *
+     * @todo(nr): where to add service data within the shipment request is to be defined.
+     *
      * @param Request $shipmentRequest
-     * @return array
+     * @throws LocalizedException
      */
-    private function getServiceSelection(Request $shipmentRequest): array
+    private function modifyServices(Request $shipmentRequest)
     {
-        //TODO: implementation get checkout services
-        $services = [];
-        $storeId = $shipmentRequest->getOrderShipment()->getStoreId();
-        $printOnlyIfCodable = $this->moduleConfig->printOnlyIfCodeable($storeId);
+        $shipment = $shipmentRequest->getOrderShipment();
 
-        $services['printOnlyIfCodeable'] = $printOnlyIfCodable;
+        /** @var \Dhl\ShippingCore\Api\PackagingOptionReaderInterface $packagingOptionReader */
+        $packagingOptionReader = $this->packagingOptionReaderFactory->create(['shipment' => $shipment]);
+        $packagingOptionReader->getServiceOptionValue('printOnlyIfCodeable', 'enabled');
+    }
 
-        return $services;
+    /**
+     * Add customs data to package params and package items.
+     *
+     * @param Request $shipmentRequest
+     * @throws LocalizedException
+     */
+    private function modifyCustoms(Request $shipmentRequest)
+    {
+        $recipientCountry = $shipmentRequest->getRecipientAddressCountryCode();
+        $euCountries = $this->dhlConfig->getEuCountries($shipmentRequest->getOrderShipment()->getStoreId());
+
+        if (in_array($recipientCountry, $euCountries, true)) {
+            // route within EU, no customs data to add.
+            return;
+        }
+
+        $shipment = $shipmentRequest->getOrderShipment();
+
+        /** @var \Dhl\ShippingCore\Api\PackagingOptionReaderInterface $reader */
+        $reader = $this->packagingOptionReaderFactory->create(['shipment' => $shipment]);
+
+        $packageId = $shipmentRequest->getData('package_id');
+        $package = $shipmentRequest->getData('packages')[$packageId];
+        $package['params']['content_type'] = $reader->getPackageOptionValue('packageCustoms', 'contentType');
+        $package['params']['content_type_other'] = $reader->getPackageOptionValue('packageCustoms', 'explanation');
+        $package['params']['customs_value'] = $reader->getPackageOptionValue('packageCustoms', 'customsValue');
+        $package['params']['customs'] = [
+            'exportDescription' => $reader->getPackageOptionValue('packageCustoms', 'exportDescription'),
+            'termsOfTrade' => $reader->getPackageOptionValue('packageCustoms', 'termsOfTrade'),
+        ];
+
+        foreach ($package['items'] as $orderItemId => &$packageItem) {
+            $packageItem['customs_value'] = $reader->getItemOptionValue($orderItemId, 'itemCustoms', 'customsValue');
+            $packageItem['customs'] = [
+                'exportDescription' => $reader->getItemOptionValue($orderItemId, 'itemCustoms', 'exportDescription'),
+                'hsCode' => $reader->getItemOptionValue($orderItemId, 'itemCustoms', 'hsCode'),
+                'countryOfOrigin' => $reader->getItemOptionValue($orderItemId, 'itemCustoms', 'countryOfOrigin'),
+            ];
+        }
+
+        $shipmentRequest->setData('packages', [$packageId => $package]);
+        $shipmentRequest->setData('package_items', $package['items']);
+        $shipmentRequest->setData('package_params', $package['params']);
+    }
+
+    /**
+     * Add shipment request data using given shipment.
+     *
+     * The request modifier collects all additional data from defaults (config, product attributes)
+     * during bulk label creation where no user input (packaging popup) is involved.
+     *
+     * @param Request $shipmentRequest
+     * @throws LocalizedException
+     */
+    public function modify(Request $shipmentRequest)
+    {
+        // add carrier-agnostic data
+        $this->coreModifier->modify($shipmentRequest);
+
+        // add carrier-specific data
+        $this->modifyPackage($shipmentRequest);
+        $this->modifyServices($shipmentRequest);
+        $this->modifyCustoms($shipmentRequest);
     }
 }

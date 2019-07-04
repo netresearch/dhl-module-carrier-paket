@@ -108,5 +108,32 @@
                 </inputs>
             </shippingOption>
         </serviceOptions>
+        <packageOptions>
+            <shippingOption code="packageCustoms">
+                <label>Customs Data</label>
+                <inputs>
+                    <input code="additionalFee" defaultConfigValue="dhlshippingsolutions/dhlpaket/shipment_defaults/additional_fee">
+                        <label>Additional Fee</label>
+                        <inputType>price</inputType>
+                    </input>
+                    <input code="placeOfCommittal" defaultConfigValue="dhlshippingsolutions/dhlpaket/shipment_defaults/place_of_committal">
+                        <label>Place of Committal</label>
+                        <inputType>text</inputType>
+                    </input>
+                    <input code="permitNumber">
+                        <label>Permit Number</label>
+                        <inputType>text</inputType>
+                    </input>
+                    <input code="attestationNumber">
+                        <label>Attestation Number</label>
+                        <inputType>text</inputType>
+                    </input>
+                    <input code="electronicExportNotification">
+                        <label>Electronic Export Notification</label>
+                        <inputType>checkbox</inputType>
+                    </input>
+                </inputs>
+            </shippingOption>
+        </packageOptions>
     </carrier>
 </carriers>

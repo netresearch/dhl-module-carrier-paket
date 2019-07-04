@@ -92,6 +92,7 @@
 "This field determines where DHL Paket will be displayed on the Checkout page. To display after Flat Rate or Free Shipping, enter a number just higher than the sort order value configured for those Shipping Methods.","This field determines where DHL Paket will be displayed on the Checkout page. To display after Flat Rate or Free Shipping, enter a number just higher than the sort order value configured for those Shipping Methods."
 "This service will incur additional shipping costs of $1 including VAT.","This service will incur additional shipping costs of $1 including VAT."
 "Unable to delete tracks or shipping label.","Unable to delete tracks or shipping label."
+"Unable to determine billing number.","Unable to determine billing number."
 "Use Parcel Station Delivery Service","Use Parcel Station Delivery Service"
 "Use Print Only If Codeable Service","Use Print Only If Codeable Service"
 "Use rates from","Use rates from"

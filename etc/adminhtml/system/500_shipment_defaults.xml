@@ -1,0 +1,20 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * See LICENSE.md for license details.
+ */
+-->
+<include xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_include.xsd">
+    <group id="shipment_defaults" translate="label" sortOrder="500" showInDefault="1" showInWebsite="1" showInStore="0">
+        <label><![CDATA[Shipment Defaults]]></label>
+        <attribute type="expanded">0</attribute>
+
+        <field id="additional_fee" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="10" translate="label" type="text">
+            <label><![CDATA[Additional Fee]]></label>
+            <validate>validate-greater-than-zero validate-number</validate>
+        </field>
+        <field id="place_of_committal" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="20" translate="label" type="text">
+            <label><![CDATA[Place of Committal]]></label>
+        </field>
+    </group>
+</include>

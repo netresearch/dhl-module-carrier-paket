@@ -145,6 +145,20 @@
             </argument>
         </arguments>
     </type>
+    <type name="Dhl\ShippingCore\Model\Packaging\PackagingDataCompositeProcessor">
+        <arguments>
+            <argument name="processors" xsi:type="array">
+                <item name="dhlPaketPackageInputProcessor" xsi:type="object">Dhl\Paket\Model\Packaging\DataProcessor\PackageInputDataProcessor</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Dhl\ShippingCore\Model\Support\PackagingPopup">
+        <arguments>
+            <argument name="supportMap" xsi:type="array">
+                <item name="dhlpaket" xsi:type="const">Dhl\Paket\Model\Carrier\Paket::CARRIER_CODE</item>
+            </argument>
+        </arguments>
+    </type>
     <type name="Dhl\ShippingCore\Observer\DisableCodPaymentMethods">
         <arguments>
             <argument name="codSupportMap" xsi:type="array">
@@ -155,13 +169,6 @@
     <type name="Dhl\ShippingCore\Observer\SplitAddress">
         <arguments>
             <argument name="carrierCodes" xsi:type="array">
-                <item name="dhlpaket" xsi:type="const">Dhl\Paket\Model\Carrier\Paket::CARRIER_CODE</item>
-            </argument>
-        </arguments>
-    </type>
-    <type name="Dhl\ShippingCore\Model\Support\PackagingPopup">
-        <arguments>
-            <argument name="supportMap" xsi:type="array">
                 <item name="dhlpaket" xsi:type="const">Dhl\Paket\Model\Carrier\Paket::CARRIER_CODE</item>
             </argument>
         </arguments>

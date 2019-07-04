@@ -18,6 +18,7 @@ use Magento\Framework\Exception\LocalizedException;
 use Magento\Sales\Model\Order;
 use Magento\Sales\Model\Order\Shipment;
 use Magento\Shipping\Model\Shipment\Request;
+use Zend\Hydrator\Reflection;
 
 /**
  * Class RequestExtractor
@@ -51,27 +52,36 @@ class RequestExtractor implements RequestExtractorInterface
     private $shippingProducts;
 
     /**
+     * @var Reflection
+     */
+    private $hydrator;
+
+    /**
      * @var RequestExtractorInterface
      */
     private $coreExtractor;
 
     /**
      * RequestExtractor constructor.
+     *
      * @param RequestExtractorInterfaceFactory $requestExtractorFactory
      * @param Request $shipmentRequest
      * @param ModuleConfig $moduleConfig
      * @param ShippingProductsInterface $shippingProducts
+     * @param Reflection $hydrator
      */
     public function __construct(
         RequestExtractorInterfaceFactory $requestExtractorFactory,
         Request $shipmentRequest,
         ModuleConfig $moduleConfig,
-        ShippingProductsInterface $shippingProducts
+        ShippingProductsInterface $shippingProducts,
+        Reflection $hydrator
     ) {
         $this->requestExtractorFactory = $requestExtractorFactory;
         $this->shipmentRequest = $shipmentRequest;
         $this->moduleConfig = $moduleConfig;
         $this->shippingProducts = $shippingProducts;
+        $this->hydrator = $hydrator;
     }
 
     /**
@@ -167,7 +177,11 @@ class RequestExtractor implements RequestExtractorInterface
     }
 
     /**
-     * @inheritDoc
+     * Extract packages from shipment request.
+     *
+     * @return Package[]
+     * @throws LocalizedException
+     * @throws \ReflectionException
      */
     public function getPackages(): array
     {
@@ -176,7 +190,30 @@ class RequestExtractor implements RequestExtractorInterface
             throw new LocalizedException(__('Multi package shipments are not supported.'));
         }
 
-        return $packages;
+        $paketPackages = [];
+        foreach ($packages as $packageId => $package) {
+            // read generic export data from shipment request
+            $packageParams = $this->shipmentRequest->getData('packages')[$packageId]['params'];
+            $packageData = $this->hydrator->extract($package);
+
+            // add paket-specific export data to package data
+            $customsParams = $packageParams['customs'] ?? [];
+
+            $packageData['additionalFee'] = (float) ($customsParams['additionalFee'] ?? '');
+            $packageData['placeOfCommittal'] = $customsParams['placeOfCommittal'] ?? '';
+            $packageData['permitNumber'] = $customsParams['permitNumber'] ?? '';
+            $packageData['attestationNumber'] = $customsParams['attestationNumber'] ?? '';
+            $packageData['electronicExportNotification'] = $customsParams['electronicExportNotification'] ?? false;
+
+            // create new extended package instance with paket-specific export data
+            /** @var Package $paketPackage */
+            $paketPackage = (new \ReflectionClass(Package::class))->newInstanceWithoutConstructor();
+            $this->hydrator->hydrate($packageData, $paketPackage);
+
+            $paketPackages[$packageId] = $paketPackage;
+        }
+
+        return $paketPackages;
     }
 
     /**
@@ -190,7 +227,9 @@ class RequestExtractor implements RequestExtractorInterface
     }
 
     /**
-     * @inheritDoc
+     * Obtain all items for the current package.
+     *
+     * @return PackageItemInterface[]
      */
     public function getPackageItems(): array
     {
@@ -198,7 +237,9 @@ class RequestExtractor implements RequestExtractorInterface
     }
 
     /**
-     * @inheritDoc
+     * Check if "cash on delivery" was chosen for the current shipment request.
+     *
+     * @return bool
      */
     public function isCashOnDelivery(): bool
     {
@@ -225,17 +266,23 @@ class RequestExtractor implements RequestExtractorInterface
      */
     public function getBillingNumber(): string
     {
-        /** @var PackageInterface $package */
-        $package = current($this->getPackages());
+        try {
+            $packages = $this->getPackages();
 
-        $storeId = $this->getCoreExtractor()->getStoreId();
+            /** @var PackageInterface $package */
+            $package = current($packages);
 
-        //todo(nr): pull product code from proper field in shipment request once it's available there.
-        $productCode = $package->getContainerType();
-        $ekp = $this->moduleConfig->getEkp($storeId);
-        $participations = $this->moduleConfig->getParticipations($storeId);
+            $storeId = $this->getCoreExtractor()->getStoreId();
 
-        return $this->shippingProducts->getBillingNumber($productCode, $ekp, $participations);
+            //todo(nr): pull product code from proper field in shipment request once it's available there.
+            $productCode = $package->getContainerType();
+            $ekp = $this->moduleConfig->getEkp($storeId);
+            $participations = $this->moduleConfig->getParticipations($storeId);
+
+            return $this->shippingProducts->getBillingNumber($productCode, $ekp, $participations);
+        } catch (\ReflectionException $exception) {
+            throw new LocalizedException(__('Unable to determine billing number.'), $exception);
+        }
     }
 
     /**
@@ -247,15 +294,5 @@ class RequestExtractor implements RequestExtractorInterface
     public function getShipmentDate(): string
     {
         return date('Y-m-d');
-    }
-
-    /**
-     * Returns the dangerous goods category of an item.
-     *
-     * @return null|string
-     */
-    public function getDangerousGoodsCategory()
-    {
-        return $this->getCoreExtractor()->getDangerousGoodsCategory();
     }
 }

@@ -92,6 +92,7 @@
 "This field determines where DHL Paket will be displayed on the Checkout page. To display after Flat Rate or Free Shipping, enter a number just higher than the sort order value configured for those Shipping Methods.","Dieses Feld legt fest, wo DHL Paket auf der Checkout-Seite angezeigt wird. Um es z.B. nach Flatrate oder Gratisversand anzuzeigen, geben Sie eine Zahl ein, die größer ist als die Sortierreihenfolge, die für diese Versandarten konfiguriert ist."
 "This service will incur additional shipping costs of $1 including VAT.","Für diesen Service fallen zusätzliche Versandkosten in Höhe von $1 inkl. MwSt. an."
 "Unable to delete tracks or shipping label.","Die Sendungsnummer oder der Paketaufklaber konnte nicht gelöscht werden."
+"Unable to determine billing number.","Die Abrechnungsnummer konnte nicht ermittelt werden."
 "Use Parcel Station Delivery Service","Packstation erlauben"
 "Use Print Only If Codeable Service","Nur leitkodierbare Versandaufträge erteilen"
 "Use rates from","Verwende Tarife von"
