@@ -41,8 +41,8 @@
                             <rule name="maxLength">
                                 <param>10</param>
                             </rule>
-                            <rule name="validate-no-html-tags"/>
-                            <rule name="dhl_filter_special_chars"/>
+<!--                            <rule name="validate-no-html-tags"/>-->
+<!--                            <rule name="dhl_filter_special_chars"/>-->
                         </validationRules>
                         <tooltip>Lorem ipsum dolor sit amet, consetetur sadipscing elitr.</tooltip>
                     </input>
@@ -197,15 +197,7 @@
                 </subjects>
                 <errorMessage>Some values for Preferred Neighbour service are missing.</errorMessage>
             </rule>
-            <rule id="parcelstationEnabledExclusion">
-                <incompatibilityRule>true</incompatibilityRule>
-                <subjects>
-                    <subject>parcelstation.enabled</subject>
-                    <subject>preferredLocation</subject>
-                    <subject>preferredNeighbour</subject>
-                </subjects>
-            </rule>
-            <rule id="parcelstationExclusion">
+            <rule id="parcelstationIdExclusion">
                 <incompatibilityRule>false</incompatibilityRule>
                 <hideSubjects>true</hideSubjects>
                 <masters>
@@ -213,6 +205,15 @@
                 </masters>
                 <subjects>
                     <subject>parcelstation.id</subject>
+                </subjects>
+            </rule>
+            <rule id="parcelstationNumberExclusion">
+                <incompatibilityRule>false</incompatibilityRule>
+                <hideSubjects>true</hideSubjects>
+                <masters>
+                    <master>parcelstation.enabled</master>
+                </masters>
+                <subjects>
                     <subject>parcelstation.postNumber</subject>
                 </subjects>
             </rule>
