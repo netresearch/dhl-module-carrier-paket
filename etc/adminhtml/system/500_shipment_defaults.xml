@@ -18,12 +18,12 @@
                translate="label comment" type="text">
             <label>Additional Fee</label>
             <validate>validate-greater-than-zero validate-number</validate>
-            <comment>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam</comment>
+            <comment>Additional custom fees to be payed.</comment>
         </field>
         <field id="place_of_committal" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="30"
                translate="label comment" type="text">
             <label>Place of Committal</label>
-            <comment>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam</comment>
+            <comment>Specification for customs form.</comment>
         </field>
         <field id="shipping_products" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="40"
                translate="label comment">
@@ -36,8 +36,7 @@
 
         <group id="merchant_services" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="50"
                translate="label comment">
-            <label>Merchant Services</label>
-            <comment>Configure Merchant Services</comment>
+            <label>Additional Services</label>
             <frontend_model>Netresearch\ConfigFields\Block\ModalGroup</frontend_model>
             <attribute type="expanded">1</attribute>
 

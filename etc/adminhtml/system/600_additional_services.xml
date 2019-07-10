@@ -11,8 +11,7 @@
 
         <group id="checkout_services" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="10"
                translate="label comment">
-            <label>Checkout Services</label>
-            <comment>Configure Checkout Services</comment>
+            <label>Additional Services</label>
             <frontend_model>Netresearch\ConfigFields\Block\ModalGroup</frontend_model>
             <attribute type="expanded">1</attribute>
 

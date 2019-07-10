@@ -27,7 +27,7 @@ class UpdateLabelStatus implements TrackResponseProcessorInterface
     private $labelStatusManagement;
 
     /**
-     * LabelStatusProcessor constructor.
+     * UpdateLabelStatus constructor.
      *
      * @param LabelStatusManagementInterface $labelStatusManagement
      */
