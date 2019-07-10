@@ -9,8 +9,6 @@ namespace Dhl\Paket\Webservice;
 use Dhl\Paket\Webservice\Track\RequestDataMapper;
 use Dhl\Paket\Webservice\Track\ResponseDataMapper;
 use Dhl\Sdk\Paket\Bcs\Exception\ServiceException;
-use Dhl\ShippingCore\Api\Data\ShipmentResponse\LabelResponseInterfaceFactory;
-use Dhl\ShippingCore\Api\Data\ShipmentResponse\ShipmentErrorResponseInterfaceFactory;
 use Dhl\ShippingCore\Api\Data\TrackRequest\TrackRequestInterface;
 use Dhl\ShippingCore\Api\Data\TrackResponse\TrackErrorResponseInterface;
 use Dhl\ShippingCore\Api\Data\TrackResponse\TrackResponseInterface;
@@ -38,16 +36,6 @@ class DeleteShipmentsPipeline
      * @var ShipmentService
      */
     private $shipmentService;
-
-    /**
-     * @var LabelResponseInterfaceFactory
-     */
-    private $shipmentResponseFactory;
-
-    /**
-     * @var ShipmentErrorResponseInterfaceFactory
-     */
-    private $errorResponseFactory;
 
     /**
      * Cancellation requests.
@@ -97,23 +85,17 @@ class DeleteShipmentsPipeline
      * @param RequestDataMapper $requestDataMapper
      * @param ResponseDataMapper $responseDataMapper
      * @param ShipmentService $shipmentService
-     * @param LabelResponseInterfaceFactory $shipmentResponseFactory
-     * @param ShipmentErrorResponseInterfaceFactory $errorResponseFactory
      * @param TrackRequestInterface[] $cancelRequests
      */
     public function __construct(
         RequestDataMapper $requestDataMapper,
         ResponseDataMapper $responseDataMapper,
         ShipmentService $shipmentService,
-        LabelResponseInterfaceFactory $shipmentResponseFactory,
-        ShipmentErrorResponseInterfaceFactory $errorResponseFactory,
         array $cancelRequests
     ) {
         $this->requestDataMapper = $requestDataMapper;
         $this->responseDataMapper = $responseDataMapper;
         $this->shipmentService = $shipmentService;
-        $this->shipmentResponseFactory = $shipmentResponseFactory;
-        $this->errorResponseFactory = $errorResponseFactory;
         $this->cancelRequests = $cancelRequests;
     }
 

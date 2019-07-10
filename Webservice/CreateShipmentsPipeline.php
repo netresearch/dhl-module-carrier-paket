@@ -12,9 +12,7 @@ use Dhl\Sdk\Paket\Bcs\Api\Data\ShipmentInterface;
 use Dhl\Sdk\Paket\Bcs\Api\ShipmentServiceInterface;
 use Dhl\Sdk\Paket\Bcs\Exception\ServiceException;
 use Dhl\ShippingCore\Api\Data\ShipmentResponse\LabelResponseInterface;
-use Dhl\ShippingCore\Api\Data\ShipmentResponse\LabelResponseInterfaceFactory;
 use Dhl\ShippingCore\Api\Data\ShipmentResponse\ShipmentErrorResponseInterface;
-use Dhl\ShippingCore\Api\Data\ShipmentResponse\ShipmentErrorResponseInterfaceFactory;
 use Dhl\ShippingCore\Api\RequestValidatorInterface;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Exception\ValidatorException;
@@ -47,16 +45,6 @@ class CreateShipmentsPipeline
      * @var ShipmentServiceInterface
      */
     private $shipmentService;
-
-    /**
-     * @var LabelResponseInterfaceFactory
-     */
-    private $shipmentResponseFactory;
-
-    /**
-     * @var ShipmentErrorResponseInterfaceFactory
-     */
-    private $errorResponseFactory;
 
     /**
      * Core shipment requests.
@@ -107,8 +95,6 @@ class CreateShipmentsPipeline
      * @param RequestDataMapper $requestDataMapper
      * @param ResponseDataMapper $responseDataMapper
      * @param ShipmentServiceInterface $shipmentService
-     * @param LabelResponseInterfaceFactory $shipmentResponseFactory
-     * @param ShipmentErrorResponseInterfaceFactory $errorResponseFactory
      * @param Request[] $shipmentRequests
      */
     public function __construct(
@@ -116,16 +102,12 @@ class CreateShipmentsPipeline
         RequestDataMapper $requestDataMapper,
         ResponseDataMapper $responseDataMapper,
         ShipmentServiceInterface $shipmentService,
-        LabelResponseInterfaceFactory $shipmentResponseFactory,
-        ShipmentErrorResponseInterfaceFactory $errorResponseFactory,
         array $shipmentRequests
     ) {
         $this->requestValidator = $requestValidator;
         $this->requestDataMapper = $requestDataMapper;
         $this->responseDataMapper = $responseDataMapper;
         $this->shipmentService = $shipmentService;
-        $this->shipmentResponseFactory = $shipmentResponseFactory;
-        $this->errorResponseFactory = $errorResponseFactory;
         $this->shipmentRequests = $shipmentRequests;
     }
 
@@ -141,12 +123,14 @@ class CreateShipmentsPipeline
         $callback = function (Request $request, int $requestIndex) {
             try {
                 $this->requestValidator->validate($request);
+
                 return true;
             } catch (ValidatorException $exception) {
                 $this->errors[$requestIndex] = [
                     'shipment' => $request->getOrderShipment(),
-                    'message' => $exception->getMessage()
+                    'message' => $exception->getMessage(),
                 ];
+
                 return false;
             }
         };
@@ -170,12 +154,14 @@ class CreateShipmentsPipeline
             try {
                 $shipmentOrder = $this->requestDataMapper->mapRequest((string) $requestIndex, $request);
                 $this->apiRequests[$requestIndex] = $shipmentOrder;
+
                 return true;
             } catch (LocalizedException $exception) {
                 $this->errors[$requestIndex] = [
                     'shipment' => $request->getOrderShipment(),
-                    'message' => $exception->getMessage()
+                    'message' => $exception->getMessage(),
                 ];
+
                 return false;
             }
         };
@@ -220,9 +206,10 @@ class CreateShipmentsPipeline
      * Transform collected results into response objects suitable for processing by the core.
      *
      * The `sequence_number` property is set to the shipment request packages during request mapping.
-     * @see \Dhl\Paket\Webservice\Shipment\RequestDataMapper::mapRequest
      *
      * @return $this
+     * @see \Dhl\Paket\Webservice\Shipment\RequestDataMapper::mapRequest
+     *
      */
     public function mapResponse()
     {

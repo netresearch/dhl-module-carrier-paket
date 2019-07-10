@@ -36,6 +36,15 @@
             <argument name="creationProcessor" xsi:type="object">Dhl\ShippingCore\Webservice\Processor\BulkShipmentResponseProcessor\Virtual</argument>
         </arguments>
     </virtualType>
+    <virtualType name="Dhl\Paket\Webservice\Processor\TrackResponseProcessor\Virtual" type="Dhl\ShippingCore\Webservice\Processor\TrackResponseProcessor">
+        <arguments>
+            <argument name="processors" xsi:type="array">
+                <item name="updateLabelStatus" xsi:type="object">Dhl\Paket\Webservice\Processor\DeleteShipments\UpdateLabelStatus</item>
+                <item name="deleteTrack" xsi:type="object">Dhl\Paket\Webservice\Processor\DeleteShipments\DeleteTrack</item>
+                <item name="unsetShippingLabel" xsi:type="object">Dhl\Paket\Webservice\Processor\DeleteShipments\UnsetShippingLabel</item>
+            </argument>
+        </arguments>
+    </virtualType>
 
     <!-- # argument di overrides -->
     <type name="Dhl\Paket\Model\Carrier\Paket">
@@ -46,20 +55,12 @@
     <type name="Dhl\Paket\Model\ShipmentManagement">
         <arguments>
             <argument name="logger" xsi:type="object">Dhl\Paket\Model\Logger\Virtual</argument>
+            <argument name="deletionProcessor" xsi:type="object">Dhl\Paket\Webservice\Processor\TrackResponseProcessor\Virtual</argument>
         </arguments>
     </type>
     <type name="Dhl\Paket\Model\BulkShipmentConfiguration">
         <arguments>
             <argument name="shipmentManagement" xsi:type="object">Dhl\Paket\Model\BulkShipmentManagement\Virtual</argument>
-        </arguments>
-    </type>
-    <type name="Dhl\Paket\Webservice\Processor\DeleteShipmentsProcessor">
-        <arguments>
-            <argument name="processors" xsi:type="array">
-                <item name="updateLabelStatus" xsi:type="object">Dhl\Paket\Webservice\Processor\DeleteShipments\UpdateLabelStatus</item>
-                <item name="deleteTrack" xsi:type="object">Dhl\Paket\Webservice\Processor\DeleteShipments\DeleteTrack</item>
-                <item name="unsetShippingLabel" xsi:type="object">Dhl\Paket\Webservice\Processor\DeleteShipments\UnsetShippingLabel</item>
-            </argument>
         </arguments>
     </type>
     <type name="Dhl\ShippingCore\Model\BulkShipmentManagement">
