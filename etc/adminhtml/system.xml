@@ -11,10 +11,9 @@
                 <label>DHL Paket (Shipping from DE and AT)</label>
 
                 <!-- Custom information section -->
-                <field id="paketInfoBox" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <frontend_model>Netresearch\ConfigFields\Block\InfoBox</frontend_model>
+                <field id="paketInfoBox" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1"
+                       extends="dhlshippingsolutions/dhlglobalwebservices/shippingCoreInfoBox">
                     <attribute type="body_template">Dhl_Paket::system/config/infoBoxBody.phtml</attribute>
-                    <attribute type="header_template">Dhl_ShippingCore::system/config/infoBoxHeader.phtml</attribute>
                     <attribute type="view_model">Dhl\Paket\ViewModel\Adminhtml\System\InfoBox</attribute>
                 </field>
 

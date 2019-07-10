@@ -2,35 +2,44 @@
 /**
  * See LICENSE.md for license details.
  */
+/** @var Magento\Framework\View\Element\Template $block */
 ?>
-<div class="col col-l-7 col-xl-8 content">
+<div class="col content">
     <p>
-        DHL Paket provides parcel shipping across Germany and to more than 220 countries - even on Saturdays.
+        <?php echo $block->escapeHtml(__('DHL Paket provides parcel shipping across Germany and to more than 220 countries - even on Saturdays.')) ?>
     </p>
     <p>
-        Furthermore, the DHL Paket carrier allows to request shipping labels for incoming orders directly within
-        your Magento instance.
+        <?php echo $block->escapeHtml(__('Furthermore, the DHL Paket carrier allows to request shipping labels for incoming orders directly within your Magento instance.')) ?>
     </p>
-    <p>To get started:</p>
+    <p><?php echo $block->escapeHtml(__('To get started:')) ?></p>
     <ol>
         <li>
-            You must have a valid DHL Paket business account<br/>
-            <small>If you don’t have an account or your account is with another DHL division,
-                <a href="https://www.dhl.de/en/geschaeftskunden/paket/kunde-werden/angebot-dhl-geschaeftskunden-online.html" target="_blank">please contact DHL Paket</a> to establish or expand your
-                relationship
-            </small>
+            <?php echo $block->escapeHtml(__('You must have a valid DHL Paket business account')) ?>
+            <br/>
+            <em>
+                <small>
+                    <?php echo /* @noEscape */ __('If you don’t have an account or your account is with another DHL division, <a href="https://www.dhl.de/en/geschaeftskunden/paket/kunde-werden/angebot-dhl-geschaeftskunden-online.html" target="_blank">please contact DHL Paket</a> to establish or expand your relationship') ?>
+                </small>
+            </em>
         </li>
         <li>
-            Your DHL Paket business account must be configured for API access<br/>
-            <small>If you didn’t discuss this with your account representative when you set up your account, please
-                consult them to enable your API access</small>
+            <?php echo $block->escapeHtml(__('Your DHL Paket business account must be configured for API access')) ?>
+            <br/>
+            <em>
+                <small>
+                    <?php echo $block->escapeHtml(__('If you didn’t discuss this with your account representative when you set up your account, please consult them to enable your API access')) ?>
+                </small>
+            </em>
         </li>
     </ol>
 </div>
-<div class="col col-l-5 col-xl-4">
-    <aside style="padding: 1em; background: white; border: 1px solid #e3e3e3">
-        <h3>DHL & Magento</h3>
-        <p>Having issues configuring the extension? Contact your DHL Paket account
-            representative who will facilitate technical assistance.</p>
+<div class="col side">
+    <aside>
+        <div class="section">
+            <h3><?php echo $block->escapeHtml(__('DHL & Magento')) ?></h3>
+            <p>
+                <?php echo $block->escapeHtml(__('Having issues configuring the extension? Contact your DHL Paket account representative who will facilitate technical assistance.')) ?>
+            </p>
+        </div>
     </aside>
 </div>

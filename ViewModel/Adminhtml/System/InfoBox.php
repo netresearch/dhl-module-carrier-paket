@@ -41,12 +41,4 @@ class InfoBox implements ArgumentInterface
     {
         return $this->config->getModuleVersion();
     }
-
-    /**
-     * @return string
-     */
-    public function getModuleTitle(): string
-    {
-        return 'DHL Paket Business Customer Shipping';
-    }
 }
