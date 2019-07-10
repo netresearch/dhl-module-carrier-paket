@@ -2,9 +2,23 @@
 <carriers xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Dhl_ShippingCore/etc/shipping_options.xsd">
     <carrier code="dhlpaket">
         <serviceOptions>
+            <shippingOption code="parcelAnnouncement" available="dhlshippingsolutions/dhlpaket/additional_services/parcelannouncement">
+                <label>Parcel Announcement</label>
+                <sortOrder>10</sortOrder>
+                <inputs>
+                    <input code="enabled">
+                        <inputType>checkbox</inputType>
+                        <label>Enable DHL Parcel Notification</label>
+                        <tooltip>Your e-mail address will be sent to DHL upon enabling, after which DHL will trigger a package announcement for your shipment. The e-mail address will exclusively be used for the announcement of this shipment.</tooltip>
+                        <comment>
+                            <content>Allow customers to request parcel notification updates via e-mail by DHL during checkout.</content>
+                        </comment>
+                    </input>
+                </inputs>
+            </shippingOption>
             <shippingOption code="parcelstation" available="dhlshippingsolutions/dhlpaket/additional_services/parcelstation">
                 <label>Parcel station delivery: Delivery to a parcel station of your choice</label>
-                <sortOrder>10</sortOrder>
+                <sortOrder>20</sortOrder>
                 <routes>
                     <route>
                         <origin>de</origin>
@@ -50,7 +64,7 @@
             </shippingOption>
             <shippingOption code="preferredDay" available="dhlshippingsolutions/dhlpaket/additional_services/preferredday">
                 <label>Preferred Day: Delivery on your preferred day</label>
-                <sortOrder>20</sortOrder>
+                <sortOrder>30</sortOrder>
                 <routes>
                     <route>
                         <origin>de</origin>
@@ -75,7 +89,7 @@
             </shippingOption>
             <shippingOption code="preferredTime" available="dhlshippingsolutions/dhlpaket/additional_services/preferredtime">
                 <label>Preferred Time: Delivery at your preferred time</label>
-                <sortOrder>30</sortOrder>
+                <sortOrder>40</sortOrder>
                 <inputs>
                     <input code="time">
                         <inputType>time</inputType>
@@ -86,20 +100,6 @@
                             <footnoteId>footnote-combined-cost</footnoteId>
                         </comment>
                         <tooltip>Indicate a preferred time, which suits you best for your parcel delivery by choosing one of the displayed time windows.</tooltip>
-                    </input>
-                </inputs>
-            </shippingOption>
-            <shippingOption code="parcelAnnouncement" available="dhlshippingsolutions/dhlpaket/additional_services/parcelannouncement">
-                <label>Parcel Announcement</label>
-                <sortOrder>40</sortOrder>
-                <inputs>
-                    <input code="enabled">
-                        <inputType>checkbox</inputType>
-                        <label>Enable DHL Parcel Notification</label>
-                        <tooltip>Your e-mail address will be sent to DHL upon enabling, after which DHL will trigger a package announcement for your shipment. The e-mail address will exclusively be used for the announcement of this shipment.</tooltip>
-                        <comment>
-                            <content>Allow customers to request parcel notification updates via e-mail by DHL during checkout.</content>
-                        </comment>
                     </input>
                 </inputs>
             </shippingOption>
