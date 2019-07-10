@@ -114,7 +114,7 @@
                 <inputs>
                     <input code="additionalFee" defaultConfigValue="dhlshippingsolutions/dhlpaket/shipment_defaults/additional_fee">
                         <label>Additional Fee</label>
-                        <inputType>price</inputType>
+                        <inputType>prefixed</inputType>
                     </input>
                     <input code="placeOfCommittal" defaultConfigValue="dhlshippingsolutions/dhlpaket/shipment_defaults/place_of_committal">
                         <label>Place of Committal</label>
