@@ -41,8 +41,8 @@
                             <rule name="maxLength">
                                 <param>10</param>
                             </rule>
-<!--                            <rule name="validate-no-html-tags"/>-->
-<!--                            <rule name="dhl_filter_special_chars"/>-->
+                            <rule name="validate-no-html-tags"/>
+                            <rule name="dhl_filter_special_chars"/>
                         </validationRules>
                         <tooltip>Lorem ipsum dolor sit amet, consetetur sadipscing elitr.</tooltip>
                     </input>
@@ -183,6 +183,7 @@
         <compatibilityData>
             <rule id="preferredLocationTimeExclusion">
                 <incompatibilityRule>true</incompatibilityRule>
+                <hideSubjects>true</hideSubjects>
                 <subjects>
                     <subject>preferredLocation</subject>
                     <subject>preferredNeighbour</subject>
@@ -219,12 +220,55 @@
             </rule>
             <rule id="parcelstationExcludeAllOthers">
                 <incompatibilityRule>true</incompatibilityRule>
+                <hideSubjects>true</hideSubjects>
+                <masters>
+                    <master>parcelstation.enabled</master>
+                </masters>
                 <subjects>
-                    <subject>parcelstation.enabled</subject>
                     <subject>preferredDay</subject>
                     <subject>preferredTime</subject>
                     <subject>preferredLocation</subject>
                     <subject>preferredNeighbour</subject>
+                </subjects>
+            </rule>
+            <rule id="disableParcelStation_1">
+                <incompatibilityRule>true</incompatibilityRule>
+                <hideSubjects>true</hideSubjects>
+                <masters>
+                    <master>preferredLocation</master>
+                </masters>
+                <subjects>
+                    <subject>parcelstation.enabled</subject>
+                </subjects>
+            </rule>
+            <rule id="disableParcelStation_2">
+                <incompatibilityRule>true</incompatibilityRule>
+                <hideSubjects>true</hideSubjects>
+                <masters>
+                    <master>preferredNeighbour</master>
+                </masters>
+                <subjects>
+                    <subject>parcelstation.enabled</subject>
+                </subjects>
+            </rule>
+            <rule id="disableParcelStation_3">
+                <incompatibilityRule>true</incompatibilityRule>
+                <hideSubjects>true</hideSubjects>
+                <masters>
+                    <master>preferredTime</master>
+                </masters>
+                <subjects>
+                    <subject>parcelstation.enabled</subject>
+                </subjects>
+            </rule>
+            <rule id="disableParcelStation_4">
+                <incompatibilityRule>true</incompatibilityRule>
+                <hideSubjects>true</hideSubjects>
+                <masters>
+                    <master>preferredDay</master>
+                </masters>
+                <subjects>
+                    <subject>parcelstation.enabled</subject>
                 </subjects>
             </rule>
         </compatibilityData>
