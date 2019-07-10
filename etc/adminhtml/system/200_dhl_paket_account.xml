@@ -5,59 +5,55 @@
  */
 -->
 <include xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_include.xsd">
-    <group id="account_settings" translate="label comment" sortOrder="200" showInDefault="1" showInWebsite="1" showInStore="1">
-        <label><![CDATA[Account Settings]]></label>
+    <group id="account_settings" translate="label comment" sortOrder="200" showInDefault="1" showInWebsite="1" showInStore="0">
+        <label>Account Settings</label>
         <comment>DHL contract customers receive the access data to the DHL Business Customer Portal via DHL Paket sales.</comment>
         <attribute type="expanded">1</attribute>
 
         <field id="sandboxmode" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="30"
-               translate="label comment button_label" type="Netresearch\ConfigFields\Model\Type\Checkbox">
-            <label><![CDATA[Sandbox Mode]]></label>
+               translate="label comment" type="Netresearch\ConfigFields\Model\Type\Checkbox">
+            <label>Enable Sandbox Mode</label>
             <comment>The customer integration gateway of DHL provides generic test endpoints for the calling APIs. Select this option to use the test environment.</comment>
-            <button_label>Use sandbox mode</button_label>
         </field>
+        <group id="sandboxmode_group" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="50"
+               translate="label">
+            <fieldset_css>simple</fieldset_css>
+            <attribute type="expanded">1</attribute>
+            <depends>
+                <field id="sandboxmode">0</field>
+            </depends>
+            <label>Account Settings</label>
 
-        <field id="api_username" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="40"
-               translate="label comment" type="text">
-            <label><![CDATA[User]]></label>
-            <comment>Please talk to your account representative to add API access to your business account. Pass the user name only lowercase.</comment>
-            <depends>
-                <field id="sandboxmode">0</field>
-            </depends>
-        </field>
-        <field id="api_password" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="50"
-               translate="label" type="obscure">
-            <label><![CDATA[Password (Signature)]]></label>
-            <comment>Observe upper and lower case when handing over the password.</comment>
-            <backend_model>Magento\Config\Model\Config\Backend\Encrypted</backend_model>
-            <depends>
-                <field id="sandboxmode">0</field>
-            </depends>
-        </field>
+            <field id="api_username" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="40"
+                   translate="label comment" type="text">
+                <label>User</label>
+                <comment>Please talk to your account representative to add API access to your business account. Pass the user name only lowercase.</comment>
+            </field>
+            <field id="api_password" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="50"
+                   translate="label" type="obscure">
+                <label>Password (Signature)</label>
+                <comment>Observe upper and lower case when handing over the password.</comment>
+                <backend_model>Magento\Config\Model\Config\Backend\Encrypted</backend_model>
+            </field>
 
-        <!-- EKP -->
-        <field id="account_number" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="60"
-               translate="label comment" type="text">
-            <label><![CDATA[DHL Customer Number (EKP)]]></label>
-            <comment>The EKP number (standardised customer and product number) is the key to using the products of Deutsche Post DHL. It is 10 digits and is allocated by DHL Sales.</comment>
-            <validate>validate-length maximum-length-10 minimum-length-10 validate-digits</validate>
-            <depends>
-                <field id="sandboxmode">0</field>
-            </depends>
-        </field>
+            <!-- EKP -->
+            <field id="account_number" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="60"
+                   translate="label comment" type="text">
+                <label>DHL Customer Number (EKP)</label>
+                <comment>The EKP number (standardised customer and product number) is the key to using the products of Deutsche Post DHL. It is 10 digits and is allocated by DHL Sales.</comment>
+                <validate>validate-length maximum-length-10 minimum-length-10 validate-digits</validate>
+            </field>
 
-        <!-- Participation numbers -->
-        <field id="account_participations" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="70"
-               translate="label comment tooltip" type="select">
-            <label>Participation Numbers</label>
-            <comment>The participation number enables invoices to be subdivided according to location, seasonal business or different conditions. The participation is 2 numerical digits from 00 to 99 or alphanumerical digits from AA to ZZ. It is allocated by DHL Sales.</comment>
-            <tooltip>A dealer can use one or more participation for each DHL product (procedure). It is therefore recommended that the number of participations is kept variable during interface configuration.</tooltip>
-            <frontend_model>Dhl\Paket\Block\Adminhtml\System\Config\Form\Field\Participation</frontend_model>
-            <backend_model>Dhl\Paket\Model\Adminhtml\System\Config\Backend\ArraySerialized</backend_model>
-            <frontend_class>test</frontend_class>
-            <depends>
-                <field id="sandboxmode">0</field>
-            </depends>
-        </field>
+            <!-- Participation numbers -->
+            <field id="account_participations" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="70"
+                   translate="label comment tooltip" type="select">
+                <label>Participation Numbers</label>
+                <comment>The participation number enables invoices to be subdivided according to location, seasonal business or different conditions. The participation is 2 numerical digits from 00 to 99 or alphanumerical digits from AA to ZZ. It is allocated by DHL Sales.</comment>
+                <tooltip>A dealer can use one or more participation for each DHL product (procedure). It is therefore recommended that the number of participations is kept variable during interface configuration.</tooltip>
+                <frontend_model>Dhl\Paket\Block\Adminhtml\System\Config\Form\Field\Participation</frontend_model>
+                <backend_model>Dhl\Paket\Model\Adminhtml\System\Config\Backend\ArraySerialized</backend_model>
+                <frontend_class>test</frontend_class>
+            </field>
+        </group>
     </group>
 </include>

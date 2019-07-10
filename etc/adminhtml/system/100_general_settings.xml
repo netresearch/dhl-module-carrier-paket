@@ -5,28 +5,28 @@
  */
 -->
 <include xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_include.xsd">
-    <group id="general_shipping_settings" translate="label" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="1">
-        <label><![CDATA[Technical Settings]]></label>
+    <group id="general_shipping_settings" translate="label" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="0">
+        <label>General Settings</label>
         <attribute type="expanded">1</attribute>
 
         <field id="active" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="10"
                translate="label button_label" type="Netresearch\ConfigFields\Model\Type\Checkbox">
-            <label><![CDATA[Enabled]]></label>
-            <button_label><![CDATA[Allow customers to check out with DHL Paket shipping methods.]]></button_label>
+            <label>Enabled</label>
+            <button_label>Allow customers to check out with DHL Paket shipping methods.</button_label>
             <config_path>carriers/dhlpaket/active</config_path>
         </field>
 
         <!-- Applicable Countries -->
         <field id="sallowspecific" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="20"
                translate="label" type="Netresearch\ConfigFields\Model\Type\Radioset">
-            <label><![CDATA[Applicable Countries]]></label>
+            <label>Applicable Countries</label>
             <source_model>Dhl\ShippingCore\Model\Config\Source\CustomizeApplicableCountries</source_model>
             <config_path>carriers/dhlpaket/sallowspecific</config_path>
             <!-- frontend_class "shipping-applicable-country" intentionally omitted. -->
         </field>
         <field id="specificcountry" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="30"
                translate="label" type="multiselect">
-            <label><![CDATA[Allow for Specific Countries]]></label>
+            <label>Allow for Specific Countries</label>
             <can_be_empty>1</can_be_empty>
             <depends>
                 <field id="sallowspecific">1</field>
@@ -38,23 +38,25 @@
         <!-- Logging -->
         <field id="logging" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="40"
                translate="label comment button_label" type="Netresearch\ConfigFields\Model\Type\Checkbox">
-            <label><![CDATA[Logging]]></label>
+            <label>Logging</label>
             <button_label>Record communication with the DHL web services.</button_label>
-            <comment><![CDATA[You must also have Magento general logging enabled.]]></comment>
+            <comment>You must also have Magento general logging enabled.</comment>
         </field>
-        <field id="loglevel" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="50"
-               translate="label comment" type="Netresearch\ConfigFields\Model\Type\Radioset">
-            <label><![CDATA[Log Level]]></label>
+        <group id="logging_group" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="50"
+               translate="label">
+            <fieldset_css>simple</fieldset_css>
+            <attribute type="expanded">1</attribute>
             <depends>
                 <field id="logging">1</field>
             </depends>
-            <source_model>Dhl\Paket\Model\Config\Source\LogLevel</source_model>
-            <comment><![CDATA[The log level <em>Info</em> should only be set while resolving problems. It may result in very large log files.]]></comment>
-        </field>
-        <field id="print_only_if_codeable" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="60"
-               translate="label comment" type="Netresearch\ConfigFields\Model\Type\Checkbox">
-            <label><![CDATA[Use Print Only If Codeable Service]]></label>
-            <comment><![CDATA[If set to <em>Yes</em>, shipment orders will only return a label if the DHL delivery address verification succeeds.]]></comment>
-        </field>
+            <label>Error logging level</label>
+
+            <field id="loglevel" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="10"
+                   translate="label comment" type="Netresearch\ConfigFields\Model\Type\Radioset">
+                <label>Log Level</label>
+                <source_model>Dhl\Paket\Model\Config\Source\LogLevel</source_model>
+                <comment><![CDATA[The log level <em>Info</em> should only be set while resolving problems. It may result in very large log files.]]></comment>
+            </field>
+        </group>
     </group>
 </include>

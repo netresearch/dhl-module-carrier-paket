@@ -5,42 +5,42 @@
  */
 -->
 <include xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_include.xsd">
-    <group id="checkout_settings" translate="label" sortOrder="400" showInDefault="1" showInWebsite="1" showInStore="1">
-        <label><![CDATA[Checkout Presentation]]></label>
+    <group id="checkout_settings" translate="label" sortOrder="400" showInDefault="1" showInWebsite="1" showInStore="0">
+        <label>Checkout Presentation</label>
         <attribute type="expanded">1</attribute>
 
-        <field id="title" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="10"
+        <field id="title" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="10"
                translate="label" type="text" canRestore="1">
-            <label><![CDATA[Display Title]]></label>
+            <label>Displayed Text</label>
             <config_path>carriers/dhlpaket/title</config_path>
         </field>
         <field id="sort_order" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="20"
                translate="label comment" type="text">
-            <label><![CDATA[Sort Order]]></label>
+            <label>Sort Order</label>
             <frontend_class>validate-number</frontend_class>
-            <comment><![CDATA[This field determines where DHL Paket will be displayed on the Checkout page. To display after Flat Rate or Free Shipping, enter a number just higher than the sort order value configured for those Shipping Methods.]]></comment>
+            <comment>This field determines where DHL Paket will be displayed on the Checkout page. To display after Flat Rate or Free Shipping, enter a number just higher than the sort order value configured for those Shipping Methods.</comment>
             <config_path>carriers/dhlpaket/sort_order</config_path>
         </field>
 
         <field id="emulated_carrier" showInDefault="1" showInStore="0" showInWebsite="1" sortOrder="30"
                translate="label comment tooltip" type="select">
-            <label><![CDATA[Use rates from]]></label>
+            <label>Use rates from</label>
             <source_model>Dhl\ShippingCore\Model\Config\Source\OfflineCarriers</source_model>
             <can_be_empty>0</can_be_empty>
-            <comment><![CDATA[Select the offline shipping method that gets used to provide rates in checkout.]]></comment>
-            <tooltip><![CDATA[The rates will get used even if the selected shipping method is disabled. The available method names will also be those of the selected shipping method.]]></tooltip>
+            <comment>Select the offline shipping method that gets used to provide rates in checkout.</comment>
+            <tooltip>The rates will get used even if the selected shipping method is disabled. The available method names will also be those of the selected shipping method.</tooltip>
         </field>
 
         <!-- Not available message -->
         <field id="showmethod" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="40"
                translate="label" type="Netresearch\ConfigFields\Model\Type\Radioset">
-            <label><![CDATA[If No DHL Shipping Option Available]]></label>
+            <label>Behavior in Cases of Unavailability</label>
             <source_model>Dhl\ShippingCore\Model\Config\Source\ShowIfNotApplicable</source_model>
             <config_path>carriers/dhlpaket/showmethod</config_path>
         </field>
-        <field id="specificerrmsg" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="50"
+        <field id="specificerrmsg" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="50"
                translate="label" type="textarea" canRestore="1">
-            <label><![CDATA[Custom Message]]></label>
+            <label>Custom Message</label>
             <depends>
                 <field id="showmethod">1</field>
             </depends>

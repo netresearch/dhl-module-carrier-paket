@@ -5,83 +5,46 @@
  */
 -->
 <include xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_include.xsd">
-    <group id="additional_services" translate="label" sortOrder="600" showInDefault="1" showInWebsite="1" showInStore="1">
-        <label><![CDATA[Additional Shipping Services]]></label>
+    <group id="additional_services" translate="label" sortOrder="600" showInDefault="1" showInWebsite="1" showInStore="0">
+        <label>Shipping Services in Checkout</label>
         <attribute type="expanded">1</attribute>
 
-        <!-- Frontend dependent -->
         <group id="checkout_services" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="10"
                translate="label comment">
-            <label>Checkout services</label>
-            <comment>Configure checkout services</comment>
+            <label>Checkout Services</label>
+            <comment>Configure Checkout Services</comment>
             <frontend_model>Netresearch\ConfigFields\Block\ModalGroup</frontend_model>
             <attribute type="expanded">1</attribute>
 
-            <field id="parcelstation" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="10"
+            <field id="parcelannouncement" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="10"
+                   translate="label comment" type="Netresearch\ConfigFields\Model\Type\Checkbox">
+                <label>Offer DHL Parcel Announcement</label>
+                <comment>Allow customers to request parcel notification updates via e-mail by DHL during checkout.</comment>
+            </field>
+            <field id="parcelstation" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="20"
                 translate="label comment" type="Netresearch\ConfigFields\Model\Type\Checkbox">
-                <label><![CDATA[Use Parcel Station Delivery Service]]></label>
-                <comment><![CDATA[Allow customers to get shipments delivered to a parcel station.]]></comment>
+                <label>Offer Parcel Station Delivery</label>
+                <comment>Allow customers to get shipments delivered to a parcel station.</comment>
             </field>
-            <field id="preferredlocation" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="10"
+            <field id="preferredlocation" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="30"
                    translate="label comment" type="Netresearch\ConfigFields\Model\Type\Checkbox">
-                <label><![CDATA[Enable Preferred Location]]></label>
-                <comment><![CDATA[Allow customers to declare a preferred parcel location during checkout.]]></comment>
+                <label>Offer Preferred Location Service</label>
+                <comment>Allow customers to declare a preferred parcel location during checkout.</comment>
             </field>
-            <field id="preferredneighbour" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="30"
+            <field id="preferredneighbour" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="40"
                    translate="label comment" type="Netresearch\ConfigFields\Model\Type\Checkbox">
-                <label><![CDATA[Enable Preferred Neighbour]]></label>
-                <comment><![CDATA[Allow customers to declare a preferred neighbour during checkout.]]></comment>
+                <label>Offer Preferred Neighbour Service</label>
+                <comment>Allow customers to declare a preferred neighbour during checkout.</comment>
             </field>
-            <field id="preferredday" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="40"
+            <field id="preferredday" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="50"
                    translate="label comment" type="Netresearch\ConfigFields\Model\Type\Checkbox">
-                <label><![CDATA[Enable Preferred Day]]></label>
-                <comment><![CDATA[Allow customers to select a preferred day of delivery.]]></comment>
+                <label>Offer Preferred Day Service</label>
+                <comment>Allow customers to select a preferred day of delivery.</comment>
             </field>
-            <field id="preferredtime" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="50"
+            <field id="preferredtime" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="60"
                    translate="label comment" type="Netresearch\ConfigFields\Model\Type\Checkbox">
-                <label><![CDATA[Enable Preferred Time]]></label>
-                <comment><![CDATA[Allow customers to select a preferred time of delivery.]]></comment>
-            </field>
-            <field id="parcelannouncement" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="60"
-                   translate="label comment" type="Netresearch\ConfigFields\Model\Type\Checkbox">
-                <label><![CDATA[Enable DHL Parcel Notification]]></label>
-                <comment><![CDATA[Allow customers to request parcel notification updates via e-mail by DHL during checkout.]]></comment>
-            </field>
-        </group>
-
-        <!-- Backend dependent -->
-        <group id="packaging_services" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="20"
-               translate="label comment">
-            <label>Packaging services</label>
-            <comment>Configure packaging services</comment>
-            <frontend_model>Netresearch\ConfigFields\Block\ModalGroup</frontend_model>
-            <attribute type="expanded">1</attribute>
-
-            <!-- Visual Check of Age -->
-            <field id="visual_check_of_age" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="70"
-                   translate="label comment" type="Netresearch\ConfigFields\Model\Type\Radioset">
-                <label>Use Visual Check of Age Service</label>
-                <comment>If enabled, the visual age check service will be booked during shipment orders.</comment>
-                <source_model>Dhl\Paket\Model\Adminhtml\System\Config\Source\VisualCheckOfAge</source_model>
-            </field>
-
-            <!-- Return Shipment -->
-            <field id="return_shipment" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="80"
-                   translate="label comment" type="Netresearch\ConfigFields\Model\Type\Checkbox">
-                <label>Use Return Shipment Service</label>
-                <comment><![CDATA[If set to <em>Yes</em>, a return shipment label will be requested from the webservice.]]></comment>
-            </field>
-            <!-- Additional Insurance -->
-            <field id="additional_insurance" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="90"
-                   translate="label comment" type="Netresearch\ConfigFields\Model\Type\Checkbox">
-                <label>Use Additional Insurance Service</label>
-                <comment><![CDATA[If set to <em>Yes</em>, shipments will be insured with higher than standard amount.]]></comment>
-            </field>
-            <!-- Bulky Goods -->
-            <field id="bulky_goods" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="100"
-                   translate="label comment" type="Netresearch\ConfigFields\Model\Type\Checkbox">
-                <label>Use Bulky Goods Service</label>
-                <comment><![CDATA[If set to <em>Yes</em>, shipments will be marked as bulk freight.]]></comment>
+                <label>Offer Preferred Time Service</label>
+                <comment>Allow customers to select a preferred time of delivery.</comment>
             </field>
         </group>
     </group>

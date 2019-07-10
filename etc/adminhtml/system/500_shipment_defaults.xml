@@ -6,19 +6,26 @@
 -->
 <include xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_include.xsd">
     <group id="shipment_defaults" translate="label" sortOrder="500" showInDefault="1" showInWebsite="1" showInStore="0">
-        <label><![CDATA[Shipment Defaults]]></label>
+        <label>Shipment Defaults</label>
         <attribute type="expanded">0</attribute>
 
-        <field id="additional_fee" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="10"
-               translate="label" type="text">
-            <label><![CDATA[Additional Fee]]></label>
+        <field id="print_only_if_codeable" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="10"
+               translate="label comment" type="Netresearch\ConfigFields\Model\Type\Checkbox">
+            <label>Print Only If Codeable</label>
+            <comment>If enabled, shipment orders will only return a label if the DHL delivery address verification succeeds.</comment>
+        </field>
+        <field id="additional_fee" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="20"
+               translate="label comment" type="text">
+            <label>Additional Fee</label>
             <validate>validate-greater-than-zero validate-number</validate>
+            <comment>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam</comment>
         </field>
-        <field id="place_of_committal" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="20"
-               translate="label" type="text">
-            <label><![CDATA[Place of Committal]]></label>
+        <field id="place_of_committal" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="30"
+               translate="label comment" type="text">
+            <label>Place of Committal</label>
+            <comment>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam</comment>
         </field>
-        <field id="shipping_products" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="10"
+        <field id="shipping_products" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="40"
                translate="label comment">
             <label>Default Products</label>
             <source_model>Dhl\Paket\Model\Adminhtml\System\Config\Source\ShippingProduct</source_model>
@@ -26,5 +33,40 @@
             <backend_model>Dhl\Paket\Model\Adminhtml\System\Config\Backend\ArraySerialized</backend_model>
             <comment>Selected products will be pre-selected for automatic shipping label creation. You can still select another product when creating shipping labels manually.</comment>
         </field>
+
+        <group id="merchant_services" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="50"
+               translate="label comment">
+            <label>Merchant Services</label>
+            <comment>Configure Merchant Services</comment>
+            <frontend_model>Netresearch\ConfigFields\Block\ModalGroup</frontend_model>
+            <attribute type="expanded">1</attribute>
+
+            <!-- Visual Check of Age -->
+            <field id="visual_check_of_age" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="10"
+                   translate="label comment" type="Netresearch\ConfigFields\Model\Type\Radioset">
+                <label>Use Visual Check of Age Service</label>
+                <comment>If enabled, the visual age check service will be booked during shipment orders.</comment>
+                <source_model>Dhl\Paket\Model\Adminhtml\System\Config\Source\VisualCheckOfAge</source_model>
+            </field>
+
+            <!-- Return Shipment -->
+            <field id="return_shipment" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="20"
+                   translate="label comment" type="Netresearch\ConfigFields\Model\Type\Checkbox">
+                <label>Use Return Shipment Service</label>
+                <comment>If enabled, a return shipment label will be requested from the webservice.</comment>
+            </field>
+            <!-- Additional Insurance -->
+            <field id="additional_insurance" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="30"
+                   translate="label comment" type="Netresearch\ConfigFields\Model\Type\Checkbox">
+                <label>Use Additional Insurance Service</label>
+                <comment>If enabled, shipments will be insured with higher than standard amount.</comment>
+            </field>
+            <!-- Bulky Goods -->
+            <field id="bulky_goods" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="40"
+                   translate="label comment" type="Netresearch\ConfigFields\Model\Type\Checkbox">
+                <label>Use Bulky Goods Service</label>
+                <comment>If enabled, shipments will be marked as bulk freight.</comment>
+            </field>
+        </group>
     </group>
 </include>
