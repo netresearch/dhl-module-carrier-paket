@@ -19,6 +19,9 @@
             </shippingOption>
             <shippingOption code="preferredTime">
                 <inputs>
+                    <input code="enabled">
+                        <inputType>checkbox</inputType>
+                    </input>
                     <input code="time">
                         <inputType>static</inputType>
                         <disabled>true</disabled>
@@ -47,10 +50,10 @@
             </shippingOption>
             <shippingOption code="visualCheckOfAge">
                 <label>Use Visual Check of Age Service</label>
-                <sortOrder>20</sortOrder>
+                <sortOrder>1000</sortOrder>
                 <inputs>
                     <input code="enabled" defaultConfigValue="dhlshippingsolutions/dhlpaket/additional_services/visual_check_of_age">
-                        <inputType>select</inputType>
+                        <inputType>radioset</inputType>
                         <options>
                             <option id="no">
                                 <label>No</label>
