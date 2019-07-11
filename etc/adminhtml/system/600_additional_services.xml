@@ -7,13 +7,11 @@
 <include xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_include.xsd">
     <group id="additional_services" translate="label" sortOrder="600" showInDefault="1" showInWebsite="1" showInStore="0">
         <label>Shipping Services in Checkout</label>
-        <attribute type="expanded">1</attribute>
 
         <group id="checkout_services" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="10"
-               translate="label comment">
+               translate="label">
             <label>Additional Services</label>
             <frontend_model>Netresearch\ConfigFields\Block\ModalGroup</frontend_model>
-            <attribute type="expanded">1</attribute>
 
             <field id="parcelannouncement" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="10"
                    translate="label comment" type="Netresearch\ConfigFields\Model\Type\Checkbox">

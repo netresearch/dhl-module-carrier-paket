@@ -7,7 +7,6 @@
 <include xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_include.xsd">
     <group id="shipment_defaults" translate="label" sortOrder="500" showInDefault="1" showInWebsite="1" showInStore="0">
         <label>Shipment Defaults</label>
-        <attribute type="expanded">0</attribute>
 
         <field id="print_only_if_codeable" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="10"
                translate="label comment" type="Netresearch\ConfigFields\Model\Type\Checkbox">
@@ -35,10 +34,9 @@
         </field>
 
         <group id="merchant_services" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="50"
-               translate="label comment">
+               translate="label">
             <label>Additional Services</label>
             <frontend_model>Netresearch\ConfigFields\Block\ModalGroup</frontend_model>
-            <attribute type="expanded">1</attribute>
 
             <!-- Visual Check of Age -->
             <field id="visual_check_of_age" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="10"

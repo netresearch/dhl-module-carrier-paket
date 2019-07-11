@@ -8,7 +8,6 @@
     <group id="account_settings" translate="label comment" sortOrder="200" showInDefault="1" showInWebsite="1" showInStore="0">
         <label>Account Settings</label>
         <comment>DHL contract customers receive the access data to the DHL Business Customer Portal via DHL Paket sales.</comment>
-        <attribute type="expanded">1</attribute>
 
         <field id="sandboxmode" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="30"
                translate="label comment" type="Netresearch\ConfigFields\Model\Type\Checkbox">
