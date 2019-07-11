@@ -21,10 +21,10 @@
                 <sortOrder>20</sortOrder>
                 <routes>
                     <route>
-                        <origin>de</origin>
+                        <origin>DE</origin>
                         <includeDestinations>
-                            <destination>de</destination>
-                            <destination>at</destination>
+                            <destination>DE</destination>
+                            <destination>AT</destination>
                         </includeDestinations>
                     </route>
                 </routes>
@@ -67,10 +67,10 @@
                 <sortOrder>30</sortOrder>
                 <routes>
                     <route>
-                        <origin>de</origin>
+                        <origin>DE</origin>
                         <includeDestinations>
-                            <destination>de</destination>
-                            <destination>at</destination>
+                            <destination>DE</destination>
+                            <destination>AT</destination>
                         </includeDestinations>
                     </route>
                 </routes>

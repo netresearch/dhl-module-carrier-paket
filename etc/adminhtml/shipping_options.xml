@@ -4,6 +4,13 @@
         <packageOptions>
             <shippingOption code="packageCustoms">
                 <label>Customs Data</label>
+                <routes>
+                    <route>
+                        <excludeDestinations>
+                            <destination>eu</destination>
+                        </excludeDestinations>
+                    </route>
+                </routes>
                 <inputs>
                     <input code="additionalFee" defaultConfigValue="dhlshippingsolutions/dhlpaket/shipment_defaults/additional_fee">
                         <label>Additional Fee</label>
