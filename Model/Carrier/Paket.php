@@ -77,7 +77,11 @@ class Paket extends AbstractCarrierOnline implements CarrierInterface
     private $dhlConfig;
 
     /**
+<<<<<<< HEAD
      * @var ShippingProductsInterface
+=======
+     * @var \Dhl\Paket\Util\ShippingProducts
+>>>>>>> DHLGW-411: Select Shipping Product
      */
     private $shippingProducts;
 
@@ -186,9 +190,9 @@ class Paket extends AbstractCarrierOnline implements CarrierInterface
      */
     public function processAdditionalValidation(DataObject $request)
     {
-        $originCountry = $this->dhlConfig->getOriginCountry();
-        $destCodes = ShippingProductsInterface::ORIGIN_DEST_CODES;
-        if (!\array_key_exists($originCountry, $destCodes)) {
+        $shippingOrigin = $request->getData('country_id');
+        $applicableProducts = $this->shippingProducts->getApplicableProducts($shippingOrigin);
+        if (empty($applicableProducts)) {
             return false;
         }
 
@@ -241,65 +245,6 @@ class Paket extends AbstractCarrierOnline implements CarrierInterface
         }
 
         return $carrier->getAllowedMethods();
-    }
-
-    /**
-     * Returns container types of carrier.
-     *
-     * @fixme(nr): DHL Paket carrier has no pre-defined containers. Package dimensions are optional. Support DHLGW-86?
-     *
-     * @param DataObject|null $params
-     * @return string[]
-     */
-    public function getContainerTypes(DataObject $params = null): array
-    {
-        $containerTypes = parent::getContainerTypes($params);
-        $countryShipper = null;
-        $countryRecipient = null;
-
-        if ($params !== null) {
-            $countryShipper = $params->getData('country_shipper');
-            $countryRecipient = $params->getData('country_recipient');
-        }
-
-        return array_merge(
-            $containerTypes,
-            $this->getShippingProducts($countryShipper, $countryRecipient)
-        );
-    }
-
-    /**
-     * Obtain the shipping products that match the given route.
-     *
-     * List might get lengthy, so we move the product that was configured as default to the top.
-     *
-     * @fixme(nr): Move somewhere else, only needed for product selection in packaging popup.
-     * @param string $countryShipper The shipper country code
-     * @param string $countryRecipient The recipient country code
-     *
-     * @return string[]
-     */
-    private function getShippingProducts(
-        string $countryShipper = null,
-        string $countryRecipient = null
-    ): array {
-        // Read available codes
-        if (!$countryShipper || !$countryRecipient) {
-            $codes = $this->shippingProducts->getAllCodes();
-        } else {
-            $euCountries = $this->dhlConfig->getEuCountries();
-            $codes = $this->shippingProducts->getApplicableCodes($countryShipper, $countryRecipient, $euCountries);
-        }
-
-        // Obtain human readable names, combine to array
-        $names = array_map(
-            function (string $code) {
-                return $this->shippingProducts->getProductName($code);
-            },
-            $codes
-        );
-
-        return array_combine($codes, $names);
     }
 
     /**

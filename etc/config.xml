@@ -18,19 +18,6 @@
                     <auth_password>ivVTCAke61I6cTTilV1eBltp2rvSQb</auth_password>
                     <api_password backend_model="Magento\Config\Model\Config\Backend\Encrypted"/>
 
-                    <account_participations backend_model="Dhl\Paket\Model\Adminhtml\System\Config\Backend\ArraySerialized">
-                        <![CDATA[
-                            {
-                                "_1485789382230_230":{"procedure":"01","participation":"04"},
-                                "_1508418821593_593":{"procedure":"55","participation":"01"},
-                                "_1485789931170_170":{"procedure":"53","participation":"01"},
-                                "_1485789932261_261":{"procedure":"86","participation":"02"},
-                                "_1485789932731_731":{"procedure":"87","participation":"02"},
-                                "_1485789933215_215":{"procedure":"82","participation":"02"}
-                            }
-                        ]]>
-                    </account_participations>
-
                     <!-- Sandbox -->
                     <sandboxmode>1</sandboxmode>
                     <sandbox_auth_username>magento_1</sandbox_auth_username>
@@ -50,7 +37,11 @@
                             }
                         ]]>
                     </sandbox_account_participations>
+                    <account_participations backend_model="Dhl\Paket\Model\Adminhtml\System\Config\Backend\ArraySerialized"/>
                 </account_settings>
+                <shipment_defaults>
+                    <shipping_products backend_model="Dhl\Paket\Model\Adminhtml\System\Config\Backend\ArraySerialized" />
+                </shipment_defaults>
                 <additional_services>
                     <parcel_station_delivery>1</parcel_station_delivery>
                     <visual_check_of_age>0</visual_check_of_age>

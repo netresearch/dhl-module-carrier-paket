@@ -7,6 +7,8 @@ declare(strict_types=1);
 namespace Dhl\Paket\Model\ShipmentRequest;
 
 use Dhl\Paket\Model\Carrier\PaketFactory;
+use Dhl\Paket\Model\Config\ModuleConfig;
+use Dhl\Paket\Util\ShippingProducts;
 use Dhl\ShippingCore\Api\ConfigInterface;
 use Dhl\ShippingCore\Api\PackagingOptionReaderInterfaceFactory;
 use Dhl\ShippingCore\Api\RequestModifierInterface;
@@ -16,19 +18,30 @@ use Magento\Shipping\Model\Shipment\Request;
 
 /**
  * Class RequestModifier
+ *
  * @package Dhl\Paket\Model\ShipmentRequest
  */
 class RequestModifier implements RequestModifierInterface
 {
+    /**
+     * @var RequestModifierInterface
+     */
+    private $coreModifier;
+
+    /**
+     * @var ModuleConfig
+     */
+    private $config;
+
     /**
      * @var ConfigInterface
      */
     private $dhlConfig;
 
     /**
-     * @var RequestModifierInterface
+     * @var ShippingProducts
      */
-    private $coreModifier;
+    private $shippingProducts;
 
     /**
      * @var PackagingOptionReaderInterfaceFactory
@@ -48,70 +61,77 @@ class RequestModifier implements RequestModifierInterface
     /**
      * RequestModifier constructor.
      *
-     * @param ConfigInterface $dhlConfig
      * @param RequestModifierInterface $coreModifier
+     * @param ModuleConfig $config
+     * @param ConfigInterface $dhlConfig
+     * @param ShippingProducts $shippingProducts
      * @param PackagingOptionReaderInterfaceFactory $packagingOptionReaderFactory
      * @param PaketFactory $carrierFactory
      * @param DataObjectFactory $dataObjectFactory
      */
     public function __construct(
-        ConfigInterface $dhlConfig,
         RequestModifierInterface $coreModifier,
+        ModuleConfig $config,
+        ConfigInterface $dhlConfig,
+        ShippingProducts $shippingProducts,
         PackagingOptionReaderInterfaceFactory $packagingOptionReaderFactory,
         PaketFactory $carrierFactory,
         DataObjectFactory $dataObjectFactory
     ) {
+        $this->config = $config;
         $this->dhlConfig = $dhlConfig;
         $this->coreModifier = $coreModifier;
+        $this->shippingProducts = $shippingProducts;
         $this->packagingOptionReaderFactory = $packagingOptionReaderFactory;
         $this->carrierFactory = $carrierFactory;
         $this->dataObjectFactory = $dataObjectFactory;
     }
 
     /**
-     * Determine product used for the current route.
-     *
-     * @fixme(nr): introduce separate service class, do not instantiate carrier model,
-     *
-     * @param string $origin Shipper country code
-     * @param string $destination Recipient country code
-     * @return string mixed
-     */
-    private function getProductForRoute($origin, $destination)
-    {
-        $params = $this->dataObjectFactory->create(
-            [
-                'data' => [
-                    'country_shipper' => $origin,
-                    'country_recipient' => $destination
-                ]
-            ]
-        );
-
-        $carrier = $this->carrierFactory->create();
-        $productCode = current(array_keys($carrier->getContainerTypes($params)));
-
-        return $productCode;
-    }
-
-    /**
      * Add default shipping product, e.g. V01PAK or V53PAK
      *
      * @param Request $shipmentRequest
+     * @throws LocalizedException
      */
     private function modifyPackage(Request $shipmentRequest)
     {
-        $productCode = $this->getProductForRoute(
-            $shipmentRequest->getShipperAddressCountryCode(),
-            $shipmentRequest->getRecipientAddressCountryCode()
+        $originCountry = $shipmentRequest->getShipperAddressCountryCode();
+        $destinationCountry = $shipmentRequest->getRecipientAddressCountryCode();
+
+        // load applicable products for the current route
+        $euCountries = $this->dhlConfig->getEuCountries($shipmentRequest->getOrderShipment()->getStoreId());
+        $applicableProducts = $this->shippingProducts->getShippingProducts(
+            $originCountry,
+            $destinationCountry,
+            $euCountries
         );
 
-        $packageId = $shipmentRequest->getData('package_id');
-        $package = $shipmentRequest->getData('packages')[$packageId];
-        $package['params']['container'] = $productCode;
+        // check if defaults applicable to the current route are configured
+        $defaults = array_intersect_key(
+            $this->config->getShippingProductDefaults($shipmentRequest->getOrderShipment()->getStoreId()),
+            $applicableProducts
+        );
 
-        $shipmentRequest->setData('packages', [$packageId => $package]);
-        $shipmentRequest->setData('package_params', $package['params']);
+        if (empty($defaults)) {
+            $message = __('Please configure default products for shipping origin %1 in module config.', $originCountry);
+            throw new LocalizedException($message);
+        }
+
+        $defaultProduct = current($defaults);
+        $applicableProductCodes = current($applicableProducts);
+        if (!in_array($defaultProduct, $applicableProductCodes)) {
+            $message = __('The product %1 is not valid for the route %2-%3. Please review default products in module config.', $defaultProduct, $originCountry, $destinationCountry);
+            throw new LocalizedException($message);
+        }
+
+        $paketPackages = [];
+        foreach ($shipmentRequest->getData('packages') as $packageId => $package) {
+            $package['params']['shipping_product'] = $defaultProduct;
+            $paketPackages[$packageId] = $package;
+        }
+
+        $shipmentRequest->setData('packages', $paketPackages);
+        $shipmentRequest->setData('package_params', $paketPackages[$shipmentRequest->getData('package_id')]['params']);
     }
 
     /**

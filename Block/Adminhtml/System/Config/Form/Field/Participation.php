@@ -80,16 +80,43 @@ class Participation extends AbstractFieldArray
     {
         $this->addColumn('procedure', [
             'label'    => __('Procedure'),
-            'renderer' => $this->getTemplateRenderer()
+            'renderer' => $this->getTemplateRenderer(),
         ]);
 
         $this->addColumn('participation', [
             'label' => __('Participation'),
             'style' => 'width: 80px',
-            'class' => 'validate-length maximum-length-2 minimum-length-2 validate-digits'
+            'class' => 'validate-length maximum-length-2 minimum-length-2 validate-digits',
         ]);
 
         // Hide "Add after" button
         $this->_addAfter = false;
+    }
+
+    /**
+     * Append invisible inherit elements.
+     *
+     * On non-default scope, the combined field's individual inputs get enabled by the
+     * FormElementDependenceController although "Use Default" is checked for the overall field.
+     * The workaround is to add a hidden fake "Use Default" input to each of the fields contained in the field array.
+     *
+     * @see FormElementDependenceController.trackChange
+     * @link https://github.com/magento/magento2/blob/2.2.0/lib/web/mage/adminhtml/form.js#L474
+     *
+     * @param string $columnName
+     * @return string
+     * @throws \Exception
+     */
+    public function renderCellTemplate($columnName)
+    {
+        $cellTemplate = parent::renderCellTemplate($columnName);
+
+        if ($this->getData('element') && $this->getData('element')->getData('inherit')) {
+            $htmlId = $this->_getCellInputElementId('<%- _id %>', $columnName);
+            $inherit = '<input type="hidden" id="' . $htmlId . '_inherit" checked="checked" disabled="disabled" />';
+            $cellTemplate.= $inherit;
+        }
+
+        return $cellTemplate;
     }
 }

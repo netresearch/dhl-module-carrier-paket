@@ -6,7 +6,7 @@ declare(strict_types=1);
 
 namespace Dhl\Paket\Test\Integration\Generator;
 
-use Dhl\Paket\Model\ShippingProducts\ShippingProductsInterface;
+use Dhl\Paket\Util\ShippingProducts;
 use Dhl\ShippingCore\Api\ConfigInterface;
 use Dhl\ShippingCore\Test\Integration\Generator\ShipmentRequestData as ShippingCoreGenerator;
 use Magento\Sales\Model\Order;
@@ -37,6 +37,8 @@ class ShipmentRequestData
     }
 
     /**
+     * fixme(nr): this is not about containers but shipping products.
+     *
      * @param Order $order
      * @return mixed
      */
@@ -45,18 +47,19 @@ class ShipmentRequestData
         $objectManager = Bootstrap::getObjectManager();
         /** @var ConfigInterface $config */
         $config = $objectManager->get(ConfigInterface::class);
-        /** @var ShippingProductsInterface $shippingProducts */
-        $shippingProducts = $objectManager->get(ShippingProductsInterface::class);
+        /** @var ShippingProducts $shippingProducts */
+        $shippingProducts = $objectManager->get(ShippingProducts::class);
         $originCountry = $config->getOriginCountry($order->getStoreId());
         $euCountries = $config->getEuCountries($order->getStoreId());
-        $container = current(
-            $shippingProducts->getApplicableCodes(
-                $originCountry,
-                $order->getShippingAddress()->getCountryId(),
-                $euCountries
-            )
+
+        $applicableProducts = $shippingProducts->getShippingProducts(
+            $originCountry,
+            $order->getShippingAddress()->getCountryId(),
+            $euCountries
         );
 
-        return $container;
+        $destinationRegionProducts = current($applicableProducts);
+
+        return $destinationRegionProducts[0];
     }
 }

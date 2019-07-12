@@ -19,11 +19,12 @@ use Magento\Framework\Serialize\Serializer\Json;
 /**
  * Save and load config data array in JSON format.
  *
- * The core backend model throws an "array to string" conversion error.
+ * - The core backend model throws an "array to string" conversion error.
+ * - The core backend model does not unserialize (process) when loading.
  *
- * @package  Dhl\Paket\Model
- * @author   Benjamin Heuer <benjamin.heuer@netresearch.de>
- * @link     http://www.netresearch.de/
+ * @package Dhl\Paket\Model
+ * @author  Benjamin Heuer <benjamin.heuer@netresearch.de>
+ * @link    https://www.netresearch.de/
  */
 class ArraySerialized extends Value implements ProcessorInterface
 {

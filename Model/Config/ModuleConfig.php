@@ -48,16 +48,16 @@ class ModuleConfig
     // 400_checkout_presentation.xml
     const CONFIG_PATH_PROXY_CARRIER = 'dhlshippingsolutions/dhlpaket/checkout_settings/emulated_carrier';
 
-    // 500_additional_services.xml
+    // 500_shipment_defaults.xml
+    const CONFIG_PATH_DEFAULT_PRODUCTS = 'dhlshippingsolutions/dhlpaket/shipment_defaults/shipping_products';
+
+    // 600_additional_services.xml
     const CONFIG_PATH_ADDITIONAL_SERVICES = 'dhlshippingsolutions/dhlpaket/additional_services';
     const CONFIG_PATH_PARCEL_STATION_DELIVERY = 'dhlshippingsolutions/dhlpaket/additional_services/parcelstation';
     const CONFIG_PATH_VISUAL_CHECK_OF_AGE = 'dhlshippingsolutions/dhlpaket/additional_services/visual_check_of_age';
     const CONFIG_PATH_RETURN_SHIPMENT = 'dhlshippingsolutions/dhlpaket/additional_services/return_shipment';
     const CONFIG_PATH_ADDITIONAL_INSURANCE = 'dhlshippingsolutions/dhlpaket/additional_services/additional_insurance';
     const CONFIG_PATH_BULKY_GOODS = 'dhlshippingsolutions/dhlpaket/additional_services/bulky_goods';
-
-    // 600_bulk_cron_settings.xml
-    const CONFIG_PATH_BULK_NOTIFY = 'dhlshippingsolutions/dhlpaket/bulk_settings/autocreate_notify';
 
     /**
      * @var ScopeConfigInterface
@@ -398,18 +398,25 @@ class ModuleConfig
     }
 
     /**
-     * Check if a shipment confirmation email should be sent after shipment auto-creation.
+     * Obtain the list of configured default products.
+     *
+     * [
+     *     $destinationRegion => $productDefault,
+     *     $destinationRegion => $productDefault,
+     * ]
      *
      * @param mixed $store
-     * @return bool
+     * @return string[]
      */
-    public function isNotificationEnabled($store = null): bool
+    public function getShippingProductDefaults($store = null): array
     {
-        return (bool) $this->scopeConfig->getValue(
-            self::CONFIG_PATH_BULK_NOTIFY,
+        $shippingProducts = $this->scopeConfig->getValue(
+            self::CONFIG_PATH_DEFAULT_PRODUCTS,
             ScopeInterface::SCOPE_STORE,
             $store
         );
+
+        return (array) $shippingProducts;
     }
 
     /**

@@ -77,6 +77,7 @@ class AutoCreateDeTest extends AutoCreateTest
      *
      * @magentoConfigFixture default_store catalog/price/scope 0
      * @magentoConfigFixture default_store currency/options/base EUR
+     * @magentoConfigFixture default_store dhlshippingsolutions/dhlpaket/shipment_defaults/shipping_products {"DE":"V01PAK"}
      * @magentoConfigFixture default_store dhlshippingsolutions/dhlglobalwebservices/bulk_settings/retry_failed_shipments 0
      *
      * @magentoConfigFixture current_store carriers/flatrate/type O
@@ -164,6 +165,7 @@ class AutoCreateDeTest extends AutoCreateTest
      *
      * @magentoConfigFixture default_store catalog/price/scope 0
      * @magentoConfigFixture default_store currency/options/base EUR
+     * @magentoConfigFixture default_store dhlshippingsolutions/dhlpaket/shipment_defaults/shipping_products {"DE":"V01PAK"}
      * @magentoConfigFixture default_store dhlshippingsolutions/dhlglobalwebservices/bulk_settings/retry_failed_shipments 1
      *
      * @magentoConfigFixture current_store carriers/flatrate/type O

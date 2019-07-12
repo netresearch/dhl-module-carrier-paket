@@ -7,7 +7,6 @@
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
     <!-- # interface preferences -->
     <preference for="Dhl\Paket\Webservice\Processor\OperationProcessorInterface" type="Dhl\Paket\Webservice\Processor\LabelStatusProcessor"/>
-    <preference for="Dhl\Paket\Model\ShippingProducts\ShippingProductsInterface" type="Dhl\Paket\Model\ShippingProducts\ShippingProducts"/>
 
     <!-- # sdk preferences -->
     <preference for="Dhl\Sdk\Paket\Bcs\Api\ShipmentOrderRequestBuilderInterface" type="Dhl\Sdk\Paket\Bcs\RequestBuilder\ShipmentOrderRequestBuilder"/>
@@ -148,7 +147,7 @@
     <type name="Dhl\ShippingCore\Model\Packaging\PackagingDataCompositeProcessor">
         <arguments>
             <argument name="processors" xsi:type="array">
-                <item name="dhlPaketPackageInputProcessor" xsi:type="object">Dhl\Paket\Model\Packaging\DataProcessor\PackageInputDataProcessor</item>
+                <item name="dhlPaketPackageInputProcessor" sortOrder="220" xsi:type="object">Dhl\Paket\Model\Packaging\DataProcessor\PackageInputDataProcessor</item>
             </argument>
         </arguments>
     </type>

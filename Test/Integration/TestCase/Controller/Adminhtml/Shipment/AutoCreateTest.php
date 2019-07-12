@@ -6,6 +6,7 @@ declare(strict_types=1);
 
 namespace Dhl\Paket\Test\Integration\TestCase\Controller\Adminhtml\Shipment;
 
+use Dhl\Paket\Model\Config\ModuleConfig;
 use Dhl\Paket\Test\Integration\TestCase\Controller\Adminhtml\ControllerTest;
 use Dhl\Paket\Test\Integration\TestDouble\Pipeline\CreateShipments\Stage\SendRequestStageStub;
 use Dhl\Paket\Webservice\Pipeline\CreateShipments\Stage\SendRequestStage;
@@ -41,6 +42,7 @@ abstract class AutoCreateTest extends ControllerTest
 
     /**
      * Configure pipeline stage for shipment creations.
+     * Unserialize default products, Magento config fixtures do not consider backend models before save.
      *
      * @throws \Magento\Framework\Exception\AuthenticationException
      */
@@ -50,6 +52,35 @@ abstract class AutoCreateTest extends ControllerTest
 
         // configure web service response
         $this->_objectManager->configure(['preferences' => [SendRequestStage::class => SendRequestStageStub::class]]);
+
+        $annotations = $this->getAnnotations();
+        if (!isset($annotations['method']['magentoConfigFixture'])) {
+            return;
+        }
+
+        foreach ($annotations['method']['magentoConfigFixture'] as $configFixture) {
+            if (strpos($configFixture, ModuleConfig::CONFIG_PATH_DEFAULT_PRODUCTS) !== false) {
+                list($scopeCode, $configPath, $value) = explode(' ', $configFixture, 3);
+                $scopeCode = str_replace('_store', '', $scopeCode);
+
+                $configStructure = $this->objectManager->get(\Magento\Config\Model\Config\Structure::class);
+
+                /** @var \Magento\Config\Model\Config\Structure\Element\Field $field */
+                $field = $configStructure->getElement($configPath);
+
+                /** @var \Dhl\Paket\Model\Adminhtml\System\Config\Backend\ArraySerialized $backendModel */
+                $backendModel = $field->getBackendModel();
+                $config = $this->objectManager->get(\Magento\Framework\App\Config\MutableScopeConfigInterface::class);
+                $config->setValue(
+                    $configPath,
+                    $backendModel->processValue($value),
+                    \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                    $scopeCode
+                );
+
+                break;
+            }
+        }
     }
 
     /**
@@ -89,6 +120,7 @@ abstract class AutoCreateTest extends ControllerTest
      *
      * @magentoConfigFixture default_store catalog/price/scope 0
      * @magentoConfigFixture default_store currency/options/base EUR
+     * @magentoConfigFixture default_store dhlshippingsolutions/dhlpaket/shipment_defaults/shipping_products {"DE":"V01PAK"}
      * @magentoConfigFixture default_store dhlshippingsolutions/dhlglobalwebservices/bulk_settings/retry_failed_shipments 0
      *
      * @magentoConfigFixture current_store carriers/flatrate/type O

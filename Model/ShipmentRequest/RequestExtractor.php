@@ -7,7 +7,7 @@ declare(strict_types=1);
 namespace Dhl\Paket\Model\ShipmentRequest;
 
 use Dhl\Paket\Model\Config\ModuleConfig;
-use Dhl\Paket\Model\ShippingProducts\ShippingProductsInterface;
+use Dhl\Paket\Util\ShippingProducts;
 use Dhl\ShippingCore\Api\Data\ShipmentRequest\PackageInterface;
 use Dhl\ShippingCore\Api\Data\ShipmentRequest\PackageItemInterface;
 use Dhl\ShippingCore\Api\Data\ShipmentRequest\RecipientInterface;
@@ -47,7 +47,7 @@ class RequestExtractor implements RequestExtractorInterface
     private $moduleConfig;
 
     /**
-     * @var ShippingProductsInterface
+     * @var ShippingProducts
      */
     private $shippingProducts;
 
@@ -67,14 +67,14 @@ class RequestExtractor implements RequestExtractorInterface
      * @param RequestExtractorInterfaceFactory $requestExtractorFactory
      * @param Request $shipmentRequest
      * @param ModuleConfig $moduleConfig
-     * @param ShippingProductsInterface $shippingProducts
+     * @param ShippingProducts $shippingProducts
      * @param Reflection $hydrator
      */
     public function __construct(
         RequestExtractorInterfaceFactory $requestExtractorFactory,
         Request $shipmentRequest,
         ModuleConfig $moduleConfig,
-        ShippingProductsInterface $shippingProducts,
+        ShippingProducts $shippingProducts,
         Reflection $hydrator
     ) {
         $this->requestExtractorFactory = $requestExtractorFactory;
@@ -163,14 +163,6 @@ class RequestExtractor implements RequestExtractorInterface
     /**
      * @inheritDoc
      */
-    public function getShippingMethod(): string
-    {
-        return $this->getCoreExtractor()->getShippingMethod();
-    }
-
-    /**
-     * @inheritDoc
-     */
     public function getPackageWeight(): float
     {
         return $this->getCoreExtractor()->getPackageWeight();
@@ -181,7 +173,6 @@ class RequestExtractor implements RequestExtractorInterface
      *
      * @return Package[]
      * @throws LocalizedException
-     * @throws \ReflectionException
      */
     public function getPackages(): array
     {
@@ -205,10 +196,14 @@ class RequestExtractor implements RequestExtractorInterface
             $packageData['attestationNumber'] = $customsParams['attestationNumber'] ?? '';
             $packageData['electronicExportNotification'] = $customsParams['electronicExportNotification'] ?? false;
 
-            // create new extended package instance with paket-specific export data
-            /** @var Package $paketPackage */
-            $paketPackage = (new \ReflectionClass(Package::class))->newInstanceWithoutConstructor();
-            $this->hydrator->hydrate($packageData, $paketPackage);
+            try {
+                // create new extended package instance with paket-specific export data
+                /** @var Package $paketPackage */
+                $paketPackage = (new \ReflectionClass(Package::class))->newInstanceWithoutConstructor();
+                $this->hydrator->hydrate($packageData, $paketPackage);
+            } catch (\ReflectionException $exception) {
+                throw new LocalizedException(__('An error occurred while preparing package data.'), $exception);
+            }
 
             $paketPackages[$packageId] = $paketPackage;
         }
@@ -273,13 +268,14 @@ class RequestExtractor implements RequestExtractorInterface
             $package = current($packages);
 
             $storeId = $this->getCoreExtractor()->getStoreId();
-
-            //todo(nr): pull product code from proper field in shipment request once it's available there.
-            $productCode = $package->getContainerType();
+            $productCode = $package->getProductCode();
+            $procedure = $this->shippingProducts->getProcedure($productCode);
             $ekp = $this->moduleConfig->getEkp($storeId);
-            $participations = $this->moduleConfig->getParticipations($storeId);
 
-            return $this->shippingProducts->getBillingNumber($productCode, $ekp, $participations);
+            $participations = $this->moduleConfig->getParticipations($storeId);
+            $participation = $participations[$procedure] ?? '';
+
+            return $ekp . $procedure . $participation;
         } catch (\ReflectionException $exception) {
             throw new LocalizedException(__('Unable to determine billing number.'), $exception);
         }
