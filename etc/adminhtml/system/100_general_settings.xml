@@ -11,7 +11,7 @@
         <field id="active" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="10"
                translate="label button_label" type="Netresearch\ConfigFields\Model\Type\Checkbox">
             <label>Enabled</label>
-            <button_label>Allow customers to check out with DHL Paket shipping methods.</button_label>
+            <button_label><![CDATA[Allow customers to check out with <em>DHL Paket</em> shipping methods.]]></button_label>
             <config_path>carriers/dhlpaket/active</config_path>
         </field>
 
@@ -48,7 +48,7 @@
             <depends>
                 <field id="logging">1</field>
             </depends>
-            <label>Error logging level</label>
+            <label>Error Logging Level</label>
 
             <field id="loglevel" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="10"
                    translate="label comment" type="Netresearch\ConfigFields\Model\Type\Radioset">

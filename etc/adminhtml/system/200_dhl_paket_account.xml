@@ -7,7 +7,7 @@
 <include xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_include.xsd">
     <group id="account_settings" translate="label comment" sortOrder="200" showInDefault="1" showInWebsite="1" showInStore="0">
         <label>Account Settings</label>
-        <comment>DHL contract customers receive the access data to the DHL Business Customer Portal via DHL Paket sales.</comment>
+        <comment><![CDATA[DHL contract customers receive the access data to the DHL Business Customer Portal via <em>DHL Paket</em> sales.]]></comment>
 
         <field id="sandboxmode" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="30"
                translate="label comment" type="Netresearch\ConfigFields\Model\Type\Checkbox">
