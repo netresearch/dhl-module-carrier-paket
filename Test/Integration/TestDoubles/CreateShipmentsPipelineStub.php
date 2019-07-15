@@ -11,8 +11,6 @@ use Dhl\Paket\Webservice\Shipment\RequestDataMapper;
 use Dhl\Paket\Webservice\Shipment\ResponseDataMapper;
 use Dhl\Sdk\Paket\Bcs\Api\ShipmentServiceInterface;
 use Dhl\Sdk\Paket\Bcs\Service\ShipmentService\Shipment;
-use Dhl\ShippingCore\Api\Data\ShipmentResponse\LabelResponseInterfaceFactory;
-use Dhl\ShippingCore\Api\Data\ShipmentResponse\ShipmentErrorResponseInterfaceFactory;
 use Dhl\ShippingCore\Api\RequestValidatorInterface;
 use Magento\Shipping\Model\Shipment\Request;
 
@@ -44,8 +42,6 @@ class CreateShipmentsPipelineStub extends CreateShipmentsPipeline
      * @param RequestDataMapper $requestDataMapper
      * @param ResponseDataMapper $responseDataMapper
      * @param ShipmentServiceInterface $shipmentService
-     * @param LabelResponseInterfaceFactory $shipmentResponseFactory
-     * @param ShipmentErrorResponseInterfaceFactory $errorResponseFactory
      * @param Request[] $shipmentRequests
      */
     public function __construct(
@@ -53,8 +49,6 @@ class CreateShipmentsPipelineStub extends CreateShipmentsPipeline
         RequestDataMapper $requestDataMapper,
         ResponseDataMapper $responseDataMapper,
         ShipmentServiceInterface $shipmentService,
-        LabelResponseInterfaceFactory $shipmentResponseFactory,
-        ShipmentErrorResponseInterfaceFactory $errorResponseFactory,
         array $shipmentRequests
     ) {
         $this->shipmentService = $shipmentService;
@@ -65,8 +59,6 @@ class CreateShipmentsPipelineStub extends CreateShipmentsPipeline
             $requestDataMapper,
             $responseDataMapper,
             $shipmentService,
-            $shipmentResponseFactory,
-            $errorResponseFactory,
             $shipmentRequests
         );
     }
