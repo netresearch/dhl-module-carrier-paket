@@ -6,17 +6,51 @@
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
     <default>
+        <carriers>
+            <dhlpaket>
+                <version>1.0.0</version>
+                <model>Dhl\Paket\Model\Carrier\Paket</model>
+                <is_online>1</is_online>
+                <max_package_weight>1000</max_package_weight>
+
+                <!-- Default elements -->
+                <active>0</active>
+                <title>DHL Paket</title>
+                <sort_order>0</sort_order>
+                <showmethod>1</showmethod>
+                <specificerrmsg>This shipping method is not available. To use this shipping method, please contact us.</specificerrmsg>
+                <sallowspecific>0</sallowspecific>
+            </dhlpaket>
+        </carriers>
+
         <dhlshippingsolutions>
             <dhlpaket>
                 <general_shipping_settings>
-                    <loglevel>400</loglevel>
-                    <print_only_if_codeable>1</print_only_if_codeable>
+                    <logging_group>
+                        <loglevel>400</loglevel>
+                    </logging_group>
                 </general_shipping_settings>
 
                 <account_settings>
+                    <sandboxmode_group>
+                        <api_password backend_model="Magento\Config\Model\Config\Backend\Encrypted"/>
+
+                        <account_participations backend_model="Dhl\Paket\Model\Adminhtml\System\Config\Backend\ArraySerialized">
+                            <![CDATA[
+                                {
+                                    "_1485789382230_230":{"procedure":"01","participation":"04"},
+                                    "_1508418821593_593":{"procedure":"55","participation":"01"},
+                                    "_1485789931170_170":{"procedure":"53","participation":"01"},
+                                    "_1485789932261_261":{"procedure":"86","participation":"02"},
+                                    "_1485789932731_731":{"procedure":"87","participation":"02"},
+                                    "_1485789933215_215":{"procedure":"82","participation":"02"}
+                                }
+                            ]]>
+                        </account_participations>
+                    </sandboxmode_group>
+
                     <auth_username>NRMAG_2</auth_username>
                     <auth_password>ivVTCAke61I6cTTilV1eBltp2rvSQb</auth_password>
-                    <api_password backend_model="Magento\Config\Model\Config\Backend\Encrypted"/>
 
                     <!-- Sandbox -->
                     <sandboxmode>1</sandboxmode>
@@ -39,34 +73,29 @@
                     </sandbox_account_participations>
                     <account_participations backend_model="Dhl\Paket\Model\Adminhtml\System\Config\Backend\ArraySerialized"/>
                 </account_settings>
+
                 <shipment_defaults>
+                    <print_only_if_codeable>1</print_only_if_codeable>
                     <shipping_products backend_model="Dhl\Paket\Model\Adminhtml\System\Config\Backend\ArraySerialized" />
+                    <services_group>
+                        <visual_check_of_age>0</visual_check_of_age>
+                        <return_shipment>0</return_shipment>
+                        <additional_insurance>0</additional_insurance>
+                        <bulky_goods>0</bulky_goods>
+                    </services_group>
                 </shipment_defaults>
+
                 <additional_services>
-                    <parcel_station_delivery>1</parcel_station_delivery>
-                    <visual_check_of_age>0</visual_check_of_age>
-                    <return_shipment>0</return_shipment>
-                    <additional_insurance>0</additional_insurance>
-                    <bulky_goods>0</bulky_goods>
-                    <parcelstation>1</parcelstation>
+                    <services_group>
+                        <parcelannouncement>0</parcelannouncement>
+                        <parcelstation>1</parcelstation>
+                        <preferredlocation>0</preferredlocation>
+                        <preferredneighbour>0</preferredneighbour>
+                        <preferredday>0</preferredday>
+                        <preferredtime>0</preferredtime>
+                    </services_group>
                 </additional_services>
             </dhlpaket>
         </dhlshippingsolutions>
-        <carriers>
-            <dhlpaket>
-                <version>1.0.0</version>
-                <model>Dhl\Paket\Model\Carrier\Paket</model>
-                <is_online>1</is_online>
-                <max_package_weight>1000</max_package_weight>
-
-                <!-- Default elements -->
-                <active>0</active>
-                <title>DHL Paket</title>
-                <sort_order>0</sort_order>
-                <showmethod>1</showmethod>
-                <specificerrmsg>This shipping method is not available. To use this shipping method, please contact us.</specificerrmsg>
-                <sallowspecific>0</sallowspecific>
-            </dhlpaket>
-        </carriers>
     </default>
 </config>

@@ -73,13 +73,13 @@ class ParcelManagementOptionsProcessorTest extends TestCase
      * @magentoConfigFixture default_store shipping/origin/street_line1 Nonnenstraße 11
      *
      * @magentoConfigFixture current_store carriers/dhlpaket/active 1
-     * @magentoConfigFixture current_store dhlshippingsolutions/dhlpaket/dhl_paket_checkout_settings/emulated_carrier flatrate
-     * @magentoConfigFixture current_store dhlshippingsolutions/dhlpaket/additional_services/preferredlocation 0
-     * @magentoConfigFixture current_store dhlshippingsolutions/dhlpaket/additional_services/preferredneighbour 0
-     * @magentoConfigFixture current_store dhlshippingsolutions/dhlpaket/additional_services/preferredday 1
-     * @magentoConfigFixture current_store dhlshippingsolutions/dhlpaket/additional_services/preferredtime 1
-     * @magentoConfigFixture current_store dhlshippingsolutions/dhlpaket/additional_services/parcelannouncement 0
-     * @magentoConfigFixture current_store dhlshippingsolutions/dhlpaket/additional_services/print_only_if_codeable 0
+     * @magentoConfigFixture current_store dhlshippingsolutions/dhlpaket/checkout_settings/emulated_carrier flatrate
+     * @magentoConfigFixture current_store dhlshippingsolutions/dhlpaket/additional_services/services_group/preferredlocation 0
+     * @magentoConfigFixture current_store dhlshippingsolutions/dhlpaket/additional_services/services_group/preferredneighbour 0
+     * @magentoConfigFixture current_store dhlshippingsolutions/dhlpaket/additional_services/services_group/preferredday 1
+     * @magentoConfigFixture current_store dhlshippingsolutions/dhlpaket/additional_services/services_group/preferredtime 1
+     * @magentoConfigFixture current_store dhlshippingsolutions/dhlpaket/additional_services/services_group/parcelannouncement 0
+     * @magentoConfigFixture current_store dhlshippingsolutions/dhlpaket/shipment_defaults/print_only_if_codeable 0
      *
      * @magentoConfigFixture current_store carriers/flatrate/type O
      * @magentoConfigFixture current_store carriers/flatrate/handling_type F
@@ -95,15 +95,17 @@ class ParcelManagementOptionsProcessorTest extends TestCase
         $checkoutData = $checkoutManagement->getCheckoutData('DE', '04229');
 
         $carriers = $checkoutData->getCarriers();
-        $this->assertArrayHasKey(Paket::CARRIER_CODE, $carriers);
+        self::assertArrayHasKey(Paket::CARRIER_CODE, $carriers);
+
         /** @var CarrierData $carrier */
         $carrier = $carriers[Paket::CARRIER_CODE];
         $serviceOptions = $carrier->getServiceOptions();
-        $this->assertArrayHasKey('preferredDay', $serviceOptions);
-        $this->assertArrayHasKey('preferredTime', $serviceOptions);
-        $this->assertArrayNotHasKey('perferredLocation', $serviceOptions);
-        $this->assertArrayNotHasKey('perferredNeighbour', $serviceOptions);
-        $this->assertArrayNotHasKey('parcelAnnouncement', $serviceOptions);
+
+        self::assertArrayHasKey('preferredDay', $serviceOptions);
+        self::assertArrayHasKey('preferredTime', $serviceOptions);
+        self::assertArrayNotHasKey('preferredLocation', $serviceOptions);
+        self::assertArrayNotHasKey('preferredNeighbour', $serviceOptions);
+        self::assertArrayNotHasKey('parcelAnnouncement', $serviceOptions);
 
         /** @var ShippingOption $serviceOption */
         foreach ($serviceOptions as $serviceOption) {
@@ -118,7 +120,7 @@ class ParcelManagementOptionsProcessorTest extends TestCase
                     foreach ($options as $option) {
                         $values[] = $option->getValue();
                     }
-                    $this->assertEquals($expectedDayValues, $values);
+                    self::assertEquals($expectedDayValues, $values);
                 }
 
                 if ($input->getCode() === 'time') {
@@ -128,7 +130,7 @@ class ParcelManagementOptionsProcessorTest extends TestCase
                     foreach ($options as $option) {
                         $values[] = $option->getValue();
                     }
-                    $this->assertEquals($expectedTimeValues, $values);
+                    self::assertEquals($expectedTimeValues, $values);
                 }
             }
         }

@@ -127,7 +127,7 @@ abstract class AutoCreateTest extends ControllerTest
      * @magentoConfigFixture current_store carriers/flatrate/handling_type F
      * @magentoConfigFixture current_store carriers/flatrate/price 5.00
      * @magentoConfigFixture current_store carriers/dhlpaket/active 1
-     * @magentoConfigFixture current_store carriers/dhlpaket/checkout_settings/emulated_carrier flatrate
+     * @magentoConfigFixture current_store dhlshippingsolutions/dhlpaket/checkout_settings/emulated_carrier flatrate
      */
     public function testAclHasAccess()
     {

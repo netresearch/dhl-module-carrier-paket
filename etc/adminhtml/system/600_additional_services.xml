@@ -8,7 +8,7 @@
     <group id="additional_services" translate="label" sortOrder="600" showInDefault="1" showInWebsite="1" showInStore="0">
         <label>Shipping Services in Checkout</label>
 
-        <group id="checkout_services" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="10"
+        <group id="services_group" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="10"
                translate="label">
             <label>Additional Services</label>
             <frontend_model>Netresearch\ConfigFields\Block\ModalGroup</frontend_model>

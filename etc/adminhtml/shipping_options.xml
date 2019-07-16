@@ -67,7 +67,7 @@
                 <label>Use Print Only If Codeable Service</label>
                 <sortOrder>10</sortOrder>
                 <inputs>
-                    <input code="enabled" defaultConfigValue="dhlshippingsolutions/dhlpaket/general_shipping_settings/print_only_if_codeable">
+                    <input code="enabled" defaultConfigValue="dhlshippingsolutions/dhlpaket/shipment_defaults/print_only_if_codeable">
                         <inputType>checkbox</inputType>
                         <comment>
                             <content><![CDATA[If set to <em>Yes</em>, shipment orders will only return a label if the DHL delivery address verification succeeds.]]></content>
@@ -79,7 +79,7 @@
                 <label>Use Visual Check of Age Service</label>
                 <sortOrder>1000</sortOrder>
                 <inputs>
-                    <input code="enabled" defaultConfigValue="dhlshippingsolutions/dhlpaket/additional_services/visual_check_of_age">
+                    <input code="enabled" defaultConfigValue="dhlshippingsolutions/dhlpaket/shipment_defaults/services_group/visual_check_of_age">
                         <inputType>radioset</inputType>
                         <options>
                             <option id="no">
@@ -105,7 +105,7 @@
                 <label>Use Return Shipment Service</label>
                 <sortOrder>30</sortOrder>
                 <inputs>
-                    <input code="enabled" defaultConfigValue="dhlshippingsolutions/dhlpaket/additional_services/return_shipment">
+                    <input code="enabled" defaultConfigValue="dhlshippingsolutions/dhlpaket/shipment_defaults/services_group/return_shipment">
                         <inputType>checkbox</inputType>
                         <comment>
                             <content><![CDATA[If set to <em>Yes</em>, a return shipment label will be requested from the webservice.]]></content>
@@ -117,7 +117,7 @@
                 <label>Use Additional Insurance Service</label>
                 <sortOrder>40</sortOrder>
                 <inputs>
-                    <input code="enabled" defaultConfigValue="dhlshippingsolutions/dhlpaket/additional_services/additional_insurance">
+                    <input code="enabled" defaultConfigValue="dhlshippingsolutions/dhlpaket/shipment_defaults/services_group/additional_insurance">
                         <inputType>checkbox</inputType>
                         <comment>
                             <content><![CDATA[If set to <em>Yes</em>, shipments will be insured with higher than standard amount.]]></content>
@@ -129,7 +129,7 @@
                 <label>Use Bulky Goods Service</label>
                 <sortOrder>50</sortOrder>
                 <inputs>
-                    <input code="enabled" defaultConfigValue="dhlshippingsolutions/dhlpaket/additional_services/bulky_goods">
+                    <input code="enabled" defaultConfigValue="dhlshippingsolutions/dhlpaket/shipment_defaults/services_group/bulky_goods">
                         <inputType>checkbox</inputType>
                         <comment>
                             <content><![CDATA[If set to <em>Yes</em>, shipments will be marked as bulk freight.]]></content>

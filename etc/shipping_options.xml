@@ -2,7 +2,7 @@
 <carriers xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Dhl_ShippingCore/etc/shipping_options.xsd">
     <carrier code="dhlpaket">
         <serviceOptions>
-            <shippingOption code="parcelAnnouncement" available="dhlshippingsolutions/dhlpaket/additional_services/parcelannouncement">
+            <shippingOption code="parcelAnnouncement" available="dhlshippingsolutions/dhlpaket/additional_services/services_group/parcelannouncement">
                 <label>Parcel Announcement</label>
                 <sortOrder>10</sortOrder>
                 <inputs>
@@ -16,7 +16,7 @@
                     </input>
                 </inputs>
             </shippingOption>
-            <shippingOption code="parcelstation" available="dhlshippingsolutions/dhlpaket/additional_services/parcelstation">
+            <shippingOption code="parcelstation" available="dhlshippingsolutions/dhlpaket/additional_services/services_group/parcelstation">
                 <label>Parcel station delivery: Delivery to a parcel station of your choice</label>
                 <sortOrder>20</sortOrder>
                 <routes>
@@ -62,7 +62,7 @@
                     </input>
                 </inputs>
             </shippingOption>
-            <shippingOption code="preferredDay" available="dhlshippingsolutions/dhlpaket/additional_services/preferredday">
+            <shippingOption code="preferredDay" available="dhlshippingsolutions/dhlpaket/additional_services/services_group/preferredday">
                 <label>Preferred Day: Delivery on your preferred day</label>
                 <sortOrder>30</sortOrder>
                 <routes>
@@ -87,7 +87,7 @@
                     </input>
                 </inputs>
             </shippingOption>
-            <shippingOption code="preferredTime" available="dhlshippingsolutions/dhlpaket/additional_services/preferredtime">
+            <shippingOption code="preferredTime" available="dhlshippingsolutions/dhlpaket/additional_services/services_group/preferredtime">
                 <label>Preferred Time: Delivery at your preferred time</label>
                 <sortOrder>40</sortOrder>
                 <inputs>
@@ -103,7 +103,7 @@
                     </input>
                 </inputs>
             </shippingOption>
-            <shippingOption code="preferredLocation" available="dhlshippingsolutions/dhlpaket/additional_services/preferredlocation">
+            <shippingOption code="preferredLocation" available="dhlshippingsolutions/dhlpaket/additional_services/services_group/preferredlocation">
                 <label>Preferred Location: Delivery to your preferred drop-off location</label>
                 <sortOrder>50</sortOrder>
                 <inputs>
@@ -124,7 +124,7 @@
                     </input>
                 </inputs>
             </shippingOption>
-            <shippingOption code="preferredNeighbour" available="dhlshippingsolutions/dhlpaket/additional_services/preferredneighbour">
+            <shippingOption code="preferredNeighbour" available="dhlshippingsolutions/dhlpaket/additional_services/services_group/preferredneighbour">
                 <label>Preferred Neighbour: Delivery to a neighbour of your choice</label>
                 <sortOrder>60</sortOrder>
                 <inputs>
