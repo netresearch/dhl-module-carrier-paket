@@ -68,7 +68,6 @@
                 <sortOrder>30</sortOrder>
                 <routes>
                     <route>
-                        <origin>DE</origin>
                         <includeDestinations>
                             <destination>DE</destination>
                             <destination>AT</destination>
@@ -107,6 +106,14 @@
             <shippingOption code="preferredLocation" available="dhlshippingsolutions/dhlpaket/additional_services/services_group/preferredlocation">
                 <label>Preferred Location: Delivery to your preferred drop-off location</label>
                 <sortOrder>50</sortOrder>
+                <routes>
+                    <route>
+                        <includeDestinations>
+                            <destination>DE</destination>
+                            <destination>AT</destination>
+                        </includeDestinations>
+                    </route>
+                </routes>
                 <inputs>
                     <input code="details">
                         <sortOrder>20</sortOrder>
@@ -129,6 +136,14 @@
             <shippingOption code="preferredNeighbour" available="dhlshippingsolutions/dhlpaket/additional_services/services_group/preferredneighbour">
                 <label>Preferred Neighbour: Delivery to a neighbour of your choice</label>
                 <sortOrder>60</sortOrder>
+                <routes>
+                    <route>
+                        <includeDestinations>
+                            <destination>DE</destination>
+                            <destination>AT</destination>
+                        </includeDestinations>
+                    </route>
+                </routes>
                 <inputs>
                     <input code="name">
                         <sortOrder>20</sortOrder>
