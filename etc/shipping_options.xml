@@ -159,7 +159,6 @@
         </serviceOptions>
         <metadata>
             <title>DHL Preferred Delivery. Delivered just the way you want.</title>
-            <imageUrl>Dhl_Ui::images/logo-dhl-wide.svg</imageUrl>
             <commentsBefore>
                 <comment>
                     <content>You decide when and where you want to receive your parcels with the recipient services of DHL.</content>
