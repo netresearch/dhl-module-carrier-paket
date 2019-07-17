@@ -118,7 +118,12 @@ class RequestDataMapper
             $requestExtractor->getShipper()->getState()
         );
 
-        //todo(nr): check if customer did select parcel announcement service
+        // add email if parcel announcement is selected
+        $recipientEmail = null;
+        if ($requestExtractor->isParcelAnnouncement()) {
+            $recipientEmail = $requestExtractor->getRecipient()->getContactEmail();
+        }
+
         $this->requestBuilder->setRecipientAddress(
             $requestExtractor->getRecipient()->getContactPersonName(),
             $requestExtractor->getRecipient()->getCountryCode(),
@@ -128,22 +133,13 @@ class RequestDataMapper
             $requestExtractor->getRecipient()->getStreetNumber(),
             $requestExtractor->getRecipient()->getContactCompanyName(),
             null,
-            ($parcelAnnouncement = false) ? $requestExtractor->getRecipient()->getContactEmail() : null,
+            $recipientEmail,
             null,
             null,
             $requestExtractor->getRecipient()->getRegionCode(),
             null,
             [$requestExtractor->getRecipient()->getAddressAddition()]
         );
-
-        if ($requestExtractor->isPrintOnlyIfCodeable()) {
-            $this->requestBuilder->setPrintOnlyIfCodeable();
-        }
-
-        // Add cash on delivery amount if COD payment method
-        if ($requestExtractor->isCashOnDelivery()) {
-            $this->requestBuilder->setCodAmount((float) $requestExtractor->getOrder()->getBaseGrandTotal());
-        }
 
         /** @var Package $package */
         foreach ($requestExtractor->getPackages() as $packageId => $package) {
@@ -175,12 +171,71 @@ class RequestDataMapper
                 $this->requestBuilder->setPackageDimensions((int) $widthInCm, (int) $lengthInCm, (int) $heightInCm);
             }
 
+            if ($requestExtractor->isPrintOnlyIfCodeable()) {
+                $this->requestBuilder->setPrintOnlyIfCodeable();
+            }
+
+            // Add cash on delivery amount if COD payment method
+            if ($requestExtractor->isCashOnDelivery()) {
+                $this->requestBuilder->setCodAmount((float) $requestExtractor->getOrder()->getBaseGrandTotal());
+            }
+
+            if ($requestExtractor->isAdditionalInsurance()) {
+                $this->requestBuilder->setInsuredValue((float) $requestExtractor->getOrder()->getBaseGrandTotal());
+            }
+
+            if ($requestExtractor->isVisualCheckOfAge()) {
+                $this->requestBuilder->setVisualCheckOfAge($requestExtractor->getVisualCheckOfAge());
+            }
+
+            if ($requestExtractor->isBulkyGoods()) {
+                $this->requestBuilder->setBulkyGoods();
+            }
+
+            if ($requestExtractor->hasPreferredTime()) {
+                $this->requestBuilder->setPreferredTime($requestExtractor->getPreferredTime());
+            }
+
+            if ($requestExtractor->hasPreferredDay()) {
+                $this->requestBuilder->setPreferredDay($requestExtractor->getPreferredDay());
+            }
+
+            if ($requestExtractor->hasPreferredNeighbour()) {
+                $this->requestBuilder->setPreferredNeighbour(
+                    $requestExtractor->getPreferredNeighbourName()
+                    . $requestExtractor->getPreferredNeighbourAddress()
+                );
+            }
+
+            if ($requestExtractor->hasPreferredLocation()) {
+                $this->requestBuilder->setPreferredLocation($requestExtractor->getPreferredLocation());
+            }
+
+            if ($requestExtractor->isReturnShipment()) {
+                $this->requestBuilder->setReturnReceipt();
+            }
+
+            if ($requestExtractor->isPackstationDelivery()) {
+                $this->requestBuilder->setPackstation(
+                    $requestExtractor->getRecipient()->getContactPersonName(),
+                    $requestExtractor->getPackstationId(),
+                    $requestExtractor->getRecipient()->getPostalCode(),
+                    $requestExtractor->getRecipient()->getCity(),
+                    $requestExtractor->getPostNumber(),
+                    $requestExtractor->getRecipient()->getState(),
+                    $requestExtractor->getRecipient()->getCountryCode()
+                );
+            }
+
+            //todo(nr): once we added postFiliale support we need to add it here
+
             //todo(nr): update/remove this condition once intl options are removed from domestic packaging popup
             $isEuShipping = in_array(
                 $requestExtractor->getRecipient()->getCountryCode(),
                 $this->dhlConfig->getEuCountries($request->getOrderShipment()->getStoreId()),
                 true
             );
+
             if (!$isEuShipping) {
                 $this->requestBuilder->setCustomsDetails(
                     $package->getContentType(),
@@ -193,6 +248,7 @@ class RequestDataMapper
                     $package->getAttestationNumber(),
                     $package->getElectronicExportNotification()
                 );
+
                 foreach ($requestExtractor->getPackageItems() as $packageItem) {
                     $this->requestBuilder->addExportItem(
                         (int) round($packageItem->getQty()),

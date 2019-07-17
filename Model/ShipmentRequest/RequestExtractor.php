@@ -242,18 +242,6 @@ class RequestExtractor implements RequestExtractorInterface
     }
 
     /**
-     * Check if "print only if codeable" should be set for the current shipment request.
-     *
-     * @todo(nr): read flag from shipment request once it's available there.
-     * @return bool
-     */
-    public function isPrintOnlyIfCodeable(): bool
-    {
-        $storeId = $this->getCoreExtractor()->getStoreId();
-        return $this->moduleConfig->printOnlyIfCodeable($storeId);
-    }
-
-    /**
      * Obtain the 14-digit billing number for the current package.
      *
      * @return string
@@ -284,11 +272,225 @@ class RequestExtractor implements RequestExtractorInterface
     /**
      * Obtain shipment date.
      *
-     * @todo(nr): take into account cut-off settings etc.
      * @return string
+     * @todo(nr): take into account cut-off settings etc.
      */
     public function getShipmentDate(): string
     {
         return date('Y-m-d');
+    }
+
+    /**
+     * Obtain the current package.
+     *
+     * @return array
+     */
+    private function getCurrentPackage(): array
+    {
+        $packages = $this->shipmentRequest->getData('packages');
+        $packageId = $this->shipmentRequest->getData('package_id');
+
+        return $packages[$packageId] ?? [];
+    }
+
+    /**
+     * Obtain the service data array.
+     *
+     * @param string $serviceName
+     * @return string[]
+     */
+    private function getServiceData(string $serviceName): array
+    {
+        return $this->getCurrentPackage()['params']['services'][$serviceName] ?? [];
+    }
+
+    /**
+     * Obtain the "bulkyGoods" flag for the current package.
+     *
+     * @return bool
+     */
+    public function isBulkyGoods(): bool
+    {
+        return (bool) ($this->getServiceData('bulkyGoods')['enabled'] ?? false);
+    }
+
+    /**
+     * Obtain the "additionalInsurance" flag for the current package.
+     *
+     * @return bool
+     */
+    public function isAdditionalInsurance(): bool
+    {
+        return (bool) ($this->getServiceData('additionalInsurance')['enabled'] ?? false);
+    }
+
+    /**
+     * Check if preferredTime has been booked
+     *
+     * @return bool
+     */
+    public function hasPreferredTime(): bool
+    {
+        return (bool) ($this->getServiceData('preferredTime')['enabled'] ?? false);
+    }
+
+    /**
+     * Obtain the "preferredTime" value for the current package.
+     *
+     * @return string
+     */
+    public function getPreferredTime(): string
+    {
+        return $this->getServiceData('preferredTime')['time'] ?? '';
+    }
+
+    /**
+     * Check if preferredDay has been booked
+     *
+     * @return bool
+     */
+    public function hasPreferredDay(): bool
+    {
+        return (bool) ($this->getServiceData('preferredDay')['enabled'] ?? false);
+    }
+
+    /**
+     * Obtain the "preferredDay" value for the current package.
+     *
+     * @return string
+     */
+    public function getPreferredDay(): string
+    {
+        return $this->getServiceData('preferredDay')['date'] ?? '';
+    }
+
+    /**
+     * Check if preferredNeighbour has been booked
+     *
+     * @return bool
+     */
+    public function hasPreferredNeighbour(): bool
+    {
+        return (bool) ($this->getServiceData('preferredNeighbour')['enabled'] ?? false);
+    }
+
+    /**
+     * Obtain the name of "preferredNeighbour" value for the current package.
+     *
+     * @return string
+     */
+    public function getPreferredNeighbourName(): string
+    {
+        return $this->getServiceData('preferredNeighbour')['name'] ?? '';
+    }
+
+    /**
+     * Obtain the address of "preferredNeighbour" value for the current package.
+     *
+     * @return string
+     */
+    public function getPreferredNeighbourAddress(): string
+    {
+        return $this->getServiceData('preferredNeighbour')['address'] ?? '';
+    }
+
+    /**
+     * Check if preferredLocation has been booked
+     *
+     * @return bool
+     */
+    public function hasPreferredLocation(): bool
+    {
+        return (bool) ($this->getServiceData('preferredLocation')['enabled'] ?? false);
+    }
+
+    /**
+     * Obtain the "preferredLocation" value for the current package.
+     *
+     * @return string
+     */
+    public function getPreferredLocation(): string
+    {
+        return $this->getServiceData('preferredLocation')['details'] ?? '';
+    }
+
+    /**
+     * Obtain the "printOnlyIfCodeable" flag for the current package.
+     *
+     * @return bool
+     */
+    public function isPrintOnlyIfCodeable(): bool
+    {
+        return (bool) ($this->getServiceData('printOnlyIfCodeable')['enabled'] ?? false);
+    }
+
+    /**
+     * Obtain the "visualCheckOfAge" flag for the current package.
+     *
+     * @return bool
+     */
+    public function isVisualCheckOfAge(): bool
+    {
+        return (bool) ($this->getServiceData('visualCheckOfAge')['enabled'] ?? false);
+    }
+
+    /**
+     * Obtain the "visualCheckOfAge" value for the current package.
+     *
+     * @return string
+     */
+    public function getVisualCheckOfAge(): string
+    {
+        return $this->getServiceData('visualCheckOfAge')['enabled'];
+    }
+
+    /**
+     * Obtain the "parcelAnnouncement" flag for the current package.
+     *
+     * @return bool
+     */
+    public function isParcelAnnouncement(): bool
+    {
+        return (bool) ($this->getServiceData('parcelAnnouncement')['enabled'] ?? false);
+    }
+
+    /**
+     * Obtain the "returnShipment" flag for the current package.
+     *
+     * @return bool
+     */
+    public function isReturnShipment(): bool
+    {
+        return (bool) ($this->getServiceData('returnShipment')['enabled'] ?? false);
+    }
+
+    /**
+     * Obtain the "parcelstation" flag for the current package.
+     *
+     * @return bool
+     */
+    public function isPackstationDelivery(): bool
+    {
+        return (bool) ($this->getServiceData('parcelstation')['enabled'] ?? false);
+    }
+
+    /**
+     * Obtain the id value of "parcelstation" value for the current package.
+     *
+     * @return string
+     */
+    public function getPackstationId(): string
+    {
+        return $this->getServiceData('parcelstation')['id'] ?? '';
+    }
+
+    /**
+     * Obtain the id value of "parcelstation" value for the current package.
+     *
+     * @return string
+     */
+    public function getPostNumber(): string
+    {
+        return $this->getServiceData('parcelstation')['postNumber'] ?? '';
     }
 }
