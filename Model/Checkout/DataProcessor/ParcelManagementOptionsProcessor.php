@@ -10,6 +10,7 @@ use Dhl\Paket\Model\Service\StartDate;
 use Dhl\Paket\Webservice\ParcelManagementServiceFactory;
 use Dhl\Sdk\Paket\ParcelManagement\Api\Data\CarrierServiceInterface;
 use Dhl\Sdk\Paket\ParcelManagement\Api\Data\IntervalOptionInterface;
+use Dhl\ShippingCore\Api\ConfigInterface;
 use Dhl\ShippingCore\Api\Data\ShippingOption\OptionInterface;
 use Dhl\ShippingCore\Api\Data\ShippingOption\OptionInterfaceFactory;
 use Dhl\ShippingCore\Api\Data\ShippingOption\ShippingOptionInterface;
@@ -41,6 +42,11 @@ class ParcelManagementOptionsProcessor extends AbstractProcessor
     private $serviceFactory;
 
     /**
+     * @var ConfigInterface
+     */
+    private $dhlConfig;
+
+    /**
      * @var StartDate
      */
     private $startDate;
@@ -60,6 +66,7 @@ class ParcelManagementOptionsProcessor extends AbstractProcessor
      *
      * @param OptionInterfaceFactory $optionFactory
      * @param ParcelManagementServiceFactory $serviceFactory
+     * @param ConfigInterface $dhlConfig
      * @param StartDate $startDate
      * @param TimezoneInterface $timeZone
      * @param LoggerInterface $logger
@@ -67,12 +74,14 @@ class ParcelManagementOptionsProcessor extends AbstractProcessor
     public function __construct(
         OptionInterfaceFactory $optionFactory,
         ParcelManagementServiceFactory $serviceFactory,
+        ConfigInterface $dhlConfig,
         StartDate $startDate,
         TimezoneInterface $timeZone,
         LoggerInterface $logger
     ) {
         $this->optionFactory = $optionFactory;
         $this->serviceFactory = $serviceFactory;
+        $this->dhlConfig = $dhlConfig;
         $this->startDate = $startDate;
         $this->timeZone = $timeZone;
         $this->logger = $logger;
@@ -239,21 +248,27 @@ class ParcelManagementOptionsProcessor extends AbstractProcessor
         string $postalCode,
         int $scopeId = null
     ): array {
-        $parcelManagementService = $this->serviceFactory->create(['storeId' => $scopeId]);
-        $startDate = $this->startDate->getStartDate()->format('Y-m-d');
+        $carrierServices = [];
 
-        try {
-            $carrierServices = $parcelManagementService->getCarrierServices($postalCode, $startDate);
+        if (($countryId === 'DE') && ($this->dhlConfig->getOriginCountry($scopeId) === 'DE')) {
+            $parcelManagementService = $this->serviceFactory->create(['storeId' => $scopeId]);
+            $startDate = $this->startDate->getStartDate()->format('Y-m-d');
 
-            // add service codes as array keys
-            $carrierServiceCodes = array_map(function (CarrierServiceInterface $carrierService) {
-                return $carrierService->getCode();
-            }, $carrierServices);
+            try {
+                $carrierServices = $parcelManagementService->getCarrierServices($postalCode, $startDate);
 
-            $carrierServices = array_combine($carrierServiceCodes, $carrierServices);
-        } catch (\Exception $exception) {
-            $this->logger->error($exception->getMessage());
-            $carrierServices = [];
+                // add service codes as array keys
+                $carrierServiceCodes = array_map(
+                    function (CarrierServiceInterface $carrierService) {
+                        return $carrierService->getCode();
+                    },
+                    $carrierServices
+                );
+
+                $carrierServices = array_combine($carrierServiceCodes, $carrierServices);
+            } catch (\Exception $exception) {
+                $this->logger->error($exception->getMessage());
+            }
         }
 
         $shippingOptions = array_map(
