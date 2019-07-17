@@ -148,7 +148,7 @@
     <type name="Dhl\ShippingCore\Model\Packaging\PackagingDataCompositeProcessor">
         <arguments>
             <argument name="processors" xsi:type="array">
-                <item name="dhlPaketPackageInputProcessor" sortOrder="220" xsi:type="object">Dhl\Paket\Model\Packaging\DataProcessor\PackageInputDataProcessor</item>
+                <item name="dhlpaketPackageInputDataProcessor" sortOrder="220" xsi:type="object">Dhl\Paket\Model\Packaging\DataProcessor\PackageInputDataProcessor</item>
             </argument>
         </arguments>
     </type>

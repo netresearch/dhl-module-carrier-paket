@@ -37,54 +37,56 @@
         </packageOptions>
         <serviceOptions>
             <shippingOption code="parcelAnnouncement">
+                <sortOrder>10</sortOrder>
                 <inputs>
                     <input code="enabled">
-                        <disabled>true</disabled>
-                    </input>
-                </inputs>
-            </shippingOption>
-            <shippingOption code="preferredDay">
-                <inputs>
-                    <input code="date">
-                        <inputType>static</inputType>
-                        <disabled>true</disabled>
-                    </input>
-                </inputs>
-            </shippingOption>
-            <shippingOption code="preferredTime">
-                <inputs>
-                    <input code="enabled">
-                        <inputType>checkbox</inputType>
-                    </input>
-                    <input code="time">
-                        <inputType>static</inputType>
-                        <disabled>true</disabled>
-                    </input>
-                </inputs>
-            </shippingOption>
-            <shippingOption code="parcelstation">
-                <inputs>
-                    <input code="id">
-                        <inputType>text</inputType>
                         <disabled>true</disabled>
                     </input>
                 </inputs>
             </shippingOption>
             <shippingOption code="printOnlyIfCodeable">
-                <label>Use Print Only If Codeable Service</label>
-                <sortOrder>10</sortOrder>
+                <label>Routing Code</label>
+                <sortOrder>20</sortOrder>
                 <inputs>
                     <input code="enabled" defaultConfigValue="dhlshippingsolutions/dhlpaket/shipment_defaults/print_only_if_codeable">
                         <inputType>checkbox</inputType>
-                        <comment>
-                            <content><![CDATA[If set to <em>Yes</em>, shipment orders will only return a label if the DHL delivery address verification succeeds.]]></content>
-                        </comment>
+                        <label>Enable DHL print only if codeable service</label>
+                    </input>
+                </inputs>
+            </shippingOption>
+            <shippingOption code="returnShipment">
+                <label>Return Shipment</label>
+                <sortOrder>30</sortOrder>
+                <inputs>
+                    <input code="enabled" defaultConfigValue="dhlshippingsolutions/dhlpaket/shipment_defaults/services_group/return_shipment">
+                        <inputType>checkbox</inputType>
+                        <label>Enable DHL return shipment service</label>
+                    </input>
+                </inputs>
+            </shippingOption>
+            <shippingOption code="additionalInsurance">
+                <label>Additional Insurance</label>
+                <sortOrder>40</sortOrder>
+                <inputs>
+                    <input code="enabled" defaultConfigValue="dhlshippingsolutions/dhlpaket/shipment_defaults/services_group/additional_insurance">
+                        <inputType>checkbox</inputType>
+                        <label>Enable DHL additional insurance service</label>
+                    </input>
+                </inputs>
+            </shippingOption>
+            <shippingOption code="bulkyGoods">
+                <label>Bulky Goods</label>
+                <sortOrder>50</sortOrder>
+                <inputs>
+                    <input code="enabled" defaultConfigValue="dhlshippingsolutions/dhlpaket/shipment_defaults/services_group/bulky_goods">
+                        <inputType>checkbox</inputType>
+                        <label>Enable DHL bulky goods service</label>
                     </input>
                 </inputs>
             </shippingOption>
             <shippingOption code="visualCheckOfAge">
-                <label>Use Visual Check of Age Service</label>
-                <sortOrder>1000</sortOrder>
+                <label>Visual Check of Age</label>
+                <sortOrder>60</sortOrder>
                 <inputs>
                     <input code="enabled" defaultConfigValue="dhlshippingsolutions/dhlpaket/shipment_defaults/services_group/visual_check_of_age">
                         <inputType>radioset</inputType>
@@ -102,45 +104,87 @@
                                 <value>A18</value>
                             </option>
                         </options>
-                        <comment>
-                            <content>If enabled, the visual age check service will be booked during shipment orders.</content>
-                        </comment>
                     </input>
                 </inputs>
             </shippingOption>
-            <shippingOption code="returnShipment">
-                <label>Use Return Shipment Service</label>
-                <sortOrder>30</sortOrder>
+            <shippingOption code="parcelstation">
+                <label>Parcel Station Delivery</label>
+                <sortOrder>70</sortOrder>
                 <inputs>
-                    <input code="enabled" defaultConfigValue="dhlshippingsolutions/dhlpaket/shipment_defaults/services_group/return_shipment">
-                        <inputType>checkbox</inputType>
-                        <comment>
-                            <content><![CDATA[If set to <em>Yes</em>, a return shipment label will be requested from the webservice.]]></content>
-                        </comment>
+                    <input code="enabled">
+                        <label>Enable DHL parcel station delivery</label>
+                    </input>
+                    <input code="id">
+                        <sortOrder>10</sortOrder>
+                        <inputType>static</inputType>
+                    </input>
+                    <input code="postNumber">
+                        <sortOrder>20</sortOrder>
+                        <inputType>static</inputType>
                     </input>
                 </inputs>
             </shippingOption>
-            <shippingOption code="additionalInsurance">
-                <label>Use Additional Insurance Service</label>
-                <sortOrder>40</sortOrder>
+            <shippingOption code="preferredDay">
+                <label>Preferred Day Delivery</label>
+                <sortOrder>80</sortOrder>
                 <inputs>
-                    <input code="enabled" defaultConfigValue="dhlshippingsolutions/dhlpaket/shipment_defaults/services_group/additional_insurance">
+                    <input code="enabled">
+                        <sortOrder>10</sortOrder>
                         <inputType>checkbox</inputType>
-                        <comment>
-                            <content><![CDATA[If set to <em>Yes</em>, shipments will be insured with higher than standard amount.]]></content>
-                        </comment>
+                        <label>Enable DHL preferred day delivery</label>
+                    </input>
+                    <input code="date">
+                        <sortOrder>20</sortOrder>
+                        <inputType>static</inputType>
                     </input>
                 </inputs>
             </shippingOption>
-            <shippingOption code="bulkyGoods">
-                <label>Use Bulky Goods Service</label>
-                <sortOrder>50</sortOrder>
+            <shippingOption code="preferredTime">
+                <label>Preferred Time Delivery</label>
+                <sortOrder>90</sortOrder>
                 <inputs>
-                    <input code="enabled" defaultConfigValue="dhlshippingsolutions/dhlpaket/shipment_defaults/services_group/bulky_goods">
+                    <input code="enabled">
+                        <sortOrder>10</sortOrder>
                         <inputType>checkbox</inputType>
-                        <comment>
-                            <content><![CDATA[If set to <em>Yes</em>, shipments will be marked as bulk freight.]]></content>
-                        </comment>
+                        <label>Enable DHL preferred time delivery</label>
+                    </input>
+                    <input code="time">
+                        <sortOrder>20</sortOrder>
+                        <inputType>static</inputType>
+                    </input>
+                </inputs>
+            </shippingOption>
+            <shippingOption code="preferredNeighbour">
+                <label>Preferred Neighbour Delivery</label>
+                <sortOrder>100</sortOrder>
+                <inputs>
+                    <input code="enabled">
+                        <sortOrder>10</sortOrder>
+                        <inputType>checkbox</inputType>
+                        <label>Enable DHL preferred neighbour delivery</label>
+                    </input>
+                    <input code="name">
+                        <sortOrder>20</sortOrder>
+                        <inputType>static</inputType>
+                    </input>
+                    <input code="address">
+                        <sortOrder>30</sortOrder>
+                        <inputType>static</inputType>
+                    </input>
+                </inputs>
+            </shippingOption>
+            <shippingOption code="preferredLocation">
+                <label>Preferred Location Delivery</label>
+                <sortOrder>110</sortOrder>
+                <inputs>
+                    <input code="enabled">
+                        <sortOrder>10</sortOrder>
+                        <inputType>checkbox</inputType>
+                        <label>Enable DHL preferred location delivery</label>
+                    </input>
+                    <input code="details">
+                        <sortOrder>20</sortOrder>
+                        <inputType>static</inputType>
                     </input>
                 </inputs>
             </shippingOption>

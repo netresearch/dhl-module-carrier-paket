@@ -125,6 +125,7 @@ class PackageInputDataProcessor extends AbstractProcessor
                     }
                     $input->setDefaultValue($default);
                     break;
+
                 case 'additionalFee':
                     $currency = $shipment->getStore()->getBaseCurrency();
                     $currencySymbol = $currency->getCurrencySymbol() ?: $currency->getCode();

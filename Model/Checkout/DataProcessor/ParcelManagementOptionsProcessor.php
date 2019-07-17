@@ -19,7 +19,7 @@ use Magento\Framework\Stdlib\DateTime\TimezoneInterface;
 use Psr\Log\LoggerInterface;
 
 /**
- * Class PreferredDayTimeOptionsProcessor
+ * Class ParcelManagementOptionsProcessor
  *
  * @package Dhl\Paket\Model\Checkout\DataProcessor
  * @author Max Melzer <max.melzer@netresearch.de>

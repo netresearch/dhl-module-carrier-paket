@@ -8,7 +8,7 @@
                 <inputs>
                     <input code="enabled">
                         <inputType>checkbox</inputType>
-                        <label>Enable DHL Parcel Notification</label>
+                        <label>Enable DHL parcel notification</label>
                         <tooltip>Your e-mail address will be sent to DHL upon enabling, after which DHL will trigger a package announcement for your shipment. The e-mail address will exclusively be used for the announcement of this shipment.</tooltip>
                         <comment>
                             <content>Allow customers to request parcel notification updates via e-mail by DHL during checkout.</content>
@@ -108,6 +108,7 @@
                 <sortOrder>50</sortOrder>
                 <inputs>
                     <input code="details">
+                        <sortOrder>20</sortOrder>
                         <label>Preferred Location</label>
                         <labelVisible>false</labelVisible>
                         <inputType>text</inputType>
@@ -129,7 +130,8 @@
                 <sortOrder>60</sortOrder>
                 <inputs>
                     <input code="name">
-                        <label>Neighbour Name</label>
+                        <sortOrder>20</sortOrder>
+                        <label>Neighbour name</label>
                         <inputType>text</inputType>
                         <tooltip>Declare a person in your immediate neighborhood whom we can hand out your parcel. This person should live in the same building, directly opposite or next door.</tooltip>
                         <placeholder>First name, last name of neighbour</placeholder>
@@ -143,7 +145,8 @@
                         </validationRules>
                     </input>
                     <input code="address">
-                        <label>Neighbour Address</label>
+                        <sortOrder>30</sortOrder>
+                        <label>Neighbour address</label>
                         <inputType>text</inputType>
                         <placeholder>Street, number, postal code, city</placeholder>
                         <validationRules>
