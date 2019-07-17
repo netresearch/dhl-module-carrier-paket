@@ -57,6 +57,7 @@
                             </rule>
                             <rule name="validate-no-html-tags"/>
                             <rule name="dhl_filter_special_chars"/>
+                            <rule name="required-entry"/>
                         </validationRules>
                         <tooltip>Lorem ipsum dolor sit amet, consetetur sadipscing elitr.</tooltip>
                     </input>

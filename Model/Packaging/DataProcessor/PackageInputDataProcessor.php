@@ -6,9 +6,9 @@ declare(strict_types=1);
 
 namespace Dhl\Paket\Model\Packaging\DataProcessor;
 
+use Dhl\Paket\Model\Adminhtml\System\Config\Source\ShippingProduct;
 use Dhl\Paket\Model\Carrier\Paket;
 use Dhl\Paket\Model\Config\ModuleConfig;
-use Dhl\Paket\Model\Adminhtml\System\Config\Source\ShippingProduct;
 use Dhl\Paket\Util\ShippingProducts;
 use Dhl\ShippingCore\Api\ConfigInterface;
 use Dhl\ShippingCore\Api\Data\ShippingOption\CommentInterfaceFactory;

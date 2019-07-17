@@ -216,14 +216,18 @@ class RequestDataMapper
             }
 
             if ($requestExtractor->isPackstationDelivery()) {
+                $packstation = $requestExtractor->getPackstationId();
+                $stationData = explode('|', $packstation);
+                list($stationId, $countryId, $postalCode, $city) = $stationData;
+
                 $this->requestBuilder->setPackstation(
                     $requestExtractor->getRecipient()->getContactPersonName(),
-                    $requestExtractor->getPackstationId(),
-                    $requestExtractor->getRecipient()->getPostalCode(),
-                    $requestExtractor->getRecipient()->getCity(),
+                    $stationId,
+                    $postalCode,
+                    $city,
                     $requestExtractor->getPostNumber(),
-                    $requestExtractor->getRecipient()->getState(),
-                    $requestExtractor->getRecipient()->getCountryCode()
+                    null,
+                    $countryId
                 );
             }
 

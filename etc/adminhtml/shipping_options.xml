@@ -116,7 +116,7 @@
                     </input>
                     <input code="id">
                         <sortOrder>10</sortOrder>
-                        <inputType>static</inputType>
+                        <inputType>radio</inputType>
                     </input>
                     <input code="postNumber">
                         <sortOrder>20</sortOrder>

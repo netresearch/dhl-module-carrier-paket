@@ -6,15 +6,13 @@ declare(strict_types=1);
 
 namespace Dhl\Paket\Model\Checkout\DataProcessor;
 
-use Dhl\ShippingCore\Api\Data\ShippingOption\OptionInterface;
+use Dhl\Paket\Webservice\PostFinderServiceFactory;
 use Dhl\ShippingCore\Api\Data\ShippingOption\OptionInterfaceFactory;
 use Dhl\ShippingCore\Api\Data\ShippingOption\ShippingOptionInterface;
 use Dhl\ShippingCore\Model\Checkout\AbstractProcessor;
 
 /**
  * Class ParcelStationOptionsProcessor
- *
- * @todo(nr): the processor currently adds fake data. use postfinder api.
  *
  * @package Dhl\Paket\Model\Checkout\DataProcessor
  * @author Sebastian Ertner <sebastian.ertner@netresearch.de>
@@ -27,13 +25,22 @@ class ParcelStationOptionsProcessor extends AbstractProcessor
     private $optionFactory;
 
     /**
+     * @var PostFinderServiceFactory
+     */
+    private $postFinderServiceFactory;
+
+    /**
      * ParcelStationOptionsProcessor constructor.
      *
      * @param OptionInterfaceFactory $optionFactory
+     * @param PostFinderServiceFactory $postFinderServiceFactory
      */
-    public function __construct(OptionInterfaceFactory $optionFactory)
-    {
+    public function __construct(
+        OptionInterfaceFactory $optionFactory,
+        PostFinderServiceFactory $postFinderServiceFactory
+    ) {
         $this->optionFactory = $optionFactory;
+        $this->postFinderServiceFactory = $postFinderServiceFactory;
     }
 
     /**
@@ -52,30 +59,44 @@ class ParcelStationOptionsProcessor extends AbstractProcessor
     ): array {
         foreach ($optionsData as $shippingOption) {
             if ($shippingOption->getCode() === 'parcelstation') {
+                $postFinderService = $this->postFinderServiceFactory->create(['storeId' => $scopeId]);
                 foreach ($shippingOption->getInputs() as $input) {
                     if ($input->getCode() === 'id') {
-                        $input->setOptions($input->getOptions() + $this->getParcelStationId());
+                        $options = [];
+
+                        $stations = $postFinderService->getParcelStations($countryId, $postalCode);
+                        foreach ($stations as $station) {
+                            $street = $station['street'];
+                            if ($station['streetNo']) {
+                                $street .= ' ' . $station['streetNo'];
+                            }
+
+                            $value = sprintf(
+                                '%s|%s|%s|%s',
+                                $station['parcelStationNumber'],
+                                $station['country'],
+                                $station['zip'],
+                                $station['city']
+                            );
+                            $label = sprintf(
+                                'Packstation %s, %s, %s %s',
+                                $station['parcelStationNumber'],
+                                $street,
+                                $station['zip'],
+                                $station['city']
+                            );
+                            $option = $this->optionFactory->create();
+                            $option->setValue($value);
+                            $option->setLabel($label);
+                            $options[] = $option;
+                        }
+
+                        $input->setOptions($input->getOptions() + $options);
                     }
                 }
             }
         }
 
         return $optionsData;
-    }
-
-    /**
-     * @return OptionInterface[]
-     */
-    private function getParcelStationId(): array
-    {
-        $options = [];
-        for ($i = 1; $i < 4; $i++) {
-            $option = $this->optionFactory->create();
-            $option->setValue("test{$i}");
-            $option->setLabel("Parcel Station {$i}");
-            $options[]= $option;
-        }
-
-        return $options;
     }
 }
