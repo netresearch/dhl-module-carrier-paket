@@ -7,6 +7,7 @@ declare(strict_types=1);
 namespace Dhl\Paket\Model\Checkout\DataProcessor;
 
 use Dhl\Paket\Webservice\PostFinderServiceFactory;
+use Dhl\ShippingCore\Api\ConfigInterface;
 use Dhl\ShippingCore\Api\Data\ShippingOption\OptionInterfaceFactory;
 use Dhl\ShippingCore\Api\Data\ShippingOption\ShippingOptionInterface;
 use Dhl\ShippingCore\Model\Checkout\AbstractProcessor;
@@ -30,17 +31,25 @@ class ParcelStationOptionsProcessor extends AbstractProcessor
     private $postFinderServiceFactory;
 
     /**
+     * @var ConfigInterface
+     */
+    private $dhlConfig;
+
+    /**
      * ParcelStationOptionsProcessor constructor.
      *
      * @param OptionInterfaceFactory $optionFactory
      * @param PostFinderServiceFactory $postFinderServiceFactory
+     * @param ConfigInterface $dhlConfig
      */
     public function __construct(
         OptionInterfaceFactory $optionFactory,
-        PostFinderServiceFactory $postFinderServiceFactory
+        PostFinderServiceFactory $postFinderServiceFactory,
+        ConfigInterface $dhlConfig
     ) {
         $this->optionFactory = $optionFactory;
         $this->postFinderServiceFactory = $postFinderServiceFactory;
+        $this->dhlConfig = $dhlConfig;
     }
 
     /**
@@ -57,6 +66,10 @@ class ParcelStationOptionsProcessor extends AbstractProcessor
         string $postalCode,
         int $scopeId = null
     ): array {
+        if (($countryId !== 'DE') || ($this->dhlConfig->getOriginCountry($scopeId) !== 'DE')) {
+            return $optionsData;
+        }
+
         foreach ($optionsData as $shippingOption) {
             if ($shippingOption->getCode() === 'parcelstation') {
                 $postFinderService = $this->postFinderServiceFactory->create(['storeId' => $scopeId]);

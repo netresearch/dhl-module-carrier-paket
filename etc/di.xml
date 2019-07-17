@@ -123,6 +123,11 @@
             <argument name="logger" xsi:type="object">Dhl\Paket\Model\Logger\Virtual</argument>
         </arguments>
     </type>
+    <type name="Dhl\Paket\Webservice\ParcelManagementService">
+        <arguments>
+            <argument name="logger" xsi:type="object">Dhl\Paket\Model\Logger\Virtual</argument>
+        </arguments>
+    </type>
     <type name="Dhl\ShippingCore\Model\BulkShipmentManagement">
         <arguments>
             <argument name="configurations" xsi:type="array">
