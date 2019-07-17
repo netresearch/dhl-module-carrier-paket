@@ -6,7 +6,7 @@
 "Allow customers to declare a preferred neighbour during checkout.","Lassen Sie Kunden im Checkout einen bevorzugten Nachbar für die Zustellung bestimmen."
 "Allow customers to declare a preferred parcel location during checkout.","Lassen Sie Kunden im Checkout einen bevorzugten Ablageort bestimmen."
 "Allow customers to get shipments delivered to a parcel station.","Versand an Packstation erlauben."
-"Allow customers to request parcel notification updates via e-mail by DHL during checkout.","Ihre E-Mail-Adresse wird bei Aktivierung an DHL übermittelt, worauf DHL eine Paketankündigung zu Ihrer Sendung auslöst. Die E-Mail-Adresse wird ausschließlich für die Ankündigung zu dieser Sendung verwendet."
+"Allow customers to request parcel notification updates via e-mail by DHL during checkout.","Lassen Sie Kunden im Checkout die Paketankündigung aktivieren. Die E-Mail-Adresse des Kunden wird von DHL ausschließlich für die Ankündigung zu dieser Sendung verwendet."
 "Allow customers to select a preferred day of delivery.","Lassen Sie Kunden im Checkout einen bevorzugten Zustelltag bestimmen."
 "Allow customers to select a preferred time of delivery.","Lassen Sie Kunden im Checkout eine bevorzugte Zustellzeit bestimmen."
 "Allow for Specific Countries","Zulassen nur für bestimmte Länder"
