@@ -135,23 +135,6 @@ class RequestModifier implements RequestModifierInterface
     }
 
     /**
-     * Add service selection to shipment request.
-     *
-     * @todo(nr): where to add service data within the shipment request is to be defined.
-     *
-     * @param Request $shipmentRequest
-     * @throws LocalizedException
-     */
-    private function modifyServices(Request $shipmentRequest)
-    {
-        $shipment = $shipmentRequest->getOrderShipment();
-
-        /** @var \Dhl\ShippingCore\Api\PackagingOptionReaderInterface $packagingOptionReader */
-        $packagingOptionReader = $this->packagingOptionReaderFactory->create(['shipment' => $shipment]);
-        $packagingOptionReader->getServiceOptionValue('printOnlyIfCodeable', 'enabled');
-    }
-
-    /**
      * Add customs data to package params and package items.
      *
      * @param Request $shipmentRequest
@@ -212,7 +195,6 @@ class RequestModifier implements RequestModifierInterface
 
         // add carrier-specific data
         $this->modifyPackage($shipmentRequest);
-        $this->modifyServices($shipmentRequest);
         $this->modifyCustoms($shipmentRequest);
     }
 }
