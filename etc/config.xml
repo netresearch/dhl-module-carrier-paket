@@ -39,11 +39,7 @@
                             <![CDATA[
                                 {
                                     "_1485789382230_230":{"procedure":"01","participation":"04"},
-                                    "_1508418821593_593":{"procedure":"55","participation":"01"},
-                                    "_1485789931170_170":{"procedure":"53","participation":"01"},
-                                    "_1485789932261_261":{"procedure":"86","participation":"02"},
-                                    "_1485789932731_731":{"procedure":"87","participation":"02"},
-                                    "_1485789933215_215":{"procedure":"82","participation":"02"}
+                                    "_1485789931170_170":{"procedure":"53","participation":"01"}
                                 }
                             ]]>
                         </account_participations>
@@ -63,11 +59,7 @@
                         <![CDATA[
                             {
                                 "_1485789382230_230":{"procedure":"01","participation":"04"},
-                                "_1508418821593_593":{"procedure":"55","participation":"01"},
-                                "_1485789931170_170":{"procedure":"53","participation":"01"},
-                                "_1485789932261_261":{"procedure":"86","participation":"02"},
-                                "_1485789932731_731":{"procedure":"87","participation":"02"},
-                                "_1485789933215_215":{"procedure":"82","participation":"02"}
+                                "_1485789931170_170":{"procedure":"53","participation":"01"}
                             }
                         ]]>
                     </sandbox_account_participations>

@@ -72,14 +72,8 @@ class Procedure implements OptionSourceInterface
             ShippingProducts::PROCEDURE_NATIONAL_TAGGLEICH  => __('DHL Paket Taggleich: V06PAK'),
             ShippingProducts::PROCEDURE_INTERNATIONAL       => __('DHL Paket International: V53WPAK'),
             ShippingProducts::PROCEDURE_EUROPAKET           => __('DHL Europaket: V54EPAK'),
-            ShippingProducts::PROCEDURE_CONNECT             => __('DHL Paket Connect: V55PAK'),
-            ShippingProducts::PROCEDURE_PAKET_AUSTRIA       => __('DHL Paket Austria: V86PARCEL'),
-            ShippingProducts::PROCEDURE_PAKET_CONNECT       => __('DHL Paket Connect: V87PARCEL'),
-            ShippingProducts::PROCEDURE_PAKET_INTERNATIONAL => __('DHL Paket International: V82PARCEL'),
 
             ShippingProducts::PROCEDURE_RETURNSHIPMENT_NATIONAL => __('Retoure DHL Paket: V07PAK'),
-            ShippingProducts::PROCEDURE_RETURNSHIPMENT_AUSTRIA  => __('Retoure DHL Paket Austria: V86PARCEL'),
-            ShippingProducts::PROCEDURE_RETURNSHIPMENT_CONNECT  => __('Retoure DHL Paket Connect: V87PARCEL'),
         ];
 
         $applicableProcedures = $this->shippingProducts->getApplicableProcedures($originCountry);

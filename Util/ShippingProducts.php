@@ -47,13 +47,9 @@ class ShippingProducts
     const CODE_NATIONAL_TAGGLEICH  = 'V06PAK';
     const CODE_INTERNATIONAL       = 'V53WPAK';
     const CODE_EUROPAKET           = 'V54EPAK';
-    const CODE_CONNECT             = 'V55PAK';
     const CODE_TAGGLEICH           = 'V06PAK';
     const CODE_KURIER_TAGGLEICH    = 'V06TG';
     const CODE_KURIER_WUNSCHZEIT   = 'V06WZ';
-    const CODE_PAKET_AUSTRIA       = 'V86PARCEL';
-    const CODE_PAKET_CONNECT       = 'V87PARCEL';
-    const CODE_PAKET_INTERNATIONAL = 'V82PARCEL';
 
     /**
      * Procedure codes.
@@ -63,15 +59,9 @@ class ShippingProducts
     const PROCEDURE_NATIONAL_TAGGLEICH      = '06';
     const PROCEDURE_INTERNATIONAL           = '53';
     const PROCEDURE_EUROPAKET               = '54';
-    const PROCEDURE_CONNECT                 = '55';
     const PROCEDURE_KURIER_TAGGLEICH        = '01';
     const PROCEDURE_KURIER_WUNSCHZEIT       = '01';
-    const PROCEDURE_PAKET_AUSTRIA           = '86';
-    const PROCEDURE_PAKET_CONNECT           = '87';
-    const PROCEDURE_PAKET_INTERNATIONAL     = '82';
     const PROCEDURE_RETURNSHIPMENT_NATIONAL = '07';
-    const PROCEDURE_RETURNSHIPMENT_AUSTRIA  = '83';
-    const PROCEDURE_RETURNSHIPMENT_CONNECT  = '85';
 
     /**
      * Obtain all origin-destination-products combinations.
@@ -92,45 +82,6 @@ class ShippingProducts
                     self::CODE_INTERNATIONAL,
                 ],
             ],
-            'AT' => [
-                self::COUNTRY_CODE_AUSTRIA        => [
-                    self::CODE_PAKET_AUSTRIA,
-                ],
-                self::COUNTRY_CODE_GERMANY        => [
-                    self::CODE_PAKET_CONNECT,
-                    self::CODE_PAKET_INTERNATIONAL,
-                ],
-                self::COUNTRY_CODE_BELGIUM        => [
-                    self::CODE_PAKET_CONNECT,
-                    self::CODE_PAKET_INTERNATIONAL,
-                ],
-                self::COUNTRY_CODE_LUXEMBURG      => [
-                    self::CODE_PAKET_CONNECT,
-                    self::CODE_PAKET_INTERNATIONAL,
-                ],
-                self::COUNTRY_CODE_NETHERLANDS    => [
-                    self::CODE_PAKET_CONNECT,
-                    self::CODE_PAKET_INTERNATIONAL,
-                ],
-                self::COUNTRY_CODE_POLAND         => [
-                    self::CODE_PAKET_CONNECT,
-                    self::CODE_PAKET_INTERNATIONAL,
-                ],
-                self::COUNTRY_CODE_SLOVAKIA       => [
-                    self::CODE_PAKET_CONNECT,
-                    self::CODE_PAKET_INTERNATIONAL,
-                ],
-                self::COUNTRY_CODE_CZECH_REPUBLIC => [
-                    self::CODE_PAKET_CONNECT,
-                    self::CODE_PAKET_INTERNATIONAL,
-                ],
-                self::REGION_EU                   => [
-                    self::CODE_PAKET_INTERNATIONAL,
-                ],
-                self::REGION_INTERNATIONAL        => [
-                    self::CODE_PAKET_INTERNATIONAL,
-                ],
-            ],
         ];
     }
 
@@ -147,12 +98,8 @@ class ShippingProducts
             self::CODE_NATIONAL_TAGGLEICH => self::PROCEDURE_NATIONAL_TAGGLEICH,
             self::CODE_INTERNATIONAL => self::PROCEDURE_INTERNATIONAL,
             self::CODE_EUROPAKET => self::PROCEDURE_EUROPAKET,
-            self::CODE_CONNECT => self::PROCEDURE_CONNECT,
             self::CODE_KURIER_TAGGLEICH => self::PROCEDURE_KURIER_TAGGLEICH,
             self::CODE_KURIER_WUNSCHZEIT => self::PROCEDURE_KURIER_WUNSCHZEIT,
-            self::CODE_PAKET_AUSTRIA => self::PROCEDURE_PAKET_AUSTRIA,
-            self::CODE_PAKET_CONNECT => self::PROCEDURE_PAKET_CONNECT,
-            self::CODE_PAKET_INTERNATIONAL => self::PROCEDURE_PAKET_INTERNATIONAL,
         ];
     }
 
@@ -165,8 +112,6 @@ class ShippingProducts
     {
         return [
             self::CODE_NATIONAL => self::PROCEDURE_RETURNSHIPMENT_NATIONAL,
-            self::CODE_PAKET_AUSTRIA => self::PROCEDURE_RETURNSHIPMENT_AUSTRIA,
-            self::CODE_PAKET_CONNECT => self::PROCEDURE_RETURNSHIPMENT_CONNECT,
         ];
     }
 
@@ -182,14 +127,10 @@ class ShippingProducts
         $names = [
             self::CODE_NATIONAL            => 'DHL Paket',
             self::CODE_EUROPAKET           => 'DHL Europaket',
-            self::CODE_CONNECT             => 'DHL Paket Connect',
             self::CODE_TAGGLEICH           => 'DHL Paket Taggleich',
             self::CODE_KURIER_TAGGLEICH    => 'DHL Kurier Taggleich,',
             self::CODE_KURIER_WUNSCHZEIT   => 'DHL Kurier Wunschzeit',
             self::CODE_INTERNATIONAL       => 'DHL Paket International',
-            self::CODE_PAKET_AUSTRIA       => 'DHL PAKET Austria',
-            self::CODE_PAKET_CONNECT       => 'DHL PAKET Connect',
-            self::CODE_PAKET_INTERNATIONAL => 'DHL PAKET International',
         ];
 
         if (!isset($names[$productCode])) {
