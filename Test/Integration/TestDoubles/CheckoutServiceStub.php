@@ -4,7 +4,7 @@
  */
 declare(strict_types=1);
 
-namespace Dhl\Paket\Test\Integration\TestDouble;
+namespace Dhl\Paket\Test\Integration\TestDoubles;
 
 use Dhl\Sdk\Paket\ParcelManagement\Api\CheckoutServiceInterface;
 use Dhl\Sdk\Paket\ParcelManagement\Service\CheckoutService\CarrierService;

@@ -7,6 +7,7 @@ declare(strict_types=1);
 namespace Dhl\Paket\Webservice\Pipeline\CreateShipments;
 
 use Dhl\Paket\Model\ShipmentRequest\Package;
+use Dhl\Paket\Model\ShipmentRequest\RequestExtractor;
 use Dhl\Paket\Model\ShipmentRequest\RequestExtractorFactory;
 use Dhl\Sdk\Paket\Bcs\Api\ShipmentOrderRequestBuilderInterface;
 use Dhl\Sdk\Paket\Bcs\Model\CreateShipment\RequestType\ShipmentOrderType;
@@ -96,6 +97,7 @@ class RequestDataMapper
      */
     public function mapRequest(string $sequenceNumber, Request $request): ShipmentOrderType
     {
+        /** @var RequestExtractor $requestExtractor */
         $requestExtractor = $this->requestExtractorFactory->create([
             'shipmentRequest' => $request,
         ]);

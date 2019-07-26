@@ -3,11 +3,10 @@
  * See LICENSE.md for license details.
  */
 
-namespace Dhl\Paket\Controller\Adminhtml\Order\Shipment;
+namespace Dhl\Paket\Test\Integration\TestCase\Controller\Adminhtml\Order\Shipment;
 
 use Dhl\Paket\Model\Carrier\Paket;
 use Dhl\Paket\Test\Integration\Generator\ShipmentRequestData;
-use Dhl\Paket\Test\Integration\TestCase\Controller\Adminhtml\Order\Shipment\SaveShipmentTest;
 use Dhl\ShippingCore\Test\Integration\Fixture\Data\AddressDe;
 use Dhl\ShippingCore\Test\Integration\Fixture\Data\SimpleProduct;
 use Dhl\ShippingCore\Test\Integration\Fixture\OrderFixture;

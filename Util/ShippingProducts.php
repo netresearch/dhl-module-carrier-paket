@@ -22,7 +22,7 @@ namespace Dhl\Paket\Util;
 class ShippingProducts
 {
     /**
-     * Dstination regions.
+     * Destination regions.
      */
     const REGION_EU            = 'EU';
     const REGION_INTERNATIONAL = 'INTL';
@@ -134,7 +134,12 @@ class ShippingProducts
         ];
     }
 
-    private function getProcedures()
+    /**
+     * Obtain all product-procedure combinations.
+     *
+     * @return string[]
+     */
+    private function getProcedures(): array
     {
         return [
             self::CODE_NATIONAL => self::PROCEDURE_NATIONAL,
@@ -151,7 +156,12 @@ class ShippingProducts
         ];
     }
 
-    private function getReturnProcedures()
+    /**
+     * Obtain all product-return-procedure combinations.
+     *
+     * @return string[]
+     */
+    private function getReturnProcedures(): array
     {
         return [
             self::CODE_NATIONAL => self::PROCEDURE_RETURNSHIPMENT_NATIONAL,
@@ -161,7 +171,7 @@ class ShippingProducts
     }
 
     /**
-     * Obtain human readable name for given product code
+     * Obtain human readable name for given product code.
      *
      * @param string $productCode
      *
@@ -244,19 +254,17 @@ class ShippingProducts
         // reduce to product codes applicable to the given destination
         if (isset($applicableProducts[$destinationCountryCode])) {
             $destinationRegion = $destinationCountryCode;
-        } elseif (in_array($destinationCountryCode, $euCountries)) {
-            $destinationRegion = ShippingProducts::REGION_EU;
+        } elseif (in_array($destinationCountryCode, $euCountries, true)) {
+            $destinationRegion = self::REGION_EU;
         } else {
-            $destinationRegion = ShippingProducts::REGION_INTERNATIONAL;
+            $destinationRegion = self::REGION_INTERNATIONAL;
         }
 
-        return [$destinationRegion => $applicableProducts[$destinationRegion]];
+        return [$destinationRegion => $applicableProducts[$destinationRegion] ?? []];
     }
 
     /**
      * Get procedures for given shipping origin.
-     *
-     * Returns an array of [$productCode => $procedure].
      *
      * @param string $originCountryCode
      * @return string[]
@@ -265,7 +273,7 @@ class ShippingProducts
     {
         $productCodes = array_reduce(
             $this->getApplicableProducts($originCountryCode),
-            function (array $allProducts, $regionProducts) {
+            static function (array $allProducts, $regionProducts) {
                 // add keys for index access
                 $regionProducts = array_combine($regionProducts, $regionProducts);
                 $allProducts = array_merge($allProducts, $regionProducts);
@@ -274,11 +282,9 @@ class ShippingProducts
             []
         );
 
-        $procedures = array_merge(
+        return array_merge(
             array_values(array_intersect_key($this->getProcedures(), $productCodes)),
             array_values(array_intersect_key($this->getReturnProcedures(), $productCodes))
         );
-
-        return $procedures;
     }
 }

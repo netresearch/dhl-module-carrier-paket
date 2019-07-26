@@ -113,7 +113,7 @@ class PackageInputDataProcessor extends AbstractProcessor
                             continue;
                         }
 
-                        if (in_array($regionDefault, $applicableProducts[$regionId])) {
+                        if (in_array($regionDefault, $applicableProducts[$regionId], true)) {
                             $default = $regionDefault;
                             break;
                         }
@@ -123,7 +123,7 @@ class PackageInputDataProcessor extends AbstractProcessor
                         // no defaults configured, use first available applicable product
                         $default = current(current($applicableProducts));
                     }
-                    $input->setDefaultValue($default);
+                    $input->setDefaultValue((string)$default);
                     break;
 
                 case 'additionalFee':

@@ -4,10 +4,10 @@
  */
 declare(strict_types=1);
 
-namespace Dhl\Paket\Test\Integration\TestCase\Model\Checkout;
+namespace Dhl\Paket\Test\Integration\TestCase\Model\Checkout\DataProcessor;
 
 use Dhl\Paket\Model\Carrier\Paket;
-use Dhl\Paket\Test\Integration\TestDouble\CheckoutServiceStub;
+use Dhl\Paket\Test\Integration\TestDoubles\CheckoutServiceStub;
 use Dhl\Sdk\Paket\ParcelManagement\Service\ServiceFactory;
 use Dhl\ShippingCore\Model\Checkout\CarrierData;
 use Dhl\ShippingCore\Model\ShippingOption\Input;
