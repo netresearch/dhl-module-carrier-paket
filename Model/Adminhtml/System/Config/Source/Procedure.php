@@ -7,7 +7,7 @@ declare(strict_types=1);
 namespace Dhl\Paket\Model\Adminhtml\System\Config\Source;
 
 use Dhl\Paket\Model\ShippingProducts\ShippingProducts;
-use Magento\Framework\Option\ArrayInterface;
+use Magento\Framework\Data\OptionSourceInterface;
 
 /**
  * Class Procedure
@@ -16,7 +16,7 @@ use Magento\Framework\Option\ArrayInterface;
  * @author  Rico Sonntag <rico.sonntag@netresearch.de>
  * @link    https://www.netresearch.de/
  */
-class Procedure implements ArrayInterface
+class Procedure implements OptionSourceInterface
 {
     /**
      * Options getter.

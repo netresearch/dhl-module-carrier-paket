@@ -27,7 +27,7 @@ use PHPUnit\Framework\TestCase;
 class ParcelManagementOptionsProcessorTest extends TestCase
 {
     /**
-     * @var ObjectManagerInterface
+     * @var ObjectManagerInterface|\Magento\TestFramework\ObjectManager
      */
     private $objectManager;
 

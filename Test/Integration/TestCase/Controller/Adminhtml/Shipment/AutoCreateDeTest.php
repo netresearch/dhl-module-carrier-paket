@@ -6,6 +6,8 @@ declare(strict_types=1);
 
 namespace Dhl\Paket\Test\Integration\TestCase\Controller\Adminhtml\Shipment;
 
+use Dhl\Paket\Test\Integration\TestDouble\Pipeline\CreateShipments\Stage\SendRequestStageStub;
+use Dhl\Paket\Webservice\Pipeline\CreateShipments\Stage\SendRequestStage;
 use Dhl\ShippingCore\Test\Integration\Fixture\Data\AddressDe;
 use Dhl\ShippingCore\Test\Integration\Fixture\Data\SimpleProduct;
 use Dhl\ShippingCore\Test\Integration\Fixture\OrderFixture;
@@ -58,8 +60,6 @@ class AutoCreateDeTest extends AutoCreateTest
      * @test
      * @magentoDataFixture createOrders
      *
-     * @magentoConfigFixture default/dhlshippingsolutions/dhlglobalwebservices/bulk_settings/retry_failed_shipments 0
-     *
      * @magentoConfigFixture default_store general/store_information/name NR-Test-Store
      * @magentoConfigFixture default_store general/store_information/region_id 91
      * @magentoConfigFixture default_store general/store_information/phone 000
@@ -77,12 +77,13 @@ class AutoCreateDeTest extends AutoCreateTest
      *
      * @magentoConfigFixture default_store catalog/price/scope 0
      * @magentoConfigFixture default_store currency/options/base EUR
-     * @magentoConfigFixture current_store carriers/dhlpaket/active 1
-     * @magentoConfigFixture current_store dhlshippingsolutions/dhlpaket/checkout_settings/emulated_carrier flatrate
+     * @magentoConfigFixture default_store dhlshippingsolutions/dhlglobalwebservices/bulk_settings/retry_failed_shipments 0
      *
      * @magentoConfigFixture current_store carriers/flatrate/type O
      * @magentoConfigFixture current_store carriers/flatrate/handling_type F
      * @magentoConfigFixture current_store carriers/flatrate/price 5.00
+     * @magentoConfigFixture current_store carriers/dhlpaket/active 1
+     * @magentoConfigFixture current_store dhlshippingsolutions/dhlpaket/checkout_settings/emulated_carrier flatrate
      */
     public function createLabels()
     {
@@ -106,8 +107,11 @@ class AutoCreateDeTest extends AutoCreateTest
         $this->getRequest()->setPostValue($postData);
         $this->dispatch($this->uri);
 
+        /** @var SendRequestStageStub $pipelineStage */
+        $pipelineStage = $this->_objectManager->get(SendRequestStage::class);
+
         // assert only pending orders were sent to api
-        self::assertCount(count($selectedPendingOrderIds), $this->shipmentService->shipmentOrders);
+        self::assertCount(count($selectedPendingOrderIds), $pipelineStage->apiRequests);
 
         // load shipments for all orders placed during test setup
         $fixtureOrderIds = array_map(function (Order $order) {
@@ -115,7 +119,7 @@ class AutoCreateDeTest extends AutoCreateTest
         }, array_merge(self::$orders, self::$shippedOrders));
 
         /** @var Collection $shipmentCollection */
-        $shipmentCollection = $this->objectManager->create(Collection::class);
+        $shipmentCollection = $this->_objectManager->create(Collection::class);
         $shipmentCollection->addFieldToFilter('order_id', ['in' => [$fixtureOrderIds]]);
 
         // assert every order now has one shipment
@@ -143,8 +147,6 @@ class AutoCreateDeTest extends AutoCreateTest
      * @test
      * @magentoDataFixture createOrders
      *
-     * @magentoConfigFixture default/dhlshippingsolutions/dhlglobalwebservices/bulk_settings/retry_failed_shipments 1
-     *
      * @magentoConfigFixture default_store general/store_information/name NR-Test-Store
      * @magentoConfigFixture default_store general/store_information/region_id 91
      * @magentoConfigFixture default_store general/store_information/phone 000
@@ -162,12 +164,13 @@ class AutoCreateDeTest extends AutoCreateTest
      *
      * @magentoConfigFixture default_store catalog/price/scope 0
      * @magentoConfigFixture default_store currency/options/base EUR
-     * @magentoConfigFixture current_store carriers/dhlpaket/active 1
-     * @magentoConfigFixture current_store dhlshippingsolutions/dhlpaket/checkout_settings/emulated_carrier flatrate
+     * @magentoConfigFixture default_store dhlshippingsolutions/dhlglobalwebservices/bulk_settings/retry_failed_shipments 1
      *
      * @magentoConfigFixture current_store carriers/flatrate/type O
      * @magentoConfigFixture current_store carriers/flatrate/handling_type F
      * @magentoConfigFixture current_store carriers/flatrate/price 5.00
+     * @magentoConfigFixture current_store carriers/dhlpaket/active 1
+     * @magentoConfigFixture current_store dhlshippingsolutions/dhlpaket/checkout_settings/emulated_carrier flatrate
      */
     public function createLabelsWithRetryEnabled()
     {
@@ -191,8 +194,11 @@ class AutoCreateDeTest extends AutoCreateTest
         $this->getRequest()->setPostValue($postData);
         $this->dispatch($this->uri);
 
+        /** @var SendRequestStageStub $pipelineStage */
+        $pipelineStage = $this->_objectManager->get(SendRequestStage::class);
+
         // assert both, pending AND processed orders were sent to api
-        self::assertCount(count($selectedOrderIds), $this->shipmentService->shipmentOrders);
+        self::assertCount(count($selectedOrderIds), $pipelineStage->apiRequests);
 
         // load shipments for all orders placed during test setup
         $fixtureOrderIds = array_map(function (Order $order) {
@@ -200,7 +206,7 @@ class AutoCreateDeTest extends AutoCreateTest
         }, array_merge(self::$orders, self::$shippedOrders));
 
         /** @var Collection $shipmentCollection */
-        $shipmentCollection = $this->objectManager->create(Collection::class);
+        $shipmentCollection = $this->_objectManager->create(Collection::class);
         $shipmentCollection->addFieldToFilter('order_id', ['in' => [$fixtureOrderIds]]);
 
         // assert every order now has one shipment

@@ -4,10 +4,11 @@
  */
 declare(strict_types=1);
 
-namespace Dhl\Paket\Webservice\Shipment;
+namespace Dhl\Paket\Webservice\Pipeline\CreateShipments;
 
 use Dhl\Paket\Model\ShipmentRequest\RequestExtractorFactory;
 use Dhl\Sdk\Paket\Bcs\Api\ShipmentOrderRequestBuilderInterface;
+use Dhl\Sdk\Paket\Bcs\Model\CreateShipment\RequestType\ShipmentOrderType;
 use Dhl\ShippingCore\Api\Data\ShipmentRequest\PackageInterface;
 use Dhl\ShippingCore\Api\UnitConverterInterface;
 use Magento\Framework\Exception\LocalizedException;
@@ -81,10 +82,10 @@ class RequestDataMapper
      *
      * @param string $sequenceNumber Request identifier to associate request-response pairs
      * @param Request $request The shipment request
-     * @return object
+     * @return ShipmentOrderType
      * @throws LocalizedException
      */
-    public function mapRequest(string $sequenceNumber, Request $request)
+    public function mapRequest(string $sequenceNumber, Request $request): ShipmentOrderType
     {
         $requestExtractor = $this->requestExtractorFactory->create([
             'shipmentRequest' => $request,

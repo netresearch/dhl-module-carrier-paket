@@ -6,6 +6,8 @@
 namespace Dhl\Paket\Test\Integration\TestCase\Controller\Adminhtml\Order\Shipment;
 
 use Dhl\Paket\Test\Integration\TestCase\Controller\Adminhtml\ControllerTest;
+use Dhl\Paket\Test\Integration\TestDouble\Pipeline\CreateShipments\Stage\SendRequestStageStub;
+use Dhl\Paket\Webservice\Pipeline\CreateShipments\Stage\SendRequestStage;
 use Magento\Framework\Data\Form\FormKey;
 
 /**
@@ -35,6 +37,19 @@ abstract class SaveShipmentTest extends ControllerTest
      * The actual test to be implemented.
      */
     abstract public function saveShipment();
+
+    /**
+     * Configure pipeline stage for shipment creations.
+     *
+     * @throws \Magento\Framework\Exception\AuthenticationException
+     */
+    protected function setUp()
+    {
+        parent::setUp();
+
+        // configure positive web service response
+        $this->_objectManager->configure(['preferences' => [SendRequestStage::class => SendRequestStageStub::class]]);
+    }
 
     /**
      * Run request.

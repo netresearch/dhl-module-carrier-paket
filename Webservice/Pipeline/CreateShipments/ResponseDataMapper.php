@@ -4,13 +4,13 @@
  */
 declare(strict_types=1);
 
-namespace Dhl\Paket\Webservice\Shipment;
+namespace Dhl\Paket\Webservice\Pipeline\CreateShipments;
 
 use Dhl\Sdk\Paket\Bcs\Api\Data\ShipmentInterface;
-use Dhl\ShippingCore\Api\Data\ShipmentResponse\ShipmentErrorResponseInterface;
-use Dhl\ShippingCore\Api\Data\ShipmentResponse\ShipmentErrorResponseInterfaceFactory;
 use Dhl\ShippingCore\Api\Data\ShipmentResponse\LabelResponseInterface;
 use Dhl\ShippingCore\Api\Data\ShipmentResponse\LabelResponseInterfaceFactory;
+use Dhl\ShippingCore\Api\Data\ShipmentResponse\ShipmentErrorResponseInterface;
+use Dhl\ShippingCore\Api\Data\ShipmentResponse\ShipmentErrorResponseInterfaceFactory;
 use Dhl\ShippingCore\Api\PdfCombinatorInterface;
 use Magento\Framework\Exception\RuntimeException;
 use Magento\Framework\Phrase;
@@ -85,7 +85,7 @@ class ResponseDataMapper
                 continue;
             }
 
-            $labelsContent[]= $b64LabelData;
+            $labelsContent[] = $b64LabelData;
         }
 
         try {
@@ -124,6 +124,7 @@ class ResponseDataMapper
             ShipmentErrorResponseInterface::ERRORS => $message,
             ShipmentErrorResponseInterface::SALES_SHIPMENT => $salesShipment,
         ];
+
         return $this->errorResponseFactory->create(['data' => $responseData]);
     }
 }

@@ -6,17 +6,17 @@ declare(strict_types=1);
 
 namespace Dhl\Paket\Model\Config\Source;
 
+use Magento\Framework\Data\OptionSourceInterface;
 use Magento\Framework\Logger\Monolog;
-use Magento\Framework\Option\ArrayInterface;
 
 /**
  * Class LogLevel
  *
- * @author    Ronny Gertler <ronny.gertler@netresearch.de>
- * @link      http://www.netresearch.de/
+ * @package Dhl\Paket\Model
+ * @author  Ronny Gertler <ronny.gertler@netresearch.de>
  * @link    https://www.netresearch.de/
  */
-class LogLevel implements ArrayInterface
+class LogLevel implements OptionSourceInterface
 {
     /**
      * Return array of options as value-label pairs

@@ -4,11 +4,11 @@
  */
 declare(strict_types=1);
 
-namespace Dhl\Paket\Webservice\Processor\DeleteShipments;
+namespace Dhl\Paket\Webservice\Pipeline\DeleteShipments\ResponseProcessor;
 
 use Dhl\ShippingCore\Api\Data\TrackResponse\TrackErrorResponseInterface;
 use Dhl\ShippingCore\Api\Data\TrackResponse\TrackResponseInterface;
-use Dhl\ShippingCore\Api\TrackResponseProcessorInterface;
+use Dhl\ShippingCore\Api\Pipeline\TrackResponseProcessorInterface;
 use Magento\Framework\Exception\CouldNotDeleteException;
 use Magento\Sales\Model\Order\Shipment\TrackRepository;
 use Psr\Log\LoggerInterface;
@@ -34,6 +34,7 @@ class DeleteTrack implements TrackResponseProcessorInterface
 
     /**
      * DeleteTrack constructor.
+     *
      * @param TrackRepository $trackRepository
      * @param LoggerInterface $logger
      */
@@ -47,10 +48,11 @@ class DeleteTrack implements TrackResponseProcessorInterface
      * Delete track entities for successfully cancelled shipment numbers.
      *
      * There is not necessarily a track persisted for a given shipment number.
-     * @see \Magento\Shipping\Model\Carrier\AbstractCarrierOnline::rollBack
      *
      * @param TrackResponseInterface[] $trackResponses Shipment cancellation responses
      * @param TrackErrorResponseInterface[] $errorResponses Shipment cancellation errors
+     * @see \Magento\Shipping\Model\Carrier\AbstractCarrierOnline::rollBack
+     *
      */
     public function processResponse(array $trackResponses, array $errorResponses)
     {

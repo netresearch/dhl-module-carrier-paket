@@ -4,11 +4,11 @@
  */
 declare(strict_types=1);
 
-namespace Dhl\Paket\Webservice\Processor\DeleteShipments;
+namespace Dhl\Paket\Webservice\Pipeline\DeleteShipments\ResponseProcessor;
 
 use Dhl\ShippingCore\Api\Data\TrackResponse\TrackErrorResponseInterface;
 use Dhl\ShippingCore\Api\Data\TrackResponse\TrackResponseInterface;
-use Dhl\ShippingCore\Api\TrackResponseProcessorInterface;
+use Dhl\ShippingCore\Api\Pipeline\TrackResponseProcessorInterface;
 use Magento\Sales\Api\Data\ShipmentInterface;
 use Magento\Sales\Model\ResourceModel\Order\Shipment;
 
@@ -28,6 +28,7 @@ class UnsetShippingLabel implements TrackResponseProcessorInterface
 
     /**
      * UnsetShippingLabel constructor.
+     *
      * @param Shipment $shipmentResource
      */
     public function __construct(Shipment $shipmentResource)
@@ -88,10 +89,13 @@ class UnsetShippingLabel implements TrackResponseProcessorInterface
 
         // collect shipments which had no errors, unset labels
         $shipments = array_diff_key($cancelledShipments, $failedShipments);
-        array_walk($shipments, function (ShipmentInterface $shipment) {
-            /** @var \Magento\Sales\Model\Order\Shipment $shipment */
-            $shipment->setShippingLabel(null);
-            $this->shipmentResource->save($shipment);
-        });
+        array_walk(
+            $shipments,
+            function (ShipmentInterface $shipment) {
+                /** @var \Magento\Sales\Model\Order\Shipment $shipment */
+                $shipment->setShippingLabel(null);
+                $this->shipmentResource->save($shipment);
+            }
+        );
     }
 }

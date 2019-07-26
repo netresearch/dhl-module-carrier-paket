@@ -100,7 +100,7 @@ class SaveDeDomesticShipmentTest extends SaveShipmentTest
         $this->dispatch($this->uri);
 
         /** @var Collection $shipmentCollection */
-        $shipmentCollection = $this->objectManager->create(Collection::class);
+        $shipmentCollection = $this->_objectManager->create(Collection::class);
         $shipments = $shipmentCollection->setOrderFilter($order)->getItems();
         $shipments = array_values($shipments);
 

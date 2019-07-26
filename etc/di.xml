@@ -13,9 +13,14 @@
     <preference for="Dhl\Sdk\Paket\Bcs\Api\ShipmentOrderRequestBuilderInterface" type="Dhl\Sdk\Paket\Bcs\RequestBuilder\ShipmentOrderRequestBuilder"/>
     <preference for="Dhl\Sdk\Paket\Bcs\Api\ServiceFactoryInterface" type="Dhl\Sdk\Paket\Bcs\Service\ServiceFactory"/>
     <preference for="Dhl\Sdk\Paket\ParcelManagement\Api\ServiceFactoryInterface" type="Dhl\Sdk\Paket\ParcelManagement\Service\ServiceFactory"/>
-    <preference for="Dhl\Sdk\Paket\Bcs\Api\Data\AuthenticationStorageInterface" type="Dhl\Sdk\Paket\Bcs\Auth\AuthenticationStorage" />
+    <preference for="Dhl\Sdk\Paket\Bcs\Api\Data\AuthenticationStorageInterface" type="Dhl\Sdk\Paket\Bcs\Auth\AuthenticationStorage"/>
 
     <!-- # virtual types -->
+    <virtualType name="Dhl\Paket\Model\BulkShipmentManagement\Virtual" type="Dhl\Paket\Model\ShipmentManagement">
+        <arguments>
+            <argument name="createResponseProcessor" xsi:type="object">Dhl\ShippingCore\Webservice\Pipeline\BulkShipment\ShipmentResponseProcessor\Virtual</argument>
+        </arguments>
+    </virtualType>
     <virtualType name="Dhl\Paket\Model\Logger\Handler\Virtual" type="Dhl\ShippingCore\Model\Log\ApiLogHandler">
         <arguments>
             <argument name="fileName" xsi:type="string">var/log/dhl_paket.log</argument>
@@ -31,17 +36,56 @@
             </argument>
         </arguments>
     </virtualType>
-    <virtualType name="Dhl\Paket\Model\BulkShipmentManagement\Virtual" type="Dhl\Paket\Model\ShipmentManagement">
-        <arguments>
-            <argument name="creationProcessor" xsi:type="object">Dhl\ShippingCore\Webservice\Processor\BulkShipmentResponseProcessor\Virtual</argument>
-        </arguments>
-    </virtualType>
-    <virtualType name="Dhl\Paket\Webservice\Processor\TrackResponseProcessor\Virtual" type="Dhl\ShippingCore\Webservice\Processor\TrackResponseProcessor">
+    <virtualType name="Dhl\Paket\Webservice\Pipeline\Rate\RateResponseProcessor\Virtual" type="Dhl\ShippingCore\Webservice\Pipeline\Rate\RateResponseProcessor">
         <arguments>
             <argument name="processors" xsi:type="array">
-                <item name="updateLabelStatus" xsi:type="object">Dhl\Paket\Webservice\Processor\DeleteShipments\UpdateLabelStatus</item>
-                <item name="deleteTrack" xsi:type="object">Dhl\Paket\Webservice\Processor\DeleteShipments\DeleteTrack</item>
-                <item name="unsetShippingLabel" xsi:type="object">Dhl\Paket\Webservice\Processor\DeleteShipments\UnsetShippingLabel</item>
+                <item name="carrierDetails" xsi:type="object">Dhl\ShippingCore\Webservice\Pipeline\Rate\ResponseProcessor\CarrierDetails</item>
+                <item name="freeShipping" xsi:type="object">Dhl\ShippingCore\Webservice\Pipeline\Rate\ResponseProcessor\FreeShipping</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Dhl\Paket\Model\Emulation\RateRequestService\Virtual" type="Dhl\ShippingCore\Model\Emulation\RateRequestService">
+        <arguments>
+            <argument name="responseProcessor" xsi:type="object">Dhl\Paket\Webservice\Pipeline\Rate\RateResponseProcessor\Virtual</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Dhl\Paket\Webservice\Pipeline\CreateShipments\ArtifactsContainerFactory\Virtual" type="\Dhl\ShippingCore\Api\Data\Pipeline\ArtifactsContainerInterfaceFactory">
+        <arguments>
+            <argument name="instanceName" xsi:type="string">Dhl\Paket\Webservice\Pipeline\CreateShipments\ArtifactsContainer</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Dhl\Paket\Webservice\Pipeline\Shipment\CreateShipmentsPipeline\Virtual" type="Dhl\ShippingCore\Webservice\Pipeline\Shipment\CreateShipmentsPipeline">
+        <arguments>
+            <argument name="stages" xsi:type="array">
+                <item name="validate" sortOrder="100" xsi:type="object">Dhl\Paket\Webservice\Pipeline\CreateShipments\Stage\ValidateStage</item>
+                <item name="mapRequest" sortOrder="200" xsi:type="object">Dhl\Paket\Webservice\Pipeline\CreateShipments\Stage\MapRequestStage</item>
+                <item name="send" sortOrder="300" xsi:type="object">Dhl\Paket\Webservice\Pipeline\CreateShipments\Stage\SendRequestStage</item>
+                <item name="mapResponse" sortOrder="400" xsi:type="object">Dhl\Paket\Webservice\Pipeline\CreateShipments\Stage\MapResponseStage</item>
+            </argument>
+            <argument name="artifactsContainerFactory" xsi:type="object">Dhl\Paket\Webservice\Pipeline\CreateShipments\ArtifactsContainerFactory\Virtual</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Dhl\Paket\Webservice\Pipeline\DeleteShipments\ArtifactsContainerFactory\Virtual" type="\Dhl\ShippingCore\Api\Data\Pipeline\ArtifactsContainerInterfaceFactory">
+        <arguments>
+            <argument name="instanceName" xsi:type="string">Dhl\Paket\Webservice\Pipeline\DeleteShipments\ArtifactsContainer</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Dhl\Paket\Webservice\Pipeline\Shipment\DeleteShipmentsPipeline\Virtual" type="Dhl\ShippingCore\Webservice\Pipeline\Track\RequestTracksPipeline">
+        <arguments>
+            <argument name="stages" xsi:type="array">
+                <item name="mapRequest" sortOrder="100" xsi:type="object">Dhl\Paket\Webservice\Pipeline\DeleteShipments\Stage\MapRequestStage</item>
+                <item name="send" sortOrder="200" xsi:type="object">Dhl\Paket\Webservice\Pipeline\DeleteShipments\Stage\SendRequestStage</item>
+                <item name="mapResponse" sortOrder="300" xsi:type="object">Dhl\Paket\Webservice\Pipeline\DeleteShipments\Stage\MapResponseStage</item>
+            </argument>
+            <argument name="artifactsContainerFactory" xsi:type="object">Dhl\Paket\Webservice\Pipeline\DeleteShipments\ArtifactsContainerFactory\Virtual</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Dhl\Paket\Webservice\Pipeline\Shipment\DeleteShipmentsResponseProcessor\Virtual" type="Dhl\ShippingCore\Webservice\Pipeline\Track\TrackResponseProcessor">
+        <arguments>
+            <argument name="processors" xsi:type="array">
+                <item name="updateLabelStatus" xsi:type="object">Dhl\Paket\Webservice\Pipeline\DeleteShipments\ResponseProcessor\UpdateLabelStatus</item>
+                <item name="deleteTrack" xsi:type="object">Dhl\Paket\Webservice\Pipeline\DeleteShipments\ResponseProcessor\DeleteTrack</item>
+                <item name="unsetShippingLabel" xsi:type="object">Dhl\Paket\Webservice\Pipeline\DeleteShipments\ResponseProcessor\UnsetShippingLabel</item>
             </argument>
         </arguments>
     </virtualType>
@@ -49,18 +93,34 @@
     <!-- # argument di overrides -->
     <type name="Dhl\Paket\Model\Carrier\Paket">
         <arguments>
+            <argument name="ratesManagement" xsi:type="object">Dhl\Paket\Model\RatesManagement\Proxy</argument>
             <argument name="shipmentManagement" xsi:type="object">Dhl\Paket\Model\ShipmentManagement\Proxy</argument>
+        </arguments>
+    </type>
+    <type name="Dhl\Paket\Model\RatesManagement">
+        <arguments>
+            <argument name="rateRequestService" xsi:type="object">Dhl\Paket\Model\Emulation\RateRequestService\Virtual</argument>
         </arguments>
     </type>
     <type name="Dhl\Paket\Model\ShipmentManagement">
         <arguments>
-            <argument name="logger" xsi:type="object">Dhl\Paket\Model\Logger\Virtual</argument>
-            <argument name="deletionProcessor" xsi:type="object">Dhl\Paket\Webservice\Processor\TrackResponseProcessor\Virtual</argument>
+            <argument name="deleteResponseProcessor" xsi:type="object">Dhl\Paket\Webservice\Pipeline\Shipment\DeleteShipmentsResponseProcessor\Virtual</argument>
         </arguments>
     </type>
     <type name="Dhl\Paket\Model\BulkShipmentConfiguration">
         <arguments>
             <argument name="shipmentManagement" xsi:type="object">Dhl\Paket\Model\BulkShipmentManagement\Virtual</argument>
+        </arguments>
+    </type>
+    <type name="Dhl\Paket\Webservice\ApiGateway">
+        <arguments>
+            <argument name="creationPipeline" xsi:type="object">Dhl\Paket\Webservice\Pipeline\Shipment\CreateShipmentsPipeline\Virtual</argument>
+            <argument name="deletionPipeline" xsi:type="object">Dhl\Paket\Webservice\Pipeline\Shipment\DeleteShipmentsPipeline\Virtual</argument>
+        </arguments>
+    </type>
+    <type name="Dhl\Paket\Webservice\ShipmentService">
+        <arguments>
+            <argument name="logger" xsi:type="object">Dhl\Paket\Model\Logger\Virtual</argument>
         </arguments>
     </type>
     <type name="Dhl\ShippingCore\Model\BulkShipmentManagement">
@@ -70,7 +130,7 @@
             </argument>
         </arguments>
     </type>
-    <type name="\Dhl\ShippingCore\Model\Checkout\CheckoutDataCompositeProcessor">
+    <type name="Dhl\ShippingCore\Model\Checkout\CheckoutDataCompositeProcessor">
         <arguments>
             <argument name="processors" xsi:type="array">
                 <item name="dhlpaketServiceDataFilterprocessor" xsi:type="object">Dhl\Paket\Model\Checkout\DataProcessor\ServiceDataFilterProcessor</item>

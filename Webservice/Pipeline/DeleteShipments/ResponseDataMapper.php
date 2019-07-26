@@ -4,7 +4,7 @@
  */
 declare(strict_types=1);
 
-namespace Dhl\Paket\Webservice\Track;
+namespace Dhl\Paket\Webservice\Pipeline\DeleteShipments;
 
 use Dhl\ShippingCore\Api\Data\TrackResponse\TrackErrorResponseInterface;
 use Dhl\ShippingCore\Api\Data\TrackResponse\TrackErrorResponseInterfaceFactory;
@@ -92,6 +92,7 @@ class ResponseDataMapper
             TrackErrorResponseInterface::SALES_SHIPMENT => $salesShipment,
             TrackErrorResponseInterface::SALES_TRACK => $salesTrack,
         ];
+
         return $this->errorResponseFactory->create(['data' => $responseData]);
     }
 }

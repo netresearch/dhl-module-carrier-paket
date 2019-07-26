@@ -6,13 +6,16 @@ declare(strict_types=1);
 
 namespace Dhl\Paket\Webservice;
 
-use Dhl\Sdk\Paket\Bcs\Api\ShipmentServiceInterface;
+use Dhl\Paket\Webservice\Pipeline\CreateShipments\ArtifactsContainer as CreateArtifactsContainer;
+use Dhl\Paket\Webservice\Pipeline\DeleteShipments\ArtifactsContainer as DeleteArtifactsContainer;
 use Dhl\ShippingCore\Api\Data\ShipmentResponse\LabelResponseInterface;
 use Dhl\ShippingCore\Api\Data\ShipmentResponse\ShipmentErrorResponseInterface;
 use Dhl\ShippingCore\Api\Data\TrackRequest\TrackRequestInterface;
 use Dhl\ShippingCore\Api\Data\TrackResponse\TrackResponseInterface;
-use Dhl\ShippingCore\Api\ShipmentResponseProcessorInterface;
-use Dhl\ShippingCore\Api\TrackResponseProcessorInterface;
+use Dhl\ShippingCore\Api\Pipeline\CreateShipmentsPipelineInterface;
+use Dhl\ShippingCore\Api\Pipeline\RequestTracksPipelineInterface;
+use Dhl\ShippingCore\Api\Pipeline\ShipmentResponseProcessorInterface;
+use Dhl\ShippingCore\Api\Pipeline\TrackResponseProcessorInterface;
 use Magento\Shipping\Model\Shipment\Request;
 
 /**
@@ -27,51 +30,51 @@ use Magento\Shipping\Model\Shipment\Request;
 class ApiGateway
 {
     /**
-     * @var CreateShipmentsPipelineFactory
+     * @var CreateShipmentsPipelineInterface
      */
-    private $creationPipelineFactory;
+    private $creationPipeline;
 
     /**
-     * @var DeleteShipmentsPipelineFactory
+     * @var RequestTracksPipelineInterface
      */
-    private $deletionPipelineFactory;
-
-    /**
-     * @var ShipmentServiceInterface
-     */
-    private $shipmentService;
+    private $deletionPipeline;
 
     /**
      * @var ShipmentResponseProcessorInterface
      */
-    private $creationProcessor;
+    private $createResponseProcessor;
 
     /**
      * @var TrackResponseProcessorInterface
      */
-    private $deletionProcessor;
+    private $deleteResponseProcessor;
+
+    /**
+     * @var int
+     */
+    private $storeId;
 
     /**
      * ApiGateway constructor.
      *
-     * @param CreateShipmentsPipelineFactory $creationPipelineFactory
-     * @param DeleteShipmentsPipelineFactory $deletionPipelineFactory
-     * @param ShipmentServiceInterface $shipmentService
-     * @param ShipmentResponseProcessorInterface $creationProcessor
-     * @param TrackResponseProcessorInterface $deletionProcessor
+     * @param CreateShipmentsPipelineInterface $creationPipeline
+     * @param RequestTracksPipelineInterface $deletionPipeline
+     * @param ShipmentResponseProcessorInterface $createResponseProcessor
+     * @param TrackResponseProcessorInterface $deleteResponseProcessor
+     * @param int $storeId
      */
     public function __construct(
-        CreateShipmentsPipelineFactory $creationPipelineFactory,
-        DeleteShipmentsPipelineFactory $deletionPipelineFactory,
-        ShipmentServiceInterface $shipmentService,
-        ShipmentResponseProcessorInterface $creationProcessor,
-        TrackResponseProcessorInterface $deletionProcessor
+        CreateShipmentsPipelineInterface $creationPipeline,
+        RequestTracksPipelineInterface $deletionPipeline,
+        ShipmentResponseProcessorInterface $createResponseProcessor,
+        TrackResponseProcessorInterface $deleteResponseProcessor,
+        int $storeId
     ) {
-        $this->creationPipelineFactory = $creationPipelineFactory;
-        $this->deletionPipelineFactory = $deletionPipelineFactory;
-        $this->shipmentService = $shipmentService;
-        $this->creationProcessor = $creationProcessor;
-        $this->deletionProcessor = $deletionProcessor;
+        $this->creationPipeline = $creationPipeline;
+        $this->deletionPipeline = $deletionPipeline;
+        $this->createResponseProcessor = $createResponseProcessor;
+        $this->deleteResponseProcessor = $deleteResponseProcessor;
+        $this->storeId = $storeId;
     }
 
     /**
@@ -88,15 +91,15 @@ class ApiGateway
      */
     public function createShipments(array $shipmentRequests): array
     {
-        $pipeline = $this->creationPipelineFactory->create([
-            'shipmentService' => $this->shipmentService,
-            'shipmentRequests' => $shipmentRequests
-        ]);
-        $pipeline->validate()->map()->send()->mapResponse();
+        /** @var CreateArtifactsContainer $artifactsContainer */
+        $artifactsContainer = $this->creationPipeline->run($this->storeId, $shipmentRequests);
 
-        $this->creationProcessor->processResponse($pipeline->getLabels(), $pipeline->getErrors());
+        $this->createResponseProcessor->processResponse(
+            $artifactsContainer->getLabelResponses(),
+            $artifactsContainer->getErrorResponses()
+        );
 
-        return array_merge($pipeline->getErrors(), $pipeline->getLabels());
+        return array_merge($artifactsContainer->getErrorResponses(), $artifactsContainer->getLabelResponses());
     }
 
     /**
@@ -107,17 +110,14 @@ class ApiGateway
      */
     public function cancelShipments(array $cancelRequests): array
     {
-        /** @var DeleteShipmentsPipeline $pipeline */
-        $pipeline = $this->deletionPipelineFactory->create(
-            [
-                'shipmentService' => $this->shipmentService,
-                'cancelRequests' => $cancelRequests
-            ]
+        /** @var DeleteArtifactsContainer $artifactsContainer */
+        $artifactsContainer = $this->deletionPipeline->run($this->storeId, $cancelRequests);
+
+        $this->deleteResponseProcessor->processResponse(
+            $artifactsContainer->getTrackResponses(),
+            $artifactsContainer->getErrorResponses()
         );
-        $pipeline->map()->send()->mapResponse();
 
-        $this->deletionProcessor->processResponse($pipeline->getTracks(), $pipeline->getErrors());
-
-        return array_merge($pipeline->getErrors(), $pipeline->getTracks());
+        return array_merge($artifactsContainer->getErrorResponses(), $artifactsContainer->getTrackResponses());
     }
 }

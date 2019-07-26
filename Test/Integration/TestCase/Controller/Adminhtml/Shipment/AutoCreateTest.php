@@ -7,6 +7,8 @@ declare(strict_types=1);
 namespace Dhl\Paket\Test\Integration\TestCase\Controller\Adminhtml\Shipment;
 
 use Dhl\Paket\Test\Integration\TestCase\Controller\Adminhtml\ControllerTest;
+use Dhl\Paket\Test\Integration\TestDouble\Pipeline\CreateShipments\Stage\SendRequestStageStub;
+use Dhl\Paket\Webservice\Pipeline\CreateShipments\Stage\SendRequestStage;
 use Magento\Framework\Data\Form\FormKey;
 
 /**
@@ -38,6 +40,19 @@ abstract class AutoCreateTest extends ControllerTest
     abstract public function createLabels();
 
     /**
+     * Configure pipeline stage for shipment creations.
+     *
+     * @throws \Magento\Framework\Exception\AuthenticationException
+     */
+    protected function setUp()
+    {
+        parent::setUp();
+
+        // configure web service response
+        $this->_objectManager->configure(['preferences' => [SendRequestStage::class => SendRequestStageStub::class]]);
+    }
+
+    /**
      * Run request.
      *
      * Set form key if not available (required for Magento < 2.2.8).
@@ -58,8 +73,6 @@ abstract class AutoCreateTest extends ControllerTest
     }
 
     /**
-     * @magentoConfigFixture default/dhlshippingsolutions/dhlglobalwebservices/bulk_settings/retry_failed_shipments 0
-     *
      * @magentoConfigFixture default_store general/store_information/name NR-Test-Store
      * @magentoConfigFixture default_store general/store_information/region_id 91
      * @magentoConfigFixture default_store general/store_information/phone 000
@@ -76,13 +89,13 @@ abstract class AutoCreateTest extends ControllerTest
      *
      * @magentoConfigFixture default_store catalog/price/scope 0
      * @magentoConfigFixture default_store currency/options/base EUR
-     *
-     * @magentoConfigFixture current_store carriers/dhlpaket/active 1
-     * @magentoConfigFixture current_store carriers/dhlpaket/checkout_settings/emulated_carrier flatrate
+     * @magentoConfigFixture default_store dhlshippingsolutions/dhlglobalwebservices/bulk_settings/retry_failed_shipments 0
      *
      * @magentoConfigFixture current_store carriers/flatrate/type O
      * @magentoConfigFixture current_store carriers/flatrate/handling_type F
      * @magentoConfigFixture current_store carriers/flatrate/price 5.00
+     * @magentoConfigFixture current_store carriers/dhlpaket/active 1
+     * @magentoConfigFixture current_store carriers/dhlpaket/checkout_settings/emulated_carrier flatrate
      */
     public function testAclHasAccess()
     {

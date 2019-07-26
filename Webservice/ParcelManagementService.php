@@ -74,15 +74,15 @@ class ParcelManagementService implements CheckoutServiceInterface
      *
      * @return CheckoutServiceInterface
      */
-    private function getCheckoutService()
+    private function getCheckoutService(): CheckoutServiceInterface
     {
         if ($this->checkoutService === null) {
             $this->checkoutService = $this->checkoutServiceFactory->createCheckoutService(
-                $applicationId = $this->moduleConfig->getAuthUsername(),
-                $applicationToken = $this->moduleConfig->getAuthPassword(),
-                $ekp = $this->moduleConfig->getEkp($this->storeId),
-                $logger = $this->logger,
-                $sandbox = $this->moduleConfig->isSandboxMode($this->storeId)
+                $this->moduleConfig->getAuthUsername(),
+                $this->moduleConfig->getAuthPassword(),
+                $this->moduleConfig->getEkp($this->storeId),
+                $this->logger,
+                $this->moduleConfig->isSandboxMode($this->storeId)
             );
         }
 

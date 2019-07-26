@@ -4,12 +4,13 @@
  */
 declare(strict_types=1);
 
-namespace Dhl\Paket\Webservice\Processor\DeleteShipments;
+namespace Dhl\Paket\Webservice\Pipeline\DeleteShipments\ResponseProcessor;
 
 use Dhl\ShippingCore\Api\Data\TrackResponse\TrackErrorResponseInterface;
 use Dhl\ShippingCore\Api\Data\TrackResponse\TrackResponseInterface;
 use Dhl\ShippingCore\Api\LabelStatusManagementInterface;
-use Dhl\ShippingCore\Api\TrackResponseProcessorInterface;
+use Dhl\ShippingCore\Api\Pipeline\TrackResponseProcessorInterface;
+use Magento\Sales\Model\Order\Shipment;
 
 /**
  * Class UpdateLabelStatus
@@ -44,7 +45,7 @@ class UpdateLabelStatus implements TrackResponseProcessorInterface
     public function processResponse(array $trackResponses, array $errorResponses)
     {
         foreach ($trackResponses as $trackResponse) {
-            /** @var \Magento\Sales\Model\Order\Shipment $shipment */
+            /** @var Shipment $shipment */
             $shipment = $trackResponse->getSalesShipment();
             if ($shipment !== null) {
                 $this->labelStatusManagement->setLabelStatusPending($shipment->getOrder());

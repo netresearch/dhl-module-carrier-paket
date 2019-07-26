@@ -6,10 +6,8 @@ declare(strict_types=1);
 
 namespace Dhl\Paket\Test\Integration\TestCase\Controller\Adminhtml;
 
-use Dhl\Paket\Test\Integration\TestDoubles\CreateShipmentsPipelineStub;
-use Dhl\Paket\Test\Integration\TestDoubles\ShipmentServiceStub;
-use Dhl\Paket\Webservice\CreateShipmentsPipeline;
-use Dhl\Paket\Webservice\ShipmentServiceFactory;
+use Dhl\Paket\Test\Integration\TestDouble\ShipmentServiceStub;
+use Dhl\Paket\Webservice\ShipmentService;
 use Magento\TestFramework\Helper\Bootstrap;
 use Magento\TestFramework\ObjectManager;
 use Magento\TestFramework\TestCase\AbstractBackendController;
@@ -31,16 +29,6 @@ abstract class ControllerTest extends AbstractBackendController
     protected $httpMethod = 'POST';
 
     /**
-     * @var ObjectManager
-     */
-    protected $objectManager;
-
-    /**
-     * @var ShipmentServiceStub
-     */
-    protected $shipmentService;
-
-    /**
      * Set up the shipment service stub to suppress actual api calls.
      *
      * @throws \Magento\Framework\Exception\AuthenticationException
@@ -49,20 +37,6 @@ abstract class ControllerTest extends AbstractBackendController
     {
         parent::setUp();
 
-        $this->objectManager = Bootstrap::getObjectManager();
-
-        $this->shipmentService = new ShipmentServiceStub();
-
-        $shipmentServiceFactoryMock = $this->getMockBuilder(ShipmentServiceFactory::class)
-            ->setMethods(['create'])
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $shipmentServiceFactoryMock->method('create')->willReturn($this->shipmentService);
-        $this->objectManager->addSharedInstance($shipmentServiceFactoryMock, ShipmentServiceFactory::class);
-
-        $this->objectManager->configure(
-            ['preferences' => [CreateShipmentsPipeline::class => CreateShipmentsPipelineStub::class]]
-        );
+        $this->_objectManager->configure(['preferences' => [ShipmentService::class => ShipmentServiceStub::class]]);
     }
 }

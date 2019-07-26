@@ -8,15 +8,13 @@ namespace Dhl\Paket\Model;
 
 use Dhl\Paket\Webservice\ApiGateway;
 use Dhl\Paket\Webservice\ApiGatewayFactory;
-use Dhl\Paket\Webservice\ShipmentServiceFactory;
 use Dhl\ShippingCore\Api\BulkLabelCreationInterface;
 use Dhl\ShippingCore\Api\Data\ShipmentResponse\ShipmentResponseInterface;
 use Dhl\ShippingCore\Api\Data\TrackRequest\TrackRequestInterface;
 use Dhl\ShippingCore\Api\Data\TrackResponse\TrackResponseInterface;
-use Dhl\ShippingCore\Api\ShipmentResponseProcessorInterface;
-use Dhl\ShippingCore\Api\TrackResponseProcessorInterface;
+use Dhl\ShippingCore\Api\Pipeline\ShipmentResponseProcessorInterface;
+use Dhl\ShippingCore\Api\Pipeline\TrackResponseProcessorInterface;
 use Magento\Shipping\Model\Shipment\Request;
-use Psr\Log\LoggerInterface;
 
 /**
  * Class ShipmentManagement
@@ -28,11 +26,6 @@ use Psr\Log\LoggerInterface;
 class ShipmentManagement implements BulkLabelCreationInterface
 {
     /**
-     * @var ShipmentServiceFactory
-     */
-    private $shipmentServiceFactory;
-
-    /**
      * @var ApiGatewayFactory
      */
     private $apiGatewayFactory;
@@ -40,17 +33,12 @@ class ShipmentManagement implements BulkLabelCreationInterface
     /**
      * @var ShipmentResponseProcessorInterface
      */
-    private $creationProcessor;
+    private $createResponseProcessor;
 
     /**
      * @var TrackResponseProcessorInterface
      */
-    private $deletionProcessor;
-
-    /**
-     * @var LoggerInterface
-     */
-    private $logger;
+    private $deleteResponseProcessor;
 
     /**
      * @var ApiGateway[]
@@ -60,28 +48,24 @@ class ShipmentManagement implements BulkLabelCreationInterface
     /**
      * ShipmentManagement constructor.
      *
-     * @param ShipmentServiceFactory $shipmentServiceFactory
      * @param ApiGatewayFactory $apiGatewayFactory
-     * @param ShipmentResponseProcessorInterface $creationProcessor
-     * @param TrackResponseProcessorInterface $deletionProcessor
-     * @param LoggerInterface $logger
+     * @param ShipmentResponseProcessorInterface $createResponseProcessor
+     * @param TrackResponseProcessorInterface $deleteResponseProcessor
      */
     public function __construct(
-        ShipmentServiceFactory $shipmentServiceFactory,
         ApiGatewayFactory $apiGatewayFactory,
-        ShipmentResponseProcessorInterface $creationProcessor,
-        TrackResponseProcessorInterface $deletionProcessor,
-        LoggerInterface $logger
+        ShipmentResponseProcessorInterface $createResponseProcessor,
+        TrackResponseProcessorInterface $deleteResponseProcessor
     ) {
-        $this->shipmentServiceFactory = $shipmentServiceFactory;
         $this->apiGatewayFactory = $apiGatewayFactory;
-        $this->creationProcessor = $creationProcessor;
-        $this->deletionProcessor = $deletionProcessor;
-        $this->logger = $logger;
+        $this->createResponseProcessor = $createResponseProcessor;
+        $this->deleteResponseProcessor = $deleteResponseProcessor;
     }
 
     /**
-     * Create api gateway with store specific configuration.
+     * Create api gateway.
+     *
+     * API gateways are created with store specific configuration and configured post-processors (bulk or popup).
      *
      * @param int $storeId
      * @return ApiGateway
@@ -89,18 +73,11 @@ class ShipmentManagement implements BulkLabelCreationInterface
     private function getApiGateway(int $storeId): ApiGateway
     {
         if (!isset($this->apiGateways[$storeId])) {
-            $shipmentService = $this->shipmentServiceFactory->create(
-                [
-                    'logger' => $this->logger,
-                    'storeId' => $storeId,
-                ]
-            );
-
             $api = $this->apiGatewayFactory->create(
                 [
-                    'shipmentService' => $shipmentService,
-                    'creationProcessor' => $this->creationProcessor,
-                    'deletionProcessor' => $this->deletionProcessor,
+                    'storeId' => $storeId,
+                    'createResponseProcessor' => $this->createResponseProcessor,
+                    'deleteResponseProcessor' => $this->deleteResponseProcessor,
                 ]
             );
 
@@ -148,10 +125,12 @@ class ShipmentManagement implements BulkLabelCreationInterface
     /**
      * Cancel shipment orders at the DHL Paket API alongside associated tracks and shipping labels.
      *
+     * Cancellation requests are divided by store for multi-store support (different DHL account configurations).
+     *
      * @param TrackRequestInterface[] $cancelRequests
      * @return TrackResponseInterface[]
      */
-    public function cancelLabels(array $cancelRequests)
+    public function cancelLabels(array $cancelRequests): array
     {
         if (empty($cancelRequests)) {
             return [];
