@@ -9,7 +9,7 @@ namespace Dhl\Paket\Model\Carrier;
 use Dhl\Paket\Model\Config\ModuleConfig;
 use Dhl\Paket\Model\RatesManagement;
 use Dhl\Paket\Model\ShipmentManagement;
-use Dhl\Paket\Model\ShippingProducts\ShippingProductsInterface;
+use Dhl\Paket\Util\ShippingProducts;
 use Dhl\ShippingCore\Api\ConfigInterface;
 use Dhl\ShippingCore\Api\Data\TrackRequest\TrackRequestInterfaceFactory;
 use Dhl\ShippingCore\Api\Data\TrackResponse\TrackErrorResponseInterface;
@@ -77,11 +77,7 @@ class Paket extends AbstractCarrierOnline implements CarrierInterface
     private $dhlConfig;
 
     /**
-<<<<<<< HEAD
-     * @var ShippingProductsInterface
-=======
-     * @var \Dhl\Paket\Util\ShippingProducts
->>>>>>> DHLGW-411: Select Shipping Product
+     * @var ShippingProducts
      */
     private $shippingProducts;
 
@@ -122,7 +118,7 @@ class Paket extends AbstractCarrierOnline implements CarrierInterface
      * @param ShipmentManagement $shipmentManagement
      * @param ModuleConfig $moduleConfig
      * @param ConfigInterface $dhlConfig
-     * @param ShippingProductsInterface $shippingProducts
+     * @param ShippingProducts $shippingProducts
      * @param TrackRequestInterfaceFactory $trackRequestFactory
      * @param ProxyCarrierFactory $proxyCarrierFactory
      * @param mixed[] $data
@@ -147,7 +143,7 @@ class Paket extends AbstractCarrierOnline implements CarrierInterface
         ShipmentManagement $shipmentManagement,
         ModuleConfig $moduleConfig,
         ConfigInterface $dhlConfig,
-        ShippingProductsInterface $shippingProducts,
+        ShippingProducts $shippingProducts,
         TrackRequestInterfaceFactory $trackRequestFactory,
         ProxyCarrierFactory $proxyCarrierFactory,
         array $data = []

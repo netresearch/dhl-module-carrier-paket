@@ -6,7 +6,7 @@ declare(strict_types=1);
 
 namespace Dhl\Paket\Model\Adminhtml\System\Config\Source;
 
-use Dhl\Paket\Model\ShippingProducts\ShippingProducts;
+use Dhl\Paket\Util\ShippingProducts;
 use Magento\Framework\Data\OptionSourceInterface;
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\App\RequestInterface;
