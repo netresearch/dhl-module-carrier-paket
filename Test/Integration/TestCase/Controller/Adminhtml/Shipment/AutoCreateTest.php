@@ -63,14 +63,14 @@ abstract class AutoCreateTest extends ControllerTest
                 list($scopeCode, $configPath, $value) = explode(' ', $configFixture, 3);
                 $scopeCode = str_replace('_store', '', $scopeCode);
 
-                $configStructure = $this->objectManager->get(\Magento\Config\Model\Config\Structure::class);
+                $configStructure = $this->_objectManager->get(\Magento\Config\Model\Config\Structure::class);
 
                 /** @var \Magento\Config\Model\Config\Structure\Element\Field $field */
                 $field = $configStructure->getElement($configPath);
 
                 /** @var \Dhl\Paket\Model\Adminhtml\System\Config\Backend\ArraySerialized $backendModel */
                 $backendModel = $field->getBackendModel();
-                $config = $this->objectManager->get(\Magento\Framework\App\Config\MutableScopeConfigInterface::class);
+                $config = $this->_objectManager->get(\Magento\Framework\App\Config\MutableScopeConfigInterface::class);
                 $config->setValue(
                     $configPath,
                     $backendModel->processValue($value),

@@ -88,7 +88,7 @@ class ShippingProductsTest extends TestCase
         return [
             // $originCountryCode, $shouldReturnEmptyProductList (true/false whether shipping to this country is possible or not)
             ['DE', false],
-            ['AT', false],
+            ['AT', true],
             ['ES', true],
             ['US', true],
             ['', true],
@@ -128,9 +128,6 @@ class ShippingProductsTest extends TestCase
             ['DE', 'DE', 'DE'],
             ['DE', 'AT', 'EU'],
             ['DE', 'US', 'INTL'],
-            ['AT', 'DE', 'DE'],
-            ['AT', 'ES', 'EU'],
-            ['AT', 'US', 'INTL'],
             ['ES', 'DE', 'EU'],
             ['US', 'ES', 'EU'],
             ['US', 'HK', 'INTL'],
@@ -194,7 +191,7 @@ class ShippingProductsTest extends TestCase
         return [
             // $originCountryCode, $shouldReturnEmptyProcedureList (true/false whether shipping to this country is possible or not)
             ['DE', false],
-            ['AT', false],
+            ['AT', true],
             ['ES', true],
             ['US', true],
             ['', true],
