@@ -179,7 +179,7 @@ class Paket extends AbstractCarrierOnline implements CarrierInterface
     /**
      * Check if the carrier can handle the given rate request.
      *
-     * DHL Paket carrier only ships from DE or AT.
+     * DHL Paket carrier only ships from DE.
      *
      * @param DataObject $request
      * @return bool|DataObject|AbstractCarrierOnline

@@ -68,10 +68,10 @@ class CodSupportHandler implements CodSupportInterface
      * Determines if a carrier has support for Cash on Delivery payment methods.
      *
      * DHL Paket conditions for allowing cash on delivery payment comprise:
-     * - shipment is domestic (DE-DE or AT-AT)
+     * - shipment is domestic (DE-DE)
      * - preferredLocation or preferredNeighbour value-added services are not chosen for the given quote
      *
-     * Note: No need to validate origin country. Paket carrier is only available for DE or AT origin checkouts anyway.
+     * Note: No need to validate origin country. Paket carrier is only available for DE origin checkouts anyway.
      *
      * @param Quote $quote
      *
@@ -84,7 +84,7 @@ class CodSupportHandler implements CodSupportInterface
     }
 
     /**
-     * Returns TRUE if the shipment is a domestic shipment (DE-DE or AT-AT).
+     * Returns TRUE if the shipment is a domestic shipment (DE-DE).
      *
      * @param Quote $quote
      *

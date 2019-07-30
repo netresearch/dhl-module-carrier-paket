@@ -112,15 +112,10 @@ class RequestModifier implements RequestModifierInterface
             $applicableProducts
         );
 
-        if (empty($defaults)) {
-            $message = __('Please configure default products for shipping origin %1 in module config.', $originCountry);
-            throw new LocalizedException($message);
-        }
-
         $defaultProduct = current($defaults);
         $applicableProductCodes = current($applicableProducts);
         if (!in_array($defaultProduct, $applicableProductCodes)) {
-            $message = __('The product %1 is not valid for the route %2-%3. Please review default products in module config.', $defaultProduct, $originCountry, $destinationCountry);
+            $message = __('The product %1 is not valid for the route %2-%3.', $defaultProduct, $originCountry, $destinationCountry);
             throw new LocalizedException($message);
         }
 
