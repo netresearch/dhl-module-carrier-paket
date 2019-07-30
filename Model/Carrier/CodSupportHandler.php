@@ -6,6 +6,7 @@ declare(strict_types=1);
 
 namespace Dhl\Paket\Model\Carrier;
 
+use Dhl\Paket\Model\ProcessorInterface;
 use Dhl\ShippingCore\Api\CodSupportInterface;
 use Dhl\ShippingCore\Api\ConfigInterface;
 use Dhl\ShippingCore\Api\Data\ShippingOption\Selection\AssignedSelectionInterface;
@@ -115,7 +116,16 @@ class CodSupportHandler implements CodSupportInterface
         $optionCodeFilter = $this->filterBuilder
             ->setField(AssignedSelectionInterface::SHIPPING_OPTION_CODE)
             ->setConditionType('in')
-            ->setValue(implode(',', ['preferredLocation', 'preferredNeighbour', 'parcelstation']))
+            ->setValue(
+                implode(
+                    ',',
+                    [
+                        ProcessorInterface::CHECKOUT_SERVICE_PREFERRED_LOCATION,
+                        ProcessorInterface::CHECKOUT_SERVICE_PREFERRED_NEIGHBOUR,
+                        ProcessorInterface::CHECKOUT_DELIVERY_PARCELSTATION,
+                    ]
+                )
+            )
             ->create();
 
         $searchCriteria = $this->searchCriteriaBuilderFactory

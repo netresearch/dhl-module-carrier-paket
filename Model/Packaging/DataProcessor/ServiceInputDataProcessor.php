@@ -7,9 +7,14 @@ declare(strict_types=1);
 namespace Dhl\Paket\Model\Packaging\DataProcessor;
 
 use Dhl\Paket\Model\Carrier\Paket;
+use Dhl\Paket\Model\ProcessorInterface;
+use Dhl\ShippingCore\Api\Data\ShippingOption\Selection\AssignedSelectionInterface;
 use Dhl\ShippingCore\Api\Data\ShippingOption\ShippingOptionInterface;
 use Dhl\ShippingCore\Model\Packaging\AbstractProcessor;
 use Dhl\ShippingCore\Model\Packaging\PackagingDataProvider;
+use Dhl\ShippingCore\Model\ShippingOption\Selection\OrderSelectionRepository;
+use Magento\Framework\Api\FilterBuilder;
+use Magento\Framework\Api\Search\SearchCriteriaBuilderFactory;
 use Magento\Framework\Stdlib\DateTime\TimezoneInterface;
 use Magento\Sales\Model\Order\Shipment;
 
@@ -27,12 +32,51 @@ class ServiceInputDataProcessor extends AbstractProcessor
     private $timezone;
 
     /**
-     * ServiceInputDataProcessor constructor.
-     * @param TimezoneInterface $timezone
+     * @var OrderSelectionRepository
      */
-    public function __construct(TimezoneInterface $timezone)
-    {
+    private $selectionRepository;
+
+    /**
+     * @var FilterBuilder
+     */
+    private $filterBuilder;
+
+    /**
+     * @var SearchCriteriaBuilderFactory
+     */
+    private $searchCriteriaBuilderFactory;
+
+    /**
+     * List of available customer services in checkout.
+     *
+     * @var string[]
+     */
+    private $availableCustomerServices = [
+        ProcessorInterface::CHECKOUT_SERVICE_PREFERRED_DAY,
+        ProcessorInterface::CHECKOUT_SERVICE_PREFERRED_TIME,
+        ProcessorInterface::CHECKOUT_SERVICE_PREFERRED_LOCATION,
+        ProcessorInterface::CHECKOUT_SERVICE_PREFERRED_NEIGHBOUR,
+        ProcessorInterface::CHECKOUT_DELIVERY_PARCELSTATION,
+    ];
+
+    /**
+     * ServiceInputDataProcessor constructor.
+     *
+     * @param TimezoneInterface $timezone
+     * @param OrderSelectionRepository $selectionRepository
+     * @param FilterBuilder $filterBuilder
+     * @param SearchCriteriaBuilderFactory $searchCriteriaBuilderFactory
+     */
+    public function __construct(
+        TimezoneInterface $timezone,
+        OrderSelectionRepository $selectionRepository,
+        FilterBuilder $filterBuilder,
+        SearchCriteriaBuilderFactory $searchCriteriaBuilderFactory
+    ) {
         $this->timezone = $timezone;
+        $this->selectionRepository = $selectionRepository;
+        $this->filterBuilder = $filterBuilder;
+        $this->searchCriteriaBuilderFactory = $searchCriteriaBuilderFactory;
     }
 
     /**
@@ -44,15 +88,8 @@ class ServiceInputDataProcessor extends AbstractProcessor
     {
         foreach ($shippingOption->getInputs() as $input) {
             if ($input->getCode() === 'id') {
-                list($stationId, $countryId, $postalCode, $city) = explode('|', $input->getDefaultValue());
                 $input->setLabel(
-                    sprintf(
-                        'Packstation %s, %s %s %s',
-                        $stationId,
-                        $countryId,
-                        $postalCode,
-                        $city
-                    )
+                    str_replace('|', ', ', $input->getDefaultValue())
                 );
             }
         }
@@ -60,6 +97,10 @@ class ServiceInputDataProcessor extends AbstractProcessor
 
     /**
      * Infer radio button label from selection value.
+     *
+     * This must be done manually since the proper value labels are
+     * only retrieved from the API during checkout and that data is
+     * not persisted.
      *
      * @param ShippingOptionInterface $shippingOption
      */
@@ -80,6 +121,10 @@ class ServiceInputDataProcessor extends AbstractProcessor
     /**
      * Infer radio button label from selection value.
      *
+     * This must be done manually since the proper value labels are
+     * only retrieved from the API during checkout and that data is
+     * not persisted.
+     *
      * @param ShippingOptionInterface $shippingOption
      */
     private function processPreferredTimeInputs(ShippingOptionInterface $shippingOption)
@@ -96,6 +141,79 @@ class ServiceInputDataProcessor extends AbstractProcessor
     }
 
     /**
+     * Filters all not selected customer services out of the options data array
+     * so they are never rendered in the Packaging Popup.
+     *
+     * @param AssignedSelectionInterface[] $selections
+     * @param ShippingOptionInterface[] $optionsData
+     *
+     * @return ShippingOptionInterface[]
+     */
+    private function filterNotSelectedServices(array $selections, array $optionsData): array
+    {
+        $selectedServices = [];
+        foreach ($selections as $selection) {
+            $selectedServices[] = $selection->getShippingOptionCode();
+        }
+
+        $notSelectedServices = array_diff($this->availableCustomerServices, array_unique($selectedServices));
+
+        foreach ($optionsData as $optionCode => $shippingOption) {
+            if (in_array($shippingOption->getCode(), $notSelectedServices, true)) {
+                unset($optionsData[$optionCode]);
+            }
+        }
+
+        return $optionsData;
+    }
+
+    /**
+     * @param int $orderAddressId
+     * @return AssignedSelectionInterface[]
+     */
+    private function loadSelections(int $orderAddressId): array
+    {
+        $addressFilter = $this->filterBuilder
+            ->setField(AssignedSelectionInterface::PARENT_ID)
+            ->setValue($orderAddressId)
+            ->setConditionType('eq')
+            ->create();
+
+        $searchCriteriaBuilder = $this->searchCriteriaBuilderFactory->create();
+        $searchCriteria = $searchCriteriaBuilder->addFilter($addressFilter)->create();
+
+        return $this->selectionRepository->getList($searchCriteria)->getItems();
+    }
+
+    /**
+     * Set all 'enabled' inputs' default value to true if their parent shipping option was in any way selected.
+     * This needs to be done manually because the 'enabled' inputs are never available in checkout.
+     *
+     * @param AssignedSelectionInterface[] $selections
+     * @param ShippingOptionInterface[] $optionsData
+     *
+     * @return ShippingOptionInterface[]
+     */
+    private function setEnabledInputValues(array $selections, array $optionsData)
+    {
+        foreach ($selections as $selection) {
+            foreach ($optionsData as $shippingOption) {
+                if ($shippingOption->getCode() !== $selection->getShippingOptionCode()) {
+                    continue;
+                }
+
+                foreach ($shippingOption->getInputs() as $input) {
+                    if ($input->getCode() === 'enabled') {
+                        $input->setDefaultValue('1');
+                    }
+                }
+            }
+        }
+
+        return $optionsData;
+    }
+
+    /**
      * @param ShippingOptionInterface[] $optionsData
      * @param Shipment $shipment
      * @param string $optionGroupName
@@ -107,21 +225,26 @@ class ServiceInputDataProcessor extends AbstractProcessor
         if ($optionGroupName !== PackagingDataProvider::GROUP_SERVICE) {
             return $optionsData;
         }
-
         $carrierCode = strtok((string) $shipment->getOrder()->getShippingMethod(), '_');
         if ($carrierCode !== Paket::CARRIER_CODE) {
             return $optionsData;
         }
 
+        $addressId   = (int) $shipment->getShippingAddressId();
+        $selections  = $this->loadSelections($addressId);
+
+        $optionsData = $this->filterNotSelectedServices($selections, $optionsData);
+        $optionsData = $this->setEnabledInputValues($selections, $optionsData);
+
         foreach ($optionsData as $optionGroup) {
             switch ($optionGroup->getCode()) {
-                case 'parcelstation':
+                case ProcessorInterface::CHECKOUT_DELIVERY_PARCELSTATION:
                     $this->processParcelStationInputs($optionGroup);
                     break;
-                case 'preferredDay':
+                case ProcessorInterface::CHECKOUT_SERVICE_PREFERRED_DAY:
                     $this->processPreferredDayInputs($optionGroup);
                     break;
-                case 'preferredTime':
+                case ProcessorInterface::CHECKOUT_SERVICE_PREFERRED_TIME:
                     $this->processPreferredTimeInputs($optionGroup);
                     break;
             }

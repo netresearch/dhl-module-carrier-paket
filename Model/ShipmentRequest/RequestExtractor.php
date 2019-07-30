@@ -7,6 +7,7 @@ declare(strict_types=1);
 namespace Dhl\Paket\Model\ShipmentRequest;
 
 use Dhl\Paket\Model\Config\ModuleConfig;
+use Dhl\Paket\Model\ProcessorInterface;
 use Dhl\Paket\Util\ShippingProducts;
 use Dhl\ShippingCore\Api\Data\ShipmentRequest\PackageInterface;
 use Dhl\ShippingCore\Api\Data\ShipmentRequest\PackageItemInterface;
@@ -311,7 +312,7 @@ class RequestExtractor implements RequestExtractorInterface
      */
     public function isBulkyGoods(): bool
     {
-        return (bool) ($this->getServiceData('bulkyGoods')['enabled'] ?? false);
+        return (bool) ($this->getServiceData(ProcessorInterface::PACKAGING_SERVICE_BULKY_GOODS)['enabled'] ?? false);
     }
 
     /**
@@ -321,7 +322,7 @@ class RequestExtractor implements RequestExtractorInterface
      */
     public function isAdditionalInsurance(): bool
     {
-        return (bool) ($this->getServiceData('additionalInsurance')['enabled'] ?? false);
+        return (bool) ($this->getServiceData(ProcessorInterface::PACKAGING_SERVICE_INSURANCE)['enabled'] ?? false);
     }
 
     /**
@@ -331,7 +332,7 @@ class RequestExtractor implements RequestExtractorInterface
      */
     public function hasPreferredTime(): bool
     {
-        return (bool) ($this->getServiceData('preferredTime')['enabled'] ?? false);
+        return (bool) ($this->getServiceData(ProcessorInterface::CHECKOUT_SERVICE_PREFERRED_TIME)['enabled'] ?? false);
     }
 
     /**
@@ -341,7 +342,7 @@ class RequestExtractor implements RequestExtractorInterface
      */
     public function getPreferredTime(): string
     {
-        return $this->getServiceData('preferredTime')['time'] ?? '';
+        return $this->getServiceData(ProcessorInterface::CHECKOUT_SERVICE_PREFERRED_TIME)['time'] ?? '';
     }
 
     /**
@@ -351,7 +352,7 @@ class RequestExtractor implements RequestExtractorInterface
      */
     public function hasPreferredDay(): bool
     {
-        return (bool) ($this->getServiceData('preferredDay')['enabled'] ?? false);
+        return (bool) ($this->getServiceData(ProcessorInterface::CHECKOUT_SERVICE_PREFERRED_DAY)['enabled'] ?? false);
     }
 
     /**
@@ -361,7 +362,7 @@ class RequestExtractor implements RequestExtractorInterface
      */
     public function getPreferredDay(): string
     {
-        return $this->getServiceData('preferredDay')['date'] ?? '';
+        return $this->getServiceData(ProcessorInterface::CHECKOUT_SERVICE_PREFERRED_DAY)['date'] ?? '';
     }
 
     /**
@@ -371,7 +372,7 @@ class RequestExtractor implements RequestExtractorInterface
      */
     public function hasPreferredNeighbour(): bool
     {
-        return (bool) ($this->getServiceData('preferredNeighbour')['enabled'] ?? false);
+        return (bool) ($this->getServiceData(ProcessorInterface::CHECKOUT_SERVICE_PREFERRED_NEIGHBOUR)['enabled'] ?? false);
     }
 
     /**
@@ -381,7 +382,7 @@ class RequestExtractor implements RequestExtractorInterface
      */
     public function getPreferredNeighbourName(): string
     {
-        return $this->getServiceData('preferredNeighbour')['name'] ?? '';
+        return $this->getServiceData(ProcessorInterface::CHECKOUT_SERVICE_PREFERRED_NEIGHBOUR)['name'] ?? '';
     }
 
     /**
@@ -391,7 +392,7 @@ class RequestExtractor implements RequestExtractorInterface
      */
     public function getPreferredNeighbourAddress(): string
     {
-        return $this->getServiceData('preferredNeighbour')['address'] ?? '';
+        return $this->getServiceData(ProcessorInterface::CHECKOUT_SERVICE_PREFERRED_NEIGHBOUR)['address'] ?? '';
     }
 
     /**
@@ -401,7 +402,7 @@ class RequestExtractor implements RequestExtractorInterface
      */
     public function hasPreferredLocation(): bool
     {
-        return (bool) ($this->getServiceData('preferredLocation')['enabled'] ?? false);
+        return (bool) ($this->getServiceData(ProcessorInterface::CHECKOUT_SERVICE_PREFERRED_LOCATION)['enabled'] ?? false);
     }
 
     /**
@@ -411,7 +412,7 @@ class RequestExtractor implements RequestExtractorInterface
      */
     public function getPreferredLocation(): string
     {
-        return $this->getServiceData('preferredLocation')['details'] ?? '';
+        return $this->getServiceData(ProcessorInterface::CHECKOUT_SERVICE_PREFERRED_LOCATION)['details'] ?? '';
     }
 
     /**
@@ -421,7 +422,7 @@ class RequestExtractor implements RequestExtractorInterface
      */
     public function isPrintOnlyIfCodeable(): bool
     {
-        return (bool) ($this->getServiceData('printOnlyIfCodeable')['enabled'] ?? false);
+        return (bool) ($this->getServiceData(ProcessorInterface::PACKAGING_PRINT_ONLY_IF_CODEABLE)['enabled'] ?? false);
     }
 
     /**
@@ -431,7 +432,7 @@ class RequestExtractor implements RequestExtractorInterface
      */
     public function isVisualCheckOfAge(): bool
     {
-        return (bool) ($this->getServiceData('visualCheckOfAge')['enabled'] ?? false);
+        return (bool) ($this->getServiceData(ProcessorInterface::PACKAGING_SERVICE_CHECK_OF_AGE)['enabled'] ?? false);
     }
 
     /**
@@ -441,7 +442,7 @@ class RequestExtractor implements RequestExtractorInterface
      */
     public function getVisualCheckOfAge(): string
     {
-        return $this->getServiceData('visualCheckOfAge')['enabled'];
+        return $this->getServiceData(ProcessorInterface::PACKAGING_SERVICE_CHECK_OF_AGE)['enabled'];
     }
 
     /**
@@ -451,7 +452,7 @@ class RequestExtractor implements RequestExtractorInterface
      */
     public function isParcelAnnouncement(): bool
     {
-        return (bool) ($this->getServiceData('parcelAnnouncement')['enabled'] ?? false);
+        return (bool) ($this->getServiceData(ProcessorInterface::CHECKOUT_PARCEL_ANNOUNCEMENT)['enabled'] ?? false);
     }
 
     /**
@@ -461,7 +462,7 @@ class RequestExtractor implements RequestExtractorInterface
      */
     public function isReturnShipment(): bool
     {
-        return (bool) ($this->getServiceData('returnShipment')['enabled'] ?? false);
+        return (bool) ($this->getServiceData(ProcessorInterface::PACKAGING_SERVICE_RETURN_SHIPMENT)['enabled'] ?? false);
     }
 
     /**
@@ -471,7 +472,7 @@ class RequestExtractor implements RequestExtractorInterface
      */
     public function isPackstationDelivery(): bool
     {
-        return (bool) ($this->getServiceData('parcelstation')['enabled'] ?? false);
+        return (bool) ($this->getServiceData(ProcessorInterface::CHECKOUT_DELIVERY_PARCELSTATION)['enabled'] ?? false);
     }
 
     /**
@@ -481,7 +482,7 @@ class RequestExtractor implements RequestExtractorInterface
      */
     public function getPackstationId(): string
     {
-        return $this->getServiceData('parcelstation')['id'] ?? '';
+        return $this->getServiceData(ProcessorInterface::CHECKOUT_DELIVERY_PARCELSTATION)['id'] ?? '';
     }
 
     /**
@@ -491,6 +492,6 @@ class RequestExtractor implements RequestExtractorInterface
      */
     public function getPostNumber(): string
     {
-        return $this->getServiceData('parcelstation')['postNumber'] ?? '';
+        return $this->getServiceData(ProcessorInterface::CHECKOUT_DELIVERY_PARCELSTATION)['postNumber'] ?? '';
     }
 }

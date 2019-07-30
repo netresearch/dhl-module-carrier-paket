@@ -6,6 +6,7 @@ declare(strict_types=1);
 
 namespace Dhl\Paket\Test\Integration\TestDoubles;
 
+use Dhl\Paket\Model\ProcessorInterface;
 use Dhl\Sdk\Paket\ParcelManagement\Api\CheckoutServiceInterface;
 use Dhl\Sdk\Paket\ParcelManagement\Service\CheckoutService\CarrierService;
 use Dhl\Sdk\Paket\ParcelManagement\Service\CheckoutService\IntervalOption;
@@ -24,11 +25,11 @@ class CheckoutServiceStub implements CheckoutServiceInterface
     ): array {
         return [
             new CarrierService(
-                'preferredLocation',
+                ProcessorInterface::CHECKOUT_SERVICE_PREFERRED_LOCATION,
                 true
             ),
             new CarrierService(
-                'preferredNeighbour',
+                ProcessorInterface::CHECKOUT_SERVICE_PREFERRED_NEIGHBOUR,
                 false
             ),
             new CarrierService(
@@ -40,7 +41,7 @@ class CheckoutServiceStub implements CheckoutServiceInterface
                 true
             ),
             new CarrierService(
-                'preferredDay',
+                ProcessorInterface::CHECKOUT_SERVICE_PREFERRED_DAY,
                 true,
                 [
                     new IntervalOption(
@@ -59,7 +60,7 @@ class CheckoutServiceStub implements CheckoutServiceInterface
                 ]
             ),
             new CarrierService(
-                'preferredTime',
+                ProcessorInterface::CHECKOUT_SERVICE_PREFERRED_TIME,
                 true,
                 [
                     new TimeFrameOption(

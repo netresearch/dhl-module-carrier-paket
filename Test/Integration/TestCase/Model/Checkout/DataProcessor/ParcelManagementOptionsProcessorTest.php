@@ -7,6 +7,7 @@ declare(strict_types=1);
 namespace Dhl\Paket\Test\Integration\TestCase\Model\Checkout\DataProcessor;
 
 use Dhl\Paket\Model\Carrier\Paket;
+use Dhl\Paket\Model\ProcessorInterface;
 use Dhl\Paket\Test\Integration\TestDoubles\CheckoutServiceStub;
 use Dhl\Sdk\Paket\ParcelManagement\Service\ServiceFactory;
 use Dhl\ShippingCore\Model\Checkout\CarrierData;
@@ -101,11 +102,11 @@ class ParcelManagementOptionsProcessorTest extends TestCase
         $carrier = $carriers[Paket::CARRIER_CODE];
         $serviceOptions = $carrier->getServiceOptions();
 
-        self::assertArrayHasKey('preferredDay', $serviceOptions);
-        self::assertArrayHasKey('preferredTime', $serviceOptions);
-        self::assertArrayNotHasKey('preferredLocation', $serviceOptions);
-        self::assertArrayNotHasKey('preferredNeighbour', $serviceOptions);
-        self::assertArrayNotHasKey('parcelAnnouncement', $serviceOptions);
+        self::assertArrayHasKey(ProcessorInterface::CHECKOUT_SERVICE_PREFERRED_DAY, $serviceOptions);
+        self::assertArrayHasKey(ProcessorInterface::CHECKOUT_SERVICE_PREFERRED_TIME, $serviceOptions);
+        self::assertArrayNotHasKey(ProcessorInterface::CHECKOUT_SERVICE_PREFERRED_LOCATION, $serviceOptions);
+        self::assertArrayNotHasKey(ProcessorInterface::CHECKOUT_SERVICE_PREFERRED_NEIGHBOUR, $serviceOptions);
+        self::assertArrayNotHasKey(ProcessorInterface::CHECKOUT_PARCEL_ANNOUNCEMENT, $serviceOptions);
 
         /** @var ShippingOption $serviceOption */
         foreach ($serviceOptions as $serviceOption) {

@@ -6,6 +6,7 @@ declare(strict_types=1);
 
 namespace Dhl\Paket\Model\Checkout\DataProcessor;
 
+use Dhl\Paket\Model\ProcessorInterface;
 use Dhl\Paket\Model\Service\StartDate;
 use Dhl\Paket\Webservice\ParcelManagementServiceFactory;
 use Dhl\Sdk\Paket\ParcelManagement\Api\Data\CarrierServiceInterface;
@@ -27,8 +28,6 @@ use Psr\Log\LoggerInterface;
  */
 class ParcelManagementOptionsProcessor extends AbstractProcessor
 {
-    const PREFERRED_DAY = 'preferredDay';
-    const PREFERRED_TIME = 'preferredTime';
     const SAME_DAY_DELIVERY = 'sameDayDelivery';
 
     /**
@@ -187,7 +186,11 @@ class ParcelManagementOptionsProcessor extends AbstractProcessor
     private function processShippingOption(ShippingOptionInterface $shippingOption, array $carrierServices)
     {
         $serviceCode = $shippingOption->getCode();
-        $servicesWithOptions = [self::PREFERRED_DAY, self::PREFERRED_TIME, self::SAME_DAY_DELIVERY];
+        $servicesWithOptions = [
+            ProcessorInterface::CHECKOUT_SERVICE_PREFERRED_DAY,
+            ProcessorInterface::CHECKOUT_SERVICE_PREFERRED_TIME,
+            self::SAME_DAY_DELIVERY
+        ];
 
         if (array_key_exists($serviceCode, $carrierServices) && !$carrierServices[$serviceCode]->isAvailable()) {
             // API returned additional information but service cannot be booked
@@ -199,7 +202,7 @@ class ParcelManagementOptionsProcessor extends AbstractProcessor
             return null;
         }
 
-        if ($serviceCode === self::PREFERRED_DAY) {
+        if ($serviceCode === ProcessorInterface::CHECKOUT_SERVICE_PREFERRED_DAY) {
             // API returned option values for preferred day service, add them to the input element
             try {
                 $this->addPreferredDayOptions($shippingOption, $carrierServices[$serviceCode]);
@@ -209,7 +212,7 @@ class ParcelManagementOptionsProcessor extends AbstractProcessor
             }
         }
 
-        if ($serviceCode === self::PREFERRED_TIME) {
+        if ($serviceCode === ProcessorInterface::CHECKOUT_SERVICE_PREFERRED_TIME) {
             // API returned option values for preferred time service, add them to the input element
             try {
                 $this->addPreferredTimeOptions($shippingOption, $carrierServices[$serviceCode]);

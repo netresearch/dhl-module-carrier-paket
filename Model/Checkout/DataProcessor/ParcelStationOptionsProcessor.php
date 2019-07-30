@@ -6,6 +6,7 @@ declare(strict_types=1);
 
 namespace Dhl\Paket\Model\Checkout\DataProcessor;
 
+use Dhl\Paket\Model\ProcessorInterface;
 use Dhl\Paket\Webservice\PostFinderServiceFactory;
 use Dhl\ShippingCore\Api\ConfigInterface;
 use Dhl\ShippingCore\Api\Data\ShippingOption\OptionInterfaceFactory;
@@ -71,7 +72,7 @@ class ParcelStationOptionsProcessor extends AbstractProcessor
         }
 
         foreach ($optionsData as $shippingOption) {
-            if ($shippingOption->getCode() === 'parcelstation') {
+            if ($shippingOption->getCode() === ProcessorInterface::CHECKOUT_DELIVERY_PARCELSTATION) {
                 $postFinderService = $this->postFinderServiceFactory->create(['storeId' => $scopeId]);
                 foreach ($shippingOption->getInputs() as $input) {
                     if ($input->getCode() === 'id') {
