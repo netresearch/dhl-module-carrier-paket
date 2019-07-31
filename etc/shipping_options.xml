@@ -10,9 +10,6 @@
                         <inputType>checkbox</inputType>
                         <label>Enable DHL parcel notification</label>
                         <tooltip>Your e-mail address will be sent to DHL upon enabling, after which DHL will trigger a package announcement for your shipment. The e-mail address will exclusively be used for the announcement of this shipment.</tooltip>
-                        <comment>
-                            <content>Allow customers to request parcel notification updates via e-mail by DHL during checkout.</content>
-                        </comment>
                     </input>
                 </inputs>
             </shippingOption>

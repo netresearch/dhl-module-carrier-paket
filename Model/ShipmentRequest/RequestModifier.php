@@ -6,13 +6,11 @@ declare(strict_types=1);
 
 namespace Dhl\Paket\Model\ShipmentRequest;
 
-use Dhl\Paket\Model\Carrier\PaketFactory;
 use Dhl\Paket\Model\Config\ModuleConfig;
 use Dhl\Paket\Util\ShippingProducts;
 use Dhl\ShippingCore\Api\ConfigInterface;
 use Dhl\ShippingCore\Api\PackagingOptionReaderInterfaceFactory;
 use Dhl\ShippingCore\Api\RequestModifierInterface;
-use Magento\Framework\DataObjectFactory;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Shipping\Model\Shipment\Request;
 
@@ -49,16 +47,6 @@ class RequestModifier implements RequestModifierInterface
     private $packagingOptionReaderFactory;
 
     /**
-     * @var PaketFactory
-     */
-    private $carrierFactory;
-
-    /**
-     * @var DataObjectFactory
-     */
-    private $dataObjectFactory;
-
-    /**
      * RequestModifier constructor.
      *
      * @param RequestModifierInterface $coreModifier
@@ -66,25 +54,19 @@ class RequestModifier implements RequestModifierInterface
      * @param ConfigInterface $dhlConfig
      * @param ShippingProducts $shippingProducts
      * @param PackagingOptionReaderInterfaceFactory $packagingOptionReaderFactory
-     * @param PaketFactory $carrierFactory
-     * @param DataObjectFactory $dataObjectFactory
      */
     public function __construct(
         RequestModifierInterface $coreModifier,
         ModuleConfig $config,
         ConfigInterface $dhlConfig,
         ShippingProducts $shippingProducts,
-        PackagingOptionReaderInterfaceFactory $packagingOptionReaderFactory,
-        PaketFactory $carrierFactory,
-        DataObjectFactory $dataObjectFactory
+        PackagingOptionReaderInterfaceFactory $packagingOptionReaderFactory
     ) {
         $this->config = $config;
         $this->dhlConfig = $dhlConfig;
         $this->coreModifier = $coreModifier;
         $this->shippingProducts = $shippingProducts;
         $this->packagingOptionReaderFactory = $packagingOptionReaderFactory;
-        $this->carrierFactory = $carrierFactory;
-        $this->dataObjectFactory = $dataObjectFactory;
     }
 
     /**
@@ -114,8 +96,13 @@ class RequestModifier implements RequestModifierInterface
 
         $defaultProduct = current($defaults);
         $applicableProductCodes = current($applicableProducts);
-        if (!in_array($defaultProduct, $applicableProductCodes)) {
-            $message = __('The product %1 is not valid for the route %2-%3.', $defaultProduct, $originCountry, $destinationCountry);
+        if (!in_array($defaultProduct, $applicableProductCodes, true)) {
+            $message = __(
+                'The product %1 is not valid for the route %2-%3.',
+                $defaultProduct,
+                $originCountry,
+                $destinationCountry
+            );
             throw new LocalizedException($message);
         }
 

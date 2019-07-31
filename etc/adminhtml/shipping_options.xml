@@ -63,6 +63,14 @@
                         <label>Enable DHL return shipment service</label>
                     </input>
                 </inputs>
+                <routes>
+                    <route>
+                        <origin>DE</origin>
+                        <includeDestinations>
+                            <destination>DE</destination>
+                        </includeDestinations>
+                    </route>
+                </routes>
             </shippingOption>
             <shippingOption code="additionalInsurance">
                 <label>Additional Insurance</label>
@@ -101,6 +109,14 @@
                         <label>Enable DHL bulky goods service</label>
                     </input>
                 </inputs>
+                <routes>
+                    <route>
+                        <origin>DE</origin>
+                        <includeDestinations>
+                            <destination>DE</destination>
+                        </includeDestinations>
+                    </route>
+                </routes>
             </shippingOption>
             <shippingOption code="visualCheckOfAge">
                 <label>Visual Check of Age</label>
