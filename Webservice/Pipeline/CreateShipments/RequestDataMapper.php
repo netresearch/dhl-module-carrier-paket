@@ -219,8 +219,7 @@ class RequestDataMapper
 
             if ($requestExtractor->isPackstationDelivery()) {
                 $packstation = $requestExtractor->getPackstationId();
-                $stationData = explode('|', $packstation);
-                list($stationId, $countryId, $postalCode, $city) = $stationData;
+                list($stationId, $countryId, $postalCode, $city) = explode('|', $packstation);
 
                 $this->requestBuilder->setPackstation(
                     $requestExtractor->getRecipient()->getContactPersonName(),
@@ -231,6 +230,10 @@ class RequestDataMapper
                     null,
                     $countryId
                 );
+            }
+
+            if ($requestExtractor->isParcelOutletRouting()) {
+                $this->requestBuilder->setParcelOutletRouting($requestExtractor->getRecipient()->getContactEmail());
             }
 
             //todo(nr): once we added postFiliale support we need to add it here

@@ -56,6 +56,7 @@ class ModuleConfig
     const CONFIG_PATH_RETURN_SHIPMENT        = 'dhlshippingsolutions/dhlpaket/shipment_defaults/services_group/return_shipment';
     const CONFIG_PATH_ADDITIONAL_INSURANCE   = 'dhlshippingsolutions/dhlpaket/shipment_defaults/services_group/additional_insurance';
     const CONFIG_PATH_BULKY_GOODS            = 'dhlshippingsolutions/dhlpaket/shipment_defaults/services_group/bulky_goods';
+    const CONFIG_PATH_PARCEL_OUTLET          = 'dhlshippingsolutions/dhlpaket/shipment_defaults/services_group/parcel_outlet';
 
     // 600_additional_services.xml
     const CONFIG_PATH_ADDITIONAL_SERVICES     = 'dhlshippingsolutions/dhlpaket/additional_services/services_group';
@@ -540,6 +541,22 @@ class ModuleConfig
     {
         return $this->scopeConfig->getValue(
             self::CONFIG_PATH_ADDITIONAL_SERVICES,
+            ScopeInterface::SCOPE_STORE,
+            $store
+        );
+    }
+
+    /**
+     * Returns TRUE if the "parcel outlet" service should be used or not.
+     *
+     * @param mixed $store
+     *
+     * @return bool
+     */
+    public function parcelOutlet($store = null): bool
+    {
+        return (bool) $this->scopeConfig->getValue(
+            self::CONFIG_PATH_PARCEL_OUTLET,
             ScopeInterface::SCOPE_STORE,
             $store
         );

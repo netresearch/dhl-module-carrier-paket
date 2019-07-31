@@ -76,6 +76,7 @@
                         <return_shipment>0</return_shipment>
                         <additional_insurance>0</additional_insurance>
                         <bulky_goods>0</bulky_goods>
+                        <parcel_outlet>0</parcel_outlet>
                     </services_group>
                 </shipment_defaults>
 

@@ -247,6 +247,7 @@
                     <subject>preferredTime</subject>
                     <subject>preferredLocation</subject>
                     <subject>preferredNeighbour</subject>
+                    <subject>parcelOutletRouting</subject>
                 </subjects>
             </rule>
             <rule id="disableParcelStation_1">
@@ -284,6 +285,16 @@
                 <hideSubjects>true</hideSubjects>
                 <masters>
                     <master>preferredDay</master>
+                </masters>
+                <subjects>
+                    <subject>parcelstation.enabled</subject>
+                </subjects>
+            </rule>
+            <rule id="disableParcelStation_5">
+                <incompatibilityRule>true</incompatibilityRule>
+                <hideSubjects>true</hideSubjects>
+                <masters>
+                    <master>parcelOutletRouting</master>
                 </masters>
                 <subjects>
                     <subject>parcelstation.enabled</subject>

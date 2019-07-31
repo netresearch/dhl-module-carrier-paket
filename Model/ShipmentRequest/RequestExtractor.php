@@ -494,4 +494,13 @@ class RequestExtractor implements RequestExtractorInterface
     {
         return $this->getServiceData(ProcessorInterface::CHECKOUT_DELIVERY_PARCELSTATION)['postNumber'] ?? '';
     }
+
+    /**
+     * Obtain the "parcelOutletRouting" flag for the current package.
+     * @return bool
+     */
+    public function isParcelOutletRouting(): bool
+    {
+        return (bool) ($this->getServiceData('parcelOutletRouting')['enabled'] ?? false);
+    }
 }
