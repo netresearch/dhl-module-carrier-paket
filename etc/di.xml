@@ -137,8 +137,9 @@
     <type name="Dhl\ShippingCore\Model\Checkout\CheckoutDataCompositeProcessor">
         <arguments>
             <argument name="processors" xsi:type="array">
-                <item name="dhlpaketParcelManagementOptionsProcessor" sortOrder="550" xsi:type="object">Dhl\Paket\Model\Checkout\DataProcessor\ParcelManagementOptionsProcessor</item>
-                <item name="dhlpaketParcelStationOptionsProcessor" xsi:type="object">Dhl\Paket\Model\Checkout\DataProcessor\ParcelStationOptionsProcessor</item>
+                <item name="dhlpaketParcelManagementOptionsProcessor" sortOrder="100" xsi:type="object">Dhl\Paket\Model\Checkout\DataProcessor\ParcelManagementOptionsProcessor</item>
+                <item name="dhlpaketAdditionalChargesProcessor" sortOrder="200" xsi:type="object">Dhl\Paket\Model\Checkout\DataProcessor\AdditionalChargesProcessor</item>
+                <item name="dhlpaketParcelStationOptionsProcessor" sortOrder="300" xsi:type="object">Dhl\Paket\Model\Checkout\DataProcessor\ParcelStationOptionsProcessor</item>
             </argument>
         </arguments>
     </type>

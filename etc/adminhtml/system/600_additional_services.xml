@@ -38,10 +38,35 @@
                 <label>Offer Preferred Day Service</label>
                 <comment>Allow customers to select a preferred day of delivery.</comment>
             </field>
+            <field id="preferredDayCharge" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="55"
+                    translate="label comment" type="text">
+                <depends>
+                    <field id="preferredday">1</field>
+                </depends>
+                <label>Preferred Day additional charge</label>
+                <comment>The given additional charge will be applied to the shipping costs at checkout. Set to "0" to offer service for free.</comment>
+            </field>
             <field id="preferredtime" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="60"
                    translate="label comment" type="Netresearch\ConfigFields\Model\Type\Checkbox">
                 <label>Offer Preferred Time Service</label>
                 <comment>Allow customers to select a preferred time of delivery.</comment>
+            </field>
+            <field id="preferredTimeCharge" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="65"
+                    translate="label comment" type="text">
+                <depends>
+                    <field id="preferredtime">1</field>
+                </depends>
+                <label>Preferred Time additional charge</label>
+                <comment>The given additional charge will be applied to the shipping costs at checkout. Set to "0" to offer service for free.</comment>
+            </field>
+            <field id="preferredCombinedCharge" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="70"
+                    translate="label comment" type="text">
+                <depends>
+                    <field id="preferredtime">1</field>
+                    <field id="preferredday">1</field>
+                </depends>
+                <label>Preferred Day and Time combined charge</label>
+                <comment>The given combined additional charge will be applied to the shipping costs at checkout. Set to "0" to not offer service combination discount.</comment>
             </field>
         </group>
     </group>
