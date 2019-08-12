@@ -30,6 +30,12 @@ class ParcelManagementOptionsProcessor extends AbstractProcessor
 {
     const SAME_DAY_DELIVERY = 'sameDayDelivery';
 
+    const SERVICES_WITH_OPTIONS = [
+        ProcessorInterface::CHECKOUT_SERVICE_PREFERRED_DAY,
+        ProcessorInterface::CHECKOUT_SERVICE_PREFERRED_TIME,
+        self::SAME_DAY_DELIVERY
+    ];
+
     /**
      * @var OptionInterfaceFactory
      */
@@ -186,18 +192,13 @@ class ParcelManagementOptionsProcessor extends AbstractProcessor
     private function processShippingOption(ShippingOptionInterface $shippingOption, array $carrierServices)
     {
         $serviceCode = $shippingOption->getCode();
-        $servicesWithOptions = [
-            ProcessorInterface::CHECKOUT_SERVICE_PREFERRED_DAY,
-            ProcessorInterface::CHECKOUT_SERVICE_PREFERRED_TIME,
-            self::SAME_DAY_DELIVERY
-        ];
 
         if (array_key_exists($serviceCode, $carrierServices) && !$carrierServices[$serviceCode]->isAvailable()) {
             // API returned additional information but service cannot be booked
             return null;
         }
 
-        if (!array_key_exists($serviceCode, $carrierServices) && in_array($serviceCode, $servicesWithOptions, true)) {
+        if (!array_key_exists($serviceCode, $carrierServices) && in_array($serviceCode, self::SERVICES_WITH_OPTIONS, true)) {
             // API did not return any additional information but service requires options
             return null;
         }
@@ -251,27 +252,33 @@ class ParcelManagementOptionsProcessor extends AbstractProcessor
         string $postalCode,
         int $scopeId = null
     ): array {
+
+        if (empty(array_intersect_key(
+            self::SERVICES_WITH_OPTIONS,
+            array_keys($optionsData)
+        ))) {
+            // Return early if no service that needs options from the API is available.
+            return $optionsData;
+        }
+
+        $parcelManagementService = $this->serviceFactory->create(['storeId' => $scopeId]);
+        $startDate = $this->startDate->getStartDate()->format('Y-m-d');
         $carrierServices = [];
 
-        if (($countryId === 'DE') && ($this->dhlConfig->getOriginCountry($scopeId) === 'DE')) {
-            $parcelManagementService = $this->serviceFactory->create(['storeId' => $scopeId]);
-            $startDate = $this->startDate->getStartDate()->format('Y-m-d');
+        try {
+            $carrierServices = $parcelManagementService->getCarrierServices($postalCode, $startDate);
 
-            try {
-                $carrierServices = $parcelManagementService->getCarrierServices($postalCode, $startDate);
+            // add service codes as array keys
+            $carrierServiceCodes = array_map(
+                function (CarrierServiceInterface $carrierService) {
+                    return $carrierService->getCode();
+                },
+                $carrierServices
+            );
 
-                // add service codes as array keys
-                $carrierServiceCodes = array_map(
-                    function (CarrierServiceInterface $carrierService) {
-                        return $carrierService->getCode();
-                    },
-                    $carrierServices
-                );
-
-                $carrierServices = array_combine($carrierServiceCodes, $carrierServices);
-            } catch (\Exception $exception) {
-                $this->logger->error($exception->getMessage());
-            }
+            $carrierServices = array_combine($carrierServiceCodes, $carrierServices);
+        } catch (\Exception $exception) {
+            $this->logger->error($exception->getMessage());
         }
 
         $shippingOptions = array_map(
