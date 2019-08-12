@@ -7,6 +7,8 @@ declare(strict_types=1);
 namespace Dhl\Paket\Model\Carrier;
 
 use Dhl\Paket\Model\Config\ModuleConfig;
+use Dhl\Paket\Model\Packaging\ShipmentRequestValidator;
+use Dhl\Paket\Model\ProcessorInterface;
 use Dhl\Paket\Model\RatesManagement;
 use Dhl\Paket\Model\ShipmentManagement;
 use Dhl\Paket\Util\ShippingProducts;
@@ -72,11 +74,6 @@ class Paket extends AbstractCarrierOnline implements CarrierInterface
     private $moduleConfig;
 
     /**
-     * @var ConfigInterface
-     */
-    private $dhlConfig;
-
-    /**
      * @var ShippingProducts
      */
     private $shippingProducts;
@@ -95,6 +92,11 @@ class Paket extends AbstractCarrierOnline implements CarrierInterface
      * @var AbstractCarrierInterface
      */
     private $proxyCarrier;
+
+    /**
+     * @var ShipmentRequestValidator
+     */
+    private $shipmentRequestValidator;
 
     /**
      * Paket carrier constructor.
@@ -117,10 +119,10 @@ class Paket extends AbstractCarrierOnline implements CarrierInterface
      * @param RatesManagement $ratesManagement
      * @param ShipmentManagement $shipmentManagement
      * @param ModuleConfig $moduleConfig
-     * @param ConfigInterface $dhlConfig
      * @param ShippingProducts $shippingProducts
      * @param TrackRequestInterfaceFactory $trackRequestFactory
      * @param ProxyCarrierFactory $proxyCarrierFactory
+     * @param ShipmentRequestValidator $shipmentRequestValidator
      * @param mixed[] $data
      */
     public function __construct(
@@ -142,19 +144,19 @@ class Paket extends AbstractCarrierOnline implements CarrierInterface
         RatesManagement $ratesManagement,
         ShipmentManagement $shipmentManagement,
         ModuleConfig $moduleConfig,
-        ConfigInterface $dhlConfig,
         ShippingProducts $shippingProducts,
         TrackRequestInterfaceFactory $trackRequestFactory,
         ProxyCarrierFactory $proxyCarrierFactory,
+        ShipmentRequestValidator $shipmentRequestValidator,
         array $data = []
     ) {
         $this->ratesManagement = $ratesManagement;
         $this->shipmentManagement = $shipmentManagement;
         $this->moduleConfig = $moduleConfig;
-        $this->dhlConfig = $dhlConfig;
         $this->shippingProducts = $shippingProducts;
         $this->trackRequestFactory = $trackRequestFactory;
         $this->proxyCarrierFactory = $proxyCarrierFactory;
+        $this->shipmentRequestValidator = $shipmentRequestValidator;
 
         parent::__construct(
             $scopeConfig,
@@ -251,12 +253,19 @@ class Paket extends AbstractCarrierOnline implements CarrierInterface
      *
      * @param DataObject|Request $request
      * @return DataObject
+     * @throws LocalizedException
      * @see \Magento\Shipping\Model\Carrier\AbstractCarrierOnline::requestToShipment
      * @see \Magento\Shipping\Model\Carrier\AbstractCarrierOnline::returnOfShipment
      *
      */
     protected function _doShipmentRequest(DataObject $request): DataObject
     {
+        try {
+            $this->shipmentRequestValidator->validate($request);
+        } catch (LocalizedException $e) {
+            throw new LocalizedException(__($e->getMessage()), $e);
+        }
+
         $apiResult = $this->shipmentManagement->createLabels([$request->getData('package_id') => $request]);
 
         // one request, one response.
