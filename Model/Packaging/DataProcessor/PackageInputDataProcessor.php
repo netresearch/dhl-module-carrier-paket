@@ -6,7 +6,6 @@ declare(strict_types=1);
 
 namespace Dhl\Paket\Model\Packaging\DataProcessor;
 
-use Dhl\Paket\Model\Adminhtml\System\Config\Source\ShippingProduct;
 use Dhl\Paket\Model\Carrier\Paket;
 use Dhl\Paket\Model\Config\ModuleConfig;
 use Dhl\Paket\Util\ShippingProducts;
@@ -36,11 +35,6 @@ class PackageInputDataProcessor extends AbstractProcessor
     private $dhlConfig;
 
     /**
-     * @var ShippingProduct
-     */
-    private $productSource;
-
-    /**
      * @var ShippingProducts
      */
     private $shippingProducts;
@@ -55,20 +49,17 @@ class PackageInputDataProcessor extends AbstractProcessor
      *
      * @param ModuleConfig $config
      * @param ConfigInterface $dhlConfig
-     * @param ShippingProduct $productSource
      * @param ShippingProducts $shippingProducts
      * @param CommentInterfaceFactory $commentFactory
      */
     public function __construct(
         ModuleConfig $config,
         ConfigInterface $dhlConfig,
-        ShippingProduct $productSource,
         ShippingProducts $shippingProducts,
         CommentInterfaceFactory $commentFactory
     ) {
         $this->config = $config;
         $this->dhlConfig = $dhlConfig;
-        $this->productSource = $productSource;
         $this->shippingProducts = $shippingProducts;
         $this->commentFactory = $commentFactory;
     }
