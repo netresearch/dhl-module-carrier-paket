@@ -3,7 +3,6 @@
     <carrier code="dhlpaket">
         <packageOptions>
             <shippingOption code="packageCustoms">
-                <label>Customs Data</label>
                 <routes>
                     <route>
                         <excludeDestinations>
@@ -35,6 +34,21 @@
                 </inputs>
             </shippingOption>
         </packageOptions>
+        <itemOptions>
+            <itemShippingOptions itemId="0">
+                <shippingOptions>
+                    <shippingOption code="itemCustoms">
+                        <routes>
+                            <route>
+                                <excludeDestinations>
+                                    <destination>eu</destination>
+                                </excludeDestinations>
+                            </route>
+                        </routes>
+                    </shippingOption>
+                </shippingOptions>
+            </itemShippingOptions>
+        </itemOptions>
         <serviceOptions>
             <shippingOption code="parcelAnnouncement">
                 <sortOrder>10</sortOrder>
