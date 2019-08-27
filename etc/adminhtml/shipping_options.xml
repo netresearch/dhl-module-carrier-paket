@@ -184,7 +184,6 @@
                     <input code="date">
                         <sortOrder>20</sortOrder>
                         <inputType>radio</inputType>
-                        <labelVisible>true</labelVisible>
                     </input>
                 </inputs>
             </shippingOption>
@@ -200,7 +199,6 @@
                     <input code="time">
                         <sortOrder>20</sortOrder>
                         <inputType>radio</inputType>
-                        <labelVisible>true</labelVisible>
                     </input>
                 </inputs>
             </shippingOption>

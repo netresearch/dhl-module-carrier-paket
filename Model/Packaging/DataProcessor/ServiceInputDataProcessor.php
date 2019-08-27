@@ -8,6 +8,8 @@ namespace Dhl\Paket\Model\Packaging\DataProcessor;
 
 use Dhl\Paket\Model\Carrier\Paket;
 use Dhl\Paket\Model\ProcessorInterface;
+use Dhl\ShippingCore\Api\Data\ShippingOption\OptionInterface;
+use Dhl\ShippingCore\Api\Data\ShippingOption\OptionInterfaceFactory;
 use Dhl\ShippingCore\Api\Data\ShippingOption\Selection\AssignedSelectionInterface;
 use Dhl\ShippingCore\Api\Data\ShippingOption\ShippingOptionInterface;
 use Dhl\ShippingCore\Model\Packaging\AbstractProcessor;
@@ -51,7 +53,7 @@ class ServiceInputDataProcessor extends AbstractProcessor
      *
      * @var string[]
      */
-    private $availableCustomerServices = [
+    private static $availableCustomerServices = [
         ProcessorInterface::CHECKOUT_SERVICE_PREFERRED_DAY,
         ProcessorInterface::CHECKOUT_SERVICE_PREFERRED_TIME,
         ProcessorInterface::CHECKOUT_SERVICE_PREFERRED_LOCATION,
@@ -60,23 +62,31 @@ class ServiceInputDataProcessor extends AbstractProcessor
     ];
 
     /**
+     * @var OptionInterfaceFactory
+     */
+    private $optionFactory;
+
+    /**
      * ServiceInputDataProcessor constructor.
      *
      * @param TimezoneInterface $timezone
      * @param OrderSelectionRepository $selectionRepository
      * @param FilterBuilder $filterBuilder
      * @param SearchCriteriaBuilderFactory $searchCriteriaBuilderFactory
+     * @param OptionInterfaceFactory $optionFactory
      */
     public function __construct(
         TimezoneInterface $timezone,
         OrderSelectionRepository $selectionRepository,
         FilterBuilder $filterBuilder,
-        SearchCriteriaBuilderFactory $searchCriteriaBuilderFactory
+        SearchCriteriaBuilderFactory $searchCriteriaBuilderFactory,
+        OptionInterfaceFactory $optionFactory
     ) {
         $this->timezone = $timezone;
         $this->selectionRepository = $selectionRepository;
         $this->filterBuilder = $filterBuilder;
         $this->searchCriteriaBuilderFactory = $searchCriteriaBuilderFactory;
+        $this->optionFactory = $optionFactory;
     }
 
     /**
@@ -112,8 +122,11 @@ class ServiceInputDataProcessor extends AbstractProcessor
                     $input->getDefaultValue(),
                     \IntlDateFormatter::MEDIUM
                 );
-
-                $input->setLabel($dateFormatted);
+                /** @var OptionInterface $option */
+                $option = $this->optionFactory->create();
+                $option->setValue($input->getDefaultValue());
+                $option->setLabel($dateFormatted);
+                $input->setOptions([$option]);
             }
         }
     }
@@ -135,7 +148,11 @@ class ServiceInputDataProcessor extends AbstractProcessor
                 $startTime = implode(':', str_split($timeRange[0], 2));
                 $endTime = implode(':', str_split($timeRange[1], 2));
 
-                $input->setLabel($startTime . ' - ' . $endTime);
+                /** @var OptionInterface $option */
+                $option = $this->optionFactory->create();
+                $option->setValue($input->getDefaultValue());
+                $option->setLabel($startTime . ' - ' . $endTime);
+                $input->setOptions([$option]);
             }
         }
     }
@@ -156,7 +173,7 @@ class ServiceInputDataProcessor extends AbstractProcessor
             $selectedServices[] = $selection->getShippingOptionCode();
         }
 
-        $notSelectedServices = array_diff($this->availableCustomerServices, array_unique($selectedServices));
+        $notSelectedServices = array_diff(self::$availableCustomerServices, array_unique($selectedServices));
 
         foreach ($optionsData as $optionCode => $shippingOption) {
             if (in_array($shippingOption->getCode(), $notSelectedServices, true)) {
@@ -230,8 +247,8 @@ class ServiceInputDataProcessor extends AbstractProcessor
             return $optionsData;
         }
 
-        $addressId   = (int) $shipment->getShippingAddressId();
-        $selections  = $this->loadSelections($addressId);
+        $addressId = (int) $shipment->getShippingAddressId();
+        $selections = $this->loadSelections($addressId);
 
         $optionsData = $this->filterNotSelectedServices($selections, $optionsData);
         $optionsData = $this->setEnabledInputValues($selections, $optionsData);

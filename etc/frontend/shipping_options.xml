@@ -25,69 +25,48 @@
                 </inputs>
             </shippingOption>
         </serviceOptions>
-        <metadata>
-            <title>DHL Preferred Delivery. Delivered just the way you want.</title>
-            <commentsBefore>
-                <comment>
-                    <content>You decide when and where you want to receive your parcels with the recipient services of DHL.</content>
-                </comment>
-                <comment>
-                    <content>Please choose your preferred delivery options.</content>
-                </comment>
-            </commentsBefore>
-            <footnotes>
-                <footnote id="footnote-combined-cost">
-                    <content><![CDATA[For a combined booking of preferred day and preferred time, the shipping costs are a total of $1 including VAT.]]></content>
-                    <subjects>
-                        <subject>preferredTime</subject>
-                        <subject>preferredDay</subject>
-                    </subjects>
-                    <subjectsMustBeAvailable>true</subjectsMustBeAvailable>
-                    <subjectsMustBeSelected>true</subjectsMustBeSelected>
-                </footnote>
-            </footnotes>
-        </metadata>
         <compatibilityData>
-            <rule id="preferredLocationTimeExclusion">
-                <incompatibilityRule>true</incompatibilityRule>
-                <hideSubjects>true</hideSubjects>
+            <rule id="preferredLocationAndNeighbourExclusion">
+                <triggerValue>*</triggerValue>
+                <action>disable</action>
                 <subjects>
                     <subject>preferredLocation</subject>
                     <subject>preferredNeighbour</subject>
                 </subjects>
                 <errorMessage>Please choose only one of %1.</errorMessage>
             </rule>
-            <rule>
-                <incompatibilityRule>false</incompatibilityRule>
+            <rule id="preferredNeighbourRequireChildren">
+                <triggerValue>*</triggerValue>
+                <action>require</action>
                 <subjects>
                     <subject>preferredNeighbour.name</subject>
                     <subject>preferredNeighbour.address</subject>
                 </subjects>
                 <errorMessage>Some values for Preferred Neighbour service are missing.</errorMessage>
             </rule>
-            <rule id="parcelstationIdExclusion">
-                <incompatibilityRule>false</incompatibilityRule>
-                <hideSubjects>true</hideSubjects>
+            <rule id="parcelstationShowMore">
+                <triggerValue>true</triggerValue>
+                <action>show</action>
                 <masters>
                     <master>parcelstation.enabled</master>
                 </masters>
                 <subjects>
                     <subject>parcelstation.id</subject>
+                    <subject>parcelstation.postNumber</subject>
                 </subjects>
             </rule>
-            <rule id="parcelstationNumberExclusion">
-                <incompatibilityRule>false</incompatibilityRule>
-                <hideSubjects>true</hideSubjects>
+            <rule id="parcelstationRequireChildren">
+                <triggerValue>true</triggerValue>
+                <action>require</action>
                 <masters>
                     <master>parcelstation.enabled</master>
                 </masters>
                 <subjects>
+                    <subject>parcelstation.id</subject>
                     <subject>parcelstation.postNumber</subject>
                 </subjects>
             </rule>
             <rule id="parcelstationExcludeAllOthers">
-                <incompatibilityRule>true</incompatibilityRule>
-                <hideSubjects>true</hideSubjects>
                 <masters>
                     <master>parcelstation.enabled</master>
                 </masters>
@@ -98,56 +77,22 @@
                     <subject>preferredNeighbour</subject>
                     <subject>parcelOutletRouting</subject>
                 </subjects>
+                <triggerValue>true</triggerValue>
+                <action>hide</action>
             </rule>
-            <rule id="disableParcelStation_1">
-                <incompatibilityRule>true</incompatibilityRule>
-                <hideSubjects>true</hideSubjects>
-                <masters>
-                    <master>preferredLocation</master>
-                </masters>
-                <subjects>
-                    <subject>parcelstation.enabled</subject>
-                </subjects>
-            </rule>
-            <rule id="disableParcelStation_2">
-                <incompatibilityRule>true</incompatibilityRule>
-                <hideSubjects>true</hideSubjects>
-                <masters>
-                    <master>preferredNeighbour</master>
-                </masters>
-                <subjects>
-                    <subject>parcelstation.enabled</subject>
-                </subjects>
-            </rule>
-            <rule id="disableParcelStation_3">
-                <incompatibilityRule>true</incompatibilityRule>
-                <hideSubjects>true</hideSubjects>
-                <masters>
-                    <master>preferredTime</master>
-                </masters>
-                <subjects>
-                    <subject>parcelstation.enabled</subject>
-                </subjects>
-            </rule>
-            <rule id="disableParcelStation_4">
-                <incompatibilityRule>true</incompatibilityRule>
-                <hideSubjects>true</hideSubjects>
+            <rule id="allOthersExcludeParcelstation">
                 <masters>
                     <master>preferredDay</master>
-                </masters>
-                <subjects>
-                    <subject>parcelstation.enabled</subject>
-                </subjects>
-            </rule>
-            <rule id="disableParcelStation_5">
-                <incompatibilityRule>true</incompatibilityRule>
-                <hideSubjects>true</hideSubjects>
-                <masters>
+                    <master>preferredTime</master>
+                    <master>preferredLocation</master>
+                    <master>preferredNeighbour</master>
                     <master>parcelOutletRouting</master>
                 </masters>
                 <subjects>
                     <subject>parcelstation.enabled</subject>
                 </subjects>
+                <triggerValue>*</triggerValue>
+                <action>hide</action>
             </rule>
         </compatibilityData>
     </carrier>

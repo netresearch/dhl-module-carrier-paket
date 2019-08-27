@@ -56,7 +56,6 @@
                             <rule name="dhl_filter_special_chars"/>
                             <rule name="required-entry"/>
                         </validationRules>
-                        <tooltip>Lorem ipsum dolor sit amet, consetetur sadipscing elitr.</tooltip>
                     </input>
                 </inputs>
             </shippingOption>
@@ -173,5 +172,27 @@
                 </inputs>
             </shippingOption>
         </serviceOptions>
+        <metadata>
+            <title>DHL Preferred Delivery. Delivered just the way you want.</title>
+            <commentsBefore>
+                <comment>
+                    <content>You decide when and where you want to receive your parcels with the recipient services of DHL.</content>
+                </comment>
+                <comment>
+                    <content>Please choose your preferred delivery options.</content>
+                </comment>
+            </commentsBefore>
+            <footnotes>
+                <footnote id="footnote-combined-cost">
+                    <content><![CDATA[For a combined booking of preferred day and preferred time, the shipping costs are a total of $1 including VAT.]]></content>
+                    <subjects>
+                        <subject>preferredTime</subject>
+                        <subject>preferredDay</subject>
+                    </subjects>
+                    <subjectsMustBeAvailable>true</subjectsMustBeAvailable>
+                    <subjectsMustBeSelected>true</subjectsMustBeSelected>
+                </footnote>
+            </footnotes>
+        </metadata>
     </carrier>
 </carriers>
