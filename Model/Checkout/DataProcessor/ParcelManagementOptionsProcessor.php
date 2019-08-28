@@ -11,7 +11,6 @@ use Dhl\Paket\Model\Service\StartDate;
 use Dhl\Paket\Webservice\ParcelManagementServiceFactory;
 use Dhl\Sdk\Paket\ParcelManagement\Api\Data\CarrierServiceInterface;
 use Dhl\Sdk\Paket\ParcelManagement\Api\Data\IntervalOptionInterface;
-use Dhl\ShippingCore\Api\ConfigInterface;
 use Dhl\ShippingCore\Api\Data\ShippingOption\OptionInterface;
 use Dhl\ShippingCore\Api\Data\ShippingOption\OptionInterfaceFactory;
 use Dhl\ShippingCore\Api\Data\ShippingOption\ShippingOptionInterface;
@@ -47,11 +46,6 @@ class ParcelManagementOptionsProcessor extends AbstractProcessor
     private $serviceFactory;
 
     /**
-     * @var ConfigInterface
-     */
-    private $dhlConfig;
-
-    /**
      * @var StartDate
      */
     private $startDate;
@@ -59,7 +53,7 @@ class ParcelManagementOptionsProcessor extends AbstractProcessor
     /**
      * @var TimezoneInterface
      */
-    private $timeZone;
+    private $timezone;
 
     /**
      * @var LoggerInterface
@@ -71,24 +65,21 @@ class ParcelManagementOptionsProcessor extends AbstractProcessor
      *
      * @param OptionInterfaceFactory $optionFactory
      * @param ParcelManagementServiceFactory $serviceFactory
-     * @param ConfigInterface $dhlConfig
      * @param StartDate $startDate
-     * @param TimezoneInterface $timeZone
+     * @param TimezoneInterface $timezone
      * @param LoggerInterface $logger
      */
     public function __construct(
         OptionInterfaceFactory $optionFactory,
         ParcelManagementServiceFactory $serviceFactory,
-        ConfigInterface $dhlConfig,
         StartDate $startDate,
-        TimezoneInterface $timeZone,
+        TimezoneInterface $timezone,
         LoggerInterface $logger
     ) {
         $this->optionFactory = $optionFactory;
         $this->serviceFactory = $serviceFactory;
-        $this->dhlConfig = $dhlConfig;
         $this->startDate = $startDate;
-        $this->timeZone = $timeZone;
+        $this->timezone = $timezone;
         $this->logger = $logger;
     }
 
@@ -118,8 +109,8 @@ class ParcelManagementOptionsProcessor extends AbstractProcessor
         /** @var OptionInterface[] $options */
         $options = array_map(
             function (IntervalOptionInterface $intervalOption) {
-                $optionLabel = $this->timeZone->formatDate($intervalOption->getStart());
-                $optionValue = $this->timeZone->date($intervalOption->getStart())->format('Y-m-d');
+                $optionLabel = $this->timezone->formatDate($intervalOption->getStart());
+                $optionValue = $this->timezone->date($intervalOption->getStart())->format('Y-m-d');
 
                 $dayOption = $this->optionFactory->create();
                 $dayOption->setLabel($optionLabel);

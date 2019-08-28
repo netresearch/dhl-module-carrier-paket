@@ -8,12 +8,11 @@ namespace Dhl\Paket\Model\Checkout\DataProcessor;
 
 use Dhl\Paket\Model\Config\ModuleConfig;
 use Dhl\Paket\Model\ProcessorInterface;
-use Dhl\ShippingCore\Api\Data\FootnoteInterface;
 use Dhl\ShippingCore\Api\Data\MetadataInterface;
 use Dhl\ShippingCore\Api\Data\ShippingOption\InputInterface;
 use Dhl\ShippingCore\Api\Data\ShippingOption\ShippingOptionInterface;
 use Dhl\ShippingCore\Model\Checkout\AbstractProcessor;
-use Magento\Framework\CurrencyInterface;
+use Magento\Framework\CurrencyInterfaceFactory;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -30,9 +29,9 @@ class AdditionalChargesProcessor extends AbstractProcessor
     private $paketConfig;
 
     /**
-     * @var CurrencyInterface
+     * @var CurrencyInterfaceFactory
      */
-    private $currency;
+    private $currencyFactory;
 
     /**
      * @var LoggerInterface
@@ -43,13 +42,16 @@ class AdditionalChargesProcessor extends AbstractProcessor
      * AdditionalChargesProcessor constructor.
      *
      * @param ModuleConfig $paketConfig
-     * @param CurrencyInterface $currency
+     * @param CurrencyInterfaceFactory $currencyFactory
      * @param LoggerInterface $logger
      */
-    public function __construct(ModuleConfig $paketConfig, CurrencyInterface $currency, LoggerInterface $logger)
-    {
+    public function __construct(
+        ModuleConfig $paketConfig,
+        CurrencyInterfaceFactory $currencyFactory,
+        LoggerInterface $logger
+    ) {
         $this->paketConfig = $paketConfig;
-        $this->currency = $currency;
+        $this->currencyFactory = $currencyFactory;
         $this->logger = $logger;
     }
 
@@ -67,15 +69,21 @@ class AdditionalChargesProcessor extends AbstractProcessor
         string $postalCode,
         int $scopeId = null
     ): array {
-        $date = $optionsData[ProcessorInterface::CHECKOUT_SERVICE_PREFERRED_DAY]->getInputs()['date'] ?? false;
-        if ($date) {
-            $amount = $this->paketConfig->getPreferredDayAdditionalCharge();
-            $this->apply($amount, $date);
+        $preferredDay = $optionsData[ProcessorInterface::CHECKOUT_SERVICE_PREFERRED_DAY] ?? false;
+        if ($preferredDay) {
+            $date = $preferredDay->getInputs()['date'] ?? false;
+            if ($date) {
+                $amount = $this->paketConfig->getPreferredDayAdditionalCharge();
+                $this->apply($amount, $date);
+            }
         }
-        $time = $optionsData[ProcessorInterface::CHECKOUT_SERVICE_PREFERRED_TIME]->getInputs()['time'] ?? false;
-        if ($time) {
-            $amount = $this->paketConfig->getPreferredTimeAdditionalCharge();
-            $this->apply($amount, $time);
+        $preferredTime = $optionsData[ProcessorInterface::CHECKOUT_SERVICE_PREFERRED_TIME] ?? false;
+        if ($preferredTime) {
+            $time = $preferredTime->getInputs()['time'] ?? false;
+            if ($time) {
+                $amount = $this->paketConfig->getPreferredTimeAdditionalCharge();
+                $this->apply($amount, $time);
+            }
         }
 
         return $optionsData;
@@ -122,7 +130,7 @@ class AdditionalChargesProcessor extends AbstractProcessor
      * @param float $amount
      * @param InputInterface $date
      */
-    private function apply(float $amount, InputInterface $date): void
+    private function apply(float $amount, InputInterface $date)
     {
         $comment = $date->getComment();
         if (!$comment) {
@@ -148,7 +156,8 @@ class AdditionalChargesProcessor extends AbstractProcessor
         try {
             /** Translate the string now because later translation would fail. */
             $string = __($string)->render();
-            $result = str_replace('$1', $this->currency->toCurrency($amount), $string);
+            $currency = $this->currencyFactory->create();
+            $result = str_replace('$1', $currency->toCurrency($amount), $string);
         } catch (\Zend_Currency_Exception $e) {
             $this->logger->error($e->getMessage());
         }
