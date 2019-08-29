@@ -50,9 +50,9 @@ class CancelRequestBuilder
     private $requestFactory;
 
     /**
-     * @var ShipmentInterface|\Magento\Sales\Model\Order\Shipment
+     * @var ShipmentInterface[]|\Magento\Sales\Model\Order\Shipment[]
      */
-    private $shipment;
+    private $shipments = [];
 
     /**
      * CancelRequestBuilder constructor.
@@ -74,14 +74,14 @@ class CancelRequestBuilder
     }
 
     /**
-     * Set the shipment to build the cancellation requests for.
+     * Set the shipments to build the cancellation requests for.
      *
-     * @param ShipmentInterface $shipment
+     * @param ShipmentInterface[] $shipments
      * @return void
      */
-    public function setShipment(ShipmentInterface $shipment)
+    public function setShipments(array $shipments)
     {
-        $this->shipment = $shipment;
+        $this->shipments = $shipments;
     }
 
     /**
@@ -93,20 +93,23 @@ class CancelRequestBuilder
     {
         $cancelRequests = [];
 
-        $this->filterBuilder->setField(ShipmentTrackInterface::PARENT_ID);
-        $this->filterBuilder->setConditionType('eq');
-        $this->filterBuilder->setValue($this->shipment->getEntityId());
-        $shipmentIdFilter = $this->filterBuilder->create();
-
         $this->filterBuilder->setField(ShipmentTrackInterface::CARRIER_CODE);
         $this->filterBuilder->setConditionType('eq');
         $this->filterBuilder->setValue(Paket::CARRIER_CODE);
         $carrierCodeFilter = $this->filterBuilder->create();
 
+        $getId = function (ShipmentInterface $shipment) {
+            return $shipment->getEntityId();
+        };
+        $this->filterBuilder->setField(ShipmentTrackInterface::PARENT_ID);
+        $this->filterBuilder->setConditionType('in');
+        $this->filterBuilder->setValue(array_map($getId, $this->shipments));
+        $shipmentIdFilter = $this->filterBuilder->create();
+
+        // collect all tracks assigned to given shipments
         $searchCriteriaBuilder = $this->searchCriteriaBuilderFactory->create();
         $searchCriteriaBuilder->addFilter($shipmentIdFilter);
         $searchCriteriaBuilder->addFilter($carrierCodeFilter);
-
         $searchCriteria = $searchCriteriaBuilder->create();
 
         /** @var Collection $trackCollection */
@@ -129,7 +132,7 @@ class CancelRequestBuilder
             ]);
         }
 
-        $this->shipment = null;
+        $this->shipments = [];
 
         return $cancelRequests;
     }

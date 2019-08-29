@@ -52,7 +52,7 @@ class MapResponseStage implements RequestTracksStageInterface
             // no response received from webservice for particular cancellation request
             $response = $this->responseDataMapper->createErrorResponse(
                 (string) $shipmentNumber,
-                __('Shipment %1 could not be cancelled: %2.', $shipmentNumber, $details['message']),
+                __('Shipment %1 could not be cancelled: %2', $shipmentNumber, $details['message']),
                 $details['shipment'],
                 $details['track']
             );

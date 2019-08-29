@@ -126,7 +126,7 @@
 "Services %1 require each other.","Services %1 require each other."
 "Ship to %1","Ship to %1"
 "Shipment %1 could not be cancelled.","Shipment %1 could not be cancelled."
-"Shipment %1 could not be cancelled: %2.","Shipment %1 could not be cancelled: %2."
+"Shipment %1 could not be cancelled: %2","Shipment %1 could not be cancelled: %2"
 "Shipping Services in Checkout","Shipping Services in Checkout"
 "Some values for Preferred Neighbour service are missing.","Some values for Preferred Neighbor service are missing."
 "Sort Order","Sort Order"

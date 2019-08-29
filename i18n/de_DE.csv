@@ -126,7 +126,7 @@
 "Services %1 require each other.","Die Optionen %1 benötigen einander."
 "Ship to %1","Versand nach %1"
 "Shipment %1 could not be cancelled.","Der Versandauftrag für den Lieferschein %1 konnte nicht storniert werden."
-"Shipment %1 could not be cancelled: %2.","Der Versandauftrag für den Lieferschein %1 konnte nicht storniert werden: %2."
+"Shipment %1 could not be cancelled: %2","Der Versandauftrag für den Lieferschein %1 konnte nicht storniert werden: %2"
 "Shipping Services in Checkout","Zusätzliche Versandservices im Checkout"
 "Some values for Preferred Neighbour service are missing.","Einige Werte für die Wunschnachbaroption fehlen."
 "Sort Order","Sortierreihenfolge"

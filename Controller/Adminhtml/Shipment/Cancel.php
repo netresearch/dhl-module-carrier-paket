@@ -12,6 +12,9 @@ use Dhl\ShippingCore\Api\Data\TrackResponse\TrackErrorResponseInterface;
 use Dhl\ShippingCore\Api\Data\TrackResponse\TrackResponseInterface;
 use Magento\Backend\App\Action;
 use Magento\Backend\App\Action\Context;
+use Magento\Framework\App\ResponseInterface;
+use Magento\Framework\Controller\Result\Redirect;
+use Magento\Framework\Controller\ResultInterface;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Sales\Api\ShipmentRepositoryInterface;
 
@@ -68,7 +71,7 @@ class Cancel extends Action
     /**
      * Cancel shipment order, delete tracks and shipping label.
      *
-     * @return \Magento\Framework\Controller\Result\Redirect
+     * @return ResultInterface
      */
     public function execute()
     {
@@ -83,18 +86,18 @@ class Cancel extends Action
             return $resultRedirect->setPath('sales/shipment/index');
         }
 
-        $this->requestBuilder->setShipment($shipment);
+        $this->requestBuilder->setShipments([$shipment]);
         $cancelRequests = $this->requestBuilder->build();
         $result = $this->shipmentManagement->cancelLabels($cancelRequests);
 
-        $result = array_reduce($result, function (array $shipmentNumbers, TrackResponseInterface $trackResponse) {
+        $result = array_reduce($result, function (array $result, TrackResponseInterface $trackResponse) {
             if ($trackResponse instanceof TrackErrorResponseInterface) {
-                $shipmentNumbers['error'][] = $trackResponse->getTrackNumber();
+                $result['error'][] = $trackResponse->getErrors();
             } else {
-                $shipmentNumbers['success'][] = $trackResponse->getTrackNumber();
+                $result['success'][] = $trackResponse->getTrackNumber();
             }
 
-            return $shipmentNumbers;
+            return $result;
         }, ['success' => [], 'error' => []]);
 
         if (!empty($result['success'])) {
@@ -103,10 +106,8 @@ class Cancel extends Action
             );
         }
 
-        if (!empty($result['error'])) {
-            $this->messageManager->addErrorMessage(
-                __('The shipment order(s) %1 could not be cancelled.', implode(', ', $result['error']))
-            );
+        foreach ($result['error'] as $error) {
+            $this->messageManager->addErrorMessage($error);
         }
 
         $resultRedirect = $this->resultRedirectFactory->create();
