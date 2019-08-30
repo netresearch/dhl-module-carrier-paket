@@ -134,6 +134,13 @@
             </argument>
         </arguments>
     </type>
+    <type name="Dhl\ShippingCore\Cron\AutoCreate">
+        <arguments>
+            <argument name="configurations" xsi:type="array">
+                <item name="dhlpaket" xsi:type="object">Dhl\Paket\Model\BulkShipmentConfiguration</item>
+            </argument>
+        </arguments>
+    </type>
     <type name="Dhl\ShippingCore\Model\Checkout\CheckoutDataCompositeProcessor">
         <arguments>
             <argument name="processors" xsi:type="array">
