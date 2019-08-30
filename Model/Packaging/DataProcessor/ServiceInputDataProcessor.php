@@ -15,8 +15,7 @@ use Dhl\ShippingCore\Api\Data\ShippingOption\ShippingOptionInterface;
 use Dhl\ShippingCore\Model\Packaging\AbstractProcessor;
 use Dhl\ShippingCore\Model\Packaging\PackagingDataProvider;
 use Dhl\ShippingCore\Model\ShippingOption\Selection\OrderSelectionRepository;
-use Magento\Framework\Api\FilterBuilder;
-use Magento\Framework\Api\Search\SearchCriteriaBuilderFactory;
+use Magento\Framework\Api\SearchCriteriaBuilder;
 use Magento\Framework\Stdlib\DateTime\TimezoneInterface;
 use Magento\Sales\Model\Order\Shipment;
 
@@ -39,14 +38,9 @@ class ServiceInputDataProcessor extends AbstractProcessor
     private $selectionRepository;
 
     /**
-     * @var FilterBuilder
+     * @var SearchCriteriaBuilder
      */
-    private $filterBuilder;
-
-    /**
-     * @var SearchCriteriaBuilderFactory
-     */
-    private $searchCriteriaBuilderFactory;
+    private $searchCriteriaBuilder;
 
     /**
      * List of available customer services in checkout.
@@ -71,21 +65,18 @@ class ServiceInputDataProcessor extends AbstractProcessor
      *
      * @param TimezoneInterface $timezone
      * @param OrderSelectionRepository $selectionRepository
-     * @param FilterBuilder $filterBuilder
-     * @param SearchCriteriaBuilderFactory $searchCriteriaBuilderFactory
+     * @param SearchCriteriaBuilder $searchCriteriaBuilder
      * @param OptionInterfaceFactory $optionFactory
      */
     public function __construct(
         TimezoneInterface $timezone,
         OrderSelectionRepository $selectionRepository,
-        FilterBuilder $filterBuilder,
-        SearchCriteriaBuilderFactory $searchCriteriaBuilderFactory,
+        SearchCriteriaBuilder $searchCriteriaBuilder,
         OptionInterfaceFactory $optionFactory
     ) {
         $this->timezone = $timezone;
         $this->selectionRepository = $selectionRepository;
-        $this->filterBuilder = $filterBuilder;
-        $this->searchCriteriaBuilderFactory = $searchCriteriaBuilderFactory;
+        $this->searchCriteriaBuilder = $searchCriteriaBuilder;
         $this->optionFactory = $optionFactory;
     }
 
@@ -190,14 +181,11 @@ class ServiceInputDataProcessor extends AbstractProcessor
      */
     private function loadSelections(int $orderAddressId): array
     {
-        $addressFilter = $this->filterBuilder
-            ->setField(AssignedSelectionInterface::PARENT_ID)
-            ->setValue($orderAddressId)
-            ->setConditionType('eq')
-            ->create();
-
-        $searchCriteriaBuilder = $this->searchCriteriaBuilderFactory->create();
-        $searchCriteria = $searchCriteriaBuilder->addFilter($addressFilter)->create();
+        $searchCriteria = $this->searchCriteriaBuilder
+            ->addFilter(
+                AssignedSelectionInterface::PARENT_ID,
+                $orderAddressId
+            )->create();
 
         return $this->selectionRepository->getList($searchCriteria)->getItems();
     }
