@@ -4,7 +4,7 @@
  */
 declare(strict_types=1);
 
-namespace Dhl\Paket\Model\Checkout\DataProcessor;
+namespace Dhl\Paket\Model\Checkout\DataProcessor\ServiceOptions;
 
 use Dhl\Paket\Model\ProcessorInterface;
 use Dhl\Paket\Model\Service\StartDate;
@@ -14,7 +14,7 @@ use Dhl\Sdk\Paket\ParcelManagement\Api\Data\IntervalOptionInterface;
 use Dhl\ShippingCore\Api\Data\ShippingOption\OptionInterface;
 use Dhl\ShippingCore\Api\Data\ShippingOption\OptionInterfaceFactory;
 use Dhl\ShippingCore\Api\Data\ShippingOption\ShippingOptionInterface;
-use Dhl\ShippingCore\Model\Checkout\AbstractProcessor;
+use Dhl\ShippingCore\Model\Checkout\DataProcessor\ShippingOptionsProcessorInterface;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Stdlib\DateTime\TimezoneInterface;
 use Psr\Log\LoggerInterface;
@@ -25,7 +25,7 @@ use Psr\Log\LoggerInterface;
  * @package Dhl\Paket\Model\Checkout\DataProcessor
  * @author Max Melzer <max.melzer@netresearch.de>
  */
-class ParcelManagementOptionsProcessor extends AbstractProcessor
+class ParcelManagementOptionsProcessor implements ShippingOptionsProcessorInterface
 {
     const SAME_DAY_DELIVERY = 'sameDayDelivery';
 
@@ -231,19 +231,18 @@ class ParcelManagementOptionsProcessor extends AbstractProcessor
      * - Unset checkout services which are unavailable for given postal code.
      *
      * @param ShippingOptionInterface[] $optionsData
-     * @param string $countryId
-     * @param string $postalCode
-     * @param int|null $scopeId
+     * @param string $countryCode Destination country code
+     * @param string $postalCode Destination postal code
+     * @param int|null $storeId
      *
      * @return ShippingOptionInterface[]
      */
-    public function processShippingOptions(
+    public function process(
         array $optionsData,
-        string $countryId,
+        string $countryCode,
         string $postalCode,
-        int $scopeId = null
+        int $storeId = null
     ): array {
-
         if (empty(array_intersect_key(
             self::SERVICES_WITH_OPTIONS,
             array_keys($optionsData)
@@ -252,7 +251,7 @@ class ParcelManagementOptionsProcessor extends AbstractProcessor
             return $optionsData;
         }
 
-        $parcelManagementService = $this->serviceFactory->create(['storeId' => $scopeId]);
+        $parcelManagementService = $this->serviceFactory->create(['storeId' => $storeId]);
         $startDate = $this->startDate->getStartDate()->format('Y-m-d');
         $carrierServices = [];
 

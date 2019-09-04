@@ -4,14 +4,14 @@
  */
 declare(strict_types=1);
 
-namespace Dhl\Paket\Model\Checkout\DataProcessor;
+namespace Dhl\Paket\Model\Checkout\DataProcessor\ServiceOptions;
 
 use Dhl\Paket\Model\ProcessorInterface;
 use Dhl\Paket\Webservice\PostFinderServiceFactory;
 use Dhl\ShippingCore\Api\ConfigInterface;
 use Dhl\ShippingCore\Api\Data\ShippingOption\OptionInterfaceFactory;
 use Dhl\ShippingCore\Api\Data\ShippingOption\ShippingOptionInterface;
-use Dhl\ShippingCore\Model\Checkout\AbstractProcessor;
+use Dhl\ShippingCore\Model\Checkout\DataProcessor\ShippingOptionsProcessorInterface;
 
 /**
  * Class ParcelStationOptionsProcessor
@@ -19,7 +19,7 @@ use Dhl\ShippingCore\Model\Checkout\AbstractProcessor;
  * @package Dhl\Paket\Model\Checkout\DataProcessor
  * @author Sebastian Ertner <sebastian.ertner@netresearch.de>
  */
-class ParcelStationOptionsProcessor extends AbstractProcessor
+class ParcelStationOptionsProcessor implements ShippingOptionsProcessorInterface
 {
     /**
      * @var OptionInterfaceFactory
@@ -55,30 +55,30 @@ class ParcelStationOptionsProcessor extends AbstractProcessor
 
     /**
      * @param ShippingOptionInterface[] $optionsData
-     * @param string $countryId
-     * @param string $postalCode
-     * @param int|null $scopeId
+     * @param string $countryCode Destination country code
+     * @param string $postalCode Destination postal code
+     * @param int|null $storeId
      *
      * @return ShippingOptionInterface[]
      */
-    public function processShippingOptions(
+    public function process(
         array $optionsData,
-        string $countryId,
+        string $countryCode,
         string $postalCode,
-        int $scopeId = null
+        int $storeId = null
     ): array {
-        if (($countryId !== 'DE') || ($this->dhlConfig->getOriginCountry($scopeId) !== 'DE')) {
+        if (($countryCode !== 'DE') || ($this->dhlConfig->getOriginCountry($storeId) !== 'DE')) {
             return $optionsData;
         }
 
         foreach ($optionsData as $shippingOption) {
             if ($shippingOption->getCode() === ProcessorInterface::CHECKOUT_DELIVERY_PARCELSTATION) {
-                $postFinderService = $this->postFinderServiceFactory->create(['storeId' => $scopeId]);
+                $postFinderService = $this->postFinderServiceFactory->create(['storeId' => $storeId]);
                 foreach ($shippingOption->getInputs() as $input) {
                     if ($input->getCode() === 'id') {
                         $options = [];
 
-                        $stations = $postFinderService->getParcelStations($countryId, $postalCode);
+                        $stations = $postFinderService->getParcelStations($countryCode, $postalCode);
                         foreach ($stations as $station) {
                             $street = $station['street'];
                             if ($station['streetNo']) {

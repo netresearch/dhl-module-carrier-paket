@@ -4,7 +4,7 @@
  */
 declare(strict_types=1);
 
-namespace Dhl\Paket\Model\Packaging\DataProcessor;
+namespace Dhl\Paket\Model\Packaging\DataProcessor\ServiceOptions;
 
 use Dhl\Paket\Model\Carrier\Paket;
 use Dhl\Paket\Model\ProcessorInterface;
@@ -12,8 +12,7 @@ use Dhl\ShippingCore\Api\Data\ShippingOption\OptionInterface;
 use Dhl\ShippingCore\Api\Data\ShippingOption\OptionInterfaceFactory;
 use Dhl\ShippingCore\Api\Data\ShippingOption\Selection\AssignedSelectionInterface;
 use Dhl\ShippingCore\Api\Data\ShippingOption\ShippingOptionInterface;
-use Dhl\ShippingCore\Model\Packaging\AbstractProcessor;
-use Dhl\ShippingCore\Model\Packaging\PackagingDataProvider;
+use Dhl\ShippingCore\Model\Packaging\DataProcessor\ShippingOptionsProcessorInterface;
 use Dhl\ShippingCore\Model\ShippingOption\Selection\OrderSelectionRepository;
 use Magento\Framework\Api\SearchCriteriaBuilder;
 use Magento\Framework\Stdlib\DateTime\TimezoneInterface;
@@ -25,7 +24,7 @@ use Magento\Sales\Model\Order\Shipment;
  * @package Dhl\Paket\Model\Packaging\DataProcessor
  * @author Sebastian Ertner <sebastian.ertner@netresearch.de>
  */
-class ServiceInputDataProcessor extends AbstractProcessor
+class ServiceInputDataProcessor implements ShippingOptionsProcessorInterface
 {
     /**
      * @var TimezoneInterface
@@ -199,7 +198,7 @@ class ServiceInputDataProcessor extends AbstractProcessor
      *
      * @return ShippingOptionInterface[]
      */
-    private function setEnabledInputValues(array $selections, array $optionsData)
+    private function setEnabledInputValues(array $selections, array $optionsData): array
     {
         foreach ($selections as $selection) {
             foreach ($optionsData as $shippingOption) {
@@ -221,16 +220,13 @@ class ServiceInputDataProcessor extends AbstractProcessor
     /**
      * @param ShippingOptionInterface[] $optionsData
      * @param Shipment $shipment
-     * @param string $optionGroupName
      *
      * @return ShippingOptionInterface[]
      */
-    public function processShippingOptions(array $optionsData, Shipment $shipment, string $optionGroupName): array
+    public function process(array $optionsData, Shipment $shipment): array
     {
-        if ($optionGroupName !== PackagingDataProvider::GROUP_SERVICE) {
-            return $optionsData;
-        }
         $carrierCode = strtok((string) $shipment->getOrder()->getShippingMethod(), '_');
+
         if ($carrierCode !== Paket::CARRIER_CODE) {
             return $optionsData;
         }

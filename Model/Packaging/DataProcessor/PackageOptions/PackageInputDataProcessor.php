@@ -4,7 +4,7 @@
  */
 declare(strict_types=1);
 
-namespace Dhl\Paket\Model\Packaging\DataProcessor;
+namespace Dhl\Paket\Model\Packaging\DataProcessor\PackageOptions;
 
 use Dhl\Paket\Model\Carrier\Paket;
 use Dhl\Paket\Model\Config\ModuleConfig;
@@ -12,8 +12,7 @@ use Dhl\Paket\Util\ShippingProducts;
 use Dhl\ShippingCore\Api\ConfigInterface;
 use Dhl\ShippingCore\Api\Data\ShippingOption\CommentInterfaceFactory;
 use Dhl\ShippingCore\Api\Data\ShippingOption\ShippingOptionInterface;
-use Dhl\ShippingCore\Model\Packaging\AbstractProcessor;
-use Dhl\ShippingCore\Model\Packaging\PackagingDataProvider;
+use Dhl\ShippingCore\Model\Packaging\DataProcessor\ShippingOptionsProcessorInterface;
 use Magento\Sales\Model\Order\Shipment;
 
 /**
@@ -22,7 +21,7 @@ use Magento\Sales\Model\Order\Shipment;
  * @package Dhl\Paket\Model\Packaging\DataProcessor
  * @author Sebastian Ertner <sebastian.ertner@netresearch.de>
  */
-class PackageInputDataProcessor extends AbstractProcessor
+class PackageInputDataProcessor implements ShippingOptionsProcessorInterface
 {
     /**
      * @var ModuleConfig
@@ -131,17 +130,13 @@ class PackageInputDataProcessor extends AbstractProcessor
     /**
      * @param ShippingOptionInterface[] $optionsData
      * @param Shipment $shipment
-     * @param string $optionGroupName
      *
      * @return ShippingOptionInterface[]
      */
-    public function processShippingOptions(array $optionsData, Shipment $shipment, string $optionGroupName): array
+    public function process(array $optionsData, Shipment $shipment): array
     {
-        if ($optionGroupName !== PackagingDataProvider::GROUP_PACKAGE) {
-            return $optionsData;
-        }
-
         $carrierCode = strtok((string) $shipment->getOrder()->getShippingMethod(), '_');
+
         if ($carrierCode !== Paket::CARRIER_CODE) {
             return $optionsData;
         }
