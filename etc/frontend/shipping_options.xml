@@ -29,9 +29,22 @@
             <rule id="preferredLocationAndNeighbourExclusion">
                 <triggerValue>*</triggerValue>
                 <action>disable</action>
+                <masters>
+                    <master>preferredLocation</master>
+                </masters>
+                <subjects>
+                    <subject>preferredNeighbour</subject>
+                </subjects>
+                <errorMessage>Please choose only one of %1.</errorMessage>
+            </rule>
+            <rule id="preferredLocationAndNeighbourExclusion2">
+                <triggerValue>*</triggerValue>
+                <action>disable</action>
+                <masters>
+                    <master>preferredNeighbour</master>
+                </masters>
                 <subjects>
                     <subject>preferredLocation</subject>
-                    <subject>preferredNeighbour</subject>
                 </subjects>
                 <errorMessage>Please choose only one of %1.</errorMessage>
             </rule>
