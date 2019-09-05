@@ -6,10 +6,11 @@ declare(strict_types=1);
 
 namespace Dhl\Paket\Model\Checkout\DataProcessor\Metadata;
 
+use Dhl\Paket\Model\Checkout\DataProcessor\CurrencyService;
 use Dhl\Paket\Model\Config\ModuleConfig;
 use Dhl\ShippingCore\Api\Data\MetadataInterface;
 use Dhl\ShippingCore\Model\Checkout\DataProcessor\MetadataProcessorInterface;
-use Magento\Framework\CurrencyInterfaceFactory;
+use Magento\Framework\Exception\NoSuchEntityException;
 use Psr\Log\LoggerInterface;
 use Zend_Currency_Exception;
 
@@ -28,9 +29,9 @@ class AdditionalChargesProcessor implements MetadataProcessorInterface
     private $paketConfig;
 
     /**
-     * @var CurrencyInterfaceFactory
+     * @var CurrencyService
      */
-    private $currencyFactory;
+    protected $currencyService;
 
     /**
      * @var LoggerInterface
@@ -41,47 +42,26 @@ class AdditionalChargesProcessor implements MetadataProcessorInterface
      * AdditionalChargesProcessor constructor.
      *
      * @param ModuleConfig $paketConfig
-     * @param CurrencyInterfaceFactory $currencyFactory
+     * @param CurrencyService $currencyService
      * @param LoggerInterface $logger
      */
     public function __construct(
         ModuleConfig $paketConfig,
-        CurrencyInterfaceFactory $currencyFactory,
+        CurrencyService $currencyService,
         LoggerInterface $logger
     ) {
         $this->paketConfig = $paketConfig;
-        $this->currencyFactory = $currencyFactory;
+        $this->currencyService = $currencyService;
         $this->logger = $logger;
     }
 
     /**
-     * @param float $amount
-     * @param string $string
-     *
-     * @return string
-     */
-    private function replaceAmount(float $amount, string $string): string
-    {
-        $result = '';
-
-        try {
-            // Translate the string now because later translation would fail.
-            $string = __($string)->render();
-            $currency = $this->currencyFactory->create();
-            $result = str_replace('$1', $currency->toCurrency($amount), $string);
-        } catch (Zend_Currency_Exception $e) {
-            $this->logger->error($e->getMessage());
-        }
-
-        return $result;
-    }
-
-    /**
      * @param MetadataInterface $metadata
+     * @param int|null $storeId
      *
      * @return MetadataInterface
      */
-    public function process(MetadataInterface $metadata): MetadataInterface
+    public function process(MetadataInterface $metadata, int $storeId = null): MetadataInterface
     {
         $footnote = $metadata->getFootnotes()['footnote-combined-cost'];
 
@@ -90,7 +70,7 @@ class AdditionalChargesProcessor implements MetadataProcessorInterface
 
             if ($amount > 0.0) {
                 $footnote->setContent(
-                    $this->replaceAmount($amount, $footnote->getContent())
+                    $this->currencyService->replaceAmount($amount, $footnote->getContent(), $storeId)
                 );
             } else {
                 // Remove Footnote

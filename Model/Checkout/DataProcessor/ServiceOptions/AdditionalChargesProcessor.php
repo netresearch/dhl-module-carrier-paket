@@ -6,12 +6,13 @@ declare(strict_types=1);
 
 namespace Dhl\Paket\Model\Checkout\DataProcessor\ServiceOptions;
 
+use Dhl\Paket\Model\Checkout\DataProcessor\CurrencyService;
 use Dhl\Paket\Model\Config\ModuleConfig;
 use Dhl\Paket\Model\ProcessorInterface;
 use Dhl\ShippingCore\Api\Data\ShippingOption\InputInterface;
 use Dhl\ShippingCore\Api\Data\ShippingOption\ShippingOptionInterface;
 use Dhl\ShippingCore\Model\Checkout\DataProcessor\ShippingOptionsProcessorInterface;
-use Magento\Framework\CurrencyInterfaceFactory;
+use Magento\Framework\Exception\NoSuchEntityException;
 use Psr\Log\LoggerInterface;
 use Zend_Currency_Exception;
 
@@ -30,9 +31,9 @@ class AdditionalChargesProcessor implements ShippingOptionsProcessorInterface
     private $paketConfig;
 
     /**
-     * @var CurrencyInterfaceFactory
+     * @var CurrencyService
      */
-    private $currencyFactory;
+    private $currencyService;
 
     /**
      * @var LoggerInterface
@@ -43,16 +44,16 @@ class AdditionalChargesProcessor implements ShippingOptionsProcessorInterface
      * AdditionalChargesProcessor constructor.
      *
      * @param ModuleConfig $paketConfig
-     * @param CurrencyInterfaceFactory $currencyFactory
+     * @param CurrencyService $currencyService
      * @param LoggerInterface $logger
      */
     public function __construct(
         ModuleConfig $paketConfig,
-        CurrencyInterfaceFactory $currencyFactory,
+        CurrencyService $currencyService,
         LoggerInterface $logger
     ) {
         $this->paketConfig = $paketConfig;
-        $this->currencyFactory = $currencyFactory;
+        $this->currencyService = $currencyService;
         $this->logger = $logger;
     }
 
@@ -61,8 +62,9 @@ class AdditionalChargesProcessor implements ShippingOptionsProcessorInterface
      *
      * @param float $amount
      * @param InputInterface $date
+     * @param int|null $storeId
      */
-    private function apply(float $amount, InputInterface $date)
+    private function apply(float $amount, InputInterface $date, int $storeId = null)
     {
         $comment = $date->getComment();
 
@@ -72,33 +74,11 @@ class AdditionalChargesProcessor implements ShippingOptionsProcessorInterface
 
         if ($amount > 0.0) {
             $comment->setContent(
-                $this->replaceAmount($amount, $comment->getContent())
+                $this->currencyService->replaceAmount($amount, $comment->getContent(), $storeId)
             );
         } else {
             $date->setComment(null);
         }
-    }
-
-    /**
-     * @param float $amount
-     * @param string $string
-     *
-     * @return string
-     */
-    private function replaceAmount(float $amount, string $string): string
-    {
-        $result = '';
-
-        try {
-            // Translate the string now because later translation would fail.
-            $string = __($string)->render();
-            $currency = $this->currencyFactory->create();
-            $result = str_replace('$1', $currency->toCurrency($amount), $string);
-        } catch (Zend_Currency_Exception $e) {
-            $this->logger->error($e->getMessage());
-        }
-
-        return $result;
     }
 
     /**
@@ -120,7 +100,7 @@ class AdditionalChargesProcessor implements ShippingOptionsProcessorInterface
             $date = $preferredDay->getInputs()['date'] ?? false;
             if ($date) {
                 $amount = $this->paketConfig->getPreferredDayAdditionalCharge();
-                $this->apply($amount, $date);
+                $this->apply($amount, $date, $storeId);
             }
         }
 
@@ -129,7 +109,7 @@ class AdditionalChargesProcessor implements ShippingOptionsProcessorInterface
             $time = $preferredTime->getInputs()['time'] ?? false;
             if ($time) {
                 $amount = $this->paketConfig->getPreferredTimeAdditionalCharge();
-                $this->apply($amount, $time);
+                $this->apply($amount, $time, $storeId);
             }
         }
 
