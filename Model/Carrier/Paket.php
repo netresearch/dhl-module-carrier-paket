@@ -8,11 +8,9 @@ namespace Dhl\Paket\Model\Carrier;
 
 use Dhl\Paket\Model\Config\ModuleConfig;
 use Dhl\Paket\Model\Packaging\ShipmentRequestValidator;
-use Dhl\Paket\Model\ProcessorInterface;
 use Dhl\Paket\Model\RatesManagement;
 use Dhl\Paket\Model\ShipmentManagement;
 use Dhl\Paket\Util\ShippingProducts;
-use Dhl\ShippingCore\Api\ConfigInterface;
 use Dhl\ShippingCore\Api\Data\TrackRequest\TrackRequestInterfaceFactory;
 use Dhl\ShippingCore\Api\Data\TrackResponse\TrackErrorResponseInterface;
 use Dhl\ShippingCore\Api\Data\TrackResponse\TrackResponseInterface;
@@ -188,7 +186,7 @@ class Paket extends AbstractCarrierOnline implements CarrierInterface
      */
     public function processAdditionalValidation(DataObject $request)
     {
-        $shippingOrigin = $request->getData('country_id');
+        $shippingOrigin = (string) $request->getData('country_id');
         $applicableProducts = $this->shippingProducts->getApplicableProducts($shippingOrigin);
         if (empty($applicableProducts)) {
             return false;
@@ -204,8 +202,7 @@ class Paket extends AbstractCarrierOnline implements CarrierInterface
     {
         $result = $this->_rateFactory->create();
 
-        $activeFlag = $this->getData('active_flag');
-        if ($activeFlag && !$this->getConfigFlag($activeFlag)) {
+        if ($this->_activeFlag && !$this->getConfigFlag($this->_activeFlag)) {
             return $result;
         }
         // set carrier details for rate post-processing
