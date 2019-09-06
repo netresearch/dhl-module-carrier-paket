@@ -64,6 +64,7 @@
                 <sortOrder>30</sortOrder>
                 <routes>
                     <route>
+                        <origin>DE</origin>
                         <includeDestinations>
                             <destination>DE</destination>
                             <destination>AT</destination>
@@ -86,6 +87,15 @@
             <shippingOption code="preferredTime" available="dhlshippingsolutions/dhlpaket/additional_services/services_group/preferredtime">
                 <label>Preferred Time: Delivery at your preferred time</label>
                 <sortOrder>40</sortOrder>
+                <routes>
+                    <route>
+                        <origin>DE</origin>
+                        <includeDestinations>
+                            <destination>DE</destination>
+                            <destination>AT</destination>
+                        </includeDestinations>
+                    </route>
+                </routes>
                 <inputs>
                     <input code="time">
                         <inputType>time</inputType>
@@ -104,6 +114,7 @@
                 <sortOrder>50</sortOrder>
                 <routes>
                     <route>
+                        <origin>DE</origin>
                         <includeDestinations>
                             <destination>DE</destination>
                             <destination>AT</destination>
@@ -134,6 +145,7 @@
                 <sortOrder>60</sortOrder>
                 <routes>
                     <route>
+                        <origin>DE</origin>
                         <includeDestinations>
                             <destination>DE</destination>
                             <destination>AT</destination>
