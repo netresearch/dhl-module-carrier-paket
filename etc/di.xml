@@ -94,6 +94,7 @@
         <arguments>
             <argument name="ratesManagement" xsi:type="object">Dhl\Paket\Model\RatesManagement\Proxy</argument>
             <argument name="shipmentManagement" xsi:type="object">Dhl\Paket\Model\ShipmentManagement\Proxy</argument>
+            <argument name="trackingInfoProvider" xsi:type="object">Dhl\UnifiedTracking\Api\TrackingInfoProviderInterface\Proxy</argument>
         </arguments>
     </type>
     <type name="Dhl\Paket\Model\RatesManagement">
@@ -188,6 +189,13 @@
         <arguments>
             <argument name="carrierCodes" xsi:type="array">
                 <item name="dhlpaket" xsi:type="const">Dhl\Paket\Model\Carrier\Paket::CARRIER_CODE</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Dhl\UnifiedTracking\Webservice\Pipeline\Stage\SendRequestStage">
+        <arguments>
+            <argument name="serviceNames" xsi:type="array">
+                <item name="dhlpaket" xsi:type="string">parcel-de</item>
             </argument>
         </arguments>
     </type>

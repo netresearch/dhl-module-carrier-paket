@@ -6,6 +6,9 @@ declare(strict_types=1);
 
 namespace Dhl\Paket\Model\Carrier;
 
+use Dhl\UnifiedTracking\Api\Data\TrackingErrorInterface;
+use Dhl\UnifiedTracking\Api\Data\TrackingStatusInterface;
+use Dhl\UnifiedTracking\Api\TrackingInfoProviderInterface;
 use Dhl\Paket\Model\Config\ModuleConfig;
 use Dhl\Paket\Model\Packaging\ShipmentRequestValidator;
 use Dhl\Paket\Model\RatesManagement;
@@ -34,7 +37,8 @@ use Magento\Shipping\Model\Carrier\CarrierInterface;
 use Magento\Shipping\Model\Rate\ResultFactory as RateResultFactory;
 use Magento\Shipping\Model\Shipment\Request;
 use Magento\Shipping\Model\Simplexml\ElementFactory;
-use Magento\Shipping\Model\Tracking\Result as TrackingResult;
+use Magento\Shipping\Model\Tracking\Result\AbstractResult;
+use Magento\Shipping\Model\Tracking\Result\Error;
 use Magento\Shipping\Model\Tracking\Result\ErrorFactory as TrackErrorFactory;
 use Magento\Shipping\Model\Tracking\Result\StatusFactory;
 use Magento\Shipping\Model\Tracking\ResultFactory as TrackResultFactory;
@@ -97,6 +101,11 @@ class Paket extends AbstractCarrierOnline implements CarrierInterface
     private $shipmentRequestValidator;
 
     /**
+     * @var TrackingInfoProviderInterface
+     */
+    private $trackingInfoProvider;
+
+    /**
      * Paket carrier constructor.
      *
      * @param ScopeConfigInterface $scopeConfig
@@ -146,6 +155,7 @@ class Paket extends AbstractCarrierOnline implements CarrierInterface
         TrackRequestInterfaceFactory $trackRequestFactory,
         ProxyCarrierFactory $proxyCarrierFactory,
         ShipmentRequestValidator $shipmentRequestValidator,
+        TrackingInfoProviderInterface $trackingInfoProvider,
         array $data = []
     ) {
         $this->ratesManagement = $ratesManagement;
@@ -155,6 +165,7 @@ class Paket extends AbstractCarrierOnline implements CarrierInterface
         $this->trackRequestFactory = $trackRequestFactory;
         $this->proxyCarrierFactory = $proxyCarrierFactory;
         $this->shipmentRequestValidator = $shipmentRequestValidator;
+        $this->trackingInfoProvider = $trackingInfoProvider;
 
         parent::__construct(
             $scopeConfig,
@@ -308,28 +319,6 @@ class Paket extends AbstractCarrierOnline implements CarrierInterface
     }
 
     /**
-     * Returns tracking information.
-     *
-     * @param string $shipmentNumber
-     * @return TrackingResult
-     * @see \Magento\Shipping\Model\Carrier\AbstractCarrierOnline::getTrackingInfo
-     */
-    public function getTracking(string $shipmentNumber): TrackingResult
-    {
-        $result = $this->_trackFactory->create();
-
-        $statusData = [
-            'tracking' => $shipmentNumber,
-            'carrier_title' => $this->moduleConfig->getTitle(),
-            'url' => sprintf(self::TRACKING_URL_TEMPLATE, $shipmentNumber),
-        ];
-        $status = $this->_trackStatusFactory->create(['data' => $statusData]);
-        $result->append($status);
-
-        return $result;
-    }
-
-    /**
      * Returns the configured proxied carrier instance.
      *
      * @return AbstractCarrierInterface
@@ -374,5 +363,33 @@ class Paket extends AbstractCarrierOnline implements CarrierInterface
         } catch (LocalizedException $exception) {
             return parent::isZipCodeRequired($countryId);
         }
+    }
+
+    /**
+     * Get tracking information
+     *
+     * @param string $tracking
+     *
+     * @return string|false
+     */
+    public function getTrackingInfo($tracking)
+    {
+        /** @var TrackingStatusInterface|TrackingErrorInterface|AbstractResult $result */
+        $result = $this->trackingInfoProvider->getTrackingDetails($tracking, $this->getCarrierCode());
+
+        if ($result instanceof Error) {
+            // create link to portal if web service returned an error
+            $statusData = [
+                'tracking' => $tracking,
+                'carrier_title' => $this->getConfigData('title'),
+                'url' => sprintf(self::TRACKING_URL_TEMPLATE, $tracking),
+            ];
+
+            $result = $this->_trackStatusFactory->create(['data' => $statusData]);
+        } else {
+            $result->setData('carrier_title', $this->getConfigData('title'));
+        }
+
+        return $result;
     }
 }
