@@ -199,4 +199,11 @@
             </argument>
         </arguments>
     </type>
+    <type name="Dhl\ShippingCore\Model\AdditionalFeeManagement">
+        <arguments>
+            <argument name="additionalFeeConfiguration" xsi:type="array">
+                <item name="dhlpaket" xsi:type="object">Dhl\Paket\Model\AdditionalFeeConfiguration</item>
+            </argument>
+        </arguments>
+    </type>
 </config>

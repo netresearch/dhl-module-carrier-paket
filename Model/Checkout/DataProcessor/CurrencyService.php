@@ -6,6 +6,7 @@ declare(strict_types=1);
 
 namespace Dhl\Paket\Model\Checkout\DataProcessor;
 
+use Dhl\ShippingCore\Util\UnitConverter;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Locale\CurrencyInterface;
 use Magento\Store\Model\Store;
@@ -18,6 +19,7 @@ use Zend_Currency_Exception;
  *
  * @package Dhl\Paket\Model\Checkout\DataProcessor
  * @author Rico Sonntag <rico.sonntag@netresearch.de>
+ * @author Max Melzer <max.melzer@netresearch.de>
  */
 class CurrencyService
 {
@@ -32,24 +34,32 @@ class CurrencyService
     protected $localeCurrency;
 
     /**
+     * @var UnitConverter
+     */
+    private $unitConverter;
+
+    /**
      * @var LoggerInterface
      */
     private $logger;
 
     /**
-     * AdditionalChargesProcessor constructor.
+     * CurrencyService constructor.
      *
      * @param StoreManagerInterface $storeManager
      * @param CurrencyInterface $localeCurrency
+     * @param UnitConverter $unitConverter
      * @param LoggerInterface $logger
      */
     public function __construct(
         StoreManagerInterface $storeManager,
         CurrencyInterface $localeCurrency,
+        UnitConverter $unitConverter,
         LoggerInterface $logger
     ) {
         $this->storeManager = $storeManager;
         $this->localeCurrency = $localeCurrency;
+        $this->unitConverter = $unitConverter;
         $this->logger = $logger;
     }
 
@@ -65,41 +75,54 @@ class CurrencyService
     {
         /** @var Store $store */
         $store        = $this->storeManager->getStore($storeId);
-        $currencyCode = $store->getCurrentCurrencyCode();
 
-        if (!$currencyCode) {
-            $currencyCode = $store->getBaseCurrencyCode();
-        }
-
-        return $currencyCode;
+        return $store->getCurrentCurrencyCode() ?: $this->getBaseCurrencyCode();
     }
 
     /**
-     * Returns a localized currency string.
-     *
-     * @param float    $amount  Amount to convert
-     * @param int|null $storeId Store id
-     *
      * @return string
+     * @throws NoSuchEntityException
+     */
+    private function getBaseCurrencyCode(): string
+    {
+        /** @var Store $store */
+        $store = $this->storeManager->getStore();
+
+        return $store->getBaseCurrencyCode();
+    }
+
+    /**
+     * Returns a localized and converted currency string.
+     *
+     * @param float    $baseAmount  Amount in base currency to convert
+     * @param int|null $storeId     Store id
+     *
+     * @return string               Formatted string for amount in store (display) currency
      *
      * @throws Zend_Currency_Exception
      * @throws NoSuchEntityException
      */
-    private function toCurrency(float $amount, int $storeId = null): string
+    private function toCurrency(float $baseAmount, int $storeId = null): string
     {
+        $storeCurrencyCode = $this->getCurrencyCode($storeId);
+        $displayAmount = $this->unitConverter->convertMonetaryValue(
+            $baseAmount,
+            $this->getBaseCurrencyCode(),
+            $storeCurrencyCode
+        );
         return $this->localeCurrency
-            ->getCurrency($this->getCurrencyCode($storeId))
-            ->toCurrency($amount);
+            ->getCurrency($storeCurrencyCode)
+            ->toCurrency($displayAmount);
     }
 
     /**
-     * @param float $amount
+     * @param float $baseAmount
      * @param string $string
      * @param int|null $storeId
      *
      * @return string
      */
-    public function replaceAmount(float $amount, string $string, int $storeId = null): string
+    public function replaceAmount(float $baseAmount, string $string, int $storeId = null): string
     {
         try {
             // Translate the string now because later translation would fail.
@@ -107,7 +130,7 @@ class CurrencyService
 
             return str_replace(
                 '$1',
-                $this->toCurrency($amount, $storeId),
+                $this->toCurrency($baseAmount, $storeId),
                 $translation
             );
         } catch (Zend_Currency_Exception $e) {
