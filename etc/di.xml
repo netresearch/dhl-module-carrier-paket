@@ -192,10 +192,15 @@
             </argument>
         </arguments>
     </type>
+    <type name="Dhl\Paket\Model\TrackingConfiguration">
+        <arguments>
+            <argument name="logger" xsi:type="object">Dhl\Paket\Model\Logger\Virtual</argument>
+        </arguments>
+    </type>
     <type name="Dhl\UnifiedTracking\Webservice\Pipeline\Stage\SendRequestStage">
         <arguments>
-            <argument name="serviceNames" xsi:type="array">
-                <item name="dhlpaket" xsi:type="string">parcel-de</item>
+            <argument name="configurations" xsi:type="array">
+                <item name="dhlpaket" xsi:type="object">Dhl\Paket\Model\TrackingConfiguration</item>
             </argument>
         </arguments>
     </type>
