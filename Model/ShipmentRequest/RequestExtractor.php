@@ -10,6 +10,7 @@ use Dhl\Paket\Model\Config\ModuleConfig;
 use Dhl\Paket\Model\ProcessorInterface;
 use Dhl\Paket\Util\ShippingProducts;
 use Dhl\ShippingCore\Api\Data\ShipmentRequest\PackageInterface;
+use Dhl\ShippingCore\Api\Data\ShipmentRequest\PackageInterfaceFactory;
 use Dhl\ShippingCore\Api\Data\ShipmentRequest\PackageItemInterface;
 use Dhl\ShippingCore\Api\Data\ShipmentRequest\RecipientInterface;
 use Dhl\ShippingCore\Api\Data\ShipmentRequest\ShipperInterface;
@@ -36,6 +37,16 @@ class RequestExtractor implements RequestExtractorInterface
      * @var RequestExtractorInterfaceFactory
      */
     private $requestExtractorFactory;
+
+    /**
+     * @var PackageAdditionalFactory
+     */
+    private $packageAdditionalFactory;
+
+    /**
+     * @var PackageInterfaceFactory
+     */
+    private $packageFactory;
 
     /**
      * @var Request
@@ -66,6 +77,8 @@ class RequestExtractor implements RequestExtractorInterface
      * RequestExtractor constructor.
      *
      * @param RequestExtractorInterfaceFactory $requestExtractorFactory
+     * @param PackageAdditionalFactory $packageAdditionalFactory
+     * @param PackageInterfaceFactory $packageFactory
      * @param Request $shipmentRequest
      * @param ModuleConfig $moduleConfig
      * @param ShippingProducts $shippingProducts
@@ -73,12 +86,16 @@ class RequestExtractor implements RequestExtractorInterface
      */
     public function __construct(
         RequestExtractorInterfaceFactory $requestExtractorFactory,
+        PackageAdditionalFactory $packageAdditionalFactory,
+        PackageInterfaceFactory $packageFactory,
         Request $shipmentRequest,
         ModuleConfig $moduleConfig,
         ShippingProducts $shippingProducts,
         Reflection $hydrator
     ) {
         $this->requestExtractorFactory = $requestExtractorFactory;
+        $this->packageAdditionalFactory = $packageAdditionalFactory;
+        $this->packageFactory = $packageFactory;
         $this->shipmentRequest = $shipmentRequest;
         $this->moduleConfig = $moduleConfig;
         $this->shippingProducts = $shippingProducts;
@@ -172,7 +189,7 @@ class RequestExtractor implements RequestExtractorInterface
     /**
      * Extract packages from shipment request.
      *
-     * @return Package[]
+     * @return PackageInterface[]
      * @throws LocalizedException
      */
     public function getPackages(): array
@@ -186,27 +203,24 @@ class RequestExtractor implements RequestExtractorInterface
         foreach ($packages as $packageId => $package) {
             // read generic export data from shipment request
             $packageParams = $this->shipmentRequest->getData('packages')[$packageId]['params'];
-            $packageData = $this->hydrator->extract($package);
-
-            // add paket-specific export data to package data
             $customsParams = $packageParams['customs'] ?? [];
 
-            $packageData['additionalFee'] = (float) ($customsParams['additionalFee'] ?? '');
-            $packageData['placeOfCommittal'] = $customsParams['placeOfCommittal'] ?? '';
-            $packageData['permitNumber'] = $customsParams['permitNumber'] ?? '';
-            $packageData['attestationNumber'] = $customsParams['attestationNumber'] ?? '';
-            $packageData['electronicExportNotification'] = $customsParams['electronicExportNotification'] ?? false;
+            // add paket-specific export data to package data
+            $additionalData['additionalFee'] = (float) ($customsParams['additionalFee'] ?? '');
+            $additionalData['placeOfCommittal'] = $customsParams['placeOfCommittal'] ?? '';
+            $additionalData['permitNumber'] = $customsParams['permitNumber'] ?? '';
+            $additionalData['attestationNumber'] = $customsParams['attestationNumber'] ?? '';
+            $additionalData['electronicExportNotification'] = $customsParams['electronicExportNotification'] ?? false;
 
             try {
+                $packageData = $this->hydrator->extract($package);
+                $packageData['packageAdditional'] = $this->packageAdditionalFactory->create($additionalData);
+
                 // create new extended package instance with paket-specific export data
-                /** @var Package $paketPackage */
-                $paketPackage = (new \ReflectionClass(Package::class))->newInstanceWithoutConstructor();
-                $this->hydrator->hydrate($packageData, $paketPackage);
-            } catch (\ReflectionException $exception) {
+                $paketPackages[$packageId] = $this->packageFactory->create($packageData);
+            } catch (\Exception $exception) {
                 throw new LocalizedException(__('An error occurred while preparing package data.'), $exception);
             }
-
-            $paketPackages[$packageId] = $paketPackage;
         }
 
         return $paketPackages;

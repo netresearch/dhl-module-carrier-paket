@@ -6,12 +6,13 @@ declare(strict_types=1);
 
 namespace Dhl\Paket\Webservice\Pipeline\CreateShipments;
 
-use Dhl\Paket\Model\ShipmentRequest\Package;
+use Dhl\Paket\Model\ShipmentRequest\PackageAdditional;
 use Dhl\Paket\Model\ShipmentRequest\RequestExtractor;
 use Dhl\Paket\Model\ShipmentRequest\RequestExtractorFactory;
 use Dhl\Sdk\Paket\Bcs\Api\ShipmentOrderRequestBuilderInterface;
 use Dhl\Sdk\Paket\Bcs\Model\CreateShipment\RequestType\ShipmentOrderType;
 use Dhl\ShippingCore\Api\ConfigInterface;
+use Dhl\ShippingCore\Api\Data\ShipmentRequest\PackageInterface;
 use Dhl\ShippingCore\Api\UnitConverterInterface;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Shipping\Model\Shipment\Request;
@@ -143,8 +144,10 @@ class RequestDataMapper
             [$requestExtractor->getRecipient()->getAddressAddition()]
         );
 
-        /** @var Package $package */
         foreach ($requestExtractor->getPackages() as $packageId => $package) {
+            /** @var PackageAdditional $packageExtension */
+            $packageExtension = $package->getPackageAdditional();
+
             //fixme(nr): request data are overridden silently for shipment requests with multiple packages
             $this->addSequenceNumber($request, $packageId, $sequenceNumber);
 
@@ -217,6 +220,10 @@ class RequestDataMapper
                 $this->requestBuilder->setReturnReceipt();
             }
 
+            if ($requestExtractor->isParcelOutletRouting()) {
+                $this->requestBuilder->setParcelOutletRouting($requestExtractor->getRecipient()->getContactEmail());
+            }
+
             if ($requestExtractor->isPackstationDelivery()) {
                 $packstation = $requestExtractor->getPackstationId();
                 list($stationId, $countryId, $postalCode, $city) = explode('|', $packstation);
@@ -232,10 +239,6 @@ class RequestDataMapper
                 );
             }
 
-            if ($requestExtractor->isParcelOutletRouting()) {
-                $this->requestBuilder->setParcelOutletRouting($requestExtractor->getRecipient()->getContactEmail());
-            }
-
             //todo(nr): once we added postFiliale support we need to add it here
 
             //todo(nr): update/remove this condition once intl options are removed from domestic packaging popup
@@ -248,14 +251,14 @@ class RequestDataMapper
             if (!$isEuShipping) {
                 $this->requestBuilder->setCustomsDetails(
                     $package->getContentType(),
-                    $package->getPlaceOfCommittal(),
-                    $package->getAdditionalFee(),
+                    $packageExtension->getPlaceOfCommittal(),
+                    $packageExtension->getAdditionalFee(),
                     $package->getContentExplanation(),
                     $package->getTermsOfTrade(),
                     null,
-                    $package->getPermitNumber(),
-                    $package->getAttestationNumber(),
-                    $package->getElectronicExportNotification()
+                    $packageExtension->getPermitNumber(),
+                    $packageExtension->getAttestationNumber(),
+                    $packageExtension->getElectronicExportNotification()
                 );
 
                 foreach ($requestExtractor->getPackageItems() as $packageItem) {
