@@ -21,8 +21,6 @@ class ModuleConfig
 {
     // Defaults
     const CONFIG_PATH_VERSION = 'carriers/dhlpaket/version';
-    const CONFIG_PATH_ENABLED = 'carriers/dhlpaket/active';
-    const CONFIG_PATH_TITLE   = 'carriers/dhlpaket/title';
 
     // 100_general_settings.xml
     const CONFIG_PATH_ENABLE_LOGGING = 'dhlshippingsolutions/dhlpaket/general_shipping_settings/logging';
@@ -104,36 +102,6 @@ class ModuleConfig
     }
 
     /**
-     * Check whether the module is enabled for checkout or not.
-     *
-     * @param mixed $store
-     * @return bool
-     */
-    public function isEnabled($store = null): bool
-    {
-        return (bool) $this->scopeConfig->getValue(
-            self::CONFIG_PATH_ENABLED,
-            ScopeInterface::SCOPE_STORE,
-            $store
-        );
-    }
-
-    /**
-     * Get the title.
-     *
-     * @param mixed $store
-     * @return string
-     */
-    public function getTitle($store = null): string
-    {
-        return (string) $this->scopeConfig->getValue(
-            self::CONFIG_PATH_TITLE,
-            ScopeInterface::SCOPE_STORE,
-            $store
-        );
-    }
-
-    /**
      * Get the code of the carrier to forward rate requests to.
      *
      * @param mixed $store
@@ -143,36 +111,6 @@ class ModuleConfig
     {
         return (string) $this->scopeConfig->getValue(
             self::CONFIG_PATH_PROXY_CARRIER,
-            ScopeInterface::SCOPE_STORE,
-            $store
-        );
-    }
-
-    /**
-     * Get the logging status.
-     *
-     * @param mixed $store
-     * @return bool
-     */
-    public function isLoggingEnabled($store = null): bool
-    {
-        return (bool) $this->scopeConfig->getValue(
-            self::CONFIG_PATH_ENABLE_LOGGING,
-            ScopeInterface::SCOPE_STORE,
-            $store
-        );
-    }
-
-    /**
-     * Get the log level.
-     *
-     * @param mixed $store
-     * @return int
-     */
-    public function getLogLevel($store = null): int
-    {
-        return (int) $this->scopeConfig->getValue(
-            self::CONFIG_PATH_LOGLEVEL,
             ScopeInterface::SCOPE_STORE,
             $store
         );

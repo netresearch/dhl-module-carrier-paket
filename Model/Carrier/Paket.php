@@ -374,7 +374,6 @@ class Paket extends AbstractCarrierOnline implements CarrierInterface
      */
     public function getTrackingInfo($tracking)
     {
-        /** @var TrackingStatusInterface|TrackingErrorInterface|AbstractResult $result */
         $result = $this->trackingInfoProvider->getTrackingDetails($tracking, $this->getCarrierCode());
 
         if ($result instanceof Error) {

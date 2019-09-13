@@ -35,13 +35,13 @@
         </field>
 
         <!-- Logging -->
-        <field id="logging" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="40"
+        <field id="logging" showInDefault="1" showInWebsite="0" showInStore="0" sortOrder="40"
                translate="label comment button_label" type="Netresearch\ConfigFields\Model\Type\Checkbox">
             <label>Logging</label>
             <button_label>Record communication with the DHL web services.</button_label>
             <comment>You must also have Magento general logging enabled.</comment>
         </field>
-        <group id="logging_group" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="50"
+        <group id="logging_group" showInDefault="1" showInWebsite="0" showInStore="0" sortOrder="50"
                translate="label">
             <fieldset_css>simple</fieldset_css>
             <attribute type="expanded">1</attribute>
@@ -50,7 +50,7 @@
             </depends>
             <label>Error Logging Level</label>
 
-            <field id="loglevel" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="10"
+            <field id="loglevel" showInDefault="1" showInWebsite="0" showInStore="0" sortOrder="10"
                    translate="label comment" type="Netresearch\ConfigFields\Model\Type\Radioset">
                 <label>Log Level</label>
                 <source_model>Dhl\Paket\Model\Config\Source\LogLevel</source_model>
