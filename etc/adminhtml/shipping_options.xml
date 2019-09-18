@@ -20,7 +20,7 @@
                         <label>Attestation Number</label>
                         <inputType>text</inputType>
                     </input>
-                    <input code="electronicExportNotification">
+                    <input code="electronicExportNotification" defaultConfigValue="dhlshippingsolutions/dhlpaket/shipment_defaults/electronic_export_notification">
                         <label>Electronic Export Notification</label>
                         <inputType>checkbox</inputType>
                     </input>

@@ -62,6 +62,7 @@
 "For a combined booking of preferred day and preferred time, the shipping costs are a total of $1 including VAT.","For a combined booking of preferred day and preferred time, the shipping costs are a total of $1 including VAT."
 "General Settings","General Settings"
 "If enabled, a return shipment label will be requested from the webservice.","If enabled, a return shipment label will be requested from the webservice."
+"If enabled, DHL will automatically send a customs declaration electronically to the customs offices for dutiable shipments.","If enabled, DHL will automatically send a customs declaration electronically to the customs offices for dutiable shipments."
 "If enabled, shipment orders will only return a label if the DHL delivery address verification succeeds.", "If enabled, shipment orders will only return a label if the DHL delivery address verification succeeds."
 "If enabled, shipments will be insured with higher than standard amount.","If enabled, shipments will be insured with higher than standard amount."
 "If enabled, shipments will be marked as bulk freight.","If enabled, shipments will be marked as bulk freight."

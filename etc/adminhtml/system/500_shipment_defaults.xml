@@ -24,6 +24,11 @@
             <label>Place of Committal</label>
             <comment>Specification for customs form.</comment>
         </field>
+        <field id="electronic_export_notification" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="40"
+               translate="label comment" type="Netresearch\ConfigFields\Model\Type\Checkbox">
+            <label>Electronic Export Notification</label>
+            <comment>If enabled, DHL will automatically send a customs declaration electronically to the customs offices for dutiable shipments.</comment>
+        </field>
 
         <group id="services_group" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="50"
                translate="label">

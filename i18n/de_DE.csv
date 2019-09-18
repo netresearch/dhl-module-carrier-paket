@@ -62,6 +62,7 @@
 "For a combined booking of preferred day and preferred time, the shipping costs are a total of $1 including VAT.","Bei einer Kombinationsbuchung von Wunschtag und -zeit fällt zu den Versandkosten ein Gesamtaufpreis von $1 inkl. MwSt. an."
 "General Settings","Allgemeine Einstellungen"
 "If enabled, a return shipment label will be requested from the webservice.","Wenn diese Option aktiviert ist, wird ein Rücksendeetikett vom Webservice angefordert."
+"If enabled, DHL will automatically send a customs declaration electronically to the customs offices for dutiable shipments.","Wenn diese Option aktiviert ist, wird von DHL automatisch bei zollpflichtigen Sendungen eine Zollinhaltserklärung auf elektronischem Wege an die Zollämter versandt."
 "If enabled, shipment orders will only return a label if the DHL delivery address verification succeeds.","Wenn diese Option aktiviert ist, werden Paketaufkleber nur erstellt, wenn die DHL-Überprüfung der Empfängeradresse im Versandauftrag erfolgreich war."
 "If enabled, shipments will be insured with higher than standard amount.","Wenn diese Option aktiviert ist, werden Sendungen mit einem höheren als dem Standardbetrag versichert."
 "If enabled, shipments will be marked as bulk freight.","Wenn diese Option aktiviert ist, werden Sendungen als Sperrgut markiert."

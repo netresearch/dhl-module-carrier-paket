@@ -50,6 +50,7 @@ class ModuleConfig
     const CONFIG_PATH_ADDITIONAL_FEE         = 'dhlshippingsolutions/dhlpaket/shipment_defaults/additional_fee';
     const CONFIG_PATH_PLACE_OF_COMMITTAL     = 'dhlshippingsolutions/dhlpaket/shipment_defaults/place_of_committal';
     const CONFIG_PATH_DEFAULT_PRODUCTS       = 'dhlshippingsolutions/dhlpaket/shipment_defaults/shipping_products';
+    const CONFIG_PATH_ELECTRONIC_EXPORT_NOTIFICATION = 'dhlshippingsolutions/dhlpaket/shipment_defaults/electronic_export_notification';
     const CONFIG_PATH_VISUAL_CHECK_OF_AGE    = 'dhlshippingsolutions/dhlpaket/shipment_defaults/services_group/visual_check_of_age';
     const CONFIG_PATH_RETURN_SHIPMENT        = 'dhlshippingsolutions/dhlpaket/shipment_defaults/services_group/return_shipment';
     const CONFIG_PATH_ADDITIONAL_INSURANCE   = 'dhlshippingsolutions/dhlpaket/shipment_defaults/services_group/additional_insurance';

@@ -9,6 +9,7 @@ namespace Dhl\Paket\Model\ShipmentRequest;
 use Dhl\Paket\Model\Config\ModuleConfig;
 use Dhl\Paket\Util\ShippingProducts;
 use Dhl\ShippingCore\Api\ConfigInterface;
+use Dhl\ShippingCore\Api\PackagingOptionReaderInterface;
 use Dhl\ShippingCore\Api\PackagingOptionReaderInterfaceFactory;
 use Dhl\ShippingCore\Api\RequestModifierInterface;
 use Magento\Framework\Exception\LocalizedException;
@@ -127,34 +128,27 @@ class RequestModifier implements RequestModifierInterface
         $recipientCountry = $shipmentRequest->getRecipientAddressCountryCode();
         $euCountries = $this->dhlConfig->getEuCountries($shipmentRequest->getOrderShipment()->getStoreId());
 
+        // Route within EU, no customs data to add.
         if (in_array($recipientCountry, $euCountries, true)) {
-            // route within EU, no customs data to add.
             return;
         }
 
         $shipment = $shipmentRequest->getOrderShipment();
 
-        /** @var \Dhl\ShippingCore\Api\PackagingOptionReaderInterface $reader */
+        /** @var PackagingOptionReaderInterface $reader */
         $reader = $this->packagingOptionReaderFactory->create(['shipment' => $shipment]);
 
         $packageId = $shipmentRequest->getData('package_id');
-        $package = $shipmentRequest->getData('packages')[$packageId];
-        $package['params']['content_type'] = $reader->getPackageOptionValue('packageCustoms', 'contentType');
-        $package['params']['content_type_other'] = $reader->getPackageOptionValue('packageCustoms', 'explanation');
-        $package['params']['customs_value'] = $reader->getPackageOptionValue('packageCustoms', 'customsValue');
-        $package['params']['customs'] = [
-            'exportDescription' => $reader->getPackageOptionValue('packageCustoms', 'exportDescription'),
-            'termsOfTrade' => $reader->getPackageOptionValue('packageCustoms', 'termsOfTrade'),
-        ];
+        $package   = $shipmentRequest->getData('packages')[$packageId];
 
-        foreach ($package['items'] as $orderItemId => &$packageItem) {
-            $packageItem['customs_value'] = $reader->getItemOptionValue($orderItemId, 'itemCustoms', 'customsValue');
-            $packageItem['customs'] = [
-                'exportDescription' => $reader->getItemOptionValue($orderItemId, 'itemCustoms', 'exportDescription'),
-                'hsCode' => $reader->getItemOptionValue($orderItemId, 'itemCustoms', 'hsCode'),
-                'countryOfOrigin' => $reader->getItemOptionValue($orderItemId, 'itemCustoms', 'countryOfOrigin'),
-            ];
-        }
+
+        // Customs
+        $package['params']['customs']['additionalFee']
+            = $reader->getPackageOptionValue('packageCustoms', 'additionalFee');
+        $package['params']['customs']['placeOfCommittal']
+            = $reader->getPackageOptionValue('packageCustoms', 'placeOfCommittal');
+        $package['params']['customs']['electronicExportNotification']
+            = $reader->getPackageOptionValue('packageCustoms', 'electronicExportNotification');
 
         $shipmentRequest->setData('packages', [$packageId => $package]);
         $shipmentRequest->setData('package_items', $package['items']);
