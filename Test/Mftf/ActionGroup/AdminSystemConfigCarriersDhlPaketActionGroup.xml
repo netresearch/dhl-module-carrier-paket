@@ -7,35 +7,33 @@
 <actionGroups xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
               xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/actionGroupSchema.xsd">
     <!-- Open carrier settings group -->
-    <actionGroup name="DhlPaketCarrierSettingsOpenActionGroup">
-        <scrollTo selector="{{AdminSystemConfigCarriersDhlPaketSection.carrierGroup}}" stepKey="scrollToCarrierGroup" x="0" y="-85"/>
-        <seeElement selector="{{AdminSystemConfigCarriersDhlPaketSection.carrierGroup}}" stepKey="seeCarrierConfigGroup"/>
-        <conditionalClick stepKey="expandCarrierConfiguration"
-                          selector="{{AdminSystemConfigCarriersDhlPaketSection.carrierGroup}}"
-                          dependentSelector="{{AdminSystemConfigCarriersDhlPaketSection.carrierGroupExpanded}}"
-                          visible="true"/>
+    <actionGroup name="DhlPaketCarrierSettingsOpenActionGroup"
+                 extends="ScrollToAndExpandGroupActionGroup"
+    >
+        <arguments>
+            <argument name="groupName" defaultValue="AdminSystemConfigCarriersDhlPaketSection.carrierGroup"/>
+            <argument name="groupNameExpanded" defaultValue="AdminSystemConfigCarriersDhlPaketSection.carrierGroupExpanded"/>
+        </arguments>
     </actionGroup>
 
     <!-- Expand "General" tab -->
-    <actionGroup name="DhlPaketCarrierSettingsExpandGeneralTabActionGroup">
-        <scrollTo selector="{{AdminSystemConfigCarriersDhlPaketSection.generalSettingsGroup}}"
-                  stepKey="scrollToPickupAccountNumber" x="0" y="-85"/>
-        <seeElement selector="{{AdminSystemConfigCarriersDhlPaketSection.generalSettingsGroup}}" stepKey="seeGeneralSettingsGroup"/>
-        <conditionalClick stepKey="expandGeneralSettingsGroup"
-                          selector="{{AdminSystemConfigCarriersDhlPaketSection.generalSettingsGroup}}"
-                          dependentSelector="{{AdminSystemConfigCarriersDhlPaketSection.generalSettingsGroupExpanded}}"
-                          visible="true"/>
+    <actionGroup name="DhlPaketCarrierSettingsExpandGeneralTabActionGroup"
+                 extends="ScrollToAndExpandGroupActionGroup"
+    >
+        <arguments>
+            <argument name="groupName" defaultValue="AdminSystemConfigCarriersDhlPaketSection.generalSettingsGroup"/>
+            <argument name="groupNameExpanded" defaultValue="AdminSystemConfigCarriersDhlPaketSection.generalSettingsGroupExpanded"/>
+        </arguments>
     </actionGroup>
 
     <!-- Expand "Checkout presentation" tab -->
-    <actionGroup name="DhlPaketCarrierSettingsExpandCheckoutPresentationTabActionGroup">
-        <scrollTo selector="{{AdminSystemConfigCarriersDhlPaketSection.checkoutPresentationGroup}}"
-                  stepKey="scrollToCheckoutPresentationGroup" x="0" y="-85"/>
-        <seeElement selector="{{AdminSystemConfigCarriersDhlPaketSection.checkoutPresentationGroup}}" stepKey="seeCheckoutPresentationGroup"/>
-        <conditionalClick stepKey="expandCheckoutPresentationGroup"
-                          selector="{{AdminSystemConfigCarriersDhlPaketSection.checkoutPresentationGroup}}"
-                          dependentSelector="{{AdminSystemConfigCarriersDhlPaketSection.checkoutPresentationGroupExpanded}}"
-                          visible="true"/>
+    <actionGroup name="DhlPaketCarrierSettingsExpandCheckoutPresentationTabActionGroup"
+                 extends="ScrollToAndExpandGroupActionGroup"
+    >
+        <arguments>
+            <argument name="groupName" defaultValue="AdminSystemConfigCarriersDhlPaketSection.checkoutPresentationGroup"/>
+            <argument name="groupNameExpanded" defaultValue="AdminSystemConfigCarriersDhlPaketSection.checkoutPresentationGroupExpanded"/>
+        </arguments>
     </actionGroup>
 
     <!-- Unset carrier configuration to restore initial state -->
@@ -45,10 +43,10 @@
         <uncheckOption selector="{{AdminSystemConfigCarriersDhlPaketSection.carrierActive}}"
                        stepKey="uncheckOptionDisplayRatesAtCheckout"/>
 
-        <conditionalClick stepKey="collapseCarrierConfiguration"
-                          selector="{{AdminSystemConfigCarriersDhlPaketSection.carrierGroup}}"
-                          dependentSelector="{{AdminSystemConfigCarriersDhlPaketSection.carrierGroupExpanded}}"
-                          visible="false"/>
+<!--        <conditionalClick stepKey="collapseCarrierConfiguration"-->
+<!--                          selector="{{AdminSystemConfigCarriersDhlPaketSection.carrierGroup}}"-->
+<!--                          dependentSelector="{{AdminSystemConfigCarriersDhlPaketSection.carrierGroupExpanded}}"-->
+<!--                          visible="false"/>-->
     </actionGroup>
 
     <!-- Enabled DHL Paket carrier in "Shipping methods" configuration -->

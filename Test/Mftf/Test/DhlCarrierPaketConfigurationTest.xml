@@ -19,6 +19,11 @@
             <comment userInput="-> Run required steps before starting with the test" stepKey="setupTestComment"/>
 
             <actionGroup ref="LoginAsAdmin" stepKey="loginAsAdmin"/>
+            <actionGroup ref="NavigateToShippingCoreSectionActionGroup" stepKey="navigateToShippingSettingsConfigInTest"/>
+            <actionGroup ref="ScrollToAndExpandGroupActionGroup" stepKey="navigateToShippingCoreGroup">
+                <argument name="groupName" value="{{AdminSystemConfigShippingCoreSection.shippingCoreGroup}}"/>
+                <argument name="groupNameExpanded" value="{{AdminSystemConfigShippingCoreSection.shippingCoreGroupExpanded}}"/>
+            </actionGroup>
         </before>
         <after>
             <comment userInput="-> Clean up carrier configuration settings after test" stepKey="cleanTestComment"/>
@@ -30,10 +35,8 @@
 
         <comment userInput="-> Perform actual test" stepKey="runTestComment"/>
 
-        <actionGroup ref="NavigateToShippingCoreSectionActionGroup" stepKey="navigateToShippingCoreSettingsConfig"/>
+        <!-- DHL Paket settings -->
         <actionGroup ref="DhlPaketCarrierSettingsOpenActionGroup" stepKey="openCarrierSettingsDhlPaket"/>
-
-        <!-- General settings -->
 
         <!-- Expand "General" tab -->
         <actionGroup ref="DhlPaketCarrierSettingsExpandGeneralTabActionGroup" stepKey="expandCarrierSettingsDhlPaketGeneralTab"/>
@@ -47,8 +50,11 @@
         <dontSeeCheckboxIsChecked selector="{{AdminSystemConfigCarriersDhlPaketSection.carrierLogging}}"
                                   stepKey="carrierLoggingNotChecked"/>
 
-        <!-- Checkout presentation, Select "Use Rates From" -->
-        <actionGroup ref="DhlPaketCarrierSettingsExpandCheckoutPresentationTabActionGroup" stepKey="expandCarrierSettingsDhlPaketCheckoutPresentationTab"/>
+        <!-- Expand "General Settings" tab -->
+        <actionGroup ref="DhlPaketCarrierSettingsExpandCheckoutPresentationTabActionGroup"
+                     stepKey="expandCarrierSettingsDhlPaketCheckoutPresentationTab"/>
+
+        <!-- Select "Use Rates From" -->
         <actionGroup ref="DhlPaketCarrierSettingsSelectUseRatesFromActionGroup" stepKey="selectCarrierSettingsUseRatesFrom">
             <argument name="useRatesFrom" value="CarriersDhlPaketSettings.useRatesFromFlatRate"/>
         </actionGroup>
@@ -56,9 +62,16 @@
         <!-- Save -->
         <actionGroup ref="SaveAdminSystemConfigSectionActionGroup" stepKey="saveAdminConfigSection"/>
 
+        <!-- Expand "General Settings" tab -->
+        <actionGroup ref="DhlPaketCarrierSettingsExpandGeneralTabActionGroup" stepKey="expandCarrierSettingsDhlPaketGeneralTabAfterSave"/>
+
         <!-- Confirm selection is persisted -->
         <seeCheckboxIsChecked selector="{{AdminSystemConfigCarriersDhlPaketSection.carrierActive}}"
                               stepKey="seeCarrierActiveChecked"/>
+
+        <!-- Expand "Checkout Presentation" tab -->
+        <actionGroup ref="DhlPaketCarrierSettingsExpandCheckoutPresentationTabActionGroup"
+                     stepKey="expandCarrierSettingsDhlPaketCheckoutPresentationTabAfterSave"/>
 
         <seeOptionIsSelected selector="{{AdminSystemConfigCarriersDhlPaketSection.checkoutPresentationUseRatesFromSelect}}"
                              userInput="{{CarriersDhlPaketSettings.useRatesFromFlatRate}}"
