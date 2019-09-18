@@ -146,6 +146,7 @@
 "This service will incur additional shipping costs of $1 including VAT.","Für diesen Service fallen zusätzliche Versandkosten in Höhe von $1 inkl. MwSt. an."
 "Unable to delete tracks or shipping label.","Die Sendungsnummer oder das Versandetikett konnte nicht gelöscht werden."
 "Unable to determine billing number.","Die Abrechnungsnummer konnte nicht ermittelt werden."
+"Unable to determine return shipment billing number.","Die Abrechnungsnummer für Rücksendungen konnte nicht ermittelt werden."
 "Use Additional Insurance Service","Erweiterte Transportversicherung aktivieren"
 "Use Bulky Goods Service","Sperrgutservice aktivieren"
 "Use Parcel Outlet Routing Service","Filial-Routing aktivieren"

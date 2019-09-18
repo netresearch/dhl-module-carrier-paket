@@ -157,6 +157,22 @@ class ShippingProducts
     }
 
     /**
+     * Obtain return procedure number by product code.
+     *
+     * @param string $productCode
+     * @return string
+     */
+    public function getReturnProcedure(string $productCode): string
+    {
+        $procedures = $this->getReturnProcedures();
+        if (!isset($procedures[$productCode])) {
+            return '';
+        }
+
+        return $procedures[$productCode];
+    }
+
+    /**
      * Get shipping product codes for given shipping origin.
      *
      * Returns an array of [$destination => $codes]. Destinations may be identified by country code, "EU" or "INTL".

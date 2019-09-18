@@ -12,7 +12,6 @@ use Dhl\Paket\Model\ShipmentRequest\RequestExtractorFactory;
 use Dhl\Sdk\Paket\Bcs\Api\ShipmentOrderRequestBuilderInterface;
 use Dhl\Sdk\Paket\Bcs\Model\CreateShipment\RequestType\ShipmentOrderType;
 use Dhl\ShippingCore\Api\ConfigInterface;
-use Dhl\ShippingCore\Api\Data\ShipmentRequest\PackageInterface;
 use Dhl\ShippingCore\Api\UnitConverterInterface;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Shipping\Model\Shipment\Request;
@@ -51,6 +50,7 @@ class RequestDataMapper
 
     /**
      * RequestDataMapper constructor.
+     *
      * @param ShipmentOrderRequestBuilderInterface $requestBuilder
      * @param RequestExtractorFactory $requestExtractorFactory
      * @param ConfigInterface $dhlConfig
@@ -99,12 +99,17 @@ class RequestDataMapper
     public function mapRequest(string $sequenceNumber, Request $request): ShipmentOrderType
     {
         /** @var RequestExtractor $requestExtractor */
-        $requestExtractor = $this->requestExtractorFactory->create([
-            'shipmentRequest' => $request,
-        ]);
+        $requestExtractor = $this->requestExtractorFactory->create(
+            [
+                'shipmentRequest' => $request,
+            ]
+        );
 
         $this->requestBuilder->setSequenceNumber($sequenceNumber);
-        $this->requestBuilder->setShipperAccount($requestExtractor->getBillingNumber());
+        $this->requestBuilder->setShipperAccount(
+            $requestExtractor->getBillingNumber(),
+            $requestExtractor->getReturnShipmentAccountNumber()
+        );
 
         $this->requestBuilder->setShipperAddress(
             $requestExtractor->getShipper()->getContactCompanyName(),
@@ -217,7 +222,22 @@ class RequestDataMapper
             }
 
             if ($requestExtractor->isReturnShipment()) {
-                $this->requestBuilder->setReturnReceipt();
+                $this->requestBuilder->setReturnAddress(
+                    $requestExtractor->getShipper()->getContactCompanyName(),
+                    $requestExtractor->getShipper()->getCountryCode(),
+                    $requestExtractor->getShipper()->getPostalCode(),
+                    $requestExtractor->getShipper()->getCity(),
+                    $requestExtractor->getShipper()->getStreetName(),
+                    $requestExtractor->getShipper()->getStreetNumber(),
+                    null,
+                    null,
+                    $requestExtractor->getShipper()->getContactEmail(),
+                    $requestExtractor->getShipper()->getContactPhoneNumber(),
+                    $requestExtractor->getShipper()->getContactPersonName(),
+                    $requestExtractor->getShipper()->getState(),
+                    null,
+                    []
+                );
             }
 
             if ($requestExtractor->isParcelOutletRouting()) {

@@ -39,7 +39,8 @@
                             <![CDATA[
                                 {
                                     "_1485789382230_230":{"procedure":"01","participation":"04"},
-                                    "_1485789931170_170":{"procedure":"53","participation":"01"}
+                                    "_1485789931170_170":{"procedure":"53","participation":"01"},
+                                    "_1485789933729_729":{"procedure":"07","participation":"01"}
                                 }
                             ]]>
                         </account_participations>
@@ -59,7 +60,8 @@
                         <![CDATA[
                             {
                                 "_1485789382230_230":{"procedure":"01","participation":"04"},
-                                "_1485789931170_170":{"procedure":"53","participation":"01"}
+                                "_1485789931170_170":{"procedure":"53","participation":"01"},
+                                "_1485789933729_729":{"procedure":"07","participation":"01"}
                             }
                         ]]>
                     </sandbox_account_participations>
