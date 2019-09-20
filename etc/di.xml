@@ -17,7 +17,13 @@
     <!-- # virtual types -->
     <virtualType name="Dhl\Paket\Model\BulkShipmentManagement\Virtual" type="Dhl\Paket\Model\ShipmentManagement">
         <arguments>
-            <argument name="createResponseProcessor" xsi:type="object">Dhl\ShippingCore\Webservice\Pipeline\BulkShipment\ShipmentResponseProcessor\Virtual</argument>
+            <argument name="createResponseProcessor" xsi:type="object">Dhl\ShippingCore\Webservice\Pipeline\BulkShipment\CreateLabelResponseProcessor\Virtual</argument>
+            <argument name="deleteResponseProcessor" xsi:type="object">Dhl\ShippingCore\Webservice\Pipeline\BulkShipment\CancelLabelResponseProcessor\Virtual</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Dhl\Paket\Model\BulkShipmentManagement\Proxy\Virtual" type="Dhl\Paket\Model\ShipmentManagement\Proxy">
+        <arguments>
+            <argument name="instanceName" xsi:type="string">Dhl\Paket\Model\BulkShipmentManagement\Virtual</argument>
         </arguments>
     </virtualType>
     <virtualType name="Dhl\Paket\Model\Logger\Handler\Virtual" type="Dhl\ShippingCore\Model\Log\ApiLogHandler">
@@ -79,15 +85,6 @@
             <argument name="artifactsContainerFactory" xsi:type="object">Dhl\Paket\Webservice\Pipeline\DeleteShipments\ArtifactsContainerFactory\Virtual</argument>
         </arguments>
     </virtualType>
-    <virtualType name="Dhl\Paket\Webservice\Pipeline\Shipment\DeleteShipmentsResponseProcessor\Virtual" type="Dhl\ShippingCore\Webservice\Pipeline\Track\TrackResponseProcessor">
-        <arguments>
-            <argument name="processors" xsi:type="array">
-                <item name="updateLabelStatus" xsi:type="object">Dhl\Paket\Webservice\Pipeline\DeleteShipments\ResponseProcessor\UpdateLabelStatus</item>
-                <item name="deleteTrack" xsi:type="object">Dhl\Paket\Webservice\Pipeline\DeleteShipments\ResponseProcessor\DeleteTrack</item>
-                <item name="unsetShippingLabel" xsi:type="object">Dhl\Paket\Webservice\Pipeline\DeleteShipments\ResponseProcessor\UnsetShippingLabel</item>
-            </argument>
-        </arguments>
-    </virtualType>
 
     <!-- # argument di overrides -->
     <type name="Dhl\Paket\Model\Carrier\Paket">
@@ -104,12 +101,12 @@
     </type>
     <type name="Dhl\Paket\Model\ShipmentManagement">
         <arguments>
-            <argument name="deleteResponseProcessor" xsi:type="object">Dhl\Paket\Webservice\Pipeline\Shipment\DeleteShipmentsResponseProcessor\Virtual</argument>
+            <argument name="deleteResponseProcessor" xsi:type="object">Dhl\ShippingCore\Webservice\Pipeline\BulkShipment\CancelLabelResponseProcessor\Virtual</argument>
         </arguments>
     </type>
     <type name="Dhl\Paket\Model\BulkShipmentConfiguration">
         <arguments>
-            <argument name="shipmentManagement" xsi:type="object">Dhl\Paket\Model\BulkShipmentManagement\Virtual</argument>
+            <argument name="shipmentManagement" xsi:type="object">Dhl\Paket\Model\BulkShipmentManagement\Proxy\Virtual</argument>
         </arguments>
     </type>
     <type name="Dhl\Paket\Webservice\ApiGateway">
@@ -128,14 +125,7 @@
             <argument name="logger" xsi:type="object">Dhl\Paket\Model\Logger\Virtual</argument>
         </arguments>
     </type>
-    <type name="Dhl\ShippingCore\Model\BulkShipmentManagement">
-        <arguments>
-            <argument name="configurations" xsi:type="array">
-                <item name="dhlpaket" xsi:type="object">Dhl\Paket\Model\BulkShipmentConfiguration</item>
-            </argument>
-        </arguments>
-    </type>
-    <type name="Dhl\ShippingCore\Cron\AutoCreate">
+    <type name="Dhl\ShippingCore\Model\BulkShipmentConfiguration">
         <arguments>
             <argument name="configurations" xsi:type="array">
                 <item name="dhlpaket" xsi:type="object">Dhl\Paket\Model\BulkShipmentConfiguration</item>

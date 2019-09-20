@@ -7,10 +7,10 @@ declare(strict_types=1);
 namespace Dhl\Paket\Model;
 
 use Dhl\Paket\Model\Carrier\Paket;
-use Dhl\Paket\Model\Config\ModuleConfig;
 use Dhl\Paket\Model\ShipmentRequest\RequestModifier;
-use Dhl\ShippingCore\Api\BulkLabelCreationInterface;
-use Dhl\ShippingCore\Api\BulkShipmentConfigurationInterface;
+use Dhl\ShippingCore\Api\BulkShipment\BulkLabelCancellationInterface;
+use Dhl\ShippingCore\Api\BulkShipment\BulkLabelCreationInterface;
+use Dhl\ShippingCore\Api\BulkShipment\BulkShipmentConfigurationInterface;
 use Dhl\ShippingCore\Api\RequestModifierInterface;
 
 /**
@@ -22,11 +22,6 @@ use Dhl\ShippingCore\Api\RequestModifierInterface;
  */
 class BulkShipmentConfiguration implements BulkShipmentConfigurationInterface
 {
-    /**
-     * @var ModuleConfig
-     */
-    private $moduleConfig;
-
     /**
      * @var RequestModifier
      */
@@ -40,16 +35,13 @@ class BulkShipmentConfiguration implements BulkShipmentConfigurationInterface
     /**
      * BulkShipmentConfiguration constructor.
      *
-     * @param ModuleConfig $moduleConfig
      * @param RequestModifier $requestModifier
      * @param ShipmentManagement $shipmentManagement
      */
     public function __construct(
-        ModuleConfig $moduleConfig,
         RequestModifier $requestModifier,
         ShipmentManagement $shipmentManagement
     ) {
-        $this->moduleConfig = $moduleConfig;
         $this->requestModifier = $requestModifier;
         $this->shipmentManagement = $shipmentManagement;
     }
@@ -75,12 +67,32 @@ class BulkShipmentConfiguration implements BulkShipmentConfigurationInterface
     }
 
     /**
-     * Obtain the service that connects to the DHL Paket label api.
+     * Obtain the service that connects to the carrier's label api for creating labels.
      *
      * @return BulkLabelCreationInterface
      */
     public function getLabelService(): BulkLabelCreationInterface
     {
         return $this->shipmentManagement;
+    }
+
+    /**
+     * Obtain the service that connects to the carrier's label api for cancelling labels.
+     *
+     * @return BulkLabelCancellationInterface
+     */
+    public function getCancellationService(): BulkLabelCancellationInterface
+    {
+        return $this->shipmentManagement;
+    }
+
+    /**
+     * Check if DHL Paket allows deleting single tracks of a shipment.
+     *
+     * @return bool
+     */
+    public function isSingleTrackDeletionAllowed(): bool
+    {
+        return false;
     }
 }

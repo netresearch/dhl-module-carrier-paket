@@ -8,7 +8,8 @@ namespace Dhl\Paket\Model;
 
 use Dhl\Paket\Webservice\ApiGateway;
 use Dhl\Paket\Webservice\ApiGatewayFactory;
-use Dhl\ShippingCore\Api\BulkLabelCreationInterface;
+use Dhl\ShippingCore\Api\BulkShipment\BulkLabelCancellationInterface;
+use Dhl\ShippingCore\Api\BulkShipment\BulkLabelCreationInterface;
 use Dhl\ShippingCore\Api\Data\ShipmentResponse\ShipmentResponseInterface;
 use Dhl\ShippingCore\Api\Data\TrackRequest\TrackRequestInterface;
 use Dhl\ShippingCore\Api\Data\TrackResponse\TrackResponseInterface;
@@ -23,7 +24,7 @@ use Magento\Shipping\Model\Shipment\Request;
  *
  * @package Dhl\Paket\Model
  */
-class ShipmentManagement implements BulkLabelCreationInterface
+class ShipmentManagement implements BulkLabelCreationInterface, BulkLabelCancellationInterface
 {
     /**
      * @var ApiGatewayFactory

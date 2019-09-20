@@ -31,7 +31,7 @@ class ArtifactsContainer implements ArtifactsContainerInterface
     /**
      * Error messages occurred during pipeline execution.
      *
-     * @var string[][]|ShipmentInterface[]|ShipmentTrackInterface[][]
+     * @var string[][]|ShipmentInterface[][]|ShipmentTrackInterface[][]
      */
     private $errors = [];
 
@@ -57,7 +57,7 @@ class ArtifactsContainer implements ArtifactsContainerInterface
     private $trackResponses = [];
 
     /**
-     * Error response suitable for processing by the core. Contains request id / sequence number.
+     * Error response suitable for processing by the core. Contains request id / tracking number.
      *
      * @var TrackErrorResponseInterface[]
      */

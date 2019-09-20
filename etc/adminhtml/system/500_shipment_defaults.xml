@@ -17,7 +17,7 @@
                translate="label comment" type="text">
             <label>Additional Fee</label>
             <validate>validate-greater-than-zero validate-number</validate>
-            <comment>Additional custom fees to be payed.</comment>
+            <comment>Additional customs fees to be paid.</comment>
         </field>
         <field id="place_of_committal" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="30"
                translate="label comment" type="text">
