@@ -111,6 +111,11 @@ class RequestDataMapper
             $requestExtractor->getReturnShipmentAccountNumber()
         );
 
+        $this->requestBuilder->setShipperAccount(
+            $requestExtractor->getBillingNumber(),
+            $requestExtractor->isReturnShipment() ? $requestExtractor->getReturnShipmentAccountNumber() : null
+        );
+
         $this->requestBuilder->setShipperAddress(
             $requestExtractor->getShipper()->getContactCompanyName(),
             $requestExtractor->getShipper()->getCountryCode(),
@@ -231,9 +236,9 @@ class RequestDataMapper
                     $requestExtractor->getShipper()->getStreetNumber(),
                     null,
                     null,
-                    $requestExtractor->getShipper()->getContactEmail(),
-                    $requestExtractor->getShipper()->getContactPhoneNumber(),
-                    $requestExtractor->getShipper()->getContactPersonName(),
+                    null,
+                    null,
+                    null,
                     $requestExtractor->getShipper()->getState(),
                     null,
                     []

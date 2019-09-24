@@ -285,6 +285,36 @@ class RequestExtractor implements RequestExtractorInterface
     }
 
     /**
+     * Generate DHL billing number for return shipments
+     *
+     * @return string
+     * @throws LocalizedException
+     */
+    public function getReturnShipmentAccountNumber(): string
+    {
+        try {
+            $packages = $this->getPackages();
+
+            /** @var PackageInterface $package */
+            $package = array_shift($packages);
+
+            $storeId = $this->getCoreExtractor()->getStoreId();
+            $productCode = $package->getProductCode();
+            $procedure = $this->shippingProducts->getReturnProcedure($productCode);
+            if ($procedure) {
+                $ekp = $this->moduleConfig->getEkp($storeId);
+                $participation = $this->moduleConfig->getParticipations($storeId)[$procedure] ?? '';
+
+                return $ekp . $procedure . $participation;
+            }
+
+            return '';
+        } catch (LocalizedException $exception) {
+            throw new LocalizedException(__('Unable to determine return shipment billing number.'), $exception);
+        }
+    }
+
+    /**
      * Obtain shipment date.
      *
      * @return string
@@ -386,9 +416,8 @@ class RequestExtractor implements RequestExtractorInterface
      */
     public function hasPreferredNeighbour(): bool
     {
-        return (bool) ($this->getServiceData(
-                ProcessorInterface::CHECKOUT_SERVICE_PREFERRED_NEIGHBOUR
-            )['enabled'] ?? false);
+        $serviceData = $this->getServiceData(ProcessorInterface::CHECKOUT_SERVICE_PREFERRED_NEIGHBOUR);
+        return (bool) ($serviceData['enabled'] ?? false);
     }
 
     /**
@@ -418,9 +447,8 @@ class RequestExtractor implements RequestExtractorInterface
      */
     public function hasPreferredLocation(): bool
     {
-        return (bool) ($this->getServiceData(
-                ProcessorInterface::CHECKOUT_SERVICE_PREFERRED_LOCATION
-            )['enabled'] ?? false);
+        $serviceData = $this->getServiceData(ProcessorInterface::CHECKOUT_SERVICE_PREFERRED_LOCATION);
+        return (bool) ($serviceData['enabled'] ?? false);
     }
 
     /**
@@ -480,9 +508,8 @@ class RequestExtractor implements RequestExtractorInterface
      */
     public function isReturnShipment(): bool
     {
-        return (bool) ($this->getServiceData(
-                ProcessorInterface::PACKAGING_SERVICE_RETURN_SHIPMENT
-            )['enabled'] ?? false);
+        $serviceData = $this->getServiceData(ProcessorInterface::PACKAGING_SERVICE_RETURN_SHIPMENT);
+        return (bool) ($serviceData['enabled'] ?? false);
     }
 
     /**
@@ -523,35 +550,5 @@ class RequestExtractor implements RequestExtractorInterface
     public function isParcelOutletRouting(): bool
     {
         return (bool) ($this->getServiceData('parcelOutletRouting')['enabled'] ?? false);
-    }
-
-    /**
-     * Generate DHL billing number for return shipments
-     *
-     * @return string
-     * @throws LocalizedException
-     */
-    public function getReturnShipmentAccountNumber(): string
-    {
-        try {
-            $packages = $this->getPackages();
-
-            /** @var PackageInterface $package */
-            $package = array_shift($packages);
-
-            $storeId = $this->getCoreExtractor()->getStoreId();
-            $productCode = $package->getProductCode();
-            $procedure = $this->shippingProducts->getReturnProcedure($productCode);
-            if ($procedure) {
-                $ekp = $this->moduleConfig->getEkp($storeId);
-                $participation = $this->moduleConfig->getParticipations($storeId)[$procedure] ?? '';
-
-                return $ekp . $procedure . $participation;
-            }
-
-            return '';
-        } catch (LocalizedException $exception) {
-            throw new LocalizedException(__('Unable to determine return shipment billing number.'), $exception);
-        }
     }
 }
