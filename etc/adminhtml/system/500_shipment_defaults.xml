@@ -29,6 +29,13 @@
             <label>Electronic Export Notification</label>
             <comment>If enabled, DHL will automatically send a customs declaration electronically to the customs offices for dutiable shipments.</comment>
         </field>
+        <field id="drop_off_days" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="50"
+               translate="label comment" type="Netresearch\ConfigFields\Model\Type\Checkboxset">
+            <label>Days excluded from drop-off</label>
+            <comment>On the working days checked, there is no transfer of parcels to DHL (in addition to sundays and public holidays). This information influences the first displayed preferred day in the frontend.</comment>
+            <source_model>Dhl\ShippingCore\Model\Config\Source\DropOffDays</source_model>
+            <backend_model>Dhl\ShippingCore\Model\Config\Backend\DropOffDays</backend_model>
+        </field>
 
         <group id="services_group" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="50"
                translate="label">

@@ -318,11 +318,11 @@ class RequestExtractor implements RequestExtractorInterface
      * Obtain shipment date.
      *
      * @return string
-     * @todo(nr): take into account cut-off settings etc.
+     * @throws LocalizedException
      */
     public function getShipmentDate(): string
     {
-        return date('Y-m-d');
+        return $this->getCoreExtractor()->getShipmentDate();
     }
 
     /**

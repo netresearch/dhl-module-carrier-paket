@@ -49,6 +49,7 @@ class ModuleConfig
     const CONFIG_PATH_PRINT_ONLY_IF_CODEABLE = 'dhlshippingsolutions/dhlpaket/shipment_defaults/print_only_if_codeable';
     const CONFIG_PATH_ADDITIONAL_FEE         = 'dhlshippingsolutions/dhlpaket/shipment_defaults/additional_fee';
     const CONFIG_PATH_PLACE_OF_COMMITTAL     = 'dhlshippingsolutions/dhlpaket/shipment_defaults/place_of_committal';
+    const CONFIG_PATH_EXCLUDED_DROPOFFDAYS   = 'dhlshippingsolutions/dhlpaket/shipment_defaults/drop_off_days';
     const CONFIG_PATH_DEFAULT_PRODUCTS       = 'dhlshippingsolutions/dhlpaket/shipment_defaults/shipping_products';
     const CONFIG_PATH_ELECTRONIC_EXPORT_NOTIFICATION = 'dhlshippingsolutions/dhlpaket/shipment_defaults/electronic_export_notification';
     const CONFIG_PATH_VISUAL_CHECK_OF_AGE    = 'dhlshippingsolutions/dhlpaket/shipment_defaults/services_group/visual_check_of_age';
@@ -554,5 +555,23 @@ class ModuleConfig
                 $store
             )
         );
+    }
+
+    /**
+     * Obtain drop off days from config.
+     *
+     * @param mixed $store
+     *
+     * @return string[]
+     */
+    public function getExcludedDropOffDays($store = null): array
+    {
+        $dropOffDays = $this->scopeConfig->getValue(
+            self::CONFIG_PATH_EXCLUDED_DROPOFFDAYS,
+            ScopeInterface::SCOPE_STORE,
+            $store
+        );
+
+        return $dropOffDays === null ? [] : explode(',', $dropOffDays);
     }
 }

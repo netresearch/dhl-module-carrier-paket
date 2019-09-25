@@ -201,4 +201,11 @@
             </argument>
         </arguments>
     </type>
+    <type name="Dhl\ShippingCore\Model\ShipmentDate">
+        <arguments>
+            <argument name="dayValidators" xsi:type="array">
+                <item name="dropOffDays" xsi:type="object">Dhl\Paket\Model\DayValidator\DropOffDays</item>
+            </argument>
+        </arguments>
+    </type>
 </config>
