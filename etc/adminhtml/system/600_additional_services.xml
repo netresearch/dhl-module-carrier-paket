@@ -11,8 +11,7 @@
         <group id="services_group" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="10"
                translate="label">
             <label>Additional Services</label>
-            <frontend_model>Netresearch\ConfigFields\Block\ModalGroup</frontend_model>
-
+            <attribute type="expanded">1</attribute>
             <field id="parcelannouncement" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="10"
                    translate="label comment" type="Netresearch\ConfigFields\Model\Type\Checkbox">
                 <label>Offer DHL Parcel Announcement</label>

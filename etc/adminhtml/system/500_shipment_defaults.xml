@@ -40,8 +40,6 @@
         <group id="services_group" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="50"
                translate="label">
             <label>Additional Services</label>
-            <frontend_model>Netresearch\ConfigFields\Block\ModalGroup</frontend_model>
-
             <!-- Visual Check of Age -->
             <field id="visual_check_of_age" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="10"
                    translate="label comment" type="Netresearch\ConfigFields\Model\Type\Radioset">
