@@ -117,7 +117,7 @@ class AdditionalFeeConfiguration implements AdditionalFeeConfigurationInterface
      */
     public function getLabel(): string
     {
-        return 'DHL Preferred Delivery';
+        return (string) __('DHL Preferred Delivery');
     }
 
     /**
