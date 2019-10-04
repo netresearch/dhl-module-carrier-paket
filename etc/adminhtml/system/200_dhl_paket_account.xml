@@ -48,7 +48,6 @@
                    translate="label comment tooltip" type="select">
                 <label>Participation Numbers</label>
                 <comment>The participation number enables invoices to be subdivided according to location, seasonal business or different conditions. The participation is 2 numerical digits from 00 to 99 or alphanumerical digits from AA to ZZ. It is allocated by DHL Sales.</comment>
-                <tooltip>A dealer can use one or more participation for each DHL product (procedure). It is therefore recommended that the number of participations is kept variable during interface configuration.</tooltip>
                 <frontend_model>Dhl\Paket\Block\Adminhtml\System\Config\Form\Field\Participation</frontend_model>
                 <backend_model>Dhl\Paket\Model\Adminhtml\System\Config\Backend\ArraySerialized</backend_model>
                 <frontend_class>test</frontend_class>
