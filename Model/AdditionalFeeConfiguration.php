@@ -15,6 +15,7 @@ use Dhl\ShippingCore\Model\ResourceModel\Quote\Address\ShippingOptionSelectionCo
 use Dhl\ShippingCore\Model\ShippingOption\Selection\QuoteSelectionRepository;
 use Magento\Framework\Api\FilterBuilder;
 use Magento\Framework\Api\Search\SearchCriteriaBuilderFactory;
+use Magento\Framework\Phrase;
 use Magento\Quote\Model\Quote;
 
 /**
@@ -51,6 +52,7 @@ class AdditionalFeeConfiguration implements AdditionalFeeConfigurationInterface
 
     /**
      * AdditionalFeeConfiguration constructor.
+     *
      * @param QuoteSelectionRepository $quoteSelectionRepository
      * @param FilterBuilder $filterBuilder
      * @param SearchCriteriaBuilderFactory $searchCriteriaBuilderFactory
@@ -113,11 +115,11 @@ class AdditionalFeeConfiguration implements AdditionalFeeConfigurationInterface
     }
 
     /**
-     * @return string
+     * @return Phrase
      */
-    public function getLabel(): string
+    public function getLabel(): Phrase
     {
-        return (string) __('DHL Preferred Delivery');
+        return __('DHL Preferred Delivery');
     }
 
     /**
@@ -135,7 +137,7 @@ class AdditionalFeeConfiguration implements AdditionalFeeConfigurationInterface
 
             $optionCodes = [
                 ProcessorInterface::CHECKOUT_SERVICE_PREFERRED_TIME,
-                ProcessorInterface::CHECKOUT_SERVICE_PREFERRED_DAY
+                ProcessorInterface::CHECKOUT_SERVICE_PREFERRED_DAY,
             ];
             $optionCodeFilter = $this->filterBuilder
                 ->setField(SelectionInterface::SHIPPING_OPTION_CODE)

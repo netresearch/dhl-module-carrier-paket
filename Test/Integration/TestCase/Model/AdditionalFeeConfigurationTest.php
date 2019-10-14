@@ -76,7 +76,7 @@ class AdditionalFeeConfigurationTest extends TestCase
         /** @var AdditionalFeeConfiguration $additionalFeeConfig */
         $additionalFeeConfig = $this->objectManager->create(AdditionalFeeConfiguration::class);
 
-        self::assertSame('DHL Preferred Delivery', $additionalFeeConfig->getLabel());
+        self::assertSame('DHL Preferred Delivery', $additionalFeeConfig->getLabel()->render());
         self::assertSame(Paket::CARRIER_CODE, $additionalFeeConfig->getCarrierCode());
         self::assertSame(200.00, $additionalFeeConfig->getServiceCharge($this->mockQuote));
     }
