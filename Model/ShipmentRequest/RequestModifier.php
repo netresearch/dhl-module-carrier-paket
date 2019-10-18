@@ -141,7 +141,6 @@ class RequestModifier implements RequestModifierInterface
         $packageId = $shipmentRequest->getData('package_id');
         $package   = $shipmentRequest->getData('packages')[$packageId];
 
-
         // Customs
         $package['params']['customs']['additionalFee']
             = $reader->getPackageOptionValue('packageCustoms', 'additionalFee');

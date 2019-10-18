@@ -4,9 +4,8 @@
  */
 declare(strict_types=1);
 
-namespace Dhl\Paket\Model;
+namespace Dhl\Paket\Model\Carrier;
 
-use Dhl\Paket\Model\Carrier\Paket;
 use Dhl\UnifiedTracking\Api\Data\TrackingConfigurationInterface;
 use Dhl\UnifiedTracking\Api\TrackingInfoProviderInterface;
 use Psr\Log\LoggerInterface;
@@ -27,7 +26,7 @@ class TrackingConfiguration implements TrackingConfigurationInterface
 
     /**
      * TrackingConfiguration constructor.
-
+     *
      * @param LoggerInterface $logger
      */
     public function __construct(
