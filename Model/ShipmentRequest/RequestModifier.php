@@ -139,7 +139,7 @@ class RequestModifier implements RequestModifierInterface
         $reader = $this->packagingOptionReaderFactory->create(['shipment' => $shipment]);
 
         $packageId = $shipmentRequest->getData('package_id');
-        $package   = $shipmentRequest->getData('packages')[$packageId];
+        $package = $shipmentRequest->getData('packages')[$packageId];
 
         // Customs
         $package['params']['customs']['additionalFee']

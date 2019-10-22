@@ -12,7 +12,6 @@ use Dhl\Sdk\Paket\Bcs\Api\Data\ShipmentInterface;
 use Dhl\Sdk\Paket\Bcs\Exception\ServiceException;
 use Dhl\ShippingCore\Api\Data\Pipeline\ArtifactsContainerInterface;
 use Dhl\ShippingCore\Api\Data\TrackRequest\TrackRequestInterface;
-use Dhl\ShippingCore\Api\Pipeline\RequestTracksStageInterface;
 
 /**
  * Class SendRequestStageStub
@@ -21,7 +20,7 @@ use Dhl\ShippingCore\Api\Pipeline\RequestTracksStageInterface;
  * @author  Christoph Aßmann <christoph.assmann@netresearch.de>
  * @link    https://www.netresearch.de/
  */
-class SendRequestStageStub extends SendRequestStage implements RequestTracksStageInterface
+class SendRequestStageStub extends SendRequestStage
 {
     /**
      * Service exception. Can be set to make the request fail.

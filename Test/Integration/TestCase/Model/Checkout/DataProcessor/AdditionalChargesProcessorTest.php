@@ -7,7 +7,9 @@ declare(strict_types=1);
 namespace Dhl\Paket\Test\Integration\TestCase\Model\Checkout\DataProcessor;
 
 use Dhl\Paket\Model\Carrier\Paket;
-use Dhl\Paket\Test\Integration\TestDoubles\CheckoutServiceStub;
+use Dhl\Paket\Test\Integration\TestDouble\CheckoutServiceStub;
+use Dhl\Paket\Webservice\PostFinderService;
+use Dhl\Paket\Webservice\PostFinderServiceFactory;
 use Dhl\Sdk\Paket\ParcelManagement\Service\ServiceFactory;
 use Dhl\ShippingCore\Model\Checkout\CarrierData;
 use Dhl\ShippingCore\Model\Webapi\CheckoutManagement;
@@ -19,6 +21,8 @@ use PHPUnit\Framework\TestCase;
 /**
  * Class AdditionalChargesProcessorTest
  *
+ * @magentoAppIsolation enabled
+ *
  * @package Dhl\Paket\Test\Integration\TestCase\Model\Checkout\DataProcessor
  * @author Max Melzer <max.melzer@netresearch.de>
  */
@@ -29,28 +33,35 @@ class AdditionalChargesProcessorTest extends TestCase
      */
     private $objectManager;
 
-    /**
-     * @var ServiceFactory
-     */
-    private $serviceFactory;
-
-    /**
-     * @var CheckoutServiceStub
-     */
-    private $checkoutService;
-
     protected function setUp()
     {
         parent::setUp();
+
         $this->objectManager = Bootstrap::getObjectManager();
 
-        $this->checkoutService = new CheckoutServiceStub();
-        $this->serviceFactory = $this->getMockBuilder(ServiceFactory::class)
+        // suppress calls to the postfinder api
+        $postfinder = $this->getMockBuilder(PostFinderService::class)
+            ->setMethods(['getParcelStations'])
+            ->disableOriginalConstructor()
+            ->getMock();
+        $postfinder->method('getParcelStations')->willReturn([]);
+
+        $postfinderFactory = $this->getMockBuilder(PostFinderServiceFactory::class)
+            ->setMethods(['create'])
+            ->disableOriginalConstructor()
+            ->getMock();
+        $postfinderFactory->method('create')->willReturn($postfinder);
+
+        // suppress calls to the parcel management api
+        $checkoutService = new CheckoutServiceStub();
+        $checkoutServiceFactory = $this->getMockBuilder(ServiceFactory::class)
             ->setMethods(['createCheckoutService'])
             ->disableOriginalConstructor()
             ->getMock();
-        $this->serviceFactory->method('createCheckoutService')->willReturn($this->checkoutService);
-        $this->objectManager->addSharedInstance($this->serviceFactory, ServiceFactory::class);
+        $checkoutServiceFactory->method('createCheckoutService')->willReturn($checkoutService);
+
+        $this->objectManager->addSharedInstance($postfinderFactory, PostFinderServiceFactory::class);
+        $this->objectManager->addSharedInstance($checkoutServiceFactory, ServiceFactory::class);
     }
 
     /**
@@ -91,9 +102,9 @@ class AdditionalChargesProcessorTest extends TestCase
 
         /** @var CarrierData $carrier */
         $carrier = $carriers[Paket::CARRIER_CODE];
-        $serviceOptions = $carrier->getServiceOptions();
-        self::assertContains('$100.00', $serviceOptions['preferredDay']->getInputs()['date']->getComment()->getContent());
-        self::assertContains('$50.00', $serviceOptions['preferredTime']->getInputs()['time']->getComment()->getContent());
+        $options = $carrier->getServiceOptions();
+        self::assertContains('$100.00', $options['preferredDay']->getInputs()['date']->getComment()->getContent());
+        self::assertContains('$50.00', $options['preferredTime']->getInputs()['time']->getComment()->getContent());
     }
 
     /**

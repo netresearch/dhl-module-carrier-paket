@@ -24,22 +24,22 @@ class ModuleConfig
 
     // 100_general_settings.xml
     const CONFIG_PATH_ENABLE_LOGGING = 'dhlshippingsolutions/dhlpaket/general_shipping_settings/logging';
-    const CONFIG_PATH_LOGLEVEL       = 'dhlshippingsolutions/dhlpaket/general_shipping_settings/logging_group/loglevel';
+    const CONFIG_PATH_LOGLEVEL = 'dhlshippingsolutions/dhlpaket/general_shipping_settings/logging_group/loglevel';
 
     // 200_dhl_paket_account.xml
-    const CONFIG_PATH_SANDBOX_MODE   = 'dhlshippingsolutions/dhlpaket/account_settings/sandboxmode';
-    const CONFIG_PATH_USER           = 'dhlshippingsolutions/dhlpaket/account_settings/sandboxmode_group/api_username';
-    const CONFIG_PATH_SIGNATURE      = 'dhlshippingsolutions/dhlpaket/account_settings/sandboxmode_group/api_password';
-    const CONFIG_PATH_EKP            = 'dhlshippingsolutions/dhlpaket/account_settings/sandboxmode_group/account_number';
+    const CONFIG_PATH_SANDBOX_MODE = 'dhlshippingsolutions/dhlpaket/account_settings/sandboxmode';
+    const CONFIG_PATH_USER = 'dhlshippingsolutions/dhlpaket/account_settings/sandboxmode_group/api_username';
+    const CONFIG_PATH_SIGNATURE = 'dhlshippingsolutions/dhlpaket/account_settings/sandboxmode_group/api_password';
+    const CONFIG_PATH_EKP = 'dhlshippingsolutions/dhlpaket/account_settings/sandboxmode_group/account_number';
     const CONFIG_PATH_PARTICIPATIONS = 'dhlshippingsolutions/dhlpaket/account_settings/sandboxmode_group/account_participations';
 
-    const CONFIG_PATH_AUTH_USERNAME          = 'dhlshippingsolutions/dhlpaket/account_settings/auth_username';
-    const CONFIG_PATH_AUTH_PASSWORD          = 'dhlshippingsolutions/dhlpaket/account_settings/auth_password';
-    const CONFIG_PATH_SANDBOX_AUTH_USERNAME  = 'dhlshippingsolutions/dhlpaket/account_settings/sandbox_auth_username';
-    const CONFIG_PATH_SANDBOX_AUTH_PASSWORD  = 'dhlshippingsolutions/dhlpaket/account_settings/sandbox_auth_password';
-    const CONFIG_PATH_SANDBOX_USER           = 'dhlshippingsolutions/dhlpaket/account_settings/sandbox_username';
-    const CONFIG_PATH_SANDBOX_SIGNATURE      = 'dhlshippingsolutions/dhlpaket/account_settings/sandbox_password';
-    const CONFIG_PATH_SANDBOX_EKP            = 'dhlshippingsolutions/dhlpaket/account_settings/sandbox_account_number';
+    const CONFIG_PATH_AUTH_USERNAME = 'dhlshippingsolutions/dhlpaket/account_settings/auth_username';
+    const CONFIG_PATH_AUTH_PASSWORD = 'dhlshippingsolutions/dhlpaket/account_settings/auth_password';
+    const CONFIG_PATH_SANDBOX_AUTH_USERNAME = 'dhlshippingsolutions/dhlpaket/account_settings/sandbox_auth_username';
+    const CONFIG_PATH_SANDBOX_AUTH_PASSWORD = 'dhlshippingsolutions/dhlpaket/account_settings/sandbox_auth_password';
+    const CONFIG_PATH_SANDBOX_USER = 'dhlshippingsolutions/dhlpaket/account_settings/sandbox_username';
+    const CONFIG_PATH_SANDBOX_SIGNATURE = 'dhlshippingsolutions/dhlpaket/account_settings/sandbox_password';
+    const CONFIG_PATH_SANDBOX_EKP = 'dhlshippingsolutions/dhlpaket/account_settings/sandbox_account_number';
     const CONFIG_PATH_SANDBOX_PARTICIPATIONS = 'dhlshippingsolutions/dhlpaket/account_settings/sandbox_account_participations';
 
     // 400_checkout_presentation.xml
@@ -47,29 +47,28 @@ class ModuleConfig
 
     // 500_shipment_defaults.xml
     const CONFIG_PATH_PRINT_ONLY_IF_CODEABLE = 'dhlshippingsolutions/dhlpaket/shipment_defaults/print_only_if_codeable';
-    const CONFIG_PATH_ADDITIONAL_FEE         = 'dhlshippingsolutions/dhlpaket/shipment_defaults/additional_fee';
-    const CONFIG_PATH_PLACE_OF_COMMITTAL     = 'dhlshippingsolutions/dhlpaket/shipment_defaults/place_of_committal';
-    const CONFIG_PATH_EXCLUDED_DROPOFFDAYS   = 'dhlshippingsolutions/dhlpaket/shipment_defaults/drop_off_days';
-    const CONFIG_PATH_DEFAULT_PRODUCTS       = 'dhlshippingsolutions/dhlpaket/shipment_defaults/shipping_products';
+    const CONFIG_PATH_ADDITIONAL_FEE = 'dhlshippingsolutions/dhlpaket/shipment_defaults/additional_fee';
+    const CONFIG_PATH_PLACE_OF_COMMITTAL = 'dhlshippingsolutions/dhlpaket/shipment_defaults/place_of_committal';
+    const CONFIG_PATH_EXCLUDED_DROPOFFDAYS = 'dhlshippingsolutions/dhlpaket/shipment_defaults/drop_off_days';
+    const CONFIG_PATH_DEFAULT_PRODUCTS = 'dhlshippingsolutions/dhlpaket/shipment_defaults/shipping_products';
     const CONFIG_PATH_ELECTRONIC_EXPORT_NOTIFICATION = 'dhlshippingsolutions/dhlpaket/shipment_defaults/electronic_export_notification';
-    const CONFIG_PATH_VISUAL_CHECK_OF_AGE    = 'dhlshippingsolutions/dhlpaket/shipment_defaults/services_group/visual_check_of_age';
-    const CONFIG_PATH_RETURN_SHIPMENT        = 'dhlshippingsolutions/dhlpaket/shipment_defaults/services_group/return_shipment';
-    const CONFIG_PATH_ADDITIONAL_INSURANCE   = 'dhlshippingsolutions/dhlpaket/shipment_defaults/services_group/additional_insurance';
-    const CONFIG_PATH_BULKY_GOODS            = 'dhlshippingsolutions/dhlpaket/shipment_defaults/services_group/bulky_goods';
-    const CONFIG_PATH_PARCEL_OUTLET          = 'dhlshippingsolutions/dhlpaket/shipment_defaults/services_group/parcel_outlet';
+    const CONFIG_PATH_VISUAL_CHECK_OF_AGE = 'dhlshippingsolutions/dhlpaket/shipment_defaults/services_group/visual_check_of_age';
+    const CONFIG_PATH_RETURN_SHIPMENT = 'dhlshippingsolutions/dhlpaket/shipment_defaults/services_group/return_shipment';
+    const CONFIG_PATH_ADDITIONAL_INSURANCE = 'dhlshippingsolutions/dhlpaket/shipment_defaults/services_group/additional_insurance';
+    const CONFIG_PATH_BULKY_GOODS = 'dhlshippingsolutions/dhlpaket/shipment_defaults/services_group/bulky_goods';
+    const CONFIG_PATH_PARCEL_OUTLET = 'dhlshippingsolutions/dhlpaket/shipment_defaults/services_group/parcel_outlet';
 
     // 600_additional_services.xml
-    const CONFIG_PATH_ADDITIONAL_SERVICES     = 'dhlshippingsolutions/dhlpaket/additional_services/services_group';
-    const CONFIG_PATH_PARCEL_ANNOUNCEMENT     = 'dhlshippingsolutions/dhlpaket/additional_services/services_group/parcelannouncement';
+    const CONFIG_PATH_ADDITIONAL_SERVICES = 'dhlshippingsolutions/dhlpaket/additional_services/services_group';
+    const CONFIG_PATH_PARCEL_ANNOUNCEMENT = 'dhlshippingsolutions/dhlpaket/additional_services/services_group/parcelannouncement';
     const CONFIG_PATH_PARCEL_STATION_DELIVERY = 'dhlshippingsolutions/dhlpaket/additional_services/services_group/parcelstation';
-    const CONFIG_PATH_PREFERRED_LOCATION      = 'dhlshippingsolutions/dhlpaket/additional_services/services_group/preferredlocation';
-    const CONFIG_PATH_PREFERRED_NEIGHBOUR     = 'dhlshippingsolutions/dhlpaket/additional_services/services_group/preferredneighbour';
-    const CONFIG_PATH_PREFERRED_DAY_          = 'dhlshippingsolutions/dhlpaket/additional_services/services_group/preferredday';
-    const CONFIG_PATH_PREFERRED_TIME          = 'dhlshippingsolutions/dhlpaket/additional_services/services_group/preferredtime';
-    const CONFIG_PATH_TIME_CHARGE             = 'dhlshippingsolutions/dhlpaket/additional_services/services_group/preferredTimeCharge';
-    const CONFIG_PATH_DAY_CHARGE              = 'dhlshippingsolutions/dhlpaket/additional_services/services_group/preferredDayCharge';
-    const CONFIG_PATH_COMBINED_CHARGE         = 'dhlshippingsolutions/dhlpaket/additional_services/services_group/preferredCombinedCharge';
-
+    const CONFIG_PATH_PREFERRED_LOCATION = 'dhlshippingsolutions/dhlpaket/additional_services/services_group/preferredlocation';
+    const CONFIG_PATH_PREFERRED_NEIGHBOUR = 'dhlshippingsolutions/dhlpaket/additional_services/services_group/preferredneighbour';
+    const CONFIG_PATH_PREFERRED_DAY_ = 'dhlshippingsolutions/dhlpaket/additional_services/services_group/preferredday';
+    const CONFIG_PATH_PREFERRED_TIME = 'dhlshippingsolutions/dhlpaket/additional_services/services_group/preferredtime';
+    const CONFIG_PATH_TIME_CHARGE = 'dhlshippingsolutions/dhlpaket/additional_services/services_group/preferredTimeCharge';
+    const CONFIG_PATH_DAY_CHARGE = 'dhlshippingsolutions/dhlpaket/additional_services/services_group/preferredDayCharge';
+    const CONFIG_PATH_COMBINED_CHARGE = 'dhlshippingsolutions/dhlpaket/additional_services/services_group/preferredCombinedCharge';
 
     /**
      * @var ScopeConfigInterface

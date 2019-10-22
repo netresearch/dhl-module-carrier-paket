@@ -4,7 +4,7 @@
  */
 declare(strict_types=1);
 
-namespace Dhl\Paket\Test\Integration\TestDoubles;
+namespace Dhl\Paket\Test\Integration\TestDouble;
 
 use Dhl\Paket\Model\ProcessorInterface;
 use Dhl\Sdk\Paket\ParcelManagement\Api\CheckoutServiceInterface;
@@ -20,7 +20,7 @@ class CheckoutServiceStub implements CheckoutServiceInterface
 {
     public function getCarrierServices(
         string $recipientZip,
-        string $startDate,
+        \DateTime $startDate,
         array $headers = []
     ): array {
         return [
@@ -50,7 +50,7 @@ class CheckoutServiceStub implements CheckoutServiceInterface
                     ),
                     new IntervalOption(
                         '2019-12-21T00:00:00.000+02:00',
-                        '2019-13-21T23:59:59.999+02:00'
+                        '2019-12-21T23:59:59.999+02:00'
                     ),
                     new IntervalOption(
                         '2019-12-22T00:00:00.000+02:00',

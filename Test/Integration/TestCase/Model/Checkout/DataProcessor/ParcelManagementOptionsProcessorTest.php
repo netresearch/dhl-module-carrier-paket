@@ -8,7 +8,9 @@ namespace Dhl\Paket\Test\Integration\TestCase\Model\Checkout\DataProcessor;
 
 use Dhl\Paket\Model\Carrier\Paket;
 use Dhl\Paket\Model\ProcessorInterface;
-use Dhl\Paket\Test\Integration\TestDoubles\CheckoutServiceStub;
+use Dhl\Paket\Test\Integration\TestDouble\CheckoutServiceStub;
+use Dhl\Paket\Webservice\PostFinderService;
+use Dhl\Paket\Webservice\PostFinderServiceFactory;
 use Dhl\Sdk\Paket\ParcelManagement\Service\ServiceFactory;
 use Dhl\ShippingCore\Model\Checkout\CarrierData;
 use Dhl\ShippingCore\Model\ShippingOption\Input;
@@ -22,6 +24,8 @@ use PHPUnit\Framework\TestCase;
 /**
  * Class ParcelManagementOptionsProcessorTest
  *
+ * @magentoAppIsolation enabled
+ *
  * @package Dhl\Paket\Test\Integration\TestCase\Model\Checkout
  * @author   Andreas Müller <andreas.mueller@netresearch.de>
  */
@@ -32,28 +36,35 @@ class ParcelManagementOptionsProcessorTest extends TestCase
      */
     private $objectManager;
 
-    /**
-     * @var ServiceFactory
-     */
-    private $serviceFactory;
-
-    /**
-     * @var CheckoutServiceStub
-     */
-    private $checkoutService;
-
     protected function setUp()
     {
         parent::setUp();
+
         $this->objectManager = Bootstrap::getObjectManager();
 
-        $this->checkoutService = new CheckoutServiceStub();
-        $this->serviceFactory = $this->getMockBuilder(ServiceFactory::class)
+        // suppress calls to the postfinder api
+        $postfinder = $this->getMockBuilder(PostFinderService::class)
+            ->setMethods(['getParcelStations'])
+            ->disableOriginalConstructor()
+            ->getMock();
+        $postfinder->method('getParcelStations')->willReturn([]);
+
+        $postfinderFactory = $this->getMockBuilder(PostFinderServiceFactory::class)
+            ->setMethods(['create'])
+            ->disableOriginalConstructor()
+            ->getMock();
+        $postfinderFactory->method('create')->willReturn($postfinder);
+
+        // suppress calls to the parcel management api
+        $checkoutService = new CheckoutServiceStub();
+        $checkoutServiceFactory = $this->getMockBuilder(ServiceFactory::class)
             ->setMethods(['createCheckoutService'])
             ->disableOriginalConstructor()
             ->getMock();
-        $this->serviceFactory->method('createCheckoutService')->willReturn($this->checkoutService);
-        $this->objectManager->addSharedInstance($this->serviceFactory, ServiceFactory::class);
+        $checkoutServiceFactory->method('createCheckoutService')->willReturn($checkoutService);
+
+        $this->objectManager->addSharedInstance($postfinderFactory, PostFinderServiceFactory::class);
+        $this->objectManager->addSharedInstance($checkoutServiceFactory, ServiceFactory::class);
     }
 
     /**
@@ -73,6 +84,7 @@ class ParcelManagementOptionsProcessorTest extends TestCase
      * @magentoConfigFixture default_store shipping/origin/city Leipzig
      * @magentoConfigFixture default_store shipping/origin/street_line1 Nonnenstraße 11
      *
+     * @magentoConfigFixture current_store general/locale/timezone Europe/Berlin
      * @magentoConfigFixture current_store carriers/dhlpaket/active 1
      * @magentoConfigFixture current_store dhlshippingsolutions/dhlpaket/checkout_settings/emulated_carrier flatrate
      * @magentoConfigFixture current_store dhlshippingsolutions/dhlpaket/additional_services/services_group/preferredlocation 0
@@ -88,7 +100,7 @@ class ParcelManagementOptionsProcessorTest extends TestCase
      */
     public function processShippingOptions()
     {
-        $expectedDayValues = ['', '2019-12-19', '2019-12-20', '2019-12-21'];
+        $expectedDayValues = ['', '2019-12-20', '2019-12-21', '2019-12-22'];
         $expectedTimeValues = ['', '10001200', '12001400', '14001600'];
 
         /** @var CheckoutManagement $checkoutManagement */

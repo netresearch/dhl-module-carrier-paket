@@ -170,7 +170,9 @@ class ShippingProductsTest extends TestCase
      * @param string $destinationRegion
      */
     public function getShippingProductsReturnsArray(
-        string $originCountryCode, string $destinationCountryCode, string $destinationRegion
+        string $originCountryCode,
+        string $destinationCountryCode,
+        string $destinationRegion
     ) {
         $shippingProducts = self::$shippingProducts->getShippingProducts(
             $originCountryCode,

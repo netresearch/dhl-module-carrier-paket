@@ -135,7 +135,7 @@ class AutoCreateDeTest extends AutoCreateTest
                 // requested orders should now have exactly one label and one track assigned
                 self::assertStringStartsWith('%PDF-1', $shipment->getShippingLabel());
                 self::assertCount(1, $tracks);
-                self::assertStringStartsWith($shipment->getOrderId(), $tracks[0]->getTrackNumber());
+                self::assertStringStartsWith((string)$shipment->getOrderId(), $tracks[0]->getTrackNumber());
             } else {
                 // existing orders should remain untouched
                 self::assertEmpty($shipment->getShippingLabel());

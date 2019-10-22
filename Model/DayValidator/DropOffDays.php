@@ -6,10 +6,8 @@ declare(strict_types=1);
 
 namespace Dhl\Paket\Model\DayValidator;
 
-use DateTime;
 use Dhl\Paket\Model\Config\ModuleConfig;
 use Dhl\ShippingCore\Api\DayValidatorInterface;
-use Magento\Sales\Model\Order;
 
 /**
  * Drop off days validator class. This class checks if the given date/time is a allowed drop off day.
@@ -40,15 +38,15 @@ class DropOffDays implements DayValidatorInterface
     /**
      * Returns TRUE if the date is a valid drop off day or FALSE otherwise.
      *
-     * @param Order    $order    The current order
-     * @param DateTime $dateTime The date/time object to check
+     * @param \DateTime $dateTime The date/time object to check
+     * @param int|null $storeId  The current store id
      *
      * @return bool
      */
-    public function validate(Order $order, DateTime $dateTime): bool
+    public function validate(\DateTime $dateTime, int $storeId = null): bool
     {
         $weekDay             = $dateTime->format('N');
-        $excludedDropOffDays = $this->moduleConfig->getExcludedDropOffDays($order->getStoreId());
+        $excludedDropOffDays = $this->moduleConfig->getExcludedDropOffDays($storeId);
 
         return !in_array($weekDay, $excludedDropOffDays, true)
             && ($weekDay !== self::WEEKDAY_SUNDAY);

@@ -317,10 +317,10 @@ class RequestExtractor implements RequestExtractorInterface
     /**
      * Obtain shipment date.
      *
-     * @return string
+     * @return \DateTime
      * @throws LocalizedException
      */
-    public function getShipmentDate(): string
+    public function getShipmentDate(): \DateTime
     {
         return $this->getCoreExtractor()->getShipmentDate();
     }

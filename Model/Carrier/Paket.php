@@ -130,6 +130,7 @@ class Paket extends AbstractCarrierOnline implements CarrierInterface
      * @param TrackRequestInterfaceFactory $trackRequestFactory
      * @param ProxyCarrierFactory $proxyCarrierFactory
      * @param ShipmentRequestValidator $shipmentRequestValidator
+     * @param TrackingInfoProviderInterface $trackingInfoProvider
      * @param mixed[] $data
      */
     public function __construct(

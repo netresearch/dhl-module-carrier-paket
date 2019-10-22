@@ -93,7 +93,7 @@ class ParcelManagementService implements CheckoutServiceInterface
      * Obtain a list of available services for the given postal code and date.
      *
      * @param string $recipientZip
-     * @param string $startDate
+     * @param \DateTime $startDate
      * @param string[] $headers
      * @return CarrierServiceInterface[]
      *
@@ -102,7 +102,7 @@ class ParcelManagementService implements CheckoutServiceInterface
      * @throws AuthenticationException
      * @throws \Exception
      */
-    public function getCarrierServices(string $recipientZip, string $startDate, array $headers = []): array
+    public function getCarrierServices(string $recipientZip, \DateTime $startDate, array $headers = []): array
     {
         return $this->getCheckoutService()->getCarrierServices($recipientZip, $startDate, $headers);
     }
