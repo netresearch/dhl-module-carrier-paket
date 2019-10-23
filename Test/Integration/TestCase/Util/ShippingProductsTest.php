@@ -12,7 +12,7 @@ use Magento\TestFramework\Helper\Bootstrap;
 use PHPUnit\Framework\TestCase;
 
 /**
- * Class RatesTest
+ * Class ShippingProductsTest
  *
  * @package Dhl\Paket\Test
  * @link http://www.netresearch.de/
@@ -86,7 +86,6 @@ class ShippingProductsTest extends TestCase
     public function applicableProductsDataProvider(): array
     {
         return [
-            // $originCountryCode, $shouldReturnEmptyProductList (true/false whether shipping to this country is possible or not)
             ['DE', false],
             ['AT', true],
             ['ES', true],
