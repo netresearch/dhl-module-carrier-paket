@@ -29,9 +29,8 @@ class DropOffDays implements DayValidatorInterface
      *
      * @param ModuleConfig $moduleConfig
      */
-    public function __construct(
-        ModuleConfig $moduleConfig
-    ) {
+    public function __construct(ModuleConfig $moduleConfig)
+    {
         $this->moduleConfig = $moduleConfig;
     }
 
@@ -39,16 +38,15 @@ class DropOffDays implements DayValidatorInterface
      * Returns TRUE if the date is a valid drop off day or FALSE otherwise.
      *
      * @param \DateTime $dateTime The date/time object to check
-     * @param int|null $storeId  The current store id
+     * @param mixed $store The store to use for validation
      *
      * @return bool
      */
-    public function validate(\DateTime $dateTime, int $storeId = null): bool
+    public function validate(\DateTime $dateTime, $store = null): bool
     {
-        $weekDay             = $dateTime->format('N');
-        $excludedDropOffDays = $this->moduleConfig->getExcludedDropOffDays($storeId);
+        $weekDay = $dateTime->format('N');
+        $excludedDropOffDays = $this->moduleConfig->getExcludedDropOffDays($store);
 
-        return !in_array($weekDay, $excludedDropOffDays, true)
-            && ($weekDay !== self::WEEKDAY_SUNDAY);
+        return !in_array($weekDay, $excludedDropOffDays, true) && ($weekDay !== self::WEEKDAY_SUNDAY);
     }
 }
