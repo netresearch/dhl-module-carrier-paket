@@ -32,5 +32,4 @@ interface ProcessorInterface
     const CHECKOUT_SERVICE_PREFERRED_TIME      = 'preferredTime';
     const CHECKOUT_SERVICE_PREFERRED_NEIGHBOUR = 'preferredNeighbour';
     const CHECKOUT_SERVICE_PREFERRED_LOCATION  = 'preferredLocation';
-    const CHECKOUT_DELIVERY_PARCELSTATION      = 'parcelstation';
 }

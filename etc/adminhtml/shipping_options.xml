@@ -148,23 +148,6 @@
                     </input>
                 </inputs>
             </shippingOption>
-            <shippingOption code="parcelstation">
-                <label>Parcel Station Delivery</label>
-                <sortOrder>70</sortOrder>
-                <inputs>
-                    <input code="enabled">
-                        <label>Enable DHL parcel station delivery</label>
-                    </input>
-                    <input code="id">
-                        <sortOrder>10</sortOrder>
-                        <inputType>radio</inputType>
-                    </input>
-                    <input code="postNumber">
-                        <sortOrder>20</sortOrder>
-                        <inputType>static</inputType>
-                    </input>
-                </inputs>
-            </shippingOption>
             <shippingOption code="preferredDay">
                 <label>Preferred Day Delivery</label>
                 <sortOrder>80</sortOrder>

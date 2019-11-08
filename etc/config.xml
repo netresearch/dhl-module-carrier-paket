@@ -85,7 +85,6 @@
                 <additional_services>
                     <services_group>
                         <parcelannouncement>0</parcelannouncement>
-                        <parcelstation>1</parcelstation>
                         <preferredlocation>0</preferredlocation>
                         <preferredneighbour>0</preferredneighbour>
                         <preferredday>0</preferredday>

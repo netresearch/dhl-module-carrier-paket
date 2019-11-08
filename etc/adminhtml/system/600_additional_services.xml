@@ -17,11 +17,6 @@
                 <label>Offer DHL Parcel Announcement</label>
                 <comment>Allow customers to request parcel notification updates via e-mail by DHL during checkout.</comment>
             </field>
-            <field id="parcelstation" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="20"
-                translate="label comment" type="Netresearch\ConfigFields\Model\Type\Checkbox">
-                <label>Offer Parcel Station Delivery</label>
-                <comment>Allow customers to get shipments delivered to a parcel station.</comment>
-            </field>
             <field id="preferredlocation" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="30"
                    translate="label comment" type="Netresearch\ConfigFields\Model\Type\Checkbox">
                 <label>Offer Preferred Location Service</label>

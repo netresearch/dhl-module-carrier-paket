@@ -51,7 +51,6 @@ class ServiceInputDataProcessor implements ShippingOptionsProcessorInterface
         ProcessorInterface::CHECKOUT_SERVICE_PREFERRED_TIME,
         ProcessorInterface::CHECKOUT_SERVICE_PREFERRED_LOCATION,
         ProcessorInterface::CHECKOUT_SERVICE_PREFERRED_NEIGHBOUR,
-        ProcessorInterface::CHECKOUT_DELIVERY_PARCELSTATION,
     ];
 
     /**
@@ -77,22 +76,6 @@ class ServiceInputDataProcessor implements ShippingOptionsProcessorInterface
         $this->selectionRepository = $selectionRepository;
         $this->searchCriteriaBuilder = $searchCriteriaBuilder;
         $this->optionFactory = $optionFactory;
-    }
-
-    /**
-     * Infer radio button label from selection value.
-     *
-     * @param ShippingOptionInterface $shippingOption
-     */
-    private function processParcelStationInputs(ShippingOptionInterface $shippingOption)
-    {
-        foreach ($shippingOption->getInputs() as $input) {
-            if ($input->getCode() === 'id') {
-                $input->setLabel(
-                    str_replace('|', ', ', $input->getDefaultValue())
-                );
-            }
-        }
     }
 
     /**
@@ -239,9 +222,6 @@ class ServiceInputDataProcessor implements ShippingOptionsProcessorInterface
 
         foreach ($optionsData as $optionGroup) {
             switch ($optionGroup->getCode()) {
-                case ProcessorInterface::CHECKOUT_DELIVERY_PARCELSTATION:
-                    $this->processParcelStationInputs($optionGroup);
-                    break;
                 case ProcessorInterface::CHECKOUT_SERVICE_PREFERRED_DAY:
                     $this->processPreferredDayInputs($optionGroup);
                     break;

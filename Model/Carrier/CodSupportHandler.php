@@ -122,7 +122,6 @@ class CodSupportHandler implements CodSupportInterface
                     [
                         ProcessorInterface::CHECKOUT_SERVICE_PREFERRED_LOCATION,
                         ProcessorInterface::CHECKOUT_SERVICE_PREFERRED_NEIGHBOUR,
-                        ProcessorInterface::CHECKOUT_DELIVERY_PARCELSTATION,
                     ]
                 )
             )

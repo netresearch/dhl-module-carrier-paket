@@ -13,52 +13,6 @@
                     </input>
                 </inputs>
             </shippingOption>
-            <shippingOption code="parcelstation" available="dhlshippingsolutions/dhlpaket/additional_services/services_group/parcelstation">
-                <label>Parcel station delivery: Delivery to a parcel station of your choice</label>
-                <sortOrder>20</sortOrder>
-                <routes>
-                    <route>
-                        <origin>DE</origin>
-                        <includeDestinations>
-                            <destination>DE</destination>
-                            <destination>AT</destination>
-                        </includeDestinations>
-                    </route>
-                </routes>
-                <inputs>
-                    <input code="enabled">
-                        <label>Select parcel station</label>
-                        <labelVisible>false</labelVisible>
-                        <inputType>checkbox</inputType>
-                    </input>
-                    <input code="id">
-                        <label>Parcel Station ID</label>
-                        <labelVisible>true</labelVisible>
-                        <inputType>select</inputType>
-                        <placeholder>Please select a parcel station …</placeholder>
-                        <comment>
-                            <content>Select a nearby parcel shop. Your package will be sent there for you to pick up.</content>
-                        </comment>
-                        <validationRules>
-                            <rule name="required-entry"/>
-                        </validationRules>
-                    </input>
-                    <input code="postNumber">
-                        <label>Post number</label>
-                        <labelVisible>true</labelVisible>
-                        <inputType>text</inputType>
-                        <placeholder>Post number</placeholder>
-                        <validationRules>
-                            <rule name="maxLength">
-                                <param>10</param>
-                            </rule>
-                            <rule name="validate-no-html-tags"/>
-                            <rule name="dhl_filter_special_chars"/>
-                            <rule name="required-entry"/>
-                        </validationRules>
-                    </input>
-                </inputs>
-            </shippingOption>
             <shippingOption code="preferredDay" available="dhlshippingsolutions/dhlpaket/additional_services/services_group/preferredday">
                 <label>Preferred Day: Delivery on your preferred day</label>
                 <sortOrder>30</sortOrder>

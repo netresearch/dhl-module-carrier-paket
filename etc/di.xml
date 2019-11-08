@@ -144,7 +144,6 @@
             <argument name="serviceOptionsProcessors" xsi:type="array">
                 <item name="dhlpaketParcelManagementOptionsProcessor" sortOrder="100" xsi:type="object">Dhl\Paket\Model\Checkout\DataProcessor\ServiceOptions\ParcelManagementOptionsProcessor</item>
                 <item name="dhlpaketAdditionalChargesProcessor" sortOrder="200" xsi:type="object">Dhl\Paket\Model\Checkout\DataProcessor\ServiceOptions\AdditionalChargesProcessor</item>
-                <item name="dhlpaketParcelStationOptionsProcessor" sortOrder="300" xsi:type="object">Dhl\Paket\Model\Checkout\DataProcessor\ServiceOptions\ParcelStationOptionsProcessor</item>
             </argument>
             <argument name="metadataProcessors" xsi:type="array">
                 <item name="dhlpaketAdditionalChargesProcessor" sortOrder="200" xsi:type="object">Dhl\Paket\Model\Checkout\DataProcessor\Metadata\AdditionalChargesProcessor</item>

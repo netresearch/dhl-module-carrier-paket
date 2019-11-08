@@ -9,8 +9,6 @@ namespace Dhl\Paket\Test\Integration\TestCase\Model\Checkout\DataProcessor;
 use Dhl\Paket\Model\Carrier\Paket;
 use Dhl\Paket\Model\ProcessorInterface;
 use Dhl\Paket\Test\Integration\TestDouble\CheckoutServiceStub;
-use Dhl\Paket\Webservice\PostFinderService;
-use Dhl\Paket\Webservice\PostFinderServiceFactory;
 use Dhl\Sdk\Paket\ParcelManagement\Service\ServiceFactory;
 use Dhl\ShippingCore\Model\Checkout\CarrierData;
 use Dhl\ShippingCore\Model\ShippingOption\Input;
@@ -42,19 +40,6 @@ class ParcelManagementOptionsProcessorTest extends TestCase
 
         $this->objectManager = Bootstrap::getObjectManager();
 
-        // suppress calls to the postfinder api
-        $postfinder = $this->getMockBuilder(PostFinderService::class)
-            ->setMethods(['getParcelStations'])
-            ->disableOriginalConstructor()
-            ->getMock();
-        $postfinder->method('getParcelStations')->willReturn([]);
-
-        $postfinderFactory = $this->getMockBuilder(PostFinderServiceFactory::class)
-            ->setMethods(['create'])
-            ->disableOriginalConstructor()
-            ->getMock();
-        $postfinderFactory->method('create')->willReturn($postfinder);
-
         // suppress calls to the parcel management api
         $checkoutService = new CheckoutServiceStub();
         $checkoutServiceFactory = $this->getMockBuilder(ServiceFactory::class)
@@ -63,7 +48,6 @@ class ParcelManagementOptionsProcessorTest extends TestCase
             ->getMock();
         $checkoutServiceFactory->method('createCheckoutService')->willReturn($checkoutService);
 
-        $this->objectManager->addSharedInstance($postfinderFactory, PostFinderServiceFactory::class);
         $this->objectManager->addSharedInstance($checkoutServiceFactory, ServiceFactory::class);
     }
 

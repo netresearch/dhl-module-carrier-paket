@@ -6,7 +6,6 @@
 "Allow customers to check out with <em>DHL Paket</em> shipping methods.","<em>DHL Paket</em> als Versandart im Checkout anbieten."
 "Allow customers to declare a preferred neighbour during checkout.","Lassen Sie Kunden im Checkout einen bevorzugten Nachbar für die Zustellung bestimmen."
 "Allow customers to declare a preferred parcel location during checkout.","Lassen Sie Kunden im Checkout einen bevorzugten Ablageort bestimmen."
-"Allow customers to get shipments delivered to a parcel station.","Versand an Packstation erlauben."
 "Allow customers to request parcel notification updates via e-mail by DHL during checkout.","Lassen Sie Kunden im Checkout die Paketankündigung aktivieren. Die E-Mail-Adresse des Kunden wird von DHL ausschließlich für die Ankündigung zu dieser Sendung verwendet."
 "Allow customers to select a preferred day of delivery.","Lassen Sie Kunden im Checkout einen bevorzugten Zustelltag bestimmen."
 "Allow customers to select a preferred time of delivery.","Lassen Sie Kunden im Checkout eine bevorzugte Zustellzeit bestimmen."
@@ -40,7 +39,6 @@
 "Enable DHL additional insurance service","Erweiterte Transportversicherung aktivieren"
 "Enable DHL bulky goods service","Manuelle Einzelbearbeitung von Sperrgut aktivieren"
 "Enable DHL parcel notification","DHL Paketankündigung aktivieren"
-"Enable DHL parcel station delivery","Lieferung an Packstation aktivieren"
 "Enable DHL preferred day delivery","Lieferung zum Wunschtag aktivieren"
 "Enable DHL preferred location delivery","Lieferung an Wunschort aktivieren"
 "Enable DHL preferred neighbour delivery","Lieferung an Wunschnachbar aktivieren"
@@ -78,14 +76,12 @@ Logging,Protokollierung
 "Multi package shipments are not supported.","Mehrpaketsendungen werden nicht unterstützt."
 "Neighbour address","Adresse des Nachbarn"
 "Neighbour name","Name des Nachbarn"
-No,Nein
+"No","Nein"
 "Offer DHL Parcel Announcement","Paketankündigung anbieten"
-"Offer Parcel Station Delivery","Packstation anbieten"
 "Offer Preferred Day Service","Wunschtag anbieten"
 "Offer Preferred Location Service","Wunschort anbieten"
 "Offer Preferred Neighbour Service","Wunschnachbar anbieten"
 "Offer Preferred Time Service","Wunschzeit anbieten"
-"On the working days checked, there is no transfer of parcels to DHL (in addition to sundays and public holidays). This information influences the options offered as preferred delivery day in checkout.","An den gewählten Werktagen (zusätzlich zu Sonn- und Feiertagen) findet keine Paketübergabe an DHL statt. Aus Ihrer Angabe berechnet sich der nächstmögliche Wunschtag im Checkout."
 "Parcel Announcement",Paketankündigung
 "Parcel Outlet Routing Service",Filial-Routing
 "Parcel Station Delivery",Packstation
@@ -99,12 +95,7 @@ Participation,Teilnahme
 "Place of Committal",Einlieferungsstelle
 "Please choose only one of %1.","Bitte wählen sie nur eins von %1."
 "Please choose your preferred delivery options.","Wählen Sie Ihre bevorzugten Lieferoptionen aus."
-"Please consult your DHL account representative to enable API access for your account","Bitte sprechen Sie mit Ihrem DHL-Ansprechpartner, um Ihren Account für die API freizuschalten"
-"Please select a parcel station …","Bitte wählen sie eine Packstation …"
 "Please talk to your account representative to add API access to your business account","Bitte sprechen Sie mit Ihrem Kundenberater, um Ihrem Unternehmenskonto API-Zugriff hinzuzufügen."
-"Post number",Postnummer
-"Preferred Day",Wunschtag
-"Preferred Day Delivery",Wunschtag
 "Preferred Day additional charge","Aufpreis für Wunschtag"
 "Preferred Day and Time combined charge","Aufpreis für kombinierten Wunschtag und -zeit"
 "Preferred Day: Delivery on your preferred day","Wunschtag: Lieferung zum gewüschten Tag"
@@ -119,7 +110,6 @@ Participation,Teilnahme
 "Print Only If Codeable","Nur leitkodierbare Versandaufträge erteilen"
 Procedure,Verfahren
 "Record communication with the DHL web services.","Kommunikation mit den DHL-Webservices aufzeichnen."
-"Retoure DHL Paket: V07PAK","Retoure DHL Paket: V07PAK"
 "Return Shipment",Beilegeretoure
 "Routing Code",Leitcodierung
 "Select Procedure","Verfahren auswählen"

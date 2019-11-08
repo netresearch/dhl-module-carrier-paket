@@ -57,56 +57,6 @@
                 </subjects>
                 <errorMessage>Some values for Preferred Neighbour service are missing.</errorMessage>
             </rule>
-            <rule id="parcelstationShowMore">
-                <triggerValue>true</triggerValue>
-                <action>show</action>
-                <masters>
-                    <master>parcelstation.enabled</master>
-                </masters>
-                <subjects>
-                    <subject>parcelstation.id</subject>
-                    <subject>parcelstation.postNumber</subject>
-                </subjects>
-            </rule>
-            <rule id="parcelstationRequireChildren">
-                <triggerValue>true</triggerValue>
-                <action>require</action>
-                <masters>
-                    <master>parcelstation.enabled</master>
-                </masters>
-                <subjects>
-                    <subject>parcelstation.id</subject>
-                    <subject>parcelstation.postNumber</subject>
-                </subjects>
-            </rule>
-            <rule id="parcelstationExcludeAllOthers">
-                <masters>
-                    <master>parcelstation.enabled</master>
-                </masters>
-                <subjects>
-                    <subject>preferredDay</subject>
-                    <subject>preferredTime</subject>
-                    <subject>preferredLocation</subject>
-                    <subject>preferredNeighbour</subject>
-                    <subject>parcelOutletRouting</subject>
-                </subjects>
-                <triggerValue>true</triggerValue>
-                <action>hide</action>
-            </rule>
-            <rule id="allOthersExcludeParcelstation">
-                <masters>
-                    <master>preferredDay</master>
-                    <master>preferredTime</master>
-                    <master>preferredLocation</master>
-                    <master>preferredNeighbour</master>
-                    <master>parcelOutletRouting</master>
-                </masters>
-                <subjects>
-                    <subject>parcelstation.enabled</subject>
-                </subjects>
-                <triggerValue>*</triggerValue>
-                <action>hide</action>
-            </rule>
         </compatibilityData>
     </carrier>
 </carriers>

@@ -249,21 +249,6 @@ class RequestDataMapper
                 $this->requestBuilder->setParcelOutletRouting($requestExtractor->getRecipient()->getContactEmail());
             }
 
-            if ($requestExtractor->isPackstationDelivery()) {
-                $packstation = $requestExtractor->getPackstationId();
-                list($stationId, $countryId, $postalCode, $city) = explode('|', $packstation);
-
-                $this->requestBuilder->setPackstation(
-                    $requestExtractor->getRecipient()->getContactPersonName(),
-                    $stationId,
-                    $postalCode,
-                    $city,
-                    $requestExtractor->getPostNumber(),
-                    null,
-                    $countryId
-                );
-            }
-
             //todo(nr): once we added postFiliale support we need to add it here
 
             //todo(nr): update/remove this condition once intl options are removed from domestic packaging popup

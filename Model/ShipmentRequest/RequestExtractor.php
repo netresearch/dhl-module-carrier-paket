@@ -513,36 +513,6 @@ class RequestExtractor implements RequestExtractorInterface
     }
 
     /**
-     * Obtain the "parcelstation" flag for the current package.
-     *
-     * @return bool
-     */
-    public function isPackstationDelivery(): bool
-    {
-        return (bool) ($this->getServiceData(ProcessorInterface::CHECKOUT_DELIVERY_PARCELSTATION)['enabled'] ?? false);
-    }
-
-    /**
-     * Obtain the id value of "parcelstation" value for the current package.
-     *
-     * @return string
-     */
-    public function getPackstationId(): string
-    {
-        return $this->getServiceData(ProcessorInterface::CHECKOUT_DELIVERY_PARCELSTATION)['id'] ?? '';
-    }
-
-    /**
-     * Obtain the id value of "parcelstation" value for the current package.
-     *
-     * @return string
-     */
-    public function getPostNumber(): string
-    {
-        return $this->getServiceData(ProcessorInterface::CHECKOUT_DELIVERY_PARCELSTATION)['postNumber'] ?? '';
-    }
-
-    /**
      * Obtain the "parcelOutletRouting" flag for the current package.
      *
      * @return bool
