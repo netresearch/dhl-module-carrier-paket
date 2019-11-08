@@ -26,7 +26,7 @@
             <field id="api_username" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="40"
                    translate="label comment" type="text">
                 <label>User</label>
-                <comment>Please talk to your account representative to add API access to your business account. Pass the user name only lowercase.</comment>
+                <comment>Enter you API user name, lower case only. Please talk to your account representative to add API access to your business account.</comment>
             </field>
             <field id="api_password" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="50"
                    translate="label" type="obscure">
@@ -39,7 +39,7 @@
             <field id="account_number" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="60"
                    translate="label comment" type="text">
                 <label>DHL Customer Number (EKP)</label>
-                <comment>The EKP number (standardised customer and product number) is the key to using the products of Deutsche Post DHL. It is 10 digits and is allocated by DHL Sales.</comment>
+                <comment>The EKP number (standardized customer and product number) is the key to using the products of Deutsche Post DHL. It is 10 digits and is allocated by DHL Sales.</comment>
                 <validate>validate-length maximum-length-10 minimum-length-10 validate-digits</validate>
             </field>
 
@@ -47,10 +47,9 @@
             <field id="account_participations" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="70"
                    translate="label comment tooltip" type="select">
                 <label>Participation Numbers</label>
-                <comment>The participation number enables invoices to be subdivided according to location, seasonal business or different conditions. The participation is 2 numerical digits from 00 to 99 or alphanumerical digits from AA to ZZ. It is allocated by DHL Sales.</comment>
+                <comment>The participation number enables invoices to be subdivided according to location, seasonal business or different conditions. The participation number consists of 2 alphanumeric characters. It is allocated by DHL Sales.</comment>
                 <frontend_model>Dhl\Paket\Block\Adminhtml\System\Config\Form\Field\Participation</frontend_model>
                 <backend_model>Dhl\Paket\Model\Adminhtml\System\Config\Backend\ArraySerialized</backend_model>
-                <frontend_class>test</frontend_class>
             </field>
         </group>
     </group>

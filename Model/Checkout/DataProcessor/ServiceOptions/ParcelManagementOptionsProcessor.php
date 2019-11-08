@@ -15,7 +15,6 @@ use Dhl\ShippingCore\Api\Data\ShippingOption\OptionInterfaceFactory;
 use Dhl\ShippingCore\Api\Data\ShippingOption\ShippingOptionInterface;
 use Dhl\ShippingCore\Model\Checkout\DataProcessor\ShippingOptionsProcessorInterface;
 use Dhl\ShippingCore\Model\ShipmentDate;
-use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Stdlib\DateTime\TimezoneInterface;
 use Psr\Log\LoggerInterface;
 
@@ -89,7 +88,7 @@ class ParcelManagementOptionsProcessor implements ShippingOptionsProcessorInterf
      * @param ShippingOptionInterface $shippingOption
      * @param CarrierServiceInterface $carrierService
      * @param int|null $storeId
-     * @throws LocalizedException
+     * @throws \RuntimeException
      */
     private function addPreferredDayOptions(
         ShippingOptionInterface $shippingOption,
@@ -105,7 +104,7 @@ class ParcelManagementOptionsProcessor implements ShippingOptionsProcessorInterf
         }
 
         if (empty($dateInput)) {
-            throw new LocalizedException(__('No date input for preferred day service found.'));
+            throw new \RuntimeException('No date input for preferred day service found.');
         }
 
         /** @var OptionInterface[] $options */
@@ -124,7 +123,7 @@ class ParcelManagementOptionsProcessor implements ShippingOptionsProcessorInterf
         );
 
         if (empty($options)) {
-            throw new LocalizedException(__('No options for preferred day service available.'));
+            throw new \RuntimeException('No options for preferred day service available.');
         }
 
         $dateInput->setOptions($dateInput->getOptions() + $options);
@@ -135,7 +134,7 @@ class ParcelManagementOptionsProcessor implements ShippingOptionsProcessorInterf
      *
      * @param ShippingOptionInterface $shippingOption
      * @param CarrierServiceInterface $carrierService
-     * @throws LocalizedException
+     * @throws \RuntimeException
      */
     private function addPreferredTimeOptions(
         ShippingOptionInterface $shippingOption,
@@ -150,7 +149,7 @@ class ParcelManagementOptionsProcessor implements ShippingOptionsProcessorInterf
         }
 
         if (empty($timeInput)) {
-            throw new LocalizedException(__('No date input for preferred time service found.'));
+            throw new \RuntimeException('No date input for preferred time service found.');
         }
 
         /** @var OptionInterface[] $options */
@@ -169,7 +168,7 @@ class ParcelManagementOptionsProcessor implements ShippingOptionsProcessorInterf
         );
 
         if (empty($options)) {
-            throw new LocalizedException(__('No options for preferred time service available.'));
+            throw new \RuntimeException('No options for preferred time service available.');
         }
 
         $timeInput->setOptions($timeInput->getOptions() + $options);
@@ -196,10 +195,10 @@ class ParcelManagementOptionsProcessor implements ShippingOptionsProcessorInterf
         }
 
         if (!array_key_exists($serviceCode, $carrierServices) && in_array(
-                $serviceCode,
-                self::SERVICES_WITH_OPTIONS,
-                true
-            )) {
+            $serviceCode,
+            self::SERVICES_WITH_OPTIONS,
+            true
+        )) {
             // API did not return any additional information but service requires options
             return null;
         }
@@ -210,7 +209,7 @@ class ParcelManagementOptionsProcessor implements ShippingOptionsProcessorInterf
                 $this->addPreferredDayOptions($shippingOption, $carrierServices[$serviceCode], $storeId);
 
                 return $shippingOption;
-            } catch (LocalizedException $exception) {
+            } catch (\RuntimeException $exception) {
                 return null;
             }
         }
@@ -221,7 +220,7 @@ class ParcelManagementOptionsProcessor implements ShippingOptionsProcessorInterf
                 $this->addPreferredTimeOptions($shippingOption, $carrierServices[$serviceCode]);
 
                 return $shippingOption;
-            } catch (LocalizedException $exception) {
+            } catch (\RuntimeException $exception) {
                 return null;
             }
         }
@@ -263,7 +262,7 @@ class ParcelManagementOptionsProcessor implements ShippingOptionsProcessorInterf
         $parcelManagementService = $this->serviceFactory->create(['storeId' => $storeId]);
         try {
             $startDate = $this->shipmentDate->getDate($storeId);
-        } catch (LocalizedException $exception) {
+        } catch (\RuntimeException $exception) {
             // unable to determine start date, no valid data can be fetched
             return $optionsData;
         }

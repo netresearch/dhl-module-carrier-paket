@@ -213,7 +213,7 @@ class ModuleConfig
     }
 
     /**
-     * Get the user's EKP (standardised customer and product number).
+     * Get the user's EKP (standardized customer and product number).
      *
      * @param mixed $store
      * @return string
@@ -325,7 +325,7 @@ class ModuleConfig
     }
 
     /**
-     * Get the user's sandbox EKP (standardised customer and product number).
+     * Get the user's sandbox EKP (standardized customer and product number).
      *
      * @param mixed $store
      * @return string

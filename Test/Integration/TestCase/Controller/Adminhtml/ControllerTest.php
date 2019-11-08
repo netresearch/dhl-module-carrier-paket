@@ -13,7 +13,7 @@ use Magento\TestFramework\ObjectManager;
 use Magento\TestFramework\TestCase\AbstractBackendController;
 
 /**
- * Class AutoCreateTest
+ * Class ControllerTest
  *
  * Base controller test for all actions which trigger label api calls for order fixtures:
  * - Create shipment and label for single order
