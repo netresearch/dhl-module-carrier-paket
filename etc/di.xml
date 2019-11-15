@@ -207,4 +207,24 @@
             </argument>
         </arguments>
     </type>
+
+<!-- config path type pools-->
+    <type name="Magento\Config\Model\Config\TypePool">
+        <arguments>
+            <argument name="sensitive" xsi:type="array">
+                <item name="dhlshippingsolutions/dhlpaket/account_settings/sandboxmode_group/account_participations" xsi:type="string">1</item>
+                <item name="dhlshippingsolutions/dhlpaket/account_settings/sandboxmode_group/api_username" xsi:type="string">1</item>
+                <item name="dhlshippingsolutions/dhlpaket/account_settings/sandboxmode_group/api_password" xsi:type="string">1</item>
+                <item name="dhlshippingsolutions/dhlpaket/account_settings/sandboxmode_group/account_number" xsi:type="string">1</item>
+            </argument>
+            <argument name="environment" xsi:type="array">
+                <item name="dhlshippingsolutions/dhlpaket/general_shipping_settings/logging" xsi:type="string">1</item>
+                <item name="dhlshippingsolutions/dhlpaket/general_shipping_settings/logging_group/loglevel" xsi:type="string">1</item>
+                <item name="dhlshippingsolutions/dhlpaket/account_settings/sandboxmode" xsi:type="string">1</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Magento\Config\App\Config\Source\DumpConfigSourceAggregated">
+        <plugin name="unsetPaketSandboxPaths" type="Dhl\Paket\Plugin\UnsetSandboxPaths"/>
+    </type>
 </config>

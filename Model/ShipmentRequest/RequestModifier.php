@@ -91,7 +91,7 @@ class RequestModifier implements RequestModifierInterface
 
         // check if defaults applicable to the current route are configured
         $defaults = array_intersect_key(
-            $this->config->getShippingProductDefaults($shipmentRequest->getOrderShipment()->getStoreId()),
+            $this->shippingProducts->getDefaultProducts($originCountry),
             $applicableProducts
         );
 

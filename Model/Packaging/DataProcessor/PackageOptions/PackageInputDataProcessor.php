@@ -97,23 +97,24 @@ class PackageInputDataProcessor implements ShippingOptionsProcessorInterface
                     }
                     $input->setOptions($options);
 
-                    $default = '';
-                    foreach ($this->config->getShippingProductDefaults($storeId) as $regionId => $regionDefault) {
+                    $inputDefault = '';
+                    $defaultProducts = $this->shippingProducts->getDefaultProducts($originCountry);
+                    foreach ($defaultProducts as $regionId => $regionDefault) {
                         if (!isset($applicableProducts[$regionId])) {
                             continue;
                         }
 
                         if (in_array($regionDefault, $applicableProducts[$regionId], true)) {
-                            $default = $regionDefault;
+                            $inputDefault = $regionDefault;
                             break;
                         }
                     }
 
-                    if (!$default) {
+                    if (!$inputDefault) {
                         // no defaults configured, use first available applicable product
-                        $default = current(current($applicableProducts));
+                        $inputDefault = current(current($applicableProducts));
                     }
-                    $input->setDefaultValue((string)$default);
+                    $input->setDefaultValue((string)$inputDefault);
                     break;
 
                 case 'additionalFee':

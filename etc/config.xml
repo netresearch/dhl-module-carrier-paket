@@ -70,9 +70,6 @@
 
                 <shipment_defaults>
                     <print_only_if_codeable>1</print_only_if_codeable>
-                    <shipping_products backend_model="Dhl\Paket\Model\Adminhtml\System\Config\Backend\ArraySerialized"><![CDATA[
-                        {"DE":"V01PAK","EU":"V53WPAK","INTL":"V53WPAK"}
-                    ]]></shipping_products>
                     <services_group>
                         <visual_check_of_age>0</visual_check_of_age>
                         <return_shipment>0</return_shipment>

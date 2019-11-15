@@ -173,6 +173,26 @@ class ShippingProducts
     }
 
     /**
+     * For every available destination region, obtain the default product.
+     *
+     * Currently, the first available product is returned. Once there are more
+     * than one product available for a destination region, this will likely
+     * be converted to a module configuration setting.
+     *
+     * @param string $originCountryCode
+     * @return string[]
+     */
+    public function getDefaultProducts(string $originCountryCode): array
+    {
+        $products = $this->getProducts();
+        if (array_key_exists($originCountryCode, $products)) {
+            return array_map('array_shift', $products[$originCountryCode]);
+        }
+
+        return [];
+    }
+
+    /**
      * Get shipping product codes for given shipping origin.
      *
      * Returns an array of [$destination => $codes]. Destinations may be identified by country code, "EU" or "INTL".

@@ -356,28 +356,6 @@ class ModuleConfig
     }
 
     /**
-     * Obtain the list of configured default products.
-     *
-     * [
-     *     $destinationRegion => $productDefault,
-     *     $destinationRegion => $productDefault,
-     * ]
-     *
-     * @param mixed $store
-     * @return string[]
-     */
-    public function getShippingProductDefaults($store = null): array
-    {
-        $shippingProducts = $this->scopeConfig->getValue(
-            self::CONFIG_PATH_DEFAULT_PRODUCTS,
-            ScopeInterface::SCOPE_STORE,
-            $store
-        );
-
-        return (array) $shippingProducts;
-    }
-
-    /**
      * Returns TRUE if the "print only if codeable" service should be used or not.
      *
      * @param mixed $store
