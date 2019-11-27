@@ -18,6 +18,7 @@ use Dhl\ShippingCore\Api\Data\TrackRequest\TrackRequestInterfaceFactory;
 use Dhl\ShippingCore\Api\Data\TrackResponse\TrackErrorResponseInterface;
 use Dhl\ShippingCore\Api\Data\TrackResponse\TrackResponseInterface;
 use Dhl\ShippingCore\Model\Emulation\ProxyCarrierFactory;
+use Dhl\UnifiedTracking\Exception\TrackingException;
 use Magento\CatalogInventory\Api\StockRegistryInterface;
 use Magento\Directory\Helper\Data;
 use Magento\Directory\Model\CountryFactory;
@@ -40,6 +41,7 @@ use Magento\Shipping\Model\Simplexml\ElementFactory;
 use Magento\Shipping\Model\Tracking\Result\AbstractResult;
 use Magento\Shipping\Model\Tracking\Result\Error;
 use Magento\Shipping\Model\Tracking\Result\ErrorFactory as TrackErrorFactory;
+use Magento\Shipping\Model\Tracking\Result\Status;
 use Magento\Shipping\Model\Tracking\Result\StatusFactory;
 use Magento\Shipping\Model\Tracking\ResultFactory as TrackResultFactory;
 use Psr\Log\LoggerInterface;
@@ -375,9 +377,15 @@ class Paket extends AbstractCarrierOnline implements CarrierInterface
      */
     public function getTrackingInfo($tracking)
     {
-        $result = $this->trackingInfoProvider->getTrackingDetails($tracking, $this->getCarrierCode());
+        try {
+            $result = $this->trackingInfoProvider->getTrackingDetails($tracking, $this->getCarrierCode());
+        } catch (TrackingException $exception) {
+            $result = null;
+        }
 
-        if ($result instanceof Error) {
+        if ($result instanceof Status) {
+            $result->setData('carrier_title', $this->getConfigData('title'));
+        } else {
             // create link to portal if web service returned an error
             $statusData = [
                 'tracking' => $tracking,
@@ -386,8 +394,6 @@ class Paket extends AbstractCarrierOnline implements CarrierInterface
             ];
 
             $result = $this->_trackStatusFactory->create(['data' => $statusData]);
-        } else {
-            $result->setData('carrier_title', $this->getConfigData('title'));
         }
 
         return $result;
