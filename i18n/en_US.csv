@@ -90,7 +90,7 @@ No,No
 "On the working days checked, there is no transfer of parcels to DHL (in addition to sundays and public holidays). This information influences the options offered as preferred delivery day in checkout.","On the working days checked, there is no transfer of parcels to DHL (in addition to sundays and public holidays). This information influences the options offered as preferred delivery day in checkout."
 "Parcel Announcement","Parcel Announcement"
 "Parcel Outlet Routing Service","Parcel Outlet Routing Service"
-"Partial Shipments with Cash on Delivery or the Insurance service are not supported. Please create one complete Shipment","Partial Shipments with Cash on Delivery or the Insurance service are not supported. Please create one complete Shipment"
+"Partial shipments with Cash on Delivery or Insurance service are not supported. Please ship the entire order.","Partial shipments with Cash on Delivery or Insurance service are not supported. Please ship the entire order."
 Participation,Participation
 "Participation Numbers","Participation Numbers"
 "Password (Signature)","Password (Signature)"
