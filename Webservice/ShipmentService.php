@@ -8,12 +8,9 @@ namespace Dhl\Paket\Webservice;
 
 use Dhl\Paket\Model\Config\ModuleConfig;
 use Dhl\Sdk\Paket\Bcs\Api\Data\AuthenticationStorageInterfaceFactory;
-use Dhl\Sdk\Paket\Bcs\Api\Data\ShipmentInterface;
 use Dhl\Sdk\Paket\Bcs\Api\ServiceFactoryInterface;
 use Dhl\Sdk\Paket\Bcs\Api\ShipmentServiceInterface;
-use Dhl\Sdk\Paket\Bcs\Exception\AuthenticationException;
-use Dhl\Sdk\Paket\Bcs\Exception\ClientException;
-use Dhl\Sdk\Paket\Bcs\Exception\ServerException;
+use Dhl\Sdk\Paket\Bcs\Exception\ServiceException;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -82,8 +79,9 @@ class ShipmentService implements ShipmentServiceInterface
      * Create shipment service.
      *
      * @return ShipmentServiceInterface
+     * @throws ServiceException
      */
-    private function getService()
+    private function getService(): ShipmentServiceInterface
     {
         if ($this->shipmentService === null) {
             $authStorage = $this->authStorageFactory->create(
@@ -105,29 +103,11 @@ class ShipmentService implements ShipmentServiceInterface
         return $this->shipmentService;
     }
 
-    /**
-     * CreateShipmentOrder is the operation call used to generate shipments with the relevant DHL Paket labels.
-     *
-     * @param \stdClass[] $shipmentOrders
-     * @return ShipmentInterface[]
-     * @throws AuthenticationException
-     * @throws ClientException
-     * @throws ServerException
-     */
     public function createShipments(array $shipmentOrders): array
     {
         return $this->getService()->createShipments($shipmentOrders);
     }
 
-    /**
-     * This operation cancels earlier created shipments.
-     *
-     * @param string[] $shipmentNumbers
-     * @return string[]
-     * @throws AuthenticationException
-     * @throws ClientException
-     * @throws ServerException
-     */
     public function cancelShipments(array $shipmentNumbers): array
     {
         return $this->getService()->cancelShipments($shipmentNumbers);

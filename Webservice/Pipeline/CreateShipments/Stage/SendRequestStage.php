@@ -8,6 +8,8 @@ namespace Dhl\Paket\Webservice\Pipeline\CreateShipments\Stage;
 
 use Dhl\Paket\Webservice\Pipeline\CreateShipments\ArtifactsContainer;
 use Dhl\Paket\Webservice\ShipmentServiceFactory;
+use Dhl\Sdk\Paket\Bcs\Api\Data\ShipmentInterface;
+use Dhl\Sdk\Paket\Bcs\Exception\DetailedServiceException;
 use Dhl\Sdk\Paket\Bcs\Exception\ServiceException;
 use Dhl\ShippingCore\Api\Data\Pipeline\ArtifactsContainerInterface;
 use Dhl\ShippingCore\Api\Pipeline\CreateShipmentsStageInterface;
@@ -50,18 +52,31 @@ class SendRequestStage implements CreateShipmentsStageInterface
             $shipmentService = $this->shipmentServiceFactory->create(['storeId' => $artifactsContainer->getStoreId()]);
 
             try {
+                /** @var ShipmentInterface[] $shipments */
                 $shipments = $shipmentService->createShipments($apiRequests);
                 // add request id as response index
                 foreach ($shipments as $shipment) {
                     $artifactsContainer->addApiResponse($shipment->getSequenceNumber(), $shipment);
                 }
-            } catch (ServiceException $exception) {
+            } catch (DetailedServiceException $exception) {
                 // mark all requests as failed
                 foreach ($requests as $requestIndex => $shipmentRequest) {
                     $artifactsContainer->addError(
                         (string) $requestIndex,
                         $shipmentRequest->getOrderShipment(),
                         $exception->getMessage()
+                    );
+                }
+
+                // no requests passed the stage
+                return [];
+            } catch (ServiceException $exception) {
+                // mark all requests as failed
+                foreach ($requests as $requestIndex => $shipmentRequest) {
+                    $artifactsContainer->addError(
+                        (string) $requestIndex,
+                        $shipmentRequest->getOrderShipment(),
+                        'Web service request failed.'
                     );
                 }
 

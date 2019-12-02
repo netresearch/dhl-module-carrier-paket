@@ -12,9 +12,7 @@ use Dhl\Paket\Model\ProcessorInterface;
 use Dhl\ShippingCore\Api\Data\ShippingOption\InputInterface;
 use Dhl\ShippingCore\Api\Data\ShippingOption\ShippingOptionInterface;
 use Dhl\ShippingCore\Model\Checkout\DataProcessor\ShippingOptionsProcessorInterface;
-use Magento\Framework\Exception\NoSuchEntityException;
 use Psr\Log\LoggerInterface;
-use Zend_Currency_Exception;
 
 /**
  * Class AdditionalChargesProcessor

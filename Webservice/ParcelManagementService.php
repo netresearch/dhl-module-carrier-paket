@@ -8,11 +8,8 @@ namespace Dhl\Paket\Webservice;
 
 use Dhl\Paket\Model\Config\ModuleConfig;
 use Dhl\Sdk\Paket\ParcelManagement\Api\CheckoutServiceInterface;
-use Dhl\Sdk\Paket\ParcelManagement\Api\Data\CarrierServiceInterface;
 use Dhl\Sdk\Paket\ParcelManagement\Api\ServiceFactoryInterface;
-use Dhl\Sdk\Paket\ParcelManagement\Exception\AuthenticationException;
-use Dhl\Sdk\Paket\ParcelManagement\Exception\ClientException;
-use Dhl\Sdk\Paket\ParcelManagement\Exception\ServerException;
+use Dhl\Sdk\Paket\ParcelManagement\Exception\ServiceException;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -73,6 +70,7 @@ class ParcelManagementService implements CheckoutServiceInterface
      * Obtain an instance of the Parcel Management API checkout service.
      *
      * @return CheckoutServiceInterface
+     * @throws ServiceException
      */
     private function getCheckoutService(): CheckoutServiceInterface
     {
@@ -89,19 +87,6 @@ class ParcelManagementService implements CheckoutServiceInterface
         return $this->checkoutService;
     }
 
-    /**
-     * Obtain a list of available services for the given postal code and date.
-     *
-     * @param string $recipientZip
-     * @param \DateTime $startDate
-     * @param string[] $headers
-     * @return CarrierServiceInterface[]
-     *
-     * @throws ClientException
-     * @throws ServerException
-     * @throws AuthenticationException
-     * @throws \Exception
-     */
     public function getCarrierServices(string $recipientZip, \DateTime $startDate, array $headers = []): array
     {
         return $this->getCheckoutService()->getCarrierServices($recipientZip, $startDate, $headers);

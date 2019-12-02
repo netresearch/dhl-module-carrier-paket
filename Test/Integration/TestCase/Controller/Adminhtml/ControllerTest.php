@@ -8,8 +8,6 @@ namespace Dhl\Paket\Test\Integration\TestCase\Controller\Adminhtml;
 
 use Dhl\Paket\Test\Integration\TestDouble\ShipmentServiceStub;
 use Dhl\Paket\Webservice\ShipmentService;
-use Magento\TestFramework\Helper\Bootstrap;
-use Magento\TestFramework\ObjectManager;
 use Magento\TestFramework\TestCase\AbstractBackendController;
 
 /**

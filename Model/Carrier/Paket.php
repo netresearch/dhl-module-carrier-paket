@@ -6,9 +6,6 @@ declare(strict_types=1);
 
 namespace Dhl\Paket\Model\Carrier;
 
-use Dhl\UnifiedTracking\Api\Data\TrackingErrorInterface;
-use Dhl\UnifiedTracking\Api\Data\TrackingStatusInterface;
-use Dhl\UnifiedTracking\Api\TrackingInfoProviderInterface;
 use Dhl\Paket\Model\Config\ModuleConfig;
 use Dhl\Paket\Model\Packaging\ShipmentRequestValidator;
 use Dhl\Paket\Model\RatesManagement;
@@ -18,6 +15,7 @@ use Dhl\ShippingCore\Api\Data\TrackRequest\TrackRequestInterfaceFactory;
 use Dhl\ShippingCore\Api\Data\TrackResponse\TrackErrorResponseInterface;
 use Dhl\ShippingCore\Api\Data\TrackResponse\TrackResponseInterface;
 use Dhl\ShippingCore\Model\Emulation\ProxyCarrierFactory;
+use Dhl\UnifiedTracking\Api\TrackingInfoProviderInterface;
 use Dhl\UnifiedTracking\Exception\TrackingException;
 use Magento\CatalogInventory\Api\StockRegistryInterface;
 use Magento\Directory\Helper\Data;
@@ -38,8 +36,6 @@ use Magento\Shipping\Model\Carrier\CarrierInterface;
 use Magento\Shipping\Model\Rate\ResultFactory as RateResultFactory;
 use Magento\Shipping\Model\Shipment\Request;
 use Magento\Shipping\Model\Simplexml\ElementFactory;
-use Magento\Shipping\Model\Tracking\Result\AbstractResult;
-use Magento\Shipping\Model\Tracking\Result\Error;
 use Magento\Shipping\Model\Tracking\Result\ErrorFactory as TrackErrorFactory;
 use Magento\Shipping\Model\Tracking\Result\Status;
 use Magento\Shipping\Model\Tracking\Result\StatusFactory;
@@ -267,7 +263,6 @@ class Paket extends AbstractCarrierOnline implements CarrierInterface
      * @throws LocalizedException
      * @see \Magento\Shipping\Model\Carrier\AbstractCarrierOnline::requestToShipment
      * @see \Magento\Shipping\Model\Carrier\AbstractCarrierOnline::returnOfShipment
-     *
      */
     protected function _doShipmentRequest(DataObject $request): DataObject
     {

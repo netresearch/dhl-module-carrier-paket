@@ -10,6 +10,7 @@ use Dhl\Paket\Model\ProcessorInterface;
 use Dhl\Paket\Webservice\ParcelManagementServiceFactory;
 use Dhl\Sdk\Paket\ParcelManagement\Api\Data\CarrierServiceInterface;
 use Dhl\Sdk\Paket\ParcelManagement\Api\Data\IntervalOptionInterface;
+use Dhl\Sdk\Paket\ParcelManagement\Exception\ServiceException;
 use Dhl\ShippingCore\Api\Data\ShippingOption\OptionInterface;
 use Dhl\ShippingCore\Api\Data\ShippingOption\OptionInterfaceFactory;
 use Dhl\ShippingCore\Api\Data\ShippingOption\ShippingOptionInterface;
@@ -266,21 +267,21 @@ class ParcelManagementOptionsProcessor implements ShippingOptionsProcessorInterf
             // unable to determine start date, no valid data can be fetched
             return $optionsData;
         }
-        $carrierServices = [];
 
         try {
             $carrierServices = $parcelManagementService->getCarrierServices($postalCode, $startDate);
 
             // add service codes as array keys
             $carrierServiceCodes = array_map(
-                function (CarrierServiceInterface $carrierService) {
+                static function (CarrierServiceInterface $carrierService) {
                     return $carrierService->getCode();
                 },
                 $carrierServices
             );
 
             $carrierServices = array_combine($carrierServiceCodes, $carrierServices);
-        } catch (\Exception $exception) {
+        } catch (ServiceException $exception) {
+            $carrierServices = [];
             $this->logger->error($exception->getMessage());
         }
 

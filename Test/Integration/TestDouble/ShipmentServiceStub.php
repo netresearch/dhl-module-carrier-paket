@@ -8,9 +8,7 @@ namespace Dhl\Paket\Test\Integration\TestDouble;
 
 use Dhl\Paket\Test\Integration\TestDouble\Pipeline\CreateShipments\Stage\SendRequestStageStub as CreationStage;
 use Dhl\Paket\Test\Integration\TestDouble\Pipeline\DeleteShipments\Stage\SendRequestStageStub as CancellationStage;
-use Dhl\Sdk\Paket\Bcs\Api\Data\ShipmentInterface;
 use Dhl\Sdk\Paket\Bcs\Api\ShipmentServiceInterface;
-use Dhl\Sdk\Paket\Bcs\Exception\ServiceException;
 
 /**
  * Class ShipmentServiceStub
@@ -46,13 +44,6 @@ class ShipmentServiceStub implements ShipmentServiceInterface
         $this->deleteShipmentsStage = $deleteShipmentsStage;
     }
 
-    /**
-     * CreateShipmentOrder is the operation call used to generate shipments with the relevant DHL Paket labels.
-     *
-     * @param \stdClass[] $shipmentOrders
-     * @return ShipmentInterface[]
-     * @throws ServiceException
-     */
     public function createShipments(array $shipmentOrders): array
     {
         if (isset($this->createShipmentsStage->exception)) {
@@ -62,13 +53,6 @@ class ShipmentServiceStub implements ShipmentServiceInterface
         return $this->createShipmentsStage->apiResponses;
     }
 
-    /**
-     * This operation cancels earlier created shipments.
-     *
-     * @param string[] $shipmentNumbers
-     * @return string[]
-     * @throws ServiceException
-     */
     public function cancelShipments(array $shipmentNumbers): array
     {
         if (isset($this->deleteShipmentsStage->exception)) {

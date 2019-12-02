@@ -7,7 +7,6 @@ declare(strict_types=1);
 namespace Dhl\Paket\Webservice\Pipeline\CreateShipments;
 
 use Dhl\Sdk\Paket\Bcs\Api\Data\ShipmentInterface;
-use Dhl\Sdk\Paket\Bcs\Model\CreateShipment\RequestType\ShipmentOrderType;
 use Dhl\ShippingCore\Api\Data\Pipeline\ArtifactsContainerInterface;
 use Dhl\ShippingCore\Api\Data\ShipmentResponse\LabelResponseInterface;
 use Dhl\ShippingCore\Api\Data\ShipmentResponse\ShipmentErrorResponseInterface;
@@ -39,7 +38,7 @@ class ArtifactsContainer implements ArtifactsContainerInterface
     /**
      * API (SDK) request objects.
      *
-     * @var ShipmentOrderType[]
+     * @var object[]
      */
     private $apiRequests = [];
 
@@ -101,7 +100,7 @@ class ArtifactsContainer implements ArtifactsContainerInterface
      * Add a prepared request object, ready for the web service call.
      *
      * @param string $requestIndex
-     * @param ShipmentOrderType $shipmentOrder
+     * @param object $shipmentOrder
      * @return void
      */
     public function addApiRequest(string $requestIndex, $shipmentOrder)
@@ -168,7 +167,7 @@ class ArtifactsContainer implements ArtifactsContainerInterface
     /**
      * Obtain the prepared request objects, ready for the web service call.
      *
-     * @return ShipmentOrderType[]
+     * @return object[]
      */
     public function getApiRequests(): array
     {

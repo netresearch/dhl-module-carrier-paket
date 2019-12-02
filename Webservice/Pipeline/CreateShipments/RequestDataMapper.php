@@ -10,7 +10,7 @@ use Dhl\Paket\Model\ShipmentRequest\PackageAdditional;
 use Dhl\Paket\Model\ShipmentRequest\RequestExtractor;
 use Dhl\Paket\Model\ShipmentRequest\RequestExtractorFactory;
 use Dhl\Sdk\Paket\Bcs\Api\ShipmentOrderRequestBuilderInterface;
-use Dhl\Sdk\Paket\Bcs\Model\CreateShipment\RequestType\ShipmentOrderType;
+use Dhl\Sdk\Paket\Bcs\Exception\RequestValidatorException;
 use Dhl\ShippingCore\Api\ConfigInterface;
 use Dhl\ShippingCore\Api\UnitConverterInterface;
 use Magento\Framework\Exception\LocalizedException;
@@ -93,10 +93,11 @@ class RequestDataMapper
      *
      * @param string $sequenceNumber Request identifier to associate request-response pairs
      * @param Request $request The shipment request
-     * @return ShipmentOrderType
+     *
+     * @return object
      * @throws LocalizedException
      */
-    public function mapRequest(string $sequenceNumber, Request $request): ShipmentOrderType
+    public function mapRequest(string $sequenceNumber, Request $request)
     {
         /** @var RequestExtractor $requestExtractor */
         $requestExtractor = $this->requestExtractorFactory->create(
@@ -284,6 +285,11 @@ class RequestDataMapper
             }
         }
 
-        return $this->requestBuilder->create();
+        try {
+            return $this->requestBuilder->create();
+        } catch (RequestValidatorException $exception) {
+            $message = __('Web service request could not be created: %1', $exception->getMessage());
+            throw new LocalizedException($message);
+        }
     }
 }
