@@ -76,17 +76,15 @@ Logging,Protokollierung
 "Multi package shipments are not supported.","Mehrpaketsendungen werden nicht unterstützt."
 "Neighbour address","Adresse des Nachbarn"
 "Neighbour name","Name des Nachbarn"
-"No","Nein"
+No,Nein
 "Offer DHL Parcel Announcement","Paketankündigung anbieten"
 "Offer Preferred Day Service","Wunschtag anbieten"
 "Offer Preferred Location Service","Wunschort anbieten"
 "Offer Preferred Neighbour Service","Wunschnachbar anbieten"
 "Offer Preferred Time Service","Wunschzeit anbieten"
+"On the working days checked, there is no transfer of parcels to DHL (in addition to sundays and public holidays). This information influences the options offered as preferred delivery day in checkout.","An den gewählten Werktagen (zusätzlich zu Sonn- und Feiertagen) findet keine Paketübergabe an DHL statt. Aus Ihrer Angabe berechnet sich der nächstmögliche Wunschtag im Checkout."
 "Parcel Announcement",Paketankündigung
 "Parcel Outlet Routing Service",Filial-Routing
-"Parcel Station Delivery",Packstation
-"Parcel Station ID","Nummer der Packstation"
-"Parcel station delivery: Delivery to a parcel station of your choice","Packstation: Lieferung an eine Packstation Ihrer Wahl"
 "Partial shipments with Cash on Delivery or Insurance service are not supported. Please ship the entire order.","Teillieferungen mit Nachnahmezahlung oder Transportversicherung werden nicht unterstützt. Bitte erstellen Sie eine Sendung für die gesamte Bestellung."
 Participation,Teilnahme
 "Participation Numbers",Teilnahmenummern
@@ -95,7 +93,10 @@ Participation,Teilnahme
 "Place of Committal",Einlieferungsstelle
 "Please choose only one of %1.","Bitte wählen sie nur eins von %1."
 "Please choose your preferred delivery options.","Wählen Sie Ihre bevorzugten Lieferoptionen aus."
+"Please consult your DHL account representative to enable API access for your account","Bitte sprechen Sie mit Ihrem DHL-Ansprechpartner, um Ihren Account für die API freizuschalten"
 "Please talk to your account representative to add API access to your business account","Bitte sprechen Sie mit Ihrem Kundenberater, um Ihrem Unternehmenskonto API-Zugriff hinzuzufügen."
+"Preferred Day",Wunschtag
+"Preferred Day Delivery","Lieferung zum Wunschtag"
 "Preferred Day additional charge","Aufpreis für Wunschtag"
 "Preferred Day and Time combined charge","Aufpreis für kombinierten Wunschtag und -zeit"
 "Preferred Day: Delivery on your preferred day","Wunschtag: Lieferung zum gewüschten Tag"
@@ -110,11 +111,10 @@ Participation,Teilnahme
 "Print Only If Codeable","Nur leitkodierbare Versandaufträge erteilen"
 Procedure,Verfahren
 "Record communication with the DHL web services.","Kommunikation mit den DHL-Webservices aufzeichnen."
+"Retoure DHL Paket: V07PAK","Retoure DHL Paket: V07PAK"
 "Return Shipment",Beilegeretoure
 "Routing Code",Leitcodierung
 "Select Procedure","Verfahren auswählen"
-"Select a nearby parcel shop. Your package will be sent there for you to pick up.","Wählen Sie eine Packstation in Ihrer Nähe. Sie können Ihr Paket nach Lieferung dort abholen."
-"Select parcel station","Packstation wählen"
 "Select the offline shipping method that gets used to provide rates in checkout.","Wählen Sie die Offline-Versandmethode aus, die für die Bereitstellung von Tarifen im Checkout verwendet werden soll."
 "Shipment %1 could not be cancelled.","Der Versandauftrag %1 konnte nicht storniert werden."
 "Shipment %1 could not be cancelled: %2","Der Versandauftrag %1 konnte nicht storniert werden: %2"
@@ -146,6 +146,7 @@ Procedure,Verfahren
 User,Benutzername
 "Visual Check of Age",Alterssichtprüfung
 Warnings,Warnungen
+"Web service request could not be created: %1","Die Webservice-Anfrage konnte nicht erstellt werden: %1"
 "You decide when and where you want to receive your parcels with the recipient services of DHL.","Mit den Services von DHL-Wunschpaket entscheiden Sie, wann und wo Sie Ihre Pakete empfangen."
 "You must also have Magento general logging enabled.","Die allgemeine Protokollierung muss in Magento aktiviert sein, damit die modulspezifische Protokollierung funktioniert."
 "You must have a valid DHL Paket business account","Sie brauchen einen gültigen DHL Paket Geschäftskunden-Account"
