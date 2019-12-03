@@ -24,7 +24,7 @@
     "dhl/module-shipping-core": "^0.5.8",
     "dhl/module-unified-tracking": "^1.0.0",
     "dhl/sdk-api-bcs": "^0.2.0",
-    "dhl/sdk-api-parcel-management": "^1.1.0",
+    "dhl/sdk-api-parcel-management": "^1.0.0",
     "magento/framework": "^101.0.0||^102.0.0",
     "magento/module-backend": "^100.2.0|^101.0.0",
     "magento/module-catalog-inventory": "^100.2.0",
