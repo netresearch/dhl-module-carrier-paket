@@ -200,10 +200,10 @@
             </argument>
         </arguments>
     </type>
-    <type name="Dhl\ShippingCore\Model\ShipmentDate">
+    <type name="Dhl\ShippingCore\Model\ShipmentDate\ShipmentDate">
         <arguments>
             <argument name="dayValidators" xsi:type="array">
-                <item name="dropOffDays" xsi:type="object">Dhl\Paket\Model\DayValidator\DropOffDays</item>
+                <item name="dropOffDays" xsi:type="object">Dhl\Paket\Model\ShipmentDate\Validator\DropOffDays</item>
             </argument>
         </arguments>
     </type>

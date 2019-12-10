@@ -4,10 +4,10 @@
  */
 declare(strict_types=1);
 
-namespace Dhl\Paket\Model\DayValidator;
+namespace Dhl\Paket\Model\ShipmentDate\Validator;
 
 use Dhl\Paket\Model\Config\ModuleConfig;
-use Dhl\ShippingCore\Api\DayValidatorInterface;
+use Dhl\ShippingCore\Api\ShipmentDate\DayValidatorInterface;
 
 /**
  * Drop off days validator class. This class checks if the given date/time is a allowed drop off day.

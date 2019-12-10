@@ -15,7 +15,7 @@ use Dhl\ShippingCore\Api\Data\ShippingOption\OptionInterface;
 use Dhl\ShippingCore\Api\Data\ShippingOption\OptionInterfaceFactory;
 use Dhl\ShippingCore\Api\Data\ShippingOption\ShippingOptionInterface;
 use Dhl\ShippingCore\Model\Checkout\DataProcessor\ShippingOptionsProcessorInterface;
-use Dhl\ShippingCore\Model\ShipmentDate;
+use Dhl\ShippingCore\Model\ShipmentDate\ShipmentDate;
 use Magento\Framework\Stdlib\DateTime\TimezoneInterface;
 use Psr\Log\LoggerInterface;
 

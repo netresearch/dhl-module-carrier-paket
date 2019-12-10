@@ -4,16 +4,15 @@
  */
 declare(strict_types=1);
 
-namespace Dhl\Paket\Test\Integration\TestCase\Model;
+namespace Dhl\Paket\Test\Integration\TestCase\Model\ShipmentDate;
 
 use Dhl\Paket\Model\Config\ModuleConfig;
-use Dhl\Paket\Model\DayValidator\DropOffDays;
+use Dhl\Paket\Model\ShipmentDate\Validator\DropOffDays;
 use Dhl\ShippingCore\Model\Config\Config;
-use Dhl\ShippingCore\Model\ShipmentDate;
+use Dhl\ShippingCore\Model\ShipmentDate\ShipmentDate;
 use Dhl\ShippingCore\Test\Integration\Fixture\Data\AddressDe;
 use Dhl\ShippingCore\Test\Integration\Fixture\Data\SimpleProduct2;
 use Dhl\ShippingCore\Test\Integration\Fixture\OrderFixture;
-use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Stdlib\DateTime\TimezoneInterface;
 use Magento\Sales\Model\Order;
 use Magento\TestFramework\Helper\Bootstrap;
@@ -54,6 +53,9 @@ class ShipmentDateTest extends TestCase
      */
     private $order;
 
+    /**
+     * @throws \Exception
+     */
     protected function setUp()
     {
         parent::setUp();
@@ -130,8 +132,6 @@ class ShipmentDateTest extends TestCase
      * @param \DateTime $currentTime
      * @param \DateTime $cutOffTime
      * @param \DateTime $expectedDate
-     *
-     * @throws LocalizedException
      */
     public function testGetDate(
         array $excludedDropOffDays,
