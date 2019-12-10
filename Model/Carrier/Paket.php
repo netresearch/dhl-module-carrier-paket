@@ -14,7 +14,7 @@ use Dhl\Paket\Util\ShippingProducts;
 use Dhl\ShippingCore\Api\Data\TrackRequest\TrackRequestInterfaceFactory;
 use Dhl\ShippingCore\Api\Data\TrackResponse\TrackErrorResponseInterface;
 use Dhl\ShippingCore\Api\Data\TrackResponse\TrackResponseInterface;
-use Dhl\ShippingCore\Model\Emulation\ProxyCarrierFactory;
+use Dhl\ShippingCore\Model\Rate\Emulation\ProxyCarrierFactory;
 use Dhl\UnifiedTracking\Api\TrackingInfoProviderInterface;
 use Dhl\UnifiedTracking\Exception\TrackingException;
 use Magento\CatalogInventory\Api\StockRegistryInterface;

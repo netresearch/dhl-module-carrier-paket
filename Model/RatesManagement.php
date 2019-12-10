@@ -7,7 +7,7 @@ declare(strict_types=1);
 namespace Dhl\Paket\Model;
 
 use Dhl\Paket\Model\Config\ModuleConfig;
-use Dhl\ShippingCore\Api\RateRequestEmulationInterface;
+use Dhl\ShippingCore\Api\Rate\RateRequestEmulationInterface;
 use Magento\Quote\Model\Quote\Address\RateRequest;
 use Magento\Shipping\Model\Rate\Result;
 

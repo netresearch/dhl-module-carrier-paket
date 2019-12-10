@@ -49,7 +49,7 @@
             </argument>
         </arguments>
     </virtualType>
-    <virtualType name="Dhl\Paket\Model\Emulation\RateRequestService\Virtual" type="Dhl\ShippingCore\Model\Emulation\RateRequestService">
+    <virtualType name="Dhl\Paket\Model\Rate\Emulation\RateRequestService\Virtual" type="Dhl\ShippingCore\Model\Rate\Emulation\RateRequestService">
         <arguments>
             <argument name="responseProcessor" xsi:type="object">Dhl\Paket\Webservice\Pipeline\Rate\RateResponseProcessor\Virtual</argument>
         </arguments>
@@ -96,7 +96,7 @@
     </type>
     <type name="Dhl\Paket\Model\RatesManagement">
         <arguments>
-            <argument name="rateRequestService" xsi:type="object">Dhl\Paket\Model\Emulation\RateRequestService\Virtual</argument>
+            <argument name="rateRequestService" xsi:type="object">Dhl\Paket\Model\Rate\Emulation\RateRequestService\Virtual</argument>
         </arguments>
     </type>
     <type name="Dhl\Paket\Model\ShipmentManagement">
