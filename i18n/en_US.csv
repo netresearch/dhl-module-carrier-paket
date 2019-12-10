@@ -48,12 +48,11 @@
 "Enable Parcel Routing Service","Enable Parcel Routing Service"
 "Enable Sandbox Mode","Enable Sandbox Mode"
 Enabled,Enabled
-"Enter you API user name, lower case only. Please talk to your account representative to add API access to your business account.","Enter you API user name, lower case only. Please talk to your account representative to add API access to your business account."
+"Enter your API user name, lower case only. Please talk to your account representative to add API access to your business account.","Enter your API user name, lower case only. Please talk to your account representative to add API access to your business account."
 "Error Logging Level","Error Logging Level"
 Errors,Errors
 "Field %1 is required.","Field %1 is required."
 "First name, last name of neighbour","First name, last name of neighbor"
-Foo,Bar
 "For a combined booking of preferred day and preferred time, the shipping costs are a total of $1 including VAT.","For a combined booking of preferred day and preferred time, the shipping costs are a total of $1 including VAT."
 "Furthermore, the DHL Paket carrier allows to request shipping labels for incoming orders directly within your Magento instance.","Furthermore, the DHL Paket carrier allows to request shipping labels for incoming orders directly within your Magento instance."
 "General Settings","General Settings"
@@ -78,6 +77,7 @@ Logging,Logging
 "Neighbour address","Neighbor address"
 "Neighbour name","Neighbor name"
 No,No
+"Observe upper and lower case when handing over the password.","Observe upper and lower case when handing over the password."
 "Offer DHL Parcel Announcement","Offer DHL Parcel Announcement"
 "Offer Preferred Day Service","Offer Preferred Day Service"
 "Offer Preferred Location Service","Offer Preferred Location Service"
@@ -133,7 +133,7 @@ Procedure,Procedure
 "The participation number enables invoices to be subdivided according to location, seasonal business or different conditions. The participation number consists of 2 alphanumeric characters. It is allocated by DHL Sales.","The participation number enables invoices to be subdivided according to location, seasonal business or different conditions. The participation number consists of 2 alphanumeric characters. It is allocated by DHL Sales."
 "The product %1 is not valid for the route %2-%3.","The product %1 is not valid for the route %2-%3."
 "The rates will get used even if the selected shipping method is disabled. The available method names will also be those of the selected shipping method.","The rates will get used even if the selected shipping method is disabled. The available method names will also be those of the selected shipping method."
-"This field determines where <em>DHL Paket</em> will be displayed on the Checkout page. To display after <em>Flat Rate</em> or <em>Free Shipping</em>, enter a number just higher than the sort order value configured for those Shipping Methods.","This field determines where <em>DHL Paket</em> will be displayed on the Checkout page. To display after <em>Flat Rate</em> or <em>Free Shipping</em>, enter a number just higher than the sort order value configured for those Shipping Methods."
+"This field determines where <em>DHL Paket</em> will be displayed on the Checkout page. To display after <em>Flat Rate</em> or <em>Free Shipping</em>, enter a number just higher than the sort order value configured for those shipping methods.","This field determines where <em>DHL Paket</em> will be displayed on the Checkout page. To display after <em>Flat Rate</em> or <em>Free Shipping</em>, enter a number just higher than the sort order value configured for those shipping methods."
 "This service will incur additional shipping costs of $1 including VAT.","This service will incur additional shipping costs of $1 including VAT."
 "To get started:","To get started:"
 "Unable to determine billing number.","Unable to determine billing number."

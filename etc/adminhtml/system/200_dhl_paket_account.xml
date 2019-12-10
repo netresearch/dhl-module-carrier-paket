@@ -26,7 +26,7 @@
             <field id="api_username" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="40"
                    translate="label comment" type="text">
                 <label>User</label>
-                <comment>Enter you API user name, lower case only. Please talk to your account representative to add API access to your business account.</comment>
+                <comment>Enter your API user name, lower case only. Please talk to your account representative to add API access to your business account.</comment>
             </field>
             <field id="api_password" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="50"
                    translate="label" type="obscure">

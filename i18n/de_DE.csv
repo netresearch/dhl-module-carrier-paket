@@ -48,7 +48,7 @@
 "Enable Parcel Routing Service","Filial-Routing aktivieren"
 "Enable Sandbox Mode","Sandbox-Modus aktivieren"
 Enabled,Aktiviert
-"Enter you API user name, lower case only. Please talk to your account representative to add API access to your business account.","Geben Sie Ihren API Benutzernamen an (keine Großbuchstaben). Bitten Sprechen Sie mit Ihrem DHL-Ansprechpartner, um API-Zugang für Ihren Geschäftskunden-Account freizuschalten."
+"Enter your API user name, lower case only. Please talk to your account representative to add API access to your business account.","Geben Sie Ihren API Benutzernamen an (keine Großbuchstaben). Bitten Sprechen Sie mit Ihrem DHL-Ansprechpartner, um API-Zugang für Ihren Geschäftskunden-Account freizuschalten."
 "Error Logging Level","Stufe der Fehlerprotokollierung"
 Errors,Fehler
 "Field %1 is required.","Feld %1 is erforderlich."
@@ -77,6 +77,7 @@ Logging,Protokollierung
 "Neighbour address","Adresse des Nachbarn"
 "Neighbour name","Name des Nachbarn"
 No,Nein
+"Observe upper and lower case when handing over the password.","Beachten Sie Groß- und Kleinschreibung beim Eintragen des Passworts."
 "Offer DHL Parcel Announcement","Paketankündigung anbieten"
 "Offer Preferred Day Service","Wunschtag anbieten"
 "Offer Preferred Location Service","Wunschort anbieten"
@@ -132,7 +133,7 @@ Procedure,Verfahren
 "The participation number enables invoices to be subdivided according to location, seasonal business or different conditions. The participation number consists of 2 alphanumeric characters. It is allocated by DHL Sales.","Die Teilnahmenummer erlaubt es, Rechnungen nach Standort, Saisongeschäft oder anderen Umständen zu gruppieren. Eine Teilnamenummer besteht as zwei alphanumerischen Zeichen und wird Ihnen von DHL zugewiesen"
 "The product %1 is not valid for the route %2-%3.","Das Versandprodukt %1 ist nicht gültig für die Route %2-%3."
 "The rates will get used even if the selected shipping method is disabled. The available method names will also be those of the selected shipping method.","Die Tarife werden auch verwendet, wenn die ausgewählte Versandmethode deaktiviert ist. Die verfügbaren Methodennamen sind auch die der ausgewählten Versandmethode."
-"This field determines where <em>DHL Paket</em> will be displayed on the Checkout page. To display after <em>Flat Rate</em> or <em>Free Shipping</em>, enter a number just higher than the sort order value configured for those Shipping Methods.","Dieses Feld legt fest, wo <em>DHL Paket</em> auf der Checkout-Seite angezeigt wird. Um es z.B. nach <em>Flat Rate</em> oder <em>Gratisversand</em> anzuzeigen, geben Sie eine Zahl ein, die größer ist als die Sortierreihenfolge, die für diese Versandarten konfiguriert ist."
+"This field determines where <em>DHL Paket</em> will be displayed on the Checkout page. To display after <em>Flat Rate</em> or <em>Free Shipping</em>, enter a number just higher than the sort order value configured for those shipping methods.","Dieses Feld legt fest, wo <em>DHL Paket</em> auf der Checkout-Seite angezeigt wird. Um es z.B. nach <em>Flat Rate</em> oder <em>Gratisversand</em> anzuzeigen, geben Sie eine Zahl ein, die größer ist als die Sortierreihenfolge, die für diese Versandarten konfiguriert ist."
 "This service will incur additional shipping costs of $1 including VAT.","Für diesen Service fallen zusätzliche Versandkosten in Höhe von $1 inkl. MwSt. an."
 "To get started:","Was Sie brauchen:"
 "Unable to determine billing number.","Die Abrechnungsnummer konnte nicht ermittelt werden."

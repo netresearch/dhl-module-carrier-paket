@@ -17,7 +17,7 @@
                translate="label comment" type="text">
             <label>Sort Order</label>
             <frontend_class>validate-number</frontend_class>
-            <comment><![CDATA[This field determines where <em>DHL Paket</em> will be displayed on the Checkout page. To display after <em>Flat Rate</em> or <em>Free Shipping</em>, enter a number just higher than the sort order value configured for those Shipping Methods.]]></comment>
+            <comment><![CDATA[This field determines where <em>DHL Paket</em> will be displayed on the Checkout page. To display after <em>Flat Rate</em> or <em>Free Shipping</em>, enter a number just higher than the sort order value configured for those shipping methods.]]></comment>
             <config_path>carriers/dhlpaket/sort_order</config_path>
         </field>
 
