@@ -193,7 +193,8 @@ class RequestDataMapper
 
             // Add cash on delivery amount if COD payment method
             if ($requestExtractor->isCashOnDelivery()) {
-                $this->requestBuilder->setCodAmount((float) $requestExtractor->getOrder()->getBaseGrandTotal());
+                $codAmount = (int) ($requestExtractor->getOrder()->getBaseGrandTotal() * 100) / 100;
+                $this->requestBuilder->setCodAmount($codAmount);
             }
 
             if ($requestExtractor->isAdditionalInsurance()) {
