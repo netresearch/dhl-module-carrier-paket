@@ -193,7 +193,7 @@
             </argument>
         </arguments>
     </type>
-    <type name="Dhl\ShippingCore\Model\AdditionalFeeManagement">
+    <type name="Dhl\ShippingCore\Model\AdditionalFee\AdditionalFeeManagement">
         <arguments>
             <argument name="additionalFeeConfiguration" xsi:type="array">
                 <item name="dhlpaket" xsi:type="object">Dhl\Paket\Model\AdditionalFeeConfiguration</item>
@@ -208,7 +208,7 @@
         </arguments>
     </type>
 
-<!-- config path type pools-->
+    <!-- config path type pools-->
     <type name="Magento\Config\Model\Config\TypePool">
         <arguments>
             <argument name="sensitive" xsi:type="array">

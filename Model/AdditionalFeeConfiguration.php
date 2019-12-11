@@ -8,7 +8,7 @@ namespace Dhl\Paket\Model;
 
 use Dhl\Paket\Model\Carrier\Paket;
 use Dhl\Paket\Model\Config\ModuleConfig;
-use Dhl\ShippingCore\Api\AdditionalFeeConfigurationInterface;
+use Dhl\ShippingCore\Api\AdditionalFee\AdditionalFeeConfigurationInterface;
 use Dhl\ShippingCore\Api\Data\ShippingOption\Selection\AssignedSelectionInterface;
 use Dhl\ShippingCore\Api\Data\ShippingOption\Selection\SelectionInterface;
 use Dhl\ShippingCore\Model\ResourceModel\Quote\Address\ShippingOptionSelectionCollection;
