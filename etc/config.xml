@@ -86,6 +86,10 @@
                         <preferredneighbour>0</preferredneighbour>
                         <preferredday>0</preferredday>
                         <preferredtime>0</preferredtime>
+
+                        <preferredDayCharge>0.99</preferredDayCharge>
+                        <preferredTimeCharge>3.99</preferredTimeCharge>
+                        <preferredCombinedCharge>3.99</preferredCombinedCharge>
                     </services_group>
                 </additional_services>
             </dhlpaket>
