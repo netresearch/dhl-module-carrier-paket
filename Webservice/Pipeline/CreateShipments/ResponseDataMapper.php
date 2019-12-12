@@ -11,7 +11,7 @@ use Dhl\ShippingCore\Api\Data\ShipmentResponse\LabelResponseInterface;
 use Dhl\ShippingCore\Api\Data\ShipmentResponse\LabelResponseInterfaceFactory;
 use Dhl\ShippingCore\Api\Data\ShipmentResponse\ShipmentErrorResponseInterface;
 use Dhl\ShippingCore\Api\Data\ShipmentResponse\ShipmentErrorResponseInterfaceFactory;
-use Dhl\ShippingCore\Api\PdfCombinatorInterface;
+use Dhl\ShippingCore\Api\Util\PdfCombinatorInterface;
 use Magento\Framework\Exception\RuntimeException;
 use Magento\Framework\Phrase;
 use Psr\Log\LoggerInterface;

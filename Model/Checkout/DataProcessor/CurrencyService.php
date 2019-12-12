@@ -6,7 +6,7 @@ declare(strict_types=1);
 
 namespace Dhl\Paket\Model\Checkout\DataProcessor;
 
-use Dhl\ShippingCore\Util\UnitConverter;
+use Dhl\ShippingCore\Api\Util\UnitConverterInterface;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Locale\CurrencyInterface;
 use Magento\Store\Model\Store;
@@ -34,7 +34,7 @@ class CurrencyService
     protected $localeCurrency;
 
     /**
-     * @var UnitConverter
+     * @var UnitConverterInterface
      */
     private $unitConverter;
 
@@ -48,13 +48,13 @@ class CurrencyService
      *
      * @param StoreManagerInterface $storeManager
      * @param CurrencyInterface $localeCurrency
-     * @param UnitConverter $unitConverter
+     * @param UnitConverterInterface $unitConverter
      * @param LoggerInterface $logger
      */
     public function __construct(
         StoreManagerInterface $storeManager,
         CurrencyInterface $localeCurrency,
-        UnitConverter $unitConverter,
+        UnitConverterInterface $unitConverter,
         LoggerInterface $logger
     ) {
         $this->storeManager = $storeManager;
@@ -74,7 +74,7 @@ class CurrencyService
     private function getCurrencyCode(int $storeId = null): string
     {
         /** @var Store $store */
-        $store        = $this->storeManager->getStore($storeId);
+        $store = $this->storeManager->getStore($storeId);
 
         return $store->getCurrentCurrencyCode() ?: $this->getBaseCurrencyCode();
     }
@@ -94,10 +94,10 @@ class CurrencyService
     /**
      * Returns a localized and converted currency string.
      *
-     * @param float    $baseAmount  Amount in base currency to convert
-     * @param int|null $storeId     Store id
+     * @param float $baseAmount Amount in base currency to convert
+     * @param int|null $storeId Store id
      *
-     * @return string               Formatted string for amount in store (display) currency
+     * @return string Formatted string for amount in store (display) currency
      *
      * @throws Zend_Currency_Exception
      * @throws NoSuchEntityException

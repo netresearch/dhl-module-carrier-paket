@@ -26,7 +26,7 @@
             <argument name="instanceName" xsi:type="string">Dhl\Paket\Model\BulkShipmentManagement\Virtual</argument>
         </arguments>
     </virtualType>
-    <virtualType name="Dhl\Paket\Model\Logger\Handler\Virtual" type="Dhl\ShippingCore\Model\Log\ApiLogHandler">
+    <virtualType name="Dhl\Paket\Model\Logger\Handler\Virtual" type="Dhl\ShippingCore\Model\Util\ApiLogHandler">
         <arguments>
             <argument name="fileName" xsi:type="string">var/log/dhl_paket.log</argument>
             <argument name="logEnabledConfigPath" xsi:type="const">Dhl\Paket\Model\Config\ModuleConfig::CONFIG_PATH_ENABLE_LOGGING</argument>

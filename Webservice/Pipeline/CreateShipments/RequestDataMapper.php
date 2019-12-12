@@ -12,7 +12,7 @@ use Dhl\Paket\Model\ShipmentRequest\RequestExtractorFactory;
 use Dhl\Sdk\Paket\Bcs\Api\ShipmentOrderRequestBuilderInterface;
 use Dhl\Sdk\Paket\Bcs\Exception\RequestValidatorException;
 use Dhl\ShippingCore\Api\ConfigInterface;
-use Dhl\ShippingCore\Api\UnitConverterInterface;
+use Dhl\ShippingCore\Api\Util\UnitConverterInterface;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Shipping\Model\Shipment\Request;
 
