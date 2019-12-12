@@ -7,7 +7,6 @@ declare(strict_types=1);
 namespace Dhl\Paket\Model\Config;
 
 use Magento\Framework\App\Config\ScopeConfigInterface;
-use Magento\Framework\Encryption\EncryptorInterface;
 use Magento\Store\Model\ScopeInterface;
 
 /**
@@ -75,22 +74,13 @@ class ModuleConfig
     private $scopeConfig;
 
     /**
-     * @var EncryptorInterface
-     */
-    private $encryptor;
-
-    /**
      * ModuleConfig constructor.
      *
      * @param ScopeConfigInterface $scopeConfig
-     * @param EncryptorInterface $encryptor
      */
-    public function __construct(
-        ScopeConfigInterface $scopeConfig,
-        EncryptorInterface $encryptor
-    ) {
+    public function __construct(ScopeConfigInterface $scopeConfig)
+    {
         $this->scopeConfig = $scopeConfig;
-        $this->encryptor = $encryptor;
     }
 
     /**
@@ -162,12 +152,10 @@ class ModuleConfig
             return $this->getSandboxAuthPassword($store);
         }
 
-        return (string) $this->encryptor->decrypt(
-            $this->scopeConfig->getValue(
-                self::CONFIG_PATH_AUTH_PASSWORD,
-                ScopeInterface::SCOPE_STORE,
-                $store
-            )
+        return (string) $this->scopeConfig->getValue(
+            self::CONFIG_PATH_AUTH_PASSWORD,
+            ScopeInterface::SCOPE_STORE,
+            $store
         );
     }
 
@@ -202,12 +190,10 @@ class ModuleConfig
             return $this->getSandboxSignature($store);
         }
 
-        return (string) $this->encryptor->decrypt(
-            $this->scopeConfig->getValue(
-                self::CONFIG_PATH_SIGNATURE,
-                ScopeInterface::SCOPE_STORE,
-                $store
-            )
+        return (string) $this->scopeConfig->getValue(
+            self::CONFIG_PATH_SIGNATURE,
+            ScopeInterface::SCOPE_STORE,
+            $store
         );
     }
 
