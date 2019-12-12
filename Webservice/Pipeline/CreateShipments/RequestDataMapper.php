@@ -191,14 +191,14 @@ class RequestDataMapper
                 $this->requestBuilder->setPrintOnlyIfCodeable();
             }
 
-            // Add cash on delivery amount if COD payment method
+            $baseTotal = ((int)($requestExtractor->getOrder()->getBaseGrandTotal()) * 100) / 100;
             if ($requestExtractor->isCashOnDelivery()) {
-                $codAmount = (int) ($requestExtractor->getOrder()->getBaseGrandTotal() * 100) / 100;
-                $this->requestBuilder->setCodAmount($codAmount);
+                // Add cash on delivery amount if COD payment method
+                $this->requestBuilder->setCodAmount($baseTotal);
             }
 
             if ($requestExtractor->isAdditionalInsurance()) {
-                $this->requestBuilder->setInsuredValue((float) $requestExtractor->getOrder()->getBaseGrandTotal());
+                $this->requestBuilder->setInsuredValue($baseTotal);
             }
 
             if ($requestExtractor->isVisualCheckOfAge()) {
