@@ -90,7 +90,7 @@
                 </inputs>
             </shippingOption>
             <shippingOption code="parcelOutletRouting">
-                <label>Parcel Outlet Routing Service</label>
+                <label>Parcel Routing</label>
                 <sortOrder>45</sortOrder>
                 <routes>
                     <route>
@@ -103,7 +103,7 @@
                 <inputs>
                     <input code="enabled" defaultConfigValue="dhlshippingsolutions/dhlpaket/shipment_defaults/services_group/parcel_outlet">
                         <inputType>checkbox</inputType>
-                        <label>Enable Parcel Routing Service</label>
+                        <label>Enable DHL retail outlet routing service</label>
                     </input>
                 </inputs>
             </shippingOption>

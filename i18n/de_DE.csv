@@ -44,8 +44,8 @@
 "Enable DHL preferred neighbour delivery","Lieferung an Wunschnachbar aktivieren"
 "Enable DHL preferred time delivery","Lieferung zur Wunschzeit aktivieren"
 "Enable DHL print only if codeable service","Nur leitkodierbare Versandaufträge erteilen"
+"Enable DHL retail outlet routing service","Filial-Routing aktivieren"
 "Enable DHL return shipment service","DHL Retourenbeileger anfordern"
-"Enable Parcel Routing Service","Filial-Routing aktivieren"
 "Enable Sandbox Mode","Sandbox-Modus aktivieren"
 Enabled,Aktiviert
 "Enter your API user name, lower case only. Please talk to your account representative to add API access to your business account.","Geben Sie Ihren API Benutzernamen an (keine Großbuchstaben). Bitten Sprechen Sie mit Ihrem DHL-Ansprechpartner, um API-Zugang für Ihren Geschäftskunden-Account freizuschalten."
@@ -85,7 +85,7 @@ No,Nein
 "Offer Preferred Time Service","Wunschzeit anbieten"
 "On the working days checked, there is no transfer of parcels to DHL (in addition to sundays and public holidays). This information influences the options offered as preferred delivery day in checkout.","An den gewählten Werktagen (zusätzlich zu Sonn- und Feiertagen) findet keine Paketübergabe an DHL statt. Aus Ihrer Angabe berechnet sich der nächstmögliche Wunschtag im Checkout."
 "Parcel Announcement",Paketankündigung
-"Parcel Outlet Routing Service",Filial-Routing
+"Parcel Routing","Paket-Routing"
 "Partial shipments with Cash on Delivery or Insurance service are not supported. Please ship the entire order.","Teillieferungen mit Nachnahmezahlung oder Transportversicherung werden nicht unterstützt. Bitte erstellen Sie eine Sendung für die gesamte Bestellung."
 Participation,Teilnahme
 "Participation Numbers",Teilnahmenummern
@@ -98,8 +98,8 @@ Participation,Teilnahme
 "Please talk to your account representative to add API access to your business account","Bitte sprechen Sie mit Ihrem Kundenberater, um Ihrem Unternehmenskonto API-Zugriff hinzuzufügen."
 "Preferred Day",Wunschtag
 "Preferred Day Delivery","Lieferung zum Wunschtag"
-"Preferred Day additional charge","Aufpreis für Wunschtag"
-"Preferred Day and Time combined charge","Aufpreis für kombinierten Wunschtag und -zeit"
+"Preferred Day Additional Charge","Aufpreis für Wunschtag"
+"Preferred Day and Time Combined Charge","Aufpreis für kombinierten Wunschtag und -zeit"
 "Preferred Day: Delivery on your preferred day","Wunschtag: Lieferung zum gewüschten Tag"
 "Preferred Location",Wunschort
 "Preferred Location Delivery",Wunschort
@@ -107,7 +107,7 @@ Participation,Teilnahme
 "Preferred Neighbour Delivery",Wunschnachbar
 "Preferred Neighbour: Delivery to a neighbour of your choice","Wunschnachbar: Lieferung an den Nachbarn Ihrer Wahl"
 "Preferred Time Delivery",Wunschzeit
-"Preferred Time additional charge","Aufpreis für Wunschzeit"
+"Preferred Time Additional Charge","Aufpreis für Wunschzeit"
 "Preferred Time: Delivery at your preferred time",Wunschzeit
 "Print Only If Codeable","Nur leitkodierbare Versandaufträge erteilen"
 Procedure,Verfahren
@@ -140,7 +140,7 @@ Procedure,Verfahren
 "Unable to determine return shipment billing number.","Die Abrechnungsnummer für Rücksendungen konnte nicht ermittelt werden."
 "Use Additional Insurance Service","Erweiterte Transportversicherung aktivieren"
 "Use Bulky Goods Service","Sperrgutservice aktivieren"
-"Use Parcel Outlet Routing Service","Filial-Routing aktivieren"
+"Use Retail Outlet Routing Service","Filial-Routing aktivieren"
 "Use Return Shipment Service","Beilegeretoure aktivieren"
 "Use Visual Check of Age Service","Alterssichtprüfung aktivieren"
 "Use rates from","Verwende Tarife von"

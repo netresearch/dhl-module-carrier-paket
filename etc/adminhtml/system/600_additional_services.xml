@@ -37,7 +37,7 @@
                 <depends>
                     <field id="preferredday">1</field>
                 </depends>
-                <label>Preferred Day additional charge</label>
+                <label>Preferred Day Additional Charge</label>
                 <comment>The given additional charge will be applied to the shipping costs at checkout. Set to "0" to offer service for free.</comment>
             </field>
             <field id="preferredtime" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="60"
@@ -50,7 +50,7 @@
                 <depends>
                     <field id="preferredtime">1</field>
                 </depends>
-                <label>Preferred Time additional charge</label>
+                <label>Preferred Time Additional Charge</label>
                 <comment>The given additional charge will be applied to the shipping costs at checkout. Set to "0" to offer service for free.</comment>
             </field>
             <field id="preferredCombinedCharge" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="70"
@@ -59,7 +59,7 @@
                     <field id="preferredtime">1</field>
                     <field id="preferredday">1</field>
                 </depends>
-                <label>Preferred Day and Time combined charge</label>
+                <label>Preferred Day and Time Combined Charge</label>
                 <comment>The given combined additional charge will be applied to the shipping costs at checkout. Set to "0" to not offer service combination discount.</comment>
             </field>
         </group>

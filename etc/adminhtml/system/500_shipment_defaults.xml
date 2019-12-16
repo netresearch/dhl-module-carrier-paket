@@ -68,7 +68,7 @@
             </field>
             <field id="parcel_outlet" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="50"
                    translate="label comment" type="Netresearch\ConfigFields\Model\Type\Checkbox">
-                <label>Use Parcel Outlet Routing Service</label>
+                <label>Use Retail Outlet Routing Service</label>
                 <comment>If enabled, your undeliverable packages will be held at the nearest parcel collection point for collection by the recipient rather than being returned immediately to you.</comment>
             </field>
         </group>
