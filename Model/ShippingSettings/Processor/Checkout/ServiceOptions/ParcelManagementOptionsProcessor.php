@@ -4,17 +4,17 @@
  */
 declare(strict_types=1);
 
-namespace Dhl\Paket\Model\Checkout\DataProcessor\ServiceOptions;
+namespace Dhl\Paket\Model\ShippingSettings\Processor\Checkout\ServiceOptions;
 
-use Dhl\Paket\Model\ProcessorInterface;
+use Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes;
 use Dhl\Paket\Webservice\ParcelManagementServiceFactory;
 use Dhl\Sdk\Paket\ParcelManagement\Api\Data\CarrierServiceInterface;
 use Dhl\Sdk\Paket\ParcelManagement\Api\Data\IntervalOptionInterface;
 use Dhl\Sdk\Paket\ParcelManagement\Exception\ServiceException;
-use Dhl\ShippingCore\Api\Data\ShippingOption\OptionInterface;
-use Dhl\ShippingCore\Api\Data\ShippingOption\OptionInterfaceFactory;
-use Dhl\ShippingCore\Api\Data\ShippingOption\ShippingOptionInterface;
-use Dhl\ShippingCore\Model\Checkout\DataProcessor\ShippingOptionsProcessorInterface;
+use Dhl\ShippingCore\Api\Data\ShippingSettings\ShippingOption\OptionInterface;
+use Dhl\ShippingCore\Api\Data\ShippingSettings\ShippingOption\OptionInterfaceFactory;
+use Dhl\ShippingCore\Api\Data\ShippingSettings\ShippingOptionInterface;
+use Dhl\ShippingCore\Api\ShippingSettings\Processor\Checkout\ShippingOptionsProcessorInterface;
 use Dhl\ShippingCore\Model\ShipmentDate\ShipmentDate;
 use Magento\Framework\Stdlib\DateTime\TimezoneInterface;
 use Psr\Log\LoggerInterface;
@@ -30,8 +30,8 @@ class ParcelManagementOptionsProcessor implements ShippingOptionsProcessorInterf
     const SAME_DAY_DELIVERY = 'sameDayDelivery';
 
     const SERVICES_WITH_OPTIONS = [
-        ProcessorInterface::CHECKOUT_SERVICE_PREFERRED_DAY,
-        ProcessorInterface::CHECKOUT_SERVICE_PREFERRED_TIME,
+        Codes::CHECKOUT_SERVICE_PREFERRED_DAY,
+        Codes::CHECKOUT_SERVICE_PREFERRED_TIME,
         self::SAME_DAY_DELIVERY,
     ];
 
@@ -112,7 +112,7 @@ class ParcelManagementOptionsProcessor implements ShippingOptionsProcessorInterf
         $options = array_map(
             function (IntervalOptionInterface $intervalOption) use ($storeId) {
                 $optionLabel = $this->timezone->formatDate($intervalOption->getStart());
-                $optionValue = $this->timezone->scopeDate($storeId, $intervalOption->getStart())->format('Y-m-d');
+                $optionValue = (new \DateTime($intervalOption->getStart()))->format('Y-m-d');
 
                 $dayOption = $this->optionFactory->create();
                 $dayOption->setLabel($optionLabel);
@@ -204,7 +204,7 @@ class ParcelManagementOptionsProcessor implements ShippingOptionsProcessorInterf
             return null;
         }
 
-        if ($serviceCode === ProcessorInterface::CHECKOUT_SERVICE_PREFERRED_DAY) {
+        if ($serviceCode === Codes::CHECKOUT_SERVICE_PREFERRED_DAY) {
             // API returned option values for preferred day service, add them to the input element
             try {
                 $this->addPreferredDayOptions($shippingOption, $carrierServices[$serviceCode], $storeId);
@@ -215,7 +215,7 @@ class ParcelManagementOptionsProcessor implements ShippingOptionsProcessorInterf
             }
         }
 
-        if ($serviceCode === ProcessorInterface::CHECKOUT_SERVICE_PREFERRED_TIME) {
+        if ($serviceCode === Codes::CHECKOUT_SERVICE_PREFERRED_TIME) {
             // API returned option values for preferred time service, add them to the input element
             try {
                 $this->addPreferredTimeOptions($shippingOption, $carrierServices[$serviceCode]);

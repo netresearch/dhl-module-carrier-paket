@@ -8,11 +8,12 @@ namespace Dhl\Paket\Model;
 
 use Dhl\Paket\Model\Carrier\Paket;
 use Dhl\Paket\Model\Config\ModuleConfig;
+use Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes;
 use Dhl\ShippingCore\Api\AdditionalFee\AdditionalFeeConfigurationInterface;
-use Dhl\ShippingCore\Api\Data\ShippingOption\Selection\AssignedSelectionInterface;
-use Dhl\ShippingCore\Api\Data\ShippingOption\Selection\SelectionInterface;
+use Dhl\ShippingCore\Api\Data\ShippingSettings\ShippingOption\Selection\AssignedSelectionInterface;
+use Dhl\ShippingCore\Api\Data\ShippingSettings\ShippingOption\Selection\SelectionInterface;
 use Dhl\ShippingCore\Model\ResourceModel\Quote\Address\ShippingOptionSelectionCollection;
-use Dhl\ShippingCore\Model\ShippingOption\Selection\QuoteSelectionRepository;
+use Dhl\ShippingCore\Model\ShippingSettings\ShippingOption\Selection\QuoteSelectionRepository;
 use Magento\Framework\Api\FilterBuilder;
 use Magento\Framework\Api\Search\SearchCriteriaBuilderFactory;
 use Magento\Framework\Phrase;
@@ -103,10 +104,10 @@ class AdditionalFeeConfiguration implements AdditionalFeeConfigurationInterface
         if ($serviceSelections->count() === 1) {
             /** @var SelectionInterface $selectedService */
             $selectedService = $serviceSelections->getFirstItem();
-            if ($selectedService->getShippingOptionCode() === ProcessorInterface::CHECKOUT_SERVICE_PREFERRED_DAY) {
+            if ($selectedService->getShippingOptionCode() === Codes::CHECKOUT_SERVICE_PREFERRED_DAY) {
                 $fee = $this->config->getPreferredDayAdditionalCharge($quote->getStoreId());
             }
-            if ($selectedService->getShippingOptionCode() === ProcessorInterface::CHECKOUT_SERVICE_PREFERRED_TIME) {
+            if ($selectedService->getShippingOptionCode() === Codes::CHECKOUT_SERVICE_PREFERRED_TIME) {
                 $fee = $this->config->getPreferredTimeAdditionalCharge($quote->getStoreId());
             }
         }
@@ -136,8 +137,8 @@ class AdditionalFeeConfiguration implements AdditionalFeeConfigurationInterface
                 ->create();
 
             $optionCodes = [
-                ProcessorInterface::CHECKOUT_SERVICE_PREFERRED_TIME,
-                ProcessorInterface::CHECKOUT_SERVICE_PREFERRED_DAY,
+                Codes::CHECKOUT_SERVICE_PREFERRED_TIME,
+                Codes::CHECKOUT_SERVICE_PREFERRED_DAY,
             ];
             $optionCodeFilter = $this->filterBuilder
                 ->setField(SelectionInterface::SHIPPING_OPTION_CODE)

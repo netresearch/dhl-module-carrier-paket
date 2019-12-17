@@ -4,16 +4,16 @@
  */
 declare(strict_types=1);
 
-namespace Dhl\Paket\Model\Packaging\DataProcessor\PackageOptions;
+namespace Dhl\Paket\Model\ShippingSettings\Processor\Packaging;
 
 use Dhl\Paket\Model\Carrier\Paket;
 use Dhl\Paket\Model\Config\ModuleConfig;
 use Dhl\Paket\Util\ShippingProducts;
 use Dhl\ShippingCore\Api\ConfigInterface;
-use Dhl\ShippingCore\Api\Data\ShippingOption\CommentInterfaceFactory;
-use Dhl\ShippingCore\Api\Data\ShippingOption\ShippingOptionInterface;
-use Dhl\ShippingCore\Model\Packaging\DataProcessor\ShippingOptionsProcessorInterface;
-use Magento\Sales\Model\Order\Shipment;
+use Dhl\ShippingCore\Api\Data\ShippingSettings\ShippingOption\CommentInterfaceFactory;
+use Dhl\ShippingCore\Api\Data\ShippingSettings\ShippingOptionInterface;
+use Dhl\ShippingCore\Api\ShippingSettings\Processor\Packaging\ShippingOptionsProcessorInterface;
+use Magento\Sales\Api\Data\ShipmentInterface;
 
 /**
  * Class PackageInputDataProcessor
@@ -67,17 +67,19 @@ class PackageInputDataProcessor implements ShippingOptionsProcessorInterface
      * Set options and values to inputs on package level.
      *
      * @param ShippingOptionInterface $shippingOption
-     * @param Shipment $shipment
+     * @param ShipmentInterface $shipment
      */
-    private function processInputs(ShippingOptionInterface $shippingOption, Shipment $shipment)
+    private function processInputs(ShippingOptionInterface $shippingOption, ShipmentInterface $shipment)
     {
         foreach ($shippingOption->getInputs() as $input) {
             switch ($input->getCode()) {
                 case 'productCode':
                     $storeId = $shipment->getStoreId();
 
+                    /** @var \Magento\Sales\Model\Order $order */
+                    $order = $shipment->getOrder();
                     $originCountry = $this->dhlConfig->getOriginCountry($storeId);
-                    $destinationCountry = $shipment->getOrder()->getShippingAddress()->getCountryId();
+                    $destinationCountry = $order->getShippingAddress()->getCountryId();
                     $euCountries = $this->dhlConfig->getEuCountries($storeId);
 
                     $applicableProducts = $this->shippingProducts->getShippingProducts(
@@ -118,7 +120,9 @@ class PackageInputDataProcessor implements ShippingOptionsProcessorInterface
                     break;
 
                 case 'additionalFee':
-                    $currency = $shipment->getStore()->getBaseCurrency();
+                    /** @var \Magento\Store\Model\Store $store */
+                    $store = $shipment->getStore();
+                    $currency = $store->getBaseCurrency();
                     $currencySymbol = $currency->getCurrencySymbol() ?: $currency->getCode();
                     $comment = $this->commentFactory->create();
                     $comment->setContent($currencySymbol);
@@ -130,13 +134,15 @@ class PackageInputDataProcessor implements ShippingOptionsProcessorInterface
 
     /**
      * @param ShippingOptionInterface[] $optionsData
-     * @param Shipment $shipment
+     * @param ShipmentInterface $shipment
      *
      * @return ShippingOptionInterface[]
      */
-    public function process(array $optionsData, Shipment $shipment): array
+    public function process(array $optionsData, ShipmentInterface $shipment): array
     {
-        $carrierCode = strtok((string) $shipment->getOrder()->getShippingMethod(), '_');
+        /** @var \Magento\Sales\Model\Order $order */
+        $order = $shipment->getOrder();
+        $carrierCode = strtok((string) $order->getShippingMethod(), '_');
 
         if ($carrierCode !== Paket::CARRIER_CODE) {
             return $optionsData;

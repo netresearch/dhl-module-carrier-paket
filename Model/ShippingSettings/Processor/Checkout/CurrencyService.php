@@ -4,7 +4,7 @@
  */
 declare(strict_types=1);
 
-namespace Dhl\Paket\Model\Checkout\DataProcessor;
+namespace Dhl\Paket\Model\ShippingSettings\Processor\Checkout;
 
 use Dhl\ShippingCore\Api\Util\UnitConverterInterface;
 use Magento\Framework\Exception\NoSuchEntityException;

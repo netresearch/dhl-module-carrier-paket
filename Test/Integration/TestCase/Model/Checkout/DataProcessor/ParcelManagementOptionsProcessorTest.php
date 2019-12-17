@@ -7,14 +7,14 @@ declare(strict_types=1);
 namespace Dhl\Paket\Test\Integration\TestCase\Model\Checkout\DataProcessor;
 
 use Dhl\Paket\Model\Carrier\Paket;
-use Dhl\Paket\Model\ProcessorInterface;
+use Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes;
 use Dhl\Paket\Test\Integration\TestDouble\CheckoutServiceStub;
 use Dhl\Sdk\Paket\ParcelManagement\Service\ServiceFactory;
-use Dhl\ShippingCore\Model\Checkout\CarrierData;
-use Dhl\ShippingCore\Model\ShippingOption\Input;
-use Dhl\ShippingCore\Model\ShippingOption\Option;
-use Dhl\ShippingCore\Model\ShippingOption\ShippingOption;
-use Dhl\ShippingCore\Model\Webapi\CheckoutManagement;
+use Dhl\ShippingCore\Model\ShippingSettings\Data\CarrierData;
+use Dhl\ShippingCore\Model\ShippingSettings\Data\Input;
+use Dhl\ShippingCore\Model\ShippingSettings\Data\Option;
+use Dhl\ShippingCore\Model\ShippingSettings\Data\ShippingOption;
+use Dhl\ShippingCore\Model\ShippingSettings\CheckoutManagement;
 use Magento\Framework\ObjectManagerInterface;
 use Magento\TestFramework\Helper\Bootstrap;
 use PHPUnit\Framework\TestCase;
@@ -98,11 +98,11 @@ class ParcelManagementOptionsProcessorTest extends TestCase
         $carrier = $carriers[Paket::CARRIER_CODE];
         $serviceOptions = $carrier->getServiceOptions();
 
-        self::assertArrayHasKey(ProcessorInterface::CHECKOUT_SERVICE_PREFERRED_DAY, $serviceOptions);
-        self::assertArrayHasKey(ProcessorInterface::CHECKOUT_SERVICE_PREFERRED_TIME, $serviceOptions);
-        self::assertArrayNotHasKey(ProcessorInterface::CHECKOUT_SERVICE_PREFERRED_LOCATION, $serviceOptions);
-        self::assertArrayNotHasKey(ProcessorInterface::CHECKOUT_SERVICE_PREFERRED_NEIGHBOUR, $serviceOptions);
-        self::assertArrayNotHasKey(ProcessorInterface::CHECKOUT_PARCEL_ANNOUNCEMENT, $serviceOptions);
+        self::assertArrayHasKey(Codes::CHECKOUT_SERVICE_PREFERRED_DAY, $serviceOptions);
+        self::assertArrayHasKey(Codes::CHECKOUT_SERVICE_PREFERRED_TIME, $serviceOptions);
+        self::assertArrayNotHasKey(Codes::CHECKOUT_SERVICE_PREFERRED_LOCATION, $serviceOptions);
+        self::assertArrayNotHasKey(Codes::CHECKOUT_SERVICE_PREFERRED_NEIGHBOUR, $serviceOptions);
+        self::assertArrayNotHasKey(Codes::CHECKOUT_PARCEL_ANNOUNCEMENT, $serviceOptions);
 
         /** @var ShippingOption $serviceOption */
         foreach ($serviceOptions as $serviceOption) {

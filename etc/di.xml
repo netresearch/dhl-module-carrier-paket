@@ -5,9 +5,6 @@
  */
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
-    <!-- # interface preferences -->
-    <preference for="Dhl\Paket\Webservice\Processor\OperationProcessorInterface" type="Dhl\Paket\Webservice\Processor\LabelStatusProcessor"/>
-
     <!-- # sdk preferences -->
     <preference for="Dhl\Sdk\Paket\Bcs\Api\ShipmentOrderRequestBuilderInterface" type="Dhl\Sdk\Paket\Bcs\RequestBuilder\ShipmentOrderRequestBuilder"/>
     <preference for="Dhl\Sdk\Paket\Bcs\Api\ServiceFactoryInterface" type="Dhl\Sdk\Paket\Bcs\Service\ServiceFactory"/>
@@ -139,28 +136,28 @@
             </argument>
         </arguments>
     </type>
-    <type name="Dhl\ShippingCore\Model\Checkout\CheckoutDataCompositeProcessor">
+    <type name="Dhl\ShippingCore\Model\ShippingSettings\Processor\Checkout\CheckoutDataCompositeProcessor">
         <arguments>
             <argument name="serviceOptionsProcessors" xsi:type="array">
-                <item name="dhlpaketParcelManagementOptionsProcessor" sortOrder="100" xsi:type="object">Dhl\Paket\Model\Checkout\DataProcessor\ServiceOptions\ParcelManagementOptionsProcessor</item>
-                <item name="dhlpaketAdditionalChargesProcessor" sortOrder="200" xsi:type="object">Dhl\Paket\Model\Checkout\DataProcessor\ServiceOptions\AdditionalChargesProcessor</item>
+                <item name="dhlpaketParcelManagementOptionsProcessor" sortOrder="100" xsi:type="object">Dhl\Paket\Model\ShippingSettings\Processor\Checkout\ServiceOptions\ParcelManagementOptionsProcessor</item>
+                <item name="dhlpaketAdditionalChargesProcessor" sortOrder="200" xsi:type="object">Dhl\Paket\Model\ShippingSettings\Processor\Checkout\ServiceOptions\AdditionalChargesProcessor</item>
             </argument>
             <argument name="metadataProcessors" xsi:type="array">
-                <item name="dhlpaketAdditionalChargesProcessor" sortOrder="200" xsi:type="object">Dhl\Paket\Model\Checkout\DataProcessor\Metadata\AdditionalChargesProcessor</item>
+                <item name="dhlpaketAdditionalChargesProcessor" sortOrder="200" xsi:type="object">Dhl\Paket\Model\ShippingSettings\Processor\Checkout\Metadata\AdditionalChargesProcessor</item>
             </argument>
         </arguments>
     </type>
-    <type name="Dhl\ShippingCore\Model\Packaging\PackagingDataCompositeProcessor">
+    <type name="Dhl\ShippingCore\Model\ShippingSettings\Processor\Packaging\PackagingDataCompositeProcessor">
         <arguments>
             <argument name="packagingServiceOptionsProcessors" xsi:type="array">
-                <item name="dhlPaketServiceInputProcessor" sortOrder="120" xsi:type="object">Dhl\Paket\Model\Packaging\DataProcessor\ServiceOptions\ServiceInputDataProcessor</item>
+                <item name="dhlPaketServiceInputProcessor" sortOrder="120" xsi:type="object">Dhl\Paket\Model\ShippingSettings\Processor\Packaging\ServiceInputDataProcessor</item>
             </argument>
             <argument name="packagingPackageOptionsProcessors" xsi:type="array">
-                <item name="dhlPaketPackageInputProcessor" sortOrder="220" xsi:type="object">Dhl\Paket\Model\Packaging\DataProcessor\PackageOptions\PackageInputDataProcessor</item>
+                <item name="dhlPaketPackageInputProcessor" sortOrder="220" xsi:type="object">Dhl\Paket\Model\ShippingSettings\Processor\Packaging\PackageInputDataProcessor</item>
             </argument>
         </arguments>
     </type>
-    <type name="Dhl\ShippingCore\Model\Support\PackagingPopup">
+    <type name="Dhl\ShippingCore\Model\ShippingSettings\PackagingPopup">
         <arguments>
             <argument name="supportMap" xsi:type="array">
                 <item name="dhlpaket" xsi:type="const">Dhl\Paket\Model\Carrier\Paket::CARRIER_CODE</item>

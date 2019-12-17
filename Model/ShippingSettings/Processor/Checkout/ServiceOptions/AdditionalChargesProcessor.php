@@ -4,14 +4,14 @@
  */
 declare(strict_types=1);
 
-namespace Dhl\Paket\Model\Checkout\DataProcessor\ServiceOptions;
+namespace Dhl\Paket\Model\ShippingSettings\Processor\Checkout\ServiceOptions;
 
-use Dhl\Paket\Model\Checkout\DataProcessor\CurrencyService;
 use Dhl\Paket\Model\Config\ModuleConfig;
-use Dhl\Paket\Model\ProcessorInterface;
-use Dhl\ShippingCore\Api\Data\ShippingOption\InputInterface;
-use Dhl\ShippingCore\Api\Data\ShippingOption\ShippingOptionInterface;
-use Dhl\ShippingCore\Model\Checkout\DataProcessor\ShippingOptionsProcessorInterface;
+use Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes;
+use Dhl\Paket\Model\ShippingSettings\Processor\Checkout\CurrencyService;
+use Dhl\ShippingCore\Api\Data\ShippingSettings\ShippingOption\InputInterface;
+use Dhl\ShippingCore\Api\Data\ShippingSettings\ShippingOptionInterface;
+use Dhl\ShippingCore\Api\ShippingSettings\Processor\Checkout\ShippingOptionsProcessorInterface;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -93,7 +93,7 @@ class AdditionalChargesProcessor implements ShippingOptionsProcessorInterface
         string $postalCode,
         int $storeId = null
     ): array {
-        $preferredDay = $optionsData[ProcessorInterface::CHECKOUT_SERVICE_PREFERRED_DAY] ?? false;
+        $preferredDay = $optionsData[Codes::CHECKOUT_SERVICE_PREFERRED_DAY] ?? false;
         if ($preferredDay) {
             $date = $preferredDay->getInputs()['date'] ?? false;
             if ($date) {
@@ -102,7 +102,7 @@ class AdditionalChargesProcessor implements ShippingOptionsProcessorInterface
             }
         }
 
-        $preferredTime = $optionsData[ProcessorInterface::CHECKOUT_SERVICE_PREFERRED_TIME] ?? false;
+        $preferredTime = $optionsData[Codes::CHECKOUT_SERVICE_PREFERRED_TIME] ?? false;
         if ($preferredTime) {
             $time = $preferredTime->getInputs()['time'] ?? false;
             if ($time) {

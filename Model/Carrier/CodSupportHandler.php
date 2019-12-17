@@ -6,11 +6,11 @@ declare(strict_types=1);
 
 namespace Dhl\Paket\Model\Carrier;
 
-use Dhl\Paket\Model\ProcessorInterface;
-use Dhl\ShippingCore\Api\CodSupportInterface;
+use Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes;
+use Dhl\ShippingCore\Api\PaymentMethod\MethodAvailabilityInterface;
 use Dhl\ShippingCore\Api\ConfigInterface;
-use Dhl\ShippingCore\Api\Data\ShippingOption\Selection\AssignedSelectionInterface;
-use Dhl\ShippingCore\Model\ShippingOption\Selection\QuoteSelectionRepository;
+use Dhl\ShippingCore\Api\Data\ShippingSettings\ShippingOption\Selection\AssignedSelectionInterface;
+use Dhl\ShippingCore\Model\ShippingSettings\ShippingOption\Selection\QuoteSelectionRepository;
 use Magento\Framework\Api\FilterBuilder;
 use Magento\Framework\Api\Search\SearchCriteriaBuilderFactory;
 use Magento\Quote\Model\Quote;
@@ -22,7 +22,7 @@ use Magento\Quote\Model\Quote;
  * @author Paul Siedler <paul.siedler@netresearch.de>
  * @link https://www.netresearch.de/
  */
-class CodSupportHandler implements CodSupportInterface
+class CodSupportHandler implements MethodAvailabilityInterface
 {
     /**
      * @var ConfigInterface
@@ -77,7 +77,7 @@ class CodSupportHandler implements CodSupportInterface
      *
      * @return bool
      */
-    public function hasCodSupport(Quote $quote): bool
+    public function isAvailable(Quote $quote): bool
     {
         return $this->isDomesticShipment($quote)
             && !$this->hasCodIncompatibleServices($quote);
@@ -120,8 +120,8 @@ class CodSupportHandler implements CodSupportInterface
                 implode(
                     ',',
                     [
-                        ProcessorInterface::CHECKOUT_SERVICE_PREFERRED_LOCATION,
-                        ProcessorInterface::CHECKOUT_SERVICE_PREFERRED_NEIGHBOUR,
+                        Codes::CHECKOUT_SERVICE_PREFERRED_LOCATION,
+                        Codes::CHECKOUT_SERVICE_PREFERRED_NEIGHBOUR,
                     ]
                 )
             )

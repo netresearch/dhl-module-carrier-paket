@@ -4,7 +4,7 @@
  */
 namespace Dhl\Paket\Model\Packaging;
 
-use Dhl\Paket\Model\ProcessorInterface;
+use Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes;
 use Dhl\ShippingCore\Api\ConfigInterface;
 use Magento\Bundle\Model\Product\Type;
 use Magento\Catalog\Model\Product\Type\AbstractType;
@@ -15,6 +15,8 @@ use Magento\Shipping\Model\Shipment\Request;
 
 /**
  * Class ShipmentRequestValidator
+ *
+ * @fixme(nr): Shouldn't this be part of the validation stage? Is it currently triggered in bulk operation at all?
  *
  * @package Dhl\Paket\Model\Packaging
  * @author Max Melzer <max.melzer@netresearch.de>
@@ -91,7 +93,7 @@ class ShipmentRequestValidator
         $hasCodService = $payment && $this->shippingCoreConfig->isCodPaymentMethod($payment->getMethod());
         $hasInsuranceService = $request
                 ->getData('package_params')
-                ->getServices()[ProcessorInterface::PACKAGING_SERVICE_INSURANCE]['enabled'] ?? false;
+                ->getServices()[Codes::PACKAGING_SERVICE_INSURANCE]['enabled'] ?? false;
 
         return $hasCodService || $hasInsuranceService;
     }

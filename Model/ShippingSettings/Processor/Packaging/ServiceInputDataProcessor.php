@@ -4,19 +4,19 @@
  */
 declare(strict_types=1);
 
-namespace Dhl\Paket\Model\Packaging\DataProcessor\ServiceOptions;
+namespace Dhl\Paket\Model\ShippingSettings\Processor\Packaging;
 
 use Dhl\Paket\Model\Carrier\Paket;
-use Dhl\Paket\Model\ProcessorInterface;
-use Dhl\ShippingCore\Api\Data\ShippingOption\OptionInterface;
-use Dhl\ShippingCore\Api\Data\ShippingOption\OptionInterfaceFactory;
-use Dhl\ShippingCore\Api\Data\ShippingOption\Selection\AssignedSelectionInterface;
-use Dhl\ShippingCore\Api\Data\ShippingOption\ShippingOptionInterface;
-use Dhl\ShippingCore\Model\Packaging\DataProcessor\ShippingOptionsProcessorInterface;
-use Dhl\ShippingCore\Model\ShippingOption\Selection\OrderSelectionRepository;
+use Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes;
+use Dhl\ShippingCore\Api\Data\ShippingSettings\ShippingOption\OptionInterface;
+use Dhl\ShippingCore\Api\Data\ShippingSettings\ShippingOption\OptionInterfaceFactory;
+use Dhl\ShippingCore\Api\Data\ShippingSettings\ShippingOption\Selection\AssignedSelectionInterface;
+use Dhl\ShippingCore\Api\Data\ShippingSettings\ShippingOptionInterface;
+use Dhl\ShippingCore\Api\ShippingSettings\Processor\Packaging\ShippingOptionsProcessorInterface;
+use Dhl\ShippingCore\Model\ShippingSettings\ShippingOption\Selection\OrderSelectionRepository;
 use Magento\Framework\Api\SearchCriteriaBuilder;
 use Magento\Framework\Stdlib\DateTime\TimezoneInterface;
-use Magento\Sales\Model\Order\Shipment;
+use Magento\Sales\Api\Data\ShipmentInterface;
 
 /**
  * Class ServiceInputDataProcessor
@@ -47,10 +47,10 @@ class ServiceInputDataProcessor implements ShippingOptionsProcessorInterface
      * @var string[]
      */
     private static $availableCustomerServices = [
-        ProcessorInterface::CHECKOUT_SERVICE_PREFERRED_DAY,
-        ProcessorInterface::CHECKOUT_SERVICE_PREFERRED_TIME,
-        ProcessorInterface::CHECKOUT_SERVICE_PREFERRED_LOCATION,
-        ProcessorInterface::CHECKOUT_SERVICE_PREFERRED_NEIGHBOUR,
+        Codes::CHECKOUT_SERVICE_PREFERRED_DAY,
+        Codes::CHECKOUT_SERVICE_PREFERRED_TIME,
+        Codes::CHECKOUT_SERVICE_PREFERRED_LOCATION,
+        Codes::CHECKOUT_SERVICE_PREFERRED_NEIGHBOUR,
     ];
 
     /**
@@ -202,13 +202,15 @@ class ServiceInputDataProcessor implements ShippingOptionsProcessorInterface
 
     /**
      * @param ShippingOptionInterface[] $optionsData
-     * @param Shipment $shipment
+     * @param ShipmentInterface $shipment
      *
      * @return ShippingOptionInterface[]
      */
-    public function process(array $optionsData, Shipment $shipment): array
+    public function process(array $optionsData, ShipmentInterface $shipment): array
     {
-        $carrierCode = strtok((string) $shipment->getOrder()->getShippingMethod(), '_');
+        /** @var \Magento\Sales\Model\Order $order */
+        $order = $shipment->getOrder();
+        $carrierCode = strtok((string) $order->getShippingMethod(), '_');
 
         if ($carrierCode !== Paket::CARRIER_CODE) {
             return $optionsData;
@@ -222,10 +224,10 @@ class ServiceInputDataProcessor implements ShippingOptionsProcessorInterface
 
         foreach ($optionsData as $optionGroup) {
             switch ($optionGroup->getCode()) {
-                case ProcessorInterface::CHECKOUT_SERVICE_PREFERRED_DAY:
+                case Codes::CHECKOUT_SERVICE_PREFERRED_DAY:
                     $this->processPreferredDayInputs($optionGroup);
                     break;
-                case ProcessorInterface::CHECKOUT_SERVICE_PREFERRED_TIME:
+                case Codes::CHECKOUT_SERVICE_PREFERRED_TIME:
                     $this->processPreferredTimeInputs($optionGroup);
                     break;
             }

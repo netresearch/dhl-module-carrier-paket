@@ -4,16 +4,16 @@
  */
 declare(strict_types=1);
 
-namespace Dhl\Paket\Model;
+namespace Dhl\Paket\Model\ShippingSettings\ShippingOption;
 
 /**
- * Class ProcessorInterface.
+ * Class Codes.
  *
  * @package Dhl\Paket\Model
  * @author  Rico Sonntag <rico.sonntag@netresearch.de>
  * @link    https://www.netresearch.de/
  */
-interface ProcessorInterface
+class Codes
 {
     /**
      * Packaging services.

@@ -6,9 +6,9 @@ declare(strict_types=1);
 
 namespace Dhl\Paket\Test\Integration\Fixture;
 
-use Dhl\ShippingCore\Api\Data\ShippingOption\Selection\AssignedSelectionInterface;
-use Dhl\ShippingCore\Model\ShippingOption\Selection\QuoteSelection;
-use Dhl\ShippingCore\Model\ShippingOption\Selection\QuoteSelectionRepository;
+use Dhl\ShippingCore\Api\Data\ShippingSettings\ShippingOption\Selection\AssignedSelectionInterface;
+use Dhl\ShippingCore\Model\ShippingSettings\ShippingOption\Selection\QuoteSelection;
+use Dhl\ShippingCore\Model\ShippingSettings\ShippingOption\Selection\QuoteSelectionRepository;
 use Magento\Framework\Exception\CouldNotDeleteException;
 use Magento\Framework\Exception\CouldNotSaveException;
 use Magento\Quote\Api\Data\CartInterface;

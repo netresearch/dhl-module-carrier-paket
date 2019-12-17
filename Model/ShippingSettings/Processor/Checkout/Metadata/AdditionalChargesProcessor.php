@@ -4,12 +4,12 @@
  */
 declare(strict_types=1);
 
-namespace Dhl\Paket\Model\Checkout\DataProcessor\Metadata;
+namespace Dhl\Paket\Model\ShippingSettings\Processor\Checkout\Metadata;
 
-use Dhl\Paket\Model\Checkout\DataProcessor\CurrencyService;
 use Dhl\Paket\Model\Config\ModuleConfig;
-use Dhl\ShippingCore\Api\Data\MetadataInterface;
-use Dhl\ShippingCore\Model\Checkout\DataProcessor\MetadataProcessorInterface;
+use Dhl\Paket\Model\ShippingSettings\Processor\Checkout\CurrencyService;
+use Dhl\ShippingCore\Api\Data\ShippingSettings\MetadataInterface;
+use Dhl\ShippingCore\Api\ShippingSettings\Processor\Checkout\MetadataProcessorInterface;
 use Psr\Log\LoggerInterface;
 
 /**
