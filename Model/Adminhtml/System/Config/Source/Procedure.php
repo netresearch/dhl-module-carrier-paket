@@ -10,6 +10,8 @@ use Dhl\Paket\Util\ShippingProducts;
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\App\RequestInterface;
 use Magento\Framework\Data\OptionSourceInterface;
+use Magento\Shipping\Model\Config;
+use Magento\Store\Model\ScopeInterface;
 
 /**
  * Class Procedure
@@ -62,8 +64,8 @@ class Procedure implements OptionSourceInterface
         $websiteId = $this->request->getParam('website', 0);
 
         $originCountry = $this->scopeConfig->getValue(
-            \Magento\Shipping\Model\Config::XML_PATH_ORIGIN_COUNTRY_ID,
-            \Magento\Store\Model\ScopeInterface::SCOPE_WEBSITE,
+            Config::XML_PATH_ORIGIN_COUNTRY_ID,
+            ScopeInterface::SCOPE_WEBSITE,
             $websiteId
         );
 

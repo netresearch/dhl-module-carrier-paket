@@ -10,13 +10,15 @@ use Dhl\Paket\Model\Carrier\Paket;
 use Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes;
 use Dhl\Paket\Test\Integration\TestDouble\CheckoutServiceStub;
 use Dhl\Sdk\Paket\ParcelManagement\Service\ServiceFactory;
+use Dhl\ShippingCore\Model\ShippingSettings\CheckoutManagement;
 use Dhl\ShippingCore\Model\ShippingSettings\Data\CarrierData;
 use Dhl\ShippingCore\Model\ShippingSettings\Data\Input;
 use Dhl\ShippingCore\Model\ShippingSettings\Data\Option;
 use Dhl\ShippingCore\Model\ShippingSettings\Data\ShippingOption;
-use Dhl\ShippingCore\Model\ShippingSettings\CheckoutManagement;
+use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\ObjectManagerInterface;
 use Magento\TestFramework\Helper\Bootstrap;
+use Magento\TestFramework\ObjectManager;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -30,7 +32,7 @@ use PHPUnit\Framework\TestCase;
 class ParcelManagementOptionsProcessorTest extends TestCase
 {
     /**
-     * @var ObjectManagerInterface|\Magento\TestFramework\ObjectManager
+     * @var ObjectManagerInterface|ObjectManager
      */
     private $objectManager;
 
@@ -81,6 +83,8 @@ class ParcelManagementOptionsProcessorTest extends TestCase
      * @magentoConfigFixture current_store carriers/flatrate/type O
      * @magentoConfigFixture current_store carriers/flatrate/handling_type F
      * @magentoConfigFixture current_store carriers/flatrate/price 5.00
+     *
+     * @throws LocalizedException
      */
     public function processShippingOptions()
     {

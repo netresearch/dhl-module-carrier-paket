@@ -8,6 +8,7 @@ namespace Dhl\Paket\Test\Integration\TestCase\Model\Carrier;
 
 use Dhl\Paket\Model\Carrier\Paket;
 use Magento\Quote\Model\Quote\Address\RateRequest;
+use Magento\Shipping\Model\Rate\Result;
 use Magento\TestFramework\Helper\Bootstrap;
 use PHPUnit\Framework\TestCase;
 
@@ -34,7 +35,7 @@ class RatesTest extends TestCase
 
         $rateRequest = new RateRequest();
         $rateRequest->setPackageQty(1);
-        /** @var \Magento\Shipping\Model\Rate\Result $rates */
+        /** @var Result $rates */
         $rates = $subject->collectRates($rateRequest);
         $this->assertCount(1, $rates->getAllRates());
 

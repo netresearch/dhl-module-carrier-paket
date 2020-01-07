@@ -57,6 +57,54 @@
                 </subjects>
                 <errorMessage>Some values for Preferred Neighbour service are missing.</errorMessage>
             </rule>
+            <rule id="parcelshopFinderInclude">
+                <masters>
+                    <master>parcelshopFinder.enabled</master>
+                </masters>
+                <subjects>
+                    <subject>parcelshopFinder.customerPostnumber</subject>
+                </subjects>
+                <action>show</action>
+                <triggerValue>*</triggerValue>
+            </rule>
+            <rule id="parcelshopFinderExcludeAllOthers">
+                <masters>
+                    <master>parcelshopFinder.enabled</master>
+                </masters>
+                <subjects>
+                    <subject>preferredDay</subject>
+                    <subject>preferredTime</subject>
+                    <subject>preferredLocation</subject>
+                    <subject>preferredNeighbour</subject>
+                    <subject>parcelOutletRouting</subject>
+                </subjects>
+                <triggerValue>*</triggerValue>
+                <action>hide</action>
+            </rule>
+            <rule id="allOthersExcludeParcelshopFinder">
+                <masters>
+                    <master>preferredDay</master>
+                    <master>preferredTime</master>
+                    <master>preferredLocation</master>
+                    <master>preferredNeighbour</master>
+                    <master>parcelOutletRouting</master>
+                </masters>
+                <subjects>
+                    <subject>parcelshopFinder</subject>
+                </subjects>
+                <triggerValue>*</triggerValue>
+                <action>hide</action>
+            </rule>
+            <rule id="parcelshopFinderRequirePostNumber">
+                <masters>
+                    <master>parcelshopFinder.locationType</master>
+                </masters>
+                <subjects>
+                    <subject>parcelshopFinder.customerPostnumber</subject>
+                </subjects>
+                <triggerValue>packstation</triggerValue>
+                <action>require</action>
+            </rule>
         </compatibilityData>
     </carrier>
 </carriers>

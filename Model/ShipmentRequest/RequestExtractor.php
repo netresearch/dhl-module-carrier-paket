@@ -9,6 +9,7 @@ namespace Dhl\Paket\Model\ShipmentRequest;
 use Dhl\Paket\Model\Config\ModuleConfig;
 use Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes;
 use Dhl\Paket\Util\ShippingProducts;
+use Dhl\Sdk\LocationFinder\Api\Data\LocationInterface;
 use Dhl\ShippingCore\Api\Data\ShipmentRequest\PackageInterface;
 use Dhl\ShippingCore\Api\Data\ShipmentRequest\PackageInterfaceFactory;
 use Dhl\ShippingCore\Api\Data\ShipmentRequest\PackageItemInterface;
@@ -264,24 +265,20 @@ class RequestExtractor implements RequestExtractorInterface
      */
     public function getBillingNumber(): string
     {
-        try {
-            $packages = $this->getPackages();
+        $packages = $this->getPackages();
 
-            /** @var PackageInterface $package */
-            $package = current($packages);
+        /** @var PackageInterface $package */
+        $package = current($packages);
 
-            $storeId = $this->getCoreExtractor()->getStoreId();
-            $productCode = $package->getProductCode();
-            $procedure = $this->shippingProducts->getProcedure($productCode);
-            $ekp = $this->moduleConfig->getEkp($storeId);
+        $storeId = $this->getCoreExtractor()->getStoreId();
+        $productCode = $package->getProductCode();
+        $procedure = $this->shippingProducts->getProcedure($productCode);
+        $ekp = $this->moduleConfig->getEkp($storeId);
 
-            $participations = $this->moduleConfig->getParticipations($storeId);
-            $participation = $participations[$procedure] ?? '';
+        $participations = $this->moduleConfig->getParticipations($storeId);
+        $participation = $participations[$procedure] ?? '';
 
-            return $ekp . $procedure . $participation;
-        } catch (\ReflectionException $exception) {
-            throw new LocalizedException(__('Unable to determine billing number.'), $exception);
-        }
+        return $ekp . $procedure . $participation;
     }
 
     /**
@@ -326,19 +323,6 @@ class RequestExtractor implements RequestExtractorInterface
     }
 
     /**
-     * Obtain the current package.
-     *
-     * @return array
-     */
-    private function getCurrentPackage(): array
-    {
-        $packages = $this->shipmentRequest->getData('packages');
-        $packageId = $this->shipmentRequest->getData('package_id');
-
-        return $packages[$packageId] ?? [];
-    }
-
-    /**
      * Obtain the service data array.
      *
      * @param string $serviceName
@@ -346,7 +330,36 @@ class RequestExtractor implements RequestExtractorInterface
      */
     private function getServiceData(string $serviceName): array
     {
-        return $this->getCurrentPackage()['params']['services'][$serviceName] ?? [];
+        $packages = $this->shipmentRequest->getData('packages');
+        $packageId = $this->shipmentRequest->getData('package_id');
+        return $packages[$packageId]['params']['services'][$serviceName] ?? [];
+    }
+
+    /**
+     * Check if recipient email must be set.
+     *
+     * By default, recipient email address is not included with the request.
+     * There are some services though that require an email address.
+     *
+     * @return bool
+     */
+    public function isRecipientEmailRequired(): bool
+    {
+        if ($this->isParcelAnnouncement()) {
+            // parcel announcement services requires email address
+            return true;
+        }
+
+        $pickupLocationData = $this->getServiceData(Codes::CHECKOUT_SERVICE_PARCELSHOP_FINDER);
+        if (!empty($pickupLocationData['enabled'])
+            && ($pickupLocationData['locationType'] === LocationInterface::TYPE_POSTOFFICE)
+            && empty($pickupLocationData['customerPostnumber'])
+        ) {
+            // Postfiliale delivery with no post number requires email address
+            return true;
+        }
+
+        return false;
     }
 
     /**
@@ -425,19 +438,12 @@ class RequestExtractor implements RequestExtractorInterface
      *
      * @return string
      */
-    public function getPreferredNeighbourName(): string
+    public function getPreferredNeighbour(): string
     {
-        return $this->getServiceData(Codes::CHECKOUT_SERVICE_PREFERRED_NEIGHBOUR)['name'] ?? '';
-    }
+        $name = $this->getServiceData(Codes::CHECKOUT_SERVICE_PREFERRED_NEIGHBOUR)['name'] ?? '';
+        $address = $this->getServiceData(Codes::CHECKOUT_SERVICE_PREFERRED_NEIGHBOUR)['address'] ?? '';
 
-    /**
-     * Obtain the address of "preferredNeighbour" value for the current package.
-     *
-     * @return string
-     */
-    public function getPreferredNeighbourAddress(): string
-    {
-        return $this->getServiceData(Codes::CHECKOUT_SERVICE_PREFERRED_NEIGHBOUR)['address'] ?? '';
+        return trim("$name $address");
     }
 
     /**
@@ -510,6 +516,27 @@ class RequestExtractor implements RequestExtractorInterface
     {
         $serviceData = $this->getServiceData(Codes::PACKAGING_SERVICE_RETURN_SHIPMENT);
         return (bool) ($serviceData['enabled'] ?? false);
+    }
+
+    /**
+     * Obtain the "parcelshopFinder" flag for the current package.
+     *
+     * @return bool
+     */
+    public function isPickupLocationDelivery(): bool
+    {
+        $serviceData = $this->getServiceData(Codes::CHECKOUT_SERVICE_PARCELSHOP_FINDER);
+        return (bool) ($serviceData['enabled'] ?? false);
+    }
+
+    /**
+     * Obtain the id value of "parcelshopFinder" value for the current package.
+     *
+     * @return string[]
+     */
+    public function getPickupLocationDetails(): array
+    {
+        return $this->getServiceData(Codes::CHECKOUT_SERVICE_PARCELSHOP_FINDER) ?? [];
     }
 
     /**

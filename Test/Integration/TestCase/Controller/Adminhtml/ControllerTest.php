@@ -8,6 +8,7 @@ namespace Dhl\Paket\Test\Integration\TestCase\Controller\Adminhtml;
 
 use Dhl\Paket\Test\Integration\TestDouble\ShipmentServiceStub;
 use Dhl\Paket\Webservice\ShipmentService;
+use Magento\Framework\Exception\AuthenticationException;
 use Magento\TestFramework\TestCase\AbstractBackendController;
 
 /**
@@ -29,7 +30,7 @@ abstract class ControllerTest extends AbstractBackendController
     /**
      * Set up the shipment service stub to suppress actual api calls.
      *
-     * @throws \Magento\Framework\Exception\AuthenticationException
+     * @throws AuthenticationException
      */
     protected function setUp()
     {

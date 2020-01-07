@@ -9,6 +9,7 @@ namespace Dhl\Paket\Webservice\Pipeline\CreateShipments;
 use Dhl\Paket\Model\ShipmentRequest\PackageAdditional;
 use Dhl\Paket\Model\ShipmentRequest\RequestExtractor;
 use Dhl\Paket\Model\ShipmentRequest\RequestExtractorFactory;
+use Dhl\Sdk\LocationFinder\Api\Data\LocationInterface;
 use Dhl\Sdk\Paket\Bcs\Api\ShipmentOrderRequestBuilderInterface;
 use Dhl\Sdk\Paket\Bcs\Exception\RequestValidatorException;
 use Dhl\ShippingCore\Api\ConfigInterface;
@@ -132,10 +133,10 @@ class RequestDataMapper
             $requestExtractor->getShipper()->getState()
         );
 
-        // add email if parcel announcement is selected
-        $recipientEmail = null;
-        if ($requestExtractor->isParcelAnnouncement()) {
+        if ($requestExtractor->isRecipientEmailRequired()) {
             $recipientEmail = $requestExtractor->getRecipient()->getContactEmail();
+        } else {
+            $recipientEmail = null;
         }
 
         $this->requestBuilder->setRecipientAddress(
@@ -218,10 +219,7 @@ class RequestDataMapper
             }
 
             if ($requestExtractor->hasPreferredNeighbour()) {
-                $this->requestBuilder->setPreferredNeighbour(
-                    $requestExtractor->getPreferredNeighbourName()
-                    . $requestExtractor->getPreferredNeighbourAddress()
-                );
+                $this->requestBuilder->setPreferredNeighbour($requestExtractor->getPreferredNeighbour());
             }
 
             if ($requestExtractor->hasPreferredLocation()) {
@@ -251,9 +249,30 @@ class RequestDataMapper
                 $this->requestBuilder->setParcelOutletRouting($requestExtractor->getRecipient()->getContactEmail());
             }
 
-            //todo(nr): once we added postFiliale support we need to add it here
+            if ($requestExtractor->isPickupLocationDelivery()) {
+                $locationData = $requestExtractor->getPickupLocationDetails();
 
-            //todo(nr): update/remove this condition once intl options are removed from domestic packaging popup
+                if ($locationData['locationType'] === LocationInterface::TYPE_POSTOFFICE) {
+                    $this->requestBuilder->setPostfiliale(
+                        $requestExtractor->getRecipient()->getContactPersonName(),
+                        $locationData['locationNumber'],
+                        $locationData['countryCode'],
+                        $locationData['postalCode'],
+                        $locationData['city'],
+                        $locationData['customerPostnumber'] ?? null
+                    );
+                } elseif ($locationData['locationType'] === LocationInterface::TYPE_PACKSTATION) {
+                    $this->requestBuilder->setPackstation(
+                        $requestExtractor->getRecipient()->getContactPersonName(),
+                        $locationData['customerPostnumber'],
+                        $locationData['locationNumber'],
+                        $locationData['countryCode'],
+                        $locationData['postalCode'],
+                        $locationData['city']
+                    );
+                }
+            }
+
             $isEuShipping = in_array(
                 $requestExtractor->getRecipient()->getCountryCode(),
                 $this->dhlConfig->getEuCountries($request->getOrderShipment()->getStoreId()),

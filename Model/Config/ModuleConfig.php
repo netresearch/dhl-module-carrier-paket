@@ -60,6 +60,7 @@ class ModuleConfig
     // 600_additional_services.xml
     const CONFIG_PATH_ADDITIONAL_SERVICES = 'dhlshippingsolutions/dhlpaket/additional_services/services_group';
     const CONFIG_PATH_PARCEL_ANNOUNCEMENT = 'dhlshippingsolutions/dhlpaket/additional_services/services_group/parcelannouncement';
+    const CONFIG_PATH_PARCEL_STATION_DELIVERY = 'dhlshippingsolutions/dhlpaket/additional_services/services_group/parcelshopFinder';
     const CONFIG_PATH_PREFERRED_LOCATION = 'dhlshippingsolutions/dhlpaket/additional_services/services_group/preferredlocation';
     const CONFIG_PATH_PREFERRED_NEIGHBOUR = 'dhlshippingsolutions/dhlpaket/additional_services/services_group/preferredneighbour';
     const CONFIG_PATH_PREFERRED_DAY_ = 'dhlshippingsolutions/dhlpaket/additional_services/services_group/preferredday';
@@ -352,6 +353,23 @@ class ModuleConfig
     {
         return (bool) $this->scopeConfig->getValue(
             self::CONFIG_PATH_PRINT_ONLY_IF_CODEABLE,
+            ScopeInterface::SCOPE_STORE,
+            $store
+        );
+    }
+
+    /**
+
+     * Returns TRUE if the Parcelshop Finder service should be available in checkout.
+     *
+     * @param mixed $store
+     *
+     * @return bool
+     */
+    public function isParcelStationDeliveryEnabled($store = null): bool
+    {
+        return (bool) $this->scopeConfig->getValue(
+            self::CONFIG_PATH_PARCEL_STATION_DELIVERY,
             ScopeInterface::SCOPE_STORE,
             $store
         );

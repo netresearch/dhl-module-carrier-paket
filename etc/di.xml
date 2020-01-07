@@ -122,6 +122,11 @@
             <argument name="logger" xsi:type="object">Dhl\Paket\Model\Logger\Virtual</argument>
         </arguments>
     </type>
+    <type name="Dhl\Paket\Webservice\LocationFinderService">
+        <arguments>
+            <argument name="logger" xsi:type="object">Dhl\Paket\Model\Logger\Virtual</argument>
+        </arguments>
+    </type>
     <type name="Dhl\ShippingCore\Model\BulkShipmentConfiguration">
         <arguments>
             <argument name="configurations" xsi:type="array">
@@ -201,6 +206,13 @@
         <arguments>
             <argument name="dayValidators" xsi:type="array">
                 <item name="dropOffDays" xsi:type="object">Dhl\Paket\Model\ShipmentDate\Validator\DropOffDays</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="\Dhl\ShippingCore\Model\DeliveryLocation\DeliveryLocationProvider">
+        <arguments>
+            <argument name="locationProviders" xsi:type="array">
+                <item name="dhlpaket" xsi:type="object">Dhl\Paket\Model\DeliveryLocation\LocationProvider</item>
             </argument>
         </arguments>
     </type>

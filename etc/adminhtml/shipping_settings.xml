@@ -43,6 +43,17 @@
             </itemShippingOptions>
         </itemOptions>
         <serviceOptions>
+            <shippingOption code="parcelshopFinder">
+                <label>Parcel station</label>
+                <inputs>
+                    <input code="enabled">
+                        <label>Parcel Station Delivery</label>
+                    </input>
+                    <input code="customerPostnumber">
+                        <inputType>static</inputType>
+                    </input>
+                </inputs>
+            </shippingOption>
             <shippingOption code="parcelAnnouncement">
                 <sortOrder>10</sortOrder>
                 <inputs>

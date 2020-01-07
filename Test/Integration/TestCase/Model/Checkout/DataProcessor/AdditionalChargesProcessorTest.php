@@ -9,8 +9,9 @@ namespace Dhl\Paket\Test\Integration\TestCase\Model\Checkout\DataProcessor;
 use Dhl\Paket\Model\Carrier\Paket;
 use Dhl\Paket\Test\Integration\TestDouble\CheckoutServiceStub;
 use Dhl\Sdk\Paket\ParcelManagement\Service\ServiceFactory;
-use Dhl\ShippingCore\Model\ShippingSettings\Data\CarrierData;
 use Dhl\ShippingCore\Model\ShippingSettings\CheckoutManagement;
+use Dhl\ShippingCore\Model\ShippingSettings\Data\CarrierData;
+use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\ObjectManagerInterface;
 use Magento\TestFramework\Helper\Bootstrap;
 use Magento\TestFramework\ObjectManager;
@@ -74,6 +75,8 @@ class AdditionalChargesProcessorTest extends TestCase
      * @magentoConfigFixture current_store carriers/flatrate/type O
      * @magentoConfigFixture current_store carriers/flatrate/handling_type F
      * @magentoConfigFixture current_store carriers/flatrate/price 5.00
+     *
+     * @throws LocalizedException
      */
     public function testAddAdditionalChargesWithBaseCurrency()
     {
@@ -119,6 +122,8 @@ class AdditionalChargesProcessorTest extends TestCase
      * @magentoConfigFixture current_store carriers/flatrate/price 5.00
      *
      * @magentoConfigFixture current_store currency/options/default EUR
+     *
+     * @throws LocalizedException
      */
     public function testAddAdditionalChargesWithDifferentDisplayCurrency()
     {

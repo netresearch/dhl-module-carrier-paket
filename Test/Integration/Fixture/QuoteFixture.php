@@ -10,6 +10,7 @@ use Dhl\ShippingCore\Test\Integration\Fixture\Data\AddressInterface;
 use Dhl\ShippingCore\Test\Integration\Fixture\Data\ProductInterface;
 use Magento\Catalog\Api\ProductRepositoryInterface;
 use Magento\Catalog\Model\Product\Type;
+use Magento\Customer\Api\AddressRepositoryInterface;
 use Magento\Customer\Api\CustomerRepositoryInterface;
 use Magento\Customer\Api\Data\CustomerInterface;
 use Magento\Framework\Exception\LocalizedException;
@@ -85,7 +86,7 @@ class QuoteFixture
          * thus we would not have a assigned shipping address on the quote
          */
         $objectManager = Bootstrap::getObjectManager();
-        $addressRepository = $objectManager->create(\Magento\Customer\Api\AddressRepositoryInterface::class);
+        $addressRepository = $objectManager->create(AddressRepositoryInterface::class);
         $shippingAddress = $cart->getQuote()->getShippingAddress();
         $shippingAddress->setShippingMethod($carrierCode);
         $addressId = $cart->getCustomerSession()->getCustomer()->getDefaultBillingAddress()->getId();
