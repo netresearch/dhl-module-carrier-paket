@@ -7,7 +7,6 @@ declare(strict_types=1);
 namespace Dhl\Paket\Model\Carrier;
 
 use Dhl\Paket\Model\Config\ModuleConfig;
-use Dhl\Paket\Model\Packaging\ShipmentRequestValidator;
 use Dhl\Paket\Model\RatesManagement;
 use Dhl\Paket\Model\ShipmentManagement;
 use Dhl\Paket\Util\ShippingProducts;
@@ -34,7 +33,6 @@ use Magento\Shipping\Model\Carrier\AbstractCarrierInterface;
 use Magento\Shipping\Model\Carrier\AbstractCarrierOnline;
 use Magento\Shipping\Model\Carrier\CarrierInterface;
 use Magento\Shipping\Model\Rate\ResultFactory as RateResultFactory;
-use Magento\Shipping\Model\Shipment\Request;
 use Magento\Shipping\Model\Simplexml\ElementFactory;
 use Magento\Shipping\Model\Tracking\Result\ErrorFactory as TrackErrorFactory;
 use Magento\Shipping\Model\Tracking\Result\Status;
@@ -94,11 +92,6 @@ class Paket extends AbstractCarrierOnline implements CarrierInterface
     private $proxyCarrier;
 
     /**
-     * @var ShipmentRequestValidator
-     */
-    private $shipmentRequestValidator;
-
-    /**
      * @var TrackingInfoProviderInterface
      */
     private $trackingInfoProvider;
@@ -127,7 +120,6 @@ class Paket extends AbstractCarrierOnline implements CarrierInterface
      * @param ShippingProducts $shippingProducts
      * @param TrackRequestInterfaceFactory $trackRequestFactory
      * @param ProxyCarrierFactory $proxyCarrierFactory
-     * @param ShipmentRequestValidator $shipmentRequestValidator
      * @param TrackingInfoProviderInterface $trackingInfoProvider
      * @param mixed[] $data
      */
@@ -153,7 +145,6 @@ class Paket extends AbstractCarrierOnline implements CarrierInterface
         ShippingProducts $shippingProducts,
         TrackRequestInterfaceFactory $trackRequestFactory,
         ProxyCarrierFactory $proxyCarrierFactory,
-        ShipmentRequestValidator $shipmentRequestValidator,
         TrackingInfoProviderInterface $trackingInfoProvider,
         array $data = []
     ) {
@@ -163,7 +154,6 @@ class Paket extends AbstractCarrierOnline implements CarrierInterface
         $this->shippingProducts = $shippingProducts;
         $this->trackRequestFactory = $trackRequestFactory;
         $this->proxyCarrierFactory = $proxyCarrierFactory;
-        $this->shipmentRequestValidator = $shipmentRequestValidator;
         $this->trackingInfoProvider = $trackingInfoProvider;
 
         parent::__construct(
@@ -258,20 +248,13 @@ class Paket extends AbstractCarrierOnline implements CarrierInterface
      * Return either tracking number and label data or a shipment error.
      * Note that Magento triggers one web service request per package in multi-package shipments.
      *
-     * @param DataObject|Request $request
+     * @param DataObject $request
      * @return DataObject
-     * @throws LocalizedException
      * @see \Magento\Shipping\Model\Carrier\AbstractCarrierOnline::requestToShipment
      * @see \Magento\Shipping\Model\Carrier\AbstractCarrierOnline::returnOfShipment
      */
     protected function _doShipmentRequest(DataObject $request): DataObject
     {
-        try {
-            $this->shipmentRequestValidator->validate($request);
-        } catch (LocalizedException $e) {
-            throw new LocalizedException(__($e->getMessage()), $e);
-        }
-
         $apiResult = $this->shipmentManagement->createLabels([$request->getData('package_id') => $request]);
 
         // one request, one response.

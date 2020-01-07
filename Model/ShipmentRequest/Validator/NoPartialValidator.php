@@ -2,40 +2,43 @@
 /**
  * See LICENSE.md for license details.
  */
-namespace Dhl\Paket\Model\Packaging;
+namespace Dhl\Paket\Model\ShipmentRequest\Validator;
 
 use Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes;
 use Dhl\ShippingCore\Api\ConfigInterface;
+use Dhl\ShippingCore\Api\RequestValidatorInterface;
 use Magento\Bundle\Model\Product\Type;
 use Magento\Catalog\Model\Product\Type\AbstractType;
 use Magento\ConfigurableProduct\Model\Product\Type\Configurable;
-use Magento\Framework\Exception\LocalizedException;
+use Magento\Framework\Exception\ValidatorException;
 use Magento\Sales\Api\Data\OrderItemInterface;
 use Magento\Shipping\Model\Shipment\Request;
 
 /**
- * Class ShipmentRequestValidator
+ * Class NoPartialValidator
  *
- * @fixme(nr): Shouldn't this be part of the validation stage? Is it currently triggered in bulk operation at all?
+ * Validate that the complete order is shipped together if the
+ * Insurance service or CoD payment method were chosen. These are
+ * not compatible with multi-package or multi-shipment.
  *
- * @package Dhl\Paket\Model\Packaging
  * @author Max Melzer <max.melzer@netresearch.de>
+ * @link   https://www.netresearch.de/
  */
-class ShipmentRequestValidator
+class NoPartialValidator implements RequestValidatorInterface
 {
     /**
      * @var ConfigInterface
      */
-    private $shippingCoreConfig;
+    private $config;
 
     /**
-     * ShipmentRequestValidator constructor.
+     * NoPartialValidator constructor.
      *
-     * @param ConfigInterface $shippingCoreConfig
+     * @param ConfigInterface $config
      */
-    public function __construct(ConfigInterface $shippingCoreConfig)
+    public function __construct(ConfigInterface $config)
     {
-        $this->shippingCoreConfig = $shippingCoreConfig;
+        $this->config = $config;
     }
 
     /**
@@ -84,34 +87,37 @@ class ShipmentRequestValidator
     }
 
     /**
+     * Check if an order allows partial shipment.
+     *
+     * Partial shipments are not allowed if
+     * - the order was placed with a COD payment method or
+     * - any of the packages is supposed to be booked with additional insurance service.
+     *
      * @param Request $request
      * @return bool
      */
-    private function hasCompleteShipmentOnlyServices(Request $request): bool
+    private function canShipPartially(Request $request): bool
     {
-        $payment = $request->getOrderShipment()->getOrder()->getPayment();
-        $hasCodService = $payment && $this->shippingCoreConfig->isCodPaymentMethod($payment->getMethod());
-        $hasInsuranceService = $request
-                ->getData('package_params')
-                ->getServices()[Codes::PACKAGING_SERVICE_INSURANCE]['enabled'] ?? false;
+        $packages = $request->getData('packages');
 
-        return $hasCodService || $hasInsuranceService;
+        $hasInsuranceService = false;
+        foreach ($packages as $package) {
+            $serviceData = $package['params']['services'][Codes::PACKAGING_SERVICE_INSURANCE] ?? [];
+            $hasInsuranceService = $hasInsuranceService || ($serviceData['enabled'] ?? false);
+        }
+
+        //todo(nr): read from package params once DHLGW-736 is solved
+        $payment = $request->getOrderShipment()->getOrder()->getPayment();
+        $hasCodService = $payment && $this->config->isCodPaymentMethod($payment->getMethod());
+
+        return !$hasInsuranceService && !$hasCodService;
     }
 
-    /**
-     * The Insurance service and CoD payment method are not compatible with multi-package or multi-shipment.
-     * Throws an Exception if this rule is violated.
-     *
-     * @param Request $request
-     * @return void
-     *
-     * @throws LocalizedException
-     */
     public function validate(Request $request)
     {
-        if ($this->isPartialShipment($request) && $this->hasCompleteShipmentOnlyServices($request)) {
-            throw new LocalizedException(
-                __('Partial shipments with Cash on Delivery or Insurance service are not supported. Please ship the entire order.')
+        if ($this->isPartialShipment($request) && !$this->canShipPartially($request)) {
+            throw new ValidatorException(
+                __('Partial shipments with Cash on Delivery or Insurance service are not supported. Please ship the entire order in one package or deselect the service.')
             );
         }
     }

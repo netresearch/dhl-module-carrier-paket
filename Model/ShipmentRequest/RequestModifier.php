@@ -6,12 +6,12 @@ declare(strict_types=1);
 
 namespace Dhl\Paket\Model\ShipmentRequest;
 
-use Dhl\Paket\Model\Config\ModuleConfig;
 use Dhl\Paket\Util\ShippingProducts;
 use Dhl\ShippingCore\Api\ConfigInterface;
 use Dhl\ShippingCore\Api\PackagingOptionReaderInterface;
 use Dhl\ShippingCore\Api\PackagingOptionReaderInterfaceFactory;
 use Dhl\ShippingCore\Api\RequestModifierInterface;
+use Magento\Framework\DataObjectFactory;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Shipping\Model\Shipment\Request;
 
@@ -28,14 +28,9 @@ class RequestModifier implements RequestModifierInterface
     private $coreModifier;
 
     /**
-     * @var ModuleConfig
-     */
-    private $config;
-
-    /**
      * @var ConfigInterface
      */
-    private $dhlConfig;
+    private $config;
 
     /**
      * @var ShippingProducts
@@ -48,30 +43,35 @@ class RequestModifier implements RequestModifierInterface
     private $packagingOptionReaderFactory;
 
     /**
+     * @var DataObjectFactory
+     */
+    private $dataObjectFactory;
+
+    /**
      * RequestModifier constructor.
      *
      * @param RequestModifierInterface $coreModifier
-     * @param ModuleConfig $config
-     * @param ConfigInterface $dhlConfig
+     * @param ConfigInterface $config
      * @param ShippingProducts $shippingProducts
      * @param PackagingOptionReaderInterfaceFactory $packagingOptionReaderFactory
+     * @param DataObjectFactory $dataObjectFactory
      */
     public function __construct(
         RequestModifierInterface $coreModifier,
-        ModuleConfig $config,
-        ConfigInterface $dhlConfig,
+        ConfigInterface $config,
         ShippingProducts $shippingProducts,
-        PackagingOptionReaderInterfaceFactory $packagingOptionReaderFactory
+        PackagingOptionReaderInterfaceFactory $packagingOptionReaderFactory,
+        DataObjectFactory $dataObjectFactory
     ) {
-        $this->config = $config;
-        $this->dhlConfig = $dhlConfig;
         $this->coreModifier = $coreModifier;
+        $this->config = $config;
         $this->shippingProducts = $shippingProducts;
         $this->packagingOptionReaderFactory = $packagingOptionReaderFactory;
+        $this->dataObjectFactory = $dataObjectFactory;
     }
 
     /**
-     * Add default shipping product, e.g. V01PAK or V53PAK
+     * Add default shipping product to package params, e.g. V01PAK or V53PAK
      *
      * @param Request $shipmentRequest
      * @throws LocalizedException
@@ -82,7 +82,7 @@ class RequestModifier implements RequestModifierInterface
         $destinationCountry = $shipmentRequest->getRecipientAddressCountryCode();
 
         // load applicable products for the current route
-        $euCountries = $this->dhlConfig->getEuCountries($shipmentRequest->getOrderShipment()->getStoreId());
+        $euCountries = $this->config->getEuCountries($shipmentRequest->getOrderShipment()->getStoreId());
         $applicableProducts = $this->shippingProducts->getShippingProducts(
             $originCountry,
             $destinationCountry,
@@ -107,14 +107,18 @@ class RequestModifier implements RequestModifierInterface
             throw new LocalizedException($message);
         }
 
-        $paketPackages = [];
+        $packages = [];
         foreach ($shipmentRequest->getData('packages') as $packageId => $package) {
             $package['params']['shipping_product'] = $defaultProduct;
-            $paketPackages[$packageId] = $package;
+            $packages[$packageId] = $package;
         }
 
-        $shipmentRequest->setData('packages', $paketPackages);
-        $shipmentRequest->setData('package_params', $paketPackages[$shipmentRequest->getData('package_id')]['params']);
+        // set all updated packages to request
+        $shipmentRequest->setData('packages', $packages);
+
+        // add current package's params to request (compare AbstractCarrierOnline::requestToShipment)
+        $package = $packages[$shipmentRequest->getData('package_id')];
+        $shipmentRequest->setData('package_params', $this->dataObjectFactory->create(['data' => $package['params']]));
     }
 
     /**
@@ -126,32 +130,33 @@ class RequestModifier implements RequestModifierInterface
     private function modifyCustoms(Request $shipmentRequest)
     {
         $recipientCountry = $shipmentRequest->getRecipientAddressCountryCode();
-        $euCountries = $this->dhlConfig->getEuCountries($shipmentRequest->getOrderShipment()->getStoreId());
+        $euCountries = $this->config->getEuCountries($shipmentRequest->getOrderShipment()->getStoreId());
 
         // Route within EU, no customs data to add.
         if (in_array($recipientCountry, $euCountries, true)) {
             return;
         }
 
-        $shipment = $shipmentRequest->getOrderShipment();
+        $reader = $this->packagingOptionReaderFactory->create(['shipment' => $shipmentRequest->getOrderShipment()]);
 
-        /** @var PackagingOptionReaderInterface $reader */
-        $reader = $this->packagingOptionReaderFactory->create(['shipment' => $shipment]);
+        $packages = [];
+        foreach ($shipmentRequest->getData('packages') as $packageId => $package) {
+            $package['params']['customs']['additionalFee']
+                = $reader->getPackageOptionValue('packageCustoms', 'additionalFee');
+            $package['params']['customs']['placeOfCommittal']
+                = $reader->getPackageOptionValue('packageCustoms', 'placeOfCommittal');
+            $package['params']['customs']['electronicExportNotification']
+                = $reader->getPackageOptionValue('packageCustoms', 'electronicExportNotification');
 
-        $packageId = $shipmentRequest->getData('package_id');
-        $package = $shipmentRequest->getData('packages')[$packageId];
+            $packages[$packageId] = $package;
+        }
 
-        // Customs
-        $package['params']['customs']['additionalFee']
-            = $reader->getPackageOptionValue('packageCustoms', 'additionalFee');
-        $package['params']['customs']['placeOfCommittal']
-            = $reader->getPackageOptionValue('packageCustoms', 'placeOfCommittal');
-        $package['params']['customs']['electronicExportNotification']
-            = $reader->getPackageOptionValue('packageCustoms', 'electronicExportNotification');
+        // set all updated packages to request
+        $shipmentRequest->setData('packages', $packages);
 
-        $shipmentRequest->setData('packages', [$packageId => $package]);
-        $shipmentRequest->setData('package_items', $package['items']);
-        $shipmentRequest->setData('package_params', $package['params']);
+        // add current package's params to request (compare AbstractCarrierOnline::requestToShipment)
+        $package = $packages[$shipmentRequest->getData('package_id')];
+        $shipmentRequest->setData('package_params', $this->dataObjectFactory->create(['data' => $package['params']]));
     }
 
     /**

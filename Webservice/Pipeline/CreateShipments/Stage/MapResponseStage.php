@@ -55,7 +55,7 @@ class MapResponseStage implements CreateShipmentsStageInterface
             // no response received from webservice for particular shipment request
             $response = $this->responseDataMapper->createErrorResponse(
                 (string) $requestIndex,
-                __('Label could not be created: %1.', $details['message']),
+                __('Label could not be created: %1', $details['message']),
                 $details['shipment']
             );
             $artifactsContainer->addErrorResponse((string) $requestIndex, $response);

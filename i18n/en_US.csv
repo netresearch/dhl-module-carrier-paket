@@ -73,7 +73,7 @@ Fri,Fri
 "If you don’t have an account or your account is with another DHL division, <a href=""https://www.dhl.de/en/geschaeftskunden/paket/kunde-werden/angebot-dhl-geschaeftskunden-online.html"" target=""_blank"">please contact DHL Paket</a> to establish or expand your relationship","If you don’t have an account or your account is with another DHL division, <a href=""https://www.dhl.de/en/geschaeftskunden/paket/kunde-werden/angebot-dhl-geschaeftskunden-online.html"" target=""_blank"">please contact DHL Paket</a> to establish or expand your relationship"
 "Indicate a preferred time, which suits you best for your parcel delivery by choosing one of the displayed time windows.","Indicate a preferred time, which suits you best for your parcel delivery by choosing one of the displayed time windows."
 "Info (All API Activities)","Info (All API Activities)"
-"Label could not be created: %1.","Label could not be created: %1."
+"Label could not be created: %1","Label could not be created: %1"
 "Label for order %1, package %2 could not be created.","Label for order %1, package %2 could not be created."
 "Log Level","Log Level"
 Logging,Logging
@@ -100,7 +100,7 @@ No,No
 "Parcel station","Parcel station"
 "Parcel Station Delivery","Parcel Station Delivery"
 "Parking available","Parking available"
-"Partial shipments with Cash on Delivery or Insurance service are not supported. Please ship the entire order.","Partial shipments with Cash on Delivery or Insurance service are not supported. Please ship the entire order."
+"Partial shipments with Cash on Delivery or Insurance service are not supported. Please ship the entire order in one package or deselect the service.","Partial shipments with Cash on Delivery or Insurance service are not supported. Please ship the entire order in one package or deselect the service."
 Participation,Participation
 "Participation Numbers","Participation Numbers"
 "Password (Signature)","Password (Signature)"

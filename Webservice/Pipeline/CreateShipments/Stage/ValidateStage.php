@@ -6,6 +6,7 @@ declare(strict_types=1);
 
 namespace Dhl\Paket\Webservice\Pipeline\CreateShipments\Stage;
 
+use Dhl\Paket\Model\ShipmentRequest\Validator\NoPartialValidator;
 use Dhl\Paket\Webservice\Pipeline\CreateShipments\ArtifactsContainer;
 use Dhl\ShippingCore\Api\Data\Pipeline\ArtifactsContainerInterface;
 use Dhl\ShippingCore\Api\Pipeline\CreateShipmentsStageInterface;
@@ -14,7 +15,7 @@ use Magento\Framework\Exception\ValidatorException;
 use Magento\Shipping\Model\Shipment\Request;
 
 /**
- * Class ValidationStage
+ * Class ValidateStage
  *
  * @package Dhl\Paket\Webservice
  * @author  Christoph Aßmann <christoph.assmann@netresearch.de>
@@ -28,7 +29,7 @@ class ValidateStage implements CreateShipmentsStageInterface
     private $requestValidator;
 
     /**
-     * ValidationStage constructor.
+     * ValidateStage constructor.
      *
      * @param RequestValidatorInterface $requestValidator
      */

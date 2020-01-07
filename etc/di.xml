@@ -141,6 +141,13 @@
             </argument>
         </arguments>
     </type>
+    <type name="Dhl\ShippingCore\Model\ShipmentRequest\Validator\CompositeValidator">
+        <arguments>
+            <argument name="validators" xsi:type="array">
+                <item name="noPartialShipment" xsi:type="object">Dhl\Paket\Model\ShipmentRequest\Validator\NoPartialValidator</item>
+            </argument>
+        </arguments>
+    </type>
     <type name="Dhl\ShippingCore\Model\ShippingSettings\Processor\Checkout\CheckoutDataCompositeProcessor">
         <arguments>
             <argument name="serviceOptionsProcessors" xsi:type="array">

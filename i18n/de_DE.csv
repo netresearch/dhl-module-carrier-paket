@@ -72,7 +72,7 @@ Fri,Fr
 "If enabled, your undeliverable packages will be held at the nearest parcel collection point for collection by the recipient rather than being returned immediately to you.","Wenn diese Option aktiviert ist, werden unzustellbare Sendungen nicht direkt an Sie zurückgeschickt, sondern zunächst in der nächstgelegenen Filiale zur Abholung hinterlegt."
 "Indicate a preferred time, which suits you best for your parcel delivery by choosing one of the displayed time windows.","Damit Sie besser planen können, haben Sie die Möglichkeit, eine Wunschzeit für die Lieferung auszuwählen. Sie können eine der dargestellten Zeiten für die Lieferung auswählen."
 "Info (All API Activities)","Info (alle API-Aktivitäten)"
-"Label could not be created: %1.","Paketaufkleber konnte nicht erzeugt werden: %1."
+"Label could not be created: %1","Paketaufkleber konnte nicht erzeugt werden: %1"
 "Label for order %1, package %2 could not be created.","Paketaufkleber für Bestellung %1, Paket %2 konnte nicht erzeugt werden."
 "Log Level",Protokollierungsstufe
 Logging,Protokollierung
@@ -98,7 +98,7 @@ No,Nein
 "Parcel station","Packstation"
 "Parcel Station Delivery","An eine Packstation liefern"
 "Parking available","Parkplätze vorhanden"
-"Partial shipments with Cash on Delivery or Insurance service are not supported. Please ship the entire order.","Teillieferungen mit Nachnahmezahlung oder Transportversicherung werden nicht unterstützt. Bitte erstellen Sie eine Sendung für die gesamte Bestellung."
+"Partial shipments with Cash on Delivery or Insurance service are not supported. Please ship the entire order in one package or deselect the service.","Teillieferungen mit Nachnahmezahlung oder Transportversicherung werden nicht unterstützt. Bitte erstellen Sie eine Sendung für die gesamte Bestellung oder wählen Sie den Service ab."
 Participation,Teilnahme
 "Participation Numbers",Teilnahmenummern
 "Password (Signature)","Passwort (Signature)"
