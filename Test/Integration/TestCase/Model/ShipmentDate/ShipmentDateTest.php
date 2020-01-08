@@ -23,7 +23,6 @@ use PHPUnit\Framework\TestCase;
 /**
  * Class ShipmentDateTest
  *
- * @package Dhl\Paket\Test\Integration\TestCase\Model
  * @author  Rico Sonntag <rico.sonntag@netresearch.de>
  */
 class ShipmentDateTest extends TestCase

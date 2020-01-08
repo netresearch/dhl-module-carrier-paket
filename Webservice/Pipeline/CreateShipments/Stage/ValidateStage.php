@@ -17,7 +17,6 @@ use Magento\Shipping\Model\Shipment\Request;
 /**
  * Class ValidateStage
  *
- * @package Dhl\Paket\Webservice
  * @author  Christoph Aßmann <christoph.assmann@netresearch.de>
  * @link    https://www.netresearch.de/
  */

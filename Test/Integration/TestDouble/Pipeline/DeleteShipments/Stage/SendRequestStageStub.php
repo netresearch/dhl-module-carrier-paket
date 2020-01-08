@@ -16,7 +16,6 @@ use Dhl\ShippingCore\Api\Data\TrackRequest\TrackRequestInterface;
 /**
  * Class SendRequestStageStub
  *
- * @package Dhl\Paket\Test\Integration\TestDouble
  * @author  Christoph Aßmann <christoph.assmann@netresearch.de>
  * @link    https://www.netresearch.de/
  */

@@ -12,7 +12,6 @@ use Magento\Store\Model\ScopeInterface;
 /**
  * Class ModuleConfig
  *
- * @package Dhl\Paket\Model
  * @author  Rico Sonntag <rico.sonntag@netresearch.de>
  * @link    https://www.netresearch.de/
  */

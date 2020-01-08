@@ -23,7 +23,6 @@ use Psr\Log\LoggerInterface;
  *
  * @see \Magento\Shipping\Model\Carrier\AbstractCarrierOnline::requestToShipment
  *
- * @package Dhl\Paket\Webservice
  * @author  Christoph Aßmann <christoph.assmann@netresearch.de>
  * @link    https://www.netresearch.de/
  */

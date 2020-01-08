@@ -18,7 +18,6 @@ use Magento\TestFramework\TestCase\AbstractBackendController;
  * - Create shipment and label for single order
  * - Create shipments and labels for multiple orders (auto-create)
  *
- * @package Dhl\Paket\Test\Integration\Controller
  */
 abstract class ControllerTest extends AbstractBackendController
 {

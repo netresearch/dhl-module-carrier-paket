@@ -25,7 +25,6 @@ use PHPUnit\Framework\TestCase;
 /**
  * Class DisableCodPaymentMethodsTest
  *
- * @package Dhl\Paket\Test\Integration\TestCase\Observer
  * @author  Sebastian Ertner <sebastian.ertner@netresearch.de>
  *
  * @magentoAppArea adminhtml

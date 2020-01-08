@@ -22,7 +22,6 @@ use Magento\Framework\Serialize\Serializer\Json;
  * - The core backend model throws an "array to string" conversion error.
  * - The core backend model does not unserialize (process) when loading.
  *
- * @package Dhl\Paket\Model
  * @author  Benjamin Heuer <benjamin.heuer@netresearch.de>
  * @link    https://www.netresearch.de/
  */

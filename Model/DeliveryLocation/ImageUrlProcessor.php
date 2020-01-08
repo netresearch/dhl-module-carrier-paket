@@ -14,7 +14,6 @@ use Magento\Framework\View\DesignInterface;
 /**
  * Class ImageUrlProcessor
  *
- * @package Dhl\Paket\Model\DeliveryLocation
  * @author  Andreas Müller <andreas.mueller@netresearch.de>
  * @link    https://netresearch.de
  */

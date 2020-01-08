@@ -13,7 +13,6 @@ use Magento\Framework\View\Element\Html\Select;
 /**
  * The procedures dropdown.
  *
- * @package Dhl\Paket\Block
  * @author  Benjamin Heuer <benjamin.heuer@netresearch.de>
  * @link    http://www.netresearch.de/
  */

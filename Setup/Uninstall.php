@@ -15,7 +15,6 @@ use Magento\Framework\Setup\UninstallInterface;
 /**
  * Uninstall
  *
- * @package Dhl\Paket\Setup
  * @author  Sebastian Ertner <sebastian.ertner@netresearch.de>
  * @link http://www.netresearch.de/
  */

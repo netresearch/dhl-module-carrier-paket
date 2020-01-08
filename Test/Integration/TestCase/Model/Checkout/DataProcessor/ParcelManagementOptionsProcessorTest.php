@@ -26,7 +26,6 @@ use PHPUnit\Framework\TestCase;
  *
  * @magentoAppIsolation enabled
  *
- * @package Dhl\Paket\Test\Integration\TestCase\Model\Checkout
  * @author   Andreas Müller <andreas.mueller@netresearch.de>
  */
 class ParcelManagementOptionsProcessorTest extends TestCase

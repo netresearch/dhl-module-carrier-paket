@@ -9,7 +9,6 @@ namespace Dhl\Paket\Model\ShippingSettings\ShippingOption;
 /**
  * Class Codes.
  *
- * @package Dhl\Paket\Model
  * @author  Rico Sonntag <rico.sonntag@netresearch.de>
  * @link    https://www.netresearch.de/
  */

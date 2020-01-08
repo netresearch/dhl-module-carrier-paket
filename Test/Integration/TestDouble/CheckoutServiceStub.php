@@ -14,7 +14,6 @@ use Dhl\Sdk\Paket\ParcelManagement\Service\CheckoutService\TimeFrameOption;
 
 /**
  * Class CheckoutServiceStub
- * @package Dhl\Paket\Test\Integration\TestDouble
  */
 class CheckoutServiceStub implements CheckoutServiceInterface
 {

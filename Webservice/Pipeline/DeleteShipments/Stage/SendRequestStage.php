@@ -16,7 +16,6 @@ use Dhl\ShippingCore\Api\Pipeline\RequestTracksStageInterface;
 /**
  * Class SendRequestStage
  *
- * @package Dhl\Paket\Webservice
  * @author  Christoph Aßmann <christoph.assmann@netresearch.de>
  * @link    https://www.netresearch.de/
  */

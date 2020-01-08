@@ -15,7 +15,6 @@ use Psr\Log\LoggerInterface;
 /**
  * Class ParcelManagementService
  *
- * @package Dhl\Paket\Webservice
  * @author  Christoph Aßmann <christoph.assmann@netresearch.de>
  * @link    https://www.netresearch.de/
  */

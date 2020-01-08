@@ -14,7 +14,6 @@ use PHPUnit\Framework\TestCase;
 /**
  * Class ShippingProductsTest
  *
- * @package Dhl\Paket\Test
  * @link http://www.netresearch.de/
  */
 class ShippingProductsTest extends TestCase

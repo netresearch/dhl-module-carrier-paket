@@ -23,7 +23,6 @@ use Magento\Shipping\Model\Shipment\Request;
  *
  * Magento carrier-aware wrapper around the DHL Paket API SDK.
  *
- * @package Dhl\Paket\Webservice
  * @author  Christoph Aßmann <christoph.assmann@netresearch.de>
  * @link    https://www.netresearch.de/
  */

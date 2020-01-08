@@ -22,7 +22,6 @@ use PHPUnit\Framework\TestCase;
  *
  * @magentoAppIsolation enabled
  *
- * @package Dhl\Paket\Test\Integration\TestCase\Model\Checkout\DataProcessor
  * @author Max Melzer <max.melzer@netresearch.de>
  */
 class AdditionalChargesProcessorTest extends TestCase

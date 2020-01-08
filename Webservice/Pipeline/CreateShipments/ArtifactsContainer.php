@@ -15,7 +15,6 @@ use Magento\Sales\Model\Order\Shipment;
 /**
  * Class ArtifactsContainer
  *
- * @package Dhl\Paket\Webservice
  * @author  Christoph Aßmann <christoph.assmann@netresearch.de>
  * @link    https://www.netresearch.de/
  */

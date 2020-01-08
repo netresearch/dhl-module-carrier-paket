@@ -18,7 +18,6 @@ use Magento\Quote\Model\Quote;
 /**
  * Class CodSupportHandler
  *
- * @package Dhl\Paket\Model\Carrier
  * @author Paul Siedler <paul.siedler@netresearch.de>
  * @link https://www.netresearch.de/
  */

@@ -18,7 +18,6 @@ use Magento\TestFramework\Helper\Bootstrap;
 /**
  * Class QuoteServiceSelectionFixture
  *
- * @package Dhl\Paket\Test\Integration
  */
 class QuoteServiceSelectionFixture
 {

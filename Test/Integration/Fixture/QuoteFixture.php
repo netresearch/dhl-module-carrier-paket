@@ -28,7 +28,6 @@ use TddWizard\Fixtures\Customer\CustomerFixture;
 /**
  * Class QuoteFixture
  *
- * @package Dhl\Paket\Test\Integration
  */
 class QuoteFixture
 {

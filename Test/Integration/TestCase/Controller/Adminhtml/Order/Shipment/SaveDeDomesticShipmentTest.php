@@ -20,7 +20,6 @@ use Magento\Sales\Model\ResourceModel\Order\Shipment\Collection;
  * @magentoAppArea adminhtml
  * @magentoDbIsolation enabled
  *
- * @package Dhl\Paket\Test\Integration
  * @author  Christoph Aßmann <christoph.assmann@netresearch.de>
  * @link    https://www.netresearch.de/
  */

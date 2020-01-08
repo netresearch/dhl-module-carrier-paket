@@ -19,7 +19,6 @@ use Magento\Sales\Api\Data\ShipmentTrackInterface;
  *
  * Convert API response into the carrier response format that the shipping module understands.
  *
- * @package Dhl\Paket\Webservice
  * @author  Christoph Aßmann <christoph.assmann@netresearch.de>
  * @link    https://www.netresearch.de/
  */

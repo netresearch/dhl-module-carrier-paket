@@ -23,7 +23,6 @@ use PHPUnit\Framework\TestCase;
 /**
  * Class AdditionalFeeConfigurationTest
  *
- * @package Dhl\Paket\Test\Integration\TestCase\Model
  * @author Max Melzer <max.melzer@netresearch.de>
  */
 class AdditionalFeeConfigurationTest extends TestCase

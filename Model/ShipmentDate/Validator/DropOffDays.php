@@ -12,7 +12,6 @@ use Dhl\ShippingCore\Api\ShipmentDate\DayValidatorInterface;
 /**
  * Drop off days validator class. This class checks if the given date/time is a allowed drop off day.
  *
- * @package Dhl\Paket\Model\DayFilter
  * @author  Rico Sonntag <rico.sonntag@netresearch.de>
  */
 class DropOffDays implements DayValidatorInterface

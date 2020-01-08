@@ -22,7 +22,6 @@ use Psr\Log\LoggerInterface;
 /**
  * Class ParcelManagementOptionsProcessor
  *
- * @package Dhl\Paket\Model\Checkout\DataProcessor
  * @author Max Melzer <max.melzer@netresearch.de>
  */
 class ParcelManagementOptionsProcessor implements ShippingOptionsProcessorInterface

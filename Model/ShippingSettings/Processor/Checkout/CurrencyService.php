@@ -17,7 +17,6 @@ use Zend_Currency_Exception;
 /**
  * Class CurrencyService
  *
- * @package Dhl\Paket\Model\Checkout\DataProcessor
  * @author Rico Sonntag <rico.sonntag@netresearch.de>
  * @author Max Melzer <max.melzer@netresearch.de>
  */

@@ -12,7 +12,6 @@ use Magento\Framework\Logger\Monolog;
 /**
  * Class LogLevel
  *
- * @package Dhl\Paket\Model
  * @author  Ronny Gertler <ronny.gertler@netresearch.de>
  * @link    https://www.netresearch.de/
  */

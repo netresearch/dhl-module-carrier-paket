@@ -17,7 +17,6 @@ use Magento\Framework\Exception\AuthenticationException;
  *
  * Base controller test for the auto-create route.
  *
- * @package Dhl\Paket\Test\Integration\Controller
  */
 abstract class AutoCreateTest extends ControllerTest
 {

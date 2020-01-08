@@ -18,7 +18,6 @@ use Magento\Shipping\Model\Shipment\Request;
 /**
  * Class RequestModifier
  *
- * @package Dhl\Paket\Model\ShipmentRequest
  */
 class RequestModifier implements RequestModifierInterface
 {

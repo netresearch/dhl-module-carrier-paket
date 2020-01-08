@@ -22,7 +22,6 @@ use Magento\Shipping\Model\Shipment\Request;
  *
  * Central entrypoint for creating and deleting shipments.
  *
- * @package Dhl\Paket\Model
  */
 class ShipmentManagement implements BulkLabelCreationInterface, BulkLabelCancellationInterface
 {

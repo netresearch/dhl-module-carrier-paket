@@ -14,7 +14,6 @@ use Magento\Framework\Exception\AuthenticationException;
 /**
  * Base test to build various shipment creation scenarios on.
  *
- * @package Dhl\Paket\Test\Integration
  * @author  Christoph Aßmann <christoph.assmann@netresearch.de>
  * @link    https://www.netresearch.de/
  */

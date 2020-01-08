@@ -15,7 +15,6 @@ namespace Dhl\Paket\Util;
  * - DHL Paket shipping product procedures
  * - DHL Paket shipping product routes
  *
- * @package Dhl\Shipping\Util
  * @author  Christoph Aßmann <christoph.assmann@netresearch.de>
  * @link    https://www.netresearch.de/
  */

@@ -20,7 +20,6 @@ use Magento\Sales\Model\ResourceModel\Order\Shipment\Collection;
 /**
  * Class AutoCreateDeTest
  *
- * @package Dhl\Paket\Test\Integration\Controller
  *
  * @magentoAppArea adminhtml
  * @magentoDbIsolation enabled

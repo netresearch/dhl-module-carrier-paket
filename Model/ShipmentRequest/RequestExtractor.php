@@ -30,7 +30,6 @@ use Zend\Hydrator\Reflection;
  * The extractor and its subtypes offer a well-defined interface to extract the request data and
  * isolates the toxic part of extracting unstructured array data from the shipment request.
  *
- * @package Dhl\Paket\Model
  */
 class RequestExtractor implements RequestExtractorInterface
 {

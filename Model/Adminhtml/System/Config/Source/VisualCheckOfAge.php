@@ -11,7 +11,6 @@ use Magento\Framework\Data\OptionSourceInterface;
 /**
  * Class VisualCheckOfAge
  *
- * @package Dhl\Paket\Model
  * @author  Sebastian Ertner <sebastian.ertner@netresearch.de>
  * @link    https://www.netresearch.de/
  */

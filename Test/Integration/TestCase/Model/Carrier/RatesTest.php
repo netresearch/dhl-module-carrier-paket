@@ -15,7 +15,6 @@ use PHPUnit\Framework\TestCase;
 /**
  * Class RatesTest
  *
- * @package Dhl\Paket\Test
  * @link      http://www.netresearch.de/
  */
 class RatesTest extends TestCase

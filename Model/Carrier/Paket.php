@@ -43,7 +43,6 @@ use Psr\Log\LoggerInterface;
 /**
  * DHL Paket online shipping carrier model.
  *
- * @package Dhl\Paket\Model
  */
 class Paket extends AbstractCarrierOnline implements CarrierInterface
 {

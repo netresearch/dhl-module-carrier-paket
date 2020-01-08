@@ -15,7 +15,6 @@ use Psr\Log\LoggerInterface;
 /**
  * Class AdditionalChargesProcessor
  *
- * @package Dhl\Paket\Model\Checkout\DataProcessor
  * @author Max Melzer <max.melzer@netresearch.de>
  * @author Rico Sonntag <rico.sonntag@netresearch.de>
  */

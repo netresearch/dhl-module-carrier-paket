@@ -14,7 +14,6 @@ use Magento\TestFramework\Helper\Bootstrap;
 
 /**
  * Class ShipmentRequestData
- * @package Dhl\Paket\Test\Integration
  */
 class ShipmentRequestData
 {

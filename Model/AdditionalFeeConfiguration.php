@@ -22,7 +22,6 @@ use Magento\Quote\Model\Quote;
 /**
  * Class AdditionalFeeConfiguration
  *
- * @package Dhl\Paket\Model
  */
 class AdditionalFeeConfiguration implements AdditionalFeeConfigurationInterface
 {

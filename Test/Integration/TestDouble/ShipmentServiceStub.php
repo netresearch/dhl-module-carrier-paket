@@ -15,7 +15,6 @@ use Dhl\Sdk\Paket\Bcs\Api\ShipmentServiceInterface;
  *
  * Return responses on webservice calls which can be predefined via artifacts containers.
  *
- * @package Dhl\Paket\Test\Integration\TestDouble
  * @author  Christoph Aßmann <christoph.assmann@netresearch.de>
  * @link    https://www.netresearch.de/
  */
