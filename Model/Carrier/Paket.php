@@ -6,9 +6,9 @@ declare(strict_types=1);
 
 namespace Dhl\Paket\Model\Carrier;
 
+use Dhl\Paket\Model\BulkShipment\ShipmentManagement;
 use Dhl\Paket\Model\Config\ModuleConfig;
 use Dhl\Paket\Model\RatesManagement;
-use Dhl\Paket\Model\ShipmentManagement;
 use Dhl\Paket\Util\ShippingProducts;
 use Dhl\ShippingCore\Api\Data\TrackRequest\TrackRequestInterfaceFactory;
 use Dhl\ShippingCore\Api\Data\TrackResponse\TrackErrorResponseInterface;

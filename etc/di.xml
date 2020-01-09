@@ -12,15 +12,15 @@
     <preference for="Dhl\Sdk\Paket\Bcs\Api\Data\AuthenticationStorageInterface" type="Dhl\Sdk\Paket\Bcs\Auth\AuthenticationStorage"/>
 
     <!-- # virtual types -->
-    <virtualType name="Dhl\Paket\Model\BulkShipmentManagement\Virtual" type="Dhl\Paket\Model\ShipmentManagement">
+    <virtualType name="Dhl\Paket\Model\BulkShipment\BulkShipmentManagement\Virtual" type="Dhl\Paket\Model\BulkShipment\ShipmentManagement">
         <arguments>
             <argument name="createResponseProcessor" xsi:type="object">Dhl\ShippingCore\Webservice\Pipeline\BulkShipment\CreateLabelResponseProcessor\Virtual</argument>
             <argument name="deleteResponseProcessor" xsi:type="object">Dhl\ShippingCore\Webservice\Pipeline\BulkShipment\CancelLabelResponseProcessor\Virtual</argument>
         </arguments>
     </virtualType>
-    <virtualType name="Dhl\Paket\Model\BulkShipmentManagement\Proxy\Virtual" type="Dhl\Paket\Model\ShipmentManagement\Proxy">
+    <virtualType name="Dhl\Paket\Model\BulkShipment\BulkShipmentManagement\Proxy\Virtual" type="Dhl\Paket\Model\BulkShipment\ShipmentManagement\Proxy">
         <arguments>
-            <argument name="instanceName" xsi:type="string">Dhl\Paket\Model\BulkShipmentManagement\Virtual</argument>
+            <argument name="instanceName" xsi:type="string">Dhl\Paket\Model\BulkShipment\BulkShipmentManagement\Virtual</argument>
         </arguments>
     </virtualType>
     <virtualType name="Dhl\Paket\Model\Logger\Handler\Virtual" type="Dhl\ShippingCore\Model\Util\ApiLogHandler">
@@ -87,7 +87,7 @@
     <type name="Dhl\Paket\Model\Carrier\Paket">
         <arguments>
             <argument name="ratesManagement" xsi:type="object">Dhl\Paket\Model\RatesManagement\Proxy</argument>
-            <argument name="shipmentManagement" xsi:type="object">Dhl\Paket\Model\ShipmentManagement\Proxy</argument>
+            <argument name="shipmentManagement" xsi:type="object">Dhl\Paket\Model\BulkShipment\ShipmentManagement\Proxy</argument>
             <argument name="trackingInfoProvider" xsi:type="object">Dhl\UnifiedTracking\Api\TrackingInfoProviderInterface\Proxy</argument>
         </arguments>
     </type>
@@ -96,14 +96,14 @@
             <argument name="rateRequestService" xsi:type="object">Dhl\Paket\Model\Rate\Emulation\RateRequestService\Virtual</argument>
         </arguments>
     </type>
-    <type name="Dhl\Paket\Model\ShipmentManagement">
+    <type name="Dhl\Paket\Model\BulkShipment\ShipmentManagement">
         <arguments>
             <argument name="deleteResponseProcessor" xsi:type="object">Dhl\ShippingCore\Webservice\Pipeline\BulkShipment\CancelLabelResponseProcessor\Virtual</argument>
         </arguments>
     </type>
-    <type name="Dhl\Paket\Model\BulkShipmentConfiguration">
+    <type name="Dhl\Paket\Model\BulkShipment\BulkShipmentConfiguration">
         <arguments>
-            <argument name="shipmentManagement" xsi:type="object">Dhl\Paket\Model\BulkShipmentManagement\Proxy\Virtual</argument>
+            <argument name="shipmentManagement" xsi:type="object">Dhl\Paket\Model\BulkShipment\BulkShipmentManagement\Proxy\Virtual</argument>
         </arguments>
     </type>
     <type name="Dhl\Paket\Webservice\ApiGateway">
@@ -127,10 +127,10 @@
             <argument name="logger" xsi:type="object">Dhl\Paket\Model\Logger\Virtual</argument>
         </arguments>
     </type>
-    <type name="Dhl\ShippingCore\Model\BulkShipmentConfiguration">
+    <type name="Dhl\ShippingCore\Model\BulkShipment\BulkShipmentConfiguration">
         <arguments>
             <argument name="configurations" xsi:type="array">
-                <item name="dhlpaket" xsi:type="object">Dhl\Paket\Model\BulkShipmentConfiguration</item>
+                <item name="dhlpaket" xsi:type="object">Dhl\Paket\Model\BulkShipment\BulkShipmentConfiguration</item>
             </argument>
         </arguments>
     </type>

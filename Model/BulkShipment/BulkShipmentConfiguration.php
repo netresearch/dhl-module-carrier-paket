@@ -4,7 +4,7 @@
  */
 declare(strict_types=1);
 
-namespace Dhl\Paket\Model;
+namespace Dhl\Paket\Model\BulkShipment;
 
 use Dhl\Paket\Model\Carrier\Paket;
 use Dhl\Paket\Model\ShipmentRequest\RequestModifier;
