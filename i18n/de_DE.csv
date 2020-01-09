@@ -1,8 +1,8 @@
-"Account Settings",Kontoeinstellungen
-"Additional Fee",Zusatzentgelte
-"Additional Insurance",Transportversicherung
-"Additional Services","Zusätzliche Dienstleistungen"
+"Account Settings","Kontoeinstellungen"
 "Additional customs fees to be paid.","Zusätzlich zu zahlende Zollgebühren."
+"Additional Fee","Zusatzentgelte"
+"Additional Insurance","Transportversicherung"
+"Additional Services","Zusätzliche Dienstleistungen"
 "Adjust your parcel delivery flexibly to your schedule. Receive your packages while on the go at one of over 28,000 pickup locations in Germany - at a DHL parcel station or post office. Wherever it best suits your needs.","Passen Sie die Paketlieferung flexibel Ihrem Alltag an: Holen Sie Ihre Pakete unterwegs an einer der über 28.000 Abholstationen ab. Beispielsweise an einer DHL Packstation oder Postfiliale - einfach dort, wo es Ihnen am besten passt."
 "Allow customers to check out with <em>DHL Paket</em> shipping methods.","<em>DHL Paket</em> als Versandart im Checkout anbieten."
 "Allow customers to declare a preferred neighbour during checkout.","Lassen Sie Kunden im Checkout einen bevorzugten Nachbar für die Zustellung bestimmen."
@@ -14,28 +14,29 @@
 "Allow for Specific Countries","Zulassen nur für bestimmte Länder"
 "An error occurred while preparing package data.","Während des Aufbereitens der Paketdaten ist ein Fehler aufgetreten."
 "Applicable Countries","Anwendbare Länder"
-"Attestation Number",Bescheinigungs-Nummer
+"Attestation Number","Bescheinigungs-Nummer"
 "Behavior in Cases of Unavailability","Verhalten bei Nichtverfügbarkeit"
-"Bulky Goods",Sperrgut
+"Bulky Goods","Sperrgut"
+"Cash on Delivery Reason for Payment","Verwendungszweck Nachnahmezahlung"
 "Checkout Presentation",Checkout-Darstellung
 "Choose a weather-protected and non-visible place on your property where we can deposit the parcel in your absence.","Bestimmen Sie einen wettergeschützten und nicht einsehbaren Platz auf Ihrem Grundstück, an dem wir das Paket während Ihrer Abwesenheit hinterlegen dürfen."
 "Choose one of the displayed days as your preferred day for your parcel delivery. Other days are not possible due to delivery processes.","Sie haben die Möglichkeit, einen der angezeigten Tage als Wunschtag für die Lieferung Ihrer Waren auszuwählen. Andere Tage sind aufgrund der Lieferprozesse aktuell nicht möglich."
 "Custom Message","Benutzerdefinierte Nachricht"
+"Days excluded from drop-off","Tage ohne Paketübergabe"
+"Declare a person in your immediate neighborhood whom we can hand out your parcel. This person should live in the same building, directly opposite or next door.","Bestimmen Sie eine Person in Ihrer unmittelbaren Nachbarschaft, bei der wir Ihr Paket abgeben dürfen. Diese sollte im gleichen Haus, direkt gegenüber oder nebenan wohnen."
 "DHL & Magento","DHL & Magento"
+"DHL contract customers receive the access data to the DHL Business Customer Portal via <em>DHL Paket</em> sales.","DHL-Vertragskunden erhalten die Zugangsdaten zum DHL-Geschäftskundenportal durch einen <em>DHL Paket</em>-Vertriebsmitarbeiter."
 "DHL Customer Number (EKP)","DHL Kundennummer (EKP)"
 "DHL Europaket: V54EPAK","DHL Europaket: V54EPAK"
 "DHL Paket (Shipping from DE)","DHL Paket (Versand aus DE)"
-"DHL Paket International: V53WPAK","DHL Paket International: V53WPAK"
-"DHL Paket Taggleich: V06PAK","DHL Paket Taggleich: V06PAK"
 "DHL Paket does not offer services for your shipping origin.","Ihr Absenderland wird von DHL Paket nicht bedient."
+"DHL Paket International: V53WPAK","DHL Paket International: V53WPAK"
 "DHL Paket provides parcel shipping across Germany and to more than 220 countries - even on Saturdays.","DHL Paket bietet Paketversand in ganz Deutschland und nach über 220 Länder – sogar samstags."
+"DHL Paket Taggleich: V06PAK","DHL Paket Taggleich: V06PAK"
 "DHL Paket: V01PAK","DHL Paket: V01PAK"
 "DHL Post Number","DHL Postnummer"
 "DHL Preferred Delivery","DHL Wunschpaket"
 "DHL Preferred Delivery. Delivered just the way you want.","DHL Wunschpaket. Geliefert wie gewüscht."
-"DHL contract customers receive the access data to the DHL Business Customer Portal via <em>DHL Paket</em> sales.","DHL-Vertragskunden erhalten die Zugangsdaten zum DHL-Geschäftskundenportal durch einen <em>DHL Paket</em>-Vertriebsmitarbeiter."
-"Days excluded from drop-off","Tage ohne Paketübergabe"
-"Declare a person in your immediate neighborhood whom we can hand out your parcel. This person should live in the same building, directly opposite or next door.","Bestimmen Sie eine Person in Ihrer unmittelbaren Nachbarschaft, bei der wir Ihr Paket abgeben dürfen. Diese sollte im gleichen Haus, direkt gegenüber oder nebenan wohnen."
 "Disability Access","Barrierefreier Zugang"
 "Displayed Text","Angezeigter Text"
 "E.g. garage, terrace","z.B. Garage, Terrasse"
@@ -51,10 +52,10 @@
 "Enable DHL retail outlet routing service","Filial-Routing aktivieren"
 "Enable DHL return shipment service","DHL Retourenbeileger anfordern"
 "Enable Sandbox Mode","Sandbox-Modus aktivieren"
-Enabled,Aktiviert
+"Enabled","Aktiviert"
 "Enter your API user name, lower case only. Please talk to your account representative to add API access to your business account.","Geben Sie Ihren API Benutzernamen an (keine Großbuchstaben). Bitten Sprechen Sie mit Ihrem DHL-Ansprechpartner, um API-Zugang für Ihren Geschäftskunden-Account freizuschalten."
 "Error Logging Level","Stufe der Fehlerprotokollierung"
-Errors,Fehler
+"Errors","Fehler"
 "Field %1 is required.","Feld %1 is erforderlich."
 "Find Parcel Station","Packstation finden"
 "First name, last name of neighbour","Vorname, Nachname des Nachbarn"
@@ -63,26 +64,27 @@ Fri,Fr
 "Furthermore, the DHL Paket carrier allows to request shipping labels for incoming orders directly within your Magento instance.","Mit der DHL Paket Versandmethode können Sie Versandscheine für eingehende Bestellungen direkt in Ihrer Magento-Instanz anlegen."
 "General Settings","Allgemeine Einstellungen"
 "Having issues configuring the extension? Contact your DHL Paket account representative who will facilitate technical assistance.","Haben Sie Probleme bei der Konfiguration des Moduls? Bitte kontaktieren Sie ihren DHL-Anchsprechpartner für technische Hilfestellung."
-"If enabled, DHL will automatically send a customs declaration electronically to the customs offices for dutiable shipments.","Wenn diese Option aktiviert ist, wird von DHL automatisch bei zollpflichtigen Sendungen eine Zollinhaltserklärung auf elektronischem Wege an die Zollämter versandt."
 "If enabled, a return shipment label will be requested from the webservice.","Wenn diese Option aktiviert ist, wird ein Rücksendeetikett vom Webservice angefordert."
+"If enabled, DHL will automatically send a customs declaration electronically to the customs offices for dutiable shipments.","Wenn diese Option aktiviert ist, wird von DHL automatisch bei zollpflichtigen Sendungen eine Zollinhaltserklärung auf elektronischem Wege an die Zollämter versandt."
 "If enabled, shipment orders will only return a label if the DHL delivery address verification succeeds.","Wenn diese Option aktiviert ist, werden Paketaufkleber nur erstellt, wenn die DHL-Überprüfung der Empfängeradresse im Versandauftrag erfolgreich war."
 "If enabled, shipments will be insured with higher than standard amount.","Wenn diese Option aktiviert ist, werden Sendungen mit einem höheren als dem Standardbetrag versichert."
 "If enabled, shipments will be marked as bulk freight.","Wenn diese Option aktiviert ist, werden Sendungen als Sperrgut markiert."
 "If enabled, the visual age check service will be booked during shipment orders.","Wenn diese Option aktiviert ist, wird der Service Alterssichtprüfung bei Versandaufträgen gebucht."
 "If enabled, your undeliverable packages will be held at the nearest parcel collection point for collection by the recipient rather than being returned immediately to you.","Wenn diese Option aktiviert ist, werden unzustellbare Sendungen nicht direkt an Sie zurückgeschickt, sondern zunächst in der nächstgelegenen Filiale zur Abholung hinterlegt."
+"If you don’t have an account or your account is with another DHL division, <a href=""https://www.dhl.de/en/geschaeftskunden/paket/kunde-werden/angebot-dhl-geschaeftskunden-online.html"" target=""_blank"">please contact DHL Paket</a> to establish or expand your relationship","Wenn Sie noch kein Geschäftskundenkonto haben, <a href=""https://www.dhl.de/de/geschaeftskunden/paket/kunde-werden/angebot-dhl-geschaeftskunden-online.html"" target=""_blank"">kontaktieren Sie DHL Paket</a> um einen Zugang zu einzurichten."
 "Indicate a preferred time, which suits you best for your parcel delivery by choosing one of the displayed time windows.","Damit Sie besser planen können, haben Sie die Möglichkeit, eine Wunschzeit für die Lieferung auszuwählen. Sie können eine der dargestellten Zeiten für die Lieferung auswählen."
 "Info (All API Activities)","Info (alle API-Aktivitäten)"
 "Label could not be created: %1","Paketaufkleber konnte nicht erzeugt werden: %1"
 "Label for order %1, package %2 could not be created.","Paketaufkleber für Bestellung %1, Paket %2 konnte nicht erzeugt werden."
-"Log Level",Protokollierungsstufe
-Logging,Protokollierung
+"Log Level","Protokollierungsstufe"
+"Logging","Protokollierung"
 "Minimum age +16 years","Mindestalter 16 Jahre"
 "Minimum age +18 years","Mindestalter 18 Jahre"
 Mon,Mo
 "Multi package shipments are not supported.","Mehrpaketsendungen werden nicht unterstützt."
 "Neighbour address","Adresse des Nachbarn"
 "Neighbour name","Name des Nachbarn"
-No,Nein
+"No","Nein"
 "Observe upper and lower case when handing over the password.","Beachten Sie Groß- und Kleinschreibung beim Eintragen des Passworts."
 "No locations found for the given address. Please try another address.","Für die angegebene Adresse wurden keine Standorte gefunden. Bitte versuchen Sie eine andere Adresse."
 "Offer DHL Parcel Announcement","Paketankündigung anbieten"
@@ -92,7 +94,7 @@ No,Nein
 "Offer Preferred Neighbour Service","Wunschnachbar anbieten"
 "Offer Preferred Time Service","Wunschzeit anbieten"
 "On the working days checked, there is no transfer of parcels to DHL (in addition to sundays and public holidays). This information influences the options offered as preferred delivery day in checkout.","An den gewählten Werktagen (zusätzlich zu Sonn- und Feiertagen) findet keine Paketübergabe an DHL statt. Aus Ihrer Angabe berechnet sich der nächstmögliche Wunschtag im Checkout."
-"Parcel Announcement",Paketankündigung
+"Parcel Announcement","Paketankündigung"
 "Parcel Routing","Paket-Routing"
 "Parcel shop","Paketshop"
 "Parcel station","Packstation"
@@ -108,22 +110,22 @@ Participation,Teilnahme
 "Please choose your preferred delivery options.","Wählen Sie Ihre bevorzugten Lieferoptionen aus."
 "Please consult your DHL account representative to enable API access for your account","Bitte sprechen Sie mit Ihrem DHL-Ansprechpartner, um Ihren Account für die API freizuschalten"
 "Please talk to your account representative to add API access to your business account","Bitte sprechen Sie mit Ihrem Kundenberater, um Ihrem Unternehmenskonto API-Zugriff hinzuzufügen."
-"Preferred Day",Wunschtag
-"Preferred Day Delivery","Lieferung zum Wunschtag"
+"Post office",Postfiliale
 "Preferred Day Additional Charge","Aufpreis für Wunschtag"
 "Preferred Day and Time Combined Charge","Aufpreis für kombinierten Wunschtag und -zeit"
-"Post office",Postfiliale
+"Preferred Day Delivery","Lieferung zum Wunschtag"
+"Preferred Day","Wunschtag"
 "Preferred Day: Delivery on your preferred day","Wunschtag: Lieferung zum gewüschten Tag"
-"Preferred Location",Wunschort
-"Preferred Location Delivery",Wunschort
+"Preferred Location Delivery","Wunschort"
+"Preferred Location","Wunschort"
 "Preferred Location: Delivery to your preferred drop-off location","Wunschort: Lieferung an den gewünschten Ablageort"
-"Preferred Neighbour Delivery",Wunschnachbar
+"Preferred Neighbour Delivery","Wunschnachbar"
 "Preferred Neighbour: Delivery to a neighbour of your choice","Wunschnachbar: Lieferung an den Nachbarn Ihrer Wahl"
-"Preferred Time Delivery",Wunschzeit
 "Preferred Time Additional Charge","Aufpreis für Wunschzeit"
-"Preferred Time: Delivery at your preferred time",Wunschzeit
+"Preferred Time Delivery","Wunschzeit"
+"Preferred Time: Delivery at your preferred time","Wunschzeit"
 "Print Only If Codeable","Nur leitkodierbare Versandaufträge erteilen"
-Procedure,Verfahren
+"Procedure","Verfahren"
 "Record communication with the DHL web services.","Kommunikation mit den DHL-Webservices aufzeichnen."
 "Retoure DHL Paket: V07PAK","Retoure DHL Paket: V07PAK"
 "Return Shipment",Beilegeretoure
@@ -136,15 +138,16 @@ Sat,Sa
 "Shipment Defaults","Voreinstellungen für Lieferungen"
 "Shipping Services in Checkout","Zusätzliche Versandservices im Checkout"
 "Some values for Preferred Neighbour service are missing.","Einige Werte für die Wunschnachbaroption fehlen."
-"Sort Order",Sortierreihenfolge
+"Sort Order","Sortierreihenfolge"
 "Specification for customs form.","Angabe für Zollformular."
 "Street, number, postal code, city","Straße, Hausnummer, PLZ, Ort"
 Sun,So
-"The EKP number (standardized customer and product number) is the key to using the products of Deutsche Post DHL. It is 10 digits and is allocated by DHL Sales.","Die EKP (Kundennummer) ist Ihr Schlüssel zu den Produkten von DHL. Sie umfasst 10 Zeichen und wird Ihnen von DHL zugewiesen"
 "The customer integration gateway of DHL provides generic test endpoints for the calling APIs. Select this option to use the test environment.","Die DHL-Schnittstelle bietet generische Testendpunkte für die aufrufenden APIs. Wählen Sie diese Option aus, um die Testumgebung zu verwenden."
+"The EKP number (standardized customer and product number) is the key to using the products of Deutsche Post DHL. It is 10 digits and is allocated by DHL Sales.","Die EKP (Kundennummer) ist Ihr Schlüssel zu den Produkten von DHL. Sie umfasst 10 Zeichen und wird Ihnen von DHL zugewiesen"
 "The given additional charge will be applied to the shipping costs at checkout. Set to ""0"" to offer service for free.","Der angegebene Aufpreis wird im Checkout den Versandkosten zugerechnet. Geben Sie ""0"" an, um den Service kostenlos anzubieten"
 "The given combined additional charge will be applied to the shipping costs at checkout. Set to ""0"" to not offer service combination discount.","Der angegebene Kombinations-Aufpreis wird im Checkout den Versandkosten zugerechnet, Geben Sie ""0"" an, um keinen Rabatt auf Kombinationsbuchungen anzubieten."
 "The log level <em>Info</em> should only be set while resolving problems. It may result in very large log files.","Die Protokollierungsstufe <em>Info</em> sollte nur beim Lösen von Problemen eingestellt werden, da dies zu sehr großen Protokolldateien führen kann."
+"The money transfer purpose for cash on delivery payments can include the following placeholders: {{entity_id}}, {{increment_id}}, {{firstname}}, {{lastname}}. They will be replaced by the respective order's values.","Beim Verwendungszweck für Nachnahmezahlungen können folgende Platzhalter eingesetzt werden: {{entity_id}}, {{increment_id}}, {{firstname}}, {{lastname}}. Sie werden durch die Werte der jeweiligen Bestellung ersetzt."
 "The participation number enables invoices to be subdivided according to location, seasonal business or different conditions. The participation number consists of 2 alphanumeric characters. It is allocated by DHL Sales.","Die Teilnahmenummer erlaubt es, Rechnungen nach Standort, Saisongeschäft oder anderen Umständen zu gruppieren. Eine Teilnamenummer besteht as zwei alphanumerischen Zeichen und wird Ihnen von DHL zugewiesen"
 "The post number is your personal identification code that you receive with your registration at DHL.","Die Postnummer ist ihre persönliche Kundennummer bei DHL."
 "The product %1 is not valid for the route %2-%3.","Das Versandprodukt %1 ist nicht gültig für die Route %2-%3."
@@ -158,13 +161,13 @@ Tue,Di
 "Unable to determine return shipment billing number.","Die Abrechnungsnummer für Rücksendungen konnte nicht ermittelt werden."
 "Use Additional Insurance Service","Erweiterte Transportversicherung aktivieren"
 "Use Bulky Goods Service","Sperrgutservice aktivieren"
+"Use rates from","Verwende Tarife von"
 "Use Retail Outlet Routing Service","Filial-Routing aktivieren"
 "Use Return Shipment Service","Beilegeretoure aktivieren"
 "Use Visual Check of Age Service","Alterssichtprüfung aktivieren"
-"Use rates from","Verwende Tarife von"
-User,Benutzername
-"Visual Check of Age",Alterssichtprüfung
-Warnings,Warnungen
+"User","Benutzername"
+"Visual Check of Age","Alterssichtprüfung"
+"Warnings","Warnungen"
 "Web service request could not be created: %1","Die Webservice-Anfrage konnte nicht erstellt werden: %1"
 Wed,Mi
 "You decide when and where you want to receive your parcels with the recipient services of DHL.","Mit den Services von DHL-Wunschpaket entscheiden Sie, wann und wo Sie Ihre Pakete empfangen."

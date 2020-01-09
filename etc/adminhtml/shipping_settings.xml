@@ -223,6 +223,14 @@
                     </input>
                 </inputs>
             </shippingOption>
+            <shippingOption code="cashOnDelivery">
+                <sortOrder>900</sortOrder>
+                <inputs>
+                    <input code="reasonForPayment" defaultConfigValue="dhlshippingsolutions/dhlpaket/shipment_defaults/cod_reason_for_payment">
+                        <inputType>hidden</inputType>
+                    </input>
+                </inputs>
+            </shippingOption>
         </serviceOptions>
     </carrier>
 </carriers>

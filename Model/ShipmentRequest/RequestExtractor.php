@@ -547,4 +547,23 @@ class RequestExtractor implements RequestExtractorInterface
     {
         return (bool) ($this->getServiceData('parcelOutletRouting')['enabled'] ?? false);
     }
+
+    /**
+     * Obtain the "reasonForPayment" value for the current package.
+     *
+     * @return string[] Array of maximum two lines.
+     */
+    public function getCodReasonForPayment(): array
+    {
+        $serviceData = $this->getServiceData(Codes::PACKAGING_SERVICE_CASH_ON_DELIVERY)['reasonForPayment'] ?? '';
+
+        // try splitting the string between words first
+        $lines = explode("\n", wordwrap($serviceData, 35));
+        if (count($lines) < 3) {
+            return $lines;
+        }
+
+        // if that did not succeed, split hard
+        return array_splice(str_split($serviceData, 35), 2);
+    }
 }

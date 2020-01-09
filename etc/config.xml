@@ -70,6 +70,7 @@
 
                 <shipment_defaults>
                     <print_only_if_codeable>1</print_only_if_codeable>
+                    <cod_reason_for_payment><![CDATA[{{firstname}} {{lastname}} #{{increment_id}}]]></cod_reason_for_payment>
                     <services_group>
                         <visual_check_of_age>0</visual_check_of_age>
                         <return_shipment>0</return_shipment>

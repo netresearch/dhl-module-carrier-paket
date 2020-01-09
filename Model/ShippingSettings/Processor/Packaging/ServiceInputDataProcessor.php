@@ -8,6 +8,7 @@ namespace Dhl\Paket\Model\ShippingSettings\Processor\Packaging;
 
 use Dhl\Paket\Model\Carrier\Paket;
 use Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes;
+use Dhl\Paket\Util\TemplateParser;
 use Dhl\ShippingCore\Api\Data\ShippingSettings\ShippingOption\OptionInterface;
 use Dhl\ShippingCore\Api\Data\ShippingSettings\ShippingOption\OptionInterfaceFactory;
 use Dhl\ShippingCore\Api\Data\ShippingSettings\ShippingOption\Selection\AssignedSelectionInterface;
@@ -16,6 +17,7 @@ use Dhl\ShippingCore\Api\ShippingSettings\Processor\Packaging\ShippingOptionsPro
 use Dhl\ShippingCore\Model\ShippingSettings\ShippingOption\Selection\OrderSelectionRepository;
 use Magento\Framework\Api\SearchCriteriaBuilder;
 use Magento\Framework\Stdlib\DateTime\TimezoneInterface;
+use Magento\Sales\Api\Data\OrderInterface;
 use Magento\Sales\Api\Data\ShipmentInterface;
 
 /**
@@ -41,6 +43,16 @@ class ServiceInputDataProcessor implements ShippingOptionsProcessorInterface
     private $searchCriteriaBuilder;
 
     /**
+     * @var OptionInterfaceFactory
+     */
+    private $optionFactory;
+
+    /**
+     * @var TemplateParser
+     */
+    private $templateParser;
+
+    /**
      * List of available customer services in checkout.
      *
      * @var string[]
@@ -54,80 +66,26 @@ class ServiceInputDataProcessor implements ShippingOptionsProcessorInterface
     ];
 
     /**
-     * @var OptionInterfaceFactory
-     */
-    private $optionFactory;
-
-    /**
      * ServiceInputDataProcessor constructor.
      *
      * @param TimezoneInterface $timezone
      * @param OrderSelectionRepository $selectionRepository
      * @param SearchCriteriaBuilder $searchCriteriaBuilder
      * @param OptionInterfaceFactory $optionFactory
+     * @param TemplateParser $templateParser
      */
     public function __construct(
         TimezoneInterface $timezone,
         OrderSelectionRepository $selectionRepository,
         SearchCriteriaBuilder $searchCriteriaBuilder,
-        OptionInterfaceFactory $optionFactory
+        OptionInterfaceFactory $optionFactory,
+        TemplateParser $templateParser
     ) {
         $this->timezone = $timezone;
         $this->selectionRepository = $selectionRepository;
         $this->searchCriteriaBuilder = $searchCriteriaBuilder;
         $this->optionFactory = $optionFactory;
-    }
-
-    /**
-     * Infer radio button label from selection value.
-     *
-     * This must be done manually since the proper value labels are
-     * only retrieved from the API during checkout and that data is
-     * not persisted.
-     *
-     * @param ShippingOptionInterface $shippingOption
-     */
-    private function processPreferredDayInputs(ShippingOptionInterface $shippingOption)
-    {
-        foreach ($shippingOption->getInputs() as $input) {
-            if ($input->getCode() === 'date') {
-                $dateFormatted = $this->timezone->formatDate(
-                    $input->getDefaultValue(),
-                    \IntlDateFormatter::MEDIUM
-                );
-                /** @var OptionInterface $option */
-                $option = $this->optionFactory->create();
-                $option->setValue($input->getDefaultValue());
-                $option->setLabel($dateFormatted);
-                $input->setOptions([$option]);
-            }
-        }
-    }
-
-    /**
-     * Infer radio button label from selection value.
-     *
-     * This must be done manually since the proper value labels are
-     * only retrieved from the API during checkout and that data is
-     * not persisted.
-     *
-     * @param ShippingOptionInterface $shippingOption
-     */
-    private function processPreferredTimeInputs(ShippingOptionInterface $shippingOption)
-    {
-        foreach ($shippingOption->getInputs() as $input) {
-            if ($input->getCode() === 'time') {
-                $timeRange = str_split($input->getDefaultValue(), 4);
-                $startTime = implode(':', str_split($timeRange[0], 2));
-                $endTime = implode(':', str_split($timeRange[1], 2));
-
-                /** @var OptionInterface $option */
-                $option = $this->optionFactory->create();
-                $option->setValue($input->getDefaultValue());
-                $option->setLabel($startTime . ' - ' . $endTime);
-                $input->setOptions([$option]);
-            }
-        }
+        $this->templateParser = $templateParser;
     }
 
     /**
@@ -201,6 +159,74 @@ class ServiceInputDataProcessor implements ShippingOptionsProcessorInterface
     }
 
     /**
+     * Infer radio button label from selection value.
+     *
+     * This must be done manually since the proper value labels are
+     * only retrieved from the API during checkout and that data is
+     * not persisted.
+     *
+     * @param ShippingOptionInterface $shippingOption
+     */
+    private function processPreferredDayInputs(ShippingOptionInterface $shippingOption)
+    {
+        foreach ($shippingOption->getInputs() as $input) {
+            if ($input->getCode() === 'date') {
+                $dateFormatted = $this->timezone->formatDate(
+                    $input->getDefaultValue(),
+                    \IntlDateFormatter::MEDIUM
+                );
+                /** @var OptionInterface $option */
+                $option = $this->optionFactory->create();
+                $option->setValue($input->getDefaultValue());
+                $option->setLabel($dateFormatted);
+                $input->setOptions([$option]);
+            }
+        }
+    }
+
+    /**
+     * Infer radio button label from selection value.
+     *
+     * This must be done manually since the proper value labels are
+     * only retrieved from the API during checkout and that data is
+     * not persisted.
+     *
+     * @param ShippingOptionInterface $shippingOption
+     */
+    private function processPreferredTimeInputs(ShippingOptionInterface $shippingOption)
+    {
+        foreach ($shippingOption->getInputs() as $input) {
+            if ($input->getCode() === 'time') {
+                $timeRange = str_split($input->getDefaultValue(), 4);
+                $startTime = implode(':', str_split($timeRange[0], 2));
+                $endTime = implode(':', str_split($timeRange[1], 2));
+
+                /** @var OptionInterface $option */
+                $option = $this->optionFactory->create();
+                $option->setValue($input->getDefaultValue());
+                $option->setLabel($startTime . ' - ' . $endTime);
+                $input->setOptions([$option]);
+            }
+        }
+    }
+
+    /**
+     * Replace the COD Reason for Payment template variables.
+     *
+     * @param ShippingOptionInterface $shippingOption
+     * @param OrderInterface $order
+     */
+    private function processCashOnDeliveryInputs(ShippingOptionInterface $shippingOption, OrderInterface $order)
+    {
+        foreach ($shippingOption->getInputs() as $input) {
+            if ($input->getCode() === 'reasonForPayment') {
+                $value = $this->templateParser->parse($order, $input->getDefaultValue());
+                $input->setDefaultValue($value);
+            }
+        }
+    }
+
+    /**
      * @param ShippingOptionInterface[] $optionsData
      * @param ShipmentInterface $shipment
      *
@@ -229,6 +255,9 @@ class ServiceInputDataProcessor implements ShippingOptionsProcessorInterface
                     break;
                 case Codes::CHECKOUT_SERVICE_PREFERRED_TIME:
                     $this->processPreferredTimeInputs($optionGroup);
+                    break;
+                case Codes::PACKAGING_SERVICE_CASH_ON_DELIVERY:
+                    $this->processCashOnDeliveryInputs($optionGroup, $order);
                     break;
             }
         }

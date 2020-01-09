@@ -17,11 +17,12 @@ class Codes
     /**
      * Packaging services.
      */
-    const PACKAGING_SERVICE_CHECK_OF_AGE    = 'visualCheckOfAge';
-    const PACKAGING_SERVICE_RETURN_SHIPMENT = 'returnShipment';
-    const PACKAGING_SERVICE_INSURANCE       = 'additionalInsurance';
-    const PACKAGING_SERVICE_BULKY_GOODS     = 'bulkyGoods';
-    const PACKAGING_PRINT_ONLY_IF_CODEABLE  = 'printOnlyIfCodeable';
+    const PACKAGING_SERVICE_CHECK_OF_AGE     = 'visualCheckOfAge';
+    const PACKAGING_SERVICE_RETURN_SHIPMENT  = 'returnShipment';
+    const PACKAGING_SERVICE_INSURANCE        = 'additionalInsurance';
+    const PACKAGING_SERVICE_BULKY_GOODS      = 'bulkyGoods';
+    const PACKAGING_SERVICE_CASH_ON_DELIVERY = 'cashOnDelivery';
+    const PACKAGING_PRINT_ONLY_IF_CODEABLE   = 'printOnlyIfCodeable';
 
     /**
      * Checkout services.

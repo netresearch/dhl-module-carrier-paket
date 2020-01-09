@@ -185,7 +185,7 @@ class RequestDataMapper
                 $widthInCm = $this->unitConverter->convertDimension($width, $dimensionsUom, $targetUom);
                 $lengthInCm = $this->unitConverter->convertDimension($length, $dimensionsUom, $targetUom);
                 $heightInCm = $this->unitConverter->convertDimension($height, $dimensionsUom, $targetUom);
-                $this->requestBuilder->setPackageDimensions((int) $widthInCm, (int) $lengthInCm, (int) $heightInCm);
+                $this->requestBuilder->setPackageDimensions((int)$widthInCm, (int)$lengthInCm, (int)$heightInCm);
             }
 
             if ($requestExtractor->isPrintOnlyIfCodeable()) {
@@ -194,7 +194,8 @@ class RequestDataMapper
 
             $baseTotal = ((int)($requestExtractor->getOrder()->getBaseGrandTotal()) * 100) / 100;
             if ($requestExtractor->isCashOnDelivery()) {
-                // Add cash on delivery amount if COD payment method
+                $notes = $requestExtractor->getCodReasonForPayment();
+                $this->requestBuilder->setShipperBankData(null, null, null, null, null, $notes);
                 $this->requestBuilder->setCodAmount($baseTotal);
             }
 
@@ -294,7 +295,7 @@ class RequestDataMapper
 
                 foreach ($requestExtractor->getPackageItems() as $packageItem) {
                     $this->requestBuilder->addExportItem(
-                        (int) round($packageItem->getQty()),
+                        (int)round($packageItem->getQty()),
                         $packageItem->getExportDescription(),
                         $packageItem->getCustomsValue(),
                         $packageItem->getWeight(),

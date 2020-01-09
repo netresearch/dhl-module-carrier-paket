@@ -36,6 +36,11 @@
             <label>Electronic Export Notification</label>
             <comment>If enabled, DHL will automatically send a customs declaration electronically to the customs offices for dutiable shipments.</comment>
         </field>
+        <field id="cod_reason_for_payment" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="45" translate="label comment">
+            <label>Cash on Delivery Reason for Payment</label>
+            <validate>maximum-length-70</validate>
+            <comment><![CDATA[The money transfer purpose for cash on delivery payments can include the following placeholders: {{entity_id}}, {{increment_id}}, {{firstname}}, {{lastname}}. They will be replaced by the respective order's values.]]></comment>
+        </field>
 
         <group id="services_group" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="50"
                translate="label">

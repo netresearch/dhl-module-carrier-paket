@@ -7,7 +7,6 @@ declare(strict_types=1);
 namespace Dhl\Paket\Model\ShippingSettings\Processor\Packaging;
 
 use Dhl\Paket\Model\Carrier\Paket;
-use Dhl\Paket\Model\Config\ModuleConfig;
 use Dhl\Paket\Util\ShippingProducts;
 use Dhl\ShippingCore\Api\ConfigInterface;
 use Dhl\ShippingCore\Api\Data\ShippingSettings\ShippingOption\CommentInterfaceFactory;
@@ -22,11 +21,6 @@ use Magento\Sales\Api\Data\ShipmentInterface;
  */
 class PackageInputDataProcessor implements ShippingOptionsProcessorInterface
 {
-    /**
-     * @var ModuleConfig
-     */
-    private $config;
-
     /**
      * @var ConfigInterface
      */
@@ -45,18 +39,15 @@ class PackageInputDataProcessor implements ShippingOptionsProcessorInterface
     /**
      * PackageInputDataProcessor constructor.
      *
-     * @param ModuleConfig $config
      * @param ConfigInterface $dhlConfig
      * @param ShippingProducts $shippingProducts
      * @param CommentInterfaceFactory $commentFactory
      */
     public function __construct(
-        ModuleConfig $config,
         ConfigInterface $dhlConfig,
         ShippingProducts $shippingProducts,
         CommentInterfaceFactory $commentFactory
     ) {
-        $this->config = $config;
         $this->dhlConfig = $dhlConfig;
         $this->shippingProducts = $shippingProducts;
         $this->commentFactory = $commentFactory;
