@@ -2,10 +2,9 @@
 /**
  * See LICENSE.md for license details.
  */
-namespace Dhl\Paket\Model\Pipeline\CreateShipments\ShipmentRequest\Validator;
+namespace Dhl\Paket\Model\ShipmentRequest\Validator;
 
 use Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes;
-use Dhl\ShippingCore\Api\ConfigInterface;
 use Dhl\ShippingCore\Api\Pipeline\ShipmentRequest\RequestValidatorInterface;
 use Magento\Bundle\Model\Product\Type;
 use Magento\Catalog\Model\Product\Type\AbstractType;
@@ -26,21 +25,6 @@ use Magento\Shipping\Model\Shipment\Request;
  */
 class NoPartialValidator implements RequestValidatorInterface
 {
-    /**
-     * @var ConfigInterface
-     */
-    private $config;
-
-    /**
-     * NoPartialValidator constructor.
-     *
-     * @param ConfigInterface $config
-     */
-    public function __construct(ConfigInterface $config)
-    {
-        $this->config = $config;
-    }
-
     /**
      * Collect quantities of all the order's shippable items and compare with items included in the current shipment.
      *
@@ -101,14 +85,15 @@ class NoPartialValidator implements RequestValidatorInterface
         $packages = $request->getData('packages');
 
         $hasInsuranceService = false;
+        $hasCodService = false;
+
         foreach ($packages as $package) {
             $serviceData = $package['params']['services'][Codes::PACKAGING_SERVICE_INSURANCE] ?? [];
             $hasInsuranceService = $hasInsuranceService || ($serviceData['enabled'] ?? false);
-        }
 
-        //todo(nr): read from package params once DHLGW-736 is solved
-        $payment = $request->getOrderShipment()->getOrder()->getPayment();
-        $hasCodService = $payment && $this->config->isCodPaymentMethod($payment->getMethod());
+            $serviceData = $package['params']['services'][Codes::PACKAGING_SERVICE_CASH_ON_DELIVERY] ?? [];
+            $hasCodService = $hasCodService || ($serviceData['enabled'] ?? false);
+        }
 
         return !$hasInsuranceService && !$hasCodService;
     }

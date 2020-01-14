@@ -63,6 +63,7 @@ class ServiceInputDataProcessor implements ShippingOptionsProcessorInterface
         Codes::CHECKOUT_SERVICE_PREFERRED_LOCATION,
         Codes::CHECKOUT_SERVICE_PREFERRED_NEIGHBOUR,
         Codes::CHECKOUT_SERVICE_PARCELSHOP_FINDER,
+        Codes::PACKAGING_SERVICE_CASH_ON_DELIVERY,
     ];
 
     /**

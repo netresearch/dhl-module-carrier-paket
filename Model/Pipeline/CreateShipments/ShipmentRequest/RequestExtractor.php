@@ -30,7 +30,6 @@ use Zend\Hydrator\Reflection;
  * The original shipment request is a rather limited DTO with unstructured data (DataObject, array).
  * The extractor and its subtypes offer a well-defined interface to extract the request data and
  * isolates the toxic part of extracting unstructured array data from the shipment request.
- *
  */
 class RequestExtractor implements RequestExtractorInterface
 {
@@ -556,15 +555,17 @@ class RequestExtractor implements RequestExtractorInterface
      */
     public function getCodReasonForPayment(): array
     {
-        $serviceData = $this->getServiceData(Codes::PACKAGING_SERVICE_CASH_ON_DELIVERY)['reasonForPayment'] ?? '';
+        $reasonForPayment = $this->getServiceData(Codes::PACKAGING_SERVICE_CASH_ON_DELIVERY)['reasonForPayment'] ?? '';
 
         // try splitting the string between words first
-        $lines = explode("\n", wordwrap($serviceData, 35));
+        $lines = explode("\n", wordwrap($reasonForPayment, 35));
         if (count($lines) < 3) {
             return $lines;
         }
 
         // if that did not succeed, split hard
-        return array_splice(str_split($serviceData, 35), 2);
+        $lines = str_split($reasonForPayment, 35);
+        array_splice($lines, 2);
+        return $lines;
     }
 }

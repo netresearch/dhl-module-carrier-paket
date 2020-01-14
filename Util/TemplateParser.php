@@ -7,6 +7,7 @@ declare(strict_types=1);
 namespace Dhl\Paket\Util;
 
 use Magento\Sales\Api\Data\OrderInterface;
+use Magento\Sales\Model\Order\Address;
 
 /**
  * Utility to replace order property variables with their actual entity values.
@@ -23,20 +24,24 @@ class TemplateParser
      */
     public function parse(OrderInterface $order, string $template): string
     {
-        return str_replace(
-            [
-                '{{entity_id}}',
-                '{{increment_id}}',
-                '{{firstname}}',
-                '{{lastname}}'
-            ],
-            [
+        $billingAddress = $order->getBillingAddress();
+
+        if ($billingAddress instanceof Address) {
+            $replace = [
                 $order->getEntityId(),
                 $order->getIncrementId(),
-                $order->getCustomerFirstname(),
-                $order->getCustomerLastname()
-            ],
-            $template
-        );
+                $billingAddress->getFirstname(),
+                $billingAddress->getLastname()
+            ];
+        } else {
+            $replace = [
+                $order->getEntityId(),
+                $order->getIncrementId(),
+                '',
+                ''
+            ];
+        }
+
+        return str_replace(['{{entity_id}}', '{{increment_id}}', '{{firstname}}', '{{lastname}}'], $replace, $template);
     }
 }
