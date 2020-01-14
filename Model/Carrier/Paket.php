@@ -8,11 +8,11 @@ namespace Dhl\Paket\Model\Carrier;
 
 use Dhl\Paket\Model\BulkShipment\ShipmentManagement;
 use Dhl\Paket\Model\Config\ModuleConfig;
-use Dhl\Paket\Model\RatesManagement;
+use Dhl\Paket\Model\Rate\RatesManagement;
 use Dhl\Paket\Util\ShippingProducts;
-use Dhl\ShippingCore\Api\Data\TrackRequest\TrackRequestInterfaceFactory;
-use Dhl\ShippingCore\Api\Data\TrackResponse\TrackErrorResponseInterface;
-use Dhl\ShippingCore\Api\Data\TrackResponse\TrackResponseInterface;
+use Dhl\ShippingCore\Api\Data\Pipeline\TrackRequest\TrackRequestInterfaceFactory;
+use Dhl\ShippingCore\Api\Data\Pipeline\TrackResponse\TrackErrorResponseInterface;
+use Dhl\ShippingCore\Api\Data\Pipeline\TrackResponse\TrackResponseInterface;
 use Dhl\ShippingCore\Model\Rate\Emulation\ProxyCarrierFactory;
 use Dhl\UnifiedTracking\Api\TrackingInfoProviderInterface;
 use Dhl\UnifiedTracking\Exception\TrackingException;

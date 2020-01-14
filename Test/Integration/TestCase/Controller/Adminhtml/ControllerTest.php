@@ -7,7 +7,7 @@ declare(strict_types=1);
 namespace Dhl\Paket\Test\Integration\TestCase\Controller\Adminhtml;
 
 use Dhl\Paket\Test\Integration\TestDouble\ShipmentServiceStub;
-use Dhl\Paket\Webservice\ShipmentService;
+use Dhl\Paket\Model\Webservice\ShipmentService;
 use Magento\Framework\Exception\AuthenticationException;
 use Magento\TestFramework\TestCase\AbstractBackendController;
 

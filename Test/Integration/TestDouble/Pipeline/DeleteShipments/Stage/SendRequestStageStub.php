@@ -6,12 +6,12 @@ declare(strict_types=1);
 
 namespace Dhl\Paket\Test\Integration\TestDouble\Pipeline\DeleteShipments\Stage;
 
-use Dhl\Paket\Webservice\Pipeline\DeleteShipments\ArtifactsContainer;
-use Dhl\Paket\Webservice\Pipeline\DeleteShipments\Stage\SendRequestStage;
+use Dhl\Paket\Model\Pipeline\DeleteShipments\ArtifactsContainer;
+use Dhl\Paket\Model\Pipeline\DeleteShipments\Stage\SendRequestStage;
 use Dhl\Sdk\Paket\Bcs\Api\Data\ShipmentInterface;
 use Dhl\Sdk\Paket\Bcs\Exception\ServiceException;
 use Dhl\ShippingCore\Api\Data\Pipeline\ArtifactsContainerInterface;
-use Dhl\ShippingCore\Api\Data\TrackRequest\TrackRequestInterface;
+use Dhl\ShippingCore\Api\Data\Pipeline\TrackRequest\TrackRequestInterface;
 
 /**
  * Class SendRequestStageStub

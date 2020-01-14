@@ -6,13 +6,13 @@ declare(strict_types=1);
 
 namespace Dhl\Paket\Model\BulkShipment;
 
-use Dhl\Paket\Webservice\ApiGateway;
-use Dhl\Paket\Webservice\ApiGatewayFactory;
+use Dhl\Paket\Model\Pipeline\ApiGateway;
+use Dhl\Paket\Model\Pipeline\ApiGatewayFactory;
 use Dhl\ShippingCore\Api\BulkShipment\BulkLabelCancellationInterface;
 use Dhl\ShippingCore\Api\BulkShipment\BulkLabelCreationInterface;
-use Dhl\ShippingCore\Api\Data\ShipmentResponse\ShipmentResponseInterface;
-use Dhl\ShippingCore\Api\Data\TrackRequest\TrackRequestInterface;
-use Dhl\ShippingCore\Api\Data\TrackResponse\TrackResponseInterface;
+use Dhl\ShippingCore\Api\Data\Pipeline\ShipmentResponse\ShipmentResponseInterface;
+use Dhl\ShippingCore\Api\Data\Pipeline\TrackRequest\TrackRequestInterface;
+use Dhl\ShippingCore\Api\Data\Pipeline\TrackResponse\TrackResponseInterface;
 use Dhl\ShippingCore\Api\Pipeline\ShipmentResponseProcessorInterface;
 use Dhl\ShippingCore\Api\Pipeline\TrackResponseProcessorInterface;
 use Magento\Shipping\Model\Shipment\Request;

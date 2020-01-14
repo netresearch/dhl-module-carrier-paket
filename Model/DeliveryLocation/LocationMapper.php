@@ -16,7 +16,6 @@ use Dhl\ShippingCore\Api\Data\DeliveryLocation\OpeningHoursInterface;
 use Dhl\ShippingCore\Api\Data\DeliveryLocation\OpeningHoursInterfaceFactory;
 use Dhl\ShippingCore\Api\Data\DeliveryLocation\TimeFrameInterface;
 use Dhl\ShippingCore\Api\Data\DeliveryLocation\TimeFrameInterfaceFactory;
-use Dhl\ShippingCore\Model\DeliveryLocation\OpeningHoursFactory;
 
 /**
  * Class LocationMapper
@@ -112,11 +111,11 @@ class LocationMapper
     {
         switch ($shopType) {
             case SdkLocationInterface::TYPE_PACKSTATION:
-                return __('Parcel station')->render();
+                return __('Parcel Station')->render();
             case SdkLocationInterface::TYPE_PARCELSHOP:
-                return __('Parcel shop')->render();
+                return __('Parcel Shop')->render();
             case SdkLocationInterface::TYPE_POSTOFFICE:
-                return __('Post office')->render();
+                return __('Post Office')->render();
             default:
                 return '';
         }

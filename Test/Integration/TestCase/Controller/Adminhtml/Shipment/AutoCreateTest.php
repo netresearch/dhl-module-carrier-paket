@@ -8,7 +8,7 @@ namespace Dhl\Paket\Test\Integration\TestCase\Controller\Adminhtml\Shipment;
 
 use Dhl\Paket\Test\Integration\TestCase\Controller\Adminhtml\ControllerTest;
 use Dhl\Paket\Test\Integration\TestDouble\Pipeline\CreateShipments\Stage\SendRequestStageStub;
-use Dhl\Paket\Webservice\Pipeline\CreateShipments\Stage\SendRequestStage;
+use Dhl\Paket\Model\Pipeline\CreateShipments\Stage\SendRequestStage;
 use Magento\Framework\Data\Form\FormKey;
 use Magento\Framework\Exception\AuthenticationException;
 

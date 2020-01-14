@@ -7,7 +7,7 @@ declare(strict_types=1);
 namespace Dhl\Paket\Model\ShippingSettings\Processor\Checkout\ServiceOptions;
 
 use Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes;
-use Dhl\Paket\Webservice\ParcelManagementServiceFactory;
+use Dhl\Paket\Model\Webservice\ParcelManagementServiceFactory;
 use Dhl\Sdk\Paket\ParcelManagement\Api\Data\CarrierServiceInterface;
 use Dhl\Sdk\Paket\ParcelManagement\Api\Data\IntervalOptionInterface;
 use Dhl\Sdk\Paket\ParcelManagement\Exception\ServiceException;

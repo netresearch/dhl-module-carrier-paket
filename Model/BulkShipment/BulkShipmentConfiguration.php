@@ -7,11 +7,11 @@ declare(strict_types=1);
 namespace Dhl\Paket\Model\BulkShipment;
 
 use Dhl\Paket\Model\Carrier\Paket;
-use Dhl\Paket\Model\ShipmentRequest\RequestModifier;
+use Dhl\Paket\Model\Pipeline\CreateShipments\ShipmentRequest\RequestModifier;
 use Dhl\ShippingCore\Api\BulkShipment\BulkLabelCancellationInterface;
 use Dhl\ShippingCore\Api\BulkShipment\BulkLabelCreationInterface;
 use Dhl\ShippingCore\Api\BulkShipment\BulkShipmentConfigurationInterface;
-use Dhl\ShippingCore\Api\RequestModifierInterface;
+use Dhl\ShippingCore\Api\Pipeline\ShipmentRequest\RequestModifierInterface;
 
 /**
  * Class BulkShipmentConfiguration

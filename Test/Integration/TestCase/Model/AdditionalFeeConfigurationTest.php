@@ -6,7 +6,7 @@ declare(strict_types=1);
 
 namespace Dhl\Paket\Test\Integration\TestCase\Model;
 
-use Dhl\Paket\Model\AdditionalFeeConfiguration;
+use Dhl\Paket\Model\AdditionalFee\AdditionalFeeConfiguration;
 use Dhl\Paket\Model\Carrier\Paket;
 use Dhl\ShippingCore\Model\ResourceModel\Quote\Address\ShippingOptionSelectionCollection;
 use Dhl\ShippingCore\Model\ShippingSettings\ShippingOption\Selection\QuoteSelection;

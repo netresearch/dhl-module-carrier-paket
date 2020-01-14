@@ -7,7 +7,7 @@ declare(strict_types=1);
 namespace Dhl\Paket\Model\DeliveryLocation;
 
 use Dhl\Paket\Model\Carrier\Paket;
-use Dhl\Paket\Webservice\LocationFinderService;
+use Dhl\Paket\Model\Webservice\LocationFinderService;
 use Dhl\Sdk\LocationFinder\Exception\ServiceException;
 use Dhl\ShippingCore\Api\Data\DeliveryLocation\AddressInterface;
 use Dhl\ShippingCore\Api\Data\DeliveryLocation\LocationInterface;

@@ -7,7 +7,7 @@ declare(strict_types=1);
 namespace Dhl\Paket\Test\Integration\TestCase\Controller\Adminhtml\Shipment;
 
 use Dhl\Paket\Test\Integration\TestDouble\Pipeline\CreateShipments\Stage\SendRequestStageStub;
-use Dhl\Paket\Webservice\Pipeline\CreateShipments\Stage\SendRequestStage;
+use Dhl\Paket\Model\Pipeline\CreateShipments\Stage\SendRequestStage;
 use Dhl\ShippingCore\Test\Integration\Fixture\Data\AddressDe;
 use Dhl\ShippingCore\Test\Integration\Fixture\Data\SimpleProduct;
 use Dhl\ShippingCore\Test\Integration\Fixture\OrderFixture;

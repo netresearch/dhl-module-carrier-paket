@@ -44,7 +44,7 @@
         </itemOptions>
         <serviceOptions>
             <shippingOption code="parcelshopFinder">
-                <label>Parcel station</label>
+                <label>Parcel Station</label>
                 <inputs>
                     <input code="enabled">
                         <label>Parcel Station Delivery</label>
