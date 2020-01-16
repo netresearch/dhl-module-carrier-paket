@@ -11,7 +11,7 @@ use Dhl\Paket\Model\Webservice\LocationFinderService;
 use Dhl\Sdk\LocationFinder\Exception\ServiceException;
 use Dhl\ShippingCore\Api\Data\DeliveryLocation\AddressInterface;
 use Dhl\ShippingCore\Api\Data\DeliveryLocation\LocationInterface;
-use Dhl\ShippingCore\Api\LocationProviderInterface;
+use Dhl\ShippingCore\Api\DeliveryLocation\LocationProviderInterface;
 use Dhl\ShippingCore\Model\Util\StreetSplitter;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Exception\NoSuchEntityException;
@@ -21,8 +21,8 @@ use Magento\Framework\Exception\NoSuchEntityException;
  *
  * Handles communication with LocationFinder SDK and transforms results into internal format.
  *
- * @author  Andreas Müller <andreas.mueller@netresearch.de>
- * @link    https://netresearch.de
+ * @author Andreas Müller <andreas.mueller@netresearch.de>
+ * @link   https://www.netresearch.de/
  */
 class LocationProvider implements LocationProviderInterface
 {

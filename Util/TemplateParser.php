@@ -13,7 +13,7 @@ use Magento\Sales\Model\Order\Address;
  * Utility to replace order property variables with their actual entity values.
  *
  * @author Andreas Müller <andreas.mueller@netresearch.de>
- * @link   https://www.netresearch.de
+ * @link   https://www.netresearch.de/
  */
 class TemplateParser
 {

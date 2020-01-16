@@ -17,8 +17,8 @@ use Psr\Log\LoggerInterface;
 /**
  * Class LocationFinderService
  *
- * @author  Andreas Müller <andreas.mueller@netresearch.de>
- * @link    https://www.netresearch.de
+ * @author Andreas Müller <andreas.mueller@netresearch.de>
+ * @link   https://www.netresearch.de/
  */
 class LocationFinderService
 {

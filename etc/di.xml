@@ -216,7 +216,7 @@
             </argument>
         </arguments>
     </type>
-    <type name="\Dhl\ShippingCore\Model\DeliveryLocation\DeliveryLocationProvider">
+    <type name="\Dhl\ShippingCore\Model\DeliveryLocation\Search">
         <arguments>
             <argument name="locationProviders" xsi:type="array">
                 <item name="dhlpaket" xsi:type="object">Dhl\Paket\Model\DeliveryLocation\LocationProvider</item>

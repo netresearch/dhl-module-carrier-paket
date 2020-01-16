@@ -16,14 +16,15 @@ use Dhl\ShippingCore\Api\Data\DeliveryLocation\OpeningHoursInterface;
 use Dhl\ShippingCore\Api\Data\DeliveryLocation\OpeningHoursInterfaceFactory;
 use Dhl\ShippingCore\Api\Data\DeliveryLocation\TimeFrameInterface;
 use Dhl\ShippingCore\Api\Data\DeliveryLocation\TimeFrameInterfaceFactory;
+use Dhl\ShippingCore\Api\Util\AssetUrlInterface;
 
 /**
  * Class LocationMapper
  *
  * Map SDK locations into objects suitable for the Shopfinder REST endpoint.
  *
- * @author  Andreas Müller <andreas.mueller@netresearch.de>
- * @link    https://www.netresearch.de
+ * @author Andreas Müller <andreas.mueller@netresearch.de>
+ * @link   https://www.netresearch.de/
  */
 class LocationMapper
 {
@@ -37,9 +38,9 @@ class LocationMapper
     private $addressFactory;
 
     /**
-     * @var ImageUrlProcessor
+     * @var AssetUrlInterface
      */
-    private $imageProcessor;
+    private $assetUrl;
 
     /**
      * @var TimeFrameInterfaceFactory
@@ -68,20 +69,20 @@ class LocationMapper
     /**
      * LocationMapper constructor.
      *
-     * @param ImageUrlProcessor $imageProcessor
+     * @param AssetUrlInterface $assetUrl
      * @param AddressInterfaceFactory $addressFactory
      * @param TimeFrameInterfaceFactory $timeFrameFactory
      * @param OpeningHoursInterfaceFactory $openingHoursFactory
      * @param LocationInterfaceFactory $locationFactory
      */
     public function __construct(
-        ImageUrlProcessor $imageProcessor,
+        AssetUrlInterface $assetUrl,
         AddressInterfaceFactory $addressFactory,
         TimeFrameInterfaceFactory $timeFrameFactory,
         OpeningHoursInterfaceFactory $openingHoursFactory,
         LocationInterfaceFactory $locationFactory
     ) {
-        $this->imageProcessor = $imageProcessor;
+        $this->assetUrl = $assetUrl;
         $this->addressFactory = $addressFactory;
         $this->timeFrameFactory = $timeFrameFactory;
         $this->openingHoursFactory = $openingHoursFactory;
@@ -98,7 +99,7 @@ class LocationMapper
             return '';
         }
 
-        return $this->imageProcessor->getUrl($this->icons[$shopType]);
+        return $this->assetUrl->get($this->icons[$shopType]);
     }
 
     /**

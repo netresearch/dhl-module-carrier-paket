@@ -11,8 +11,8 @@ use Dhl\Sdk\LocationFinder\Api\Data\LocationInterface as ApiLocation;
 /**
  * Class LocationFilter
  *
- * @author  Andreas Müller <andreas.mueller@netresearch.de>
- * @link    https://www.netresearch.de
+ * @author Andreas Müller <andreas.mueller@netresearch.de>
+ * @link   https://www.netresearch.de/
  */
 class LocationFilter
 {
@@ -22,12 +22,11 @@ class LocationFilter
      * @param ApiLocation[] $locations
      * @return ApiLocation[]
      */
-    public function removeParcelShops($locations): array
+    public function removeParcelShops(array $locations): array
     {
         return array_filter(
             $locations,
-            static function ($location) {
-                /** @var ApiLocation $location */
+            static function (ApiLocation $location) {
                 return $location->getType() !== ApiLocation::TYPE_PARCELSHOP;
             }
         );
