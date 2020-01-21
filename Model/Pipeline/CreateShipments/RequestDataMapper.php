@@ -7,13 +7,14 @@ declare(strict_types=1);
 namespace Dhl\Paket\Model\Pipeline\CreateShipments;
 
 use Dhl\Paket\Model\Pipeline\CreateShipments\ShipmentRequest\Data\PackageAdditional;
-use Dhl\Paket\Model\Pipeline\CreateShipments\ShipmentRequest\RequestExtractor;
 use Dhl\Paket\Model\Pipeline\CreateShipments\ShipmentRequest\RequestExtractorFactory;
+use Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes as PaketCodes;
 use Dhl\Sdk\LocationFinder\Api\Data\LocationInterface;
 use Dhl\Sdk\Paket\Bcs\Api\ShipmentOrderRequestBuilderInterface;
 use Dhl\Sdk\Paket\Bcs\Exception\RequestValidatorException;
 use Dhl\ShippingCore\Api\ConfigInterface;
 use Dhl\ShippingCore\Api\Util\UnitConverterInterface;
+use Dhl\ShippingCore\Model\ShippingSettings\ShippingOption\Codes;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Shipping\Model\Shipment\Request;
 
@@ -251,20 +252,20 @@ class RequestDataMapper
                 if ($locationData['locationType'] === LocationInterface::TYPE_POSTOFFICE) {
                     $this->requestBuilder->setPostfiliale(
                         $requestExtractor->getRecipient()->getContactPersonName(),
-                        $locationData['locationNumber'],
-                        $locationData['countryCode'],
-                        $locationData['postalCode'],
-                        $locationData['city'],
-                        $locationData['customerPostnumber'] ?? null
+                        $locationData[Codes::SHOPFINDER_INPUT_LOCATION_NUMBER],
+                        $locationData[Codes::SHOPFINDER_INPUT_COUNTRY_CODE],
+                        $locationData[Codes::SHOPFINDER_INPUT_POSTAL_CODE],
+                        $locationData[Codes::SHOPFINDER_INPUT_CITY],
+                        $locationData[PaketCodes::CHECKOUT_INPUT_CUSTOMER_POSTNUMBER] ?? null
                     );
                 } elseif ($locationData['locationType'] === LocationInterface::TYPE_PACKSTATION) {
                     $this->requestBuilder->setPackstation(
                         $requestExtractor->getRecipient()->getContactPersonName(),
-                        $locationData['customerPostnumber'],
-                        $locationData['locationNumber'],
-                        $locationData['countryCode'],
-                        $locationData['postalCode'],
-                        $locationData['city']
+                        $locationData[PaketCodes::CHECKOUT_INPUT_CUSTOMER_POSTNUMBER],
+                        $locationData[Codes::SHOPFINDER_INPUT_LOCATION_NUMBER],
+                        $locationData[Codes::SHOPFINDER_INPUT_COUNTRY_CODE],
+                        $locationData[Codes::SHOPFINDER_INPUT_POSTAL_CODE],
+                        $locationData[Codes::SHOPFINDER_INPUT_CITY]
                     );
                 }
             }

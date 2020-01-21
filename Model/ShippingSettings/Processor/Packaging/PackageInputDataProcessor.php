@@ -12,6 +12,7 @@ use Dhl\ShippingCore\Api\ConfigInterface;
 use Dhl\ShippingCore\Api\Data\ShippingSettings\ShippingOption\CommentInterfaceFactory;
 use Dhl\ShippingCore\Api\Data\ShippingSettings\ShippingOptionInterface;
 use Dhl\ShippingCore\Api\ShippingSettings\Processor\Packaging\ShippingOptionsProcessorInterface;
+use Dhl\ShippingCore\Model\ShippingSettings\ShippingOption\Codes;
 use Magento\Sales\Api\Data\ShipmentInterface;
 
 /**
@@ -63,7 +64,7 @@ class PackageInputDataProcessor implements ShippingOptionsProcessorInterface
     {
         foreach ($shippingOption->getInputs() as $input) {
             switch ($input->getCode()) {
-                case 'productCode':
+                case Codes::PACKAGING_INPUT_PRODUCT_CODE:
                     $storeId = $shipment->getStoreId();
 
                     /** @var \Magento\Sales\Model\Order $order */

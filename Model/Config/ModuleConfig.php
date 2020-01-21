@@ -55,6 +55,7 @@ class ModuleConfig
     const CONFIG_PATH_ADDITIONAL_INSURANCE = 'dhlshippingsolutions/dhlpaket/shipment_defaults/services_group/additional_insurance';
     const CONFIG_PATH_BULKY_GOODS = 'dhlshippingsolutions/dhlpaket/shipment_defaults/services_group/bulky_goods';
     const CONFIG_PATH_PARCEL_OUTLET = 'dhlshippingsolutions/dhlpaket/shipment_defaults/services_group/parcel_outlet';
+    const CONFIG_PATH_COD_REASON_FOR_PAYMENT = 'dhlshippingsolutions/dhlpaket/shipment_defaults/cod_reason_for_payment';
 
     // 600_additional_services.xml
     const CONFIG_PATH_ADDITIONAL_SERVICES = 'dhlshippingsolutions/dhlpaket/additional_services/services_group';

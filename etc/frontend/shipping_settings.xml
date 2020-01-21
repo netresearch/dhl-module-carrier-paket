@@ -2,7 +2,7 @@
 <carriers xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Dhl_ShippingCore/etc/shipping_settings.xsd">
     <carrier code="dhlpaket">
         <serviceOptions>
-            <shippingOption code="preferredDay">
+            <shippingOption code="Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::CHECKOUT_SERVICE_PREFERRED_DAY">
                 <inputs>
                     <input code="date">
                         <options>
@@ -13,7 +13,7 @@
                     </input>
                 </inputs>
             </shippingOption>
-            <shippingOption code="preferredTime">
+            <shippingOption code="Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::CHECKOUT_SERVICE_PREFERRED_TIME">
                 <inputs>
                     <input code="time">
                         <options>
@@ -30,10 +30,10 @@
                 <triggerValue>*</triggerValue>
                 <action>disable</action>
                 <masters>
-                    <master>preferredLocation</master>
+                    <master>Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::CHECKOUT_SERVICE_PREFERRED_LOCATION</master>
                 </masters>
                 <subjects>
-                    <subject>preferredNeighbour</subject>
+                    <subject>Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::CHECKOUT_SERVICE_PREFERRED_NEIGHBOUR</subject>
                 </subjects>
                 <errorMessage>Please choose only one of %1.</errorMessage>
             </rule>
@@ -41,10 +41,10 @@
                 <triggerValue>*</triggerValue>
                 <action>disable</action>
                 <masters>
-                    <master>preferredNeighbour</master>
+                    <master>Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::CHECKOUT_SERVICE_PREFERRED_NEIGHBOUR</master>
                 </masters>
                 <subjects>
-                    <subject>preferredLocation</subject>
+                    <subject>Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::CHECKOUT_SERVICE_PREFERRED_LOCATION</subject>
                 </subjects>
                 <errorMessage>Please choose only one of %1.</errorMessage>
             </rule>
@@ -52,55 +52,55 @@
                 <triggerValue>*</triggerValue>
                 <action>require</action>
                 <subjects>
-                    <subject>preferredNeighbour.name</subject>
-                    <subject>preferredNeighbour.address</subject>
+                    <subject>Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::CHECKOUT_SERVICE_PREFERRED_NEIGHBOUR.name</subject>
+                    <subject>Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::CHECKOUT_SERVICE_PREFERRED_NEIGHBOUR.address</subject>
                 </subjects>
                 <errorMessage>Some values for Preferred Neighbour service are missing.</errorMessage>
             </rule>
             <rule id="parcelshopFinderInclude">
                 <masters>
-                    <master>parcelshopFinder.enabled</master>
+                    <master>Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::CHECKOUT_SERVICE_PARCELSHOP_FINDER.enabled</master>
                 </masters>
                 <subjects>
-                    <subject>parcelshopFinder.customerPostnumber</subject>
+                    <subject>Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::CHECKOUT_SERVICE_PARCELSHOP_FINDER.customerPostnumber</subject>
                 </subjects>
                 <action>show</action>
                 <triggerValue>*</triggerValue>
             </rule>
             <rule id="parcelshopFinderExcludeAllOthers">
                 <masters>
-                    <master>parcelshopFinder.enabled</master>
+                    <master>Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::CHECKOUT_SERVICE_PARCELSHOP_FINDER.enabled</master>
                 </masters>
                 <subjects>
-                    <subject>preferredDay</subject>
-                    <subject>preferredTime</subject>
-                    <subject>preferredLocation</subject>
-                    <subject>preferredNeighbour</subject>
-                    <subject>parcelOutletRouting</subject>
+                    <subject>Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::CHECKOUT_SERVICE_PREFERRED_DAY</subject>
+                    <subject>Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::CHECKOUT_SERVICE_PREFERRED_TIME</subject>
+                    <subject>Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::CHECKOUT_SERVICE_PREFERRED_LOCATION</subject>
+                    <subject>Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::CHECKOUT_SERVICE_PREFERRED_NEIGHBOUR</subject>
+                    <subject>Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::CHECKOUT_SERVICE_PARCEL_OUTLET_ROUTING</subject>
                 </subjects>
                 <triggerValue>*</triggerValue>
                 <action>hide</action>
             </rule>
             <rule id="allOthersExcludeParcelshopFinder">
                 <masters>
-                    <master>preferredDay</master>
-                    <master>preferredTime</master>
-                    <master>preferredLocation</master>
-                    <master>preferredNeighbour</master>
-                    <master>parcelOutletRouting</master>
+                    <master>Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::CHECKOUT_SERVICE_PREFERRED_DAY</master>
+                    <master>Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::CHECKOUT_SERVICE_PREFERRED_TIME</master>
+                    <master>Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::CHECKOUT_SERVICE_PREFERRED_LOCATION</master>
+                    <master>Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::CHECKOUT_SERVICE_PREFERRED_NEIGHBOUR</master>
+                    <master>Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::CHECKOUT_SERVICE_PARCEL_OUTLET_ROUTING</master>
                 </masters>
                 <subjects>
-                    <subject>parcelshopFinder</subject>
+                    <subject>Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::CHECKOUT_SERVICE_PARCELSHOP_FINDER</subject>
                 </subjects>
                 <triggerValue>*</triggerValue>
                 <action>hide</action>
             </rule>
             <rule id="parcelshopFinderRequirePostNumber">
                 <masters>
-                    <master>parcelshopFinder.locationType</master>
+                    <master>Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::CHECKOUT_SERVICE_PARCELSHOP_FINDER.locationType</master>
                 </masters>
                 <subjects>
-                    <subject>parcelshopFinder.customerPostnumber</subject>
+                    <subject>Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::CHECKOUT_SERVICE_PARCELSHOP_FINDER.customerPostnumber</subject>
                 </subjects>
                 <triggerValue>packstation</triggerValue>
                 <action>require</action>

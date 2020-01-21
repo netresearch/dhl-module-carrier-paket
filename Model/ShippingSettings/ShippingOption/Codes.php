@@ -33,4 +33,7 @@ class Codes
     const CHECKOUT_SERVICE_PREFERRED_NEIGHBOUR = 'preferredNeighbour';
     const CHECKOUT_SERVICE_PREFERRED_LOCATION  = 'preferredLocation';
     const CHECKOUT_SERVICE_PARCELSHOP_FINDER   = 'parcelshopFinder';
+    const CHECKOUT_SERVICE_PARCEL_OUTLET_ROUTING = 'parcelOutletRouting';
+
+    const CHECKOUT_INPUT_CUSTOMER_POSTNUMBER = 'customerPostnumber';
 }

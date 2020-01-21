@@ -8,6 +8,7 @@ namespace Dhl\Paket\Test\Integration\TestCase\Model;
 
 use Dhl\Paket\Model\AdditionalFee\AdditionalFeeConfiguration;
 use Dhl\Paket\Model\Carrier\Paket;
+use Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes;
 use Dhl\ShippingCore\Model\ResourceModel\Quote\Address\ShippingOptionSelectionCollection;
 use Dhl\ShippingCore\Model\ShippingSettings\ShippingOption\Selection\QuoteSelection;
 use Dhl\ShippingCore\Model\ShippingSettings\ShippingOption\Selection\QuoteSelectionRepository;
@@ -87,7 +88,7 @@ class AdditionalFeeConfigurationTest extends TestCase
     {
         $this->mockSelection->method('count')->willReturn(1);
         $this->mockSelection->method('getFirstItem')->willReturn(
-            new Selection('preferredTime', 'time', '1')
+            new Selection(Codes::CHECKOUT_SERVICE_PREFERRED_TIME, 'time', '1')
         );
 
         /** @var AdditionalFeeConfiguration $additionalFeeConfig */

@@ -352,7 +352,7 @@ class RequestExtractor implements RequestExtractorInterface
         $pickupLocationData = $this->getServiceData(Codes::CHECKOUT_SERVICE_PARCELSHOP_FINDER);
         if (!empty($pickupLocationData['enabled'])
             && ($pickupLocationData['locationType'] === LocationInterface::TYPE_POSTOFFICE)
-            && empty($pickupLocationData['customerPostnumber'])
+            && empty($pickupLocationData[Codes::CHECKOUT_INPUT_CUSTOMER_POSTNUMBER])
         ) {
             // Postfiliale delivery with no post number requires email address
             return true;
@@ -545,7 +545,7 @@ class RequestExtractor implements RequestExtractorInterface
      */
     public function isParcelOutletRouting(): bool
     {
-        return (bool) ($this->getServiceData('parcelOutletRouting')['enabled'] ?? false);
+        return (bool) ($this->getServiceData(Codes::CHECKOUT_SERVICE_PARCEL_OUTLET_ROUTING)['enabled'] ?? false);
     }
 
     /**

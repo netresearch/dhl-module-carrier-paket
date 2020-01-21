@@ -6,6 +6,7 @@ declare(strict_types=1);
 
 namespace Dhl\Paket\Test\Integration\TestCase\Observer;
 
+use Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes;
 use Dhl\Paket\Test\Integration\Fixture\QuoteFixture;
 use Dhl\Paket\Test\Integration\Fixture\QuoteServiceSelectionFixture;
 use Dhl\ShippingCore\Observer\DisableCodPaymentMethods;
@@ -171,7 +172,12 @@ class DisableCodPaymentMethodsTest extends TestCase
     public static function createQuoteWithCompatibleServices()
     {
         $quote = QuoteFixture::createQuote(new AddressDe(), [new SimpleProduct2()], 'dhlpaket_flatrate');
-        QuoteServiceSelectionFixture::createServiceSelection($quote, 'date', 'preferredDay', '2019-07-11');
+        QuoteServiceSelectionFixture::createServiceSelection(
+            $quote,
+            'date',
+            Codes::CHECKOUT_SERVICE_PREFERRED_DAY,
+            '2019-07-11'
+        );
 
         self::$currentQuote = $quote;
     }

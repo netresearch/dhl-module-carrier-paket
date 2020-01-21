@@ -2,7 +2,7 @@
 <carriers xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Dhl_ShippingCore/etc/shipping_settings.xsd">
     <carrier code="dhlpaket">
         <serviceOptions>
-            <shippingOption code="parcelAnnouncement" available="dhlshippingsolutions/dhlpaket/additional_services/services_group/parcelannouncement">
+            <shippingOption code="Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::CHECKOUT_PARCEL_ANNOUNCEMENT" available="dhlshippingsolutions/dhlpaket/additional_services/services_group/parcelannouncement">
                 <label>Parcel Announcement</label>
                 <sortOrder>10</sortOrder>
                 <inputs>
@@ -13,7 +13,7 @@
                     </input>
                 </inputs>
             </shippingOption>
-            <shippingOption code="parcelshopFinder" available="dhlshippingsolutions/dhlpaket/additional_services/services_group/parcelshopFinder">
+            <shippingOption code="Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::CHECKOUT_SERVICE_PARCELSHOP_FINDER" available="dhlshippingsolutions/dhlpaket/additional_services/services_group/parcelshopFinder">
                 <label>Parcel Station Delivery</label>
                 <routes>
                     <route>
@@ -30,7 +30,7 @@
                         <labelVisible>false</labelVisible>
                         <tooltip>Adjust your parcel delivery flexibly to your schedule. Receive your packages while on the go at one of over 28,000 pickup locations in Germany - at a DHL parcel station or post office. Wherever it best suits your needs.</tooltip>
                     </input>
-                    <input code="customerPostnumber">
+                    <input code="Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::CHECKOUT_INPUT_CUSTOMER_POSTNUMBER">
                         <sortOrder>20</sortOrder>
                         <label>DHL Post Number</label>
                         <tooltip>
@@ -50,7 +50,7 @@
                     </input>
                 </inputs>
             </shippingOption>
-            <shippingOption code="preferredDay" available="dhlshippingsolutions/dhlpaket/additional_services/services_group/preferredday">
+            <shippingOption code="Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::CHECKOUT_SERVICE_PREFERRED_DAY" available="dhlshippingsolutions/dhlpaket/additional_services/services_group/preferredday">
                 <label>Preferred Day: Delivery on your preferred day</label>
                 <sortOrder>30</sortOrder>
                 <routes>
@@ -75,7 +75,7 @@
                     </input>
                 </inputs>
             </shippingOption>
-            <shippingOption code="preferredTime" available="dhlshippingsolutions/dhlpaket/additional_services/services_group/preferredtime">
+            <shippingOption code="Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::CHECKOUT_SERVICE_PREFERRED_TIME" available="dhlshippingsolutions/dhlpaket/additional_services/services_group/preferredtime">
                 <label>Preferred Time: Delivery at your preferred time</label>
                 <sortOrder>40</sortOrder>
                 <routes>
@@ -100,7 +100,7 @@
                     </input>
                 </inputs>
             </shippingOption>
-            <shippingOption code="preferredLocation" available="dhlshippingsolutions/dhlpaket/additional_services/services_group/preferredlocation">
+            <shippingOption code="Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::CHECKOUT_SERVICE_PREFERRED_LOCATION" available="dhlshippingsolutions/dhlpaket/additional_services/services_group/preferredlocation">
                 <label>Preferred Location: Delivery to your preferred drop-off location</label>
                 <sortOrder>50</sortOrder>
                 <routes>
@@ -131,7 +131,7 @@
                     </input>
                 </inputs>
             </shippingOption>
-            <shippingOption code="preferredNeighbour" available="dhlshippingsolutions/dhlpaket/additional_services/services_group/preferredneighbour">
+            <shippingOption code="Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::CHECKOUT_SERVICE_PREFERRED_NEIGHBOUR" available="dhlshippingsolutions/dhlpaket/additional_services/services_group/preferredneighbour">
                 <label>Preferred Neighbour: Delivery to a neighbour of your choice</label>
                 <sortOrder>60</sortOrder>
                 <routes>
@@ -189,8 +189,8 @@
                 <footnote id="footnote-combined-cost">
                     <content><![CDATA[For a combined booking of preferred day and preferred time, the shipping costs are a total of $1 including VAT.]]></content>
                     <subjects>
-                        <subject>preferredTime</subject>
-                        <subject>preferredDay</subject>
+                        <subject>Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::CHECKOUT_SERVICE_PREFERRED_TIME</subject>
+                        <subject>Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::CHECKOUT_SERVICE_PREFERRED_DAY</subject>
                     </subjects>
                     <subjectsMustBeAvailable>true</subjectsMustBeAvailable>
                     <subjectsMustBeSelected>true</subjectsMustBeSelected>

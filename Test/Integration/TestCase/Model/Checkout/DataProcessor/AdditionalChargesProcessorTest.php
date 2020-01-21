@@ -7,6 +7,7 @@ declare(strict_types=1);
 namespace Dhl\Paket\Test\Integration\TestCase\Model\Checkout\DataProcessor;
 
 use Dhl\Paket\Model\Carrier\Paket;
+use Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes;
 use Dhl\Paket\Test\Integration\TestDouble\CheckoutServiceStub;
 use Dhl\Sdk\Paket\ParcelManagement\Service\ServiceFactory;
 use Dhl\ShippingCore\Model\ShippingSettings\CheckoutManagement;
@@ -89,8 +90,8 @@ class AdditionalChargesProcessorTest extends TestCase
         /** @var CarrierData $carrier */
         $carrier = $carriers[Paket::CARRIER_CODE];
         $options = $carrier->getServiceOptions();
-        self::assertContains('$100.00', $options['preferredDay']->getInputs()['date']->getComment()->getContent());
-        self::assertContains('$50.00', $options['preferredTime']->getInputs()['time']->getComment()->getContent());
+        self::assertContains('$100.00', $options[Codes::CHECKOUT_SERVICE_PREFERRED_DAY]->getInputs()['date']->getComment()->getContent());
+        self::assertContains('$50.00', $options[Codes::CHECKOUT_SERVICE_PREFERRED_TIME]->getInputs()['time']->getComment()->getContent());
     }
 
     /**
@@ -138,11 +139,11 @@ class AdditionalChargesProcessorTest extends TestCase
         $serviceOptions = $carrier->getServiceOptions();
         self::assertContains(
             ' €70.67',
-            $serviceOptions['preferredDay']->getInputs()['date']->getComment()->getContent()
+            $serviceOptions[Codes::CHECKOUT_SERVICE_PREFERRED_DAY]->getInputs()['date']->getComment()->getContent()
         );
         self::assertContains(
             '€35.34',
-            $serviceOptions['preferredTime']->getInputs()['time']->getComment()->getContent()
+            $serviceOptions[Codes::CHECKOUT_SERVICE_PREFERRED_TIME]->getInputs()['time']->getComment()->getContent()
         );
     }
 }
