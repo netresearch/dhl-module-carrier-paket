@@ -9,7 +9,6 @@ namespace Dhl\Paket\Test\Integration\TestDouble\Pipeline\DeleteShipments\Stage;
 use Dhl\Paket\Model\Pipeline\DeleteShipments\ArtifactsContainer;
 use Dhl\Paket\Model\Pipeline\DeleteShipments\Stage\SendRequestStage;
 use Dhl\Sdk\Paket\Bcs\Api\Data\ShipmentInterface;
-use Dhl\Sdk\Paket\Bcs\Exception\ServiceException;
 use Dhl\ShippingCore\Api\Data\Pipeline\ArtifactsContainerInterface;
 use Dhl\ShippingCore\Api\Data\Pipeline\TrackRequest\TrackRequestInterface;
 
@@ -22,11 +21,18 @@ use Dhl\ShippingCore\Api\Data\Pipeline\TrackRequest\TrackRequestInterface;
 class SendRequestStageStub extends SendRequestStage
 {
     /**
-     * Service exception. Can be set to make the request fail.
+     * Track request objects passed to the stage. Can be used for assertions.
      *
-     * @var ServiceException
+     * @var TrackRequestInterface[]
      */
-    public $exception;
+    public $trackRequests = [];
+
+    /**
+     * Shipment numbers sent to the web service. Can be used for assertions.
+     *
+     * @var \string[]
+     */
+    public $apiRequests = [];
 
     /**
      * Regular API responses. Built during runtime from the given cancellation requests.
@@ -34,6 +40,13 @@ class SendRequestStageStub extends SendRequestStage
      * @var ShipmentInterface[]
      */
     public $apiResponses = [];
+
+    /**
+     * API response callback. Can be used to alter the default response during runtime, e.g. throw an exception.
+     *
+     * @var callable|null
+     */
+    public $responseCallback;
 
     /**
      * Send request data to shipment service.
@@ -44,6 +57,10 @@ class SendRequestStageStub extends SendRequestStage
      */
     public function execute(array $requests, ArtifactsContainerInterface $artifactsContainer): array
     {
+        $this->trackRequests = $requests;
+        $this->apiRequests = $artifactsContainer->getApiRequests();
+        $this->apiResponses = [];
+
         foreach ($requests as $deletionRequest) {
             $shipmentNumber = $deletionRequest->getTrackNumber();
             $this->apiResponses[$shipmentNumber] = $shipmentNumber;

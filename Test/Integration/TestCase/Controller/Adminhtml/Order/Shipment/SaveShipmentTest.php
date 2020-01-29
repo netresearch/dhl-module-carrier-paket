@@ -5,11 +5,17 @@
 
 namespace Dhl\Paket\Test\Integration\TestCase\Controller\Adminhtml\Order\Shipment;
 
+use Dhl\Paket\Model\Pipeline\CreateShipments\Stage\SendRequestStage as CreationStage;
+use Dhl\Paket\Model\Pipeline\DeleteShipments\Stage\SendRequestStage as CancellationStage;
+use Dhl\Paket\Test\Integration\Provider\Controller\SaveShipment\PostDataProvider;
 use Dhl\Paket\Test\Integration\TestCase\Controller\Adminhtml\ControllerTest;
-use Dhl\Paket\Test\Integration\TestDouble\Pipeline\CreateShipments\Stage\SendRequestStageStub;
-use Dhl\Paket\Model\Pipeline\CreateShipments\Stage\SendRequestStage;
+use Dhl\Paket\Test\Integration\TestDouble\Pipeline\CreateShipments\Stage\SendRequestStageStub as CreationStageStub;
+use Dhl\Paket\Test\Integration\TestDouble\Pipeline\DeleteShipments\Stage\SendRequestStageStub as CancellationStageStub;
 use Magento\Framework\Data\Form\FormKey;
 use Magento\Framework\Exception\AuthenticationException;
+use Magento\Framework\Exception\LocalizedException;
+use Magento\Sales\Api\Data\OrderInterface;
+use Magento\Sales\Model\Order;
 
 /**
  * Base test to build various shipment creation scenarios on.
@@ -34,9 +40,18 @@ abstract class SaveShipmentTest extends ControllerTest
     protected $uri = 'backend/admin/order_shipment/save';
 
     /**
-     * The actual test to be implemented.
+     * The order to create the shipment request for.
+     *
+     * @var OrderInterface|Order
      */
-    abstract public function saveShipment();
+    protected static $order;
+
+    /**
+     * The actual test to be implemented.
+     *
+     * @param callable $getPostData
+     */
+    abstract public function saveShipment(callable $getPostData);
 
     /**
      * Configure pipeline stage for shipment creations.
@@ -48,7 +63,30 @@ abstract class SaveShipmentTest extends ControllerTest
         parent::setUp();
 
         // configure positive web service response
-        $this->_objectManager->configure(['preferences' => [SendRequestStage::class => SendRequestStageStub::class]]);
+        $this->_objectManager->configure(
+            [
+                'preferences' => [
+                    CreationStage::class => CreationStageStub::class,
+                    CancellationStage::class => CancellationStageStub::class,
+                ],
+            ]
+        );
+    }
+
+    public function postDataProvider()
+    {
+        return [
+            'single_package' => [
+                function () {
+                    return PostDataProvider::singlePackage(self::$order);
+                },
+            ],
+            'multi_package' => [
+                function () {
+                    return PostDataProvider::multiPackage(self::$order);
+                },
+            ],
+        ];
     }
 
     /**
@@ -58,7 +96,9 @@ abstract class SaveShipmentTest extends ControllerTest
      *
      * @link https://github.com/magento/magento2/blob/2.2.7/dev/tests/integration/framework/Magento/TestFramework/TestCase/AbstractController.php#L100
      * @link https://github.com/magento/magento2/blob/2.2.8/dev/tests/integration/framework/Magento/TestFramework/TestCase/AbstractController.php#L109-L116
+     *
      * @param string $uri
+     * @throws LocalizedException
      */
     public function dispatch($uri)
     {

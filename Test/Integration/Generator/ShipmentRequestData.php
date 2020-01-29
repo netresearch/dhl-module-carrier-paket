@@ -14,6 +14,8 @@ use Magento\TestFramework\Helper\Bootstrap;
 
 /**
  * Class ShipmentRequestData
+ * @deprecated
+ * @see \Dhl\Paket\Test\Integration\Provider\Controller\SaveShipment\PostDataProvider
  */
 class ShipmentRequestData
 {

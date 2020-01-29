@@ -9,7 +9,6 @@ namespace Dhl\Paket\Test\Integration\TestDouble\Pipeline\CreateShipments\Stage;
 use Dhl\Paket\Model\Pipeline\CreateShipments\ArtifactsContainer;
 use Dhl\Paket\Model\Pipeline\CreateShipments\Stage\SendRequestStage;
 use Dhl\Sdk\Paket\Bcs\Api\Data\ShipmentInterface;
-use Dhl\Sdk\Paket\Bcs\Exception\ServiceException;
 use Dhl\Sdk\Paket\Bcs\Service\ShipmentService\Shipment;
 use Dhl\ShippingCore\Api\Data\Pipeline\ArtifactsContainerInterface;
 use Magento\Shipping\Model\Shipment\Request;
@@ -23,7 +22,14 @@ use Magento\Shipping\Model\Shipment\Request;
 class SendRequestStageStub extends SendRequestStage
 {
     /**
-     * API request objects passed to the stage. Can be used for assertions.
+     * Magento shipment request objects passed to the stage. Can be used for assertions.
+     *
+     * @var Request[]
+     */
+    public $shipmentRequests = [];
+
+    /**
+     * API request objects sent to the web service. Can be used for assertions.
      *
      * @var \object[]
      */
@@ -37,11 +43,11 @@ class SendRequestStageStub extends SendRequestStage
     public $apiResponses = [];
 
     /**
-     * Service exception. Can be set to make the request fail.
+     * API response callback. Can be used to alter the default response during runtime, e.g. throw an exception.
      *
-     * @var ServiceException
+     * @var callable|null
      */
-    public $exception;
+    public $responseCallback;
 
     /**
      * @return string
@@ -76,12 +82,14 @@ B64;
      */
     public function execute(array $requests, ArtifactsContainerInterface $artifactsContainer): array
     {
+        $this->shipmentRequests = $requests;
         $this->apiRequests = $artifactsContainer->getApiRequests();
+        $this->apiResponses = [];
 
         $pdf = $this->getLabelPdf();
 
         foreach ($requests as $shipmentRequest) {
-            foreach ($shipmentRequest->getData('packages') as $packageId => $package) {
+            foreach ($shipmentRequest->getData('packages') as $package) {
                 if (isset($package['sequence_number'])) {
                     $orderId = $shipmentRequest->getOrderShipment()->getOrderId();
                     $sequenceNumber = (string) $package['sequence_number'];

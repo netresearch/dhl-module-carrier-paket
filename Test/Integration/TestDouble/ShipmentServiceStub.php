@@ -8,7 +8,9 @@ namespace Dhl\Paket\Test\Integration\TestDouble;
 
 use Dhl\Paket\Test\Integration\TestDouble\Pipeline\CreateShipments\Stage\SendRequestStageStub as CreationStage;
 use Dhl\Paket\Test\Integration\TestDouble\Pipeline\DeleteShipments\Stage\SendRequestStageStub as CancellationStage;
+use Dhl\Sdk\Paket\Bcs\Api\Data\ShipmentInterface;
 use Dhl\Sdk\Paket\Bcs\Api\ShipmentServiceInterface;
+use Dhl\Sdk\Paket\Bcs\Exception\ServiceException;
 
 /**
  * Class ShipmentServiceStub
@@ -32,6 +34,7 @@ class ShipmentServiceStub implements ShipmentServiceInterface
 
     /**
      * ShipmentServiceStub constructor.
+     *
      * @param CreationStage $createShipmentsStage
      * @param CancellationStage $deleteShipmentsStage
      */
@@ -43,21 +46,59 @@ class ShipmentServiceStub implements ShipmentServiceInterface
         $this->deleteShipmentsStage = $deleteShipmentsStage;
     }
 
+    /**
+     * Return a fake web service response pre-defined via CreateShipmentsStageInterface
+     *
+     * @param \stdClass[] $shipmentOrders
+     * @return ShipmentInterface[]
+     * @throws ServiceException
+     * @see \Dhl\Paket\Test\Integration\TestDouble\Pipeline\CreateShipments\Stage\SendRequestStageStub
+     *
+     */
     public function createShipments(array $shipmentOrders): array
     {
-        if (isset($this->createShipmentsStage->exception)) {
-            throw $this->createShipmentsStage->exception;
+        $callback = $this->createShipmentsStage->responseCallback;
+        if (is_callable($callback)) {
+            // created shipments or exception
+            $response = $callback($this->createShipmentsStage);
+            if ($response instanceof ServiceException) {
+                throw $response;
+            }
+
+            if (is_array($response)) {
+                return $response;
+            }
         }
 
+        // response callback not defined or empty, return default response.
         return $this->createShipmentsStage->apiResponses;
     }
 
+    /**
+     * Return a fake web service response pre-defined via RequestTracksStageInterface
+     *
+     * @param string[] $shipmentNumbers
+     * @return string[]
+     * @throws ServiceException
+     * @see \Dhl\Paket\Test\Integration\TestDouble\Pipeline\DeleteShipments\Stage\SendRequestStageStub
+     *
+     */
     public function cancelShipments(array $shipmentNumbers): array
     {
-        if (isset($this->deleteShipmentsStage->exception)) {
-            throw $this->deleteShipmentsStage->exception;
+        $callback = $this->deleteShipmentsStage->responseCallback;
+        if (is_callable($callback)) {
+            // cancelled shipment numbers or exception
+            $response = $callback($this->deleteShipmentsStage);
+            if ($response instanceof ServiceException) {
+                throw $response;
+            }
+
+            if (is_array($response)) {
+                return $response;
+            }
         }
 
+        // response callback not defined or empty, return default response.
         return $this->deleteShipmentsStage->apiResponses;
     }
 }
