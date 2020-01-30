@@ -37,7 +37,7 @@ class SendRequestStageStub extends SendRequestStage
     /**
      * Regular API responses. Built during runtime from the given cancellation requests.
      *
-     * @var ShipmentInterface[]
+     * @var string[]
      */
     public $apiResponses = [];
 
