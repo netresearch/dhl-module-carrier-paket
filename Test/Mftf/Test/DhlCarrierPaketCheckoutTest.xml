@@ -74,15 +74,17 @@
 
         <comment userInput="-> Perform actual test" stepKey="runTestComment"/>
 
-        <!-- Put our SimpleProduct into the cart -->
-        <amOnPage url="{{StorefrontCategoryPage.url($$SimpleCategory.name$$)}}" stepKey="onCategoryPage"/>
-        <waitForPageLoad stepKey="waitForCategoryPage"/>
-
-        <actionGroup ref="AddProductToCartActionGroup" stepKey="addProductToCart">
-            <argument name="product" value="$$SimpleProduct$$"/>
+        <actionGroup ref="OpenStoreFrontProductPageActionGroup" stepKey="openProductPage">
+            <argument name="productUrlKey" value="$$SimpleProduct.custom_attributes[url_key]$$"/>
         </actionGroup>
 
-        <actionGroup ref="NavigateToCheckoutActionGroup" stepKey="guestNavigateToCheckout"/>
+        <!-- Put our SimpleProduct into the cart -->
+        <actionGroup ref="StorefrontAddProductToCartActionGroup" stepKey="addProductToCart">
+            <argument name="product" value="$$SimpleProduct$$"/>
+            <argument name="productCount" value="1"/>
+        </actionGroup>
+
+        <actionGroup ref="GoToCheckoutFromMinicartActionGroup" stepKey="guestNavigateToCheckout"/>
         <actionGroup ref="GuestCheckoutValidateMethodAndPriceActionGroup" stepKey="guestCheckoutFillingShippingSection">
             <argument name="customerVar" value="Customer_DE"/>
             <argument name="customerAddressVar" value="CustomerAddress_DE"/>
@@ -160,15 +162,18 @@
 
         <comment userInput="-> Perform actual test" stepKey="runTestComment"/>
 
-        <actionGroup ref="NavigateToStorefrontCategoryPageActionGroup" stepKey="navigateToCategoryPage"/>
-
-        <!-- Put product twice into the cart -->
-        <actionGroup ref="AddProductWithQuantityToCartActionGroup" stepKey="addProductToCart">
-            <argument name="product" value="$$SimpleProduct$$"/>
-            <argument name="quantity" value="2"/>
+        <actionGroup ref="OpenStoreFrontProductPageActionGroup" stepKey="openProductPage">
+            <argument name="productUrlKey" value="$$SimpleProduct.custom_attributes[url_key]$$"/>
         </actionGroup>
 
-        <actionGroup ref="NavigateToCheckoutActionGroup" stepKey="guestNavigateToCheckout"/>
+        <!-- Put product twice into the cart -->
+        <fillField userInput="2" selector="{{StorefrontProductPageSection.qtyInput}}" stepKey="setQuantity"/>
+        <actionGroup ref="StorefrontAddProductToCartActionGroup" stepKey="addProductToCart">
+            <argument name="product" value="$$SimpleProduct$$"/>
+            <argument name="productCount" value="2"/>
+        </actionGroup>
+
+        <actionGroup ref="GoToCheckoutFromMinicartActionGroup" stepKey="guestNavigateToCheckout"/>
         <actionGroup ref="GuestCheckoutValidateMethodAndPriceActionGroup" stepKey="guestCheckoutFillingShippingSection">
             <argument name="customerVar" value="Customer_DE"/>
             <argument name="customerAddressVar" value="CustomerAddress_DE"/>
