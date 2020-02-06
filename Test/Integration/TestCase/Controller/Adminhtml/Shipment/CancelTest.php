@@ -171,13 +171,11 @@ class CancelTest extends AbstractBackendController
         $shipment = $shipmentRepository->get($fixtureShipment->getEntityId());
 
         // assert shipment state after cancellation
+        $labelStatus = $labelStatusProvider->getLabelStatus([$shipment->getOrderId()]);
+
         self::assertNull($shipment->getShippingLabel());
         self::assertEmpty($shipment->getTracks());
-        $labelStatus = $labelStatusProvider->getLabelStatus([$shipment->getOrderId()]);
-        self::assertSame(
-            LabelStatusManagementInterface::LABEL_STATUS_PENDING,
-            $labelStatus[$shipment->getOrderId()]
-        );
+        self::assertSame(LabelStatusManagementInterface::LABEL_STATUS_PENDING, $labelStatus[$shipment->getOrderId()]);
     }
 
     /**
@@ -267,11 +265,9 @@ class CancelTest extends AbstractBackendController
     /**
      * Scenario: A shipment with multiple tracks gets cancelled. Some of the track deletion requests gave errors.
      *
-     * - Assert that shipping label remains the same
-     * - Assert that only failed tracks were removed
+     * - Assert that the shipping label is removed
+     * - Assert that all tracks are removed
      * - Assert that label status is set back to pending
-     *
-     * @fixme(nr): expectations changed, delete all tracks and label regardless of some cancellations failing
      *
      * @test
      * @magentoDataFixture createShipments
@@ -323,7 +319,6 @@ class CancelTest extends AbstractBackendController
         // dispatch (cancel)
         $chunks = array_chunk($fixtureTrackNumbers, intval(count($fixtureTrackNumbers) / 2));
         $success = $chunks[0];
-        $failures = $chunks[1];
 
         /** @var SendRequestStageStub $stage */
         $stage = $this->_objectManager->get(SendRequestStage::class);
@@ -338,18 +333,9 @@ class CancelTest extends AbstractBackendController
 
         // assert shipment state after cancellation
         $labelStatus = $labelStatusProvider->getLabelStatus([$shipment->getOrderId()]);
-        $trackNumbers = array_map(
-            function (TrackInterface $track) {
-                return $track->getTrackNumber();
-            },
-            array_values($shipment->getTracks())
-        );
 
-        self::assertSame($fixtureShipment->getShippingLabel(), $shipment->getShippingLabel());
-        self::assertSame($failures, $trackNumbers);
-        self::assertSame(
-            LabelStatusManagementInterface::LABEL_STATUS_PENDING,
-            $labelStatus[$shipment->getOrderId()]
-        );
+        self::assertNull($shipment->getShippingLabel());
+        self::assertEmpty($shipment->getTracks());
+        self::assertSame(LabelStatusManagementInterface::LABEL_STATUS_PENDING, $labelStatus[$shipment->getOrderId()]);
     }
 }
