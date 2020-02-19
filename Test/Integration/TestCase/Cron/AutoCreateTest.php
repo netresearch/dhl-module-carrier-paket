@@ -16,11 +16,7 @@ use Dhl\Sdk\Paket\Bcs\Exception\DetailedServiceException;
 use Dhl\ShippingCore\Api\LabelStatus\LabelStatusManagementInterface;
 use Dhl\ShippingCore\Cron\AutoCreate;
 use Dhl\ShippingCore\Model\LabelStatus\LabelStatusProvider;
-use Dhl\ShippingCore\Test\Integration\Fixture\Data\AddressDe;
-use Dhl\ShippingCore\Test\Integration\Fixture\Data\SimpleProduct;
-use Dhl\ShippingCore\Test\Integration\Fixture\Data\SimpleProduct2;
-use Dhl\ShippingCore\Test\Integration\Fixture\OrderFixture;
-use Dhl\ShippingCore\Test\Integration\Fixture\ShipmentFixture;
+use Dhl\ShippingCore\Test\Integration\Fixture\OrderBuilder;
 use Magento\Sales\Api\Data\OrderInterface;
 use Magento\Sales\Api\Data\OrderStatusHistoryInterface;
 use Magento\Sales\Model\Order;
@@ -29,6 +25,11 @@ use Magento\Sales\Model\ResourceModel\Order\Shipment\Collection;
 use Magento\TestFramework\Helper\Bootstrap;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\Test\TestLogger;
+use TddWizard\Fixtures\Catalog\ProductBuilder;
+use TddWizard\Fixtures\Sales\InvoiceBuilder;
+use TddWizard\Fixtures\Sales\OrderFixture;
+use TddWizard\Fixtures\Sales\OrderFixtureRollback;
+use TddWizard\Fixtures\Sales\ShipmentBuilder;
 
 /**
  * Class AutoCreateTest
@@ -55,24 +56,22 @@ class AutoCreateTest extends TestCase
     {
         $shippingMethod = Paket::CARRIER_CODE . '_flatrate';
 
-        $pendingOrder = OrderFixture::createOrder(new AddressDe(), [new SimpleProduct()], $shippingMethod);
+        $pendingOrder = OrderBuilder::anOrder()->withShippingMethod($shippingMethod)->build();
 
-        /** @var Shipment $pendingShipment */
-        $pendingShipment = ShipmentFixture::createShipment(new AddressDe(), [new SimpleProduct2()], $shippingMethod);
+        $processingOrder = OrderBuilder::anOrder()->withShippingMethod($shippingMethod)->build();
+        ShipmentBuilder::forOrder($processingOrder)->build();
 
-        /** @var Shipment $processedShipment */
-        $processedShipment = ShipmentFixture::createShipment(
-            new AddressDe(),
-            [new SimpleProduct(), new SimpleProduct2()],
-            $shippingMethod,
-            ['123456'],
-            true
-        );
+        $completeOrder = OrderBuilder::anOrder()
+            ->withShippingMethod($shippingMethod)
+            ->withLabelStatus(LabelStatusManagementInterface::LABEL_STATUS_PROCESSED)
+            ->build();
+        InvoiceBuilder::forOrder($completeOrder)->build();
+        ShipmentBuilder::forOrder($completeOrder)->withTrackingNumbers('123456')->build();
 
         self::$orders = [
             $pendingOrder, // order with no shipment
-            $pendingShipment->getOrder(), // order with shipment but no label
-            $processedShipment->getOrder(), // order with shipment and label
+            $processingOrder, // order with shipment but no label
+            $completeOrder, // order with shipment and label and invoice
         ];
     }
 
@@ -84,7 +83,14 @@ class AutoCreateTest extends TestCase
     public static function createFailedShipment()
     {
         $shippingMethod = Paket::CARRIER_CODE . '_flatrate';
-        self::$orders = [OrderFixture::createProcessedOrder(new AddressDe(), [new SimpleProduct()], $shippingMethod)];
+
+        $order = OrderBuilder::anOrder()
+            ->withShippingMethod($shippingMethod)
+            ->withLabelStatus(LabelStatusManagementInterface::LABEL_STATUS_FAILED)
+            ->build();
+        ShipmentBuilder::forOrder($order)->build();
+
+        self::$orders = [$order];
     }
 
     /**
@@ -96,33 +102,73 @@ class AutoCreateTest extends TestCase
     {
         $shippingMethod = Paket::CARRIER_CODE . '_flatrate';
 
-        // prepare all shipments
-        /** @var Shipment $shipment */
-        $shipments = ShipmentFixture::createPartialShipments(
-            new AddressDe(),
-            [new SimpleProduct(), new SimpleProduct2()],
-            $shippingMethod
-        );
+        $order = OrderBuilder::anOrder()
+            ->withShippingMethod($shippingMethod)
+            ->withLabelStatus(LabelStatusManagementInterface::LABEL_STATUS_FAILED)
+            ->withProducts(
+                ProductBuilder::aSimpleProduct()->withSku('foo'),
+                ProductBuilder::aSimpleProduct()->withSku('bar')
+            )->build();
 
-        array_walk(
-            $shipments,
-            function (Shipment $shipment) {
-                $shipment->setShippingLabel('%PDF-1.4');
-                $shipment->save();
+        foreach ($order->getItems() as $orderItem) {
+            $shipmentBuilder = ShipmentBuilder::forOrder($order)
+                ->withItem((int) $orderItem->getItemId(), (int) $orderItem->getQtyOrdered());
+
+            if ($orderItem->getSku() === 'foo') {
+                $shipmentBuilder = $shipmentBuilder->withTrackingNumbers('123456');
             }
-        );
 
-        // let one shipment fail
-        /** @var Shipment $failedShipment */
-        $failedShipment = array_pop($shipments);
-        $failedShipment->setShippingLabel(null);
-        $failedShipment->save();
+            $shipmentBuilder->build();
+        }
 
-        /** @var LabelStatusManagementInterface $labelStatusManagement */
-        $labelStatusManagement = Bootstrap::getObjectManager()->get(LabelStatusManagementInterface::class);
-        $labelStatusManagement->setLabelStatusFailed($failedShipment->getOrder());
+        self::$orders = [$order];
+    }
 
-        self::$orders = [$failedShipment->getOrder()];
+    /**
+     * @throws \Exception
+     */
+    public static function createOrdersRollback()
+    {
+        self::rollback();
+    }
+
+    /**
+     * @throws \Exception
+     */
+    public static function createFailedShipmentRollback()
+    {
+        self::rollback();
+    }
+
+    /**
+     * @throws \Exception
+     */
+    public static function createPartialShipmentsRollback()
+    {
+        self::rollback();
+    }
+
+    /**
+     * @throws \Exception
+     */
+    private static function rollback()
+    {
+        try {
+            $orderFixtures = array_map(
+                static function (OrderInterface $order) {
+                    return new OrderFixture($order);
+                },
+                self::$orders
+            );
+
+            OrderFixtureRollback::create()->execute(...$orderFixtures);
+        } catch (\Exception $exception) {
+            $argv = $_SERVER['argv'] ?? [];
+            if (in_array('--verbose', $argv, true)) {
+                $message = sprintf("Error during rollback: %s%s", $exception->getMessage(), PHP_EOL);
+                register_shutdown_function('fwrite', STDERR, $message);
+            }
+        }
     }
 
     /**

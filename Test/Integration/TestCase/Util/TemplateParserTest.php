@@ -7,12 +7,12 @@ declare(strict_types=1);
 namespace Dhl\Paket\Test\Integration\TestCase\Util;
 
 use Dhl\Paket\Util\TemplateParser;
-use Dhl\ShippingCore\Test\Integration\Fixture\Data\AddressDe;
-use Dhl\ShippingCore\Test\Integration\Fixture\Data\SimpleProduct;
-use Dhl\ShippingCore\Test\Integration\Fixture\OrderFixture;
 use Magento\Sales\Api\Data\OrderInterface;
 use Magento\TestFramework\Helper\Bootstrap;
 use PHPUnit\Framework\TestCase;
+use TddWizard\Fixtures\Sales\OrderBuilder;
+use TddWizard\Fixtures\Sales\OrderFixture;
+use TddWizard\Fixtures\Sales\OrderFixtureRollback;
 
 class TemplateParserTest extends TestCase
 {
@@ -27,7 +27,23 @@ class TemplateParserTest extends TestCase
      */
     public static function createOrder()
     {
-        self::$order = OrderFixture::createOrder(new AddressDe(), [new SimpleProduct()], 'dhlpaket_flatrate');
+        self::$order = OrderBuilder::anOrder()->withShippingMethod('dhlpaket_flatrate')->build();
+    }
+
+    /**
+     * @throws \Exception
+     */
+    public static function createOrderRollback()
+    {
+        try {
+            OrderFixtureRollback::create()->execute(new OrderFixture(self::$order));
+        } catch (\Exception $exception) {
+            $argv = $_SERVER['argv'] ?? [];
+            if (in_array('--verbose', $argv, true)) {
+                $message = sprintf("Error during rollback: %s%s", $exception->getMessage(), PHP_EOL);
+                register_shutdown_function('fwrite', STDERR, $message);
+            }
+        }
     }
 
     /**
@@ -55,8 +71,8 @@ class TemplateParserTest extends TestCase
     {
         $entityId = self::$order->getEntityId();
         $incrementId = self::$order->getIncrementId();
-        $firstName = self::$order->getCustomerFirstname();
-        $lastName = self::$order->getCustomerLastname();
+        $firstName = self::$order->getBillingAddress()->getFirstname();
+        $lastName = self::$order->getBillingAddress()->getLastname();
 
         $template = 'Order #{{increment_id}} ({{entity_id}}) for {{firstname}} {{lastname}} {{foo}}.';
         $expected = "Order #$incrementId ($entityId) for $firstName $lastName {{foo}}.";

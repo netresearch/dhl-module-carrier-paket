@@ -13,12 +13,12 @@ use Dhl\Paket\Test\Integration\TestDouble\Pipeline\DeleteShipments\Stage\SendReq
 use Dhl\Sdk\Paket\Bcs\Exception\ServiceException;
 use Dhl\ShippingCore\Api\LabelStatus\LabelStatusManagementInterface;
 use Dhl\ShippingCore\Model\LabelStatus\LabelStatusProvider;
-use Dhl\ShippingCore\Test\Integration\Fixture\Data\AddressDe;
-use Dhl\ShippingCore\Test\Integration\Fixture\Data\SimpleProduct;
-use Dhl\ShippingCore\Test\Integration\Fixture\Data\SimpleProduct3;
-use Dhl\ShippingCore\Test\Integration\Fixture\OrderFixture;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Sales\Model\ResourceModel\Order\Shipment\Collection;
+use TddWizard\Fixtures\Catalog\ProductBuilder;
+use TddWizard\Fixtures\Sales\OrderBuilder;
+use TddWizard\Fixtures\Sales\OrderFixture;
+use TddWizard\Fixtures\Sales\OrderFixtureRollback;
 
 /**
  * Test basic shipment creation failure for DE-DE route with no value-added services.
@@ -39,11 +39,26 @@ class SaveInvalidShipmentTest extends SaveShipmentTest
     public static function createInvalidOrder()
     {
         $shippingMethod = Paket::CARRIER_CODE . '_flatrate';
-        self::$order = OrderFixture::createOrder(
-            new AddressDe(),
-            [new SimpleProduct(), new SimpleProduct3()],
-            $shippingMethod
-        );
+        self::$order = OrderBuilder::anOrder()->withShippingMethod($shippingMethod)->withProducts(
+            ProductBuilder::aSimpleProduct(),
+            ProductBuilder::aSimpleProduct()->withWeight(33.303)
+        )->build();
+    }
+
+    /**
+     * @throws \Exception
+     */
+    public static function createInvalidOrderRollback()
+    {
+        try {
+            OrderFixtureRollback::create()->execute(new OrderFixture(self::$order));
+        } catch (\Exception $exception) {
+            $argv = $_SERVER['argv'] ?? [];
+            if (in_array('--verbose', $argv, true)) {
+                $message = sprintf("Error during rollback: %s%s", $exception->getMessage(), PHP_EOL);
+                register_shutdown_function('fwrite', STDERR, $message);
+            }
+        }
     }
 
     /**

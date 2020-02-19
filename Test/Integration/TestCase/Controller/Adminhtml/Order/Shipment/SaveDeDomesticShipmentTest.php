@@ -8,12 +8,11 @@ namespace Dhl\Paket\Test\Integration\TestCase\Controller\Adminhtml\Order\Shipmen
 use Dhl\Paket\Model\Carrier\Paket;
 use Dhl\ShippingCore\Api\LabelStatus\LabelStatusManagementInterface;
 use Dhl\ShippingCore\Model\LabelStatus\LabelStatusProvider;
-use Dhl\ShippingCore\Test\Integration\Fixture\Data\AddressDe;
-use Dhl\ShippingCore\Test\Integration\Fixture\Data\SimpleProduct;
-use Dhl\ShippingCore\Test\Integration\Fixture\Data\SimpleProduct2;
-use Dhl\ShippingCore\Test\Integration\Fixture\OrderFixture;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Sales\Model\ResourceModel\Order\Shipment\Collection;
+use TddWizard\Fixtures\Sales\OrderBuilder;
+use TddWizard\Fixtures\Sales\OrderFixture;
+use TddWizard\Fixtures\Sales\OrderFixtureRollback;
 
 /**
  * Test basic shipment creation for DE-DE route with no value-added services.
@@ -34,11 +33,23 @@ class SaveDeDomesticShipmentTest extends SaveShipmentTest
     public static function createOrder()
     {
         $shippingMethod = Paket::CARRIER_CODE . '_flatrate';
-        self::$order = OrderFixture::createOrder(
-            new AddressDe(),
-            [new SimpleProduct(), new SimpleProduct2()],
-            $shippingMethod
-        );
+        self::$order = OrderBuilder::anOrder()->withShippingMethod($shippingMethod)->build();
+    }
+
+    /**
+     * Roll back fixture.
+     */
+    public static function createOrderRollback()
+    {
+        try {
+            OrderFixtureRollback::create()->execute(new OrderFixture(self::$order));
+        } catch (\Exception $exception) {
+            $argv = $_SERVER['argv'] ?? [];
+            if (in_array('--verbose', $argv, true)) {
+                $message = sprintf("Error during rollback: %s%s", $exception->getMessage(), PHP_EOL);
+                register_shutdown_function('fwrite', STDERR, $message);
+            }
+        }
     }
 
     /**

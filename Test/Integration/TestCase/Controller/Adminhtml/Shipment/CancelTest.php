@@ -14,19 +14,18 @@ use Dhl\Paket\Test\Integration\TestDouble\ShipmentServiceStub;
 use Dhl\Sdk\Paket\Bcs\Exception\ServiceException;
 use Dhl\ShippingCore\Api\LabelStatus\LabelStatusManagementInterface;
 use Dhl\ShippingCore\Model\LabelStatus\LabelStatusProvider;
-use Dhl\ShippingCore\Test\Integration\Fixture\Data\AddressDe;
-use Dhl\ShippingCore\Test\Integration\Fixture\Data\SimpleProduct;
-use Dhl\ShippingCore\Test\Integration\Fixture\Data\SimpleProduct2;
-use Dhl\ShippingCore\Test\Integration\Fixture\ShipmentFixture;
+use Dhl\ShippingCore\Test\Integration\Fixture\OrderBuilder;
+use Magento\Sales\Api\Data\OrderInterface;
 use Magento\Sales\Api\Data\ShipmentInterface;
 use Magento\Sales\Api\Data\TrackInterface;
 use Magento\Sales\Api\ShipmentRepositoryInterface;
 use Magento\Sales\Model\Order\Shipment;
 use Magento\TestFramework\TestCase\AbstractBackendController;
+use TddWizard\Fixtures\Catalog\ProductBuilder;
+use TddWizard\Fixtures\Sales\ShipmentBuilder;
 
 /**
- * Class AutoCreateDeTest
- *
+ * Class CancelTest
  *
  * @magentoAppArea adminhtml
  * @magentoDbIsolation enabled
@@ -51,6 +50,11 @@ class CancelTest extends AbstractBackendController
      * @var string
      */
     protected $uri = 'backend/dhl/shipment/cancel';
+
+    /**
+     * @var OrderInterface[]
+     */
+    private static $orders = [];
 
     /**
      * @var ShipmentInterface[]|Shipment[]
@@ -95,20 +99,26 @@ class CancelTest extends AbstractBackendController
      */
     public static function createShipments()
     {
-        self::$shipments = [
-            'single_package' => ShipmentFixture::createShipment(
-                new AddressDe(),
-                [new SimpleProduct(), new SimpleProduct2()],
-                sprintf('%s_flatrate', Paket::CARRIER_CODE),
-                ['123456']
-            ),
-            'multi_package' => ShipmentFixture::createShipment(
-                new AddressDe(),
-                [new SimpleProduct(), new SimpleProduct2()],
-                sprintf('%s_flatrate', Paket::CARRIER_CODE),
-                ['123456', '654321']
-            ),
+        $shippingMethod = sprintf('%s_flatrate', Paket::CARRIER_CODE);
+        $packages = [
+            'single_package' => ['123456'],
+            'multi_package' => ['123456', '654321'],
         ];
+
+        foreach ($packages as $type => $trackingNumbers) {
+            $order = OrderBuilder::anOrder()
+                ->withShippingMethod($shippingMethod)
+                ->withLabelStatus(LabelStatusManagementInterface::LABEL_STATUS_PROCESSED)
+                ->withProducts(
+                    ProductBuilder::aSimpleProduct()->withSku('foo'),
+                    ProductBuilder::aSimpleProduct()->withSku('bar')
+                )->build();
+
+            self::$shipments[$type] = ShipmentBuilder::forOrder($order)
+                ->withTrackingNumbers(...$trackingNumbers)
+                ->build();
+            self::$orders[] = $order;
+        }
     }
 
     /**

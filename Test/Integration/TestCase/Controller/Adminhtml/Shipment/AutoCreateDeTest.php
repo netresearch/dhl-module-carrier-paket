@@ -6,20 +6,21 @@ declare(strict_types=1);
 
 namespace Dhl\Paket\Test\Integration\TestCase\Controller\Adminhtml\Shipment;
 
-use Dhl\Paket\Test\Integration\TestDouble\Pipeline\CreateShipments\Stage\SendRequestStageStub;
 use Dhl\Paket\Model\Pipeline\CreateShipments\Stage\SendRequestStage;
-use Dhl\ShippingCore\Test\Integration\Fixture\Data\AddressDe;
-use Dhl\ShippingCore\Test\Integration\Fixture\Data\SimpleProduct;
-use Dhl\ShippingCore\Test\Integration\Fixture\OrderFixture;
+use Dhl\Paket\Test\Integration\TestDouble\Pipeline\CreateShipments\Stage\SendRequestStageStub;
+use Dhl\ShippingCore\Api\LabelStatus\LabelStatusManagementInterface;
+use Dhl\ShippingCore\Test\Integration\Fixture\OrderBuilder;
 use Magento\Sales\Api\Data\OrderInterface;
 use Magento\Sales\Api\Data\ShipmentInterface;
 use Magento\Sales\Api\Data\ShipmentTrackInterface;
 use Magento\Sales\Model\Order;
 use Magento\Sales\Model\ResourceModel\Order\Shipment\Collection;
+use TddWizard\Fixtures\Sales\OrderFixture;
+use TddWizard\Fixtures\Sales\OrderFixtureRollback;
+use TddWizard\Fixtures\Sales\ShipmentBuilder;
 
 /**
  * Class AutoCreateDeTest
- *
  *
  * @magentoAppArea adminhtml
  * @magentoDbIsolation enabled
@@ -39,21 +40,50 @@ class AutoCreateDeTest extends AutoCreateTest
     /**
      * Create order fixtures for DE recipient address.
      *
+     * - three orders with no shipment
+     * - three orders with shipment but label status failed (no label, no track)
+     *
      * @throws \Exception
      */
     public static function createOrders()
     {
-        self::$orders = [
-            OrderFixture::createOrder(new AddressDe(), [new SimpleProduct()], 'dhlpaket_flatrate'),
-            OrderFixture::createOrder(new AddressDe(), [new SimpleProduct()], 'dhlpaket_flatrate'),
-            OrderFixture::createOrder(new AddressDe(), [new SimpleProduct()], 'dhlpaket_flatrate'),
-        ];
+        self::$orders = [];
+        self::$shippedOrders = [];
 
-        self::$shippedOrders = [
-            OrderFixture::createProcessedOrder(new AddressDe(), [new SimpleProduct()], 'dhlpaket_flatrate'),
-            OrderFixture::createProcessedOrder(new AddressDe(), [new SimpleProduct()], 'dhlpaket_flatrate'),
-            OrderFixture::createProcessedOrder(new AddressDe(), [new SimpleProduct()], 'dhlpaket_flatrate'),
-        ];
+        for ($i = 0; $i < 3; $i++) {
+            $order = OrderBuilder::anOrder()->withShippingMethod('dhlpaket_flatrate')->build();
+            $shippedOrder = OrderBuilder::anOrder()
+                ->withShippingMethod('dhlpaket_flatrate')
+                ->withLabelStatus(LabelStatusManagementInterface::LABEL_STATUS_FAILED)
+                ->build();
+            ShipmentBuilder::forOrder($shippedOrder)->build();
+
+            self::$orders[] = $order;
+            self::$shippedOrders[] = $shippedOrder;
+        }
+    }
+
+    /**
+     * @throws \Exception
+     */
+    public static function createOrdersRollback()
+    {
+        $orderFixtures = array_map(
+            function (OrderInterface $order) {
+                return new OrderFixture($order);
+            },
+            array_merge(self::$orders, self::$shippedOrders)
+        );
+
+        try {
+            OrderFixtureRollback::create()->execute(...$orderFixtures);
+        } catch (\Exception $exception) {
+            $argv = $_SERVER['argv'] ?? [];
+            if (in_array('--verbose', $argv, true)) {
+                $message = sprintf("Error during rollback: %s%s", $exception->getMessage(), PHP_EOL);
+                register_shutdown_function('fwrite', STDERR, $message);
+            }
+        }
     }
 
     /**

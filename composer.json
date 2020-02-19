@@ -46,7 +46,7 @@
     },
     "require-dev": {
         "phpunit/phpunit": "~6.2.0",
-        "tddwizard/magento2-fixtures": "^0.8.0",
+        "tddwizard/magento2-fixtures": "^0.9.0",
         "magento/module-customer": "^101.0.6 || ^102.0.0",
         "magento/module-offline-payments": "^100.2.2"
     },

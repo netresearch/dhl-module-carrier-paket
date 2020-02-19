@@ -10,15 +10,13 @@ use Dhl\Paket\Model\Config\ModuleConfig;
 use Dhl\Paket\Model\ShipmentDate\Validator\DropOffDays;
 use Dhl\ShippingCore\Model\Config\Config;
 use Dhl\ShippingCore\Model\ShipmentDate\ShipmentDate;
-use Dhl\ShippingCore\Test\Integration\Fixture\Data\AddressDe;
-use Dhl\ShippingCore\Test\Integration\Fixture\Data\SimpleProduct2;
-use Dhl\ShippingCore\Test\Integration\Fixture\OrderFixture;
 use Magento\Framework\Stdlib\DateTime\TimezoneInterface;
 use Magento\Sales\Model\Order;
 use Magento\TestFramework\Helper\Bootstrap;
-use Magento\TestFramework\ObjectManager;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+use TddWizard\Fixtures\Sales\OrderBuilder;
+use TddWizard\Fixtures\Sales\OrderFixtureRollback;
 
 /**
  * Class ShipmentDateTest
@@ -28,9 +26,9 @@ use PHPUnit\Framework\TestCase;
 class ShipmentDateTest extends TestCase
 {
     /**
-     * @var ObjectManager
+     * @var Order
      */
-    private $objectManager;
+    private static $order;
 
     /**
      * @var Config
@@ -48,9 +46,28 @@ class ShipmentDateTest extends TestCase
     private $mockTimezone;
 
     /**
-     * @var Order
+     * @throws \Exception
      */
-    private $order;
+    public static function createOrder()
+    {
+        self::$order = OrderBuilder::anOrder()->withShippingMethod('flatrate_flatrate')->build();
+    }
+
+    /**
+     * @throws \Exception
+     */
+    public static function createOrderRollback()
+    {
+        try {
+            OrderFixtureRollback::create()->execute(new \TddWizard\Fixtures\Sales\OrderFixture(self::$order));
+        } catch (\Exception $exception) {
+            $argv = $_SERVER['argv'] ?? [];
+            if (in_array('--verbose', $argv, true)) {
+                $message = sprintf("Error during rollback: %s%s", $exception->getMessage(), PHP_EOL);
+                register_shutdown_function('fwrite', STDERR, $message);
+            }
+        }
+    }
 
     /**
      * @throws \Exception
@@ -58,8 +75,6 @@ class ShipmentDateTest extends TestCase
     protected function setUp()
     {
         parent::setUp();
-
-        $this->objectManager = Bootstrap::getObjectManager();
 
         $this->mockConfig = $this->getMockBuilder(Config::class)
                                  ->disableOriginalConstructor()
@@ -72,23 +87,14 @@ class ShipmentDateTest extends TestCase
         $this->mockTimezone = $this->getMockBuilder(TimezoneInterface::class)
                                    ->disableOriginalConstructor()
                                    ->getMock();
-
-        /** @var Order $order */
-        $this->order = OrderFixture::createOrder(
-            new AddressDe(),
-            [
-                new SimpleProduct2(),
-            ],
-            'flatrate_flatrate'
-        );
     }
 
     /**
      * Test data provider.
      *
-     * @return array
+     * @return \DateTime[][]|string[][]
      */
-    public function getTestData(): array
+    public function dataProvider(): array
     {
         /**
          * 2019-02-01 10:00:00 was a Friday.
@@ -125,7 +131,8 @@ class ShipmentDateTest extends TestCase
     }
 
     /**
-     * @dataProvider getTestData
+     * @dataProvider dataProvider
+     * @magentoDataFixture createOrder
      *
      * @param string[][] $excludedDropOffDays
      * @param \DateTime $currentTime
@@ -143,13 +150,13 @@ class ShipmentDateTest extends TestCase
         $this->mockModuleConfig->method('getExcludedDropOffDays')->willReturn($excludedDropOffDays);
 
         /** @var ShipmentDate $subject */
-        $subject = $this->objectManager->create(
+        $subject = Bootstrap::getObjectManager()->create(
             ShipmentDate::class,
             [
                 'timezone' => $this->mockTimezone,
                 'config' => $this->mockConfig,
                 'dayValidators' => [
-                    $this->objectManager->create(
+                    Bootstrap::getObjectManager()->create(
                         DropOffDays::class,
                         [
                             'moduleConfig' => $this->mockModuleConfig,
@@ -159,7 +166,7 @@ class ShipmentDateTest extends TestCase
             ]
         );
 
-        $result = $subject->getDate($this->order->getStoreId());
+        $result = $subject->getDate(self::$order->getStoreId());
 
         self::assertEquals($expectedDate, $result);
     }
