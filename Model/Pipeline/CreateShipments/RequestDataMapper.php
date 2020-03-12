@@ -12,7 +12,6 @@ use Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes as PaketCodes;
 use Dhl\Sdk\LocationFinder\Api\Data\LocationInterface;
 use Dhl\Sdk\Paket\Bcs\Api\ShipmentOrderRequestBuilderInterface;
 use Dhl\Sdk\Paket\Bcs\Exception\RequestValidatorException;
-use Dhl\ShippingCore\Api\ConfigInterface;
 use Dhl\ShippingCore\Api\Util\UnitConverterInterface;
 use Dhl\ShippingCore\Model\ShippingSettings\ShippingOption\Codes;
 use Magento\Framework\Exception\LocalizedException;
@@ -41,11 +40,6 @@ class RequestDataMapper
     private $requestBuilder;
 
     /**
-     * @var ConfigInterface
-     */
-    private $dhlConfig;
-
-    /**
      * @var UnitConverterInterface
      */
     private $unitConverter;
@@ -55,18 +49,15 @@ class RequestDataMapper
      *
      * @param ShipmentOrderRequestBuilderInterface $requestBuilder
      * @param RequestExtractorFactory $requestExtractorFactory
-     * @param ConfigInterface $dhlConfig
      * @param UnitConverterInterface $unitConverter
      */
     public function __construct(
         ShipmentOrderRequestBuilderInterface $requestBuilder,
         RequestExtractorFactory $requestExtractorFactory,
-        ConfigInterface $dhlConfig,
         UnitConverterInterface $unitConverter
     ) {
         $this->requestBuilder = $requestBuilder;
         $this->requestExtractorFactory = $requestExtractorFactory;
-        $this->dhlConfig = $dhlConfig;
         $this->unitConverter = $unitConverter;
     }
 
@@ -104,10 +95,6 @@ class RequestDataMapper
         $requestExtractor = $this->requestExtractorFactory->create(['shipmentRequest' => $request]);
 
         $this->requestBuilder->setSequenceNumber($sequenceNumber);
-        $this->requestBuilder->setShipperAccount(
-            $requestExtractor->getBillingNumber(),
-            $requestExtractor->getReturnShipmentAccountNumber()
-        );
 
         $this->requestBuilder->setShipperAccount(
             $requestExtractor->getBillingNumber(),
@@ -270,13 +257,8 @@ class RequestDataMapper
                 }
             }
 
-            $isEuShipping = in_array(
-                $requestExtractor->getRecipient()->getCountryCode(),
-                $this->dhlConfig->getEuCountries($request->getOrderShipment()->getStoreId()),
-                true
-            );
-
-            if (!$isEuShipping) {
+            if ($package->getCustomsValue() !== null) {
+                // customs value indicates cross-border shipment
                 $this->requestBuilder->setCustomsDetails(
                     $package->getContentType(),
                     $packageExtension->getPlaceOfCommittal(),

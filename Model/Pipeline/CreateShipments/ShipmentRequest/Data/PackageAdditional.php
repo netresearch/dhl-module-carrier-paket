@@ -19,7 +19,7 @@ class PackageAdditional implements PackageAdditionalInterface
     private $additionalFee;
 
     /**
-     * @var
+     * @var string
      */
     private $placeOfCommittal;
 
