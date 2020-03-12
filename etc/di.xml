@@ -183,6 +183,13 @@
             </argument>
         </arguments>
     </type>
+    <type name="Dhl\ShippingCore\Observer\PersistCodShippingOptionSelection">
+        <arguments>
+            <argument name="codSelectors" xsi:type="array">
+                <item name="dhlpaket" xsi:type="object">Dhl\Paket\Model\Carrier\CodSupportHandler</item>
+            </argument>
+        </arguments>
+    </type>
     <type name="Dhl\ShippingCore\Observer\SplitAddress">
         <arguments>
             <argument name="carrierCodes" xsi:type="array">

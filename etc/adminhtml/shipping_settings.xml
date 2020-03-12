@@ -225,9 +225,16 @@
                 </inputs>
             </shippingOption>
             <shippingOption code="Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::PACKAGING_SERVICE_CASH_ON_DELIVERY">
-                <sortOrder>900</sortOrder>
+                <label>Cash on Delivery</label>
+                <sortOrder>1010</sortOrder>
                 <inputs>
-                    <input code="reasonForPayment" defaultConfigValue="\Dhl\Paket\Model\Config\ModuleConfig::CONFIG_PATH_COD_REASON_FOR_PAYMENT">
+                    <input code="enabled">
+                        <label>Cash on Delivery</label>
+                        <inputType>checkbox</inputType>
+                        <disabled>true</disabled>
+                        <defaultValue>false</defaultValue>
+                    </input>
+                    <input code="reasonForPayment" defaultConfigValue="Dhl\Paket\Model\Config\ModuleConfig::CONFIG_PATH_COD_REASON_FOR_PAYMENT">
                         <label>Reason for Payment</label>
                         <inputType>text</inputType>
                         <validationRules>

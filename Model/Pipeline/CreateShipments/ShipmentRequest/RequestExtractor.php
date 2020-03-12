@@ -247,16 +247,6 @@ class RequestExtractor implements RequestExtractorInterface
     }
 
     /**
-     * Check if "cash on delivery" was chosen for the current shipment request.
-     *
-     * @return bool
-     */
-    public function isCashOnDelivery(): bool
-    {
-        return $this->getCoreExtractor()->isCashOnDelivery();
-    }
-
-    /**
      * Obtain the 14-digit billing number for the current package.
      *
      * @return string
@@ -359,6 +349,16 @@ class RequestExtractor implements RequestExtractorInterface
         }
 
         return false;
+    }
+
+    /**
+     * Check if "cash on delivery" was chosen for the current shipment request.
+     *
+     * @return bool
+     */
+    public function isCashOnDelivery(): bool
+    {
+        return (bool) ($this->getServiceData(Codes::PACKAGING_SERVICE_CASH_ON_DELIVERY)['enabled'] ?? false);
     }
 
     /**

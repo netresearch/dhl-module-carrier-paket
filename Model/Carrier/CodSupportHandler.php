@@ -7,9 +7,10 @@ declare(strict_types=1);
 namespace Dhl\Paket\Model\Carrier;
 
 use Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes;
-use Dhl\ShippingCore\Api\PaymentMethod\MethodAvailabilityInterface;
 use Dhl\ShippingCore\Api\ConfigInterface;
 use Dhl\ShippingCore\Api\Data\ShippingSettings\ShippingOption\Selection\AssignedSelectionInterface;
+use Dhl\ShippingCore\Api\PaymentMethod\MethodAvailabilityInterface;
+use Dhl\ShippingCore\Api\ShippingSettings\CodSelectorInterface;
 use Dhl\ShippingCore\Model\ShippingSettings\ShippingOption\Selection\QuoteSelectionRepository;
 use Magento\Framework\Api\FilterBuilder;
 use Magento\Framework\Api\Search\SearchCriteriaBuilderFactory;
@@ -21,7 +22,7 @@ use Magento\Quote\Model\Quote;
  * @author Paul Siedler <paul.siedler@netresearch.de>
  * @link https://www.netresearch.de/
  */
-class CodSupportHandler implements MethodAvailabilityInterface
+class CodSupportHandler implements MethodAvailabilityInterface, CodSelectorInterface
 {
     /**
      * @var ConfigInterface
@@ -61,25 +62,6 @@ class CodSupportHandler implements MethodAvailabilityInterface
         $this->filterBuilder                = $filterBuilder;
         $this->quoteSelectionRepository     = $quoteSelectionRepository;
         $this->config                       = $config;
-    }
-
-    /**
-     * Determines if a carrier has support for Cash on Delivery payment methods.
-     *
-     * DHL Paket conditions for allowing cash on delivery payment comprise:
-     * - shipment is domestic (DE-DE)
-     * - preferredLocation or preferredNeighbour value-added services are not chosen for the given quote
-     *
-     * Note: No need to validate origin country. Paket carrier is only available for DE origin checkouts anyway.
-     *
-     * @param Quote $quote
-     *
-     * @return bool
-     */
-    public function isAvailable(Quote $quote): bool
-    {
-        return $this->isDomesticShipment($quote)
-            && !$this->hasCodIncompatibleServices($quote);
     }
 
     /**
@@ -136,5 +118,36 @@ class CodSupportHandler implements MethodAvailabilityInterface
         return (bool) $this->quoteSelectionRepository
             ->getList($searchCriteria)
             ->count();
+    }
+
+    /**
+     * Determines if a carrier has support for Cash on Delivery payment methods.
+     *
+     * DHL Paket conditions for allowing cash on delivery payment comprise:
+     * - shipment is domestic (DE-DE)
+     * - preferredLocation or preferredNeighbour value-added services are not chosen for the given quote
+     *
+     * Note: No need to validate origin country. Paket carrier is only available for DE origin checkouts anyway.
+     *
+     * @param Quote $quote
+     *
+     * @return bool
+     */
+    public function isAvailable(Quote $quote): bool
+    {
+        return $this->isDomesticShipment($quote)
+            && !$this->hasCodIncompatibleServices($quote);
+    }
+
+    /**
+     * Add Cash on Delivery service data to the selection model.
+     *
+     * @param AssignedSelectionInterface $selection
+     */
+    public function assignCodSelection(AssignedSelectionInterface $selection)
+    {
+        $selection->setShippingOptionCode(Codes::PACKAGING_SERVICE_CASH_ON_DELIVERY);
+        $selection->setInputCode('enabled');
+        $selection->setInputValue((string) true);
     }
 }
