@@ -32,21 +32,6 @@
                 </inputs>
             </shippingOption>
         </packageOptions>
-        <itemOptions>
-            <itemShippingOptions itemId="0">
-                <shippingOptions>
-                    <shippingOption code="Dhl\ShippingCore\Model\ShippingSettings\ShippingOption\Codes::ITEM_INPUT_CUSTOMS_VALUE">
-                        <routes>
-                            <route>
-                                <excludeDestinations>
-                                    <destination>eu</destination>
-                                </excludeDestinations>
-                            </route>
-                        </routes>
-                    </shippingOption>
-                </shippingOptions>
-            </itemShippingOptions>
-        </itemOptions>
         <serviceOptions>
             <shippingOption code="Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::CHECKOUT_SERVICE_PARCELSHOP_FINDER">
                 <label>Parcel station</label>
