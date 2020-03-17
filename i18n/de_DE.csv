@@ -17,7 +17,7 @@
 "Attestation Number",Bescheinigungs-Nummer
 "Behavior in Cases of Unavailability","Verhalten bei Nichtverfügbarkeit"
 "Bulky Goods",Sperrgut
-"Cash on Delivery","Nachnahme"
+"Cash on Delivery",Nachnahme
 "Cash on Delivery Reason for Payment","Verwendungszweck Nachnahmezahlung"
 "Checkout Presentation",Checkout-Darstellung
 "Choose a weather-protected and non-visible place on your property where we can deposit the parcel in your absence.","Bestimmen Sie einen wettergeschützten und nicht einsehbaren Platz auf Ihrem Grundstück, an dem wir das Paket während Ihrer Abwesenheit hinterlegen dürfen."
@@ -29,7 +29,7 @@
 "DHL Paket (Shipping from DE)","DHL Paket (Versand aus DE)"
 "DHL Paket International: V53WPAK","DHL Paket International: V53WPAK"
 "DHL Paket Taggleich: V06PAK","DHL Paket Taggleich: V06PAK"
-"DHL Paket provides parcel shipping across Germany and to more than 220 countries - even on Saturdays.","DHL Paket bietet Paketversand in ganz Deutschland und nach über 220 Länder – sogar samstags."
+"DHL Paket provides parcel shipping across Germany and to more than 220 countries. ","DHL Paket bietet Paketversand in ganz Deutschland und nach über 220 Länder."
 "DHL Paket: V01PAK","DHL Paket: V01PAK"
 "DHL Post Number","DHL Postnummer"
 "DHL Preferred Delivery","DHL Wunschpaket"
@@ -61,9 +61,9 @@ Errors,Fehler
 "First name, last name of neighbour","Vorname, Nachname des Nachbarn"
 "For a combined booking of preferred day and preferred time, the shipping costs are a total of $1 including VAT.","Bei einer Kombinationsbuchung von Wunschtag und -zeit fällt zu den Versandkosten ein Gesamtaufpreis von $1 inkl. MwSt. an."
 Fri,Fr
-"Furthermore, the DHL Paket carrier allows to request shipping labels for incoming orders directly within your Magento instance.","Mit der DHL Paket Versandmethode können Sie Versandscheine für eingehende Bestellungen direkt in Ihrer Magento-Instanz anlegen."
+"Furthermore, the DHL Paket module allows to request shipping labels for incoming orders directly within your Magento suite.","Mit der DHL Paket Versandmethode können Sie Versandscheine für eingehende Bestellungen direkt in Ihrer Magento-Instanz anlegen."
 "General Settings","Allgemeine Einstellungen"
-"Having issues configuring the extension? Contact your DHL Paket account representative who will facilitate technical assistance.","Haben Sie Probleme bei der Konfiguration des Moduls? Bitte kontaktieren Sie ihren DHL-Anchsprechpartner für technische Hilfestellung."
+"Having issues configuring the extension? Contact our support desk: ","Haben Sie Probleme beim Konfigurieren der Extension? Wenden Sie sich an unser Support-Team: "
 "If enabled, DHL will automatically send a customs declaration electronically to the customs offices for dutiable shipments.","Wenn diese Option aktiviert ist, wird von DHL automatisch bei zollpflichtigen Sendungen eine Zollinhaltserklärung auf elektronischem Wege an die Zollämter versandt."
 "If enabled, a return shipment label will be requested from the webservice.","Wenn diese Option aktiviert ist, wird ein Rücksendeetikett vom Webservice angefordert."
 "If enabled, shipment orders will only return a label if the DHL delivery address verification succeeds.","Wenn diese Option aktiviert ist, werden Paketaufkleber nur erstellt, wenn die DHL-Überprüfung der Empfängeradresse im Versandauftrag erfolgreich war."
@@ -71,7 +71,8 @@ Fri,Fr
 "If enabled, shipments will be marked as bulk freight.","Wenn diese Option aktiviert ist, werden Sendungen als Sperrgut markiert."
 "If enabled, the visual age check service will be booked during shipment orders.","Wenn diese Option aktiviert ist, wird der Service Alterssichtprüfung bei Versandaufträgen gebucht."
 "If enabled, your undeliverable packages will be held at the nearest parcel collection point for collection by the recipient rather than being returned immediately to you.","Wenn diese Option aktiviert ist, werden unzustellbare Sendungen nicht direkt an Sie zurückgeschickt, sondern zunächst in der nächstgelegenen Filiale zur Abholung hinterlegt."
-"If you don’t have an account or your account is with another DHL division, <a href=""https://www.dhl.de/en/geschaeftskunden/paket/kunde-werden/angebot-dhl-geschaeftskunden-online.html"" target=""_blank"">please contact DHL Paket</a> to establish or expand your relationship","Wenn Sie noch kein Geschäftskundenkonto haben, <a href=""https://www.dhl.de/de/geschaeftskunden/paket/kunde-werden/angebot-dhl-geschaeftskunden-online.html"" target=""_blank"">kontaktieren Sie DHL Paket</a> um einen Zugang zu einzurichten."
+"If you do not have a DHL Paket account, <a href=""https://www.dhl.de/en/geschaeftskunden/paket/kunde-werden/angebot-dhl-geschaeftskunden-online.html"" target=""_blank"">please contact DHL Paket</a> to establish or expand your relationship","Wenn Sie kein Konto haben oder Ihr Konto bei einer anderen DHL-Abteilung ist, <a href=""https://www.dhl.de/en/geschaeftskunden/paket/kunde-werden/angebot-dhl-geschaeftskunden-online.html"" target=""_blank"">wenden Sie sich bitte an DHL Paket</a>, um Ihren Vertrag zu erweitern"
+"In addition to your account number you need your 2-digit Procedure and Participation number","Zusätzlich zur Ihrer Kundennummer benötigen Sie noch die Verfahren- und Teilnahmenummer (jeweils 2-stellig)"
 "Indicate a preferred time, which suits you best for your parcel delivery by choosing one of the displayed time windows.","Damit Sie besser planen können, haben Sie die Möglichkeit, eine Wunschzeit für die Lieferung auszuwählen. Sie können eine der dargestellten Zeiten für die Lieferung auswählen."
 "Info (All API Activities)","Info (alle API-Aktivitäten)"
 "Label could not be created: %1","Paketaufkleber konnte nicht erzeugt werden: %1"
@@ -105,9 +106,8 @@ Participation,Teilnahme
 "Password (Signature)","Passwort (Signature)"
 "Permit Number",Genehmigungs-Nummer
 "Place of Committal",Einlieferungsstelle
-"Please choose only one of %1.","Bitte wählen sie nur eins von %1."
+"Please choose only one of %1.","Bitte wählen Sie nur eins von %1."
 "Please choose your preferred delivery options.","Wählen Sie Ihre bevorzugten Lieferoptionen aus."
-"Please consult your DHL account representative to enable API access for your account","Bitte sprechen Sie mit Ihrem DHL-Ansprechpartner, um Ihren Account für die API freizuschalten"
 "Post Office",Postfiliale
 "Preferred Day",Wunschtag
 "Preferred Day Additional Charge","Aufpreis für Wunschtag"
@@ -147,7 +147,7 @@ Sun,So
 "The log level <em>Info</em> should only be set while resolving problems. It may result in very large log files.","Die Protokollierungsstufe <em>Info</em> sollte nur beim Lösen von Problemen eingestellt werden, da dies zu sehr großen Protokolldateien führen kann."
 "The money transfer purpose for cash on delivery payments can include the following placeholders: {{entity_id}}, {{increment_id}}, {{firstname}}, {{lastname}}. They will be replaced by the respective order's values.","Beim Verwendungszweck für Nachnahmezahlungen können folgende Platzhalter eingesetzt werden: {{entity_id}}, {{increment_id}}, {{firstname}}, {{lastname}}. Sie werden durch die Werte der jeweiligen Bestellung ersetzt."
 "The participation number enables invoices to be subdivided according to location, seasonal business or different conditions. The participation number consists of 2 alphanumeric characters. It is allocated by DHL Sales.","Die Teilnahmenummer erlaubt es, Rechnungen nach Standort, Saisongeschäft oder anderen Umständen zu gruppieren. Eine Teilnamenummer besteht as zwei alphanumerischen Zeichen und wird Ihnen von DHL zugewiesen"
-"The post number is your personal identification code that you receive with your registration at DHL.","Die Postnummer ist ihre persönliche Kundennummer bei DHL."
+"The post number is your personal identification code that you receive with your registration at DHL.","Die Postnummer ist Ihre persönliche Kundennummer bei DHL."
 "The product %1 is not valid for the route %2-%3.","Das Versandprodukt %1 ist nicht gültig für die Route %2-%3."
 "The rates will get used even if the selected shipping method is disabled. The available method names will also be those of the selected shipping method.","Die Tarife werden auch verwendet, wenn die ausgewählte Versandmethode deaktiviert ist. Die verfügbaren Methodennamen sind auch die der ausgewählten Versandmethode."
 "There was a problem finding locations. Please check if the address is valid.","Es gab ein Problem bei der Standortsuche. Bitte prüfen Sie, ob die Adresse korrekt ist."
@@ -171,7 +171,7 @@ Wed,Mi
 "You decide when and where you want to receive your parcels with the recipient services of DHL.","Mit den Services von DHL-Wunschpaket entscheiden Sie, wann und wo Sie Ihre Pakete empfangen."
 "You must also have Magento general logging enabled.","Die allgemeine Protokollierung muss in Magento aktiviert sein, damit die modulspezifische Protokollierung funktioniert."
 "You must enter your post number when sending to a parcel station. For post office delivery, the post number is optional.","Sie müssen Ihre Postnummer für den Versand an eine Packstation angeben. Für den Versand an eine Postfiliale ist diese optional."
-"You must have a valid DHL Paket business account","Sie brauchen einen gültigen DHL Paket Geschäftskunden-Account"
-"Your DHL Paket business account must be configured for API access","Ihr DHL Paket Geschäftskunden-Account muss für den API-Zugriff freigeschaltet sein"
+"You need to have a valid DHL Paket business account number (EKP)","Sie brauchen eine gültige DHL Paket Geschäftskundennummer (EKP)"
 "Your e-mail address will be sent to DHL upon enabling, after which DHL will trigger a package announcement for your shipment. The e-mail address will exclusively be used for the announcement of this shipment.","Ihre E-Mail-Adresse wird nach der Aktivierung an DHL gesendet. Danach löst DHL eine Paketankündigung für Ihre Sendung aus. Die E-Mail-Adresse wird ausschließlich für die Bekanntgabe dieser Sendung verwendet."
 "Your personal post number","Ihre persönliche Postnummer"
+dhl.support@netresearch.de,"dhl.support@netresearch.de"

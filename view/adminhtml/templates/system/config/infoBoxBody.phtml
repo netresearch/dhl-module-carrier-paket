@@ -6,30 +6,25 @@
 ?>
 <div class="col content">
     <p>
-        <?= $block->escapeHtml(__('DHL Paket provides parcel shipping across Germany and to more than 220 countries - even on Saturdays.')) ?>
+        <?= $block->escapeHtml(__('DHL Paket provides parcel shipping across Germany and to more than 220 countries. ')) ?>
     </p>
     <p>
-        <?= $block->escapeHtml(__('Furthermore, the DHL Paket carrier allows to request shipping labels for incoming orders directly within your Magento instance.')) ?>
+        <?= $block->escapeHtml(__('Furthermore, the DHL Paket module allows to request shipping labels for incoming orders directly within your Magento suite.')) ?>
     </p>
     <p><?= $block->escapeHtml(__('To get started:')) ?></p>
     <ol>
         <li>
-            <?= $block->escapeHtml(__('You must have a valid DHL Paket business account')) ?>
+            <?= $block->escapeHtml(__('You need to have a valid DHL Paket business account number (EKP)')) ?>
             <br/>
             <em>
                 <small>
-                    <?= /* @noEscape */ __('If you don’t have an account or your account is with another DHL division, <a href="https://www.dhl.de/en/geschaeftskunden/paket/kunde-werden/angebot-dhl-geschaeftskunden-online.html" target="_blank">please contact DHL Paket</a> to establish or expand your relationship') ?>
+                    <?= /* @noEscape */ __('If you do not have a DHL Paket account, <a href="https://www.dhl.de/en/geschaeftskunden/paket/kunde-werden/angebot-dhl-geschaeftskunden-online.html" target="_blank">please contact DHL Paket</a> to establish or expand your relationship') ?>
                 </small>
             </em>
         </li>
         <li>
-            <?= $block->escapeHtml(__('Your DHL Paket business account must be configured for API access')) ?>
-            <br/>
-            <em>
-                <small>
-                    <?= $block->escapeHtml(__('Please consult your DHL account representative to enable API access for your account')) ?>
-                </small>
-            </em>
+            <?= $block->escapeHtml(__('In addition to your account number you need your 2-digit Procedure and Participation number')) ?>
+
         </li>
     </ol>
 </div>
@@ -38,7 +33,10 @@
         <div class="section">
             <h3><?= $block->escapeHtml(__('DHL & Magento')) ?></h3>
             <p>
-                <?= $block->escapeHtml(__('Having issues configuring the extension? Contact your DHL Paket account representative who will facilitate technical assistance.')) ?>
+                <?= $block->escapeHtml(__('Having issues configuring the extension? Contact our support desk: ')) ?>
+                <a href="mailto:<?= $block->escapeHtml(__('dhl.support@netresearch.de'))?>">
+                    <?= $block->escapeHtml(__('dhl.support@netresearch.de'))?>
+                </a>
             </p>
         </div>
     </aside>
