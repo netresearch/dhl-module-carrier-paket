@@ -57,27 +57,6 @@ class CheckoutServiceStub implements CheckoutServiceInterface
                     ),
 
                 ]
-            ),
-            new CarrierService(
-                Codes::CHECKOUT_SERVICE_PREFERRED_TIME,
-                true,
-                [
-                    new TimeFrameOption(
-                        '10:00',
-                        '12:00',
-                        '001'
-                    ),
-                    new TimeFrameOption(
-                        '12:00',
-                        '14:00',
-                        '002'
-                    ),
-                    new TimeFrameOption(
-                        '14:00',
-                        '16:00',
-                        '003'
-                    )
-                ]
             )
         ];
     }

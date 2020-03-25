@@ -67,10 +67,7 @@ class AdditionalChargesProcessorTest extends TestCase
      * @magentoConfigFixture current_store carriers/dhlpaket/active 1
      * @magentoConfigFixture current_store dhlshippingsolutions/dhlpaket/checkout_settings/emulated_carrier flatrate
      * @magentoConfigFixture current_store dhlshippingsolutions/dhlpaket/additional_services/services_group/preferredday 1
-     * @magentoConfigFixture current_store dhlshippingsolutions/dhlpaket/additional_services/services_group/preferredtime 1
-     * @magentoConfigFixture current_store dhlshippingsolutions/dhlpaket/additional_services/services_group/preferredTimeCharge 50.00
      * @magentoConfigFixture current_store dhlshippingsolutions/dhlpaket/additional_services/services_group/preferredDayCharge 100.00
-     * @magentoConfigFixture current_store dhlshippingsolutions/dhlpaket/additional_services/services_group/preferredCombinedCharge 200.00
      *
      * @magentoConfigFixture current_store carriers/flatrate/type O
      * @magentoConfigFixture current_store carriers/flatrate/handling_type F
@@ -91,7 +88,6 @@ class AdditionalChargesProcessorTest extends TestCase
         $carrier = $carriers[Paket::CARRIER_CODE];
         $options = $carrier->getServiceOptions();
         self::assertContains('$100.00', $options[Codes::CHECKOUT_SERVICE_PREFERRED_DAY]->getInputs()['date']->getComment()->getContent());
-        self::assertContains('$50.00', $options[Codes::CHECKOUT_SERVICE_PREFERRED_TIME]->getInputs()['time']->getComment()->getContent());
     }
 
     /**
@@ -112,10 +108,7 @@ class AdditionalChargesProcessorTest extends TestCase
      * @magentoConfigFixture current_store carriers/dhlpaket/active 1
      * @magentoConfigFixture current_store dhlshippingsolutions/dhlpaket/checkout_settings/emulated_carrier flatrate
      * @magentoConfigFixture current_store dhlshippingsolutions/dhlpaket/additional_services/services_group/preferredday 1
-     * @magentoConfigFixture current_store dhlshippingsolutions/dhlpaket/additional_services/services_group/preferredtime 1
-     * @magentoConfigFixture current_store dhlshippingsolutions/dhlpaket/additional_services/services_group/preferredTimeCharge 50.00
      * @magentoConfigFixture current_store dhlshippingsolutions/dhlpaket/additional_services/services_group/preferredDayCharge 100.00
-     * @magentoConfigFixture current_store dhlshippingsolutions/dhlpaket/additional_services/services_group/preferredCombinedCharge 200.00
      *
      * @magentoConfigFixture current_store carriers/flatrate/type O
      * @magentoConfigFixture current_store carriers/flatrate/handling_type F
@@ -140,10 +133,6 @@ class AdditionalChargesProcessorTest extends TestCase
         self::assertContains(
             ' €70.67',
             $serviceOptions[Codes::CHECKOUT_SERVICE_PREFERRED_DAY]->getInputs()['date']->getComment()->getContent()
-        );
-        self::assertContains(
-            '€35.34',
-            $serviceOptions[Codes::CHECKOUT_SERVICE_PREFERRED_TIME]->getInputs()['time']->getComment()->getContent()
         );
     }
 }

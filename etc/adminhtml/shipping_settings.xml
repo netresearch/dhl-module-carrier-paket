@@ -165,21 +165,6 @@
                     </input>
                 </inputs>
             </shippingOption>
-            <shippingOption code="Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::CHECKOUT_SERVICE_PREFERRED_TIME">
-                <label>Preferred Time Delivery</label>
-                <sortOrder>1100</sortOrder>
-                <inputs>
-                    <input code="enabled">
-                        <sortOrder>10</sortOrder>
-                        <inputType>checkbox</inputType>
-                        <label>Enable DHL preferred time delivery</label>
-                    </input>
-                    <input code="time">
-                        <sortOrder>20</sortOrder>
-                        <inputType>radio</inputType>
-                    </input>
-                </inputs>
-            </shippingOption>
             <shippingOption code="Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::CHECKOUT_SERVICE_PREFERRED_NEIGHBOUR">
                 <label>Preferred Neighbour Delivery</label>
                 <sortOrder>1110</sortOrder>

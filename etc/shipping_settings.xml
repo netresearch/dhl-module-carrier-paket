@@ -69,34 +69,8 @@
                         <inputType>date</inputType>
                         <comment>
                             <content><![CDATA[This service will incur additional shipping costs of $1 including VAT.]]></content>
-                            <footnoteId>footnote-combined-cost</footnoteId>
                         </comment>
                         <tooltip>Choose one of the displayed days as your preferred day for your parcel delivery. Other days are not possible due to delivery processes.</tooltip>
-                    </input>
-                </inputs>
-            </shippingOption>
-            <shippingOption code="Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::CHECKOUT_SERVICE_PREFERRED_TIME" available="dhlshippingsolutions/dhlpaket/additional_services/services_group/preferredtime">
-                <label>Preferred Time: Delivery at your preferred time</label>
-                <sortOrder>40</sortOrder>
-                <routes>
-                    <route>
-                        <origin>DE</origin>
-                        <includeDestinations>
-                            <destination>DE</destination>
-                            <destination>AT</destination>
-                        </includeDestinations>
-                    </route>
-                </routes>
-                <inputs>
-                    <input code="time">
-                        <inputType>time</inputType>
-                        <label>Enable Preferred Time</label>
-                        <labelVisible>false</labelVisible>
-                        <comment>
-                            <content><![CDATA[This service will incur additional shipping costs of $1 including VAT.]]></content>
-                            <footnoteId>footnote-combined-cost</footnoteId>
-                        </comment>
-                        <tooltip>Indicate a preferred time, which suits you best for your parcel delivery by choosing one of the displayed time windows.</tooltip>
                     </input>
                 </inputs>
             </shippingOption>
@@ -185,17 +159,6 @@
                     <content>Please choose your preferred delivery options.</content>
                 </comment>
             </commentsBefore>
-            <footnotes>
-                <footnote id="footnote-combined-cost">
-                    <content><![CDATA[For a combined booking of preferred day and preferred time, the shipping costs are a total of $1 including VAT.]]></content>
-                    <subjects>
-                        <subject>Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::CHECKOUT_SERVICE_PREFERRED_TIME</subject>
-                        <subject>Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::CHECKOUT_SERVICE_PREFERRED_DAY</subject>
-                    </subjects>
-                    <subjectsMustBeAvailable>true</subjectsMustBeAvailable>
-                    <subjectsMustBeSelected>true</subjectsMustBeSelected>
-                </footnote>
-            </footnotes>
         </metadata>
     </carrier>
 </carriers>

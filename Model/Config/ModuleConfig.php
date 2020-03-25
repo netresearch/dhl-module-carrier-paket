@@ -64,10 +64,7 @@ class ModuleConfig
     const CONFIG_PATH_PREFERRED_LOCATION = 'dhlshippingsolutions/dhlpaket/additional_services/services_group/preferredlocation';
     const CONFIG_PATH_PREFERRED_NEIGHBOUR = 'dhlshippingsolutions/dhlpaket/additional_services/services_group/preferredneighbour';
     const CONFIG_PATH_PREFERRED_DAY_ = 'dhlshippingsolutions/dhlpaket/additional_services/services_group/preferredday';
-    const CONFIG_PATH_PREFERRED_TIME = 'dhlshippingsolutions/dhlpaket/additional_services/services_group/preferredtime';
-    const CONFIG_PATH_TIME_CHARGE = 'dhlshippingsolutions/dhlpaket/additional_services/services_group/preferredTimeCharge';
     const CONFIG_PATH_DAY_CHARGE = 'dhlshippingsolutions/dhlpaket/additional_services/services_group/preferredDayCharge';
-    const CONFIG_PATH_COMBINED_CHARGE = 'dhlshippingsolutions/dhlpaket/additional_services/services_group/preferredCombinedCharge';
 
     /**
      * @var ScopeConfigInterface
@@ -481,40 +478,6 @@ class ModuleConfig
             '.',
             $this->scopeConfig->getValue(
                 self::CONFIG_PATH_DAY_CHARGE,
-                ScopeInterface::SCOPE_STORE,
-                $store
-            )
-        );
-    }
-
-    /**
-     * @param mixed $store
-     * @return float
-     */
-    public function getPreferredTimeAdditionalCharge($store = null): float
-    {
-        return (float) str_replace(
-            ',',
-            '.',
-            $this->scopeConfig->getValue(
-                self::CONFIG_PATH_TIME_CHARGE,
-                ScopeInterface::SCOPE_STORE,
-                $store
-            )
-        );
-    }
-
-    /**
-     * @param mixed $store
-     * @return float
-     */
-    public function getPreferredCombinedCharge($store = null): float
-    {
-        return (float) str_replace(
-            ',',
-            '.',
-            $this->scopeConfig->getValue(
-                self::CONFIG_PATH_COMBINED_CHARGE,
                 ScopeInterface::SCOPE_STORE,
                 $store
             )

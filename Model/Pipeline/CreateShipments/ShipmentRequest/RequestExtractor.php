@@ -382,26 +382,6 @@ class RequestExtractor implements RequestExtractorInterface
     }
 
     /**
-     * Check if preferredTime has been booked
-     *
-     * @return bool
-     */
-    public function hasPreferredTime(): bool
-    {
-        return (bool) ($this->getServiceData(Codes::CHECKOUT_SERVICE_PREFERRED_TIME)['enabled'] ?? false);
-    }
-
-    /**
-     * Obtain the "preferredTime" value for the current package.
-     *
-     * @return string
-     */
-    public function getPreferredTime(): string
-    {
-        return $this->getServiceData(Codes::CHECKOUT_SERVICE_PREFERRED_TIME)['time'] ?? '';
-    }
-
-    /**
      * Check if preferredDay has been booked
      *
      * @return bool

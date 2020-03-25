@@ -101,15 +101,6 @@ class AdditionalChargesProcessor implements ShippingOptionsProcessorInterface
             }
         }
 
-        $preferredTime = $optionsData[Codes::CHECKOUT_SERVICE_PREFERRED_TIME] ?? false;
-        if ($preferredTime) {
-            $time = $preferredTime->getInputs()['time'] ?? false;
-            if ($time) {
-                $amount = $this->paketConfig->getPreferredTimeAdditionalCharge();
-                $this->apply($amount, $time, $storeId);
-            }
-        }
-
         return $optionsData;
     }
 }

@@ -59,7 +59,6 @@ class ServiceInputDataProcessor implements ShippingOptionsProcessorInterface
      */
     private static $availableCustomerServices = [
         Codes::CHECKOUT_SERVICE_PREFERRED_DAY,
-        Codes::CHECKOUT_SERVICE_PREFERRED_TIME,
         Codes::CHECKOUT_SERVICE_PREFERRED_LOCATION,
         Codes::CHECKOUT_SERVICE_PREFERRED_NEIGHBOUR,
         Codes::CHECKOUT_SERVICE_PARCELSHOP_FINDER,
@@ -186,32 +185,6 @@ class ServiceInputDataProcessor implements ShippingOptionsProcessorInterface
     }
 
     /**
-     * Infer radio button label from selection value.
-     *
-     * This must be done manually since the proper value labels are
-     * only retrieved from the API during checkout and that data is
-     * not persisted.
-     *
-     * @param ShippingOptionInterface $shippingOption
-     */
-    private function processPreferredTimeInputs(ShippingOptionInterface $shippingOption)
-    {
-        foreach ($shippingOption->getInputs() as $input) {
-            if ($input->getCode() === 'time') {
-                $timeRange = str_split($input->getDefaultValue(), 4);
-                $startTime = implode(':', str_split($timeRange[0], 2));
-                $endTime = implode(':', str_split($timeRange[1], 2));
-
-                /** @var OptionInterface $option */
-                $option = $this->optionFactory->create();
-                $option->setValue($input->getDefaultValue());
-                $option->setLabel($startTime . ' - ' . $endTime);
-                $input->setOptions([$option]);
-            }
-        }
-    }
-
-    /**
      * Replace the COD Reason for Payment template variables.
      *
      * @param ShippingOptionInterface $shippingOption
@@ -253,9 +226,6 @@ class ServiceInputDataProcessor implements ShippingOptionsProcessorInterface
             switch ($optionGroup->getCode()) {
                 case Codes::CHECKOUT_SERVICE_PREFERRED_DAY:
                     $this->processPreferredDayInputs($optionGroup);
-                    break;
-                case Codes::CHECKOUT_SERVICE_PREFERRED_TIME:
-                    $this->processPreferredTimeInputs($optionGroup);
                     break;
                 case Codes::PACKAGING_SERVICE_CASH_ON_DELIVERY:
                     $this->processCashOnDeliveryInputs($optionGroup, $order);

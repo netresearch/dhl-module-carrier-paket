@@ -154,9 +154,6 @@
                 <item name="dhlpaketParcelManagementOptionsProcessor" sortOrder="100" xsi:type="object">Dhl\Paket\Model\ShippingSettings\Processor\Checkout\ServiceOptions\ParcelManagementOptionsProcessor</item>
                 <item name="dhlpaketAdditionalChargesProcessor" sortOrder="200" xsi:type="object">Dhl\Paket\Model\ShippingSettings\Processor\Checkout\ServiceOptions\AdditionalChargesProcessor</item>
             </argument>
-            <argument name="metadataProcessors" xsi:type="array">
-                <item name="dhlpaketAdditionalChargesProcessor" sortOrder="200" xsi:type="object">Dhl\Paket\Model\ShippingSettings\Processor\Checkout\Metadata\AdditionalChargesProcessor</item>
-            </argument>
         </arguments>
     </type>
     <type name="Dhl\ShippingCore\Model\ShippingSettings\Processor\Packaging\PackagingDataCompositeProcessor">

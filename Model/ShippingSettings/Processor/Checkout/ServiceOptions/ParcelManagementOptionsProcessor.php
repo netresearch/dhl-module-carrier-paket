@@ -30,7 +30,6 @@ class ParcelManagementOptionsProcessor implements ShippingOptionsProcessorInterf
 
     const SERVICES_WITH_OPTIONS = [
         Codes::CHECKOUT_SERVICE_PREFERRED_DAY,
-        Codes::CHECKOUT_SERVICE_PREFERRED_TIME,
         self::SAME_DAY_DELIVERY,
     ];
 
@@ -130,51 +129,6 @@ class ParcelManagementOptionsProcessor implements ShippingOptionsProcessorInterf
     }
 
     /**
-     * Retrieve time options from API response and add to form input.
-     *
-     * @param ShippingOptionInterface $shippingOption
-     * @param CarrierServiceInterface $carrierService
-     * @throws \RuntimeException
-     */
-    private function addPreferredTimeOptions(
-        ShippingOptionInterface $shippingOption,
-        CarrierServiceInterface $carrierService
-    ) {
-        $timeInput = null;
-        foreach ($shippingOption->getInputs() as $input) {
-            if ($input->getCode() === 'time') {
-                $timeInput = $input;
-                break;
-            }
-        }
-
-        if (empty($timeInput)) {
-            throw new \RuntimeException('No date input for preferred time service found.');
-        }
-
-        /** @var OptionInterface[] $options */
-        $options = array_map(
-            function (IntervalOptionInterface $intervalOption) {
-                $optionLabel = $intervalOption->getStart() . ' - ' . $intervalOption->getEnd();
-                $optionValue = str_replace(':', '', $intervalOption->getStart() . $intervalOption->getEnd());
-
-                $timeOption = $this->optionFactory->create();
-                $timeOption->setLabel($optionLabel);
-                $timeOption->setValue($optionValue);
-
-                return $timeOption;
-            },
-            $carrierService->getOptions()
-        );
-
-        if (empty($options)) {
-            throw new \RuntimeException('No options for preferred time service available.');
-        }
-
-        $timeInput->setOptions($timeInput->getOptions() + $options);
-    }
-
-    /**
      * Process one shipping option
      *
      * @param ShippingOptionInterface $shippingOption
@@ -207,17 +161,6 @@ class ParcelManagementOptionsProcessor implements ShippingOptionsProcessorInterf
             // API returned option values for preferred day service, add them to the input element
             try {
                 $this->addPreferredDayOptions($shippingOption, $carrierServices[$serviceCode], $storeId);
-
-                return $shippingOption;
-            } catch (\RuntimeException $exception) {
-                return null;
-            }
-        }
-
-        if ($serviceCode === Codes::CHECKOUT_SERVICE_PREFERRED_TIME) {
-            // API returned option values for preferred time service, add them to the input element
-            try {
-                $this->addPreferredTimeOptions($shippingOption, $carrierServices[$serviceCode]);
 
                 return $shippingOption;
             } catch (\RuntimeException $exception) {

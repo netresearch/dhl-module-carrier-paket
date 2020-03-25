@@ -94,21 +94,12 @@ class AdditionalFeeConfiguration implements AdditionalFeeConfigurationInterface
     public function getServiceCharge(Quote $quote): float
     {
         $fee = 0.0;
-        $serviceSelections = $this->getPreferredDayTimeSelections($quote);
-        if ($serviceSelections->count() === 2) {
-            // combined mode
-            $fee = $this->config->getPreferredCombinedCharge($quote->getStoreId());
-        }
+        $serviceSelections = $this->getPreferredDaySelection($quote);
 
-        if ($serviceSelections->count() === 1) {
-            /** @var SelectionInterface $selectedService */
-            $selectedService = $serviceSelections->getFirstItem();
-            if ($selectedService->getShippingOptionCode() === Codes::CHECKOUT_SERVICE_PREFERRED_DAY) {
-                $fee = $this->config->getPreferredDayAdditionalCharge($quote->getStoreId());
-            }
-            if ($selectedService->getShippingOptionCode() === Codes::CHECKOUT_SERVICE_PREFERRED_TIME) {
-                $fee = $this->config->getPreferredTimeAdditionalCharge($quote->getStoreId());
-            }
+        /** @var SelectionInterface $selectedService */
+        $selectedService = $serviceSelections->getFirstItem();
+        if ($selectedService->getShippingOptionCode() === Codes::CHECKOUT_SERVICE_PREFERRED_DAY) {
+            $fee = $this->config->getPreferredDayAdditionalCharge($quote->getStoreId());
         }
 
         return $fee;
@@ -126,7 +117,7 @@ class AdditionalFeeConfiguration implements AdditionalFeeConfigurationInterface
      * @param Quote $quote
      * @return ShippingOptionSelectionCollection
      */
-    private function getPreferredDayTimeSelections(Quote $quote): ShippingOptionSelectionCollection
+    private function getPreferredDaySelection(Quote $quote): ShippingOptionSelectionCollection
     {
         if ($this->serviceSelection === null) {
             $addressFilter = $this->filterBuilder
@@ -134,15 +125,10 @@ class AdditionalFeeConfiguration implements AdditionalFeeConfigurationInterface
                 ->setValue($quote->getShippingAddress()->getId())
                 ->setConditionType('eq')
                 ->create();
-
-            $optionCodes = [
-                Codes::CHECKOUT_SERVICE_PREFERRED_TIME,
-                Codes::CHECKOUT_SERVICE_PREFERRED_DAY,
-            ];
             $optionCodeFilter = $this->filterBuilder
                 ->setField(SelectionInterface::SHIPPING_OPTION_CODE)
-                ->setValue($optionCodes)
-                ->setConditionType('in')
+                ->setValue(Codes::CHECKOUT_SERVICE_PREFERRED_DAY)
+                ->setConditionType('eq')
                 ->create();
 
             $searchCriteriaBuilder = $this->searchCriteriaBuilderFactory->create();

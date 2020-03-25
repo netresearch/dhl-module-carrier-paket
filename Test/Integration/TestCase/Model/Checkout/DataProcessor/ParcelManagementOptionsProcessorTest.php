@@ -75,7 +75,6 @@ class ParcelManagementOptionsProcessorTest extends TestCase
      * @magentoConfigFixture current_store dhlshippingsolutions/dhlpaket/additional_services/services_group/preferredlocation 0
      * @magentoConfigFixture current_store dhlshippingsolutions/dhlpaket/additional_services/services_group/preferredneighbour 0
      * @magentoConfigFixture current_store dhlshippingsolutions/dhlpaket/additional_services/services_group/preferredday 1
-     * @magentoConfigFixture current_store dhlshippingsolutions/dhlpaket/additional_services/services_group/preferredtime 1
      * @magentoConfigFixture current_store dhlshippingsolutions/dhlpaket/additional_services/services_group/parcelannouncement 0
      * @magentoConfigFixture current_store dhlshippingsolutions/dhlpaket/shipment_defaults/print_only_if_codeable 0
      *
@@ -102,7 +101,6 @@ class ParcelManagementOptionsProcessorTest extends TestCase
         $serviceOptions = $carrier->getServiceOptions();
 
         self::assertArrayHasKey(Codes::CHECKOUT_SERVICE_PREFERRED_DAY, $serviceOptions);
-        self::assertArrayHasKey(Codes::CHECKOUT_SERVICE_PREFERRED_TIME, $serviceOptions);
         self::assertArrayNotHasKey(Codes::CHECKOUT_SERVICE_PREFERRED_LOCATION, $serviceOptions);
         self::assertArrayNotHasKey(Codes::CHECKOUT_SERVICE_PREFERRED_NEIGHBOUR, $serviceOptions);
         self::assertArrayNotHasKey(Codes::CHECKOUT_PARCEL_ANNOUNCEMENT, $serviceOptions);

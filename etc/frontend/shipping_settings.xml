@@ -13,17 +13,6 @@
                     </input>
                 </inputs>
             </shippingOption>
-            <shippingOption code="Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::CHECKOUT_SERVICE_PREFERRED_TIME">
-                <inputs>
-                    <input code="time">
-                        <options>
-                            <option id="none">
-                                <label>none</label>
-                            </option>
-                        </options>
-                    </input>
-                </inputs>
-            </shippingOption>
         </serviceOptions>
         <compatibilityData>
             <rule id="preferredLocationAndNeighbourExclusion">
@@ -73,7 +62,6 @@
                 </masters>
                 <subjects>
                     <subject>Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::CHECKOUT_SERVICE_PREFERRED_DAY</subject>
-                    <subject>Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::CHECKOUT_SERVICE_PREFERRED_TIME</subject>
                     <subject>Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::CHECKOUT_SERVICE_PREFERRED_LOCATION</subject>
                     <subject>Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::CHECKOUT_SERVICE_PREFERRED_NEIGHBOUR</subject>
                     <subject>Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::CHECKOUT_SERVICE_PARCEL_OUTLET_ROUTING</subject>
@@ -84,7 +72,6 @@
             <rule id="allOthersExcludeParcelshopFinder">
                 <masters>
                     <master>Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::CHECKOUT_SERVICE_PREFERRED_DAY</master>
-                    <master>Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::CHECKOUT_SERVICE_PREFERRED_TIME</master>
                     <master>Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::CHECKOUT_SERVICE_PREFERRED_LOCATION</master>
                     <master>Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::CHECKOUT_SERVICE_PREFERRED_NEIGHBOUR</master>
                     <master>Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::CHECKOUT_SERVICE_PARCEL_OUTLET_ROUTING</master>

@@ -194,10 +194,6 @@ class RequestDataMapper
                 $this->requestBuilder->setBulkyGoods();
             }
 
-            if ($requestExtractor->hasPreferredTime()) {
-                $this->requestBuilder->setPreferredTime($requestExtractor->getPreferredTime());
-            }
-
             if ($requestExtractor->hasPreferredDay()) {
                 $this->requestBuilder->setPreferredDay($requestExtractor->getPreferredDay());
             }
