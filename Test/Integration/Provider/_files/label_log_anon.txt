@@ -1,0 +1,60 @@
+POST /services/production/soap HTTP/1.1
+Host: cig.dhl.de
+Content-Type: text/xml; charset=utf-8
+SOAPAction: "urn:createShipmentOrder"
+Authorization: Basic [test]
+
+<?xml version="1.0" encoding="UTF-8"?>
+<SOAP-ENV:Envelope><SOAP-ENV:Header><ns1:Authentification><ns1:user>[test]</ns1:user><ns1:signature>[test]</ns1:signature></ns1:Authentification></SOAP-ENV:Header><SOAP-ENV:Body><ns2:CreateShipmentOrderRequest><Version xsi:type="ns1:Version"><ns1:majorRelease>3</ns1:majorRelease><ns1:minorRelease>0</ns1:minorRelease></Version><ShipmentOrder><Shipment><ShipmentDetails><product>V01PAK</product><ns1:accountNumber>[test]</ns1:accountNumber><shipmentDate>2020-04-01</shipmentDate><returnShipmentAccountNumber>[test]</returnShipmentAccountNumber></ShipmentDetails></ns2:CreateShipmentOrderRequest></SOAP-ENV:Body></SOAP-ENV:Envelope>
+ [] []
+[2020-04-01 16:39:14] dhlpaket.INFO: HTTP/1.1 200 OK
+Date: Wed, 01 Apr 2020 16:39:14 GMT
+Content-Type: text/xml;charset=utf-8
+
+<soap:Envelope>
+   <soap:Header/>
+   <soap:Body>
+      <bcs:CreateShipmentOrderResponse>
+      </bcs:CreateShipmentOrderResponse>
+   </soap:Body>
+</soap:Envelope> [] []
+
+
+
+POST /services/production/soap HTTP/1.1
+Host: cig.dhl.de
+Content-Type: text/xml; charset=utf-8
+SOAPAction: "urn:deleteShipmentOrder"
+Authorization: Basic [test]
+
+<?xml version="1.0" encoding="UTF-8"?>
+<SOAP-ENV:Envelope><SOAP-ENV:Header><ns1:Authentification><ns1:user>[test]</ns1:user><ns1:signature>[test]</ns1:signature></ns1:Authentification></SOAP-ENV:Header><SOAP-ENV:Body><ns2:DeleteShipmentOrderRequest><Version xsi:type="ns1:Version"><ns1:majorRelease>3</ns1:majorRelease><ns1:minorRelease>0</ns1:minorRelease></Version><ns1:shipmentNumber>00340434166113211472</ns1:shipmentNumber></ns2:DeleteShipmentOrderRequest></SOAP-ENV:Body></SOAP-ENV:Envelope>
+ [] []
+[2020-04-01 16:39:59] dhlpaket.INFO: HTTP/1.1 200 OK
+Date: Wed, 01 Apr 2020 16:39:59 GMT
+Content-Type: text/xml;charset=utf-8
+
+<soap:Envelope>
+   <soap:Header/>
+   <soap:Body>
+      <bcs:DeleteShipmentOrderResponse>
+         <bcs:Version>
+            <majorRelease>3</majorRelease>
+            <minorRelease>0</minorRelease>
+         </bcs:Version>
+         <Status>
+            <statusCode>0</statusCode>
+            <statusText>ok</statusText>
+            <statusMessage>Der Webservice wurde ohne Fehler ausgeführt.</statusMessage>
+         </Status>
+         <DeletionState>
+            <cis:shipmentNumber>00340434166113211472</cis:shipmentNumber>
+            <Status>
+               <statusCode>0</statusCode>
+               <statusText>ok</statusText>
+               <statusMessage/>
+            </Status>
+         </DeletionState>
+      </bcs:DeleteShipmentOrderResponse>
+   </soap:Body>
+</soap:Envelope> [] []

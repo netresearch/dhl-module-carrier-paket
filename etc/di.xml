@@ -173,6 +173,17 @@
             </argument>
         </arguments>
     </type>
+    <type name="Dhl\ShippingCore\Model\Util\ApiLogAnonymizer">
+        <arguments>
+            <argument name="patterns" xsi:type="array">
+                <item name="dhlpaketEkp" xsi:type="string"><![CDATA[|EKP: (.+)|]]></item>
+                <item name="dhlpaketBasicAuth" xsi:type="string"><![CDATA[|Authorization: Basic (.+)|]]></item>
+                <item name="dhlpaketUser" xsi:type="string"><![CDATA[|user>([^<]+)<|]]></item>
+                <item name="dhlpaketPass" xsi:type="string"><![CDATA[|signature>([^<]+)<|]]></item>
+                <item name="dhlpaketBillingNumber" xsi:type="string"><![CDATA[|ccountNumber>([^<]+)<|]]></item>
+            </argument>
+        </arguments>
+    </type>
     <type name="Dhl\ShippingCore\Observer\DisableCodPaymentMethods">
         <arguments>
             <argument name="codSupportMap" xsi:type="array">

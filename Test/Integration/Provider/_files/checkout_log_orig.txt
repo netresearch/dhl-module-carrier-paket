@@ -1,0 +1,34 @@
+GET /services/production/rest/checkout/04229/availableServices?startDate=2020-04-01 HTTP/1.1
+Host: cig.dhl.de
+Accept: application/json
+X-EKP: 1234567890
+Authorization: Basic XX1YY2ZZ=
+
+ {"request":"[object] (Nyholm\\Psr7\\Request: {})"} []
+[2020-04-01 15:27:06] dhlpaket.INFO: Received response:
+HTTP/1.1 200 OK
+Date: Wed, 01 Apr 2020 15:27:06 GMT
+Content-Type: application/json
+
+{
+  "preferredDay" : {
+    "available" : true,
+    "validDays" : [ {
+      "start" : "2020-04-03T00:00:00.000+02:00",
+      "end" : "2020-04-03T23:59:59.999+02:00"
+    } ]
+  },
+  "inCarDelivery" : {
+    "available" : true
+  },
+}
+
+for request:
+GET /services/production/rest/checkout/04229/availableServices?startDate=2020-04-01 HTTP/1.1
+Host: cig.dhl.de
+Accept: application/json
+X-EKP: 1234567890
+Authorization: Basic XX1YY2ZZ=
+
+ {"request":"[object] (Nyholm\\Psr7\\Request: {})","response":"[object] (Nyholm\\Psr7\\Response: {})","milliseconds":215} []
+
