@@ -7,30 +7,28 @@ declare(strict_types=1);
 namespace Dhl\Paket\Model\Webservice;
 
 use Dhl\Paket\Model\Config\ModuleConfig;
-use Dhl\Sdk\LocationFinder\Api\Data\LocationInterface;
-use Dhl\Sdk\LocationFinder\Api\LocationFinderServiceInterface;
-use Dhl\Sdk\LocationFinder\Exception\ServiceException;
-use Dhl\Sdk\LocationFinder\Service\ServiceFactory;
-use Dhl\Sdk\LocationFinder\Exception\DetailedServiceException;
+use Dhl\Sdk\UnifiedLocationFinder\Api\LocationFinderServiceInterface;
+use Dhl\Sdk\UnifiedLocationFinder\Exception\ServiceException;
+use Dhl\Sdk\UnifiedLocationFinder\Service\ServiceFactory;
 use Psr\Log\LoggerInterface;
 
 /**
- * Class LocationFinderService
+ * Wrap SDK service, add credentials and maximum radius, limit.
  *
  * @author Andreas Müller <andreas.mueller@netresearch.de>
  * @link   https://www.netresearch.de/
  */
-class LocationFinderService
+class LocationFinderService implements LocationFinderServiceInterface
 {
     /**
      * @var ModuleConfig
      */
-    private $moduleConfig;
+    private $config;
 
     /**
      * @var ServiceFactory
      */
-    private $locationFinderServiceFactory;
+    private $serviceFactory;
 
     /**
      * @var LoggerInterface
@@ -38,29 +36,24 @@ class LocationFinderService
     private $logger;
 
     /**
-     * @var int
-     */
-    private $storeId;
-
-    /**
-     * @var LocationFinderServiceInterface
+     * @var LocationFinderServiceInterface|null
      */
     private $locationFinderService;
 
     /**
      * LocationFinderService constructor.
      *
-     * @param ModuleConfig $moduleConfig
-     * @param ServiceFactory $locationFinderServiceFactory
+     * @param ModuleConfig $coreConfig
+     * @param ServiceFactory $serviceFactory
      * @param LoggerInterface $logger
      */
     public function __construct(
-        ModuleConfig $moduleConfig,
-        ServiceFactory $locationFinderServiceFactory,
+        ModuleConfig $coreConfig,
+        ServiceFactory $serviceFactory,
         LoggerInterface $logger
     ) {
-        $this->moduleConfig = $moduleConfig;
-        $this->locationFinderServiceFactory = $locationFinderServiceFactory;
+        $this->config = $coreConfig;
+        $this->serviceFactory = $serviceFactory;
         $this->logger = $logger;
     }
 
@@ -73,34 +66,84 @@ class LocationFinderService
     private function getLocationFinderService(): LocationFinderServiceInterface
     {
         if ($this->locationFinderService === null) {
-            $this->locationFinderService = $this->locationFinderServiceFactory->createLocationFinderService(
-                $this->moduleConfig->getAuthUsername(),
-                $this->moduleConfig->getAuthPassword(),
-                $this->logger,
-                $this->moduleConfig->isSandboxMode($this->storeId)
+            $this->locationFinderService = $this->serviceFactory->createLocationFinderService(
+                $this->config->getLocationFinderConsumerKey(),
+                $this->logger
             );
         }
 
         return $this->locationFinderService;
     }
 
-    /**
-     * @param string $countryCode
-     * @param string $zip
-     * @param string $city
-     * @param string|null $streetName
-     * @param string|null $streetNo
-     * @return LocationInterface[]
-     * @throws DetailedServiceException
-     * @throws ServiceException
-     */
-    public function getLocations(
+    public function getPickUpLocations(
         string $countryCode,
-        string $zip,
-        string $city,
-        string $streetName = null,
-        string $streetNo = null
+        string $postalCode = '',
+        string $city = '',
+        string $street = '',
+        string $service = self::SERVICE_PARCEL,
+        int $radius = null,
+        int $limit = null
     ): array {
-        return $this->getLocationFinderService()->getPickUpLocations($countryCode, $zip, $city, $streetName, $streetNo);
+        return $this->getLocationFinderService()->getPickUpLocations(
+            $countryCode,
+            $postalCode,
+            $city,
+            $street,
+            $service,
+            $radius ?: 15000,
+            $limit ?: 50
+        );
+    }
+
+    public function getPickUpLocationsByCoordinate(
+        float $latitude,
+        float $longitude,
+        string $service = self::SERVICE_PARCEL,
+        int $radius = null,
+        int $limit = null
+    ): array {
+        return $this->getLocationFinderService()->getPickUpLocationsByCoordinate(
+            $latitude,
+            $longitude,
+            $service,
+            $radius ?: 15000,
+            $limit ?: 50
+        );
+    }
+
+    public function getDropOffLocations(
+        string $countryCode,
+        string $postalCode = '',
+        string $city = '',
+        string $street = '',
+        string $service = self::SERVICE_PARCEL,
+        int $radius = null,
+        int $limit = null
+    ): array {
+        return $this->getLocationFinderService()->getDropOffLocations(
+            $countryCode,
+            $postalCode,
+            $city,
+            $street,
+            $service,
+            $radius ?: 15000,
+            $limit ?: 50
+        );
+    }
+
+    public function getDropOffLocationsByCoordinate(
+        float $latitude,
+        float $longitude,
+        string $service = self::SERVICE_PARCEL,
+        int $radius = null,
+        int $limit = null
+    ): array {
+        return $this->getLocationFinderService()->getDropOffLocationsByCoordinate(
+            $latitude,
+            $longitude,
+            $service,
+            $radius ?: 15000,
+            $limit ?: 50
+        );
     }
 }

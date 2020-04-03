@@ -66,6 +66,9 @@ class ModuleConfig
     const CONFIG_PATH_PREFERRED_DAY_ = 'dhlshippingsolutions/dhlpaket/additional_services/services_group/preferredday';
     const CONFIG_PATH_DAY_CHARGE = 'dhlshippingsolutions/dhlpaket/additional_services/services_group/preferredDayCharge';
 
+    // location finder
+    const CONFIG_PATH_LOCATION_FINDER_CONSUMER_KEY = 'dhlshippingsolutions/location_finder/consumer_key';
+
     /**
      * @var ScopeConfigInterface
      */
@@ -500,5 +503,13 @@ class ModuleConfig
         );
 
         return $dropOffDays === null ? [] : explode(',', $dropOffDays);
+    }
+
+    /**
+     * @return string
+     */
+    public function getLocationFinderConsumerKey(): string
+    {
+        return (string) $this->scopeConfig->getValue(self::CONFIG_PATH_LOCATION_FINDER_CONSUMER_KEY);
     }
 }

@@ -217,7 +217,7 @@ class ShippingProducts
      * @param string $originCountryCode
      * @param string $destinationCountryCode
      * @param string[] $euCountries
-     * @return string[]
+     * @return string[][]
      */
     public function getShippingProducts(
         string $originCountryCode,

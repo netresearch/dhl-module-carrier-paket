@@ -10,7 +10,7 @@ use Dhl\Paket\Model\Config\ModuleConfig;
 use Dhl\Paket\Model\Pipeline\CreateShipments\ShipmentRequest\Data\PackageAdditionalFactory;
 use Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes;
 use Dhl\Paket\Util\ShippingProducts;
-use Dhl\Sdk\LocationFinder\Api\Data\LocationInterface;
+use Dhl\Sdk\UnifiedLocationFinder\Api\Data\LocationInterface;
 use Dhl\ShippingCore\Api\Data\Pipeline\ShipmentRequest\PackageInterface;
 use Dhl\ShippingCore\Api\Data\Pipeline\ShipmentRequest\PackageInterfaceFactory;
 use Dhl\ShippingCore\Api\Data\Pipeline\ShipmentRequest\PackageItemInterface;

@@ -90,6 +90,10 @@
                     </services_group>
                 </additional_services>
             </dhlpaket>
+
+            <location_finder>
+                <consumer_key>pJDOxtJt03guK5eXKYcZt9Ez1bPi2Xvm</consumer_key>
+            </location_finder>
         </dhlshippingsolutions>
     </default>
 </config>

@@ -9,7 +9,7 @@ namespace Dhl\Paket\Model\Pipeline\CreateShipments;
 use Dhl\Paket\Model\Pipeline\CreateShipments\ShipmentRequest\Data\PackageAdditional;
 use Dhl\Paket\Model\Pipeline\CreateShipments\ShipmentRequest\RequestExtractorFactory;
 use Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes as PaketCodes;
-use Dhl\Sdk\LocationFinder\Api\Data\LocationInterface;
+use Dhl\Sdk\UnifiedLocationFinder\Api\Data\LocationInterface;
 use Dhl\Sdk\Paket\Bcs\Api\ShipmentOrderRequestBuilderInterface;
 use Dhl\Sdk\Paket\Bcs\Exception\RequestValidatorException;
 use Dhl\ShippingCore\Api\Util\UnitConverterInterface;
@@ -241,7 +241,7 @@ class RequestDataMapper
                         $locationData[Codes::SHOPFINDER_INPUT_CITY],
                         $locationData[PaketCodes::CHECKOUT_INPUT_CUSTOMER_POSTNUMBER] ?? null
                     );
-                } elseif ($locationData['locationType'] === LocationInterface::TYPE_PACKSTATION) {
+                } elseif ($locationData['locationType'] === LocationInterface::TYPE_LOCKER) {
                     $this->requestBuilder->setPackstation(
                         $requestExtractor->getRecipient()->getContactPersonName(),
                         $locationData[PaketCodes::CHECKOUT_INPUT_CUSTOMER_POSTNUMBER],

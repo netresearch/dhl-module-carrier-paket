@@ -92,8 +92,9 @@ No,Nein
 "On the working days checked, there is no transfer of parcels to DHL (in addition to sundays and public holidays). This information influences the options offered as preferred delivery day in checkout.","An den gewählten Werktagen (zusätzlich zu Sonn- und Feiertagen) findet keine Paketübergabe an DHL statt. Aus Ihrer Angabe berechnet sich der nächstmögliche Wunschtag im Checkout."
 "Parcel Announcement",Paketankündigung
 "Parcel Routing",Paket-Routing
-"Parcel Shop",Paketshop
-"Parcel Station",Packstation
+"Parcel Shop %1","Paketshop %1"
+"Parcel Station","Packstation"
+"Parcel Station %1","Packstation %1"
 "Parcel Station Delivery","An eine Packstation liefern"
 "Parking available","Parkplätze vorhanden"
 "Partial shipments with Cash on Delivery or Insurance service are not supported. Please ship the entire order in one package or deselect the service.","Teillieferungen mit Nachnahmezahlung oder Transportversicherung werden nicht unterstützt. Bitte erstellen Sie eine Sendung für die gesamte Bestellung oder wählen Sie den Service ab."
@@ -104,7 +105,8 @@ Participation,Teilnahme
 "Place of Committal",Einlieferungsstelle
 "Please choose only one of %1.","Bitte wählen Sie nur eins von %1."
 "Please choose your preferred delivery options.","Wählen Sie Ihre bevorzugten Lieferoptionen aus."
-"Post Office",Postfiliale
+"Post Bank %1","Postbank Filiale %1"
+"Post Office %1","Postfiliale %1"
 "Preferred Day",Wunschtag
 "Preferred Day Additional Charge","Aufpreis für Wunschtag"
 "Preferred Day Delivery","Lieferung zum Wunschtag"

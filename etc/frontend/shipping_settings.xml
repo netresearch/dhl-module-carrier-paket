@@ -89,7 +89,7 @@
                 <subjects>
                     <subject>Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::CHECKOUT_SERVICE_PARCELSHOP_FINDER.customerPostnumber</subject>
                 </subjects>
-                <triggerValue>packstation</triggerValue>
+                <triggerValue>locker</triggerValue>
                 <action>require</action>
             </rule>
         </compatibilityData>

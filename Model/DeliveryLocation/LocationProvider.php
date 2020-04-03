@@ -8,11 +8,11 @@ namespace Dhl\Paket\Model\DeliveryLocation;
 
 use Dhl\Paket\Model\Carrier\Paket;
 use Dhl\Paket\Model\Webservice\LocationFinderService;
-use Dhl\Sdk\LocationFinder\Exception\ServiceException;
+use Dhl\Sdk\UnifiedLocationFinder\Api\Data\LocationInterface as ApiLocation;
+use Dhl\Sdk\UnifiedLocationFinder\Exception\ServiceException;
 use Dhl\ShippingCore\Api\Data\DeliveryLocation\AddressInterface;
 use Dhl\ShippingCore\Api\Data\DeliveryLocation\LocationInterface;
 use Dhl\ShippingCore\Api\DeliveryLocation\LocationProviderInterface;
-use Dhl\ShippingCore\Model\Util\StreetSplitter;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Exception\NoSuchEntityException;
 
@@ -32,55 +32,43 @@ class LocationProvider implements LocationProviderInterface
     private $locationFinderService;
 
     /**
-     * @var LocationFilter
-     */
-    private $locationFilter;
-
-    /**
      * @var LocationMapper
      */
     private $locationMapper;
 
     /**
-     * @var StreetSplitter
-     */
-    private $streetSplitter;
-
-    /**
      * LocationProvider constructor.
      *
      * @param LocationFinderService $locationFinderService
-     * @param LocationFilter $locationFilter
      * @param LocationMapper $locationMapper
-     * @param StreetSplitter $streetSplitter
      */
     public function __construct(
         LocationFinderService $locationFinderService,
-        LocationFilter $locationFilter,
-        LocationMapper $locationMapper,
-        StreetSplitter $streetSplitter
+        LocationMapper $locationMapper
     ) {
         $this->locationFinderService = $locationFinderService;
-        $this->locationFilter = $locationFilter;
         $this->locationMapper = $locationMapper;
-        $this->streetSplitter = $streetSplitter;
     }
 
     /**
+     * Obtain pickup locations for given address entity.
+     *
+     * - Fetch pickup locations via SDK
+     * - Remove location types which cannot be used for label creation
+     * - Augment data for map display
+     *
      * @param AddressInterface $address
      * @return LocationInterface[]
      * @throws LocalizedException
      */
     public function getLocationsByAddress(AddressInterface $address): array
     {
-        $street = $this->streetSplitter->splitStreet($address->getStreet());
         try {
-            $locationData = $this->locationFinderService->getLocations(
+            $locations = $this->locationFinderService->getPickUpLocations(
                 $address->getCountryCode(),
                 $address->getPostalCode(),
                 $address->getCity(),
-                $street['street_name'],
-                $street['street_number']
+                $address->getStreet()
             );
         } catch (ServiceException $exception) {
             throw new NoSuchEntityException(
@@ -88,13 +76,18 @@ class LocationProvider implements LocationProviderInterface
             );
         }
 
-        if (empty($locationData)) {
+        $locations = array_filter(
+            $locations,
+            static function (ApiLocation $location) {
+                return ($location->getType() !== ApiLocation::TYPE_SERVICEPOINT) && $location->getNumber();
+            }
+        );
+
+        if (empty($locations)) {
             throw new NoSuchEntityException(
                 __('No locations found for the given address. Please try another address.')
             );
         }
-
-        $locations = $this->locationFilter->removeParcelShops($locationData);
 
         return $this->locationMapper->mapLocations($locations);
     }

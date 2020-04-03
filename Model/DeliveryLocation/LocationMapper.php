@@ -6,8 +6,8 @@ declare(strict_types=1);
 
 namespace Dhl\Paket\Model\DeliveryLocation;
 
-use Dhl\Sdk\LocationFinder\Api\Data\LocationInterface as SdkLocationInterface;
-use Dhl\Sdk\LocationFinder\Api\Data\OpeningHoursInterface as SdkOpeningHoursInterface;
+use Dhl\Sdk\UnifiedLocationFinder\Api\Data\LocationInterface as SdkLocationInterface;
+use Dhl\Sdk\UnifiedLocationFinder\Api\Data\OpeningHoursInterface as SdkOpeningHoursInterface;
 use Dhl\ShippingCore\Api\Data\DeliveryLocation\AddressInterface;
 use Dhl\ShippingCore\Api\Data\DeliveryLocation\AddressInterfaceFactory;
 use Dhl\ShippingCore\Api\Data\DeliveryLocation\LocationInterface;
@@ -61,9 +61,10 @@ class LocationMapper
      * @var string[]
      */
     private $icons = [
-        SdkLocationInterface::TYPE_PACKSTATION => self::ICON_PACKSTATION_PATH,
-        SdkLocationInterface::TYPE_PARCELSHOP => self::ICON_PAKETSHOP_PATH,
+        SdkLocationInterface::TYPE_LOCKER => self::ICON_PACKSTATION_PATH,
+        SdkLocationInterface::TYPE_POSTBANK => self::ICON_POSTFILIALE_PATH,
         SdkLocationInterface::TYPE_POSTOFFICE => self::ICON_POSTFILIALE_PATH,
+        SdkLocationInterface::TYPE_SERVICEPOINT => self::ICON_PAKETSHOP_PATH,
     ];
 
     /**
@@ -106,17 +107,20 @@ class LocationMapper
      * Translate shopType
      *
      * @param string $shopType
+     * @param string $number
      * @return string
      */
-    private function getTypeName(string $shopType): string
+    private function getDisplayName(string $shopType, string $number): string
     {
         switch ($shopType) {
-            case SdkLocationInterface::TYPE_PACKSTATION:
-                return __('Parcel Station')->render();
-            case SdkLocationInterface::TYPE_PARCELSHOP:
-                return __('Parcel Shop')->render();
+            case SdkLocationInterface::TYPE_LOCKER:
+                return __('Parcel Station %1', $number)->render();
+            case SdkLocationInterface::TYPE_POSTBANK:
+                return __('Post Bank %1', $number)->render();
             case SdkLocationInterface::TYPE_POSTOFFICE:
-                return __('Post Office')->render();
+                return __('Post Office %1', $number)->render();
+            case SdkLocationInterface::TYPE_SERVICEPOINT:
+                return __('Parcel Shop %1', $number)->render();
             default:
                 return '';
         }
@@ -131,17 +135,15 @@ class LocationMapper
     private function mapAddress(
         SdkLocationInterface $data
     ): AddressInterface {
-        $addressFactory = $this->addressFactory->create();
-        $address = $data->getAddress();
-        $addressFactory->setCountryCode($address->getCountry());
-        $addressFactory->setCity($address->getCity());
-        $addressFactory->setStreet(
-            implode(' ', [$address->getStreet(), $address->getStreetNumber()])
-        );
-        $addressFactory->setPostalCode($address->getPostalCode());
-        $addressFactory->setCompany($data->getName());
+        $address = $this->addressFactory->create();
+        $ApiAddress = $data->getAddress();
+        $address->setCountryCode($ApiAddress->getCountryCode());
+        $address->setCity($ApiAddress->getCity());
+        $address->setStreet($ApiAddress->getStreet());
+        $address->setPostalCode($ApiAddress->getPostalCode());
+        $address->setCompany($data->getType() !== SdkLocationInterface::TYPE_LOCKER ? $data->getName() : '');
 
-        return $addressFactory;
+        return $address;
     }
 
     /**
@@ -157,6 +159,7 @@ class LocationMapper
         foreach ($timeFramesMap as $day => $timeFrames) {
             $openingHours = $this->openingHoursFactory->create();
             $openingHours->setTimeFrames($timeFrames);
+            $day = str_replace('http://schema.org/', '', $day);
             $openingHours->setDayOfWeek($this->mapDayOfWeek($day));
             $openingHoursList[] = $openingHours;
         }
@@ -176,13 +179,10 @@ class LocationMapper
         $timeFramesMap = [];
         foreach ($data as $open) {
             $timeFrame = $this->timeFrameFactory->create();
-            $timeFrame->setOpens($open->getOpens());
-            $timeFrame->setCloses($open->getCloses());
+            $timeFrame->setOpens(substr($open->getOpens(), 0, 5));
+            $timeFrame->setCloses(substr($open->getCloses(), 0, 5));
             $timeFramesMap[$open->getDayOfWeek()][] = $timeFrame;
         }
-
-        // sort days
-        ksort($timeFramesMap);
 
         // sort timeframes
         foreach ($timeFramesMap as $day => $timeFrames) {
@@ -201,26 +201,25 @@ class LocationMapper
     /**
      * Get weekday from given day number
      *
-     * @param int $dayOfWeek
+     * @param string $dayOfWeek
      * @return string
      */
-    private function mapDayOfWeek(int $dayOfWeek): string
+    private function mapDayOfWeek(string $dayOfWeek): string
     {
         switch ($dayOfWeek) {
-            case 0:
-            case 7:
+            case 'Sunday':
                 return __('Sun')->render();
-            case 1:
+            case 'Monday':
                 return __('Mon')->render();
-            case 2:
+            case 'Tuesday':
                 return __('Tue')->render();
-            case 3:
+            case 'Wednesday':
                 return __('Wed')->render();
-            case 4:
+            case 'Thursday':
                 return __('Thu')->render();
-            case 5:
+            case 'Friday':
                 return __('Fri')->render();
-            case 6:
+            case 'Saturday':
                 return __('Sat')->render();
             default:
                 return '';
@@ -236,10 +235,10 @@ class LocationMapper
     private function mapServices(SdkLocationInterface $locationData): array
     {
         $services = [];
-        if ($locationData->hasHandicapAccess()) {
+        if (in_array('handicapped-access', $locationData->getServices(), true)) {
             $services[] = __('Disability Access')->render();
         }
-        if ($locationData->hasParkingArea()) {
+        if (in_array('parking', $locationData->getServices(), true)) {
             $services[] = __('Parking available')->render();
         }
 
@@ -248,7 +247,6 @@ class LocationMapper
 
     /**
      * Map location data from api to corresponding locations
-     *
      * @param SdkLocationInterface[] $apiLocations
      * @return LocationInterface[]
      */
@@ -258,19 +256,22 @@ class LocationMapper
 
         foreach ($apiLocations as $apiLocation) {
             $location = $this->locationFactory->create();
-
             $icon = $this->getMapIconUrl($apiLocation->getType());
-            $shopType = $this->getTypeName($apiLocation->getType());
             $location->setIcon($icon);
-            $location->setShopType($apiLocation->getType());
-            $location->setDisplayName($shopType . ' ' . $apiLocation->getNumber());
+            $shopType = ($apiLocation->getType() === SdkLocationInterface::TYPE_POSTBANK)
+                ? SdkLocationInterface::TYPE_POSTOFFICE
+                : $apiLocation->getType();
+            $location->setShopType($shopType);
+            $location->setDisplayName($this->getDisplayName($apiLocation->getType(), $apiLocation->getNumber()));
             $location->setShopNumber($apiLocation->getNumber());
             $location->setShopId($apiLocation->getId());
             $location->setServices($this->mapServices($apiLocation));
             $location->setAddress($this->mapAddress($apiLocation));
-            $location->setOpeningHours($this->mapOpeningHours($apiLocation->getOpeningHours()));
-            $location->setLatitude($apiLocation->getLatitude());
-            $location->setLongitude($apiLocation->getLongitude());
+            $openingHours = ($apiLocation->getType() === SdkLocationInterface::TYPE_LOCKER) ?
+                [] : $this->mapOpeningHours($apiLocation->getOpeningHours());
+            $location->setOpeningHours($openingHours);
+            $location->setLatitude($apiLocation->getGeo()->getLat());
+            $location->setLongitude($apiLocation->getGeo()->getLong());
             $locations[] = $location;
         }
 
