@@ -5,27 +5,27 @@
             <shippingOption code="Dhl\ShippingCore\Model\ShippingSettings\ShippingOption\Codes::PACKAGING_OPTION_PACKAGE_CUSTOMS">
                 <inputs>
                     <input code="additionalFee" defaultConfigValue="Dhl\Paket\Model\Config\ModuleConfig::CONFIG_PATH_ADDITIONAL_FEE">
-                        <label>Additional Fee</label>
+                        <label translate="true">Additional Fee</label>
                         <inputType>prefixed</inputType>
                         <sortOrder>1010</sortOrder>
                     </input>
                     <input code="placeOfCommittal" defaultConfigValue="Dhl\Paket\Model\Config\ModuleConfig::CONFIG_PATH_PLACE_OF_COMMITTAL">
-                        <label>Place of Committal</label>
+                        <label translate="true">Place of Committal</label>
                         <inputType>text</inputType>
                         <sortOrder>1020</sortOrder>
                     </input>
                     <input code="permitNumber">
-                        <label>Permit Number</label>
+                        <label translate="true">Permit Number</label>
                         <inputType>text</inputType>
                         <sortOrder>1030</sortOrder>
                     </input>
                     <input code="attestationNumber">
-                        <label>Attestation Number</label>
+                        <label translate="true">Attestation Number</label>
                         <inputType>text</inputType>
                         <sortOrder>1040</sortOrder>
                     </input>
                     <input code="electronicExportNotification" defaultConfigValue="Dhl\Paket\Model\Config\ModuleConfig::CONFIG_PATH_ELECTRONIC_EXPORT_NOTIFICATION">
-                        <label>Electronic Export Notification</label>
+                        <label translate="true">Electronic Export Notification</label>
                         <inputType>checkbox</inputType>
                         <sortOrder>1050</sortOrder>
                     </input>
@@ -34,11 +34,11 @@
         </packageOptions>
         <serviceOptions>
             <shippingOption code="Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::CHECKOUT_SERVICE_PARCELSHOP_FINDER">
-                <label>Parcel station</label>
+                <label translate="true">Parcel Station</label>
                 <sortOrder>1010</sortOrder>
                 <inputs>
                     <input code="enabled">
-                        <label>Parcel Station Delivery</label>
+                        <label translate="true">Parcel Station Delivery</label>
                     </input>
                     <input code="Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::CHECKOUT_INPUT_CUSTOMER_POSTNUMBER">
                         <inputType>static</inputType>
@@ -54,22 +54,22 @@
                 </inputs>
             </shippingOption>
             <shippingOption code="Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::PACKAGING_PRINT_ONLY_IF_CODEABLE">
-                <label>Routing Code</label>
+                <label translate="true">Routing Code</label>
                 <sortOrder>1030</sortOrder>
                 <inputs>
                     <input code="enabled" defaultConfigValue="Dhl\Paket\Model\Config\ModuleConfig::CONFIG_PATH_PRINT_ONLY_IF_CODEABLE">
                         <inputType>checkbox</inputType>
-                        <label>Enable DHL print only if codeable service</label>
+                        <label translate="true">Enable DHL print only if codeable service</label>
                     </input>
                 </inputs>
             </shippingOption>
             <shippingOption code="Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::PACKAGING_SERVICE_RETURN_SHIPMENT">
-                <label>Return Shipment</label>
+                <label translate="true">Return Shipment</label>
                 <sortOrder>1040</sortOrder>
                 <inputs>
                     <input code="enabled" defaultConfigValue="Dhl\Paket\Model\Config\ModuleConfig::CONFIG_PATH_RETURN_SHIPMENT">
                         <inputType>checkbox</inputType>
-                        <label>Enable DHL return shipment service</label>
+                        <label translate="true">Enable DHL return shipment service</label>
                     </input>
                 </inputs>
                 <routes>
@@ -82,17 +82,17 @@
                 </routes>
             </shippingOption>
             <shippingOption code="Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::PACKAGING_SERVICE_INSURANCE">
-                <label>Additional Insurance</label>
+                <label translate="true">Additional Insurance</label>
                 <sortOrder>1050</sortOrder>
                 <inputs>
                     <input code="enabled" defaultConfigValue="Dhl\Paket\Model\Config\ModuleConfig::CONFIG_PATH_ADDITIONAL_INSURANCE">
                         <inputType>checkbox</inputType>
-                        <label>Enable DHL additional insurance service</label>
+                        <label translate="true">Enable DHL additional insurance service</label>
                     </input>
                 </inputs>
             </shippingOption>
             <shippingOption code="Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::CHECKOUT_SERVICE_PARCEL_OUTLET_ROUTING">
-                <label>Parcel Routing</label>
+                <label translate="true">Parcel Routing</label>
                 <sortOrder>1060</sortOrder>
                 <routes>
                     <route>
@@ -105,17 +105,17 @@
                 <inputs>
                     <input code="enabled" defaultConfigValue="Dhl\Paket\Model\Config\ModuleConfig::CONFIG_PATH_PARCEL_OUTLET">
                         <inputType>checkbox</inputType>
-                        <label>Enable DHL retail outlet routing service</label>
+                        <label translate="true">Enable DHL retail outlet routing service</label>
                     </input>
                 </inputs>
             </shippingOption>
             <shippingOption code="Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::PACKAGING_SERVICE_BULKY_GOODS">
-                <label>Bulky Goods</label>
+                <label translate="true">Bulky Goods</label>
                 <sortOrder>1070</sortOrder>
                 <inputs>
                     <input code="enabled" defaultConfigValue="Dhl\Paket\Model\Config\ModuleConfig::CONFIG_PATH_BULKY_GOODS">
                         <inputType>checkbox</inputType>
-                        <label>Enable DHL bulky goods service</label>
+                        <label translate="true">Enable DHL bulky goods service</label>
                     </input>
                 </inputs>
                 <routes>
@@ -128,7 +128,7 @@
                 </routes>
             </shippingOption>
             <shippingOption code="Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::PACKAGING_SERVICE_CHECK_OF_AGE">
-                <label>Visual Check of Age</label>
+                <label translate="true">Visual Check of Age</label>
                 <sortOrder>1080</sortOrder>
                 <inputs>
                     <input code="enabled" defaultConfigValue="Dhl\Paket\Model\Config\ModuleConfig::CONFIG_PATH_VISUAL_CHECK_OF_AGE">
@@ -151,13 +151,13 @@
                 </inputs>
             </shippingOption>
             <shippingOption code="Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::CHECKOUT_SERVICE_PREFERRED_DAY">
-                <label>Preferred Day Delivery</label>
+                <label translate="true">Preferred Day Delivery</label>
                 <sortOrder>1090</sortOrder>
                 <inputs>
                     <input code="enabled">
                         <sortOrder>10</sortOrder>
                         <inputType>checkbox</inputType>
-                        <label>Enable DHL preferred day delivery</label>
+                        <label translate="true">Enable DHL preferred day delivery</label>
                     </input>
                     <input code="date">
                         <sortOrder>20</sortOrder>
@@ -166,13 +166,13 @@
                 </inputs>
             </shippingOption>
             <shippingOption code="Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::CHECKOUT_SERVICE_PREFERRED_NEIGHBOUR">
-                <label>Preferred Neighbour Delivery</label>
+                <label translate="true">Preferred Neighbour Delivery</label>
                 <sortOrder>1110</sortOrder>
                 <inputs>
                     <input code="enabled">
                         <sortOrder>10</sortOrder>
                         <inputType>checkbox</inputType>
-                        <label>Enable DHL preferred neighbour delivery</label>
+                        <label translate="true">Enable DHL preferred neighbour delivery</label>
                     </input>
                     <input code="name">
                         <sortOrder>20</sortOrder>
@@ -185,13 +185,13 @@
                 </inputs>
             </shippingOption>
             <shippingOption code="Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::CHECKOUT_SERVICE_PREFERRED_LOCATION">
-                <label>Preferred Location Delivery</label>
+                <label translate="true">Preferred Location Delivery</label>
                 <sortOrder>1120</sortOrder>
                 <inputs>
                     <input code="enabled">
                         <sortOrder>10</sortOrder>
                         <inputType>checkbox</inputType>
-                        <label>Enable DHL preferred location delivery</label>
+                        <label translate="true">Enable DHL preferred location delivery</label>
                     </input>
                     <input code="details">
                         <sortOrder>20</sortOrder>
@@ -200,17 +200,17 @@
                 </inputs>
             </shippingOption>
             <shippingOption code="Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::PACKAGING_SERVICE_CASH_ON_DELIVERY">
-                <label>Cash on Delivery</label>
+                <label translate="true">Cash on Delivery</label>
                 <sortOrder>1010</sortOrder>
                 <inputs>
                     <input code="enabled">
-                        <label>Cash on Delivery</label>
+                        <label translate="true">Cash on Delivery</label>
                         <inputType>checkbox</inputType>
                         <disabled>true</disabled>
                         <defaultValue>false</defaultValue>
                     </input>
                     <input code="reasonForPayment" defaultConfigValue="Dhl\Paket\Model\Config\ModuleConfig::CONFIG_PATH_COD_REASON_FOR_PAYMENT">
-                        <label>Reason for Payment</label>
+                        <label translate="true">Reason for Payment</label>
                         <inputType>text</inputType>
                         <validationRules>
                             <rule name="max_text_length">

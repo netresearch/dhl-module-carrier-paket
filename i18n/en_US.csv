@@ -115,6 +115,7 @@ Participation,Participation
 "Preferred Neighbour: Delivery to a neighbour of your choice","Preferred Neighbor: Delivery to a neighbor of your choice"
 "Print Only If Codeable","Print Only If Codeable"
 Procedure,Procedure
+"Reason for Payment","Reason for Payment"
 "Record communication with the DHL web services.","Record communication with the DHL web services."
 "Retoure DHL Paket: V07PAK","Retoure DHL Paket: V07PAK"
 "Return Shipment","Return Shipment"
@@ -165,3 +166,4 @@ Wed,Wed
 "Your e-mail address will be sent to DHL upon enabling, after which DHL will trigger a package announcement for your shipment. The e-mail address will exclusively be used for the announcement of this shipment.","Your e-mail address will be sent to DHL upon enabling, after which DHL will trigger a package announcement for your shipment. The e-mail address will exclusively be used for the announcement of this shipment."
 "Your personal post number","Your personal post number"
 dhl.support@netresearch.de,dhl.support@netresearch.de
+none,none

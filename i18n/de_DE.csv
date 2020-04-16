@@ -115,6 +115,7 @@ Participation,Teilnahme
 "Preferred Neighbour: Delivery to a neighbour of your choice","Wunschnachbar: Lieferung an den Nachbarn Ihrer Wahl"
 "Print Only If Codeable","Nur leitkodierbare Versandaufträge erteilen"
 Procedure,Verfahren
+"Reason for Payment",Verwendungszweck
 "Record communication with the DHL web services.","Kommunikation mit den DHL-Webservices aufzeichnen."
 "Retoure DHL Paket: V07PAK","Retoure DHL Paket: V07PAK"
 "Return Shipment",Beilegeretoure
@@ -165,3 +166,4 @@ Wed,Mi
 "Your e-mail address will be sent to DHL upon enabling, after which DHL will trigger a package announcement for your shipment. The e-mail address will exclusively be used for the announcement of this shipment.","Ihre E-Mail-Adresse wird nach der Aktivierung an DHL gesendet. Danach löst DHL eine Paketankündigung für Ihre Sendung aus. Die E-Mail-Adresse wird ausschließlich für die Bekanntgabe dieser Sendung verwendet."
 "Your personal post number","Ihre persönliche Postnummer"
 dhl.support@netresearch.de,dhl.support@netresearch.de
+none,keiner

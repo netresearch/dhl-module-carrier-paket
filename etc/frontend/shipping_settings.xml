@@ -7,7 +7,7 @@
                     <input code="date">
                         <options>
                             <option id="none">
-                                <label>none</label>
+                                <label translate="true">none</label>
                             </option>
                         </options>
                     </input>
@@ -24,7 +24,7 @@
                 <subjects>
                     <subject>Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::CHECKOUT_SERVICE_PREFERRED_NEIGHBOUR</subject>
                 </subjects>
-                <errorMessage>Please choose only one of %1.</errorMessage>
+                <errorMessage translate="true">Please choose only one of %1.</errorMessage>
             </rule>
             <rule id="preferredLocationAndNeighbourExclusion2">
                 <triggerValue>*</triggerValue>
@@ -35,7 +35,7 @@
                 <subjects>
                     <subject>Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::CHECKOUT_SERVICE_PREFERRED_LOCATION</subject>
                 </subjects>
-                <errorMessage>Please choose only one of %1.</errorMessage>
+                <errorMessage translate="true">Please choose only one of %1.</errorMessage>
             </rule>
             <rule id="preferredNeighbourRequireChildren">
                 <triggerValue>*</triggerValue>
@@ -44,7 +44,7 @@
                     <subject>Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::CHECKOUT_SERVICE_PREFERRED_NEIGHBOUR.name</subject>
                     <subject>Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::CHECKOUT_SERVICE_PREFERRED_NEIGHBOUR.address</subject>
                 </subjects>
-                <errorMessage>Some values for Preferred Neighbour service are missing.</errorMessage>
+                <errorMessage translate="true">Some values for Preferred Neighbour service are missing.</errorMessage>
             </rule>
             <rule id="parcelshopFinderInclude">
                 <masters>

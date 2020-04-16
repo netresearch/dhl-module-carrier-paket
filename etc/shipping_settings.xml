@@ -3,18 +3,18 @@
     <carrier code="dhlpaket">
         <serviceOptions>
             <shippingOption code="Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::CHECKOUT_PARCEL_ANNOUNCEMENT" available="dhlshippingsolutions/dhlpaket/additional_services/services_group/parcelannouncement">
-                <label>Parcel Announcement</label>
+                <label translate="true">Parcel Announcement</label>
                 <sortOrder>10</sortOrder>
                 <inputs>
                     <input code="enabled">
                         <inputType>checkbox</inputType>
-                        <label>Enable DHL parcel notification</label>
-                        <tooltip>Your e-mail address will be sent to DHL upon enabling, after which DHL will trigger a package announcement for your shipment. The e-mail address will exclusively be used for the announcement of this shipment.</tooltip>
+                        <label translate="true">Enable DHL parcel notification</label>
+                        <tooltip translate="true">Your e-mail address will be sent to DHL upon enabling, after which DHL will trigger a package announcement for your shipment. The e-mail address will exclusively be used for the announcement of this shipment.</tooltip>
                     </input>
                 </inputs>
             </shippingOption>
             <shippingOption code="Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::CHECKOUT_SERVICE_PARCELSHOP_FINDER" available="dhlshippingsolutions/dhlpaket/additional_services/services_group/parcelshopFinder">
-                <label>Parcel Station Delivery</label>
+                <label translate="true">Parcel Station Delivery</label>
                 <routes>
                     <route>
                         <includeDestinations>
@@ -26,20 +26,18 @@
                     <input code="enabled">
                         <inputType>shopfinder</inputType>
                         <sortOrder>10</sortOrder>
-                        <label>Find Parcel Station</label>
+                        <label translate="true">Find Parcel Station</label>
                         <labelVisible>false</labelVisible>
-                        <tooltip>Adjust your parcel delivery flexibly to your schedule. Receive your packages while on the go at one of over 28,000 pickup locations in Germany - at a DHL parcel station or post office. Wherever it best suits your needs.</tooltip>
+                        <tooltip translate="true">Adjust your parcel delivery flexibly to your schedule. Receive your packages while on the go at one of over 28,000 pickup locations in Germany - at a DHL parcel station or post office. Wherever it best suits your needs.</tooltip>
                     </input>
                     <input code="Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::CHECKOUT_INPUT_CUSTOMER_POSTNUMBER">
                         <sortOrder>20</sortOrder>
-                        <label>DHL Post Number</label>
-                        <tooltip>
-                            The post number is your personal identification code that you receive with your registration at DHL.
-                        </tooltip>
+                        <label translate="true">DHL Post Number</label>
+                        <tooltip translate="true">The post number is your personal identification code that you receive with your registration at DHL.</tooltip>
                         <comment>
-                            <content><![CDATA[You must enter your post number when sending to a parcel station. For post office delivery, the post number is optional.]]></content>
+                            <content translate="true">You must enter your post number when sending to a parcel station. For post office delivery, the post number is optional.</content>
                         </comment>
-                        <placeholder>Your personal post number</placeholder>
+                        <placeholder translate="true">Your personal post number</placeholder>
                         <inputType>text</inputType>
                         <validationRules>
                             <rule name="maxLength">
@@ -51,7 +49,7 @@
                 </inputs>
             </shippingOption>
             <shippingOption code="Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::CHECKOUT_SERVICE_PREFERRED_DAY" available="dhlshippingsolutions/dhlpaket/additional_services/services_group/preferredday">
-                <label>Preferred Day: Delivery on your preferred day</label>
+                <label translate="true">Preferred Day: Delivery on your preferred day</label>
                 <sortOrder>30</sortOrder>
                 <routes>
                     <route>
@@ -64,18 +62,18 @@
                 </routes>
                 <inputs>
                     <input code="date">
-                        <label>Preferred Day</label>
+                        <label translate="true">Preferred Day</label>
                         <labelVisible>false</labelVisible>
                         <inputType>date</inputType>
                         <comment>
-                            <content><![CDATA[This service will incur additional shipping costs of $1 including VAT.]]></content>
+                            <content translate="true"><![CDATA[This service will incur additional shipping costs of $1 including VAT.]]></content>
                         </comment>
-                        <tooltip>Choose one of the displayed days as your preferred day for your parcel delivery. Other days are not possible due to delivery processes.</tooltip>
+                        <tooltip translate="true">Choose one of the displayed days as your preferred day for your parcel delivery. Other days are not possible due to delivery processes.</tooltip>
                     </input>
                 </inputs>
             </shippingOption>
             <shippingOption code="Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::CHECKOUT_SERVICE_PREFERRED_LOCATION" available="dhlshippingsolutions/dhlpaket/additional_services/services_group/preferredlocation">
-                <label>Preferred Location: Delivery to your preferred drop-off location</label>
+                <label translate="true">Preferred Location: Delivery to your preferred drop-off location</label>
                 <sortOrder>50</sortOrder>
                 <routes>
                     <route>
@@ -89,11 +87,11 @@
                 <inputs>
                     <input code="details">
                         <sortOrder>20</sortOrder>
-                        <label>Preferred Location</label>
+                        <label translate="true">Preferred Location</label>
                         <labelVisible>false</labelVisible>
                         <inputType>text</inputType>
-                        <tooltip>Choose a weather-protected and non-visible place on your property where we can deposit the parcel in your absence.</tooltip>
-                        <placeholder>E.g. garage, terrace</placeholder>
+                        <tooltip translate="true">Choose a weather-protected and non-visible place on your property where we can deposit the parcel in your absence.</tooltip>
+                        <placeholder translate="true">E.g. garage, terrace</placeholder>
                         <validationRules>
                             <rule name="maxLength">
                                 <param>40</param>
@@ -106,7 +104,7 @@
                 </inputs>
             </shippingOption>
             <shippingOption code="Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::CHECKOUT_SERVICE_PREFERRED_NEIGHBOUR" available="dhlshippingsolutions/dhlpaket/additional_services/services_group/preferredneighbour">
-                <label>Preferred Neighbour: Delivery to a neighbour of your choice</label>
+                <label translate="true">Preferred Neighbour: Delivery to a neighbour of your choice</label>
                 <sortOrder>60</sortOrder>
                 <routes>
                     <route>
@@ -120,10 +118,10 @@
                 <inputs>
                     <input code="name">
                         <sortOrder>20</sortOrder>
-                        <label>Neighbour name</label>
+                        <label translate="true">Neighbour name</label>
                         <inputType>text</inputType>
-                        <tooltip>Declare a person in your immediate neighborhood whom we can hand out your parcel. This person should live in the same building, directly opposite or next door.</tooltip>
-                        <placeholder>First name, last name of neighbour</placeholder>
+                        <tooltip translate="true">Declare a person in your immediate neighborhood whom we can hand out your parcel. This person should live in the same building, directly opposite or next door.</tooltip>
+                        <placeholder translate="true">First name, last name of neighbour</placeholder>
                         <validationRules>
                             <rule name="maxLength">
                                 <param>40</param>
@@ -135,9 +133,9 @@
                     </input>
                     <input code="address">
                         <sortOrder>30</sortOrder>
-                        <label>Neighbour address</label>
+                        <label translate="true">Neighbour address</label>
                         <inputType>text</inputType>
-                        <placeholder>Street, number, postal code, city</placeholder>
+                        <placeholder translate="true">Street, number, postal code, city</placeholder>
                         <validationRules>
                             <rule name="maxLength">
                                 <param>40</param>
@@ -150,13 +148,13 @@
             </shippingOption>
         </serviceOptions>
         <metadata>
-            <title>DHL Preferred Delivery. Delivered just the way you want.</title>
+            <title translate="true">DHL Preferred Delivery. Delivered just the way you want.</title>
             <commentsBefore>
                 <comment>
-                    <content>You decide when and where you want to receive your parcels with the recipient services of DHL.</content>
+                    <content translate="true">You decide when and where you want to receive your parcels with the recipient services of DHL.</content>
                 </comment>
                 <comment>
-                    <content>Please choose your preferred delivery options.</content>
+                    <content translate="true">Please choose your preferred delivery options.</content>
                 </comment>
             </commentsBefore>
         </metadata>
