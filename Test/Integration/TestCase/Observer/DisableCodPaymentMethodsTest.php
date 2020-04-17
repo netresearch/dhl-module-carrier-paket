@@ -7,12 +7,13 @@ declare(strict_types=1);
 namespace Dhl\Paket\Test\Integration\TestCase\Observer;
 
 use Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes;
-use Dhl\Paket\Test\Integration\Fixture\QuoteFixture;
-use Dhl\Paket\Test\Integration\Fixture\QuoteServiceSelectionFixture;
+use Dhl\ShippingCore\Api\Data\ShippingSettings\ShippingOption\Selection\AssignedSelectionInterface;
+use Dhl\ShippingCore\Model\ShippingSettings\ShippingOption\Selection\QuoteSelection;
+use Dhl\ShippingCore\Model\ShippingSettings\ShippingOption\Selection\QuoteSelectionRepository;
 use Dhl\ShippingCore\Observer\DisableCodPaymentMethods;
-use Dhl\ShippingCore\Test\Integration\Fixture\Data\AddressDe;
-use Dhl\ShippingCore\Test\Integration\Fixture\Data\AddressUs;
-use Dhl\ShippingCore\Test\Integration\Fixture\Data\SimpleProduct2;
+use Magento\Checkout\Model\Cart;
+use Magento\Customer\Api\AddressRepositoryInterface;
+use Magento\Customer\Model\Session;
 use Magento\Framework\DataObject;
 use Magento\Framework\Event\InvokerInterface;
 use Magento\Framework\Event\Observer;
@@ -20,23 +21,40 @@ use Magento\OfflinePayments\Model\Cashondelivery;
 use Magento\OfflinePayments\Model\Checkmo;
 use Magento\Quote\Model\Quote;
 use Magento\TestFramework\Helper\Bootstrap;
-use Magento\TestFramework\ObjectManager;
 use PHPUnit\Framework\TestCase;
+use TddWizard\Fixtures\Catalog\ProductBuilder;
+use TddWizard\Fixtures\Catalog\ProductFixture;
+use TddWizard\Fixtures\Catalog\ProductFixtureRollback;
+use TddWizard\Fixtures\Checkout\CartBuilder;
+use TddWizard\Fixtures\Customer\AddressBuilder;
+use TddWizard\Fixtures\Customer\CustomerBuilder;
+use TddWizard\Fixtures\Customer\CustomerFixture;
+use TddWizard\Fixtures\Customer\CustomerFixtureRollback;
 
 /**
- * Class DisableCodPaymentMethodsTest
- *
- * @author  Sebastian Ertner <sebastian.ertner@netresearch.de>
- *
- * @magentoAppArea adminhtml
- * @magentoAppIsolation enabled
+ * @magentoAppArea frontend
  */
 class DisableCodPaymentMethodsTest extends TestCase
 {
     /**
-     * @var ObjectManager
+     * @var ProductFixture
      */
-    private $objectManager;
+    private static $productFixture;
+
+    /**
+     * @var CustomerFixture
+     */
+    private static $customerFixture;
+
+    /**
+     * @var Cart
+     */
+    private static $cart;
+
+    /**
+     * @var QuoteSelection
+     */
+    private static $serviceSelection;
 
     /**
      * @var InvokerInterface
@@ -54,52 +72,17 @@ class DisableCodPaymentMethodsTest extends TestCase
     private $observerConfig;
 
     /**
-     * @var Quote
-     */
-    private static $currentQuote;
-
-    /**
      * Prepare invoker, observer and observer config.
      */
     protected function setUp()
     {
         parent::setUp();
 
-        $this->objectManager = Bootstrap::getObjectManager();
-
-        $this->invoker = $this->objectManager->get(InvokerInterface::class);
-        $this->observer = $this->objectManager->get(Observer::class);
+        $this->invoker = Bootstrap::getObjectManager()->get(InvokerInterface::class);
+        $this->observer = Bootstrap::getObjectManager()->get(Observer::class);
         $this->observerConfig = [
             'instance' => DisableCodPaymentMethods::class,
             'name' => 'dhlgw_disable_cod_payment',
-        ];
-    }
-
-    /**
-     * Print error after test suite execution.
-     *
-     * @param string $message
-     */
-    private static function printError(string $message)
-    {
-        if (isset($_SERVER['argv']) && is_array($_SERVER['argv']) && in_array('--verbose', $_SERVER['argv'], true)) {
-            $message = sprintf("Error during rollback: %s%s", $message, PHP_EOL);
-            register_shutdown_function('fwrite', STDERR, $message);
-        }
-    }
-
-    /**
-     * Everything remains the same after observer ran through.
-     *
-     * @return string[][]|bool[][]
-     */
-    public function noChangesDataProvider()
-    {
-        return [
-            'cod_remains_enabled' => [Cashondelivery::class, true],
-            'cod_remains_disabled' => [Cashondelivery::class, false],
-            'checkmo_remains_enabled' => [Checkmo::class, true],
-            'checkmo_remains_disabled' => [Checkmo::class, false],
         ];
     }
 
@@ -108,7 +91,7 @@ class DisableCodPaymentMethodsTest extends TestCase
      *
      * @return string[][]|bool[][]
      */
-    public function disableDataProvider()
+    public function dataProvider()
     {
         return [
             'cod_gets_disabled' => [Cashondelivery::class, true, false],
@@ -119,102 +102,137 @@ class DisableCodPaymentMethodsTest extends TestCase
     }
 
     /**
-     * @throws \Exception
-     */
-    public static function createDeQuoteWithNoServices()
-    {
-        self::$currentQuote = QuoteFixture::createQuote(new AddressDe(), [new SimpleProduct2()], 'dhlpaket_flatrate');
-    }
-
-    /**
-     * Roll back fixtures.
+     * Set up data fixture.
      *
-     * When database isolation is DISABLED, then created entities must be cleaned up afterwards.
-     * However, when database isolation is ENABLED, Magento still calls the rollback method
-     * AFTER the transaction was rolled back. The customer repository then throws an exception
-     * because it tries to LOAD the (rolled back, no longer existing) customer prior to deleting.
-     *
-     * @see \Magento\Customer\Api\CustomerRepositoryInterface::delete
-     * @see \Magento\Customer\Model\CustomerRegistry::retrieve
-     */
-    public static function createDeQuoteWithNoServicesRollback()
-    {
-        try {
-            QuoteFixture::rollbackFixtureEntities();
-        } catch (\Exception $exception) {
-            self::printError($exception->getMessage());
-        }
-    }
-
-    /**
+     * @param string $locale
+     * @param QuoteSelection $serviceSelection
      * @throws \Exception
      */
-    public static function createUsQuote()
+    private static function quoteFixture($locale = 'de_DE', QuoteSelection $serviceSelection = null)
     {
-        self::$currentQuote = QuoteFixture::createQuote(new AddressUs(), [new SimpleProduct2()], 'dhlpaket_flatrate');
-    }
+        /** @var AddressRepositoryInterface $customerAddressRepository */
+        $customerAddressRepository = Bootstrap::getObjectManager()->get(AddressRepositoryInterface::class);
+        $shippingMethod = 'dhlpaket_flatrate';
 
-    /**
-     * @see createDeQuoteWithNoServicesRollback
-     */
-    public static function createUsQuoteRollback()
-    {
-        try {
-            QuoteFixture::rollbackFixtureEntities();
-        } catch (\Exception $exception) {
-            self::printError($exception->getMessage());
-        }
-    }
-
-    /**
-     * @throws \Exception
-     */
-    public static function createQuoteWithCompatibleServices()
-    {
-        $quote = QuoteFixture::createQuote(new AddressDe(), [new SimpleProduct2()], 'dhlpaket_flatrate');
-        QuoteServiceSelectionFixture::createServiceSelection(
-            $quote,
-            'date',
-            Codes::CHECKOUT_SERVICE_PREFERRED_DAY,
-            '2019-07-11'
+        // prepare checkout
+        self::$productFixture = new ProductFixture(ProductBuilder::aSimpleProduct()->build());
+        self::$customerFixture = new CustomerFixture(
+            CustomerBuilder::aCustomer()
+                ->withAddresses(AddressBuilder::anAddress(null, $locale)->asDefaultBilling()->asDefaultShipping())
+                ->build()
         );
+        self::$customerFixture->login();
 
-        self::$currentQuote = $quote;
-    }
+        self::$cart = CartBuilder::forCurrentSession()->withSimpleProduct(self::$productFixture->getSku())->build();
 
-    /**
-     * @see createDeQuoteWithNoServicesRollback
-     */
-    public static function createQuoteWithCompatibleServicesRollback()
-    {
-        try {
-            QuoteFixture::rollbackFixtureEntities();
-        } catch (\Exception $exception) {
-            self::printError($exception->getMessage());
+        // select customer's default shipping address in shipping step
+        $customerAddressId = self::$cart->getCustomerSession()->getCustomer()->getDefaultShippingAddress()->getId();
+        $shippingAddress = self::$cart->getQuote()->getShippingAddress();
+        $shippingAddress->importCustomerAddressData($customerAddressRepository->getById($customerAddressId));
+        $shippingAddress->setCollectShippingRates(true);
+        $shippingAddress->collectShippingRates();
+        $shippingAddress->setShippingMethod($shippingMethod);
+        $shippingAddress->save();
+
+        if ($serviceSelection !== null) {
+            /** @var QuoteSelectionRepository $repository */
+            $repository = Bootstrap::getObjectManager()->get(QuoteSelectionRepository::class);
+            $serviceSelection->setData(QuoteSelection::PARENT_ID, (int) $shippingAddress->getId());
+            self::$serviceSelection = $repository->save($serviceSelection);
         }
     }
 
     /**
      * @throws \Exception
      */
-    public static function createQuoteWithIncompatibleServices()
+    public static function deQuoteFixture()
     {
-        $quote = QuoteFixture::createQuote(new AddressDe(), [new SimpleProduct2()], 'dhlpaket_flatrate');
-        QuoteServiceSelectionFixture::createServiceSelection($quote, 'details', 'preferredLocation', 'Garage');
-
-        self::$currentQuote = $quote;
+        self::quoteFixture('de_DE');
     }
 
     /**
-     * @see createDeQuoteWithNoServicesRollback
+     * @throws \Exception
      */
-    public static function createQuoteWithIncompatibleServicesRollback()
+    public static function usQuoteFixture()
+    {
+        self::quoteFixture('en_US');
+    }
+
+    /**
+     * @throws \Exception
+     */
+    public static function deQuoteFixtureWithCodCompatibleService()
+    {
+        $serviceSelection = Bootstrap::getObjectManager()->create(QuoteSelection::class);
+        $serviceSelection->setData([
+            AssignedSelectionInterface::SHIPPING_OPTION_CODE => Codes::CHECKOUT_SERVICE_PREFERRED_DAY,
+            AssignedSelectionInterface::INPUT_CODE => 'date',
+            AssignedSelectionInterface::INPUT_VALUE => '2019-07-11'
+        ]);
+
+        self::quoteFixture('de_DE', $serviceSelection);
+    }
+
+    /**
+     * @throws \Exception
+     */
+    public static function deQuoteFixtureWithCodIncompatibleService()
+    {
+        $serviceSelection = Bootstrap::getObjectManager()->create(QuoteSelection::class);
+        $serviceSelection->setData([
+            AssignedSelectionInterface::SHIPPING_OPTION_CODE => Codes::CHECKOUT_SERVICE_PREFERRED_LOCATION,
+            AssignedSelectionInterface::INPUT_CODE => 'details',
+            AssignedSelectionInterface::INPUT_VALUE => 'Garage'
+        ]);
+
+        self::quoteFixture('de_DE', $serviceSelection);
+    }
+
+    public static function quoteFixtureRollback()
     {
         try {
-            QuoteFixture::rollbackFixtureEntities();
+            /** @var Session $session */
+            $session = Bootstrap::getObjectManager()->get(Session::class);
+            $session->logout();
+
+            CustomerFixtureRollback::create()->execute(self::$customerFixture);
+            ProductFixtureRollback::create()->execute(self::$productFixture);
+            self::$cart->getQuote()->delete();
+
+            if (self::$serviceSelection !== null) {
+                /** @var QuoteSelectionRepository $repository */
+                $repository = Bootstrap::getObjectManager()->get(QuoteSelectionRepository::class);
+                $repository->delete(self::$serviceSelection);
+            }
         } catch (\Exception $exception) {
-            self::printError($exception->getMessage());
+            if (isset($_SERVER['argv'])
+                && is_array($_SERVER['argv'])
+                && in_array('--verbose', $_SERVER['argv'], true)
+            ) {
+                $message = sprintf("Error during rollback: %s%s", $exception->getMessage(), PHP_EOL);
+                register_shutdown_function('fwrite', STDERR, $message);
+            }
         }
+    }
+
+    public static function deQuoteFixtureRollback()
+    {
+        self::quoteFixtureRollback();
+    }
+
+    public static function usQuoteFixtureRollback()
+    {
+        self::quoteFixtureRollback();
+    }
+
+    public static function deQuoteFixtureWithCodCompatibleServiceRollback()
+    {
+        self::quoteFixtureRollback();
+    }
+
+    public static function deQuoteFixtureWithCodIncompatibleServiceRollback()
+    {
+        self::quoteFixtureRollback();
     }
 
     /**
@@ -224,7 +242,7 @@ class DisableCodPaymentMethodsTest extends TestCase
      * - No changes must be made to the method availability.
      *
      * @test
-     * @dataProvider noChangesDataProvider
+     * @dataProvider dataProvider
      * @magentoConfigFixture current_store dhlshippingsolutions/dhlglobalwebservices/cod_methods cashondelivery
      * @magentoConfigFixture current_store shipping/origin/country_id DE
      *
@@ -236,11 +254,10 @@ class DisableCodPaymentMethodsTest extends TestCase
         $checkResult = new DataObject();
         $checkResult->setData('is_available', $before);
 
-        $methodInstance = $this->objectManager->create($methodClass);
         $this->observer->setData(
             [
                 'result' => $checkResult,
-                'method_instance' => $methodInstance,
+                'method_instance' => Bootstrap::getObjectManager()->create($methodClass),
                 'quote' => null
             ]
         );
@@ -256,7 +273,7 @@ class DisableCodPaymentMethodsTest extends TestCase
      * - No changes must be made to the method availability. Order will not be shipped with DHL Paket.
      *
      * @test
-     * @dataProvider noChangesDataProvider
+     * @dataProvider dataProvider
      * @magentoConfigFixture current_store dhlshippingsolutions/dhlglobalwebservices/cod_methods cashondelivery
      * @magentoConfigFixture current_store shipping/origin/country_id DE
      *
@@ -269,16 +286,15 @@ class DisableCodPaymentMethodsTest extends TestCase
         $checkResult->setData('is_available', $before);
 
         $quote = $this->getMockBuilder(Quote::class)
-            ->setMethods(['isVirtual'])
-            ->disableOriginalConstructor()
-            ->getMock();
+                      ->setMethods(['isVirtual'])
+                      ->disableOriginalConstructor()
+                      ->getMock();
         $quote->expects($this->any())->method('isVirtual')->willReturn(true);
 
-        $methodInstance = $this->objectManager->create($methodClass);
         $this->observer->setData(
             [
                 'result' => $checkResult,
-                'method_instance' => $methodInstance,
+                'method_instance' => Bootstrap::getObjectManager()->create($methodClass),
                 'quote' => $quote
             ]
         );
@@ -295,8 +311,8 @@ class DisableCodPaymentMethodsTest extends TestCase
      * - No changes must be made to the method availability. Order will not be shipped with DHL Paket.
      *
      * @test
-     * @dataProvider noChangesDataProvider
-     * @magentoDataFixture createDeQuoteWithNoServices
+     * @dataProvider dataProvider
+     * @magentoDataFixture deQuoteFixture
      * @magentoConfigFixture current_store dhlshippingsolutions/dhlglobalwebservices/cod_methods cashondelivery
      * @magentoConfigFixture current_store shipping/origin/country_id DE
      *
@@ -308,14 +324,13 @@ class DisableCodPaymentMethodsTest extends TestCase
         $checkResult = new DataObject();
         $checkResult->setData('is_available', $before);
 
-        self::$currentQuote->getShippingAddress()->setShippingMethod('');
+        self::$cart->getQuote()->getShippingAddress()->setShippingMethod('');
 
-        $methodInstance = $this->objectManager->create($methodClass);
         $this->observer->setData(
             [
                 'result' => $checkResult,
-                'method_instance' => $methodInstance,
-                'quote' => self::$currentQuote
+                'method_instance' => Bootstrap::getObjectManager()->create($methodClass),
+                'quote' => self::$cart->getQuote(),
             ]
         );
 
@@ -333,8 +348,8 @@ class DisableCodPaymentMethodsTest extends TestCase
      * - If no COD method is selected and it was unavailable before, then it must remain disabled.
      *
      * @test
-     * @dataProvider noChangesDataProvider
-     * @magentoDataFixture createDeQuoteWithNoServices
+     * @dataProvider dataProvider
+     * @magentoDataFixture deQuoteFixture
      * @magentoConfigFixture current_store dhlshippingsolutions/dhlglobalwebservices/cod_methods cashondelivery
      * @magentoConfigFixture current_store shipping/origin/country_id DE
      *
@@ -346,12 +361,11 @@ class DisableCodPaymentMethodsTest extends TestCase
         $checkResult = new DataObject();
         $checkResult->setData('is_available', $before);
 
-        $methodInstance = $this->objectManager->create($methodClass);
         $this->observer->setData(
             [
                 'result' => $checkResult,
-                'method_instance' => $methodInstance,
-                'quote' => self::$currentQuote
+                'method_instance' => Bootstrap::getObjectManager()->create($methodClass),
+                'quote' => self::$cart->getQuote(),
             ]
         );
 
@@ -369,8 +383,8 @@ class DisableCodPaymentMethodsTest extends TestCase
      * - If no COD method is selected and it was unavailable before, then it must remain disabled.
      *
      * @test
-     * @dataProvider disableDataProvider
-     * @magentoDataFixture createUsQuote
+     * @dataProvider dataProvider
+     * @magentoDataFixture usQuoteFixture
      * @magentoConfigFixture current_store dhlshippingsolutions/dhlglobalwebservices/cod_methods cashondelivery
      * @magentoConfigFixture current_store shipping/origin/country_id DE
      *
@@ -383,12 +397,11 @@ class DisableCodPaymentMethodsTest extends TestCase
         $checkResult = new DataObject();
         $checkResult->setData('is_available', $before);
 
-        $methodInstance = $this->objectManager->create($methodClass);
         $this->observer->setData(
             [
                 'result' => $checkResult,
-                'method_instance' => $methodInstance,
-                'quote' => self::$currentQuote
+                'method_instance' => Bootstrap::getObjectManager()->create($methodClass),
+                'quote' => self::$cart->getQuote(),
             ]
         );
 
@@ -406,8 +419,8 @@ class DisableCodPaymentMethodsTest extends TestCase
      * - If no COD method is selected and it was unavailable before, then it must remain disabled.
      *
      * @test
-     * @dataProvider noChangesDataProvider
-     * @magentoDataFixture createQuoteWithCompatibleServices
+     * @dataProvider dataProvider
+     * @magentoDataFixture deQuoteFixtureWithCodCompatibleService
      * @magentoConfigFixture current_store dhlshippingsolutions/dhlglobalwebservices/cod_methods cashondelivery
      * @magentoConfigFixture current_store shipping/origin/country_id DE
      *
@@ -419,12 +432,11 @@ class DisableCodPaymentMethodsTest extends TestCase
         $checkResult = new DataObject();
         $checkResult->setData('is_available', $before);
 
-        $methodInstance = $this->objectManager->create($methodClass);
         $this->observer->setData(
             [
                 'result' => $checkResult,
-                'method_instance' => $methodInstance,
-                'quote' => self::$currentQuote
+                'method_instance' => Bootstrap::getObjectManager()->create($methodClass),
+                'quote' => self::$cart->getQuote(),
             ]
         );
 
@@ -442,8 +454,8 @@ class DisableCodPaymentMethodsTest extends TestCase
      * - If no COD method is selected and it was unavailable before, then it must remain disabled.
      *
      * @test
-     * @dataProvider disableDataProvider
-     * @magentoDataFixture createQuoteWithIncompatibleServices
+     * @dataProvider dataProvider
+     * @magentoDataFixture deQuoteFixtureWithCodIncompatibleService
      * @magentoConfigFixture current_store dhlshippingsolutions/dhlglobalwebservices/cod_methods cashondelivery
      * @magentoConfigFixture current_store shipping/origin/country_id DE
      *
@@ -456,12 +468,11 @@ class DisableCodPaymentMethodsTest extends TestCase
         $checkResult = new DataObject();
         $checkResult->setData('is_available', $before);
 
-        $methodInstance = $this->objectManager->create($methodClass);
         $this->observer->setData(
             [
                 'result' => $checkResult,
-                'method_instance' => $methodInstance,
-                'quote' => self::$currentQuote
+                'method_instance' => Bootstrap::getObjectManager()->create($methodClass),
+                'quote' => self::$cart->getQuote(),
             ]
         );
 
