@@ -41,116 +41,102 @@ class PostDataProvider
     }
 
     /**
-     * @param OrderItemInterface $orderItem
-     * @param mixed[] $package
-     */
-    private static function addItemToPackage(OrderItemInterface $orderItem, array &$package)
-    {
-        $packageWeight = $package['params']['weight'] ?? 0;
-        $packageValue = $package['params']['customs_value'] ?? 0;
-
-        $package['items'][$orderItem->getItemId()] = [
-            'qty' => $orderItem->getQtyOrdered(),
-            'customs_value' => $orderItem->getBasePrice(),
-            'price' => $orderItem->getBasePrice(),
-            'name' => $orderItem->getName(),
-            'weight' => $orderItem->getWeight(),
-            'product_id' => $orderItem->getProductId(),
-            'order_item_id' => $orderItem->getItemId(),
-        ];
-
-        // $packageWeight += $orderItem->getRowWeight();
-        $packageWeight += $orderItem->getWeight() * $orderItem->getQtyOrdered();
-        $packageValue += $orderItem->getRowTotalInclTax();
-
-        $packageParams = array_merge(
-            $package['params'] ?? [],
-            [
-                'weight' => $packageWeight,
-                'customs_value' => $packageValue,
-                'length' => '30.0',
-                'width' => '20.0',
-                'height' => '20.0',
-                'weight_units' => \Zend_Measure_Weight::KILOGRAM,
-                'dimension_units' => \Zend_Measure_Length::CENTIMETER,
-                'content_type' => '',
-                'content_type_other' => '',
-            ]
-        );
-
-        $package['params'] = $packageParams;
-    }
-
-    /**
-     * Pack all order items into one package.
+     * Pack all order items into one package. Cross-border data is omitted.
      *
      * @param OrderInterface $order
      * @return mixed[]
      */
-    public static function singlePackage(OrderInterface $order)
+    public static function singlePackageDomestic(OrderInterface $order)
     {
-        $shipment = [
-            'items' => [],
-            'create_shipping_label' => '1',
-        ];
+        $productCode = self::getShippingProduct($order);
+        // $packageWeight += $orderItem->getRowWeight();
 
         $package = [
-            'params' => [
-                'container' => self::getShippingProduct($order),
-            ],
+            'packageId' => '1',
             'items' => [],
+            'package' => [
+                'packageDetails' => [
+                    'productCode' => $productCode,
+                    'packagingWeight' => '0.33',
+                    'weight' => '0',
+                    'weightUnit' => \Zend_Measure_Weight::KILOGRAM,
+                    'width' => '20',
+                    'height' => '20',
+                    'length' => '30',
+                    'sizeUnit' => \Zend_Measure_Length::CENTIMETER,
+                ]
+            ]
         ];
 
         /** @var OrderItemInterface $orderItem */
         foreach ($order->getItems() as $orderItem) {
-            $shipment['items'][$orderItem->getItemId()] = $orderItem->getQtyOrdered();
+            $itemDetails = [
+                'qty' => $orderItem->getQtyOrdered(),
+                'qtyToShip' => $orderItem->getQtyOrdered(),
+                'weight' => $orderItem->getWeight(),
+                'productId' => $orderItem->getProductId(),
+                'productName' => $orderItem->getName(),
+                'price' => $orderItem->getBasePrice(),
+            ];
 
-            self::addItemToPackage($orderItem, $package);
+            $package['items'][$orderItem->getItemId()]['details'] = $itemDetails;
+
+            $rowWeight = $orderItem->getWeight() * $orderItem->getQtyOrdered();
+            $package['package']['packageDetails']['weight'] += $rowWeight;
         }
 
-        $postData = [
-            'shipment' => $shipment,
-            'packages' => ['1' => $package],
-        ];
+        $package['package']['packageDetails']['weight'] += $package['package']['packageDetails']['packagingWeight'];
 
-        return $postData;
+        return [$package];
     }
 
     /**
-     * Pack each order item into an individual package.
+     * Pack each order item into an individual package. Cross-border data is omitted.
      *
      * @param OrderInterface $order
      * @return mixed[]
      */
-    public static function multiPackage(OrderInterface $order)
+    public static function multiPackageDomestic(OrderInterface $order)
     {
-        $shipment = [
-            'items' => [],
-            'create_shipping_label' => '1',
-        ];
-
         $packages = [];
-        foreach ($order->getItems() as $orderItem) {
-            $shipment['items'][$orderItem->getItemId()] = $orderItem->getQtyOrdered();
+        $productCode = self::getShippingProduct($order);
 
-            $package = [
-                'params' => [
-                    'container' => self::getShippingProduct($order),
-                ],
-                'items' => [],
+        $packageId = 1;
+        foreach ($order->getItems() as $orderItem) {
+            $itemDetails = [
+                'qty' => $orderItem->getQtyOrdered(),
+                'qtyToShip' => $orderItem->getQtyOrdered(),
+                'weight' => $orderItem->getWeight(),
+                'productId' => $orderItem->getProductId(),
+                'productName' => $orderItem->getName(),
+                'price' => $orderItem->getBasePrice(),
             ];
 
-            self::addItemToPackage($orderItem, $package);
+            $packagingWeight = '0.33';
+            $packageDetails =  [
+                'productCode' => $productCode,
+                'packagingWeight' => $packagingWeight,
+                'weight' => $orderItem->getWeight() * $orderItem->getQtyOrdered() + (float) $packagingWeight,
+                'weightUnit' => \Zend_Measure_Weight::KILOGRAM,
+                'width' => '20',
+                'height' => '20',
+                'length' => '30',
+                'sizeUnit' => \Zend_Measure_Length::CENTIMETER,
+            ];
 
-            $packageId = (string) (count($packages) + 1);
-            $packages[$packageId] = $package;
+            $packages[] = [
+                'packageId' => $packageId,
+                'items' => [
+                    $orderItem->getItemId() => ['details' => $itemDetails]
+                ],
+                'package' => [
+                    'packageDetails' => $packageDetails,
+                ]
+            ];
+
+            $packageId++;
         }
 
-        $postData = [
-            'shipment' => $shipment,
-            'packages' => $packages,
-        ];
-
-        return $postData;
+        return $packages;
     }
 }

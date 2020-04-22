@@ -103,7 +103,7 @@ class SaveInvalidShipmentTest extends SaveShipmentTest
      */
     public function saveShipment(callable $getPostData)
     {
-        $postData = $getPostData();
+        $packages = $getPostData();
         $createShipmentsCount = 0;
         $cancelShipmentsCount = 0;
 
@@ -129,7 +129,7 @@ class SaveInvalidShipmentTest extends SaveShipmentTest
 
         // dispatch
         $this->getRequest()->setMethod($this->httpMethod);
-        $this->getRequest()->setPostValue($postData);
+        $this->getRequest()->setPostValue('data', \json_encode($packages));
         $this->getRequest()->setParam('order_id', self::$order->getEntityId());
         $this->dispatch($this->uri);
 
@@ -139,10 +139,10 @@ class SaveInvalidShipmentTest extends SaveShipmentTest
         $shipments = array_values($shipments);
 
         // assert that the `create` endpoint was invoked for each package
-        self::assertCount($createShipmentsCount, $postData['packages']);
+        self::assertCount($createShipmentsCount, $packages);
 
         // assert that the `cancel` endpoint was invoked only if two packages were sent
-        self::assertCount($cancelShipmentsCount + 1, $postData['packages']);
+        self::assertCount($cancelShipmentsCount + 1, $packages);
 
         // assert that no shipments were created for the order
         self::assertEmpty($shipments);

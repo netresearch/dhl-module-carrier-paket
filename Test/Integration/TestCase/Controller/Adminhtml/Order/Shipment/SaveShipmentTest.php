@@ -37,7 +37,7 @@ abstract class SaveShipmentTest extends ControllerTest
      *
      * @var string
      */
-    protected $uri = 'backend/admin/order_shipment/save';
+    protected $uri = 'backend/dhl/order_shipment/save';
 
     /**
      * The order to create the shipment request for.
@@ -78,12 +78,12 @@ abstract class SaveShipmentTest extends ControllerTest
         return [
             'single_package' => [
                 function () {
-                    return PostDataProvider::singlePackage(self::$order);
+                    return PostDataProvider::singlePackageDomestic(self::$order);
                 },
             ],
             'multi_package' => [
                 function () {
-                    return PostDataProvider::multiPackage(self::$order);
+                    return PostDataProvider::multiPackageDomestic(self::$order);
                 },
             ],
         ];
@@ -139,7 +139,7 @@ abstract class SaveShipmentTest extends ControllerTest
     public function testAclHasAccess()
     {
         $this->getRequest()->setParam('order_id', '123456789');
-        $this->getRequest()->setParam('shipment', ['create_shipping_label' => true]);
+        $this->getRequest()->setParam('data', '[]');
 
         parent::testAclHasAccess();
     }
