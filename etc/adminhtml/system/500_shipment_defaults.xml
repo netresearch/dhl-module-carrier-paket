@@ -42,7 +42,8 @@
         </field>
 
         <group id="services_group" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="50"
-               translate="label">
+               translate="label comment">
+            <comment>Here you can define default values for additional shipping services. Please note that selected options are only applied if they are valid for the given order. Incompatible services, e.g. domestic-only services for a cross-border order, will be omitted when booking a shipping label.</comment>
             <label>Additional Services</label>
             <!-- Visual Check of Age -->
             <field id="visual_check_of_age" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="10"
