@@ -207,7 +207,7 @@
                     </input>
                 </inputs>
             </shippingOption>
-            <shippingOption code="Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::PACKAGING_SERVICE_CASH_ON_DELIVERY">
+            <shippingOption code="Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::CHECKOUT_SERVICE_CASH_ON_DELIVERY">
                 <label translate="true">Cash on Delivery</label>
                 <sortOrder>1010</sortOrder>
                 <inputs>
@@ -232,12 +232,24 @@
         <compatibilityData>
             <rule id="cashOnDeliveryDependency">
                 <masters>
-                    <master>Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::PACKAGING_SERVICE_CASH_ON_DELIVERY.enabled</master>
+                    <master>Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::CHECKOUT_SERVICE_CASH_ON_DELIVERY.enabled</master>
                 </masters>
                 <triggerValue>*</triggerValue>
                 <action>show</action>
                 <subjects>
-                    <subject>Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::PACKAGING_SERVICE_CASH_ON_DELIVERY.reasonForPayment</subject>
+                    <subject>Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::CHECKOUT_SERVICE_CASH_ON_DELIVERY.reasonForPayment</subject>
+                </subjects>
+            </rule>
+            <rule id="disableNotSupportedWarenpostServices">
+                <masters>
+                    <master>packageDetails.productCode</master>
+                </masters>
+                <triggerValue>V62WP</triggerValue>
+                <action>disable</action>
+                <subjects>
+                    <subject>Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::PACKAGING_SERVICE_BULKY_GOODS</subject>
+                    <subject>Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::PACKAGING_SERVICE_CHECK_OF_AGE</subject>
+                    <subject>Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::PACKAGING_SERVICE_INSURANCE</subject>
                 </subjects>
             </rule>
         </compatibilityData>

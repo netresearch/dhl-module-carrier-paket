@@ -62,7 +62,7 @@ class ServiceInputDataProcessor implements ShippingOptionsProcessorInterface
         Codes::CHECKOUT_SERVICE_PREFERRED_LOCATION,
         Codes::CHECKOUT_SERVICE_PREFERRED_NEIGHBOUR,
         Codes::CHECKOUT_SERVICE_PARCELSHOP_FINDER,
-        Codes::PACKAGING_SERVICE_CASH_ON_DELIVERY,
+        Codes::CHECKOUT_SERVICE_CASH_ON_DELIVERY,
     ];
 
     /**
@@ -227,7 +227,7 @@ class ServiceInputDataProcessor implements ShippingOptionsProcessorInterface
                 case Codes::CHECKOUT_SERVICE_PREFERRED_DAY:
                     $this->processPreferredDayInputs($optionGroup);
                     break;
-                case Codes::PACKAGING_SERVICE_CASH_ON_DELIVERY:
+                case Codes::CHECKOUT_SERVICE_CASH_ON_DELIVERY:
                     $this->processCashOnDeliveryInputs($optionGroup, $order);
                     break;
             }

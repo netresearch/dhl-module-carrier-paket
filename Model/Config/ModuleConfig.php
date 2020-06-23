@@ -45,6 +45,7 @@ class ModuleConfig
 
     // 500_shipment_defaults.xml
     const CONFIG_PATH_PRINT_ONLY_IF_CODEABLE = 'dhlshippingsolutions/dhlpaket/shipment_defaults/print_only_if_codeable';
+    const CONFIG_PATH_DEFAULT_SHIPPING_PRODUCT = 'dhlshippingsolutions/dhlpaket/shipment_defaults/shipping_products';
     const CONFIG_PATH_ADDITIONAL_FEE = 'dhlshippingsolutions/dhlpaket/shipment_defaults/additional_fee';
     const CONFIG_PATH_PLACE_OF_COMMITTAL = 'dhlshippingsolutions/dhlpaket/shipment_defaults/place_of_committal';
     const CONFIG_PATH_EXCLUDED_DROPOFFDAYS = 'dhlshippingsolutions/dhlpaket/shipment_defaults/drop_off_days';
@@ -356,6 +357,32 @@ class ModuleConfig
             ScopeInterface::SCOPE_STORE,
             $store
         );
+    }
+
+    /**
+     * Get default product per destination, e.g.
+     *
+     * - ["DE" => ["DE" => "V01PAK", "EU" => "V53PAK", "INTL" => "V53PAK"]]
+     *
+     * @param mixed $store
+     * @return string[]
+     */
+    public function getDefaultProducts($store = null): array
+    {
+        $products = $this->scopeConfig->getValue(
+            self::CONFIG_PATH_DEFAULT_SHIPPING_PRODUCT,
+            ScopeInterface::SCOPE_STORE,
+            $store
+        );
+
+        $defaultProducts = [];
+        $products = array_column($products, 'product', 'route');
+        foreach ($products as $route => $product) {
+            $locations = explode('-', $route);
+            $defaultProducts[$locations[0]][$locations[1]] = $product;
+        }
+
+        return $defaultProducts;
     }
 
     /**

@@ -33,12 +33,15 @@
 "DHL Post Number","DHL Postnummer"
 "DHL Preferred Delivery","DHL Wunschpaket"
 "DHL Preferred Delivery. Delivered just the way you want.","DHL Wunschpaket. Geliefert wie gewüscht."
+"DHL Warenpost National: V62WP","DHL Warenpost National: V62WP"
 "DHL contract customers receive the access data to the DHL Business Customer Portal via <em>DHL Paket</em> sales.","DHL-Vertragskunden erhalten die Zugangsdaten zum DHL-Geschäftskundenportal durch einen <em>DHL Paket</em>-Vertriebsmitarbeiter."
 "Days excluded from drop-off","Tage ohne Paketübergabe"
 "Declare a person in your immediate neighborhood whom we can hand out your parcel. This person should live in the same building, directly opposite or next door.","Bestimmen Sie eine Person in Ihrer unmittelbaren Nachbarschaft, bei der wir Ihr Paket abgeben dürfen. Diese sollte im gleichen Haus, direkt gegenüber oder nebenan wohnen."
 "Disability Access","Barrierefreier Zugang"
 "Displayed Text","Angezeigter Text"
+Domestic,Inlandsversand
 "E.g. garage, terrace","z.B. Garage, Terrasse"
+EU,"Versand innerhalb Europas"
 "Electronic Export Notification","Elektronische Export-Benachrichtigung"
 "Enable DHL additional insurance service","Erweiterte Transportversicherung aktivieren"
 "Enable DHL bulky goods service","Manuelle Einzelbearbeitung von Sperrgut aktivieren"
@@ -72,6 +75,7 @@ Fri,Fr
 "If you do not have a DHL Paket account, <a href=""https://www.dhl.de/en/geschaeftskunden/paket/kunde-werden/angebot-dhl-geschaeftskunden-online.html"" target=""_blank"">please contact DHL Paket</a> to establish or expand your relationship","Wenn Sie kein Konto haben oder Ihr Konto bei einer anderen DHL-Abteilung ist, <a href=""https://www.dhl.de/en/geschaeftskunden/paket/kunde-werden/angebot-dhl-geschaeftskunden-online.html"" target=""_blank"">wenden Sie sich bitte an DHL Paket</a>, um Ihren Vertrag zu erweitern"
 "In addition to your account number you need your 2-digit Procedure and Participation number","Zusätzlich zur Ihrer Kundennummer benötigen Sie noch die Verfahren- und Teilnahmenummer (jeweils 2-stellig)"
 "Info (All API Activities)","Info (alle API-Aktivitäten)"
+"International (excl. EU)","Grenzüberschreitender Versand (ohne EU)"
 "Label could not be created: %1","Paketaufkleber konnte nicht erzeugt werden: %1"
 "Label for order %1, package %2 could not be created.","Paketaufkleber für Bestellung %1, Paket %2 konnte nicht erzeugt werden."
 "Log Level",Protokollierungsstufe
@@ -93,7 +97,7 @@ No,Nein
 "Parcel Announcement",Paketankündigung
 "Parcel Routing",Paket-Routing
 "Parcel Shop %1","Paketshop %1"
-"Parcel Station","Packstation"
+"Parcel Station",Packstation
 "Parcel Station %1","Packstation %1"
 "Parcel Station Delivery","An eine Packstation liefern"
 "Parking available","Parkplätze vorhanden"
@@ -118,17 +122,24 @@ Participation,Teilnahme
 "Preferred Neighbour: Delivery to a neighbour of your choice","Wunschnachbar: Lieferung an den Nachbarn Ihrer Wahl"
 "Print Only If Codeable","Nur leitkodierbare Versandaufträge erteilen"
 Procedure,Verfahren
+Product,Produkt
 "Reason for Payment",Verwendungszweck
 "Record communication with the DHL web services.","Kommunikation mit den DHL-Webservices aufzeichnen."
 "Retoure DHL Paket: V07PAK","Retoure DHL Paket: V07PAK"
 "Return Shipment",Beilegeretoure
+Route,Route
 "Routing Code",Leitcodierung
 Sat,Sa
+"Select ""Merchandise Shipment"" only if you ship all or most of your orders as Merchandise Shipments. Otherwise, choose ""DHL Paket"".","Wählen Sie ""DHL Warenpost"" nur, wenn Sie alle oder die meisten Ihrer Bestellungen als Warenpost versenden. Ansonsten wählen Sie ""DHL Paket""."
 "Select Procedure","Verfahren auswählen"
+"Select Product","Produkt wählen"
+"Select Route","Route wählen"
 "Select the offline shipping method that gets used to provide rates in checkout.","Wählen Sie die Offline-Versandmethode aus, die für die Bereitstellung von Tarifen im Checkout verwendet werden soll."
+"Selected products will be pre-selected for automatic shipping label creation. You can still select another product when creating shipping labels manually.","Ausgewählte Produkte werden für die automatische Erstellung von Versandetiketten vorausgewählt. Sie können weiterhin ein anderes Produkt auswählen, wenn Sie Versandetiketten manuell erstellen."
 "Shipment %1 could not be cancelled.","Der Versandauftrag %1 konnte nicht storniert werden."
 "Shipment %1 could not be cancelled: %2","Der Versandauftrag %1 konnte nicht storniert werden: %2"
 "Shipment Defaults","Voreinstellungen für Lieferungen"
+"Shipping Products",Versandprodukte
 "Shipping Services in Checkout","Zusätzliche Versandservices im Checkout"
 "Some values for Preferred Neighbour service are missing.","Einige Werte für die Wunschnachbaroption fehlen."
 "Sort Order",Sortierreihenfolge
@@ -145,6 +156,7 @@ Sun,So
 "The product %1 is not valid for the route %2-%3.","Das Versandprodukt %1 ist nicht gültig für die Route %2-%3."
 "The rates will get used even if the selected shipping method is disabled. The available method names will also be those of the selected shipping method.","Die Tarife werden auch verwendet, wenn die ausgewählte Versandmethode deaktiviert ist. Die verfügbaren Methodennamen sind auch die der ausgewählten Versandmethode."
 "There was a problem finding locations. Please check if the address is valid.","Es gab ein Problem bei der Standortsuche. Bitte prüfen Sie, ob die Adresse korrekt ist."
+"These settings will be used for automatic shipping label creation. If a label cannot be created with your configured defaults, the order must be processed manually. Use the DHL Label Status Column in the Order list to identify those orders.","Folgende Einstellungen werden für die automatische Sendungserstellung genutzt. Falls ein Label mit Ihren Einstellungen nicht erstellt werden kann, müssen Sie die Bestellung manuell verarbeiten. Benutzen Sie die ""DHL Label Status""-Spalte in der Bestellübersicht, um solche Bestellungen zu identifizieren."
 "This field determines where <em>DHL Paket</em> will be displayed on the Checkout page. To display after <em>Flat Rate</em> or <em>Free Shipping</em>, enter a number just higher than the sort order value configured for those shipping methods.","Dieses Feld legt fest, wo <em>DHL Paket</em> auf der Checkout-Seite angezeigt wird. Um es z.B. nach <em>Flat Rate</em> oder <em>Gratisversand</em> anzuzeigen, geben Sie eine Zahl ein, die größer ist als die Sortierreihenfolge, die für diese Versandarten konfiguriert ist."
 "This service will incur additional shipping costs of $1 including VAT.","Für diesen Service fallen zusätzliche Versandkosten in Höhe von $1 inkl. MwSt. an."
 Thu,Do
@@ -159,6 +171,7 @@ Tue,Di
 "Use rates from","Verwende Tarife von"
 User,Benutzername
 "Visual Check of Age",Alterssichtprüfung
+"Warenpost does not support Cash on Delivery or Preferred Day service. Please change the shipping product or deselect the service(s).","Nachnahmezahlung oder Wunschtag werden von Warenpost nicht unterstützt. Bitte ändern sie das Versandprodukt oder wählen den/die Service(s) ab."
 Warnings,Warnungen
 "Web service request could not be created: %1","Die Webservice-Anfrage konnte nicht erstellt werden: %1"
 Wed,Mi

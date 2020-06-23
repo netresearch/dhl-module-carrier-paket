@@ -5,13 +5,21 @@
  */
 -->
 <include xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_include.xsd">
-    <group id="shipment_defaults" translate="label" sortOrder="500" showInDefault="1" showInWebsite="1" showInStore="0">
+    <group id="shipment_defaults" translate="label comment" sortOrder="500" showInDefault="1" showInWebsite="1" showInStore="0">
         <label>Shipment Defaults</label>
-
+        <comment>These settings will be used for automatic shipping label creation. If a label cannot be created with your configured defaults, the order must be processed manually. Use the DHL Label Status Column in the Order list to identify those orders.</comment>
         <field id="print_only_if_codeable" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="10"
                translate="label comment" type="Netresearch\ConfigFields\Model\Type\Checkbox">
             <label>Print Only If Codeable</label>
             <comment>If enabled, shipment orders will only return a label if the DHL delivery address verification succeeds.</comment>
+        </field>
+        <!-- Shipping Products -->
+        <field id="shipping_products" translate="label comment tooltip" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="0">
+            <label>Shipping Products</label>
+            <frontend_model>Dhl\Paket\Block\Adminhtml\System\Config\Form\Field\DefaultProduct</frontend_model>
+            <backend_model>Dhl\Paket\Model\Adminhtml\System\Config\Backend\ArraySerialized</backend_model>
+            <comment>Selected products will be pre-selected for automatic shipping label creation. You can still select another product when creating shipping labels manually.</comment>
+            <tooltip>Select "Merchandise Shipment" only if you ship all or most of your orders as Merchandise Shipments. Otherwise, choose "DHL Paket".</tooltip>
         </field>
         <field id="drop_off_days" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="15"
                 translate="label comment" type="Netresearch\ConfigFields\Model\Type\Checkboxset">

@@ -146,7 +146,7 @@ class CodSupportHandler implements MethodAvailabilityInterface, CodSelectorInter
      */
     public function assignCodSelection(AssignedSelectionInterface $selection)
     {
-        $selection->setShippingOptionCode(Codes::PACKAGING_SERVICE_CASH_ON_DELIVERY);
+        $selection->setShippingOptionCode(Codes::CHECKOUT_SERVICE_CASH_ON_DELIVERY);
         $selection->setInputCode('enabled');
         $selection->setInputValue((string) true);
     }

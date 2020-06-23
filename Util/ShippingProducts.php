@@ -6,6 +6,8 @@ declare(strict_types=1);
 
 namespace Dhl\Paket\Util;
 
+use Dhl\Paket\Model\Config\ModuleConfig;
+
 /**
  * ShippingProducts
  *
@@ -41,19 +43,21 @@ class ShippingProducts
     /**
      * Product codes.
      */
-    const CODE_NATIONAL            = 'V01PAK';
-    const CODE_NATIONAL_PRIO       = 'V01PRIO';
-    const CODE_NATIONAL_TAGGLEICH  = 'V06PAK';
-    const CODE_INTERNATIONAL       = 'V53WPAK';
-    const CODE_EUROPAKET           = 'V54EPAK';
-    const CODE_TAGGLEICH           = 'V06PAK';
-    const CODE_KURIER_TAGGLEICH    = 'V06TG';
-    const CODE_KURIER_WUNSCHZEIT   = 'V06WZ';
+    const CODE_NATIONAL           = 'V01PAK';
+    const CODE_WARENPOST_NATIONAL = 'V62WP';
+    const CODE_NATIONAL_PRIO      = 'V01PRIO';
+    const CODE_NATIONAL_TAGGLEICH = 'V06PAK';
+    const CODE_INTERNATIONAL      = 'V53WPAK';
+    const CODE_EUROPAKET          = 'V54EPAK';
+    const CODE_TAGGLEICH          = 'V06PAK';
+    const CODE_KURIER_TAGGLEICH   = 'V06TG';
+    const CODE_KURIER_WUNSCHZEIT  = 'V06WZ';
 
     /**
      * Procedure codes.
      */
     const PROCEDURE_NATIONAL                = '01';
+    const PROCEDURE_WARENPOST_NATIONAL      = '62';
     const PROCEDURE_NATIONAL_PRIO           = '01';
     const PROCEDURE_NATIONAL_TAGGLEICH      = '06';
     const PROCEDURE_INTERNATIONAL           = '53';
@@ -61,6 +65,21 @@ class ShippingProducts
     const PROCEDURE_KURIER_TAGGLEICH        = '01';
     const PROCEDURE_KURIER_WUNSCHZEIT       = '01';
     const PROCEDURE_RETURNSHIPMENT_NATIONAL = '07';
+
+    /**
+     * @var ModuleConfig
+     */
+    private $config;
+
+    /**
+     * ShippingProducts constructor.
+     *
+     * @param ModuleConfig $config
+     */
+    public function __construct(ModuleConfig $config)
+    {
+        $this->config = $config;
+    }
 
     /**
      * Obtain all origin-destination-products combinations.
@@ -73,6 +92,7 @@ class ShippingProducts
             'DE' => [
                 self::COUNTRY_CODE_GERMANY => [
                     self::CODE_NATIONAL,
+                    self::CODE_WARENPOST_NATIONAL
                 ],
                 self::REGION_EU            => [
                     self::CODE_INTERNATIONAL,
@@ -93,6 +113,7 @@ class ShippingProducts
     {
         return [
             self::CODE_NATIONAL => self::PROCEDURE_NATIONAL,
+            self::CODE_WARENPOST_NATIONAL => self::PROCEDURE_WARENPOST_NATIONAL,
             self::CODE_NATIONAL_PRIO => self::PROCEDURE_NATIONAL_PRIO,
             self::CODE_NATIONAL_TAGGLEICH => self::PROCEDURE_NATIONAL_TAGGLEICH,
             self::CODE_INTERNATIONAL => self::PROCEDURE_INTERNATIONAL,
@@ -111,6 +132,7 @@ class ShippingProducts
     {
         return [
             self::CODE_NATIONAL => self::PROCEDURE_RETURNSHIPMENT_NATIONAL,
+            self::CODE_WARENPOST_NATIONAL => self::PROCEDURE_RETURNSHIPMENT_NATIONAL
         ];
     }
 
@@ -124,12 +146,13 @@ class ShippingProducts
     public function getProductName(string $productCode): string
     {
         $names = [
-            self::CODE_NATIONAL            => 'DHL Paket',
-            self::CODE_EUROPAKET           => 'DHL Europaket',
-            self::CODE_TAGGLEICH           => 'DHL Paket Taggleich',
-            self::CODE_KURIER_TAGGLEICH    => 'DHL Kurier Taggleich,',
-            self::CODE_KURIER_WUNSCHZEIT   => 'DHL Kurier Wunschzeit',
-            self::CODE_INTERNATIONAL       => 'DHL Paket International',
+            self::CODE_NATIONAL           => 'DHL Paket',
+            self::CODE_WARENPOST_NATIONAL => 'DHL Warenpost National',
+            self::CODE_EUROPAKET          => 'DHL Europaket',
+            self::CODE_TAGGLEICH          => 'DHL Paket Taggleich',
+            self::CODE_KURIER_TAGGLEICH   => 'DHL Kurier Taggleich,',
+            self::CODE_KURIER_WUNSCHZEIT  => 'DHL Kurier Wunschzeit',
+            self::CODE_INTERNATIONAL      => 'DHL Paket International',
         ];
 
         if (!isset($names[$productCode])) {
@@ -174,15 +197,19 @@ class ShippingProducts
     /**
      * For every available destination region, obtain the default product.
      *
-     * Currently, the first available product is returned. Once there are more
-     * than one product available for a destination region, this will likely
-     * be converted to a module configuration setting.
+     * Fall back to first available product if no default is configured
+     * for the shipping origin.
      *
      * @param string $originCountryCode
      * @return string[]
      */
     public function getDefaultProducts(string $originCountryCode): array
     {
+        $products = $this->config->getDefaultProducts();
+        if (array_key_exists($originCountryCode, $products)) {
+            return $products[$originCountryCode];
+        }
+
         $products = $this->getProducts();
         if (array_key_exists($originCountryCode, $products)) {
             return array_map('array_shift', $products[$originCountryCode]);

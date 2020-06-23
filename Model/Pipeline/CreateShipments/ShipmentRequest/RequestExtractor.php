@@ -358,7 +358,7 @@ class RequestExtractor implements RequestExtractorInterface
      */
     public function isCashOnDelivery(): bool
     {
-        return (bool) ($this->getServiceData(Codes::PACKAGING_SERVICE_CASH_ON_DELIVERY)['enabled'] ?? false);
+        return (bool) ($this->getServiceData(Codes::CHECKOUT_SERVICE_CASH_ON_DELIVERY)['enabled'] ?? false);
     }
 
     /**
@@ -535,7 +535,7 @@ class RequestExtractor implements RequestExtractorInterface
      */
     public function getCodReasonForPayment(): array
     {
-        $reasonForPayment = $this->getServiceData(Codes::PACKAGING_SERVICE_CASH_ON_DELIVERY)['reasonForPayment'] ?? '';
+        $reasonForPayment = $this->getServiceData(Codes::CHECKOUT_SERVICE_CASH_ON_DELIVERY)['reasonForPayment'] ?? '';
 
         // try splitting the string between words first
         $lines = explode("\n", wordwrap($reasonForPayment, 35));

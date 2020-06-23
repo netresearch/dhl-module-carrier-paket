@@ -2,7 +2,7 @@
 /**
  * See LICENSE.md for license details.
  */
-namespace Dhl\Paket\Model\ShipmentRequest\Validator;
+namespace Dhl\Paket\Model\Pipeline\CreateShipments\ShipmentRequest\Validator;
 
 use Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes;
 use Dhl\ShippingCore\Api\Pipeline\ShipmentRequest\RequestValidatorInterface;
@@ -91,7 +91,7 @@ class NoPartialValidator implements RequestValidatorInterface
             $serviceData = $package['params']['services'][Codes::PACKAGING_SERVICE_INSURANCE] ?? [];
             $hasInsuranceService = $hasInsuranceService || ($serviceData['enabled'] ?? false);
 
-            $serviceData = $package['params']['services'][Codes::PACKAGING_SERVICE_CASH_ON_DELIVERY] ?? [];
+            $serviceData = $package['params']['services'][Codes::CHECKOUT_SERVICE_CASH_ON_DELIVERY] ?? [];
             $hasCodService = $hasCodService || ($serviceData['enabled'] ?? false);
         }
 

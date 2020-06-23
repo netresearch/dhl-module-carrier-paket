@@ -33,12 +33,15 @@
 "DHL Post Number","DHL Post Number"
 "DHL Preferred Delivery","DHL Preferred Delivery"
 "DHL Preferred Delivery. Delivered just the way you want.","DHL Preferred Delivery. Delivered just the way you want."
+"DHL Warenpost National: V62WP","DHL Warenpost National: V62WP"
 "DHL contract customers receive the access data to the DHL Business Customer Portal via <em>DHL Paket</em> sales.","DHL contract customers receive the access data to the DHL Business Customer Portal via <em>DHL Paket</em> sales."
 "Days excluded from drop-off","Days excluded from drop-off"
 "Declare a person in your immediate neighborhood whom we can hand out your parcel. This person should live in the same building, directly opposite or next door.","Declare a person in your immediate neighborhood whom we can hand out your parcel. This person should live in the same building, directly opposite or next door."
 "Disability Access","Disability Access"
 "Displayed Text","Displayed Text"
+Domestic,Domestic
 "E.g. garage, terrace","E.g. garage, terrace"
+EU,EU
 "Electronic Export Notification","Electronic Export Notification"
 "Enable DHL additional insurance service","Enable DHL additional insurance service"
 "Enable DHL bulky goods service","Enable DHL bulky goods service"
@@ -72,6 +75,7 @@ Fri,Fri
 "If you do not have a DHL Paket account, <a href=""https://www.dhl.de/en/geschaeftskunden/paket/kunde-werden/angebot-dhl-geschaeftskunden-online.html"" target=""_blank"">please contact DHL Paket</a> to establish or expand your relationship","If you do not have a DHL Paket account, <a href=""https://www.dhl.de/en/geschaeftskunden/paket/kunde-werden/angebot-dhl-geschaeftskunden-online.html"" target=""_blank"">please contact DHL Paket</a> to establish or expand your relationship"
 "In addition to your account number you need your 2-digit Procedure and Participation number","In addition to your account number you need your 2- digit Procedure and Participation number"
 "Info (All API Activities)","Info (All API Activities)"
+"International (excl. EU)","International (excl. EU)"
 "Label could not be created: %1","Label could not be created: %1"
 "Label for order %1, package %2 could not be created.","Label for order %1, package %2 could not be created."
 "Log Level","Log Level"
@@ -118,17 +122,24 @@ Participation,Participation
 "Preferred Neighbour: Delivery to a neighbour of your choice","Preferred Neighbor: Delivery to a neighbor of your choice"
 "Print Only If Codeable","Print Only If Codeable"
 Procedure,Procedure
+Product,Product
 "Reason for Payment","Reason for Payment"
 "Record communication with the DHL web services.","Record communication with the DHL web services."
 "Retoure DHL Paket: V07PAK","Retoure DHL Paket: V07PAK"
 "Return Shipment","Return Shipment"
+Route,Route
 "Routing Code","Routing Code"
 Sat,Sat
+"Select ""Merchandise Shipment"" only if you ship all or most of your orders as Merchandise Shipments. Otherwise, choose ""DHL Paket"".","Select ""Merchandise Shipment"" only if you ship all or most of your orders as Merchandise Shipments. Otherwise, choose ""DHL Paket""."
 "Select Procedure","Select Procedure"
+"Select Product","Select Product"
+"Select Route","Select Route"
 "Select the offline shipping method that gets used to provide rates in checkout.","Select the offline shipping method that gets used to provide rates in checkout."
+"Selected products will be pre-selected for automatic shipping label creation. You can still select another product when creating shipping labels manually.","Selected products will be pre-selected for automatic shipping label creation. You can still select another product when creating shipping labels manually."
 "Shipment %1 could not be cancelled.","Shipment %1 could not be cancelled."
 "Shipment %1 could not be cancelled: %2","Shipment %1 could not be cancelled: %2"
 "Shipment Defaults","Shipment Defaults"
+"Shipping Products","Shipping Products"
 "Shipping Services in Checkout","Shipping Services in Checkout"
 "Some values for Preferred Neighbour service are missing.","Some values for Preferred Neighbor service are missing."
 "Sort Order","Sort Order"
@@ -145,6 +156,7 @@ Sun,Sun
 "The product %1 is not valid for the route %2-%3.","The product %1 is not valid for the route %2-%3."
 "The rates will get used even if the selected shipping method is disabled. The available method names will also be those of the selected shipping method.","The rates will get used even if the selected shipping method is disabled. The available method names will also be those of the selected shipping method."
 "There was a problem finding locations. Please check if the address is valid.","There was a problem finding locations. Please check if the address is valid."
+"These settings will be used for automatic shipping label creation. If a label cannot be created with your configured defaults, the order must be processed manually. Use the DHL Label Status Column in the Order list to identify those orders.","These settings will be used for automatic shipping label creation. If a label cannot be created with your configured defaults, the order must be processed manually. Use the DHL Label Status Column in the Order list to identify those orders."
 "This field determines where <em>DHL Paket</em> will be displayed on the Checkout page. To display after <em>Flat Rate</em> or <em>Free Shipping</em>, enter a number just higher than the sort order value configured for those shipping methods.","This field determines where <em>DHL Paket</em> will be displayed on the Checkout page. To display after <em>Flat Rate</em> or <em>Free Shipping</em>, enter a number just higher than the sort order value configured for those shipping methods."
 "This service will incur additional shipping costs of $1 including VAT.","This service will incur additional shipping costs of $1 including VAT."
 Thu,Thu
@@ -159,6 +171,7 @@ Tue,Tue
 "Use rates from","Use rates from"
 User,User
 "Visual Check of Age","Visual Check of Age"
+"Warenpost does not support Cash on Delivery or Preferred Day service. Please change the shipping product or deselect the service(s).","Warenpost does not support Cash on Delivery or Preferred Day service. Please change the shipping product or deselect the service(s)."
 Warnings,Warnings
 "Web service request could not be created: %1","Web service request could not be created: %1"
 Wed,Wed

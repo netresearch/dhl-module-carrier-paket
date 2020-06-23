@@ -69,16 +69,33 @@ class PackageInputDataProcessor implements ShippingOptionsProcessorInterface
 
                     /** @var \Magento\Sales\Model\Order $order */
                     $order = $shipment->getOrder();
+
                     $originCountry = $this->dhlConfig->getOriginCountry($storeId);
                     $destinationCountry = $order->getShippingAddress()->getCountryId();
-                    $euCountries = $this->dhlConfig->getEuCountries($storeId);
 
+                    // load products which apply to the current route
+                    $euCountries = $this->dhlConfig->getEuCountries($storeId);
                     $applicableProducts = $this->shippingProducts->getShippingProducts(
                         $originCountry,
                         $destinationCountry,
                         $euCountries
                     );
 
+                    // remove products based on conditions other that route
+                    $isCodPayment = $this->dhlConfig->isCodPaymentMethod($order->getPayment()->getMethod(), $storeId);
+                    $applicableProducts = array_map(
+                        function (array $regionProducts) use ($isCodPayment) {
+                            return array_filter(
+                                $regionProducts,
+                                function (string $product) use ($isCodPayment) {
+                                    return (!$isCodPayment || $product !== ShippingProducts::CODE_WARENPOST_NATIONAL);
+                                }
+                            );
+                        },
+                        $applicableProducts
+                    );
+
+                    // create input options from remaining products
                     $options = [];
                     foreach ($applicableProducts as $regionId => $regionProducts) {
                         foreach ($regionProducts as $productCode) {
@@ -90,14 +107,13 @@ class PackageInputDataProcessor implements ShippingOptionsProcessorInterface
                     }
                     $input->setOptions($options);
 
+                    // set one of the input options as default, considering configured values
                     $inputDefault = '';
                     $defaultProducts = $this->shippingProducts->getDefaultProducts($originCountry);
-                    foreach ($defaultProducts as $regionId => $regionDefault) {
-                        if (!isset($applicableProducts[$regionId])) {
-                            continue;
-                        }
 
-                        if (in_array($regionDefault, $applicableProducts[$regionId], true)) {
+                    foreach ($defaultProducts as $regionId => $regionDefault) {
+                        if (in_array($regionDefault, $applicableProducts[$regionId] ?? [], true)) {
+                            // region default is applicable to current shipment, match!
                             $inputDefault = $regionDefault;
                             break;
                         }

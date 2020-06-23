@@ -39,6 +39,7 @@
                             <![CDATA[
                                 {
                                     "_1485789382230_230":{"procedure":"01","participation":"01"},
+                                    "_1508418821593_593":{"procedure":"62","participation":"01"},
                                     "_1485789931170_170":{"procedure":"53","participation":"01"},
                                     "_1485789933729_729":{"procedure":"07","participation":"01"}
                                 }
@@ -60,6 +61,7 @@
                         <![CDATA[
                             {
                                 "_1485789382230_230":{"procedure":"01","participation":"04"},
+                                "_1508418821593_593":{"procedure":"62","participation":"01"},
                                 "_1485789931170_170":{"procedure":"53","participation":"01"},
                                 "_1485789933729_729":{"procedure":"07","participation":"01"}
                             }
@@ -70,6 +72,15 @@
 
                 <shipment_defaults>
                     <print_only_if_codeable>1</print_only_if_codeable>
+                    <shipping_products backend_model="Dhl\Paket\Model\Adminhtml\System\Config\Backend\ArraySerialized">
+                        <![CDATA[
+                            {
+                                "_1585932705668_668":{"route":"DE-DE","product":"V01PAK"},
+                                "_1585932706260_260":{"route":"DE-EU","product":"V53WPAK"},
+                                "_1585933761852_852":{"route":"DE-INTL","product":"V53WPAK"}
+                            }
+                        ]]>
+                    </shipping_products>
                     <cod_reason_for_payment><![CDATA[{{firstname}} {{lastname}} #{{increment_id}}]]></cod_reason_for_payment>
                     <services_group>
                         <visual_check_of_age>0</visual_check_of_age>

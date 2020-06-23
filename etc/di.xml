@@ -82,8 +82,21 @@
             <argument name="artifactsContainerFactory" xsi:type="object">Dhl\Paket\Model\Pipeline\DeleteShipments\ArtifactsContainerFactory\Virtual</argument>
         </arguments>
     </virtualType>
+    <virtualType name="Dhl\Paket\Model\Pipeline\Shipment\ShipmentRequest\Validator\CompositeValidator\Virtual" type="Dhl\ShippingCore\Model\Pipeline\Shipment\ShipmentRequest\Validator\CompositeValidator">
+        <arguments>
+            <argument name="validators" xsi:type="array">
+                <item name="warenpostShipment" xsi:type="object">Dhl\Paket\Model\Pipeline\CreateShipments\ShipmentRequest\Validator\ProductValidator</item>
+                <item name="noPartialShipment" xsi:type="object">Dhl\Paket\Model\Pipeline\CreateShipments\ShipmentRequest\Validator\NoPartialValidator</item>
+            </argument>
+        </arguments>
+    </virtualType>
 
     <!-- # argument di overrides -->
+    <type name="Dhl\Paket\Model\Pipeline\CreateShipments\Stage\ValidateStage">
+        <arguments>
+            <argument xsi:type="object" name="requestValidator">Dhl\Paket\Model\Pipeline\Shipment\ShipmentRequest\Validator\CompositeValidator\Virtual</argument>
+        </arguments>
+    </type>
     <type name="Dhl\Paket\Model\Carrier\Paket">
         <arguments>
             <argument name="ratesManagement" xsi:type="object">Dhl\Paket\Model\Rate\RatesManagement\Proxy</argument>
@@ -141,13 +154,7 @@
             </argument>
         </arguments>
     </type>
-    <type name="Dhl\ShippingCore\Model\Pipeline\CreateShipments\ShipmentRequest\Validator\CompositeValidator">
-        <arguments>
-            <argument name="validators" xsi:type="array">
-                <item name="noPartialShipment" xsi:type="object">Dhl\Paket\Model\Pipeline\CreateShipments\ShipmentRequest\Validator\NoPartialValidator</item>
-            </argument>
-        </arguments>
-    </type>
+
     <type name="Dhl\ShippingCore\Model\ShippingSettings\Processor\Checkout\CheckoutDataCompositeProcessor">
         <arguments>
             <argument name="serviceOptionsProcessors" xsi:type="array">
@@ -163,6 +170,9 @@
             </argument>
             <argument name="packagingPackageOptionsProcessors" xsi:type="array">
                 <item name="dhlPaketPackageInputProcessor" sortOrder="220" xsi:type="object">Dhl\Paket\Model\ShippingSettings\Processor\Packaging\PackageInputDataProcessor</item>
+            </argument>
+            <argument name="globalProcessors" xsi:type="array">
+                <item name="productFilter" sortOrder="999" xsi:type="object">Dhl\Paket\Model\ShippingSettings\Processor\Packaging\ShippingProductProcessor</item>
             </argument>
         </arguments>
     </type>
