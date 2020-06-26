@@ -13,12 +13,6 @@ use Dhl\Sdk\Paket\Bcs\Service\ShipmentService\Shipment;
 use Dhl\ShippingCore\Api\Data\Pipeline\ArtifactsContainerInterface;
 use Magento\Shipping\Model\Shipment\Request;
 
-/**
- * Class SendRequestStageStub
- *
- * @author  Christoph Aßmann <christoph.assmann@netresearch.de>
- * @link    https://www.netresearch.de/
- */
 class SendRequestStageStub extends SendRequestStage
 {
     /**

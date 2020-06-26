@@ -32,10 +32,6 @@ use TddWizard\Fixtures\Sales\OrderFixtureRollback;
 use TddWizard\Fixtures\Sales\ShipmentBuilder;
 
 /**
- * Class AutoCreateTest
- *
- * @author Christoph Aßmann <christoph.assmann@netresearch.de>
- *
  * @magentoAppArea crontab
  * @magentoAppIsolation enabled
  * @magentoDbIsolation enabled

@@ -19,9 +19,6 @@ use TddWizard\Fixtures\Sales\OrderFixtureRollback;
  *
  * @magentoAppArea adminhtml
  * @magentoDbIsolation enabled
- *
- * @author  Christoph Aßmann <christoph.assmann@netresearch.de>
- * @link    https://www.netresearch.de/
  */
 class SaveDeDomesticShipmentTest extends SaveShipmentTest
 {

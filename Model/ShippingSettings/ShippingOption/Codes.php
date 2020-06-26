@@ -6,12 +6,6 @@ declare(strict_types=1);
 
 namespace Dhl\Paket\Model\ShippingSettings\ShippingOption;
 
-/**
- * Class Codes.
- *
- * @author  Rico Sonntag <rico.sonntag@netresearch.de>
- * @link    https://www.netresearch.de/
- */
 class Codes
 {
     /**

@@ -19,11 +19,7 @@ use Magento\TestFramework\ObjectManager;
 use PHPUnit\Framework\TestCase;
 
 /**
- * Class AdditionalChargesProcessorTest
- *
  * @magentoAppIsolation enabled
- *
- * @author Max Melzer <max.melzer@netresearch.de>
  */
 class AdditionalChargesProcessorTest extends TestCase
 {

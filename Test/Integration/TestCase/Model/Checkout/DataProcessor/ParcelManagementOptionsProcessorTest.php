@@ -22,11 +22,7 @@ use Magento\TestFramework\ObjectManager;
 use PHPUnit\Framework\TestCase;
 
 /**
- * Class ParcelManagementOptionsProcessorTest
- *
  * @magentoAppIsolation enabled
- *
- * @author   Andreas Müller <andreas.mueller@netresearch.de>
  */
 class ParcelManagementOptionsProcessorTest extends TestCase
 {

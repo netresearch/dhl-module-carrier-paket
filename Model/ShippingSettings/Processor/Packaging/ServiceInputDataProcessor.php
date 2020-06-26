@@ -20,11 +20,6 @@ use Magento\Framework\Stdlib\DateTime\TimezoneInterface;
 use Magento\Sales\Api\Data\OrderInterface;
 use Magento\Sales\Api\Data\ShipmentInterface;
 
-/**
- * Class ServiceInputDataProcessor
- *
- * @author Sebastian Ertner <sebastian.ertner@netresearch.de>
- */
 class ServiceInputDataProcessor implements ShippingOptionsProcessorInterface
 {
     /**

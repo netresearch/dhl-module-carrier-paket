@@ -19,9 +19,6 @@ use Magento\Shipping\Model\Shipment\Request;
  * Validate that the complete order is shipped together if the
  * Insurance service or CoD payment method were chosen. These are
  * not compatible with multi-package or multi-shipment.
- *
- * @author Max Melzer <max.melzer@netresearch.de>
- * @link   https://www.netresearch.de/
  */
 class NoPartialValidator implements RequestValidatorInterface
 {

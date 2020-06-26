@@ -13,12 +13,6 @@ use Dhl\ShippingCore\Api\Pipeline\ShipmentRequest\RequestValidatorInterface;
 use Magento\Framework\Exception\ValidatorException;
 use Magento\Shipping\Model\Shipment\Request;
 
-/**
- * Class ValidateStage
- *
- * @author  Christoph Aßmann <christoph.assmann@netresearch.de>
- * @link    https://www.netresearch.de/
- */
 class ValidateStage implements CreateShipmentsStageInterface
 {
     /**

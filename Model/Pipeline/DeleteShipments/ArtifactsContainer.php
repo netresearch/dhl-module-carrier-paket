@@ -12,12 +12,6 @@ use Dhl\ShippingCore\Api\Data\Pipeline\TrackResponse\TrackResponseInterface;
 use Magento\Sales\Api\Data\ShipmentInterface;
 use Magento\Sales\Api\Data\ShipmentTrackInterface;
 
-/**
- * Class ArtifactsContainer
- *
- * @author  Christoph Aßmann <christoph.assmann@netresearch.de>
- * @link    https://www.netresearch.de/
- */
 class ArtifactsContainer implements ArtifactsContainerInterface
 {
     /**

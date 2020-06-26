@@ -18,11 +18,6 @@ use PHPUnit\Framework\TestCase;
 use TddWizard\Fixtures\Sales\OrderBuilder;
 use TddWizard\Fixtures\Sales\OrderFixtureRollback;
 
-/**
- * Class ShipmentDateTest
- *
- * @author  Rico Sonntag <rico.sonntag@netresearch.de>
- */
 class ShipmentDateTest extends TestCase
 {
     /**

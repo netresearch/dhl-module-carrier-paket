@@ -17,12 +17,6 @@ use Dhl\ShippingCore\Model\ShippingSettings\ShippingOption\Codes;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Shipping\Model\Shipment\Request;
 
-/**
- * Request mapper.
- *
- * @author Rico Sonntag <rico.sonntag@netresearch.de>
- * @link https://www.netresearch.de/
- */
 class RequestDataMapper
 {
     /**

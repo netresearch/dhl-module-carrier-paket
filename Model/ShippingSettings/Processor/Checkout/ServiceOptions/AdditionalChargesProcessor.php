@@ -14,12 +14,6 @@ use Dhl\ShippingCore\Api\Data\ShippingSettings\ShippingOptionInterface;
 use Dhl\ShippingCore\Api\ShippingSettings\Processor\Checkout\ShippingOptionsProcessorInterface;
 use Psr\Log\LoggerInterface;
 
-/**
- * Class AdditionalChargesProcessor
- *
- * @author Max Melzer <max.melzer@netresearch.de>
- * @author Rico Sonntag <rico.sonntag@netresearch.de>
- */
 class AdditionalChargesProcessor implements ShippingOptionsProcessorInterface
 {
     /**

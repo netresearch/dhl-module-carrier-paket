@@ -13,12 +13,6 @@ use Dhl\ShippingCore\Api\Pipeline\CreateShipmentsStageInterface;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Shipping\Model\Shipment\Request;
 
-/**
- * Class MapRequestStage
- *
- * @author  Christoph Aßmann <christoph.assmann@netresearch.de>
- * @link    https://www.netresearch.de/
- */
 class MapRequestStage implements CreateShipmentsStageInterface
 {
     /**

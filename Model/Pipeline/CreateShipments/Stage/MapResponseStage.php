@@ -13,12 +13,6 @@ use Dhl\ShippingCore\Api\Pipeline\CreateShipmentsStageInterface;
 use Magento\Sales\Model\Order\Shipment;
 use Magento\Shipping\Model\Shipment\Request;
 
-/**
- * Class MapResponseStage
- *
- * @author  Christoph Aßmann <christoph.assmann@netresearch.de>
- * @link    https://www.netresearch.de/
- */
 class MapResponseStage implements CreateShipmentsStageInterface
 {
     /**

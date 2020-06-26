@@ -12,12 +12,6 @@ use Dhl\Sdk\Paket\Bcs\Api\Data\ShipmentInterface;
 use Dhl\ShippingCore\Api\Data\Pipeline\ArtifactsContainerInterface;
 use Dhl\ShippingCore\Api\Data\Pipeline\TrackRequest\TrackRequestInterface;
 
-/**
- * Class SendRequestStageStub
- *
- * @author  Christoph Aßmann <christoph.assmann@netresearch.de>
- * @link    https://www.netresearch.de/
- */
 class SendRequestStageStub extends SendRequestStage
 {
     /**

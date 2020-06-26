@@ -6,8 +6,10 @@
     "license": "OSL-3.0",
     "authors": [
         {
-            "email": "paul.siedler@netresearch.de",
-            "name": "Paul Siedler"
+            "email": "plugins@netresearch.de",
+            "name": "Netresearch DTT GmbH",
+            "role": "Manufacturer",
+            "homepage": "https://www.netresearch.de/"
         }
     ],
     "autoload": {

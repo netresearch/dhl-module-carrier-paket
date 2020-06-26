@@ -8,12 +8,6 @@ namespace Dhl\Paket\Model\Pipeline\DeleteShipments;
 
 use Dhl\ShippingCore\Api\Data\Pipeline\TrackRequest\TrackRequestInterface;
 
-/**
- * Request mapper.
- *
- * @author Rico Sonntag <rico.sonntag@netresearch.de>
- * @link https://www.netresearch.de/
- */
 class RequestDataMapper
 {
 

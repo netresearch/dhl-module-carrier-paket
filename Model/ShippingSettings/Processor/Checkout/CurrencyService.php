@@ -14,12 +14,6 @@ use Magento\Store\Model\StoreManagerInterface;
 use Psr\Log\LoggerInterface;
 use Zend_Currency_Exception;
 
-/**
- * Class CurrencyService
- *
- * @author Rico Sonntag <rico.sonntag@netresearch.de>
- * @author Max Melzer <max.melzer@netresearch.de>
- */
 class CurrencyService
 {
     /**

@@ -13,12 +13,7 @@ use Dhl\Sdk\Paket\Bcs\Api\ShipmentServiceInterface;
 use Dhl\Sdk\Paket\Bcs\Exception\ServiceException;
 
 /**
- * Class ShipmentServiceStub
- *
  * Return responses on webservice calls which can be predefined via artifacts containers.
- *
- * @author  Christoph Aßmann <christoph.assmann@netresearch.de>
- * @link    https://www.netresearch.de/
  */
 class ShipmentServiceStub implements ShipmentServiceInterface
 {

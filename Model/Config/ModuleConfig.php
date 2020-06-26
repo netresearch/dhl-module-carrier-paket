@@ -9,12 +9,6 @@ namespace Dhl\Paket\Model\Config;
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Store\Model\ScopeInterface;
 
-/**
- * Class ModuleConfig
- *
- * @author  Rico Sonntag <rico.sonntag@netresearch.de>
- * @link    https://www.netresearch.de/
- */
 class ModuleConfig
 {
     // Defaults

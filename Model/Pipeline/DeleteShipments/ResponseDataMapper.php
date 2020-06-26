@@ -15,12 +15,7 @@ use Magento\Sales\Api\Data\ShipmentInterface;
 use Magento\Sales\Api\Data\ShipmentTrackInterface;
 
 /**
- * Response mapper.
- *
  * Convert API response into the carrier response format that the shipping module understands.
- *
- * @author  Christoph Aßmann <christoph.assmann@netresearch.de>
- * @link    https://www.netresearch.de/
  */
 class ResponseDataMapper
 {

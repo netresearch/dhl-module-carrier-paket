@@ -9,16 +9,13 @@ namespace Dhl\Paket\Util;
 use Dhl\Paket\Model\Config\ModuleConfig;
 
 /**
- * ShippingProducts
+ * Shipping products definition
  *
  * Utility to access
  * - DHL Paket shipping product codes
  * - DHL Paket shipping product names
  * - DHL Paket shipping product procedures
  * - DHL Paket shipping product routes
- *
- * @author  Christoph Aßmann <christoph.assmann@netresearch.de>
- * @link    https://www.netresearch.de/
  */
 class ShippingProducts
 {

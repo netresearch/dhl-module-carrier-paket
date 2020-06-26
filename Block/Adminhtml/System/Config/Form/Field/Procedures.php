@@ -12,9 +12,6 @@ use Magento\Framework\View\Element\Html\Select;
 
 /**
  * The procedures dropdown.
- *
- * @author  Benjamin Heuer <benjamin.heuer@netresearch.de>
- * @link    http://www.netresearch.de/
  */
 class Procedures extends Select
 {

@@ -42,7 +42,6 @@ use Psr\Log\LoggerInterface;
 
 /**
  * DHL Paket online shipping carrier model.
- *
  */
 class Paket extends AbstractCarrierOnline implements CarrierInterface
 {

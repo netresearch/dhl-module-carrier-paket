@@ -17,12 +17,7 @@ use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Exception\NoSuchEntityException;
 
 /**
- * Class LocationProvider
- *
  * Handles communication with LocationFinder SDK and transforms results into internal format.
- *
- * @author Andreas Müller <andreas.mueller@netresearch.de>
- * @link   https://www.netresearch.de/
  */
 class LocationProvider implements LocationProviderInterface
 {

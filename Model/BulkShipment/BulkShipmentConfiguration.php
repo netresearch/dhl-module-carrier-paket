@@ -13,12 +13,6 @@ use Dhl\ShippingCore\Api\BulkShipment\BulkLabelCreationInterface;
 use Dhl\ShippingCore\Api\BulkShipment\BulkShipmentConfigurationInterface;
 use Dhl\ShippingCore\Api\Pipeline\ShipmentRequest\RequestModifierInterface;
 
-/**
- * Class BulkShipmentConfiguration
- *
- * @author  Rico Sonntag <rico.sonntag@netresearch.de>
- * @link    https://www.netresearch.de/
- */
 class BulkShipmentConfiguration implements BulkShipmentConfigurationInterface
 {
     /**

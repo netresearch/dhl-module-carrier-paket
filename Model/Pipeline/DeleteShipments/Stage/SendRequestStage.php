@@ -13,12 +13,6 @@ use Dhl\ShippingCore\Api\Data\Pipeline\ArtifactsContainerInterface;
 use Dhl\ShippingCore\Api\Data\Pipeline\TrackRequest\TrackRequestInterface;
 use Dhl\ShippingCore\Api\Pipeline\RequestTracksStageInterface;
 
-/**
- * Class SendRequestStage
- *
- * @author  Christoph Aßmann <christoph.assmann@netresearch.de>
- * @link    https://www.netresearch.de/
- */
 class SendRequestStage implements RequestTracksStageInterface
 {
     /**

@@ -12,12 +12,6 @@ use Dhl\Sdk\Paket\ParcelManagement\Api\ServiceFactoryInterface;
 use Dhl\Sdk\Paket\ParcelManagement\Exception\ServiceException;
 use Psr\Log\LoggerInterface;
 
-/**
- * Class ParcelManagementService
- *
- * @author  Christoph Aßmann <christoph.assmann@netresearch.de>
- * @link    https://www.netresearch.de/
- */
 class ParcelManagementService implements CheckoutServiceInterface
 {
     /**

@@ -13,12 +13,6 @@ use Magento\Framework\Data\OptionSourceInterface;
 use Magento\Shipping\Model\Config;
 use Magento\Store\Model\ScopeInterface;
 
-/**
- * Class Procedure
- *
- * @author  Rico Sonntag <rico.sonntag@netresearch.de>
- * @link    https://www.netresearch.de/
- */
 class Procedure implements OptionSourceInterface
 {
     /**

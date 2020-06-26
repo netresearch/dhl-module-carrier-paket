@@ -19,12 +19,7 @@ use Dhl\ShippingCore\Api\Data\DeliveryLocation\TimeFrameInterfaceFactory;
 use Dhl\ShippingCore\Api\Util\AssetUrlInterface;
 
 /**
- * Class LocationMapper
- *
  * Map SDK locations into objects suitable for the Shopfinder REST endpoint.
- *
- * @author Andreas Müller <andreas.mueller@netresearch.de>
- * @link   https://www.netresearch.de/
  */
 class LocationMapper
 {

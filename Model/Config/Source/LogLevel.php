@@ -9,12 +9,6 @@ namespace Dhl\Paket\Model\Config\Source;
 use Magento\Framework\Data\OptionSourceInterface;
 use Magento\Framework\Logger\Monolog;
 
-/**
- * Class LogLevel
- *
- * @author  Ronny Gertler <ronny.gertler@netresearch.de>
- * @link    https://www.netresearch.de/
- */
 class LogLevel implements OptionSourceInterface
 {
     /**

@@ -14,9 +14,6 @@ use Psr\Log\LoggerInterface;
 
 /**
  * Wrap SDK service, add credentials and maximum radius, limit.
- *
- * @author Andreas Müller <andreas.mueller@netresearch.de>
- * @link   https://www.netresearch.de/
  */
 class LocationFinderService implements LocationFinderServiceInterface
 {

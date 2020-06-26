@@ -13,12 +13,6 @@ use Dhl\Sdk\Paket\Bcs\Api\ShipmentServiceInterface;
 use Dhl\Sdk\Paket\Bcs\Exception\ServiceException;
 use Psr\Log\LoggerInterface;
 
-/**
- * Class ShipmentService
- *
- * @author  Christoph Aßmann <christoph.assmann@netresearch.de>
- * @link    https://www.netresearch.de/
- */
 class ShipmentService implements ShipmentServiceInterface
 {
     /**

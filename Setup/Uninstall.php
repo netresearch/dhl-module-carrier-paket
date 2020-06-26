@@ -12,12 +12,6 @@ use Magento\Framework\Setup\ModuleContextInterface;
 use Magento\Framework\Setup\SchemaSetupInterface;
 use Magento\Framework\Setup\UninstallInterface;
 
-/**
- * Uninstall
- *
- * @author  Sebastian Ertner <sebastian.ertner@netresearch.de>
- * @link http://www.netresearch.de/
- */
 class Uninstall implements UninstallInterface
 {
     /**

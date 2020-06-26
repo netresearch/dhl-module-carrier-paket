@@ -19,11 +19,6 @@ use Dhl\ShippingCore\Model\ShipmentDate\ShipmentDate;
 use Magento\Framework\Stdlib\DateTime\TimezoneInterface;
 use Psr\Log\LoggerInterface;
 
-/**
- * Class ParcelManagementOptionsProcessor
- *
- * @author Max Melzer <max.melzer@netresearch.de>
- */
 class ParcelManagementOptionsProcessor implements ShippingOptionsProcessorInterface
 {
     const SAME_DAY_DELIVERY = 'sameDayDelivery';

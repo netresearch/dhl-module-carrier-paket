@@ -19,12 +19,7 @@ use Dhl\ShippingCore\Api\Pipeline\TrackResponseProcessorInterface;
 use Magento\Shipping\Model\Shipment\Request;
 
 /**
- * Class ApiGateway
- *
  * Magento carrier-aware wrapper around the DHL Paket API SDK.
- *
- * @author  Christoph Aßmann <christoph.assmann@netresearch.de>
- * @link    https://www.netresearch.de/
  */
 class ApiGateway
 {

@@ -16,12 +16,6 @@ use Magento\Framework\Api\FilterBuilder;
 use Magento\Framework\Api\Search\SearchCriteriaBuilderFactory;
 use Magento\Quote\Model\Quote;
 
-/**
- * Class CodSupportHandler
- *
- * @author Paul Siedler <paul.siedler@netresearch.de>
- * @link https://www.netresearch.de/
- */
 class CodSupportHandler implements MethodAvailabilityInterface, CodSelectorInterface
 {
     /**

@@ -15,11 +15,6 @@ use Dhl\ShippingCore\Api\ShippingSettings\Processor\Packaging\ShippingOptionsPro
 use Dhl\ShippingCore\Model\ShippingSettings\ShippingOption\Codes;
 use Magento\Sales\Api\Data\ShipmentInterface;
 
-/**
- * Class PackageInputDataProcessor
- *
- * @author Sebastian Ertner <sebastian.ertner@netresearch.de>
- */
 class PackageInputDataProcessor implements ShippingOptionsProcessorInterface
 {
     /**

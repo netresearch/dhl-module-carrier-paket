@@ -10,12 +10,6 @@ use Dhl\UnifiedTracking\Api\Data\TrackingConfigurationInterface;
 use Dhl\UnifiedTracking\Api\TrackingInfoProviderInterface;
 use Psr\Log\LoggerInterface;
 
-/**
- * Class TrackingConfiguration
- *
- * @author  Rico Sonntag <rico.sonntag@netresearch.de>
- * @link    https://www.netresearch.de/
- */
 class TrackingConfiguration implements TrackingConfigurationInterface
 {
     /**

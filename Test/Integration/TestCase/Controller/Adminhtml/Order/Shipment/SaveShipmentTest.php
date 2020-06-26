@@ -19,9 +19,6 @@ use Magento\Sales\Model\Order;
 
 /**
  * Base test to build various shipment creation scenarios on.
- *
- * @author  Christoph Aßmann <christoph.assmann@netresearch.de>
- * @link    https://www.netresearch.de/
  */
 abstract class SaveShipmentTest extends ControllerTest
 {

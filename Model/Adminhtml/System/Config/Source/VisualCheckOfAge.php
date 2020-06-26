@@ -8,12 +8,6 @@ namespace Dhl\Paket\Model\Adminhtml\System\Config\Source;
 
 use Magento\Framework\Data\OptionSourceInterface;
 
-/**
- * Class VisualCheckOfAge
- *
- * @author  Sebastian Ertner <sebastian.ertner@netresearch.de>
- * @link    https://www.netresearch.de/
- */
 class VisualCheckOfAge implements OptionSourceInterface
 {
     const OPTION_A16 = 'A16';
