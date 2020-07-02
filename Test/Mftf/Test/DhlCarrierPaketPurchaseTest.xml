@@ -16,8 +16,76 @@
             <severity value="CRITICAL"/>
             <group value="carrier-paket-purchase"/>
         </annotations>
+        <before>
+            <comment userInput="-> Run required steps before starting with the test" stepKey="setupTestComment"/>
 
-        <remove keyForRemoval="guestCheckoutFillingShippingSection"/>
+            <createData entity="_defaultCategory" stepKey="SimpleCategory"/>
+            <createData entity="_defaultProduct" stepKey="SimpleProduct">
+                <requiredEntity createDataKey="SimpleCategory"/>
+                <field key="price">20</field>
+            </createData>
+
+            <actionGroup ref="LoginAsAdmin" stepKey="loginAsAdmin"/>
+
+            <!-- Shipping origin -->
+            <actionGroup ref="NavigateToShippingOriginSectionActionGroup" stepKey="navigateToShippingSection"/>
+            <actionGroup ref="ConfigureShippingOriginRegionSelectActionGroup" stepKey="configureShippingOrigin"/>
+            <actionGroup ref="SaveAdminSystemConfigSectionActionGroup" stepKey="saveAdminSystemConfigSection1"/>
+
+            <!-- Carriers configuration -->
+            <actionGroup ref="NavigateToCarrierSettingsPageActionGroup" stepKey="navigateToCarrierSettingsConfig"/>
+            <actionGroup ref="FlatRateCarrierSettingsOpenActionGroup" stepKey="openCarrierSettingsFlatRate"/>
+            <actionGroup ref="FlatRateCarrierSettingsConfigurationActiveActionGroup" stepKey="configureFlatRateCarrier">
+                <argument name="CarriersFlatRateSettings" value="CarriersFlatRateSettings_DhlPaketPerOrder"/>
+            </actionGroup>
+            <actionGroup ref="SaveAdminSystemConfigSectionActionGroup" stepKey="saveAdminSystemConfigSection2"/>
+
+            <actionGroup ref="NavigateToShippingCoreSectionActionGroup" stepKey="navigateToShippingCoreSettingsConfig"/>
+            <actionGroup ref="DhlPaketCarrierSettingsOpenActionGroup" stepKey="openCarrierSettingsDhlPaket"/>
+
+            <actionGroup ref="DhlPaketCarrierSettingsExpandGeneralTabActionGroup" stepKey="expandCarrierSettingsDhlPaketGeneralTab"/>
+            <actionGroup ref="DhlPaketCarrierSettingsEnableActionGroup" stepKey="enableCarrierSettingsDhlPaket"/>
+
+            <actionGroup ref="DhlPaketCarrierSettingsExpandCheckoutPresentationTabActionGroup"
+                         stepKey="expandCarrierSettingsDhlPaketCheckoutPresentationTab"/>
+            <actionGroup ref="DhlPaketCarrierSettingsSelectUseRatesFromActionGroup" stepKey="selectCarrierSettingsUseRatesFrom"/>
+
+            <actionGroup ref="SaveAdminSystemConfigSectionActionGroup" stepKey="saveAdminSystemConfigSection3"/>
+        </before>
+        <after>
+            <comment userInput="-> Clean up carrier configuration settings after test" stepKey="cleanTestComment"/>
+
+            <deleteData createDataKey="SimpleProduct" stepKey="deleteProduct"/>
+            <deleteData createDataKey="SimpleCategory" stepKey="deleteCategory"/>
+
+            <!-- Unset carrier settings to restore initial state -->
+            <actionGroup ref="NavigateToCarrierSettingsPageActionGroup" stepKey="navigateToCarrierSettingsConfig"/>
+            <actionGroup ref="FlatRateCarrierSettingsOpenActionGroup" stepKey="openCarrierSettingsFlatRate"/>
+            <actionGroup ref="FlatRateCarrierSettingsConfigurationInactiveActionGroup" stepKey="configureFlatRateCarrier"/>
+            <actionGroup ref="SaveAdminSystemConfigSectionActionGroup" stepKey="saveAdminConfigSectionAfter1"/>
+
+            <actionGroup ref="NavigateToShippingCoreSectionActionGroup" stepKey="navigateToShippingCoreSettingsConfig"/>
+            <actionGroup ref="DhlPaketCarrierSettingsOpenActionGroup" stepKey="openCarrierSettingsDhlPaket"/>
+            <actionGroup ref="DhlPaketCarrierSettingsExpandGeneralTabActionGroup" stepKey="expandCarrierSettingsDhlPaketGeneralTab"/>
+            <actionGroup ref="DhlPaketResetCarrierSettingsActionGroup" stepKey="resetCarrierSettingsDhlPaketAfter"/>
+            <actionGroup ref="SaveAdminSystemConfigSectionActionGroup" stepKey="saveAdminConfigSectionAfter2"/>
+
+            <actionGroup ref="logout" stepKey="logout"/>
+        </after>
+
+        <comment userInput="-> Perform actual test" stepKey="runTestComment"/>
+
+        <actionGroup ref="OpenStoreFrontProductPageActionGroup" stepKey="openProductPage">
+            <argument name="productUrlKey" value="$$SimpleProduct.custom_attributes[url_key]$$"/>
+        </actionGroup>
+
+        <!-- Put our SimpleProduct into the cart -->
+        <actionGroup ref="StorefrontAddProductToCartActionGroup" stepKey="addProductToCart">
+            <argument name="product" value="$$SimpleProduct$$"/>
+            <argument name="productCount" value="1"/>
+        </actionGroup>
+
+        <actionGroup ref="GoToCheckoutFromMinicartActionGroup" stepKey="guestNavigateToCheckout"/>
 
         <actionGroup ref="GuestCheckoutFillingShippingSectionWithCountryActionGroup" stepKey="guestCheckoutFillingShippingSectionWithCountry">
             <argument name="customerVar" value="Customer_DE"/>
@@ -58,8 +126,13 @@
 
         <seeElement selector="{{AdminSalesOrderSection.dhlRecipientStreetEditLink}}" stepKey="seeDhlRecipientStreetEditLink"/>
         <click selector="{{AdminSalesOrderSection.dhlRecipientStreetEditLink}}" stepKey="clickLinkToRecipientStreetEdit"/>
-        <waitForPageLoad stepKey="waitForDhlRecipientStreetEditLinkPageLoad"/>
+        <waitForPageLoad stepKey="waitForDhlRecipientStreetEditLinkPageLoad" time="60"/>
 
+        <!-- Check inputs visabiliy -->
+        <seeElement selector="{{AdminSalesOrderSection.streetNameField}}" stepKey="seeStreetNameField"/>
+        <seeElement selector="{{AdminSalesOrderSection.streetNumberField}}" stepKey="seeStreetNumberField"/>
+        <seeElement selector="{{AdminSalesOrderSection.streetSupplementField}}" stepKey="seeSupplementField"/>
+        <!-- Fill new values -->
         <fillField selector="{{AdminSalesOrderSection.streetNameField}}" userInput="{{Address_with_Supplement_Replace.street}}" stepKey="fillStreetName"/>
         <fillField selector="{{AdminSalesOrderSection.streetNumberField}}" userInput="{{Address_with_Supplement_Replace.streetNumber}}" stepKey="fillStreetNumber"/>
         <fillField selector="{{AdminSalesOrderSection.streetSupplementField}}" userInput="{{Address_with_Supplement_Replace.streetSupplement}}" stepKey="fillStreetSupplement"/>

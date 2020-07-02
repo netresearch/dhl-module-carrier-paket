@@ -38,15 +38,8 @@
 
     <!-- Unset carrier configuration to restore initial state -->
     <actionGroup name="DhlPaketResetCarrierSettingsActionGroup">
-        <scrollTo selector="{{AdminSystemConfigCarriersDhlPaketSection.carrierGroup}}" stepKey="scrollToCarrierGroup" x="0" y="-85"/>
-
         <uncheckOption selector="{{AdminSystemConfigCarriersDhlPaketSection.carrierActive}}"
                        stepKey="uncheckOptionDisplayRatesAtCheckout"/>
-
-<!--        <conditionalClick stepKey="collapseCarrierConfiguration"-->
-<!--                          selector="{{AdminSystemConfigCarriersDhlPaketSection.carrierGroup}}"-->
-<!--                          dependentSelector="{{AdminSystemConfigCarriersDhlPaketSection.carrierGroupExpanded}}"-->
-<!--                          visible="false"/>-->
     </actionGroup>
 
     <!-- Enabled DHL Paket carrier in "Shipping methods" configuration -->

@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <suites xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:mftf:Suite/etc/suiteSchema.xsd">
-    <suite name="DhlCarrierPaket">
+    <suite name="Dhl_Paket">
         <include>
-            <group name="carrier-paket-configuration"/>
             <group name="carrier-paket-checkout"/>
             <group name="carrier-paket-purchase"/>
+            <group name="carrier-paket-shipment" />
+            <group name="carrier-paket-configuration"/>
         </include>
     </suite>
 </suites>

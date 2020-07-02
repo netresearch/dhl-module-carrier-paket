@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ /**
+  * See LICENSE.md for license details.
+  */
+-->
+<actionGroups xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/actionGroupSchema.xsd">
+    <actionGroup name="AdminSetDefaultCountryActionGroup">
+        <arguments>
+            <argument name="countryToSelect" type="string" defaultValue="CarriersDhlPaketGeneralConfig.generalDefaultCountry"/>
+        </arguments>
+        <uncheckOption selector="{{CountryOptionsSection.generalCountryDefaultInherit}}" stepKey="uncheckGeneralCountryDefaultInherit"/>
+        <selectOption selector="{{CountryOptionsSection.generalCountryDefault}}" userInput="{{countryToSelect}}" stepKey="chooseGermany"/>
+    </actionGroup>
+
+    <actionGroup name="AdminSetDefaultCountryInactiveActionGroup">
+        <checkOption selector="{{CountryOptionsSection.generalCountryDefaultInherit}}" stepKey="checkGeneralCountryDefaultInherit"/>
+        <click selector="{{AdminConfigSection.saveButton}}" stepKey="saveConfiguration"/>
+        <waitForPageLoad stepKey="waitForSavingConfigSettings"/>
+        <seeElement selector="{{AdminSystemConfigSection.saveSuccessMessage}}" stepKey="seeSaveSuccessMessage"/>
+    </actionGroup>
+</actionGroups>
+

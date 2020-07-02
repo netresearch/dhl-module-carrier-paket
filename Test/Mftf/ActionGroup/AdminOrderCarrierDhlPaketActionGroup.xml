@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ /**
+  * See LICENSE.md for license details.
+  */
+-->
+<actionGroups xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/actionGroupSchema.xsd">
+    <actionGroup name="orderSelectDhlPaketFlatRateShipping">
+        <click selector="{{AdminOrderFormPaymentSection.header}}" stepKey="unfocus"/>
+        <waitForPageLoad stepKey="waitForJavascriptToFinish"/>
+        <click selector="{{AdminOrderFormPaymentSection.getShippingMethods}}" stepKey="clickShippingMethods"/>
+        <waitForElementVisible selector="{{AdminOrderFormPaymentDhlPaketSection.dhlPaketFlatRateOption}}" stepKey="waitForShippingOptions"/>
+        <selectOption selector="{{AdminOrderFormPaymentDhlPaketSection.dhlPaketFlatRateOption}}" userInput="dhlpaket_flatrate" stepKey="checkFlatRate"/>
+    </actionGroup>
+
+    <actionGroup name="createDhlPaketShipment">
+        <seeElement selector="{{AdminShipmentTotalSection.createShippingLabel}}" stepKey="seeCreateShippingLabel"/>
+        <checkOption selector="{{AdminShipmentTotalSection.createShippingLabel}}" stepKey="checkCreateLabel"/>
+        <seeElement selector="{{AdminShipmentTotalSection.submitShippingButton}}" stepKey="seeSubmitShipping"/>
+        <click selector="{{AdminShipmentTotalSection.submitShippingButton}}" stepKey="clickSubmitShipment"/>
+        <waitForAjaxLoad stepKey="waitForPackagingPopup" time="30"/>
+        <seeElement selector="{{AdminShipmentPaketPackagingPopupSection.createShippingLabel}}" stepKey="seeCreateShippingLabelButton"/>
+        <seeElement selector="{{AdminShipmentPaketPackagingPopupSection.packageItems}}" stepKey="seePackageItems"/>
+        <seeElement selector="{{AdminShipmentPaketPackagingPopupSection.packageOptions}}" stepKey="seePackageOptions"/>
+        <seeElement selector="{{AdminShipmentPaketPackagingPopupSection.serviceOptions}}" stepKey="seeServiceOptions"/>
+    </actionGroup>
+
+    <actionGroup name="checkPackagingPopupCustoms">
+        <seeElement selector="{{AdminShipmentPaketPackagingPopupSection.customsValue}}" stepKey="seeCustomsValue"/>
+        <seeElement selector="{{AdminShipmentPaketPackagingPopupSection.termsOfTrade}}" stepKey="seeTermsOfTrade"/>
+        <seeElement selector="{{AdminShipmentPaketPackagingPopupSection.exportContentType}}" stepKey="seeExportContentType"/>
+        <seeElement selector="{{AdminShipmentPaketPackagingPopupSection.explanation}}" stepKey="seeExplanation"/>
+        <seeElement selector="{{AdminShipmentPaketPackagingPopupSection.packageDescription}}" stepKey="seePackageDescription"/>
+        <seeElement selector="{{AdminShipmentPaketPackagingPopupSection.additionalFee}}" stepKey="seeAdditionalFee"/>
+        <seeElement selector="{{AdminShipmentPaketPackagingPopupSection.placeOfCommittal}}" stepKey="seePlaceOfCommittal"/>
+        <seeElement selector="{{AdminShipmentPaketPackagingPopupSection.permitNumber}}" stepKey="seePermitNumber"/>
+        <seeElement selector="{{AdminShipmentPaketPackagingPopupSection.attestationNumber}}" stepKey="seeAttestationNumber"/>
+        <seeElement selector="{{AdminShipmentPaketPackagingPopupSection.electronicExportNotification}}" stepKey="seeElectronicExportNotification"/>
+    </actionGroup>
+</actionGroups>
+

@@ -11,5 +11,6 @@
           module="Magento_Config"
           parameterized="true">
         <section name="AdminSalesOrderSection"/>
+        <section name="AdminShipmentPaketPackagingPopupSection"/>
     </page>
 </pages>

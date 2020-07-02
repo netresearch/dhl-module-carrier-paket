@@ -18,9 +18,9 @@
                  selector="#dhlshippingsolutions_dhlpaket_general_shipping_settings-head:not(.open)"/>
 
         <element name="carrierActive" type="checkbox"
-                 selector="[data-ui-id='checkbox-groups-dhlpaket-groups-general-shipping-settings-fields-active-value']"/>
+                 selector="#dhlshippingsolutions_dhlpaket_general_shipping_settings_active"/>
         <element name="carrierLogging" type="checkbox"
-                 selector="[data-ui-id='checkbox-groups-dhlpaket-groups-general-shipping-settings-fields-logging-value']"/>
+                 selector="#dhlshippingsolutions_dhlpaket_general_shipping_settings_logging"/>
 
         <!-- Checkout presentation group -->
         <element name="checkoutPresentationGroup" type="button"

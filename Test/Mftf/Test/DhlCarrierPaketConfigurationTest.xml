@@ -28,6 +28,7 @@
         <after>
             <comment userInput="-> Clean up carrier configuration settings after test" stepKey="cleanTestComment"/>
             <!-- Unset carrier settings to restore initial state -->
+            <actionGroup ref="DhlPaketCarrierSettingsExpandGeneralTabActionGroup" stepKey="goToDhlPaketGeneralSettings"/>
             <actionGroup ref="DhlPaketResetCarrierSettingsActionGroup" stepKey="resetCarrierSettingsDhlPaketAfter"/>
             <actionGroup ref="SaveAdminSystemConfigSectionActionGroup" stepKey="saveAdminConfigSectionAfter"/>
             <actionGroup ref="logout" stepKey="logout"/>

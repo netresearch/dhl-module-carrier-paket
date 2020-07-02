@@ -13,4 +13,29 @@
         <data key="streetNumber">1</data>
         <data key="streetSupplement">3. Etage</data>
     </entity>
+    <entity name="CustomerAddress_CH" type="address">
+        <data key="id">0</data>
+        <data key="customer_id">99</data>
+        <requiredEntity type="region">CustomerRegion_LU</requiredEntity>
+        <data key="country_id">CH</data>
+        <data key="region_id">115</data>
+        <array key="street">
+            <item>Hirschengraben 17</item>
+        </array>
+        <data key="company">Netresearch</data>
+        <data key="telephone">000</data>
+        <data key="fax">000</data>
+        <data key="postcode">6002</data>
+        <data key="city">Luzern</data>
+        <data key="state">Luzern</data>
+        <data key="firstname">Max</data>
+        <data key="lastname">Meier</data>
+        <data key="middlename">string</data>
+        <data key="prefix">string</data>
+        <data key="suffix">string</data>
+        <data key="vat_id">vatData</data>
+        <data key="default_shipping">true</data>
+        <data key="default_billing">true</data>
+        <data key="region_qty">66</data>
+    </entity>
 </entities>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ /**
+  * See LICENSE.md for license details.
+  */
+-->
+<entities xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:noNamespaceSchemaLocation="urn:magento:mftf:DataGenerator/etc/dataProfileSchema.xsd">
+    <!-- DHL Paket -->
+    <entity name="CarriersDhlPaketGeneralConfig" type="carrierPaketData">
+        <data key="generalDefaultCountry">Germany</data>
+    </entity>
+</entities>
