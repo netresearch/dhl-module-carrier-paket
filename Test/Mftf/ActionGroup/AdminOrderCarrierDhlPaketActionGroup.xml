@@ -15,28 +15,28 @@
     </actionGroup>
 
     <actionGroup name="createDhlPaketShipment">
-        <seeElement selector="{{AdminShipmentTotalSection.createShippingLabel}}" stepKey="seeCreateShippingLabel"/>
-        <checkOption selector="{{AdminShipmentTotalSection.createShippingLabel}}" stepKey="checkCreateLabel"/>
-        <seeElement selector="{{AdminShipmentTotalSection.submitShippingButton}}" stepKey="seeSubmitShipping"/>
-        <click selector="{{AdminShipmentTotalSection.submitShippingButton}}" stepKey="clickSubmitShipment"/>
+        <seeElement selector="{{AdminShipmentMainActionsSection.createLabelCheckbox}}" stepKey="seeCreateShippingLabel"/>
+        <checkOption selector="{{AdminShipmentMainActionsSection.createLabelCheckbox}}" stepKey="checkCreateLabel"/>
+        <seeElement selector="{{AdminShipmentMainActionsSection.submitShipment}}" stepKey="seeSubmitShipping"/>
+        <click selector="{{AdminShipmentMainActionsSection.submitShipment}}" stepKey="clickSubmitShipment"/>
         <waitForAjaxLoad stepKey="waitForPackagingPopup" time="30"/>
-        <seeElement selector="{{AdminShipmentPaketPackagingPopupSection.createShippingLabel}}" stepKey="seeCreateShippingLabelButton"/>
-        <seeElement selector="{{AdminShipmentPaketPackagingPopupSection.packageItems}}" stepKey="seePackageItems"/>
-        <seeElement selector="{{AdminShipmentPaketPackagingPopupSection.packageOptions}}" stepKey="seePackageOptions"/>
-        <seeElement selector="{{AdminShipmentPaketPackagingPopupSection.serviceOptions}}" stepKey="seeServiceOptions"/>
+        <seeElement selector="{{AdminShipmentPackagingPopupSection.submitButton}}" stepKey="seeCreateShippingLabelButton"/>
+        <seeElement selector="{{AdminShipmentPackagingPopupSection.packageItems}}" stepKey="seePackageItems"/>
+        <seeElement selector="{{AdminShipmentPackagingPopupSection.packageOptions}}" stepKey="seePackageOptions"/>
+        <seeElement selector="{{AdminShipmentPackagingPopupSection.serviceOptions}}" stepKey="seeServiceOptions"/>
     </actionGroup>
 
     <actionGroup name="checkPackagingPopupCustoms">
-        <seeElement selector="{{AdminShipmentPaketPackagingPopupSection.customsValue}}" stepKey="seeCustomsValue"/>
-        <seeElement selector="{{AdminShipmentPaketPackagingPopupSection.termsOfTrade}}" stepKey="seeTermsOfTrade"/>
-        <seeElement selector="{{AdminShipmentPaketPackagingPopupSection.exportContentType}}" stepKey="seeExportContentType"/>
-        <seeElement selector="{{AdminShipmentPaketPackagingPopupSection.explanation}}" stepKey="seeExplanation"/>
-        <seeElement selector="{{AdminShipmentPaketPackagingPopupSection.packageDescription}}" stepKey="seePackageDescription"/>
-        <seeElement selector="{{AdminShipmentPaketPackagingPopupSection.additionalFee}}" stepKey="seeAdditionalFee"/>
-        <seeElement selector="{{AdminShipmentPaketPackagingPopupSection.placeOfCommittal}}" stepKey="seePlaceOfCommittal"/>
-        <seeElement selector="{{AdminShipmentPaketPackagingPopupSection.permitNumber}}" stepKey="seePermitNumber"/>
-        <seeElement selector="{{AdminShipmentPaketPackagingPopupSection.attestationNumber}}" stepKey="seeAttestationNumber"/>
-        <seeElement selector="{{AdminShipmentPaketPackagingPopupSection.electronicExportNotification}}" stepKey="seeElectronicExportNotification"/>
+        <seeElement selector="{{AdminShipmentPackagingPopupSection.packageCustomsValue}}" stepKey="seeCustomsValue"/>
+        <seeElement selector="{{AdminShipmentPackagingPopupSection.termsOfTrade}}" stepKey="seeTermsOfTrade"/>
+        <seeElement selector="{{AdminShipmentPackagingPopupSection.exportContentType}}" stepKey="seeExportContentType"/>
+        <seeElement selector="{{AdminShipmentPackagingPopupSection.explanation}}" stepKey="seeExplanation"/>
+        <seeElement selector="{{AdminShipmentPackagingPopupSection.packageDescription}}" stepKey="seePackageDescription"/>
+        <seeElement selector="{{AdminShipmentPackagingPopupSection.additionalFee}}" stepKey="seeAdditionalFee"/>
+        <seeElement selector="{{AdminShipmentPackagingPopupSection.placeOfCommittal}}" stepKey="seePlaceOfCommittal"/>
+        <seeElement selector="{{AdminShipmentPackagingPopupSection.permitNumber}}" stepKey="seePermitNumber"/>
+        <seeElement selector="{{AdminShipmentPackagingPopupSection.attestationNumber}}" stepKey="seeAttestationNumber"/>
+        <seeElement selector="{{AdminShipmentPackagingPopupSection.electronicExportNotification}}" stepKey="seeElectronicExportNotification"/>
     </actionGroup>
 </actionGroups>
 

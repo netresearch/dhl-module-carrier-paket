@@ -139,12 +139,12 @@
 
         <actionGroup ref="createDhlPaketShipment" stepKey="createDhlPaketShipment"/>
 
-        <grabValueFrom selector="{{AdminShipmentPaketPackagingPopupSection.totalWeight}}" stepKey="grabTotalWeight"/>
+        <grabValueFrom selector="{{AdminShipmentPackagingPopupSection.packageWeight}}" stepKey="grabTotalWeight"/>
         <assertEquals stepKey="assertTotalWeight">
             <actualResult type="variable">grabTotalWeight</actualResult>
             <expectedResult type="string">6</expectedResult>
         </assertEquals>
-        <grabTextFrom selector="{{AdminShipmentPaketPackagingPopupSection.shippingProduct}}" stepKey="grabShippingProduct"/>
+        <grabTextFrom selector="{{AdminShipmentPackagingPopupSection.shippingProductRadio}} label" stepKey="grabShippingProduct"/>
         <assertEquals stepKey="assertShippingProduct">
             <actualResult type="variable">grabShippingProduct</actualResult>
             <expectedResult type="string">DHL Paket</expectedResult>
