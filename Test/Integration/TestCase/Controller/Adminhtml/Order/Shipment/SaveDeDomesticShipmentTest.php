@@ -87,11 +87,11 @@ class SaveDeDomesticShipmentTest extends SaveShipmentTest
     public function saveShipment(callable $getPostData)
     {
         // create packaging post data from order fixture
-        $packages = $getPostData();
+        $data = $getPostData();
 
         // dispatch
         $this->getRequest()->setMethod($this->httpMethod);
-        $this->getRequest()->setPostValue('data', \json_encode($packages));
+        $this->getRequest()->setPostValue('data', \json_encode($data));
         $this->getRequest()->setParam('order_id', self::$order->getEntityId());
         $this->dispatch($this->uri);
 
@@ -109,7 +109,7 @@ class SaveDeDomesticShipmentTest extends SaveShipmentTest
 
         // assert that one track was created per package
         $tracks = $shipment->getTracks();
-        self::assertCount(count($packages), $tracks);
+        self::assertCount(count($data['packages']), $tracks);
 
         // assert that the order's label status is "Processed"
         /** @var LabelStatusProvider $labelStatusProvider */

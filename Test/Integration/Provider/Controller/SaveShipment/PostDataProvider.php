@@ -7,40 +7,14 @@ declare(strict_types=1);
 namespace Dhl\Paket\Test\Integration\Provider\Controller\SaveShipment;
 
 use Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes;
-use Dhl\Paket\Util\ShippingProducts;
-use Dhl\ShippingCore\Api\ConfigInterface;
 use Magento\Sales\Api\Data\OrderInterface;
 use Magento\Sales\Api\Data\OrderItemInterface;
-use Magento\Sales\Model\Order;
-use Magento\TestFramework\Helper\Bootstrap;
 
 /**
  * Prepare POST data as sent to the `admin/order_shipment/save` controller
  */
 class PostDataProvider
 {
-    /**
-     * @param OrderInterface|Order $order
-     * @return string|null
-     */
-    private static function getShippingProduct(OrderInterface $order)
-    {
-        /** @var ConfigInterface $config */
-        $config = Bootstrap::getObjectManager()->get(ConfigInterface::class);
-        /** @var ShippingProducts $shippingProducts */
-        $shippingProducts = Bootstrap::getObjectManager()->get(ShippingProducts::class);
-        $originCountry = $config->getOriginCountry($order->getStoreId());
-        $euCountries = $config->getEuCountries($order->getStoreId());
-
-        $applicableProducts = $shippingProducts->getShippingProducts(
-            $originCountry,
-            $order->getShippingAddress()->getCountryId(),
-            $euCountries
-        );
-
-        return array_pop($applicableProducts)[0];
-    }
-
     /**
      * Pack all order items into one package. Cross-border data is omitted.
      *
@@ -49,14 +23,12 @@ class PostDataProvider
      */
     public static function singlePackageDomestic(OrderInterface $order)
     {
-        $productCode = self::getShippingProduct($order);
-
         $package = [
             'packageId' => '1',
             'items' => [],
             'package' => [
                 'packageDetails' => [
-                    'productCode' => $productCode,
+                    'productCode' => 'V01PAK',
                     'packagingWeight' => '0.33',
                     'weight' => '0',
                     'weightUnit' => \Zend_Measure_Weight::KILOGRAM,
@@ -87,7 +59,7 @@ class PostDataProvider
 
         $package['package']['packageDetails']['weight'] += $package['package']['packageDetails']['packagingWeight'];
 
-        return [$package];
+        return ['packages' => [$package]];
     }
 
     public static function singlePackageDomesticWithCodAndWarenpostProduct(OrderInterface $order)
@@ -135,7 +107,7 @@ class PostDataProvider
             'addCodFee' => null
         ];
 
-        return [$package];
+        return ['packages' => [$package]];
     }
 
     /**
@@ -147,7 +119,6 @@ class PostDataProvider
     public static function multiPackageDomestic(OrderInterface $order)
     {
         $packages = [];
-        $productCode = self::getShippingProduct($order);
 
         $packageId = 1;
         foreach ($order->getItems() as $orderItem) {
@@ -162,7 +133,7 @@ class PostDataProvider
 
             $packagingWeight = '0.33';
             $packageDetails = [
-                'productCode' => $productCode,
+                'productCode' => 'V01PAK',
                 'packagingWeight' => $packagingWeight,
                 'weight' => $orderItem->getWeight() * $orderItem->getQtyOrdered() + (float)$packagingWeight,
                 'weightUnit' => \Zend_Measure_Weight::KILOGRAM,
@@ -185,7 +156,7 @@ class PostDataProvider
             $packageId++;
         }
 
-        return $packages;
+        return ['packages' => $packages];
     }
 
     /**
@@ -197,7 +168,6 @@ class PostDataProvider
     public static function multiPackageDomesticWithCod(OrderInterface $order)
     {
         $packages = [];
-        $productCode = self::getShippingProduct($order);
 
         $packageId = 1;
         foreach ($order->getItems() as $orderItem) {
@@ -212,7 +182,7 @@ class PostDataProvider
 
             $packagingWeight = '0.33';
             $packageDetails = [
-                'productCode' => $productCode,
+                'productCode' => 'V01PAK',
                 'packagingWeight' => $packagingWeight,
                 'weight' => $orderItem->getWeight() * $orderItem->getQtyOrdered() + (float)$packagingWeight,
                 'weightUnit' => \Zend_Measure_Weight::KILOGRAM,
@@ -244,6 +214,6 @@ class PostDataProvider
             $packageId++;
         }
 
-        return $packages;
+        return ['packages' => $packages];
     }
 }
