@@ -28,7 +28,7 @@ class AdditionalChargesProcessorTest extends TestCase
      */
     private $objectManager;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -37,9 +37,9 @@ class AdditionalChargesProcessorTest extends TestCase
         // suppress calls to the parcel management api
         $checkoutService = new CheckoutServiceStub();
         $checkoutServiceFactory = $this->getMockBuilder(ServiceFactory::class)
-            ->setMethods(['createCheckoutService'])
-            ->disableOriginalConstructor()
-            ->getMock();
+                                       ->setMethods(['createCheckoutService'])
+                                       ->disableOriginalConstructor()
+                                       ->getMock();
         $checkoutServiceFactory->method('createCheckoutService')->willReturn($checkoutService);
 
         $this->objectManager->addSharedInstance($checkoutServiceFactory, ServiceFactory::class);
@@ -83,7 +83,12 @@ class AdditionalChargesProcessorTest extends TestCase
         /** @var CarrierData $carrier */
         $carrier = $carriers[Paket::CARRIER_CODE];
         $options = $carrier->getServiceOptions();
-        self::assertContains('$100.00', $options[Codes::CHECKOUT_SERVICE_PREFERRED_DAY]->getInputs()['date']->getComment()->getContent());
+        self::assertNotFalse(
+            strpos(
+                $options[Codes::CHECKOUT_SERVICE_PREFERRED_DAY]->getInputs()['date']->getComment()->getContent(),
+                '$100.00'
+            )
+        );
     }
 
     /**
@@ -126,9 +131,11 @@ class AdditionalChargesProcessorTest extends TestCase
         /** @var CarrierData $carrier */
         $carrier = $carriers[Paket::CARRIER_CODE];
         $serviceOptions = $carrier->getServiceOptions();
-        self::assertContains(
-            ' €70.67',
-            $serviceOptions[Codes::CHECKOUT_SERVICE_PREFERRED_DAY]->getInputs()['date']->getComment()->getContent()
+        self::assertNotFalse(
+            strpos(
+                $serviceOptions[Codes::CHECKOUT_SERVICE_PREFERRED_DAY]->getInputs()['date']->getComment()->getContent(),
+                ' €70.67'
+            )
         );
     }
 }

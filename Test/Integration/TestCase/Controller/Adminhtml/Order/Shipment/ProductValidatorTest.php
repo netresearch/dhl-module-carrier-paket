@@ -127,7 +127,7 @@ class ProductValidatorTest extends SaveShipmentTest
 
         // assert packaging popup receives validator error message for display
         self::assertTrue($responseBody->error);
-        self::assertContains(
+        self::assertStringEndsWith(
             'Please change the shipping product or deselect the service(s).',
             $responseBody->message
         );

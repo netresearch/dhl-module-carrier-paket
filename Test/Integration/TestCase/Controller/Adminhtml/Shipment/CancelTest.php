@@ -61,7 +61,7 @@ class CancelTest extends AbstractBackendController
      */
     private static $shipments = [];
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 

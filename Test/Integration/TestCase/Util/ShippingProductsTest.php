@@ -31,7 +31,7 @@ class ShippingProductsTest extends TestCase
     /**
      * This method is called before the first test of this test class is run.
      */
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass(): void
     {
         $objectManager = Bootstrap::getObjectManager();
         $config        = $objectManager->get(ConfigInterface::class);
@@ -107,7 +107,7 @@ class ShippingProductsTest extends TestCase
             $originCountryCode
         );
 
-        self::assertInternalType('array', $applicableProducts);
+        self::assertTrue(\is_array($applicableProducts));
         self::assertThat(
             empty($applicableProducts),
             $shouldReturnEmptyProductList ? self::isTrue() : self::isFalse(),
@@ -178,9 +178,9 @@ class ShippingProductsTest extends TestCase
             self::$euCountries
         );
 
-        self::assertInternalType('array', $shippingProducts);
+        self::assertTrue(\is_array($shippingProducts));
         self::assertArrayHasKey($destinationRegion, $shippingProducts);
-        self::assertInternalType('array', $shippingProducts[$destinationRegion]);
+        self::assertTrue(\is_array($shippingProducts[$destinationRegion]));
     }
 
     /**
@@ -204,15 +204,15 @@ class ShippingProductsTest extends TestCase
      * @dataProvider applicableProceduresDataProvider
      *
      * @param string $originCountryCode
-     * @param string $shouldReturnEmptyProcedureList
+     * @param bool $shouldReturnEmptyProcedureList
      */
-    public function getApplicableProcedures(string $originCountryCode, string $shouldReturnEmptyProcedureList)
+    public function getApplicableProcedures(string $originCountryCode, bool $shouldReturnEmptyProcedureList)
     {
         $applicableProcedures = self::$shippingProducts->getApplicableProcedures(
             $originCountryCode
         );
 
-        self::assertInternalType('array', $applicableProcedures);
+        self::assertTrue(\is_array($applicableProcedures));
         self::assertThat(
             empty($applicableProcedures),
             $shouldReturnEmptyProcedureList ? self::isTrue() : self::isFalse(),

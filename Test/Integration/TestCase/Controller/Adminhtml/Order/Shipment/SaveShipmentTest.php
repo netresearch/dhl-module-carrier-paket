@@ -11,9 +11,7 @@ use Dhl\Paket\Test\Integration\Provider\Controller\SaveShipment\PostDataProvider
 use Dhl\Paket\Test\Integration\TestCase\Controller\Adminhtml\ControllerTest;
 use Dhl\Paket\Test\Integration\TestDouble\Pipeline\CreateShipments\Stage\SendRequestStageStub as CreationStageStub;
 use Dhl\Paket\Test\Integration\TestDouble\Pipeline\DeleteShipments\Stage\SendRequestStageStub as CancellationStageStub;
-use Magento\Framework\Data\Form\FormKey;
 use Magento\Framework\Exception\AuthenticationException;
-use Magento\Framework\Exception\LocalizedException;
 use Magento\Sales\Api\Data\OrderInterface;
 use Magento\Sales\Model\Order;
 
@@ -55,7 +53,7 @@ abstract class SaveShipmentTest extends ControllerTest
      *
      * @throws AuthenticationException
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -84,28 +82,6 @@ abstract class SaveShipmentTest extends ControllerTest
                 },
             ],
         ];
-    }
-
-    /**
-     * Run request.
-     *
-     * Set form key if not available (required for Magento < 2.2.8).
-     *
-     * @link https://github.com/magento/magento2/blob/2.2.7/dev/tests/integration/framework/Magento/TestFramework/TestCase/AbstractController.php#L100
-     * @link https://github.com/magento/magento2/blob/2.2.8/dev/tests/integration/framework/Magento/TestFramework/TestCase/AbstractController.php#L109-L116
-     *
-     * @param string $uri
-     * @throws LocalizedException
-     */
-    public function dispatch($uri)
-    {
-        if (!array_key_exists('form_key', $this->getRequest()->getPost())) {
-            /** @var FormKey $formKey */
-            $formKey = $this->_objectManager->get(FormKey::class);
-            $this->getRequest()->setPostValue('form_key', $formKey->getFormKey());
-        }
-
-        parent::dispatch($uri);
     }
 
     /**

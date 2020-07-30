@@ -74,7 +74,7 @@ class DisableCodPaymentMethodsTest extends TestCase
     /**
      * Prepare invoker, observer and observer config.
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
