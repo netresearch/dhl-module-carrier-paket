@@ -192,7 +192,7 @@ class ParcelManagementOptionsProcessor implements ShippingOptionsProcessorInterf
         string $postalCode,
         int $storeId = null
     ): array {
-        if (empty(array_intersect_key(self::SERVICES_WITH_OPTIONS, array_keys($optionsData)))) {
+        if (empty(array_intersect(self::SERVICES_WITH_OPTIONS, array_keys($optionsData)))) {
             // Return early if no service that needs options from the API is available.
             return $optionsData;
         }
