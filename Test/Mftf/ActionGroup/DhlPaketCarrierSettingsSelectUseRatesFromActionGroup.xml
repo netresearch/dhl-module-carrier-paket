@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ /**
+  * See LICENSE.md for license details.
+  */
+-->
+<actionGroups xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/actionGroupSchema.xsd">
+    <actionGroup name="DhlPaketCarrierSettingsSelectUseRatesFromActionGroup">
+        <arguments>
+            <argument name="useRatesFrom" defaultValue="CarriersDhlPaketSettings.useRatesFromFlatRate"/>
+        </arguments>
+
+        <seeElement selector="{{AdminSystemConfigCarriersDhlPaketSection.checkoutPresentationUseRatesFromSelect}}" stepKey="seeCheckoutPresentationUseRatesFromSelect"/>
+        <selectOption selector="{{AdminSystemConfigCarriersDhlPaketSection.checkoutPresentationUseRatesFromSelect}}" userInput="{{useRatesFrom}}" stepKey="selectCheckoutPresentationUseRatesFrom"/>
+    </actionGroup>
+</actionGroups>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ /**
+  * See LICENSE.md for license details.
+  */
+-->
+<actionGroups xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/actionGroupSchema.xsd">
+    <actionGroup name="CreateDhlPaketShipmentActionGroup">
+        <seeElement selector="{{AdminShipmentMainActionsSection.createLabelCheckbox}}" stepKey="seeCreateShippingLabel"/>
+        <checkOption selector="{{AdminShipmentMainActionsSection.createLabelCheckbox}}" stepKey="checkCreateLabel"/>
+        <seeElement selector="{{AdminShipmentMainActionsSection.submitShipment}}" stepKey="seeSubmitShipping"/>
+        <click selector="{{AdminShipmentMainActionsSection.submitShipment}}" stepKey="clickSubmitShipment"/>
+        <waitForAjaxLoad stepKey="waitForPackagingPopup" time="30"/>
+        <seeElement selector="{{AdminShipmentPackagingPopupSection.submitButton}}" stepKey="seeCreateShippingLabelButton"/>
+        <seeElement selector="{{AdminShipmentPackagingPopupSection.packageItems}}" stepKey="seePackageItems"/>
+        <seeElement selector="{{AdminShipmentPackagingPopupSection.packageOptions}}" stepKey="seePackageOptions"/>
+        <seeElement selector="{{AdminShipmentPackagingPopupSection.serviceOptions}}" stepKey="seeServiceOptions"/>
+    </actionGroup>
+</actionGroups>

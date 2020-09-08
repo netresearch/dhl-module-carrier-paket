@@ -18,28 +18,27 @@
         <before>
             <comment userInput="-> Run required steps before starting with the test" stepKey="setupTestComment"/>
 
-            <createData entity="_defaultCategory" stepKey="SimpleCategory"/>
-            <createData entity="_defaultProduct" stepKey="SimpleProduct">
-                <requiredEntity createDataKey="SimpleCategory"/>
+            <createData entity="_defaultCategory" stepKey="createCategory"/>
+            <createData entity="_defaultProduct" stepKey="createSimpleProduct1">
+                <requiredEntity createDataKey="createCategory"/>
                 <field key="price">20</field>
                 <field key="weight">1</field>
             </createData>
-
-            <createData entity="SimpleProduct2" stepKey="simpleProduct">
+            <createData entity="SimpleProduct2" stepKey="createSimpleProduct2">
                 <field key="price">10.00</field>
                 <field key="weight">1</field>
             </createData>
-            <createData entity="SimpleProduct2" stepKey="simpleProduct1">
+            <createData entity="SimpleProduct2" stepKey="createSimpleProduct3">
                 <field key="price">20.00</field>
                 <field key="weight">1</field>
             </createData>
 
-            <actionGroup ref="LoginAsAdmin" stepKey="loginAsAdmin"/>
+            <actionGroup ref="AdminLoginActionGroup" stepKey="loginAsAdmin"/>
 
             <!-- Shipping origin -->
             <actionGroup ref="NavigateToShippingOriginSectionActionGroup" stepKey="navigateToShippingSection"/>
             <actionGroup ref="ConfigureShippingOriginRegionSelectActionGroup" stepKey="configureShippingOrigin"/>
-            <actionGroup ref="SaveAdminSystemConfigSectionActionGroup" stepKey="saveAdminSystemConfigSection1"/>
+            <actionGroup ref="AdminSystemConfigSectionSaveActionGroup" stepKey="saveAdminSystemConfigSection1"/>
 
             <!-- Carriers configuration -->
             <actionGroup ref="NavigateToCarrierSettingsPageActionGroup" stepKey="navigateToCarrierSettingsConfig"/>
@@ -47,7 +46,7 @@
             <actionGroup ref="FlatRateCarrierSettingsConfigurationActiveActionGroup" stepKey="configureFlatRateCarrier">
                 <argument name="CarriersFlatRateSettings" value="CarriersFlatRateSettings_DhlPaketPerOrder"/>
             </actionGroup>
-            <actionGroup ref="SaveAdminSystemConfigSectionActionGroup" stepKey="saveAdminSystemConfigSection2"/>
+            <actionGroup ref="AdminSystemConfigSectionSaveActionGroup" stepKey="saveAdminSystemConfigSection2"/>
 
             <actionGroup ref="NavigateToShippingCoreSectionActionGroup" stepKey="navigateToShippingCoreSettingsConfig"/>
             <actionGroup ref="DhlPaketCarrierSettingsOpenActionGroup" stepKey="openCarrierSettingsDhlPaket"/>
@@ -59,76 +58,79 @@
                          stepKey="expandCarrierSettingsDhlPaketCheckoutPresentationTab"/>
             <actionGroup ref="DhlPaketCarrierSettingsSelectUseRatesFromActionGroup" stepKey="selectCarrierSettingsUseRatesFrom"/>
 
-            <actionGroup ref="SaveAdminSystemConfigSectionActionGroup" stepKey="saveAdminSystemConfigSection3"/>
-            <!--Flush Magento Cache-->
-            <magentoCLI stepKey="flushCache" command="cache:clean"/>
+            <actionGroup ref="AdminSystemConfigSectionSaveActionGroup" stepKey="saveAdminSystemConfigSection3"/>
+
+            <!-- Perform reindex and flush cache -->
+            <actionGroup ref="CliIndexerReindexActionGroup" stepKey="reindex">
+                <argument name="indices" value=""/>
+            </actionGroup>
+            <actionGroup ref="CliCacheFlushActionGroup" stepKey="flushCache">
+                <argument name="tags" value=""/>
+            </actionGroup>
         </before>
         <after>
             <comment userInput="-> Clean up carrier configuration settings after test" stepKey="cleanTestComment"/>
 
-            <deleteData createDataKey="SimpleProduct" stepKey="deleteProduct"/>
-            <deleteData createDataKey="simpleProduct" stepKey="deleteSimpleProduct"/>
-            <deleteData createDataKey="simpleProduct1" stepKey="deleteSimpleProduct1"/>
-            <deleteData createDataKey="SimpleCategory" stepKey="deleteCategory"/>
+            <deleteData createDataKey="createSimpleProduct1" stepKey="deleteSimpleProduct1"/>
+            <deleteData createDataKey="createSimpleProduct2" stepKey="deleteSimpleProduct2"/>
+            <deleteData createDataKey="createSimpleProduct3" stepKey="deleteSimpleProduct3"/>
+            <deleteData createDataKey="createCategory" stepKey="deleteCategory"/>
 
-            <actionGroup ref="NavigateToConfigurationGeneralPage" stepKey="navigateToConfigurationGeneralPage"/>
+            <actionGroup ref="NavigateToConfigurationGeneralPageActionGroup" stepKey="navigateToConfigurationGeneralPage"/>
             <actionGroup ref="AdminSetDefaultCountryInactiveActionGroup" stepKey="resetDefaultCountry"/>
 
             <!-- Unset carrier settings to restore initial state -->
             <actionGroup ref="NavigateToCarrierSettingsPageActionGroup" stepKey="navigateToCarrierSettingsConfig"/>
             <actionGroup ref="FlatRateCarrierSettingsOpenActionGroup" stepKey="openCarrierSettingsFlatRate"/>
             <actionGroup ref="FlatRateCarrierSettingsConfigurationInactiveActionGroup" stepKey="configureFlatRateCarrier"/>
-            <actionGroup ref="SaveAdminSystemConfigSectionActionGroup" stepKey="saveAdminSystemConfigSection4"/>
+            <actionGroup ref="AdminSystemConfigSectionSaveActionGroup" stepKey="saveAdminSystemConfigSection4"/>
             <actionGroup ref="NavigateToShippingCoreSectionActionGroup" stepKey="navigateToShippingCoreSettingsConfig"/>
             <actionGroup ref="DhlPaketCarrierSettingsOpenActionGroup" stepKey="openCarrierSettingsDhlPaket"/>
             <actionGroup ref="DhlPaketCarrierSettingsExpandGeneralTabActionGroup" stepKey="expandCarrierSettingsDhlPaketGeneralTab"/>
             <actionGroup ref="DhlPaketResetCarrierSettingsActionGroup" stepKey="resetCarrierSettingsDhlPaketAfter"/>
-            <actionGroup ref="SaveAdminSystemConfigSectionActionGroup" stepKey="saveAdminConfigSectionAfter"/>
-            <!-- Delete created customer -->
-            <!--<actionGroup ref="DeleteCustomerActionGroup" stepKey="deleteCustomer">
-                <argument name="lastName" value="Customer_DE.lastname"/>
-            </actionGroup>
-            <seeElement selector="{{CustomersPageSection.deletedSuccessMessage}}" stepKey="seeSuccessMessage"/>-->
-            <actionGroup ref="logout" stepKey="logout"/>
+            <actionGroup ref="AdminSystemConfigSectionSaveActionGroup" stepKey="saveAdminConfigSectionAfter"/>
+            <actionGroup ref="AdminLogoutActionGroup" stepKey="logout"/>
         </after>
 
         <comment userInput="-> Perform shipment test" stepKey="runTestComment"/>
         <!--Create new customer order-->
-        <actionGroup ref="navigateToNewOrderPageNewCustomerSingleStore" stepKey="navigateToNewOrderWithNewCustomer"/>
+        <actionGroup ref="NavigateToNewOrderPageNewCustomerSingleStoreActionGroup" stepKey="navigateToNewOrderWithNewCustomer"/>
         <conditionalClick selector="{{AdminOrderFormStoreSelectorSection.defaultStoreViewButton}}" dependentSelector="{{AdminOrderFormStoreSelectorSection.storeSelectorContainer}}" visible="true" stepKey="selectFirstStoreViewIfAppears"/>
         <waitForLoadingMaskToDisappear stepKey="waitForLoadingMaskDisappearedAfterStoreSelected"/>
         <waitForElement selector="{{AdminOrderFormItemsSection.addProducts}}" stepKey="waitForAddProducts"/>
-        <actionGroup ref="addSimpleProductToOrder" stepKey="addSimpleProductToOrder">
-            <argument name="product" value="_defaultProduct"/>
+
+        <!-- Add first simple product to order -->
+        <actionGroup ref="AddSimpleProductToOrderActionGroup" stepKey="addSimpleProductToOrder">
+            <argument name="product" value="$$createSimpleProduct1$$"/>
         </actionGroup>
 
         <!--Add second Simple product to order-->
-        <actionGroup ref="addSimpleProductToOrder" stepKey="addSimpleProductToTheOrder">
-            <argument name="product" value="$$simpleProduct$$"/>
+        <actionGroup ref="AddSimpleProductToOrderActionGroup" stepKey="addSecondSimpleProductToOrder">
+            <argument name="product" value="$$createSimpleProduct2$$"/>
             <argument name="productQty" value="2"/>
         </actionGroup>
 
         <!--Add third Simple product to order-->
-        <actionGroup ref="addSimpleProductToOrder" stepKey="addSecondProductToTheOrder">
-            <argument name="product" value="$$simpleProduct1$$"/>
+        <actionGroup ref="AddSimpleProductToOrderActionGroup" stepKey="addThirdSimpleProductToOrder">
+            <argument name="product" value="$$createSimpleProduct3$$"/>
             <argument name="productQty" value="3"/>
         </actionGroup>
 
         <!--Fill customer group information-->
-        <selectOption selector="{{AdminOrderFormAccountSection.group}}" userInput="{{GeneralCustomerGroup.code}}" stepKey="selectGroup" after="addSecondProductToTheOrder"/>
-        <fillField selector="{{AdminOrderFormAccountSection.email}}" userInput="{{Customer_CH.email}}" stepKey="fillEmail" after="selectGroup"/>
+        <selectOption selector="{{AdminOrderFormAccountSection.group}}" userInput="{{GeneralCustomerGroup.code}}" stepKey="selectCustomerGroup" after="addThirdSimpleProductToOrder"/>
+        <fillField selector="{{AdminOrderFormAccountSection.email}}" userInput="{{Customer_CH.email}}" stepKey="fillEmail" after="selectCustomerGroup"/>
 
         <!--Fill customer address information-->
-        <actionGroup ref="fillOrderCustomerInformation" stepKey="fillCustomerAddress" after="fillEmail">
+        <actionGroup ref="FillOrderCustomerInformationActionGroup" stepKey="fillCustomerAddress" after="fillEmail">
             <argument name="customer" value="Customer_CH"/>
             <argument name="address" value="CustomerAddress_CH"/>
         </actionGroup>
 
         <!--Select FlatRate shipping method-->
-        <actionGroup ref="orderSelectDhlPaketFlatRateShipping" stepKey="orderSelectDhlPaketFlatRateShippingMethod"/>
+        <actionGroup ref="OrderSelectDhlPaketFlatRateShippingActionGroup" stepKey="orderSelectDhlPaketFlatRateShippingMethod"/>
 
         <!-- Checkout select Check/Money Order payment -->
-        <actionGroup ref="SelectCheckMoneyPaymentMethod" stepKey="selectCheckMoneyPayment"/>
+        <actionGroup ref="SelectCheckMoneyPaymentMethodActionGroup" stepKey="selectCheckMoneyPayment"/>
 
         <!--Submit order-->
         <click selector="{{AdminOrderFormActionSection.SubmitOrder}}" stepKey="submitOrder"/>
@@ -138,13 +140,13 @@
         <waitForPageLoad stepKey="waitForNewShipmentPage"/>
 
         <scrollTo stepKey="scrollToTotalsAction" selector="{{AdminShipmentMainActionsSection.createLabelCheckbox}}" />
-        <actionGroup ref="createDhlPaketShipment" stepKey="createDhlPaketShipment"/>
-        <actionGroup ref="checkPackagingPopupCustoms" stepKey="checkInternationalPackagingCustoms"/>
+        <actionGroup ref="CreateDhlPaketShipmentActionGroup" stepKey="createDhlPaketShipment"/>
+        <actionGroup ref="CheckPackagingPopupCustomsActionGroup" stepKey="checkInternationalPackagingCustoms"/>
 
         <grabValueFrom selector="{{AdminShipmentPackagingPopupSection.packageWeight}}" stepKey="grabTotalWeight"/>
         <assertEquals stepKey="assertTotalWeight">
             <actualResult type="variable">grabTotalWeight</actualResult>
-            <expectedResult type="string">6</expectedResult>
+            <expectedResult type="string">6.00</expectedResult>
         </assertEquals>
         <grabTextFrom selector="{{AdminShipmentPackagingPopupSection.shippingProductRadio}} label" stepKey="grabShippingProduct"/>
         <assertEquals stepKey="assertShippingProduct">

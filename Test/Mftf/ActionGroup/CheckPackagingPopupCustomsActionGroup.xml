@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ /**
+  * See LICENSE.md for license details.
+  */
+-->
+<actionGroups xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/actionGroupSchema.xsd">
+    <actionGroup name="CheckPackagingPopupCustomsActionGroup">
+        <seeElement selector="{{AdminShipmentPackagingPopupSection.packageCustomsValue}}" stepKey="seeCustomsValue"/>
+        <seeElement selector="{{AdminShipmentPackagingPopupSection.termsOfTrade}}" stepKey="seeTermsOfTrade"/>
+        <seeElement selector="{{AdminShipmentPackagingPopupSection.exportContentType}}" stepKey="seeExportContentType"/>
+        <seeElement selector="{{AdminShipmentPackagingPopupSection.explanation}}" stepKey="seeExplanation"/>
+        <seeElement selector="{{AdminShipmentPackagingPopupSection.packageDescription}}" stepKey="seePackageDescription"/>
+        <seeElement selector="{{AdminShipmentPackagingPopupSection.additionalFee}}" stepKey="seeAdditionalFee"/>
+        <seeElement selector="{{AdminShipmentPackagingPopupSection.placeOfCommittal}}" stepKey="seePlaceOfCommittal"/>
+        <seeElement selector="{{AdminShipmentPackagingPopupSection.permitNumber}}" stepKey="seePermitNumber"/>
+        <seeElement selector="{{AdminShipmentPackagingPopupSection.attestationNumber}}" stepKey="seeAttestationNumber"/>
+        <seeElement selector="{{AdminShipmentPackagingPopupSection.electronicExportNotification}}" stepKey="seeElectronicExportNotification"/>
+    </actionGroup>
+</actionGroups>

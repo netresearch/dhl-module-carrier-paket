@@ -6,8 +6,7 @@
 -->
 <tests xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/testSchema.xsd">
-    <test name="DhlCarrierPaketPurchaseOneProduct"
-          extends="DhlCarrierPaketRateEmulationInCheckoutOneProduct">
+    <test name="DhlCarrierPaketPurchaseTest" extends="DhlCarrierPaketRateEmulationInCheckoutOneProductTest">
         <annotations>
             <features value="Checkout"/>
             <stories value="Purchase a single product using DHL Paket carrier"/>
@@ -19,18 +18,21 @@
         <before>
             <comment userInput="-> Run required steps before starting with the test" stepKey="setupTestComment"/>
 
-            <createData entity="_defaultCategory" stepKey="SimpleCategory"/>
-            <createData entity="_defaultProduct" stepKey="SimpleProduct">
-                <requiredEntity createDataKey="SimpleCategory"/>
+            <createData entity="_defaultCategory" stepKey="createCategory"/>
+            <createData entity="_defaultProduct" stepKey="createSimpleProduct">
+                <requiredEntity createDataKey="createCategory"/>
                 <field key="price">20</field>
             </createData>
+            <actionGroup ref="CliIndexerReindexActionGroup" stepKey="reindex">
+                <argument name="indices" value=""/>
+            </actionGroup>
 
-            <actionGroup ref="LoginAsAdmin" stepKey="loginAsAdmin"/>
+            <actionGroup ref="AdminLoginActionGroup" stepKey="loginAsAdmin"/>
 
             <!-- Shipping origin -->
             <actionGroup ref="NavigateToShippingOriginSectionActionGroup" stepKey="navigateToShippingSection"/>
             <actionGroup ref="ConfigureShippingOriginRegionSelectActionGroup" stepKey="configureShippingOrigin"/>
-            <actionGroup ref="SaveAdminSystemConfigSectionActionGroup" stepKey="saveAdminSystemConfigSection1"/>
+            <actionGroup ref="AdminSystemConfigSectionSaveActionGroup" stepKey="saveAdminSystemConfigSection1"/>
 
             <!-- Carriers configuration -->
             <actionGroup ref="NavigateToCarrierSettingsPageActionGroup" stepKey="navigateToCarrierSettingsConfig"/>
@@ -38,7 +40,7 @@
             <actionGroup ref="FlatRateCarrierSettingsConfigurationActiveActionGroup" stepKey="configureFlatRateCarrier">
                 <argument name="CarriersFlatRateSettings" value="CarriersFlatRateSettings_DhlPaketPerOrder"/>
             </actionGroup>
-            <actionGroup ref="SaveAdminSystemConfigSectionActionGroup" stepKey="saveAdminSystemConfigSection2"/>
+            <actionGroup ref="AdminSystemConfigSectionSaveActionGroup" stepKey="saveAdminSystemConfigSection2"/>
 
             <actionGroup ref="NavigateToShippingCoreSectionActionGroup" stepKey="navigateToShippingCoreSettingsConfig"/>
             <actionGroup ref="DhlPaketCarrierSettingsOpenActionGroup" stepKey="openCarrierSettingsDhlPaket"/>
@@ -50,38 +52,41 @@
                          stepKey="expandCarrierSettingsDhlPaketCheckoutPresentationTab"/>
             <actionGroup ref="DhlPaketCarrierSettingsSelectUseRatesFromActionGroup" stepKey="selectCarrierSettingsUseRatesFrom"/>
 
-            <actionGroup ref="SaveAdminSystemConfigSectionActionGroup" stepKey="saveAdminSystemConfigSection3"/>
+            <actionGroup ref="AdminSystemConfigSectionSaveActionGroup" stepKey="saveAdminSystemConfigSection3"/>
+
+            <!-- Flush Magento cache -->
+            <magentoCLI stepKey="flushCache" command="cache:clean"/>
         </before>
         <after>
             <comment userInput="-> Clean up carrier configuration settings after test" stepKey="cleanTestComment"/>
 
-            <deleteData createDataKey="SimpleProduct" stepKey="deleteProduct"/>
-            <deleteData createDataKey="SimpleCategory" stepKey="deleteCategory"/>
+            <deleteData createDataKey="createSimpleProduct" stepKey="deleteProduct"/>
+            <deleteData createDataKey="createCategory" stepKey="deleteCategory"/>
 
             <!-- Unset carrier settings to restore initial state -->
             <actionGroup ref="NavigateToCarrierSettingsPageActionGroup" stepKey="navigateToCarrierSettingsConfig"/>
             <actionGroup ref="FlatRateCarrierSettingsOpenActionGroup" stepKey="openCarrierSettingsFlatRate"/>
             <actionGroup ref="FlatRateCarrierSettingsConfigurationInactiveActionGroup" stepKey="configureFlatRateCarrier"/>
-            <actionGroup ref="SaveAdminSystemConfigSectionActionGroup" stepKey="saveAdminConfigSectionAfter1"/>
+            <actionGroup ref="AdminSystemConfigSectionSaveActionGroup" stepKey="saveAdminConfigSectionAfter1"/>
 
             <actionGroup ref="NavigateToShippingCoreSectionActionGroup" stepKey="navigateToShippingCoreSettingsConfig"/>
             <actionGroup ref="DhlPaketCarrierSettingsOpenActionGroup" stepKey="openCarrierSettingsDhlPaket"/>
             <actionGroup ref="DhlPaketCarrierSettingsExpandGeneralTabActionGroup" stepKey="expandCarrierSettingsDhlPaketGeneralTab"/>
             <actionGroup ref="DhlPaketResetCarrierSettingsActionGroup" stepKey="resetCarrierSettingsDhlPaketAfter"/>
-            <actionGroup ref="SaveAdminSystemConfigSectionActionGroup" stepKey="saveAdminConfigSectionAfter2"/>
+            <actionGroup ref="AdminSystemConfigSectionSaveActionGroup" stepKey="saveAdminConfigSectionAfter2"/>
 
-            <actionGroup ref="logout" stepKey="logout"/>
+            <actionGroup ref="AdminLogoutActionGroup" stepKey="logout"/>
         </after>
 
         <comment userInput="-> Perform actual test" stepKey="runTestComment"/>
 
         <actionGroup ref="OpenStoreFrontProductPageActionGroup" stepKey="openProductPage">
-            <argument name="productUrlKey" value="$$SimpleProduct.custom_attributes[url_key]$$"/>
+            <argument name="productUrlKey" value="$$createSimpleProduct.custom_attributes[url_key]$$"/>
         </actionGroup>
 
         <!-- Put our SimpleProduct into the cart -->
         <actionGroup ref="StorefrontAddProductToCartActionGroup" stepKey="addProductToCart">
-            <argument name="product" value="$$SimpleProduct$$"/>
+            <argument name="product" value="$$createSimpleProduct$$"/>
             <argument name="productCount" value="1"/>
         </actionGroup>
 
@@ -101,7 +106,7 @@
 
         <grabTextFrom selector="{{StorefrontCheckoutSection.orderNumber}}" stepKey="grabOrderNumber"/>
 
-        <!-- Shipment order page -->
+        <!-- Sales shipment page -->
         <amOnPage url="{{AdminOrderShipmentViewPage.url({$grabOrderNumber})}}" stepKey="navigateToAdminOrderShipmentViewPage"/>
         <waitForPageLoad stepKey="waitForAdminOrderShipmentViewPageLoad"/>
         <seeElement selector="{{AdminOrderShipmentSection.dhlRecipientStreetContainer}}" stepKey="seeDhlRecipientStreet1"/>
@@ -128,7 +133,7 @@
         <click selector="{{AdminSalesOrderSection.dhlRecipientStreetEditLink}}" stepKey="clickLinkToRecipientStreetEdit"/>
         <waitForPageLoad stepKey="waitForDhlRecipientStreetEditLinkPageLoad" time="60"/>
 
-        <!-- Check inputs visabiliy -->
+        <!-- Check inputs visibility -->
         <seeElement selector="{{AdminSalesOrderSection.streetNameField}}" stepKey="seeStreetNameField"/>
         <seeElement selector="{{AdminSalesOrderSection.streetNumberField}}" stepKey="seeStreetNumberField"/>
         <seeElement selector="{{AdminSalesOrderSection.streetSupplementField}}" stepKey="seeSupplementField"/>
@@ -138,7 +143,7 @@
         <fillField selector="{{AdminSalesOrderSection.streetSupplementField}}" userInput="{{Address_with_Supplement_Replace.streetSupplement}}" stepKey="fillStreetSupplement"/>
 
         <!-- Save -->
-        <actionGroup ref="SaveAdminSystemConfigSectionActionGroup" stepKey="saveAdminConfigSection"/>
+        <actionGroup ref="AdminSystemConfigSectionSaveActionGroup" stepKey="saveAdminConfigSection"/>
         <waitForPageLoad stepKey="waitForDhlRecipientStreetEditLinkPageLoad1"/>
 
         <!-- Validate changed values -->

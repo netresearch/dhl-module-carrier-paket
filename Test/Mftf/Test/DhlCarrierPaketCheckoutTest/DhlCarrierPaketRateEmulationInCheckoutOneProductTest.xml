@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ /**
+  * See LICENSE.md for license details.
+  */
+-->
+<tests xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/testSchema.xsd">
+    <test name="DhlCarrierPaketRateEmulationInCheckoutOneProductTest">
+        <annotations>
+            <features value="Checkout"/>
+            <stories value="Rate emulation in checkout of carrier DHL Paket with one product, price per order"/>
+            <title value="Rate emulation in checkout of carrier DHL Paket with one product, price per order"/>
+            <description value="Verify that carrier DHL Paket show the correct rates in checkout for one product"/>
+            <severity value="CRITICAL"/>
+            <group value="carrier-paket-checkout"/>
+        </annotations>
+        <before>
+            <comment userInput="-&gt; Run required steps before starting with the test" stepKey="setupTestComment"/>
+
+            <createData entity="_defaultCategory" stepKey="createCategory"/>
+            <createData entity="_defaultProduct" stepKey="createSimpleProduct">
+                <requiredEntity createDataKey="createCategory"/>
+                <field key="price">20</field>
+            </createData>
+            <actionGroup ref="CliIndexerReindexActionGroup" stepKey="reindex">
+                <argument name="indices" value=""/>
+            </actionGroup>
+
+            <actionGroup ref="AdminLoginActionGroup" stepKey="loginAsAdmin"/>
+
+            <!-- Shipping origin -->
+            <actionGroup ref="NavigateToShippingOriginSectionActionGroup" stepKey="navigateToShippingSection"/>
+            <actionGroup ref="ConfigureShippingOriginRegionSelectActionGroup" stepKey="configureShippingOrigin"/>
+            <actionGroup ref="AdminSystemConfigSectionSaveActionGroup" stepKey="saveAdminSystemConfigSection1"/>
+
+            <!-- Carriers configuration -->
+            <actionGroup ref="NavigateToCarrierSettingsPageActionGroup" stepKey="navigateToCarrierSettingsConfig"/>
+            <actionGroup ref="FlatRateCarrierSettingsOpenActionGroup" stepKey="openCarrierSettingsFlatRate"/>
+            <actionGroup ref="FlatRateCarrierSettingsConfigurationActiveActionGroup" stepKey="configureFlatRateCarrier">
+                <argument name="CarriersFlatRateSettings" value="CarriersFlatRateSettings_DhlPaketPerOrder"/>
+            </actionGroup>
+            <actionGroup ref="AdminSystemConfigSectionSaveActionGroup" stepKey="saveAdminSystemConfigSection2"/>
+
+            <actionGroup ref="NavigateToShippingCoreSectionActionGroup" stepKey="navigateToShippingCoreSettingsConfig"/>
+            <actionGroup ref="DhlPaketCarrierSettingsOpenActionGroup" stepKey="openCarrierSettingsDhlPaket"/>
+
+            <actionGroup ref="DhlPaketCarrierSettingsExpandGeneralTabActionGroup" stepKey="expandCarrierSettingsDhlPaketGeneralTab"/>
+            <actionGroup ref="DhlPaketCarrierSettingsEnableActionGroup" stepKey="enableCarrierSettingsDhlPaket"/>
+
+            <actionGroup ref="DhlPaketCarrierSettingsExpandCheckoutPresentationTabActionGroup" stepKey="expandCarrierSettingsDhlPaketCheckoutPresentationTab"/>
+            <actionGroup ref="DhlPaketCarrierSettingsSelectUseRatesFromActionGroup" stepKey="selectCarrierSettingsUseRatesFrom"/>
+
+            <actionGroup ref="AdminSystemConfigSectionSaveActionGroup" stepKey="saveAdminSystemConfigSection3"/>
+
+            <!-- Flush Magento cache -->
+            <magentoCLI stepKey="flushCache" command="cache:clean"/>
+        </before>
+        <after>
+            <comment userInput="-&gt; Clean up carrier configuration settings after test" stepKey="cleanTestComment"/>
+
+            <deleteData createDataKey="createSimpleProduct" stepKey="deleteSimpleProduct"/>
+            <deleteData createDataKey="createCategory" stepKey="deleteCategory"/>
+
+            <!-- Unset carrier settings to restore initial state -->
+            <actionGroup ref="NavigateToCarrierSettingsPageActionGroup" stepKey="navigateToCarrierSettingsConfig"/>
+            <actionGroup ref="FlatRateCarrierSettingsOpenActionGroup" stepKey="openCarrierSettingsFlatRate"/>
+            <actionGroup ref="FlatRateCarrierSettingsConfigurationInactiveActionGroup" stepKey="configureFlatRateCarrier"/>
+            <actionGroup ref="AdminSystemConfigSectionSaveActionGroup" stepKey="saveAdminConfigSectionAfter1"/>
+
+            <actionGroup ref="NavigateToShippingCoreSectionActionGroup" stepKey="navigateToShippingCoreSettingsConfig"/>
+            <actionGroup ref="DhlPaketCarrierSettingsOpenActionGroup" stepKey="openCarrierSettingsDhlPaket"/>
+            <actionGroup ref="DhlPaketCarrierSettingsExpandGeneralTabActionGroup" stepKey="expandCarrierSettingsDhlPaketGeneralTab"/>
+            <actionGroup ref="DhlPaketResetCarrierSettingsActionGroup" stepKey="resetCarrierSettingsDhlPaketAfter"/>
+            <actionGroup ref="AdminSystemConfigSectionSaveActionGroup" stepKey="saveAdminConfigSectionAfter2"/>
+
+            <actionGroup ref="AdminLogoutActionGroup" stepKey="logout"/>
+        </after>
+
+        <comment userInput="-&gt; Perform actual test" stepKey="runTestComment"/>
+
+        <actionGroup ref="OpenStoreFrontProductPageActionGroup" stepKey="openProductPage">
+            <argument name="productUrlKey" value="$$createSimpleProduct.custom_attributes[url_key]$$"/>
+        </actionGroup>
+
+        <!-- Put our SimpleProduct into the cart -->
+        <actionGroup ref="StorefrontAddProductToCartActionGroup" stepKey="addProductToCart">
+            <argument name="product" value="$$createSimpleProduct$$"/>
+            <argument name="productCount" value="1"/>
+        </actionGroup>
+
+        <actionGroup ref="GoToCheckoutFromMinicartActionGroup" stepKey="guestNavigateToCheckout"/>
+        <actionGroup ref="GuestCheckoutValidateMethodAndPriceActionGroup" stepKey="guestCheckoutFillingShippingSection">
+            <argument name="customerVar" value="Customer_DE"/>
+            <argument name="customerAddressVar" value="CustomerAddress_DE"/>
+            <argument name="expectedShippingCarrierCode" value="dhlpaket"/>
+            <argument name="expectedShippingMethodLabel" value="DHL Paket"/>
+            <argument name="expectedShippingMethodPrice" value="5.55"/>
+        </actionGroup>
+    </test>
+</tests>

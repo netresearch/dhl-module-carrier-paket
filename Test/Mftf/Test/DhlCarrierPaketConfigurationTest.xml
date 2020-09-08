@@ -6,7 +6,7 @@
 -->
 <tests xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/testSchema.xsd">
-    <test name="DhlCarrierPaketConfigure">
+    <test name="DhlCarrierPaketConfigurationTest">
         <annotations>
             <features value="Configuration"/>
             <stories value="Configuration of carrier DHL Paket"/>
@@ -18,7 +18,7 @@
         <before>
             <comment userInput="-> Run required steps before starting with the test" stepKey="setupTestComment"/>
 
-            <actionGroup ref="LoginAsAdmin" stepKey="loginAsAdmin"/>
+            <actionGroup ref="AdminLoginActionGroup" stepKey="loginAsAdmin"/>
             <actionGroup ref="NavigateToShippingCoreSectionActionGroup" stepKey="navigateToShippingSettingsConfigInTest"/>
             <actionGroup ref="ScrollToAndExpandGroupActionGroup" stepKey="navigateToShippingCoreGroup">
                 <argument name="groupName" value="{{AdminSystemConfigShippingCoreSection.shippingCoreGroup}}"/>
@@ -30,8 +30,8 @@
             <!-- Unset carrier settings to restore initial state -->
             <actionGroup ref="DhlPaketCarrierSettingsExpandGeneralTabActionGroup" stepKey="goToDhlPaketGeneralSettings"/>
             <actionGroup ref="DhlPaketResetCarrierSettingsActionGroup" stepKey="resetCarrierSettingsDhlPaketAfter"/>
-            <actionGroup ref="SaveAdminSystemConfigSectionActionGroup" stepKey="saveAdminConfigSectionAfter"/>
-            <actionGroup ref="logout" stepKey="logout"/>
+            <actionGroup ref="AdminSystemConfigSectionSaveActionGroup" stepKey="saveAdminConfigSectionAfter"/>
+            <actionGroup ref="AdminLogoutActionGroup" stepKey="logout"/>
         </after>
 
         <comment userInput="-> Perform actual test" stepKey="runTestComment"/>
@@ -61,7 +61,7 @@
         </actionGroup>
 
         <!-- Save -->
-        <actionGroup ref="SaveAdminSystemConfigSectionActionGroup" stepKey="saveAdminConfigSection"/>
+        <actionGroup ref="AdminSystemConfigSectionSaveActionGroup" stepKey="saveAdminConfigSection"/>
 
         <!-- Expand "General Settings" tab -->
         <actionGroup ref="DhlPaketCarrierSettingsExpandGeneralTabActionGroup" stepKey="expandCarrierSettingsDhlPaketGeneralTabAfterSave"/>
