@@ -102,7 +102,7 @@ class RequestDataMapper
             $requestExtractor->getShipper()->getCity(),
             $requestExtractor->getShipper()->getStreetName(),
             $requestExtractor->getShipper()->getStreetNumber(),
-            $requestExtractor->getShipper()->getContactPersonName(),
+            null,
             null,
             null,
             null,
