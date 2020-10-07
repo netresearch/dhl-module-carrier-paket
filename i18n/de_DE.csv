@@ -11,6 +11,7 @@
 "Allow customers to request parcel notification updates via e-mail by DHL during checkout.","Lassen Sie Kunden im Checkout die Paketankündigung aktivieren. Die E-Mail-Adresse des Kunden wird von DHL ausschließlich für die Ankündigung zu dieser Sendung verwendet."
 "Allow customers to select a preferred day of delivery.","Lassen Sie Kunden im Checkout einen bevorzugten Zustelltag bestimmen."
 "Allow for Specific Countries","Zulassen nur für bestimmte Länder"
+"Alternative Email Address","Alternative E-Mail-Adresse"
 "An error occurred while preparing package data.","Während des Aufbereitens der Paketdaten ist ein Fehler aufgetreten."
 "Applicable Countries","Anwendbare Länder"
 "Attestation Number",Bescheinigungs-Nummer
@@ -54,7 +55,8 @@ EU,"Versand innerhalb Europas"
 "Enable DHL return shipment service","DHL Retourenbeileger anfordern"
 "Enable Sandbox Mode","Sandbox-Modus aktivieren"
 Enabled,Aktiviert
-"Enter your API user name, lower case only. Please talk to your account representative to add API access to your business account.","Geben Sie Ihren API Benutzernamen an (keine Großbuchstaben). Bitten Sprechen Sie mit Ihrem DHL-Ansprechpartner, um API-Zugang für Ihren Geschäftskunden-Account freizuschalten."
+"Enter your API user name, lower case only. Please talk to your account representative to add API access to your business account.","Geben Sie Ihren API Benutzernamen an (keine Großbuchstaben). Bitte sprechen Sie mit Ihrem DHL-Ansprechpartner, um API-Zugang für Ihren Geschäftskunden-Account freizuschalten."
+"Enter your email address here if you, as the sender, would like to receive the collection information.","Geben Sie hier Ihre E-Mail-Adresse an, wenn Sie als Versender die Abholinformation erhalten möchten."
 "Error Logging Level","Stufe der Fehlerprotokollierung"
 Errors,Fehler
 "Field %1 is required.","Feld %1 is erforderlich."
@@ -88,6 +90,7 @@ Mon,Mo
 "Neighbour name","Name des Nachbarn"
 No,Nein
 "No locations found for the given address. Please try another address.","Für die angegebene Adresse wurden keine Standorte gefunden. Bitte versuchen Sie eine andere Adresse."
+"Non-delivery notice will be sent to this email address. If left empty, the customer's email address is used. In this case, you must make sure to obtain data privacy consent from your customers.","Eine Benachrichtigung über die Unzustellbarkeit wird an diese E-Mail-Adresse gesendet. Wenn leer, wird die E-Mail-Adresse des Kunden verwendet. Bitte beachten Sie, dass Sie in diesem Fall Ihre Kunden über die Datenschutzbestimmungen informieren müssen."
 "Offer DHL Parcel Announcement","Paketankündigung anbieten"
 "Offer Parcel Station Delivery","Lieferung an Packstation anbieten"
 "Offer Preferred Day Service","Wunschtag anbieten"

@@ -91,7 +91,7 @@
                     </input>
                 </inputs>
             </shippingOption>
-            <shippingOption code="Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::CHECKOUT_SERVICE_PARCEL_OUTLET_ROUTING">
+            <shippingOption code="Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::PACKAGING_SERVICE_PARCEL_OUTLET_ROUTING">
                 <label translate="true">Parcel Routing</label>
                 <sortOrder>1060</sortOrder>
                 <routes>
@@ -106,6 +106,9 @@
                     <input code="enabled" defaultConfigValue="Dhl\Paket\Model\Config\ModuleConfig::CONFIG_PATH_PARCEL_OUTLET">
                         <inputType>checkbox</inputType>
                         <label translate="true">Enable DHL retail outlet routing service</label>
+                    </input>
+                    <input code="emailAddress" defaultConfigValue="Dhl\Paket\Model\Config\ModuleConfig::CONFIG_PATH_PARCEL_OUTLET_NOTIFICATION_EMAIL">
+                        <inputType>hidden</inputType>
                     </input>
                 </inputs>
             </shippingOption>

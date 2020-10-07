@@ -64,7 +64,6 @@
                     <subject>Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::CHECKOUT_SERVICE_PREFERRED_DAY</subject>
                     <subject>Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::CHECKOUT_SERVICE_PREFERRED_LOCATION</subject>
                     <subject>Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::CHECKOUT_SERVICE_PREFERRED_NEIGHBOUR</subject>
-                    <subject>Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::CHECKOUT_SERVICE_PARCEL_OUTLET_ROUTING</subject>
                 </subjects>
                 <triggerValue>*</triggerValue>
                 <action>hide</action>
@@ -74,7 +73,6 @@
                     <master>Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::CHECKOUT_SERVICE_PREFERRED_DAY</master>
                     <master>Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::CHECKOUT_SERVICE_PREFERRED_LOCATION</master>
                     <master>Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::CHECKOUT_SERVICE_PREFERRED_NEIGHBOUR</master>
-                    <master>Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::CHECKOUT_SERVICE_PARCEL_OUTLET_ROUTING</master>
                 </masters>
                 <subjects>
                     <subject>Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::CHECKOUT_SERVICE_PARCELSHOP_FINDER</subject>

@@ -519,13 +519,19 @@ class RequestExtractor implements RequestExtractorInterface
     }
 
     /**
-     * Obtain the "parcelOutletRouting" flag for the current package.
+     * Obtain parcel outlet routing notification email.
      *
-     * @return bool
+     * @return string Empty string if service is not enabled, email address otherwise.
      */
-    public function isParcelOutletRouting(): bool
+    public function getParcelOutletRoutingEmail(): string
     {
-        return (bool) ($this->getServiceData(Codes::CHECKOUT_SERVICE_PARCEL_OUTLET_ROUTING)['enabled'] ?? false);
+        $serviceData = $this->getServiceData(Codes::PACKAGING_SERVICE_PARCEL_OUTLET_ROUTING);
+        if (empty($serviceData['enabled'])) {
+            return '';
+        }
+
+        $email = $serviceData[Codes::PACKAGING_INPUT_PARCEL_OUTLET_ROUTING_NOTIFICATION_EMAIL] ?? '';
+        return $email ?: $this->getRecipient()->getContactEmail();
     }
 
     /**

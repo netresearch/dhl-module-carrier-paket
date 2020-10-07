@@ -11,6 +11,7 @@
 "Allow customers to request parcel notification updates via e-mail by DHL during checkout.","Allow customers to request parcel notification updates via e-mail by DHL during checkout."
 "Allow customers to select a preferred day of delivery.","Allow customers to select a preferred day of delivery."
 "Allow for Specific Countries","Allow for Specific Countries"
+"Alternative Email Address","Alternative Email Address"
 "An error occurred while preparing package data.","An error occurred while preparing package data."
 "Applicable Countries","Applicable Countries"
 "Attestation Number","Attestation Number"
@@ -55,6 +56,7 @@ EU,EU
 "Enable Sandbox Mode","Enable Sandbox Mode"
 Enabled,Enabled
 "Enter your API user name, lower case only. Please talk to your account representative to add API access to your business account.","Enter your API user name, lower case only. Please talk to your account representative to add API access to your business account."
+"Enter your email address here if you, as the sender, would like to receive the collection information.","Enter your email address here if you, as the sender, would like to receive the collection information."
 "Error Logging Level","Error Logging Level"
 Errors,Errors
 "Field %1 is required.","Field %1 is required."
@@ -88,6 +90,7 @@ Mon,Mon
 "Neighbour name","Neighbor name"
 No,No
 "No locations found for the given address. Please try another address.","No locations found for the given address. Please try another address."
+"Non-delivery notice will be sent to this email address. If left empty, the customer's email address is used. In this case, you must make sure to obtain data privacy consent from your customers.","Non-delivery notice will be sent to this email address. If left empty, the customer's email address is used. In this case, you must make sure to obtain data privacy consent from your customers."
 "Offer DHL Parcel Announcement","Offer DHL Parcel Announcement"
 "Offer Parcel Station Delivery","Offer Parcel Station Delivery"
 "Offer Preferred Day Service","Offer Preferred Day Service"

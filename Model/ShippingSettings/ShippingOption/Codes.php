@@ -15,17 +15,19 @@ class Codes
     const PACKAGING_SERVICE_RETURN_SHIPMENT = 'returnShipment';
     const PACKAGING_SERVICE_INSURANCE = 'additionalInsurance';
     const PACKAGING_SERVICE_BULKY_GOODS = 'bulkyGoods';
+    const PACKAGING_SERVICE_PARCEL_OUTLET_ROUTING = 'parcelOutletRouting';
     const PACKAGING_PRINT_ONLY_IF_CODEABLE = 'printOnlyIfCodeable';
+
+    const PACKAGING_INPUT_PARCEL_OUTLET_ROUTING_NOTIFICATION_EMAIL = 'emailAddress';
+
     /**
      * Checkout services.
      */
     const CHECKOUT_PARCEL_ANNOUNCEMENT = 'parcelAnnouncement';
-
     const CHECKOUT_SERVICE_PREFERRED_DAY = 'preferredDay';
     const CHECKOUT_SERVICE_PREFERRED_NEIGHBOUR = 'preferredNeighbour';
     const CHECKOUT_SERVICE_PREFERRED_LOCATION = 'preferredLocation';
     const CHECKOUT_SERVICE_PARCELSHOP_FINDER = 'parcelshopFinder';
-    const CHECKOUT_SERVICE_PARCEL_OUTLET_ROUTING = 'parcelOutletRouting';
     const CHECKOUT_SERVICE_CASH_ON_DELIVERY = 'cashOnDelivery';
 
     const CHECKOUT_INPUT_CUSTOMER_POSTNUMBER = 'customerPostnumber';

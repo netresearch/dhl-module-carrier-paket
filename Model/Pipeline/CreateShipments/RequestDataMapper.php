@@ -219,8 +219,9 @@ class RequestDataMapper
                 );
             }
 
-            if ($requestExtractor->isParcelOutletRouting()) {
-                $this->requestBuilder->setParcelOutletRouting($requestExtractor->getRecipient()->getContactEmail());
+            $nonDeliveryNoticeEmail = $requestExtractor->getParcelOutletRoutingEmail();
+            if ($nonDeliveryNoticeEmail) {
+                $this->requestBuilder->setParcelOutletRouting($nonDeliveryNoticeEmail);
             }
 
             if ($requestExtractor->isPickupLocationDelivery()) {

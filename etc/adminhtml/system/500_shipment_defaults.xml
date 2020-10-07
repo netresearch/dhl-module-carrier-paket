@@ -84,6 +84,16 @@
                 <label>Use Retail Outlet Routing Service</label>
                 <comment>If enabled, your undeliverable packages will be held at the nearest parcel collection point for collection by the recipient rather than being returned immediately to you.</comment>
             </field>
+            <field id="parcel_outlet_notification_email" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="50"
+                   translate="label comment tooltip" type="text">
+                <label>Alternative Email Address</label>
+                <validate>validate-email</validate>
+                <comment>Non-delivery notice will be sent to this email address. If left empty, the customer's email address is used. In this case, you must make sure to obtain data privacy consent from your customers.</comment>
+                <tooltip>Enter your email address here if you, as the sender, would like to receive the collection information.</tooltip>
+                <depends>
+                    <field id="parcel_outlet">1</field>
+                </depends>
+            </field>
         </group>
     </group>
 </include>
