@@ -9,6 +9,7 @@
     <sequence>
       <module name="Dhl_ShippingCore"/>
       <module name="Dhl_UnifiedTracking"/>
+      <module name="Netresearch_ConfigFields"/>
       <module name="Magento_Backend"/>
       <module name="Magento_Bundle"/>
       <module name="Magento_Catalog"/>

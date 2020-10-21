@@ -14,8 +14,8 @@
                 <field id="paketInfoBox" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1"
                        extends="dhlshippingsolutions/dhlglobalwebservices/shippingCoreInfoBox">
                     <frontend_model>Netresearch\ConfigFields\Block\InfoBox</frontend_model>
-                    <attribute type="body_template">Dhl_Paket::system/config/infoBoxBody.phtml</attribute>
-                    <attribute type="view_model">Dhl\Paket\ViewModel\Adminhtml\System\InfoBox</attribute>
+                    <attribute type="body_template">Dhl_Paket::system/config/infobox.phtml</attribute>
+                    <attribute type="view_model">Dhl\Paket\ViewModel\Adminhtml\System\Config\InfoBox</attribute>
                 </field>
 
                 <include path="Dhl_Paket::system/100_general_settings.xml"/>
