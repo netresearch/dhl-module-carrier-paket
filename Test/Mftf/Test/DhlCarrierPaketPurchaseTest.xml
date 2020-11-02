@@ -15,68 +15,6 @@
             <severity value="CRITICAL"/>
             <group value="carrier-paket-purchase"/>
         </annotations>
-        <before>
-            <comment userInput="-> Run required steps before starting with the test" stepKey="setupTestComment"/>
-
-            <createData entity="_defaultCategory" stepKey="createCategory"/>
-            <createData entity="_defaultProduct" stepKey="createSimpleProduct">
-                <requiredEntity createDataKey="createCategory"/>
-                <field key="price">20</field>
-            </createData>
-            <actionGroup ref="CliIndexerReindexActionGroup" stepKey="reindex">
-                <argument name="indices" value=""/>
-            </actionGroup>
-
-            <actionGroup ref="AdminLoginActionGroup" stepKey="loginAsAdmin"/>
-
-            <!-- Shipping origin -->
-            <actionGroup ref="NavigateToShippingOriginSectionActionGroup" stepKey="navigateToShippingSection"/>
-            <actionGroup ref="ConfigureShippingOriginRegionSelectActionGroup" stepKey="configureShippingOrigin"/>
-            <actionGroup ref="AdminSystemConfigSectionSaveActionGroup" stepKey="saveAdminSystemConfigSection1"/>
-
-            <!-- Carriers configuration -->
-            <actionGroup ref="NavigateToCarrierSettingsPageActionGroup" stepKey="navigateToCarrierSettingsConfig"/>
-            <actionGroup ref="FlatRateCarrierSettingsOpenActionGroup" stepKey="openCarrierSettingsFlatRate"/>
-            <actionGroup ref="FlatRateCarrierSettingsConfigurationActiveActionGroup" stepKey="configureFlatRateCarrier">
-                <argument name="CarriersFlatRateSettings" value="CarriersFlatRateSettings_DhlPaketPerOrder"/>
-            </actionGroup>
-            <actionGroup ref="AdminSystemConfigSectionSaveActionGroup" stepKey="saveAdminSystemConfigSection2"/>
-
-            <actionGroup ref="NavigateToShippingCoreSectionActionGroup" stepKey="navigateToShippingCoreSettingsConfig"/>
-            <actionGroup ref="DhlPaketCarrierSettingsOpenActionGroup" stepKey="openCarrierSettingsDhlPaket"/>
-
-            <actionGroup ref="DhlPaketCarrierSettingsExpandGeneralTabActionGroup" stepKey="expandCarrierSettingsDhlPaketGeneralTab"/>
-            <actionGroup ref="DhlPaketCarrierSettingsEnableActionGroup" stepKey="enableCarrierSettingsDhlPaket"/>
-
-            <actionGroup ref="DhlPaketCarrierSettingsExpandCheckoutPresentationTabActionGroup"
-                         stepKey="expandCarrierSettingsDhlPaketCheckoutPresentationTab"/>
-            <actionGroup ref="DhlPaketCarrierSettingsSelectUseRatesFromActionGroup" stepKey="selectCarrierSettingsUseRatesFrom"/>
-
-            <actionGroup ref="AdminSystemConfigSectionSaveActionGroup" stepKey="saveAdminSystemConfigSection3"/>
-
-            <!-- Flush Magento cache -->
-            <magentoCLI stepKey="flushCache" command="cache:clean"/>
-        </before>
-        <after>
-            <comment userInput="-> Clean up carrier configuration settings after test" stepKey="cleanTestComment"/>
-
-            <deleteData createDataKey="createSimpleProduct" stepKey="deleteProduct"/>
-            <deleteData createDataKey="createCategory" stepKey="deleteCategory"/>
-
-            <!-- Unset carrier settings to restore initial state -->
-            <actionGroup ref="NavigateToCarrierSettingsPageActionGroup" stepKey="navigateToCarrierSettingsConfig"/>
-            <actionGroup ref="FlatRateCarrierSettingsOpenActionGroup" stepKey="openCarrierSettingsFlatRate"/>
-            <actionGroup ref="FlatRateCarrierSettingsConfigurationInactiveActionGroup" stepKey="configureFlatRateCarrier"/>
-            <actionGroup ref="AdminSystemConfigSectionSaveActionGroup" stepKey="saveAdminConfigSectionAfter1"/>
-
-            <actionGroup ref="NavigateToShippingCoreSectionActionGroup" stepKey="navigateToShippingCoreSettingsConfig"/>
-            <actionGroup ref="DhlPaketCarrierSettingsOpenActionGroup" stepKey="openCarrierSettingsDhlPaket"/>
-            <actionGroup ref="DhlPaketCarrierSettingsExpandGeneralTabActionGroup" stepKey="expandCarrierSettingsDhlPaketGeneralTab"/>
-            <actionGroup ref="DhlPaketResetCarrierSettingsActionGroup" stepKey="resetCarrierSettingsDhlPaketAfter"/>
-            <actionGroup ref="AdminSystemConfigSectionSaveActionGroup" stepKey="saveAdminConfigSectionAfter2"/>
-
-            <actionGroup ref="AdminLogoutActionGroup" stepKey="logout"/>
-        </after>
 
         <comment userInput="-> Perform actual test" stepKey="runTestComment"/>
 
