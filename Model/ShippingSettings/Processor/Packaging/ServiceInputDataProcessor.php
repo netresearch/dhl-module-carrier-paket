@@ -54,8 +54,8 @@ class ServiceInputDataProcessor implements ShippingOptionsProcessorInterface
      */
     private static $availableCustomerServices = [
         Codes::CHECKOUT_SERVICE_PREFERRED_DAY,
-        Codes::CHECKOUT_SERVICE_PREFERRED_LOCATION,
-        Codes::CHECKOUT_SERVICE_PREFERRED_NEIGHBOUR,
+        Codes::CHECKOUT_SERVICE_DROPOFF_DELIVERY,
+        Codes::CHECKOUT_SERVICE_NEIGHBOR_DELIVERY,
         Codes::CHECKOUT_SERVICE_PARCELSHOP_FINDER,
         Codes::CHECKOUT_SERVICE_CASH_ON_DELIVERY,
     ];

@@ -15,7 +15,7 @@ use Dhl\ShippingCore\Model\ShippingSettings\ShippingOption\Codes;
 class ShippingProductProcessor implements GlobalProcessorInterface
 {
     /**
-     * Remove WARENPOST NATIONAL product if Preferred Day service was selected.
+     * Remove WARENPOST NATIONAL product if Delivery Day service was selected.
      *
      * @param CarrierDataInterface $carrierData
      * @return CarrierDataInterface
@@ -25,7 +25,7 @@ class ShippingProductProcessor implements GlobalProcessorInterface
         $serviceOptions = $carrierData->getServiceOptions();
         $isPrefDay = $serviceOptions[CheckoutServiceCodes::CHECKOUT_SERVICE_PREFERRED_DAY] ?? false;
         if (!$isPrefDay) {
-            // preferred day service not selected, proceed.
+            // Delivery Day service not selected, proceed.
             return $carrierData;
         }
 

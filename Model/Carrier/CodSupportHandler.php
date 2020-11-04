@@ -95,8 +95,8 @@ class CodSupportHandler implements MethodAvailabilityInterface, CodSelectorInter
                 implode(
                     ',',
                     [
-                        Codes::CHECKOUT_SERVICE_PREFERRED_LOCATION,
-                        Codes::CHECKOUT_SERVICE_PREFERRED_NEIGHBOUR,
+                        Codes::CHECKOUT_SERVICE_DROPOFF_DELIVERY,
+                        Codes::CHECKOUT_SERVICE_NEIGHBOR_DELIVERY,
                         Codes::CHECKOUT_SERVICE_PARCELSHOP_FINDER,
                     ]
                 )
@@ -119,7 +119,7 @@ class CodSupportHandler implements MethodAvailabilityInterface, CodSelectorInter
      *
      * DHL Paket conditions for allowing cash on delivery payment comprise:
      * - shipment is domestic (DE-DE)
-     * - preferredLocation or preferredNeighbour value-added services are not chosen for the given quote
+     * - value-added services "neighbor delivery" and "parcel drop-off" are not chosen for the given quote
      *
      * Note: No need to validate origin country. Paket carrier is only available for DE origin checkouts anyway.
      *

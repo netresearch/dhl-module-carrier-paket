@@ -25,8 +25,8 @@ class Codes
      */
     const CHECKOUT_PARCEL_ANNOUNCEMENT = 'parcelAnnouncement';
     const CHECKOUT_SERVICE_PREFERRED_DAY = 'preferredDay';
-    const CHECKOUT_SERVICE_PREFERRED_NEIGHBOUR = 'preferredNeighbour';
-    const CHECKOUT_SERVICE_PREFERRED_LOCATION = 'preferredLocation';
+    const CHECKOUT_SERVICE_NEIGHBOR_DELIVERY = 'preferredNeighbour';
+    const CHECKOUT_SERVICE_DROPOFF_DELIVERY = 'preferredLocation';
     const CHECKOUT_SERVICE_PARCELSHOP_FINDER = 'parcelshopFinder';
     const CHECKOUT_SERVICE_CASH_ON_DELIVERY = 'cashOnDelivery';
 

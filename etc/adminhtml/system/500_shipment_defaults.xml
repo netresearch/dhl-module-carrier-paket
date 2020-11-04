@@ -24,7 +24,7 @@
         <field id="drop_off_days" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="15"
                 translate="label comment" type="Netresearch\ConfigFields\Model\Type\Checkboxset">
             <label>Days excluded from drop-off</label>
-            <comment>On the working days checked, there is no transfer of parcels to DHL (in addition to sundays and public holidays). This information influences the options offered as preferred delivery day in checkout.</comment>
+            <comment>On the working days checked, there is no transfer of parcels to DHL (in addition to sundays and public holidays). This information influences the options offered as delivery day in checkout.</comment>
             <source_model>Dhl\ShippingCore\Model\Config\Source\DropOffDays</source_model>
             <backend_model>Dhl\ShippingCore\Model\Config\Backend\DropOffDays</backend_model>
         </field>

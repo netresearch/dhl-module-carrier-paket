@@ -58,7 +58,7 @@ class ModuleConfig
     const CONFIG_PATH_PARCEL_ANNOUNCEMENT = 'dhlshippingsolutions/dhlpaket/additional_services/services_group/parcelannouncement';
     const CONFIG_PATH_PARCEL_STATION_DELIVERY = 'dhlshippingsolutions/dhlpaket/additional_services/services_group/parcelshopFinder';
     const CONFIG_PATH_PREFERRED_LOCATION = 'dhlshippingsolutions/dhlpaket/additional_services/services_group/preferredlocation';
-    const CONFIG_PATH_PREFERRED_NEIGHBOUR = 'dhlshippingsolutions/dhlpaket/additional_services/services_group/preferredneighbour';
+    const CONFIG_PATH_PREFERRED_NEIGHBOR = 'dhlshippingsolutions/dhlpaket/additional_services/services_group/preferredneighbour';
     const CONFIG_PATH_PREFERRED_DAY_ = 'dhlshippingsolutions/dhlpaket/additional_services/services_group/preferredday';
     const CONFIG_PATH_DAY_CHARGE = 'dhlshippingsolutions/dhlpaket/additional_services/services_group/preferredDayCharge';
 

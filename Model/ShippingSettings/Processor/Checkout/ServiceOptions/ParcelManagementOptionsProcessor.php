@@ -98,7 +98,7 @@ class ParcelManagementOptionsProcessor implements ShippingOptionsProcessorInterf
         }
 
         if (empty($dateInput)) {
-            throw new \RuntimeException('No date input for preferred day service found.');
+            throw new \RuntimeException('No date input for delivery day service found.');
         }
 
         /** @var OptionInterface[] $options */
@@ -117,7 +117,7 @@ class ParcelManagementOptionsProcessor implements ShippingOptionsProcessorInterf
         );
 
         if (empty($options)) {
-            throw new \RuntimeException('No options for preferred day service available.');
+            throw new \RuntimeException('No options for delivery day service available.');
         }
 
         $dateInput->setOptions($dateInput->getOptions() + $options);
@@ -153,7 +153,7 @@ class ParcelManagementOptionsProcessor implements ShippingOptionsProcessorInterf
         }
 
         if ($serviceCode === Codes::CHECKOUT_SERVICE_PREFERRED_DAY) {
-            // API returned option values for preferred day service, add them to the input element
+            // API returned option values for delivery day service, add them to the input element
             try {
                 $this->addPreferredDayOptions($shippingOption, $carrierServices[$serviceCode], $storeId);
 

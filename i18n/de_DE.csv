@@ -6,11 +6,11 @@
 "Additional customs fees to be paid.","Zusätzlich zu zahlende Zollgebühren."
 "Adjust your parcel delivery flexibly to your schedule. Receive your packages while on the go at one of over 28,000 pickup locations in Germany - at a DHL parcel station or post office. Wherever it best suits your needs.","Passen Sie die Paketlieferung flexibel Ihrem Alltag an: Holen Sie Ihre Pakete unterwegs an einer der über 28.000 Abholstationen ab. Beispielsweise an einer DHL Packstation oder Postfiliale - einfach dort, wo es Ihnen am besten passt."
 "Allow customers to check out with <em>DHL Paket</em> shipping methods.","<em>DHL Paket</em> als Versandart im Checkout anbieten."
-"Allow customers to declare a preferred neighbour during checkout.","Lassen Sie Kunden im Checkout einen bevorzugten Nachbar für die Zustellung bestimmen."
-"Allow customers to declare a preferred parcel location during checkout.","Lassen Sie Kunden im Checkout einen bevorzugten Ablageort bestimmen."
+"Allow customers to declare a deposit location during checkout.","Lassen Sie Kunden im Checkout einen bevorzugten Ablageort bestimmen."
 "Allow customers to get shipments delivered to a parcel station.","Lassen Sie Kunden Sendungen an eine Packstation liefern."
+"Allow customers to name a preferred neighbor during checkout.","Lassen Sie Kunden im Checkout einen bevorzugten Nachbar für die Zustellung bestimmen."
 "Allow customers to request parcel notification updates via e-mail by DHL during checkout.","Lassen Sie Kunden im Checkout die Paketankündigung aktivieren. Die E-Mail-Adresse des Kunden wird von DHL ausschließlich für die Ankündigung zu dieser Sendung verwendet."
-"Allow customers to select a preferred day of delivery.","Lassen Sie Kunden im Checkout einen bevorzugten Zustelltag bestimmen."
+"Allow customers to select a delivery day.","Lassen Sie Kunden im Checkout einen bevorzugten Liefertag bestimmen."
 "Allow for Specific Countries","Zulassen nur für bestimmte Länder"
 "Alternative Email Address","Alternative E-Mail-Adresse"
 "An error occurred while preparing package data.","Während des Aufbereitens der Paketdaten ist ein Fehler aufgetreten."
@@ -22,7 +22,7 @@
 "Cash on Delivery Reason for Payment","Verwendungszweck Nachnahmezahlung"
 "Checkout Presentation",Checkout-Darstellung
 "Choose a weather-protected and non-visible place on your property where we can deposit the parcel in your absence.","Bestimmen Sie einen wettergeschützten und nicht einsehbaren Platz auf Ihrem Grundstück, an dem wir das Paket während Ihrer Abwesenheit hinterlegen dürfen."
-"Choose one of the displayed days as your preferred day for your parcel delivery. Other days are not possible due to delivery processes.","Sie haben die Möglichkeit, einen der angezeigten Tage als Wunschtag für die Lieferung Ihrer Waren auszuwählen. Andere Tage sind aufgrund der Lieferprozesse aktuell nicht möglich."
+"Choose one of the displayed days for your parcel delivery. Other days are not possible due to delivery processes.","Wählen Sie einen der angezeigten Tage als Liefertag für Ihre Paketzustellung. Andere Tage sind aufgrund von Lieferprozessen nicht möglich."
 "Create shipping labels & tracking information for your orders directly in the Magento admin panel.","Erzeugen Sie Versandetiketten und Tracking-Informationen direkt in Ihrem Magento-System."
 "Custom Message","Benutzerdefinierte Nachricht"
 "DHL & Magento","DHL & Magento"
@@ -34,24 +34,30 @@
 "DHL Paket: V01PAK","DHL Paket: V01PAK"
 "DHL Parcel Germany","DHL Paket"
 "DHL Post Number","DHL Postnummer"
-"DHL Preferred Delivery","DHL Wunschpaket"
-"DHL Preferred Delivery. Delivered just the way you want.","DHL Wunschpaket. Geliefert wie gewüscht."
+"DHL Preferred Delivery","DHL Wunschzustellung"
+"DHL Preferred Delivery. Delivered just the way you want.","DHL Wunschzustellung. Geliefert wie gewüscht."
 "DHL Warenpost National: V62WP","DHL Warenpost National: V62WP"
 "DHL contract customers receive the access data to the DHL Business Customer Portal via <em>DHL Paket</em> sales.","DHL-Vertragskunden erhalten die Zugangsdaten zum DHL-Geschäftskundenportal durch einen <em>DHL Paket</em>-Vertriebsmitarbeiter."
 "Days excluded from drop-off","Tage ohne Paketübergabe"
 "Declare a person in your immediate neighborhood whom we can hand out your parcel. This person should live in the same building, directly opposite or next door.","Bestimmen Sie eine Person in Ihrer unmittelbaren Nachbarschaft, bei der wir Ihr Paket abgeben dürfen. Diese sollte im gleichen Haus, direkt gegenüber oder nebenan wohnen."
+"Delivery Day",Liefertag
+"Delivery Day Additional Charge","Liefertag Aufpreis"
+"Delivery Day: Delivery on your preferred day","Liefertag: Lieferung an Ihrem bevorzugten Tag"
 "Disability Access","Barrierefreier Zugang"
 "Displayed Text","Angezeigter Text"
 Domestic,Inlandsversand
+"Drop-off Location",Ablageort
+"Drop-off Location Delivery",Ablageort
+"Drop-off Location: Delivery to your preferred drop-off location","Ablageort: Lieferung an den gewünschten Ablageort"
 "E.g. garage, terrace","z.B. Garage, Terrasse"
 EU,"Versand innerhalb Europas"
 "Electronic Export Notification","Elektronische Export-Benachrichtigung"
 "Enable DHL additional insurance service","Erweiterte Transportversicherung aktivieren"
 "Enable DHL bulky goods service","Manuelle Einzelbearbeitung von Sperrgut aktivieren"
+"Enable DHL delivery day","Aktivieren Sie den DHL-Liefertag"
+"Enable DHL drop-off location delivery","Lieferung an Ablageort aktivieren"
 "Enable DHL parcel notification","DHL Paketankündigung aktivieren"
-"Enable DHL preferred day delivery","Lieferung zum Wunschtag aktivieren"
-"Enable DHL preferred location delivery","Lieferung an Wunschort aktivieren"
-"Enable DHL preferred neighbour delivery","Lieferung an Wunschnachbar aktivieren"
+"Enable DHL neighbor delivery","Lieferung an Nachbar aktivieren"
 "Enable DHL print only if codeable service","Nur leitkodierbare Versandaufträge erteilen"
 "Enable DHL retail outlet routing service","Filial-Routing aktivieren"
 "Enable DHL return shipment service","DHL Retourenbeileger anfordern"
@@ -63,7 +69,7 @@ Enabled,Aktiviert
 Errors,Fehler
 "Field %1 is required.","Feld %1 is erforderlich."
 "Find Parcel Station","Packstation finden"
-"First name, last name of neighbour","Vorname, Nachname des Nachbarn"
+"First name, last name of neighbor","Vorname, Nachname des Nachbarn"
 Fri,Fr
 "Furthermore, the DHL Paket module allows to request shipping labels for incoming orders directly within your Magento suite.","Mit der DHL Paket Versandmethode können Sie Versandscheine für eingehende Bestellungen direkt in Ihrer Magento-Instanz anlegen."
 "General Settings","Allgemeine Einstellungen"
@@ -88,17 +94,17 @@ Logging,Protokollierung
 "Minimum age +18 years","Mindestalter 18 Jahre"
 Mon,Mo
 "Multi package shipments are not supported.","Mehrpaketsendungen werden nicht unterstützt."
-"Neighbour address","Adresse des Nachbarn"
-"Neighbour name","Name des Nachbarn"
+"Neighbor address","Adresse des Nachbarn"
+"Neighbor name","Name des Nachbarn"
 No,Nein
 "No locations found for the given address. Please try another address.","Für die angegebene Adresse wurden keine Standorte gefunden. Bitte versuchen Sie eine andere Adresse."
 "Non-delivery notice will be sent to this email address. If left empty, the customer's email address is used. In this case, you must make sure to obtain data privacy consent from your customers.","Eine Benachrichtigung über die Unzustellbarkeit wird an diese E-Mail-Adresse gesendet. Wenn leer, wird die E-Mail-Adresse des Kunden verwendet. Bitte beachten Sie, dass Sie in diesem Fall Ihre Kunden über die Datenschutzbestimmungen informieren müssen."
 "Offer DHL Parcel Announcement","Paketankündigung anbieten"
+"Offer Delivery Day Service","Liefertagservice anbieten"
+"Offer Drop-off Location Delivery","Ablageort anbieten"
+"Offer Neighbor Delivery","Nachbarschaftszustellung anbieten"
 "Offer Parcel Station Delivery","Lieferung an Packstation anbieten"
-"Offer Preferred Day Service","Wunschtag anbieten"
-"Offer Preferred Location Service","Wunschort anbieten"
-"Offer Preferred Neighbour Service","Wunschnachbar anbieten"
-"On the working days checked, there is no transfer of parcels to DHL (in addition to sundays and public holidays). This information influences the options offered as preferred delivery day in checkout.","An den gewählten Werktagen (zusätzlich zu Sonn- und Feiertagen) findet keine Paketübergabe an DHL statt. Aus Ihrer Angabe berechnet sich der nächstmögliche Wunschtag im Checkout."
+"On the working days checked, there is no transfer of parcels to DHL (in addition to sundays and public holidays). This information influences the options offered as delivery day in checkout.","An den gewählten Werktagen (zusätzlich zu Sonn- und Feiertagen) findet keine Paketübergabe an DHL statt. Aus Ihrer Angabe berechnet sich der nächstmögliche Liefertag im Checkout."
 "Parcel Announcement",Paketankündigung
 "Parcel Routing",Paket-Routing
 "Parcel Shop %1","Paketshop %1"
@@ -116,15 +122,8 @@ Participation,Teilnahme
 "Please choose your preferred delivery options.","Wählen Sie Ihre bevorzugten Lieferoptionen aus."
 "Post Bank %1","Postbank Filiale %1"
 "Post Office %1","Postfiliale %1"
-"Preferred Day",Wunschtag
-"Preferred Day Additional Charge","Aufpreis für Wunschtag"
-"Preferred Day Delivery","Lieferung zum Wunschtag"
-"Preferred Day: Delivery on your preferred day","Wunschtag: Lieferung zum gewüschten Tag"
-"Preferred Location",Wunschort
-"Preferred Location Delivery",Wunschort
-"Preferred Location: Delivery to your preferred drop-off location","Wunschort: Lieferung an den gewünschten Ablageort"
-"Preferred Neighbour Delivery",Wunschnachbar
-"Preferred Neighbour: Delivery to a neighbour of your choice","Wunschnachbar: Lieferung an den Nachbarn Ihrer Wahl"
+"Preferred Neighbor Delivery",Nachbarschaftszustellung
+"Preferred Neighbor: Delivery to a neighbor of your choice","Nachbarschaftszustellung: Lieferung an den Nachbarn Ihrer Wahl"
 "Print Only If Codeable","Nur leitkodierbare Versandaufträge erteilen"
 Procedure,Verfahren
 Product,Produkt
@@ -146,7 +145,7 @@ Sat,Sa
 "Shipment Defaults","Voreinstellungen für Lieferungen"
 "Shipping Products",Versandprodukte
 "Shipping Services in Checkout","Zusätzliche Versandservices im Checkout"
-"Some values for Preferred Neighbour service are missing.","Einige Werte für die Wunschnachbaroption fehlen."
+"Some values for neighbor delivery are missing.","Es fehlen erforderliche Angaben für die Nachbarschaftszustellung."
 "Sort Order",Sortierreihenfolge
 "Specification for customs form.","Angabe für Zollformular."
 "Street, number, postal code, city","Straße, Hausnummer, PLZ, Ort"
@@ -175,11 +174,11 @@ Tue,Di
 "Use rates from","Verwende Tarife von"
 User,Benutzername
 "Visual Check of Age",Alterssichtprüfung
-"Warenpost does not support Cash on Delivery or Preferred Day service. Please change the shipping product or deselect the service(s).","Nachnahmezahlung oder Wunschtag werden von Warenpost nicht unterstützt. Bitte ändern sie das Versandprodukt oder wählen den/die Service(s) ab."
+"Warenpost does not support Cash on Delivery or Delivery Day service. Please change the shipping product or deselect the service(s).","Warenpost unterstützt keine Nachnahme oder Lieferung am Tag. Bitte ändern Sie das Versandprodukt oder deaktivieren Sie die Dienstleistung (en)."
 Warnings,Warnungen
 "Web service request could not be created: %1","Die Webservice-Anfrage konnte nicht erstellt werden: %1"
 Wed,Mi
-"You decide when and where you want to receive your parcels with the recipient services of DHL.","Mit den Services von DHL-Wunschpaket entscheiden Sie, wann und wo Sie Ihre Pakete empfangen."
+"You decide when and where you want to receive your parcels with the recipient services of DHL.","Mit den Services von DHL-Wunschzustellung entscheiden Sie, wann und wo Sie Ihre Pakete empfangen."
 "You must also have Magento general logging enabled.","Die allgemeine Protokollierung muss in Magento aktiviert sein, damit die modulspezifische Protokollierung funktioniert."
 "You must enter your post number when sending to a parcel station. For post office delivery, the post number is optional.","Sie müssen Ihre Postnummer für den Versand an eine Packstation angeben. Für den Versand an eine Postfiliale ist diese optional."
 "You need to have a valid DHL Paket business account number (EKP)","Sie brauchen eine gültige DHL Paket Geschäftskundennummer (EKP)"

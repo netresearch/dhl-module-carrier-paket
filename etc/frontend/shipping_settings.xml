@@ -19,10 +19,10 @@
                 <triggerValue>*</triggerValue>
                 <action>disable</action>
                 <masters>
-                    <master>Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::CHECKOUT_SERVICE_PREFERRED_LOCATION</master>
+                    <master>Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::CHECKOUT_SERVICE_DROPOFF_DELIVERY</master>
                 </masters>
                 <subjects>
-                    <subject>Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::CHECKOUT_SERVICE_PREFERRED_NEIGHBOUR</subject>
+                    <subject>Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::CHECKOUT_SERVICE_NEIGHBOR_DELIVERY</subject>
                 </subjects>
                 <errorMessage translate="true">Please choose only one of %1.</errorMessage>
             </rule>
@@ -30,10 +30,10 @@
                 <triggerValue>*</triggerValue>
                 <action>disable</action>
                 <masters>
-                    <master>Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::CHECKOUT_SERVICE_PREFERRED_NEIGHBOUR</master>
+                    <master>Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::CHECKOUT_SERVICE_NEIGHBOR_DELIVERY</master>
                 </masters>
                 <subjects>
-                    <subject>Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::CHECKOUT_SERVICE_PREFERRED_LOCATION</subject>
+                    <subject>Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::CHECKOUT_SERVICE_DROPOFF_DELIVERY</subject>
                 </subjects>
                 <errorMessage translate="true">Please choose only one of %1.</errorMessage>
             </rule>
@@ -41,10 +41,10 @@
                 <triggerValue>*</triggerValue>
                 <action>require</action>
                 <subjects>
-                    <subject>Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::CHECKOUT_SERVICE_PREFERRED_NEIGHBOUR.name</subject>
-                    <subject>Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::CHECKOUT_SERVICE_PREFERRED_NEIGHBOUR.address</subject>
+                    <subject>Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::CHECKOUT_SERVICE_NEIGHBOR_DELIVERY.name</subject>
+                    <subject>Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::CHECKOUT_SERVICE_NEIGHBOR_DELIVERY.address</subject>
                 </subjects>
-                <errorMessage translate="true">Some values for Preferred Neighbour service are missing.</errorMessage>
+                <errorMessage translate="true">Some values for neighbor delivery are missing.</errorMessage>
             </rule>
             <rule id="parcelshopFinderInclude">
                 <masters>
@@ -62,8 +62,8 @@
                 </masters>
                 <subjects>
                     <subject>Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::CHECKOUT_SERVICE_PREFERRED_DAY</subject>
-                    <subject>Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::CHECKOUT_SERVICE_PREFERRED_LOCATION</subject>
-                    <subject>Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::CHECKOUT_SERVICE_PREFERRED_NEIGHBOUR</subject>
+                    <subject>Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::CHECKOUT_SERVICE_DROPOFF_DELIVERY</subject>
+                    <subject>Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::CHECKOUT_SERVICE_NEIGHBOR_DELIVERY</subject>
                 </subjects>
                 <triggerValue>*</triggerValue>
                 <action>hide</action>
@@ -71,8 +71,8 @@
             <rule id="allOthersExcludeParcelshopFinder">
                 <masters>
                     <master>Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::CHECKOUT_SERVICE_PREFERRED_DAY</master>
-                    <master>Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::CHECKOUT_SERVICE_PREFERRED_LOCATION</master>
-                    <master>Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::CHECKOUT_SERVICE_PREFERRED_NEIGHBOUR</master>
+                    <master>Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::CHECKOUT_SERVICE_DROPOFF_DELIVERY</master>
+                    <master>Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::CHECKOUT_SERVICE_NEIGHBOR_DELIVERY</master>
                 </masters>
                 <subjects>
                     <subject>Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::CHECKOUT_SERVICE_PARCELSHOP_FINDER</subject>

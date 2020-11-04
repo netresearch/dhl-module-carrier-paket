@@ -180,7 +180,7 @@ class DisableCodPaymentMethodsTest extends TestCase
     {
         $serviceSelection = Bootstrap::getObjectManager()->create(QuoteSelection::class);
         $serviceSelection->setData([
-            AssignedSelectionInterface::SHIPPING_OPTION_CODE => Codes::CHECKOUT_SERVICE_PREFERRED_LOCATION,
+            AssignedSelectionInterface::SHIPPING_OPTION_CODE => Codes::CHECKOUT_SERVICE_DROPOFF_DELIVERY,
             AssignedSelectionInterface::INPUT_CODE => 'details',
             AssignedSelectionInterface::INPUT_VALUE => 'Garage'
         ]);

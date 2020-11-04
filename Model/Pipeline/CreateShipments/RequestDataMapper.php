@@ -192,12 +192,12 @@ class RequestDataMapper
                 $this->requestBuilder->setPreferredDay($requestExtractor->getPreferredDay());
             }
 
-            if ($requestExtractor->hasPreferredNeighbour()) {
-                $this->requestBuilder->setPreferredNeighbour($requestExtractor->getPreferredNeighbour());
+            if ($requestExtractor->hasNeighborDelivery()) {
+                $this->requestBuilder->setPreferredNeighbour($requestExtractor->getNeighborDetails());
             }
 
-            if ($requestExtractor->hasPreferredLocation()) {
-                $this->requestBuilder->setPreferredLocation($requestExtractor->getPreferredLocation());
+            if ($requestExtractor->hasDropOffLocation()) {
+                $this->requestBuilder->setPreferredLocation($requestExtractor->getDropOffLocation());
             }
 
             if ($requestExtractor->isReturnShipment()) {

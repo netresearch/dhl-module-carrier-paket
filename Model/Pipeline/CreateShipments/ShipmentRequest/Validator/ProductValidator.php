@@ -38,7 +38,7 @@ class ProductValidator implements RequestValidatorInterface
     {
         if (!$this->canShipWithWarenpost($shipmentRequest)) {
             throw new ValidatorException(
-                __('Warenpost does not support Cash on Delivery or Preferred Day service. Please change the shipping product or deselect the service(s).')
+                __('Warenpost does not support Cash on Delivery or Delivery Day service. Please change the shipping product or deselect the service(s).')
             );
         }
     }

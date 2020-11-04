@@ -97,8 +97,8 @@ class ParcelManagementOptionsProcessorTest extends TestCase
         $serviceOptions = $carrier->getServiceOptions();
 
         self::assertArrayHasKey(Codes::CHECKOUT_SERVICE_PREFERRED_DAY, $serviceOptions);
-        self::assertArrayNotHasKey(Codes::CHECKOUT_SERVICE_PREFERRED_LOCATION, $serviceOptions);
-        self::assertArrayNotHasKey(Codes::CHECKOUT_SERVICE_PREFERRED_NEIGHBOUR, $serviceOptions);
+        self::assertArrayNotHasKey(Codes::CHECKOUT_SERVICE_DROPOFF_DELIVERY, $serviceOptions);
+        self::assertArrayNotHasKey(Codes::CHECKOUT_SERVICE_NEIGHBOR_DELIVERY, $serviceOptions);
         self::assertArrayNotHasKey(Codes::CHECKOUT_PARCEL_ANNOUNCEMENT, $serviceOptions);
 
         /** @var ShippingOption $serviceOption */

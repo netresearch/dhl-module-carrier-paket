@@ -162,13 +162,13 @@
                 </routes>
             </shippingOption>
             <shippingOption code="Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::CHECKOUT_SERVICE_PREFERRED_DAY">
-                <label translate="true">Preferred Day Delivery</label>
+                <label translate="true">Delivery Day</label>
                 <sortOrder>1090</sortOrder>
                 <inputs>
                     <input code="enabled">
                         <sortOrder>10</sortOrder>
                         <inputType>checkbox</inputType>
-                        <label translate="true">Enable DHL preferred day delivery</label>
+                        <label translate="true">Enable DHL delivery day</label>
                     </input>
                     <input code="date">
                         <sortOrder>20</sortOrder>
@@ -176,14 +176,14 @@
                     </input>
                 </inputs>
             </shippingOption>
-            <shippingOption code="Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::CHECKOUT_SERVICE_PREFERRED_NEIGHBOUR">
-                <label translate="true">Preferred Neighbour Delivery</label>
+            <shippingOption code="Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::CHECKOUT_SERVICE_NEIGHBOR_DELIVERY">
+                <label translate="true">Preferred Neighbor Delivery</label>
                 <sortOrder>1110</sortOrder>
                 <inputs>
                     <input code="enabled">
                         <sortOrder>10</sortOrder>
                         <inputType>checkbox</inputType>
-                        <label translate="true">Enable DHL preferred neighbour delivery</label>
+                        <label translate="true">Enable DHL neighbor delivery</label>
                     </input>
                     <input code="name">
                         <sortOrder>20</sortOrder>
@@ -195,14 +195,14 @@
                     </input>
                 </inputs>
             </shippingOption>
-            <shippingOption code="Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::CHECKOUT_SERVICE_PREFERRED_LOCATION">
-                <label translate="true">Preferred Location Delivery</label>
+            <shippingOption code="Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::CHECKOUT_SERVICE_DROPOFF_DELIVERY">
+                <label translate="true">Drop-off Location Delivery</label>
                 <sortOrder>1120</sortOrder>
                 <inputs>
                     <input code="enabled">
                         <sortOrder>10</sortOrder>
                         <inputType>checkbox</inputType>
-                        <label translate="true">Enable DHL preferred location delivery</label>
+                        <label translate="true">Enable DHL drop-off location delivery</label>
                     </input>
                     <input code="details">
                         <sortOrder>20</sortOrder>

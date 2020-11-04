@@ -49,7 +49,7 @@
                 </inputs>
             </shippingOption>
             <shippingOption code="Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::CHECKOUT_SERVICE_PREFERRED_DAY" available="dhlshippingsolutions/dhlpaket/additional_services/services_group/preferredday">
-                <label translate="true">Preferred Day: Delivery on your preferred day</label>
+                <label translate="true">Delivery Day: Delivery on your preferred day</label>
                 <sortOrder>30</sortOrder>
                 <routes>
                     <route>
@@ -62,18 +62,18 @@
                 </routes>
                 <inputs>
                     <input code="date">
-                        <label translate="true">Preferred Day</label>
+                        <label translate="true">Delivery Day</label>
                         <labelVisible>false</labelVisible>
                         <inputType>date</inputType>
                         <comment>
                             <content translate="true"><![CDATA[This service will incur additional shipping costs of $1 including VAT.]]></content>
                         </comment>
-                        <tooltip translate="true">Choose one of the displayed days as your preferred day for your parcel delivery. Other days are not possible due to delivery processes.</tooltip>
+                        <tooltip translate="true">Choose one of the displayed days for your parcel delivery. Other days are not possible due to delivery processes.</tooltip>
                     </input>
                 </inputs>
             </shippingOption>
-            <shippingOption code="Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::CHECKOUT_SERVICE_PREFERRED_LOCATION" available="dhlshippingsolutions/dhlpaket/additional_services/services_group/preferredlocation">
-                <label translate="true">Preferred Location: Delivery to your preferred drop-off location</label>
+            <shippingOption code="Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::CHECKOUT_SERVICE_DROPOFF_DELIVERY" available="dhlshippingsolutions/dhlpaket/additional_services/services_group/preferredlocation">
+                <label translate="true">Drop-off Location: Delivery to your preferred drop-off location</label>
                 <sortOrder>50</sortOrder>
                 <routes>
                     <route>
@@ -87,7 +87,7 @@
                 <inputs>
                     <input code="details">
                         <sortOrder>20</sortOrder>
-                        <label translate="true">Preferred Location</label>
+                        <label translate="true">Drop-off Location</label>
                         <labelVisible>false</labelVisible>
                         <inputType>text</inputType>
                         <tooltip translate="true">Choose a weather-protected and non-visible place on your property where we can deposit the parcel in your absence.</tooltip>
@@ -103,8 +103,8 @@
                     </input>
                 </inputs>
             </shippingOption>
-            <shippingOption code="Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::CHECKOUT_SERVICE_PREFERRED_NEIGHBOUR" available="dhlshippingsolutions/dhlpaket/additional_services/services_group/preferredneighbour">
-                <label translate="true">Preferred Neighbour: Delivery to a neighbour of your choice</label>
+            <shippingOption code="Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::CHECKOUT_SERVICE_NEIGHBOR_DELIVERY" available="dhlshippingsolutions/dhlpaket/additional_services/services_group/preferredneighbour">
+                <label translate="true">Preferred Neighbor: Delivery to a neighbor of your choice</label>
                 <sortOrder>60</sortOrder>
                 <routes>
                     <route>
@@ -118,10 +118,10 @@
                 <inputs>
                     <input code="name">
                         <sortOrder>20</sortOrder>
-                        <label translate="true">Neighbour name</label>
+                        <label translate="true">Neighbor name</label>
                         <inputType>text</inputType>
                         <tooltip translate="true">Declare a person in your immediate neighborhood whom we can hand out your parcel. This person should live in the same building, directly opposite or next door.</tooltip>
-                        <placeholder translate="true">First name, last name of neighbour</placeholder>
+                        <placeholder translate="true">First name, last name of neighbor</placeholder>
                         <validationRules>
                             <rule name="maxLength">
                                 <param>40</param>
@@ -133,7 +133,7 @@
                     </input>
                     <input code="address">
                         <sortOrder>30</sortOrder>
-                        <label translate="true">Neighbour address</label>
+                        <label translate="true">Neighbor address</label>
                         <inputType>text</inputType>
                         <placeholder translate="true">Street, number, postal code, city</placeholder>
                         <validationRules>

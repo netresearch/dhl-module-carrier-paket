@@ -402,48 +402,48 @@ class RequestExtractor implements RequestExtractorInterface
     }
 
     /**
-     * Check if preferredNeighbour has been booked
+     * Check if neighbor delivery was booked
      *
      * @return bool
      */
-    public function hasPreferredNeighbour(): bool
+    public function hasNeighborDelivery(): bool
     {
-        $serviceData = $this->getServiceData(Codes::CHECKOUT_SERVICE_PREFERRED_NEIGHBOUR);
+        $serviceData = $this->getServiceData(Codes::CHECKOUT_SERVICE_NEIGHBOR_DELIVERY);
         return (bool) ($serviceData['enabled'] ?? false);
     }
 
     /**
-     * Obtain the name of "preferredNeighbour" value for the current package.
+     * Obtain the name and address details of the selected neighbor for the current package.
      *
      * @return string
      */
-    public function getPreferredNeighbour(): string
+    public function getNeighborDetails(): string
     {
-        $name = $this->getServiceData(Codes::CHECKOUT_SERVICE_PREFERRED_NEIGHBOUR)['name'] ?? '';
-        $address = $this->getServiceData(Codes::CHECKOUT_SERVICE_PREFERRED_NEIGHBOUR)['address'] ?? '';
+        $name = $this->getServiceData(Codes::CHECKOUT_SERVICE_NEIGHBOR_DELIVERY)['name'] ?? '';
+        $address = $this->getServiceData(Codes::CHECKOUT_SERVICE_NEIGHBOR_DELIVERY)['address'] ?? '';
 
         return trim("$name $address");
     }
 
     /**
-     * Check if preferredLocation has been booked
+     * Check if parcel drop-off was booked
      *
      * @return bool
      */
-    public function hasPreferredLocation(): bool
+    public function hasDropOffLocation(): bool
     {
-        $serviceData = $this->getServiceData(Codes::CHECKOUT_SERVICE_PREFERRED_LOCATION);
+        $serviceData = $this->getServiceData(Codes::CHECKOUT_SERVICE_DROPOFF_DELIVERY);
         return (bool) ($serviceData['enabled'] ?? false);
     }
 
     /**
-     * Obtain the "preferredLocation" value for the current package.
+     * Obtain the drop-off location for the current package.
      *
      * @return string
      */
-    public function getPreferredLocation(): string
+    public function getDropOffLocation(): string
     {
-        return $this->getServiceData(Codes::CHECKOUT_SERVICE_PREFERRED_LOCATION)['details'] ?? '';
+        return $this->getServiceData(Codes::CHECKOUT_SERVICE_DROPOFF_DELIVERY)['details'] ?? '';
     }
 
     /**

@@ -24,11 +24,11 @@ class CheckoutServiceStub implements CheckoutServiceInterface
     ): array {
         return [
             new CarrierService(
-                Codes::CHECKOUT_SERVICE_PREFERRED_LOCATION,
+                Codes::CHECKOUT_SERVICE_DROPOFF_DELIVERY,
                 true
             ),
             new CarrierService(
-                Codes::CHECKOUT_SERVICE_PREFERRED_NEIGHBOUR,
+                Codes::CHECKOUT_SERVICE_NEIGHBOR_DELIVERY,
                 false
             ),
             new CarrierService(
