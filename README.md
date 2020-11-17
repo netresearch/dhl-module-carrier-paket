@@ -11,12 +11,11 @@ via the [DHL Business Customer Shipping API](https://entwickler.dhl.de/en/) (DHL
 
 Requirements
 ------------
-* PHP >= 7.0.6
+* PHP >= 7.1.3
 * PHP SOAP extension
 
 Compatibility
 -------------
-* Magento >= 2.2.6+
 * Magento >= 2.3.0+
 
 Installation Instructions

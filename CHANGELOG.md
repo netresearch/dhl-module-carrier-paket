@@ -4,6 +4,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## 1.3.0
+
+### Added
+
+- Possibility to configure an alternative notification email for parcel outlet routing service.
+- Text block in module configuration advertising Deutsche Post Direkt services.
+
+### Changed
+
+- Rename Wunschpaket (Preferred Delivery) services to align with official DHL naming.
+
+### Removed
+
+- Contact person name no longer printed on shipping label.
+
 ## 1.2.0
 
 Magento 2.4 compatibility release
