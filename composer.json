@@ -23,9 +23,9 @@
     "require": {
         "php": "^7.1.3",
         "ext-json": "*",
-        "dhl/module-shipping-core": "^1.1.1",
+        "dhl/module-shipping-core": "^1.1.3",
         "dhl/module-unified-tracking": "^1.1.0",
-        "dhl/sdk-api-bcs": "^1.0.1",
+        "dhl/sdk-api-bcs": "^1.1.0",
         "dhl/sdk-api-parcel-management": "^2.0.0",
         "dhl/sdk-api-unified-location-finder": "^2.0.0",
         "magento/framework": "^102.0.0 || ^103.0.0",
@@ -52,5 +52,10 @@
         "tddwizard/magento2-fixtures": "^0.10.0",
         "magento/module-customer": "^102.0.0 || ^103.0.0 ",
         "magento/module-offline-payments": "^100.3.0"
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-DHLGW-988": "1.4.0.x-dev"
+        }
     }
 }
