@@ -1,16 +1,15 @@
 <?php
+
 /**
  * See LICENSE.md for license details.
  */
+
 declare(strict_types=1);
 
 namespace Dhl\Paket\Model\Pipeline\CreateShipments\ShipmentRequest\Data;
 
 use Dhl\ShippingCore\Api\Data\Pipeline\ShipmentRequest\PackageAdditionalInterface;
 
-/**
- * Class PackageAdditional
- */
 class PackageAdditional implements PackageAdditionalInterface
 {
     /**
@@ -39,6 +38,16 @@ class PackageAdditional implements PackageAdditionalInterface
     private $electronicExportNotification;
 
     /**
+     * @var string
+     */
+    private $sendersCustomsReference;
+
+    /**
+     * @var string
+     */
+    private $addresseesCustomsReference;
+
+    /**
      * PackageExtension constructor.
      *
      * @param float $additionalFee
@@ -46,19 +55,25 @@ class PackageAdditional implements PackageAdditionalInterface
      * @param string $permitNumber
      * @param string $attestationNumber
      * @param bool $electronicExportNotification
+     * @param string $sendersCustomsReference
+     * @param string $addresseesCustomsReference
      */
     public function __construct(
         float $additionalFee = 0,
         string $placeOfCommittal = '',
         string $permitNumber = '',
         string $attestationNumber = '',
-        bool $electronicExportNotification = false
+        bool $electronicExportNotification = false,
+        string $sendersCustomsReference = '',
+        string $addresseesCustomsReference = ''
     ) {
         $this->additionalFee = $additionalFee;
         $this->placeOfCommittal = $placeOfCommittal;
         $this->permitNumber = $permitNumber;
         $this->attestationNumber = $attestationNumber;
         $this->electronicExportNotification = $electronicExportNotification;
+        $this->sendersCustomsReference = $sendersCustomsReference;
+        $this->addresseesCustomsReference = $addresseesCustomsReference;
     }
 
     /**
@@ -109,6 +124,26 @@ class PackageAdditional implements PackageAdditionalInterface
     public function getElectronicExportNotification(): bool
     {
         return $this->electronicExportNotification;
+    }
+
+    /**
+     * Obtain customs sender's customer reference (optional).
+     *
+     * @return string
+     */
+    public function getSendersCustomsReference(): string
+    {
+        return $this->sendersCustomsReference;
+    }
+
+    /**
+     * Obtain addressee's sender's customer reference (optional).
+     *
+     * @return string
+     */
+    public function getAddresseesCustomsReference(): string
+    {
+        return $this->addresseesCustomsReference;
     }
 
     /**

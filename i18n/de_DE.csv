@@ -1,9 +1,9 @@
 "%1DHL Parcel Germany%2 is an ideal complement to the AUTOCOMPLETE and ADDRESSFACTORY services of Deutsche Post Direkt.","%1DHL Paket%2 ist eine ideale Ergänzung zu den Services AUTOCOMPLETE und ADDRESSFACTORY der Deutschen Post Direkt."
+"A sender's reference number can be configured per destination country. It is used by customs authorities to identify economics operators an/or other persons involved.","Je Zielland kann eine Absender-Kennnummer hinterlegt werden. Sie wird durch die Zollbehörden zur Identifikation der Wirtschaftsbeteiligten verwendet."
 "Account Settings",Kontoeinstellungen
-"Additional Fee",Zusatzentgelte
 "Additional Insurance",Transportversicherung
 "Additional Services","Zusätzliche Dienstleistungen"
-"Additional customs fees to be paid.","Zusätzlich zu zahlende Zollgebühren."
+"Addressee's Customs Reference","Zollreferenz des Empfängers"
 "Adjust your parcel delivery flexibly to your schedule. Receive your packages while on the go at one of over 28,000 pickup locations in Germany - at a DHL parcel station or post office. Wherever it best suits your needs.","Passen Sie die Paketlieferung flexibel Ihrem Alltag an: Holen Sie Ihre Pakete unterwegs an einer der über 28.000 Abholstationen ab. Beispielsweise an einer DHL Packstation oder Postfiliale - einfach dort, wo es Ihnen am besten passt."
 "Allow customers to check out with <em>DHL Paket</em> shipping methods.","<em>DHL Paket</em> als Versandart im Checkout anbieten."
 "Allow customers to declare a deposit location during checkout.","Lassen Sie Kunden im Checkout einen bevorzugten Ablageort bestimmen."
@@ -25,6 +25,7 @@
 "Choose one of the displayed days for your parcel delivery. Other days are not possible due to delivery processes.","Wählen Sie einen der angezeigten Tage als Liefertag für Ihre Paketzustellung. Andere Tage sind aufgrund von Lieferprozessen nicht möglich."
 "Create shipping labels & tracking information for your orders directly in the Magento admin panel.","Erzeugen Sie Versandetiketten und Tracking-Informationen direkt in Ihrem Magento-System."
 "Custom Message","Benutzerdefinierte Nachricht"
+"Customs Reference Numbers","Kennnummern für Zollzwecke"
 "DHL & Magento","DHL & Magento"
 "DHL Customer Number (EKP)","DHL Kundennummer (EKP)"
 "DHL Europaket: V54EPAK","DHL Europaket: V54EPAK"
@@ -43,6 +44,7 @@
 "Delivery Day",Liefertag
 "Delivery Day Additional Charge","Liefertag Aufpreis"
 "Delivery Day: Delivery on your preferred day","Liefertag: Lieferung an Ihrem bevorzugten Tag"
+"Destination Country",Bestimmungsland
 "Disability Access","Barrierefreier Zugang"
 "Displayed Text","Angezeigter Text"
 Domestic,Inlandsversand
@@ -56,8 +58,8 @@ EU,"Versand innerhalb Europas"
 "Enable DHL bulky goods service","Manuelle Einzelbearbeitung von Sperrgut aktivieren"
 "Enable DHL delivery day","Aktivieren Sie den DHL-Liefertag"
 "Enable DHL drop-off location delivery","Lieferung an Ablageort aktivieren"
-"Enable DHL parcel notification","DHL Paketankündigung aktivieren"
 "Enable DHL neighbor delivery","Lieferung an Nachbar aktivieren"
+"Enable DHL parcel notification","DHL Paketankündigung aktivieren"
 "Enable DHL print only if codeable service","Nur leitkodierbare Versandaufträge erteilen"
 "Enable DHL retail outlet routing service","Filial-Routing aktivieren"
 "Enable DHL return shipment service","DHL Retourenbeileger anfordern"
@@ -99,6 +101,7 @@ Mon,Mo
 No,Nein
 "No locations found for the given address. Please try another address.","Für die angegebene Adresse wurden keine Standorte gefunden. Bitte versuchen Sie eine andere Adresse."
 "Non-delivery notice will be sent to this email address. If left empty, the customer's email address is used. In this case, you must make sure to obtain data privacy consent from your customers.","Eine Benachrichtigung über die Unzustellbarkeit wird an diese E-Mail-Adresse gesendet. Wenn leer, wird die E-Mail-Adresse des Kunden verwendet. Bitte beachten Sie, dass Sie in diesem Fall Ihre Kunden über die Datenschutzbestimmungen informieren müssen."
+Number,Nummer
 "Offer DHL Parcel Announcement","Paketankündigung anbieten"
 "Offer Delivery Day Service","Liefertagservice anbieten"
 "Offer Drop-off Location Delivery","Ablageort anbieten"
@@ -122,6 +125,7 @@ Participation,Teilnahme
 "Please choose your preferred delivery options.","Wählen Sie Ihre bevorzugten Lieferoptionen aus."
 "Post Bank %1","Postbank Filiale %1"
 "Post Office %1","Postfiliale %1"
+"Postal Charges / Fees","Versandkosten / Gebühren"
 "Preferred Neighbor Delivery",Nachbarschaftszustellung
 "Preferred Neighbor: Delivery to a neighbor of your choice","Nachbarschaftszustellung: Lieferung an den Nachbarn Ihrer Wahl"
 "Print Only If Codeable","Nur leitkodierbare Versandaufträge erteilen"
@@ -140,6 +144,7 @@ Sat,Sa
 "Select Route","Route wählen"
 "Select the offline shipping method that gets used to provide rates in checkout.","Wählen Sie die Offline-Versandmethode aus, die für die Bereitstellung von Tarifen im Checkout verwendet werden soll."
 "Selected products will be pre-selected for automatic shipping label creation. You can still select another product when creating shipping labels manually.","Ausgewählte Produkte werden für die automatische Erstellung von Versandetiketten vorausgewählt. Sie können weiterhin ein anderes Produkt auswählen, wenn Sie Versandetiketten manuell erstellen."
+"Sender's Customs Reference","Zollreferenz des Absenders"
 "Shipment %1 could not be cancelled.","Der Versandauftrag %1 konnte nicht storniert werden."
 "Shipment %1 could not be cancelled: %2","Der Versandauftrag %1 konnte nicht storniert werden: %2"
 "Shipment Defaults","Voreinstellungen für Lieferungen"

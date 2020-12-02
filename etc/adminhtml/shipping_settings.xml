@@ -4,8 +4,8 @@
         <packageOptions>
             <shippingOption code="Dhl\ShippingCore\Model\ShippingSettings\ShippingOption\Codes::PACKAGING_OPTION_PACKAGE_CUSTOMS">
                 <inputs>
-                    <input code="additionalFee" defaultConfigValue="Dhl\Paket\Model\Config\ModuleConfig::CONFIG_PATH_ADDITIONAL_FEE">
-                        <label translate="true">Additional Fee</label>
+                    <input code="additionalFee">
+                        <label translate="true">Postal Charges / Fees</label>
                         <inputType>prefixed</inputType>
                         <sortOrder>1010</sortOrder>
                     </input>
@@ -24,10 +24,30 @@
                         <inputType>text</inputType>
                         <sortOrder>1040</sortOrder>
                     </input>
+                    <input code="sendersCustomsReference">
+                        <label translate="true">Sender's Customs Reference</label>
+                        <inputType>text</inputType>
+                        <sortOrder>1050</sortOrder>
+                        <validationRules>
+                            <rule name="maxLength">
+                                <param>35</param>
+                            </rule>
+                        </validationRules>
+                    </input>
+                    <input code="addresseesCustomsReference">
+                        <label translate="true">Addressee's Customs Reference</label>
+                        <inputType>text</inputType>
+                        <sortOrder>1060</sortOrder>
+                        <validationRules>
+                            <rule name="maxLength">
+                                <param>35</param>
+                            </rule>
+                        </validationRules>
+                    </input>
                     <input code="electronicExportNotification" defaultConfigValue="Dhl\Paket\Model\Config\ModuleConfig::CONFIG_PATH_ELECTRONIC_EXPORT_NOTIFICATION">
                         <label translate="true">Electronic Export Notification</label>
                         <inputType>checkbox</inputType>
-                        <sortOrder>1050</sortOrder>
+                        <sortOrder>1070</sortOrder>
                     </input>
                 </inputs>
             </shippingOption>

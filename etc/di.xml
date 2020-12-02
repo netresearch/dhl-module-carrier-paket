@@ -170,6 +170,8 @@
             </argument>
             <argument name="packagingPackageOptionsProcessors" xsi:type="array">
                 <item name="dhlPaketPackageInputProcessor" sortOrder="220" xsi:type="object">Dhl\Paket\Model\ShippingSettings\Processor\Packaging\PackageInputDataProcessor</item>
+                <item name="dhlPaketDimensionsInputProcessor" sortOrder="230" xsi:type="object">Dhl\Paket\Model\ShippingSettings\Processor\Packaging\DimensionsInputDataProcessor</item>
+                <item name="dhlPaketCustomsInputProcessor" sortOrder="240" xsi:type="object">Dhl\Paket\Model\ShippingSettings\Processor\Packaging\CustomsInputDataProcessor</item>
             </argument>
             <argument name="globalProcessors" xsi:type="array">
                 <item name="productFilter" sortOrder="999" xsi:type="object">Dhl\Paket\Model\ShippingSettings\Processor\Packaging\ShippingProductProcessor</item>

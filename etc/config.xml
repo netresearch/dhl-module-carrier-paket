@@ -81,6 +81,7 @@
                             }
                         ]]>
                     </shipping_products>
+                    <customs_reference_numbers backend_model="Dhl\Paket\Model\Adminhtml\System\Config\Backend\ArraySerialized">[]</customs_reference_numbers>
                     <cod_reason_for_payment><![CDATA[{{firstname}} {{lastname}} #{{increment_id}}]]></cod_reason_for_payment>
                     <services_group>
                         <visual_check_of_age>0</visual_check_of_age>

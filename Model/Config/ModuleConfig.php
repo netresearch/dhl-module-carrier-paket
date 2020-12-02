@@ -40,7 +40,7 @@ class ModuleConfig
     // 500_shipment_defaults.xml
     const CONFIG_PATH_PRINT_ONLY_IF_CODEABLE = 'dhlshippingsolutions/dhlpaket/shipment_defaults/print_only_if_codeable';
     const CONFIG_PATH_DEFAULT_SHIPPING_PRODUCT = 'dhlshippingsolutions/dhlpaket/shipment_defaults/shipping_products';
-    const CONFIG_PATH_ADDITIONAL_FEE = 'dhlshippingsolutions/dhlpaket/shipment_defaults/additional_fee';
+    const CONFIG_PATH_CUSTOMS_REFERENCE_NUMBER = 'dhlshippingsolutions/dhlpaket/shipment_defaults/customs_reference_numbers';
     const CONFIG_PATH_PLACE_OF_COMMITTAL = 'dhlshippingsolutions/dhlpaket/shipment_defaults/place_of_committal';
     const CONFIG_PATH_EXCLUDED_DROPOFFDAYS = 'dhlshippingsolutions/dhlpaket/shipment_defaults/drop_off_days';
     const CONFIG_PATH_DEFAULT_PRODUCTS = 'dhlshippingsolutions/dhlpaket/shipment_defaults/shipping_products';
@@ -533,5 +533,24 @@ class ModuleConfig
     public function getLocationFinderConsumerKey(): string
     {
         return (string) $this->scopeConfig->getValue(self::CONFIG_PATH_LOCATION_FINDER_CONSUMER_KEY);
+    }
+
+    /**
+     * Get the shipper's customs reference number per destination country.
+     *
+     * Example: ["CH" => "123232", "US" => "555666"]
+     *
+     * @param mixed $store
+     * @return string[]
+     */
+    public function getCustomsReferenceNumbers($store = null): array
+    {
+        $customsReferences = $this->scopeConfig->getValue(
+            self::CONFIG_PATH_CUSTOMS_REFERENCE_NUMBER,
+            ScopeInterface::SCOPE_STORE,
+            $store
+        );
+
+        return array_column($customsReferences, 'customs_reference', 'country');
     }
 }

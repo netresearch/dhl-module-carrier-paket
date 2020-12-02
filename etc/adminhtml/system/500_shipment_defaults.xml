@@ -28,11 +28,11 @@
             <source_model>Dhl\ShippingCore\Model\Config\Source\DropOffDays</source_model>
             <backend_model>Dhl\ShippingCore\Model\Config\Backend\DropOffDays</backend_model>
         </field>
-        <field id="additional_fee" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="20"
-               translate="label comment" type="text">
-            <label>Additional Fee</label>
-            <validate>validate-greater-than-zero validate-number</validate>
-            <comment>Additional customs fees to be paid.</comment>
+        <field id="customs_reference_numbers" translate="label comment" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="0">
+            <label>Customs Reference Numbers</label>
+            <comment>A sender's reference number can be configured per destination country. It is used by customs authorities to identify economics operators an/or other persons involved.</comment>
+            <frontend_model>Dhl\Paket\Block\Adminhtml\System\Config\Form\Field\CustomsReference</frontend_model>
+            <backend_model>Dhl\Paket\Model\Adminhtml\System\Config\Backend\ArraySerialized</backend_model>
         </field>
         <field id="place_of_committal" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="30"
                translate="label comment" type="text">

@@ -120,16 +120,6 @@ class PackageInputDataProcessor implements ShippingOptionsProcessorInterface
                     }
                     $input->setDefaultValue((string)$inputDefault);
                     break;
-
-                case 'additionalFee':
-                    /** @var \Magento\Store\Model\Store $store */
-                    $store = $shipment->getStore();
-                    $currency = $store->getBaseCurrency();
-                    $currencySymbol = $currency->getCurrencySymbol() ?: $currency->getCode();
-                    $comment = $this->commentFactory->create();
-                    $comment->setContent($currencySymbol);
-                    $input->setComment($comment);
-                    break;
             }
         }
     }

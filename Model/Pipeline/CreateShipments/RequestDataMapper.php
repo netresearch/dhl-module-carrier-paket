@@ -259,7 +259,9 @@ class RequestDataMapper
                     null,
                     $packageExtension->getPermitNumber(),
                     $packageExtension->getAttestationNumber(),
-                    $packageExtension->getElectronicExportNotification()
+                    $packageExtension->getElectronicExportNotification(),
+                    $packageExtension->getSendersCustomsReference(),
+                    $packageExtension->getAddresseesCustomsReference()
                 );
 
                 foreach ($requestExtractor->getPackageItems() as $packageItem) {

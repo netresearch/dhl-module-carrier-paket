@@ -211,6 +211,8 @@ class RequestExtractor implements RequestExtractorInterface
             $additionalData['permitNumber'] = $customsParams['permitNumber'] ?? '';
             $additionalData['attestationNumber'] = $customsParams['attestationNumber'] ?? '';
             $additionalData['electronicExportNotification'] = $customsParams['electronicExportNotification'] ?? false;
+            $additionalData['sendersCustomsReference'] = $customsParams['sendersCustomsReference'] ?? '';
+            $additionalData['addresseesCustomsReference'] = $customsParams['addresseesCustomsReference'] ?? '';
 
             try {
                 $packageData = $this->hydrator->extract($package);
