@@ -74,18 +74,18 @@ class ArtifactsContainer implements ArtifactsContainerInterface
      * a response for the particular request item. For errors returned from the
      * web service, use an error object.
      *
-     * @param string $requestIndex
-     * @param ShipmentInterface $shipment
-     * @param ShipmentTrackInterface $track
-     * @param string $errorMessage
-     * @return void
      * @see addErrorResponse
      *
+     * @param string $requestIndex
+     * @param ShipmentInterface|null $shipment
+     * @param ShipmentTrackInterface|null $track
+     * @param string $errorMessage
+     * @return void
      */
     public function addError(
         string $requestIndex,
-        ShipmentInterface $shipment,
-        ShipmentTrackInterface $track,
+        ?ShipmentInterface $shipment,
+        ?ShipmentTrackInterface $track,
         string $errorMessage
     ) {
         $this->errors[$requestIndex] = [
