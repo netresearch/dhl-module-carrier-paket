@@ -10,6 +10,7 @@ use Dhl\Paket\Model\Carrier\Paket;
 use Dhl\Paket\Util\ShippingProducts;
 use Dhl\ShippingCore\Api\ConfigInterface;
 use Dhl\ShippingCore\Api\Data\ShippingSettings\ShippingOption\CommentInterfaceFactory;
+use Dhl\ShippingCore\Api\Data\ShippingSettings\ShippingOption\OptionInterfaceFactory;
 use Dhl\ShippingCore\Api\Data\ShippingSettings\ShippingOptionInterface;
 use Dhl\ShippingCore\Api\ShippingSettings\Processor\Packaging\ShippingOptionsProcessorInterface;
 use Dhl\ShippingCore\Model\ShippingSettings\ShippingOption\Codes;
@@ -33,20 +34,20 @@ class PackageInputDataProcessor implements ShippingOptionsProcessorInterface
     private $commentFactory;
 
     /**
-     * PackageInputDataProcessor constructor.
-     *
-     * @param ConfigInterface $dhlConfig
-     * @param ShippingProducts $shippingProducts
-     * @param CommentInterfaceFactory $commentFactory
+     * @var OptionInterfaceFactory
      */
+    private $optionFactory;
+
     public function __construct(
         ConfigInterface $dhlConfig,
         ShippingProducts $shippingProducts,
-        CommentInterfaceFactory $commentFactory
+        CommentInterfaceFactory $commentFactory,
+        OptionInterfaceFactory $optionFactory
     ) {
         $this->dhlConfig = $dhlConfig;
         $this->shippingProducts = $shippingProducts;
         $this->commentFactory = $commentFactory;
+        $this->optionFactory = $optionFactory;
     }
 
     /**
@@ -94,12 +95,13 @@ class PackageInputDataProcessor implements ShippingOptionsProcessorInterface
                     $options = [];
                     foreach ($applicableProducts as $regionId => $regionProducts) {
                         foreach ($regionProducts as $productCode) {
-                            $options[]= [
-                                'value' => $productCode,
-                                'label' => $this->shippingProducts->getProductName($productCode),
-                            ];
+                            $option = $this->optionFactory->create();
+                            $option->setValue($productCode);
+                            $option->setLabel($this->shippingProducts->getProductName($productCode));
+                            $options[]= $option;
                         }
                     }
+
                     $input->setOptions($options);
 
                     // set one of the input options as default, considering configured values
