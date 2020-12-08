@@ -6,6 +6,9 @@ declare(strict_types=1);
 
 namespace Dhl\Paket\Model\ShippingSettings\ShippingOption;
 
+/**
+ * @api
+ */
 class Codes
 {
     /**
