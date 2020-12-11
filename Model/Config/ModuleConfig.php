@@ -360,7 +360,7 @@ class ModuleConfig
      * - ["DE" => ["DE" => "V01PAK", "EU" => "V53PAK", "INTL" => "V53PAK"]]
      *
      * @param mixed $store
-     * @return string[]
+     * @return string[][]
      */
     public function getDefaultProducts($store = null): array
     {

@@ -169,7 +169,7 @@ class RequestDataMapper
                 $this->requestBuilder->setPrintOnlyIfCodeable();
             }
 
-            $baseTotal = ((int)($requestExtractor->getOrder()->getBaseGrandTotal()) * 100) / 100;
+            $baseTotal = round((float) $requestExtractor->getOrder()->getBaseGrandTotal(), 2);
             if ($requestExtractor->isCashOnDelivery()) {
                 $notes = $requestExtractor->getCodReasonForPayment();
                 $this->requestBuilder->setShipperBankData(null, null, null, null, null, $notes);

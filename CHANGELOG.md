@@ -4,6 +4,24 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## Unreleased
+
+Customs Regulations Release
+
+### Added
+
+- Transmit the sender's/addressee's customs reference number with label requests.
+
+### Changed
+
+- Mark package dimensions required for label requests with customs declaration.
+- Transmit shipping cost for label requests with customs declaration.
+- Set HS code validation to max. 10 digits.
+
+### Fixed
+
+- Round cash on delivery amount if value has more than two digits after the decimal point.
+
 ## 1.3.0
 
 ### Added
