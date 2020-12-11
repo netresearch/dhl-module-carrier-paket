@@ -14,9 +14,9 @@ Customs Regulations Release
 
 ### Changed
 
+- Add postal charges to label requests with customs declaration.
 - Mark package dimensions required for label requests with customs declaration.
-- Transmit shipping cost for label requests with customs declaration.
-- Set HS code validation to max. 10 digits.
+- Mark item description and postal charges required for label requests with customs declaration.
 
 ### Fixed
 

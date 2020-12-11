@@ -1,6 +1,21 @@
 <?xml version="1.0" ?>
 <carriers xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Dhl_ShippingCore/etc/shipping_settings.xsd">
     <carrier code="dhlpaket">
+        <itemOptions>
+            <itemShippingOptions itemId ="0">
+                <shippingOptions>
+                    <shippingOption code="Dhl\ShippingCore\Model\ShippingSettings\ShippingOption\Codes::ITEM_OPTION_ITEM_CUSTOMS">
+                        <inputs>
+                            <input code="Dhl\ShippingCore\Model\ShippingSettings\ShippingOption\Codes::ITEM_INPUT_EXPORT_DESCRIPTION">
+                                <validationRules>
+                                    <rule name="required"/>
+                                </validationRules>
+                            </input>
+                        </inputs>
+                    </shippingOption>
+                </shippingOptions>
+             </itemShippingOptions>
+        </itemOptions>
         <packageOptions>
             <shippingOption code="Dhl\ShippingCore\Model\ShippingSettings\ShippingOption\Codes::PACKAGING_OPTION_PACKAGE_CUSTOMS">
                 <inputs>
@@ -8,6 +23,9 @@
                         <label translate="true">Postal Charges / Fees</label>
                         <inputType>prefixed</inputType>
                         <sortOrder>1010</sortOrder>
+                        <validationRules>
+                            <rule name="required"/>
+                        </validationRules>
                     </input>
                     <input code="placeOfCommittal" defaultConfigValue="Dhl\Paket\Model\Config\ModuleConfig::CONFIG_PATH_PLACE_OF_COMMITTAL">
                         <label translate="true">Place of Committal</label>
