@@ -52,5 +52,10 @@
         "tddwizard/magento2-fixtures": "^0.10.0",
         "magento/module-customer": "^102.0.0 || ^103.0.0 ",
         "magento/module-offline-payments": "^100.3.0"
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-develop": "1.4.1.x-dev"
+        }
     }
 }
