@@ -18,6 +18,8 @@ use Magento\TestFramework\TestCase\AbstractBackendController;
  * - Create shipment and label for single order
  * - Create shipments and labels for multiple orders (auto-create)
  *
+ * @method \Magento\Framework\App\Request\Http getRequest()
+ * @method \Magento\Framework\App\Response\Http getResponse()
  */
 abstract class ControllerTest extends AbstractBackendController
 {

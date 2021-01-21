@@ -1,7 +1,9 @@
 <?php
+
 /**
  * See LICENSE.md for license details.
  */
+
 declare(strict_types=1);
 
 namespace Dhl\Paket\Test\Integration\TestCase\Controller\Adminhtml\Shipment;
@@ -12,10 +14,7 @@ use Dhl\Paket\Test\Integration\TestDouble\Pipeline\CreateShipments\Stage\SendReq
 use Magento\Framework\Exception\AuthenticationException;
 
 /**
- * Class AutoCreateTest
- *
  * Base controller test for the auto-create route.
- *
  */
 abstract class AutoCreateTest extends ControllerTest
 {
