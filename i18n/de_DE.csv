@@ -26,7 +26,6 @@
 "Create shipping labels & tracking information for your orders directly in the Magento admin panel.","Erzeugen Sie Versandetiketten und Tracking-Informationen direkt in Ihrem Magento-System."
 "Custom Message","Benutzerdefinierte Nachricht"
 "Customs Reference Numbers","Kennnummern für Zollzwecke"
-"DHL & Magento","DHL & Magento"
 "DHL Customer Number (EKP)","DHL Kundennummer (EKP)"
 "DHL Europaket: V54EPAK","DHL Europaket: V54EPAK"
 "DHL Paket International: V53WPAK","DHL Paket International: V53WPAK"
@@ -75,7 +74,7 @@ Errors,Fehler
 Fri,Fr
 "Furthermore, the DHL Paket module allows to request shipping labels for incoming orders directly within your Magento suite.","Mit der DHL Paket Versandmethode können Sie Versandscheine für eingehende Bestellungen direkt in Ihrer Magento-Instanz anlegen."
 "General Settings","Allgemeine Einstellungen"
-"Having issues configuring the extension? Contact our support desk: ","Haben Sie Probleme beim Konfigurieren der Extension? Wenden Sie sich an unser Support-Team: "
+"Having issues configuring the extension? Contact our support desk:","Haben Sie Probleme beim Konfigurieren der Extension? Wenden Sie sich an unser Support-Team:"
 "Here you can define default values for additional shipping services. Please note that selected options are only applied if they are valid for the given order. Incompatible services, e.g. domestic-only services for a cross-border order, will be omitted when booking a shipping label.","Hier können Sie Standardwerte für zusätzliche Lieferoptionen setzen. Bitte beachten Sie, dass Ihre Auswahl nur soweit angewendet wird, wie sie für die jeweilige Bestellung gültig ist. Nationale Services werden beispielsweise beim Buchen eines internationalen Versandetiketts nicht angewählt."
 "If enabled, DHL will automatically send a customs declaration electronically to the customs offices for dutiable shipments.","Wenn diese Option aktiviert ist, wird von DHL automatisch bei zollpflichtigen Sendungen eine Zollinhaltserklärung auf elektronischem Wege an die Zollämter versandt."
 "If enabled, a return shipment label will be requested from the webservice.","Wenn diese Option aktiviert ist, wird ein Rücksendeetikett vom Webservice angefordert."
@@ -123,6 +122,7 @@ Participation,Teilnahme
 "Place of Committal",Einlieferungsstelle
 "Please choose only one of %1.","Bitte wählen Sie nur eins von %1."
 "Please choose your preferred delivery options.","Wählen Sie Ihre bevorzugten Lieferoptionen aus."
+"Post & DHL and Magento","Versenden mit Post & DHL"
 "Post Bank %1","Postbank Filiale %1"
 "Post Office %1","Postfiliale %1"
 "Postal Charges / Fees","Versandkosten / Gebühren"
