@@ -69,7 +69,8 @@ class SendRequestStage implements CreateShipmentsStageInterface
                     $artifactsContainer->addError(
                         (string) $requestIndex,
                         $shipmentRequest->getOrderShipment(),
-                        'Web service request failed.'
+                        'No response received from web service. If a label was created '
+                        . 'in the DHL Business Customer Portal, please cancel it and try again.'
                     );
                 }
 
