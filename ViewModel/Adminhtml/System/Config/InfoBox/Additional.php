@@ -11,7 +11,7 @@ namespace Dhl\Paket\ViewModel\Adminhtml\System\Config\InfoBox;
 use Magento\Framework\UrlInterface;
 use Magento\Framework\View\Element\Block\ArgumentInterface;
 
-class PostDirektAdditional implements ArgumentInterface
+class Additional implements ArgumentInterface
 {
     /**
      * @var UrlInterface

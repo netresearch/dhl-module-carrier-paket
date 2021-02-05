@@ -3,11 +3,11 @@
  * See LICENSE.md for license details.
  */
 /** @var \Magento\Framework\View\Element\Template $block */
-/** @var \Dhl\Paket\ViewModel\Adminhtml\System\Config\InfoBox\PostDirektAdditional $viewModel */
+/** @var \Dhl\Paket\ViewModel\Adminhtml\System\Config\InfoBox\Additional $viewModel */
 $viewModel = $block->getData('view_model');
 ?>
 <div class="section">
-    <h3><?= $block->escapeHtml('DHL Shipping') ?></h3>
+    <h3><?= $block->escapeHtml(__('Post & DHL Shipping')) ?></h3>
     <p>
         <?= $block->escapeHtml(__('Create shipping labels & tracking information for your orders directly in the Magento admin panel.')) ?>
         <?= $block->escapeHtml(
