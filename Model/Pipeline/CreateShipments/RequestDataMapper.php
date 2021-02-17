@@ -116,6 +116,12 @@ class RequestDataMapper
             $recipientEmail = null;
         }
 
+        if ($requestExtractor->isRecipientPhoneRequired()) {
+            $recipientPhone = $requestExtractor->getRecipient()->getContactPhoneNumber();
+        } else {
+            $recipientPhone = null;
+        }
+
         $this->requestBuilder->setRecipientAddress(
             $requestExtractor->getRecipient()->getContactPersonName(),
             $requestExtractor->getRecipient()->getCountryCode(),
@@ -126,7 +132,7 @@ class RequestDataMapper
             $requestExtractor->getRecipient()->getContactCompanyName(),
             null,
             $recipientEmail,
-            null,
+            $recipientPhone,
             null,
             $requestExtractor->getRecipient()->getRegionCode(),
             null,

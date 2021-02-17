@@ -39,6 +39,7 @@ class ModuleConfig
 
     // 500_shipment_defaults.xml
     const CONFIG_PATH_PRINT_ONLY_IF_CODEABLE = 'dhlshippingsolutions/dhlpaket/shipment_defaults/print_only_if_codeable';
+    const CONFIG_PATH_PRINT_RECEIVER_CONTACT = 'dhlshippingsolutions/dhlpaket/shipment_defaults/print_receiver_contact';
     const CONFIG_PATH_DEFAULT_SHIPPING_PRODUCT = 'dhlshippingsolutions/dhlpaket/shipment_defaults/shipping_products';
     const CONFIG_PATH_CUSTOMS_REFERENCE_NUMBER = 'dhlshippingsolutions/dhlpaket/shipment_defaults/customs_reference_numbers';
     const CONFIG_PATH_PLACE_OF_COMMITTAL = 'dhlshippingsolutions/dhlpaket/shipment_defaults/place_of_committal';
@@ -339,16 +340,30 @@ class ModuleConfig
     }
 
     /**
-     * Returns TRUE if the "print only if codeable" service should be used or not.
+     * Returns TRUE if the "print only if codeable" service should be used.
      *
      * @param mixed $store
-     *
      * @return bool
      */
     public function printOnlyIfCodeable($store = null): bool
     {
         return (bool) $this->scopeConfig->getValue(
             self::CONFIG_PATH_PRINT_ONLY_IF_CODEABLE,
+            ScopeInterface::SCOPE_STORE,
+            $store
+        );
+    }
+
+    /**
+     * Check if the receiver phone number should be printed on the shipping label.
+     *
+     * @param mixed $store
+     * @return bool
+     */
+    public function isContactDataPrintingEnabled($store = null): bool
+    {
+        return $this->scopeConfig->isSetFlag(
+            self::CONFIG_PATH_PRINT_RECEIVER_CONTACT,
             ScopeInterface::SCOPE_STORE,
             $store
         );

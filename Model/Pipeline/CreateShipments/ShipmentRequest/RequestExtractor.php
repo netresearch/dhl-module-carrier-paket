@@ -354,6 +354,16 @@ class RequestExtractor implements RequestExtractorInterface
     }
 
     /**
+     * Check if recipient phone number must be set.
+     *
+     * @return bool
+     */
+    public function isRecipientPhoneRequired(): bool
+    {
+        return $this->moduleConfig->isContactDataPrintingEnabled($this->getStoreId());
+    }
+
+    /**
      * Check if "cash on delivery" was chosen for the current shipment request.
      *
      * @return bool

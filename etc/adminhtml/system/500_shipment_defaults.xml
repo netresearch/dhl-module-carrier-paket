@@ -13,43 +13,47 @@
             <label>Print Only If Codeable</label>
             <comment>If enabled, shipment orders will only return a label if the DHL delivery address verification succeeds.</comment>
         </field>
-        <!-- Shipping Products -->
-        <field id="shipping_products" translate="label comment tooltip" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="0">
+        <field id="print_receiver_contact" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="20"
+               translate="label comment" type="Netresearch\ConfigFields\Model\Type\Toggle">
+            <label>Print Receiver Contact Details</label>
+            <comment>If enabled, the receiver phone number will be printed on the shipping label.</comment>
+        </field>
+        <field id="shipping_products" translate="label comment tooltip" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="0">
             <label>Shipping Products</label>
             <frontend_model>Dhl\Paket\Block\Adminhtml\System\Config\Form\Field\DefaultProduct</frontend_model>
             <backend_model>Dhl\Paket\Model\Adminhtml\System\Config\Backend\ArraySerialized</backend_model>
             <comment>Selected products will be pre-selected for automatic shipping label creation. You can still select another product when creating shipping labels manually.</comment>
             <tooltip>Select "Merchandise Shipment" only if you ship all or most of your orders as Merchandise Shipments. Otherwise, choose "DHL Paket".</tooltip>
         </field>
-        <field id="drop_off_days" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="15"
+        <field id="drop_off_days" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="40"
                 translate="label comment" type="Netresearch\ConfigFields\Model\Type\Checkboxset">
             <label>Days excluded from drop-off</label>
             <comment>On the working days checked, there is no transfer of parcels to DHL (in addition to sundays and public holidays). This information influences the options offered as delivery day in checkout.</comment>
             <source_model>Dhl\ShippingCore\Model\Config\Source\DropOffDays</source_model>
             <backend_model>Dhl\ShippingCore\Model\Config\Backend\DropOffDays</backend_model>
         </field>
-        <field id="customs_reference_numbers" translate="label comment" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="0">
+        <field id="customs_reference_numbers" translate="label comment" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="0">
             <label>Customs Reference Numbers</label>
             <comment>A sender's reference number can be configured per destination country. It is used by customs authorities to identify economics operators an/or other persons involved.</comment>
             <frontend_model>Dhl\Paket\Block\Adminhtml\System\Config\Form\Field\CustomsReference</frontend_model>
             <backend_model>Dhl\Paket\Model\Adminhtml\System\Config\Backend\ArraySerialized</backend_model>
         </field>
-        <field id="place_of_committal" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="30"
+        <field id="place_of_committal" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="60"
                translate="label comment" type="text">
             <label>Place of Committal</label>
             <comment>Specification for customs form.</comment>
         </field>
-        <field id="electronic_export_notification" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="40"
+        <field id="electronic_export_notification" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="70"
                translate="label comment" type="Netresearch\ConfigFields\Model\Type\Checkbox">
             <label>Electronic Export Notification</label>
             <comment>If enabled, DHL will automatically send a customs declaration electronically to the customs offices for dutiable shipments.</comment>
         </field>
-        <field id="cod_reason_for_payment" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="45" translate="label comment">
+        <field id="cod_reason_for_payment" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="80" translate="label comment">
             <label>Cash on Delivery Reason for Payment</label>
             <comment><![CDATA[The money transfer purpose for cash on delivery payments can include the following placeholders: {{entity_id}}, {{increment_id}}, {{firstname}}, {{lastname}}. They will be replaced by the respective order's values.]]></comment>
         </field>
 
-        <group id="services_group" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="50"
+        <group id="services_group" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="90"
                translate="label comment">
             <comment>Here you can define default values for additional shipping services. Please note that selected options are only applied if they are valid for the given order. Incompatible services, e.g. domestic-only services for a cross-border order, will be omitted when booking a shipping label.</comment>
             <label>Additional Services</label>

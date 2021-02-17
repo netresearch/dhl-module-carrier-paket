@@ -4,6 +4,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## Unreleased
+
+### Added
+
+- Print receiver phone number on the shipping label if enabled via module configuration.
+
+### Changed
+
+- Error message on API communication exceptions is updated as suggested in issue [#18](https://github.com/netresearch/dhl-shipping-m2/issues/18).
+
 ## 1.4.1
 
 Bugfix Release

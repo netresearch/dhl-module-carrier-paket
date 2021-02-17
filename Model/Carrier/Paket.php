@@ -55,7 +55,7 @@ class Paket extends AbstractCarrierOnline implements CarrierInterface
     protected $_code = self::CARRIER_CODE;
 
     /**
-     * @var  RatesManagement
+     * @var RatesManagement
      */
     private $ratesManagement;
 
