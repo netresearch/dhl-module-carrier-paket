@@ -1,15 +1,18 @@
 <?php
+
 /**
  * See LICENSE.md for license details.
  */
 
+declare(strict_types=1);
+
 namespace Dhl\Paket\Test\Integration\TestCase\Controller\Adminhtml\Order\Shipment;
 
 use Dhl\Paket\Model\Carrier\Paket;
-use Dhl\ShippingCore\Api\LabelStatus\LabelStatusManagementInterface;
-use Dhl\ShippingCore\Model\LabelStatus\LabelStatusProvider;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Sales\Model\ResourceModel\Order\Shipment\Collection;
+use Netresearch\ShippingCore\Api\LabelStatus\LabelStatusManagementInterface;
+use Netresearch\ShippingCore\Model\LabelStatus\LabelStatusProvider;
 use TddWizard\Fixtures\Sales\OrderBuilder;
 use TddWizard\Fixtures\Sales\OrderFixture;
 use TddWizard\Fixtures\Sales\OrderFixtureRollback;

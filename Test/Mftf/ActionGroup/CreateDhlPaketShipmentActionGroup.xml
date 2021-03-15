@@ -7,8 +7,8 @@
 <actionGroups xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/actionGroupSchema.xsd">
     <actionGroup name="CreateDhlPaketShipmentActionGroup">
-        <seeElement selector="{{AdminShipmentMainActionsSection.createLabelCheckbox}}" stepKey="seeCreateShippingLabel"/>
-        <checkOption selector="{{AdminShipmentMainActionsSection.createLabelCheckbox}}" stepKey="checkCreateLabel"/>
+        <seeElement selector="{{AdminShipmentTotalSection.createShippingLabel}}" stepKey="seeCreateShippingLabel"/>
+        <checkOption selector="{{AdminShipmentTotalSection.createShippingLabel}}" stepKey="checkCreateLabel"/>
         <seeElement selector="{{AdminShipmentMainActionsSection.submitShipment}}" stepKey="seeSubmitShipping"/>
         <click selector="{{AdminShipmentMainActionsSection.submitShipment}}" stepKey="clickSubmitShipment"/>
         <waitForAjaxLoad stepKey="waitForPackagingPopup" time="30"/>

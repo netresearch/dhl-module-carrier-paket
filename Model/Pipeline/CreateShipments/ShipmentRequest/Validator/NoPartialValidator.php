@@ -1,17 +1,22 @@
 <?php
+
 /**
  * See LICENSE.md for license details.
  */
+
+declare(strict_types=1);
+
 namespace Dhl\Paket\Model\Pipeline\CreateShipments\ShipmentRequest\Validator;
 
-use Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes;
-use Dhl\ShippingCore\Api\Pipeline\ShipmentRequest\RequestValidatorInterface;
+use Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes as ServiceCodes;
 use Magento\Bundle\Model\Product\Type;
 use Magento\Catalog\Model\Product\Type\AbstractType;
 use Magento\ConfigurableProduct\Model\Product\Type\Configurable;
 use Magento\Framework\Exception\ValidatorException;
 use Magento\Sales\Api\Data\OrderItemInterface;
 use Magento\Shipping\Model\Shipment\Request;
+use Netresearch\ShippingCore\Api\Pipeline\ShipmentRequest\RequestValidatorInterface;
+use Netresearch\ShippingCore\Model\ShippingSettings\ShippingOption\Codes;
 
 /**
  * Class NoPartialValidator
@@ -85,19 +90,19 @@ class NoPartialValidator implements RequestValidatorInterface
         $hasCodService = false;
 
         foreach ($packages as $package) {
-            $serviceData = $package['params']['services'][Codes::PACKAGING_SERVICE_INSURANCE] ?? [];
+            $serviceData = $package['params']['services'][ServiceCodes::SERVICE_OPTION_INSURANCE] ?? [];
             $hasInsuranceService = $hasInsuranceService || ($serviceData['enabled'] ?? false);
 
-            $serviceData = $package['params']['services'][Codes::CHECKOUT_SERVICE_CASH_ON_DELIVERY] ?? [];
+            $serviceData = $package['params']['services'][Codes::SERVICE_OPTION_CASH_ON_DELIVERY] ?? [];
             $hasCodService = $hasCodService || ($serviceData['enabled'] ?? false);
         }
 
         return !$hasInsuranceService && !$hasCodService;
     }
 
-    public function validate(Request $request)
+    public function validate(Request $shipmentRequest): void
     {
-        if ($this->isPartialShipment($request) && !$this->canShipPartially($request)) {
+        if ($this->isPartialShipment($shipmentRequest) && !$this->canShipPartially($shipmentRequest)) {
             throw new ValidatorException(
                 __('Partial shipments with Cash on Delivery or Insurance service are not supported. Please ship the entire order in one package or deselect the service.')
             );

@@ -1,17 +1,19 @@
 <?php
+
 /**
  * See LICENSE.md for license details.
  */
+
 declare(strict_types=1);
 
 namespace Dhl\Paket\Model\BulkShipment;
 
 use Dhl\Paket\Model\Carrier\Paket;
 use Dhl\Paket\Model\Pipeline\CreateShipments\ShipmentRequest\RequestModifier;
-use Dhl\ShippingCore\Api\BulkShipment\BulkLabelCancellationInterface;
-use Dhl\ShippingCore\Api\BulkShipment\BulkLabelCreationInterface;
-use Dhl\ShippingCore\Api\BulkShipment\BulkShipmentConfigurationInterface;
-use Dhl\ShippingCore\Api\Pipeline\ShipmentRequest\RequestModifierInterface;
+use Netresearch\ShippingCore\Api\BulkShipment\BulkLabelCancellationInterface;
+use Netresearch\ShippingCore\Api\BulkShipment\BulkLabelCreationInterface;
+use Netresearch\ShippingCore\Api\BulkShipment\BulkShipmentConfigurationInterface;
+use Netresearch\ShippingCore\Api\Pipeline\ShipmentRequest\RequestModifierInterface;
 
 class BulkShipmentConfiguration implements BulkShipmentConfigurationInterface
 {
@@ -25,12 +27,6 @@ class BulkShipmentConfiguration implements BulkShipmentConfigurationInterface
      */
     private $shipmentManagement;
 
-    /**
-     * BulkShipmentConfiguration constructor.
-     *
-     * @param RequestModifier $requestModifier
-     * @param ShipmentManagement $shipmentManagement
-     */
     public function __construct(
         RequestModifier $requestModifier,
         ShipmentManagement $shipmentManagement

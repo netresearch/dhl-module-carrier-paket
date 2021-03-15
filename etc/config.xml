@@ -26,6 +26,17 @@
         <dhlshippingsolutions>
             <dhlpaket>
                 <general_shipping_settings>
+                    <cut_off_times backend_model="Netresearch\ShippingCore\Model\Config\Backend\ArraySerialized">
+                        <![CDATA[
+                            {
+                                "_1611063508787_787":{"day":"1","time":"16:00"},
+                                "_1611063650779_779":{"day":"2","time":"16:00"},
+                                "_1611063651359_359":{"day":"3","time":"16:00"},
+                                "_1611063651867_867":{"day":"4","time":"16:00"},
+                                "_1611063659380_380":{"day":"5","time":"16:00"}
+                            }
+                        ]]>
+                    </cut_off_times>
                     <logging_group>
                         <loglevel>400</loglevel>
                     </logging_group>
@@ -35,7 +46,7 @@
                     <sandboxmode_group>
                         <api_password backend_model="Magento\Config\Model\Config\Backend\Encrypted"/>
 
-                        <account_participations backend_model="Dhl\Paket\Model\Adminhtml\System\Config\Backend\ArraySerialized">
+                        <account_participations backend_model="Netresearch\ShippingCore\Model\Config\Backend\ArraySerialized">
                             <![CDATA[
                                 {
                                     "_1485789382230_230":{"procedure":"01","participation":"01"},
@@ -57,7 +68,7 @@
                     <sandbox_username>2222222222_01</sandbox_username>
                     <sandbox_password>pass</sandbox_password>
                     <sandbox_account_number>2222222222</sandbox_account_number>
-                    <sandbox_account_participations backend_model="Dhl\Paket\Model\Adminhtml\System\Config\Backend\ArraySerialized">
+                    <sandbox_account_participations backend_model="Netresearch\ShippingCore\Model\Config\Backend\ArraySerialized">
                         <![CDATA[
                             {
                                 "_1485789382230_230":{"procedure":"01","participation":"04"},
@@ -67,12 +78,12 @@
                             }
                         ]]>
                     </sandbox_account_participations>
-                    <account_participations backend_model="Dhl\Paket\Model\Adminhtml\System\Config\Backend\ArraySerialized"/>
+                    <account_participations backend_model="Netresearch\ShippingCore\Model\Config\Backend\ArraySerialized"/>
                 </account_settings>
 
                 <shipment_defaults>
                     <print_only_if_codeable>1</print_only_if_codeable>
-                    <shipping_products backend_model="Dhl\Paket\Model\Adminhtml\System\Config\Backend\ArraySerialized">
+                    <shipping_products backend_model="Netresearch\ShippingCore\Model\Config\Backend\ArraySerialized">
                         <![CDATA[
                             {
                                 "_1585932705668_668":{"route":"DE-DE","product":"V01PAK"},
@@ -81,31 +92,30 @@
                             }
                         ]]>
                     </shipping_products>
-                    <customs_reference_numbers backend_model="Dhl\Paket\Model\Adminhtml\System\Config\Backend\ArraySerialized">[]</customs_reference_numbers>
-                    <cod_reason_for_payment><![CDATA[{{firstname}} {{lastname}} #{{increment_id}}]]></cod_reason_for_payment>
-                    <services_group>
+                    <customs>
+                        <reference_numbers backend_model="Netresearch\ShippingCore\Model\Config\Backend\ArraySerialized">[]</reference_numbers>
+                    </customs>
+                    <services>
                         <visual_check_of_age>0</visual_check_of_age>
-                        <return_shipment>0</return_shipment>
                         <additional_insurance>0</additional_insurance>
                         <bulky_goods>0</bulky_goods>
                         <parcel_outlet>0</parcel_outlet>
-                    </services_group>
+                        <return_shipment>0</return_shipment>
+                        <return_shipment_receiver>
+                            <country_id>DE</country_id>
+                        </return_shipment_receiver>
+                    </services>
                 </shipment_defaults>
 
                 <additional_services>
-                    <services_group>
-                        <parcelannouncement>0</parcelannouncement>
-                        <preferredlocation>0</preferredlocation>
-                        <preferredneighbour>0</preferredneighbour>
-                        <preferredday>0</preferredday>
-                        <preferredDayCharge>0.99</preferredDayCharge>
-                    </services_group>
+                    <parcelannouncement>0</parcelannouncement>
+                    <deliverylocation>0</deliverylocation>
+                    <preferredlocation>0</preferredlocation>
+                    <preferredneighbour>0</preferredneighbour>
+                    <preferredday>0</preferredday>
+                    <preferredday_charge>0.99</preferredday_charge>
                 </additional_services>
             </dhlpaket>
-
-            <location_finder>
-                <consumer_key>pJDOxtJt03guK5eXKYcZt9Ez1bPi2Xvm</consumer_key>
-            </location_finder>
         </dhlshippingsolutions>
     </default>
 </config>

@@ -1,12 +1,14 @@
 <?php
+
 /**
  * See LICENSE.md for license details.
  */
+
 declare(strict_types=1);
 
 namespace Dhl\Paket\Block\Adminhtml\System\Config\Form\Field;
 
-use Dhl\Paket\Util\ShippingProducts;
+use Dhl\Paket\Model\Util\ShippingProducts;
 use Magento\Framework\View\Element\Context;
 use Magento\Framework\View\Element\Html\Select;
 

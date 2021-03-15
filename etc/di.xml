@@ -11,11 +11,14 @@
     <preference for="Dhl\Sdk\Paket\ParcelManagement\Api\ServiceFactoryInterface" type="Dhl\Sdk\Paket\ParcelManagement\Service\ServiceFactory"/>
     <preference for="Dhl\Sdk\Paket\Bcs\Api\Data\AuthenticationStorageInterface" type="Dhl\Sdk\Paket\Bcs\Auth\AuthenticationStorage"/>
 
+    <!-- # service interface preferences -->
+    <preference for="Dhl\Paket\Api\ShipmentDateInterface" type="Dhl\Paket\Model\ShipmentDate\ShipmentDate"/>
+
     <!-- # virtual types -->
     <virtualType name="Dhl\Paket\Model\BulkShipment\BulkShipmentManagement\Virtual" type="Dhl\Paket\Model\BulkShipment\ShipmentManagement">
         <arguments>
-            <argument name="createResponseProcessor" xsi:type="object">Dhl\ShippingCore\Model\Pipeline\BulkShipment\CreateLabelResponseProcessor\Virtual</argument>
-            <argument name="deleteResponseProcessor" xsi:type="object">Dhl\ShippingCore\Model\Pipeline\BulkShipment\CancelLabelResponseProcessor\Virtual</argument>
+            <argument name="createResponseProcessor" xsi:type="object">Netresearch\ShippingCore\Model\Pipeline\BulkShipment\CreateLabelResponseProcessor\Virtual</argument>
+            <argument name="deleteResponseProcessor" xsi:type="object">Netresearch\ShippingCore\Model\Pipeline\BulkShipment\CancelLabelResponseProcessor\Virtual</argument>
         </arguments>
     </virtualType>
     <virtualType name="Dhl\Paket\Model\BulkShipment\BulkShipmentManagement\Proxy\Virtual" type="Dhl\Paket\Model\BulkShipment\ShipmentManagement\Proxy">
@@ -23,7 +26,7 @@
             <argument name="instanceName" xsi:type="string">Dhl\Paket\Model\BulkShipment\BulkShipmentManagement\Virtual</argument>
         </arguments>
     </virtualType>
-    <virtualType name="Dhl\Paket\Model\Logger\Handler\Virtual" type="Dhl\ShippingCore\Model\Util\ApiLogHandler">
+    <virtualType name="Dhl\Paket\Model\Logger\Handler\Virtual" type="Netresearch\ShippingCore\Model\Util\ApiLogHandler">
         <arguments>
             <argument name="fileName" xsi:type="string">var/log/dhl_paket.log</argument>
             <argument name="logEnabledConfigPath" xsi:type="const">Dhl\Paket\Model\Config\ModuleConfig::CONFIG_PATH_ENABLE_LOGGING</argument>
@@ -38,25 +41,25 @@
             </argument>
         </arguments>
     </virtualType>
-    <virtualType name="Dhl\Paket\Model\Pipeline\Rate\RateResponseProcessor\Virtual" type="Dhl\ShippingCore\Model\Pipeline\Rate\RateResponseProcessor">
+    <virtualType name="Dhl\Paket\Model\Pipeline\Rate\RateResponseProcessor\Virtual" type="Netresearch\ShippingCore\Model\Pipeline\Rate\RateResponseProcessor">
         <arguments>
             <argument name="processors" xsi:type="array">
-                <item name="carrierDetails" xsi:type="object">Dhl\ShippingCore\Model\Pipeline\Rate\ResponseProcessor\CarrierDetails</item>
-                <item name="freeShipping" xsi:type="object">Dhl\ShippingCore\Model\Pipeline\Rate\ResponseProcessor\FreeShipping</item>
+                <item name="carrierDetails" xsi:type="object">Netresearch\ShippingCore\Model\Pipeline\Rate\ResponseProcessor\CarrierDetails</item>
+                <item name="freeShipping" xsi:type="object">Netresearch\ShippingCore\Model\Pipeline\Rate\ResponseProcessor\FreeShipping</item>
             </argument>
         </arguments>
     </virtualType>
-    <virtualType name="Dhl\Paket\Model\Rate\Emulation\RateRequestService\Virtual" type="Dhl\ShippingCore\Model\Rate\Emulation\RateRequestService">
+    <virtualType name="Dhl\Paket\Model\Rate\Emulation\RateRequestService\Virtual" type="Netresearch\ShippingCore\Model\Rate\Emulation\RateRequestService">
         <arguments>
             <argument name="responseProcessor" xsi:type="object">Dhl\Paket\Model\Pipeline\Rate\RateResponseProcessor\Virtual</argument>
         </arguments>
     </virtualType>
-    <virtualType name="Dhl\Paket\Model\Pipeline\CreateShipments\ArtifactsContainerFactory\Virtual" type="Dhl\ShippingCore\Api\Data\Pipeline\ArtifactsContainerInterfaceFactory">
+    <virtualType name="Dhl\Paket\Model\Pipeline\CreateShipments\ArtifactsContainerFactory\Virtual" type="Netresearch\ShippingCore\Api\Data\Pipeline\ArtifactsContainerInterfaceFactory">
         <arguments>
             <argument name="instanceName" xsi:type="string">Dhl\Paket\Model\Pipeline\CreateShipments\ArtifactsContainer</argument>
         </arguments>
     </virtualType>
-    <virtualType name="Dhl\Paket\Model\Pipeline\CreateShipmentsPipeline\Virtual" type="Dhl\ShippingCore\Model\Pipeline\Shipment\CreateShipmentsPipeline">
+    <virtualType name="Dhl\Paket\Model\Pipeline\CreateShipmentsPipeline\Virtual" type="Netresearch\ShippingCore\Model\Pipeline\Shipment\CreateShipmentsPipeline">
         <arguments>
             <argument name="stages" xsi:type="array">
                 <item name="validate" sortOrder="100" xsi:type="object">Dhl\Paket\Model\Pipeline\CreateShipments\Stage\ValidateStage</item>
@@ -67,12 +70,12 @@
             <argument name="artifactsContainerFactory" xsi:type="object">Dhl\Paket\Model\Pipeline\CreateShipments\ArtifactsContainerFactory\Virtual</argument>
         </arguments>
     </virtualType>
-    <virtualType name="Dhl\Paket\Model\Pipeline\DeleteShipments\ArtifactsContainerFactory\Virtual" type="Dhl\ShippingCore\Api\Data\Pipeline\ArtifactsContainerInterfaceFactory">
+    <virtualType name="Dhl\Paket\Model\Pipeline\DeleteShipments\ArtifactsContainerFactory\Virtual" type="Netresearch\ShippingCore\Api\Data\Pipeline\ArtifactsContainerInterfaceFactory">
         <arguments>
             <argument name="instanceName" xsi:type="string">Dhl\Paket\Model\Pipeline\DeleteShipments\ArtifactsContainer</argument>
         </arguments>
     </virtualType>
-    <virtualType name="Dhl\Paket\Model\Pipeline\DeleteShipmentsPipeline\Virtual" type="Dhl\ShippingCore\Model\Pipeline\Track\RequestTracksPipeline">
+    <virtualType name="Dhl\Paket\Model\Pipeline\DeleteShipmentsPipeline\Virtual" type="Netresearch\ShippingCore\Model\Pipeline\Track\RequestTracksPipeline">
         <arguments>
             <argument name="stages" xsi:type="array">
                 <item name="mapRequest" sortOrder="100" xsi:type="object">Dhl\Paket\Model\Pipeline\DeleteShipments\Stage\MapRequestStage</item>
@@ -82,7 +85,7 @@
             <argument name="artifactsContainerFactory" xsi:type="object">Dhl\Paket\Model\Pipeline\DeleteShipments\ArtifactsContainerFactory\Virtual</argument>
         </arguments>
     </virtualType>
-    <virtualType name="Dhl\Paket\Model\Pipeline\Shipment\ShipmentRequest\Validator\CompositeValidator\Virtual" type="Dhl\ShippingCore\Model\Pipeline\Shipment\ShipmentRequest\Validator\CompositeValidator">
+    <virtualType name="Dhl\Paket\Model\Pipeline\Shipment\ShipmentRequest\Validator\CompositeValidator\Virtual" type="Netresearch\ShippingCore\Model\Pipeline\Shipment\ShipmentRequest\Validator\CompositeValidator">
         <arguments>
             <argument name="validators" xsi:type="array">
                 <item name="warenpostShipment" xsi:type="object">Dhl\Paket\Model\Pipeline\CreateShipments\ShipmentRequest\Validator\ProductValidator</item>
@@ -90,16 +93,37 @@
             </argument>
         </arguments>
     </virtualType>
+    <virtualType name="Dhl\Paket\ViewModel\Adminhtml\System\InfoBox\Virtual" type="Netresearch\ShippingCore\ViewModel\Adminhtml\System\InfoBox">
+        <arguments>
+            <argument name="version" xsi:type="object">Dhl\Paket\Model\Config\ModuleConfig</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Netresearch\ShippingCore\Model\ShippingSettings\Checkout\ShippingDataProcessor\Virtual">
+        <arguments>
+            <argument name="shippingOptionsProcessors" xsi:type="array">
+                <item name="dhlPaketAddParcelManagementInputOptions" xsi:type="object" sortOrder="1010">Dhl\Paket\Model\ShippingSettings\TypeProcessor\ShippingOptions\ParcelManagementOptionsProcessor</item>
+                <item name="dhlPaketUpdatePreferredDayLabelsProcessor" xsi:type="object" sortOrder="1020">Dhl\Paket\Model\ShippingSettings\TypeProcessor\ShippingOptions\UpdatePreferredDayOptionLabelProcessor</item>
+                <item name="dhlPaketDisplayServiceFee" xsi:type="object" sortOrder="1010">Dhl\Paket\Model\ShippingSettings\TypeProcessor\ShippingOptions\AdditionalFeeProcessor</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Netresearch\ShippingCore\Model\ShippingSettings\Packaging\ShippingDataProcessor\Virtual">
+        <arguments>
+            <argument name="carrierDataProcessors" xsi:type="array">
+                <item name="dhlPaketFilterShippingProducts" xsi:type="object" sortOrder="1000">Dhl\Paket\Model\ShippingSettings\TypeProcessor\Carrier\ShippingProductProcessor</item>
+            </argument>
+            <argument name="shippingOptionsProcessors" xsi:type="array">
+                <item name="dhlPaketUpdatePreferredDayLabelsProcessor" xsi:type="object" sortOrder="1010">Dhl\Paket\Model\ShippingSettings\TypeProcessor\ShippingOptions\UpdatePreferredDayOptionLabelProcessor</item>
+                <item name="dhlPaketAddShippingProductOptionsProcessor" xsi:type="object" sortOrder="1020">Dhl\Paket\Model\ShippingSettings\TypeProcessor\ShippingOptions\AddShippingProductOptionsProcessor</item>
+                <item name="dhlPaketCustomsInputProcessor" xsi:type="object" sortOrder="1020">Dhl\Paket\Model\ShippingSettings\TypeProcessor\ShippingOptions\CustomsInputsProcessor</item>
+            </argument>
+        </arguments>
+    </virtualType>
 
     <!-- # argument di overrides -->
-    <type name="Dhl\Paket\Model\BulkShipment\BulkShipmentConfiguration">
+    <type name="Dhl\Paket\Model\Pipeline\CreateShipments\Stage\ValidateStage">
         <arguments>
-            <argument name="shipmentManagement" xsi:type="object">Dhl\Paket\Model\BulkShipment\BulkShipmentManagement\Proxy\Virtual</argument>
-        </arguments>
-    </type>
-    <type name="Dhl\Paket\Model\BulkShipment\ShipmentManagement">
-        <arguments>
-            <argument name="deleteResponseProcessor" xsi:type="object">Dhl\ShippingCore\Model\Pipeline\BulkShipment\CancelLabelResponseProcessor\Virtual</argument>
+            <argument xsi:type="object" name="requestValidator">Dhl\Paket\Model\Pipeline\Shipment\ShipmentRequest\Validator\CompositeValidator\Virtual</argument>
         </arguments>
     </type>
     <type name="Dhl\Paket\Model\Carrier\Paket">
@@ -109,9 +133,19 @@
             <argument name="trackingInfoProvider" xsi:type="object">Dhl\UnifiedTracking\Api\TrackingInfoProviderInterface\Proxy</argument>
         </arguments>
     </type>
-    <type name="Dhl\Paket\Model\Carrier\TrackingConfiguration">
+    <type name="Dhl\Paket\Model\Rate\RatesManagement">
         <arguments>
-            <argument name="logger" xsi:type="object">Dhl\Paket\Model\Logger\Virtual</argument>
+            <argument name="rateRequestService" xsi:type="object">Dhl\Paket\Model\Rate\Emulation\RateRequestService\Virtual</argument>
+        </arguments>
+    </type>
+    <type name="Dhl\Paket\Model\BulkShipment\ShipmentManagement">
+        <arguments>
+            <argument name="deleteResponseProcessor" xsi:type="object">Netresearch\ShippingCore\Model\Pipeline\BulkShipment\CancelLabelResponseProcessor\Virtual</argument>
+        </arguments>
+    </type>
+    <type name="Dhl\Paket\Model\BulkShipment\BulkShipmentConfiguration">
+        <arguments>
+            <argument name="shipmentManagement" xsi:type="object">Dhl\Paket\Model\BulkShipment\BulkShipmentManagement\Proxy\Virtual</argument>
         </arguments>
     </type>
     <type name="Dhl\Paket\Model\Pipeline\ApiGateway">
@@ -120,97 +154,56 @@
             <argument name="deletionPipeline" xsi:type="object">Dhl\Paket\Model\Pipeline\DeleteShipmentsPipeline\Virtual</argument>
         </arguments>
     </type>
-    <type name="Dhl\Paket\Model\Pipeline\CreateShipments\Stage\ValidateStage">
-        <arguments>
-            <argument xsi:type="object" name="requestValidator">Dhl\Paket\Model\Pipeline\Shipment\ShipmentRequest\Validator\CompositeValidator\Virtual</argument>
-        </arguments>
-    </type>
-    <type name="Dhl\Paket\Model\Rate\RatesManagement">
-        <arguments>
-            <argument name="rateRequestService" xsi:type="object">Dhl\Paket\Model\Rate\Emulation\RateRequestService\Virtual</argument>
-        </arguments>
-    </type>
-    <type name="Dhl\Paket\Model\Webservice\LocationFinderService">
-        <arguments>
-            <argument name="logger" xsi:type="object">Dhl\Paket\Model\Logger\Virtual</argument>
-        </arguments>
-    </type>
     <type name="Dhl\Paket\Model\Webservice\ShipmentService">
         <arguments>
             <argument name="logger" xsi:type="object">Dhl\Paket\Model\Logger\Virtual</argument>
         </arguments>
     </type>
-    <type name="Dhl\Paket\Model\Webservice\ParcelManagementService">
+    <type name="Dhl\Paket\Model\Webservice\ParcelManagementServiceFactory">
         <arguments>
             <argument name="logger" xsi:type="object">Dhl\Paket\Model\Logger\Virtual</argument>
         </arguments>
     </type>
-    <type name="Dhl\ShippingCore\Model\AdditionalFee\AdditionalFeeManagement">
+    <type name="Dhl\Paket\Model\Webservice\LocationFinderServiceFactory">
         <arguments>
-            <argument name="additionalFeeConfiguration" xsi:type="array">
-                <item name="dhlpaket" xsi:type="object">Dhl\Paket\Model\AdditionalFee\AdditionalFeeConfiguration</item>
+            <argument name="logger" xsi:type="object">Dhl\Paket\Model\Logger\Virtual</argument>
+        </arguments>
+    </type>
+    <type name="Netresearch\ShippingCore\Model\ShippingSettings\TypeProcessor\ShippingOptions\RemoveUnusedConsumerServicesProcessor">
+        <arguments>
+            <argument name="carrierConsumerServices" xsi:type="array">
+                <item name="dhlpaket" xsi:type="array">
+                    <item name="0" xsi:type="const">Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::SERVICE_OPTION_PREFERRED_DAY</item>
+                    <item name="1" xsi:type="const">Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::SERVICE_OPTION_DROPOFF_DELIVERY</item>
+                    <item name="2" xsi:type="const">Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::SERVICE_OPTION_NEIGHBOR_DELIVERY</item>
+                    <item name="3" xsi:type="const">Netresearch\ShippingCore\Model\ShippingSettings\ShippingOption\Codes::SERVICE_OPTION_DELIVERY_LOCATION</item>
+                    <item name="4" xsi:type="const">Netresearch\ShippingCore\Model\ShippingSettings\ShippingOption\Codes::SERVICE_OPTION_CASH_ON_DELIVERY</item>
+                </item>
             </argument>
         </arguments>
     </type>
-    <type name="Dhl\ShippingCore\Model\BulkShipment\BulkShipmentConfiguration">
+    <type name="Netresearch\ShippingCore\Model\BulkShipment\BulkShipmentConfiguration">
         <arguments>
             <argument name="configurations" xsi:type="array">
                 <item name="dhlpaket" xsi:type="object">Dhl\Paket\Model\BulkShipment\BulkShipmentConfiguration</item>
             </argument>
         </arguments>
     </type>
-    <type name="Dhl\ShippingCore\Model\DeliveryLocation\Search">
-        <arguments>
-            <argument name="locationProviders" xsi:type="array">
-                <item name="dhlpaket" xsi:type="object">Dhl\Paket\Model\DeliveryLocation\LocationProvider</item>
-            </argument>
-        </arguments>
-    </type>
-    <type name="Dhl\ShippingCore\Model\LabelStatus\LabelStatusManagement">
+    <type name="Netresearch\ShippingCore\Model\LabelStatus\LabelStatusManagement">
         <arguments>
             <argument name="carrierCodes" xsi:type="array">
                 <item name="dhlpaket" xsi:type="const">Dhl\Paket\Model\Carrier\Paket::CARRIER_CODE</item>
             </argument>
         </arguments>
     </type>
-    <type name="Dhl\ShippingCore\Model\ShipmentDate\ShipmentDate">
-        <arguments>
-            <argument name="dayValidators" xsi:type="array">
-                <item name="dropOffDays" xsi:type="object">Dhl\Paket\Model\ShipmentDate\Validator\DropOffDays</item>
-            </argument>
-        </arguments>
-    </type>
-    <type name="Dhl\ShippingCore\Model\ShippingSettings\Processor\Checkout\CheckoutDataCompositeProcessor">
-        <arguments>
-            <argument name="serviceOptionsProcessors" xsi:type="array">
-                <item name="dhlpaketParcelManagementOptionsProcessor" sortOrder="100" xsi:type="object">Dhl\Paket\Model\ShippingSettings\Processor\Checkout\ServiceOptions\ParcelManagementOptionsProcessor</item>
-                <item name="dhlpaketAdditionalChargesProcessor" sortOrder="200" xsi:type="object">Dhl\Paket\Model\ShippingSettings\Processor\Checkout\ServiceOptions\AdditionalChargesProcessor</item>
-            </argument>
-        </arguments>
-    </type>
-    <type name="Dhl\ShippingCore\Model\ShippingSettings\Processor\Packaging\PackagingDataCompositeProcessor">
-        <arguments>
-            <argument name="packagingServiceOptionsProcessors" xsi:type="array">
-                <item name="dhlPaketServiceInputProcessor" sortOrder="120" xsi:type="object">Dhl\Paket\Model\ShippingSettings\Processor\Packaging\ServiceInputDataProcessor</item>
-            </argument>
-            <argument name="packagingPackageOptionsProcessors" xsi:type="array">
-                <item name="dhlPaketPackageInputProcessor" sortOrder="220" xsi:type="object">Dhl\Paket\Model\ShippingSettings\Processor\Packaging\PackageInputDataProcessor</item>
-                <item name="dhlPaketDimensionsInputProcessor" sortOrder="230" xsi:type="object">Dhl\Paket\Model\ShippingSettings\Processor\Packaging\DimensionsInputDataProcessor</item>
-                <item name="dhlPaketCustomsInputProcessor" sortOrder="240" xsi:type="object">Dhl\Paket\Model\ShippingSettings\Processor\Packaging\CustomsInputDataProcessor</item>
-            </argument>
-            <argument name="globalProcessors" xsi:type="array">
-                <item name="productFilter" sortOrder="999" xsi:type="object">Dhl\Paket\Model\ShippingSettings\Processor\Packaging\ShippingProductProcessor</item>
-            </argument>
-        </arguments>
-    </type>
-    <type name="Dhl\ShippingCore\Model\ShippingSettings\PackagingPopup">
+    <type name="Netresearch\ShippingCore\Model\ShippingSettings\PackagingPopup">
         <arguments>
             <argument name="supportMap" xsi:type="array">
                 <item name="dhlpaket" xsi:type="const">Dhl\Paket\Model\Carrier\Paket::CARRIER_CODE</item>
             </argument>
         </arguments>
     </type>
-    <type name="Dhl\ShippingCore\Model\Util\ApiLogAnonymizer">
+    <type name="Netresearch\ShippingCore\Model\Util\ApiLogAnonymizer">
         <arguments>
             <argument name="patterns" xsi:type="array">
                 <item name="dhlpaketEkp" xsi:type="string"><![CDATA[|EKP: (.+)|]]></item>
@@ -221,31 +214,57 @@
             </argument>
         </arguments>
     </type>
-    <type name="Dhl\ShippingCore\Observer\DisableCodPaymentMethods">
+    <type name="Netresearch\ShippingCore\Observer\DisableCodPaymentMethods">
         <arguments>
             <argument name="codSupportMap" xsi:type="array">
                 <item name="dhlpaket" xsi:type="object">Dhl\Paket\Model\Carrier\CodSupportHandler</item>
             </argument>
         </arguments>
     </type>
-    <type name="Dhl\ShippingCore\Observer\PersistCodShippingOptionSelection">
+    <type name="Netresearch\ShippingCore\Observer\PersistCodShippingOptionSelection">
         <arguments>
             <argument name="codSelectors" xsi:type="array">
                 <item name="dhlpaket" xsi:type="object">Dhl\Paket\Model\Carrier\CodSupportHandler</item>
             </argument>
         </arguments>
     </type>
-    <type name="Dhl\ShippingCore\Observer\SplitAddress">
+    <type name="Netresearch\ShippingCore\Observer\SplitAddress">
         <arguments>
             <argument name="streetLoaders" xsi:type="array">
                 <item name="dhlpaket" xsi:type="object">Dhl\Paket\Model\SplitAddress\RecipientStreetLoader</item>
             </argument>
         </arguments>
     </type>
+    <type name="Dhl\Paket\Model\Carrier\TrackingConfiguration">
+        <arguments>
+            <argument name="logger" xsi:type="object">Dhl\Paket\Model\Logger\Virtual</argument>
+        </arguments>
+    </type>
     <type name="Dhl\UnifiedTracking\Model\Pipeline\Stage\SendRequestStage">
         <arguments>
             <argument name="configurations" xsi:type="array">
                 <item name="dhlpaket" xsi:type="object">Dhl\Paket\Model\Carrier\TrackingConfiguration</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Netresearch\ShippingCore\Model\AdditionalFee\AdditionalFeeManagement">
+        <arguments>
+            <argument name="configurations" xsi:type="array">
+                <item name="dhlpaket" xsi:type="object">Dhl\Paket\Model\AdditionalFee\AdditionalFeeConfiguration</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Netresearch\ShippingCore\Model\DeliveryLocation\Search">
+        <arguments>
+            <argument name="locationProviders" xsi:type="array">
+                <item name="dhlpaket" xsi:type="object">Dhl\Paket\Model\DeliveryLocation\LocationProvider</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Netresearch\ShippingCore\Model\ShipmentDate\ShipmentDateCalculator">
+        <arguments>
+            <argument name="dayValidators" xsi:type="array">
+                <item name="excludeSundays" xsi:type="object">Dhl\Paket\Model\ShipmentDate\Validator\ExcludeSundays</item>
             </argument>
         </arguments>
     </type>

@@ -1,19 +1,21 @@
 <?php
+
 /**
  * See LICENSE.md for license details.
  */
+
 declare(strict_types=1);
 
 namespace Dhl\Paket\Model\Pipeline\CreateShipments;
 
 use Dhl\Sdk\Paket\Bcs\Api\Data\ShipmentInterface;
-use Dhl\ShippingCore\Api\Data\Pipeline\ShipmentResponse\LabelResponseInterface;
-use Dhl\ShippingCore\Api\Data\Pipeline\ShipmentResponse\LabelResponseInterfaceFactory;
-use Dhl\ShippingCore\Api\Data\Pipeline\ShipmentResponse\ShipmentErrorResponseInterface;
-use Dhl\ShippingCore\Api\Data\Pipeline\ShipmentResponse\ShipmentErrorResponseInterfaceFactory;
-use Dhl\ShippingCore\Api\Util\PdfCombinatorInterface;
 use Magento\Framework\Exception\RuntimeException;
 use Magento\Framework\Phrase;
+use Netresearch\ShippingCore\Api\Data\Pipeline\ShipmentResponse\LabelResponseInterface;
+use Netresearch\ShippingCore\Api\Data\Pipeline\ShipmentResponse\LabelResponseInterfaceFactory;
+use Netresearch\ShippingCore\Api\Data\Pipeline\ShipmentResponse\ShipmentErrorResponseInterface;
+use Netresearch\ShippingCore\Api\Data\Pipeline\ShipmentResponse\ShipmentErrorResponseInterfaceFactory;
+use Netresearch\ShippingCore\Api\Util\PdfCombinatorInterface;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -43,13 +45,6 @@ class ResponseDataMapper
      */
     private $errorResponseFactory;
 
-    /**
-     * ResponseDataMapper constructor.
-     *
-     * @param PdfCombinatorInterface $pdfCombinator
-     * @param LabelResponseInterfaceFactory $shipmentResponseFactory
-     * @param ShipmentErrorResponseInterfaceFactory $errorResponseFactory
-     */
     public function __construct(
         PdfCombinatorInterface $pdfCombinator,
         LabelResponseInterfaceFactory $shipmentResponseFactory,

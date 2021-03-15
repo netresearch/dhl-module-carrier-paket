@@ -1,27 +1,27 @@
 <?php
+
 /**
  * See LICENSE.md for license details.
  */
+
 declare(strict_types=1);
 
 namespace Dhl\Paket\Test\Integration\TestCase\Controller\Adminhtml\Shipment;
 
 use Dhl\Paket\Model\Pipeline\CreateShipments\Stage\SendRequestStage;
 use Dhl\Paket\Test\Integration\TestDouble\Pipeline\CreateShipments\Stage\SendRequestStageStub;
-use Dhl\ShippingCore\Api\LabelStatus\LabelStatusManagementInterface;
-use Dhl\ShippingCore\Test\Integration\Fixture\OrderBuilder;
 use Magento\Sales\Api\Data\OrderInterface;
 use Magento\Sales\Api\Data\ShipmentInterface;
 use Magento\Sales\Api\Data\ShipmentTrackInterface;
 use Magento\Sales\Model\Order;
 use Magento\Sales\Model\ResourceModel\Order\Shipment\Collection;
+use Netresearch\ShippingCore\Api\LabelStatus\LabelStatusManagementInterface;
+use Netresearch\ShippingCore\Test\Integration\Fixture\OrderBuilder;
 use TddWizard\Fixtures\Sales\OrderFixture;
 use TddWizard\Fixtures\Sales\OrderFixtureRollback;
 use TddWizard\Fixtures\Sales\ShipmentBuilder;
 
 /**
- * Class AutoCreateDeTest
- *
  * @magentoAppArea adminhtml
  * @magentoDbIsolation enabled
  */
@@ -107,13 +107,14 @@ class AutoCreateDeTest extends AutoCreateTest
      *
      * @magentoConfigFixture default_store catalog/price/scope 0
      * @magentoConfigFixture default_store currency/options/base EUR
-     * @magentoConfigFixture default_store dhlshippingsolutions/dhlglobalwebservices/bulk_settings/retry_failed_shipments 0
      *
      * @magentoConfigFixture current_store carriers/flatrate/type O
      * @magentoConfigFixture current_store carriers/flatrate/handling_type F
      * @magentoConfigFixture current_store carriers/flatrate/price 5.00
      * @magentoConfigFixture current_store carriers/dhlpaket/active 1
      * @magentoConfigFixture current_store dhlshippingsolutions/dhlpaket/checkout_settings/emulated_carrier flatrate
+     *
+     * @magentoConfigFixture default/shipping/batch_processing/shipping_label/retry_failed_shipments 0
      */
     public function createLabels()
     {
@@ -194,13 +195,14 @@ class AutoCreateDeTest extends AutoCreateTest
      *
      * @magentoConfigFixture default_store catalog/price/scope 0
      * @magentoConfigFixture default_store currency/options/base EUR
-     * @magentoConfigFixture default_store dhlshippingsolutions/dhlglobalwebservices/bulk_settings/retry_failed_shipments 1
      *
      * @magentoConfigFixture current_store carriers/flatrate/type O
      * @magentoConfigFixture current_store carriers/flatrate/handling_type F
      * @magentoConfigFixture current_store carriers/flatrate/price 5.00
      * @magentoConfigFixture current_store carriers/dhlpaket/active 1
      * @magentoConfigFixture current_store dhlshippingsolutions/dhlpaket/checkout_settings/emulated_carrier flatrate
+     *
+     * @magentoConfigFixture default/shipping/batch_processing/shipping_label/retry_failed_shipments 1
      */
     public function createLabelsWithRetryEnabled()
     {
@@ -251,7 +253,7 @@ class AutoCreateDeTest extends AutoCreateTest
                 // requested orders should now have exactly one label and one track assigned
                 self::assertStringStartsWith('%PDF-1', $shipment->getShippingLabel());
                 self::assertCount(1, $tracks);
-                self::assertStringStartsWith($shipment->getOrderId(), $tracks[0]->getTrackNumber());
+                self::assertStringStartsWith((string) $shipment->getOrderId(), $tracks[0]->getTrackNumber());
             } else {
                 // not selected orders should remain untouched
                 self::assertEmpty($shipment->getShippingLabel());

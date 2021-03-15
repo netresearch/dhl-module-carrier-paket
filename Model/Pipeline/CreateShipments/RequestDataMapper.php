@@ -1,21 +1,25 @@
 <?php
+
 /**
  * See LICENSE.md for license details.
  */
+
 declare(strict_types=1);
 
 namespace Dhl\Paket\Model\Pipeline\CreateShipments;
 
+use Dhl\Paket\Api\ShipmentDateInterface;
+use Dhl\Paket\Model\Adminhtml\System\Config\Source\VisualCheckOfAge;
 use Dhl\Paket\Model\Pipeline\CreateShipments\ShipmentRequest\Data\PackageAdditional;
 use Dhl\Paket\Model\Pipeline\CreateShipments\ShipmentRequest\RequestExtractorFactory;
-use Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes as PaketCodes;
-use Dhl\Sdk\UnifiedLocationFinder\Api\Data\LocationInterface;
 use Dhl\Sdk\Paket\Bcs\Api\ShipmentOrderRequestBuilderInterface;
 use Dhl\Sdk\Paket\Bcs\Exception\RequestValidatorException;
-use Dhl\ShippingCore\Api\Util\UnitConverterInterface;
-use Dhl\ShippingCore\Model\ShippingSettings\ShippingOption\Codes;
+use Dhl\Sdk\UnifiedLocationFinder\Api\Data\LocationInterface;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Shipping\Model\Shipment\Request;
+use Netresearch\ShippingCore\Api\Data\Pipeline\ShipmentRequest\PackageInterface;
+use Netresearch\ShippingCore\Api\Data\Pipeline\ShipmentRequest\PackageItemInterface;
+use Netresearch\ShippingCore\Api\Util\UnitConverterInterface;
 
 class RequestDataMapper
 {
@@ -34,24 +38,24 @@ class RequestDataMapper
     private $requestBuilder;
 
     /**
+     * @var ShipmentDateInterface
+     */
+    private $shipmentDate;
+
+    /**
      * @var UnitConverterInterface
      */
     private $unitConverter;
 
-    /**
-     * RequestDataMapper constructor.
-     *
-     * @param ShipmentOrderRequestBuilderInterface $requestBuilder
-     * @param RequestExtractorFactory $requestExtractorFactory
-     * @param UnitConverterInterface $unitConverter
-     */
     public function __construct(
         ShipmentOrderRequestBuilderInterface $requestBuilder,
         RequestExtractorFactory $requestExtractorFactory,
+        ShipmentDateInterface $shipmentDate,
         UnitConverterInterface $unitConverter
     ) {
         $this->requestBuilder = $requestBuilder;
         $this->requestExtractorFactory = $requestExtractorFactory;
+        $this->shipmentDate = $shipmentDate;
         $this->unitConverter = $unitConverter;
     }
 
@@ -73,6 +77,26 @@ class RequestDataMapper
         }
 
         $request->setData('packages', $packages);
+    }
+
+    /**
+     * Convert to multi-line reason for payment if line length is exceeded.
+     *
+     * @param string $reasonForPayment
+     * @return string[]
+     */
+    private function wrapReasonForPayment(string $reasonForPayment): array
+    {
+        // try splitting the string between words first
+        $lines = explode("\n", wordwrap($reasonForPayment, 35));
+        if (count($lines) < 3) {
+            return $lines;
+        }
+
+        // if that did not succeed, split hard
+        $lines = str_split($reasonForPayment, 35);
+        array_splice($lines, 2);
+        return $lines;
     }
 
     /**
@@ -139,6 +163,7 @@ class RequestDataMapper
             [$requestExtractor->getRecipient()->getAddressAddition()]
         );
 
+        /** @var PackageInterface $package */
         foreach ($requestExtractor->getPackages() as $packageId => $package) {
             /** @var PackageAdditional $packageExtension */
             $packageExtension = $package->getPackageAdditional();
@@ -148,7 +173,7 @@ class RequestDataMapper
 
             $this->requestBuilder->setShipmentDetails(
                 $package->getProductCode(),
-                $requestExtractor->getShipmentDate(),
+                $this->shipmentDate->getDate($requestExtractor->getStoreId()),
                 $requestExtractor->getOrder()->getIncrementId()
             );
 
@@ -177,7 +202,7 @@ class RequestDataMapper
 
             $baseTotal = round((float) $requestExtractor->getOrder()->getBaseGrandTotal(), 2);
             if ($requestExtractor->isCashOnDelivery()) {
-                $notes = $requestExtractor->getCodReasonForPayment();
+                $notes = $this->wrapReasonForPayment($requestExtractor->getCodReasonForPayment());
                 $this->requestBuilder->setShipperBankData(null, null, null, null, null, $notes);
                 $this->requestBuilder->setCodAmount($baseTotal);
             }
@@ -186,8 +211,9 @@ class RequestDataMapper
                 $this->requestBuilder->setInsuredValue($baseTotal);
             }
 
-            if ($requestExtractor->isVisualCheckOfAge()) {
-                $this->requestBuilder->setVisualCheckOfAge($requestExtractor->getVisualCheckOfAge());
+            $visualCheckOfAge = $requestExtractor->getVisualCheckOfAge();
+            if (in_array($visualCheckOfAge, [VisualCheckOfAge::OPTION_A16, VisualCheckOfAge::OPTION_A18], true)) {
+                $this->requestBuilder->setVisualCheckOfAge($visualCheckOfAge);
             }
 
             if ($requestExtractor->isBulkyGoods()) {
@@ -208,20 +234,12 @@ class RequestDataMapper
 
             if ($requestExtractor->isReturnShipment()) {
                 $this->requestBuilder->setReturnAddress(
-                    $requestExtractor->getShipper()->getContactCompanyName(),
-                    $requestExtractor->getShipper()->getCountryCode(),
-                    $requestExtractor->getShipper()->getPostalCode(),
-                    $requestExtractor->getShipper()->getCity(),
-                    $requestExtractor->getShipper()->getStreetName(),
-                    $requestExtractor->getShipper()->getStreetNumber(),
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    $requestExtractor->getShipper()->getState(),
-                    null,
-                    []
+                    $requestExtractor->getReturnRecipient()->getContactCompanyName(),
+                    $requestExtractor->getReturnRecipient()->getCountryCode(),
+                    $requestExtractor->getReturnRecipient()->getPostalCode(),
+                    $requestExtractor->getReturnRecipient()->getCity(),
+                    $requestExtractor->getReturnRecipient()->getStreetName(),
+                    $requestExtractor->getReturnRecipient()->getStreetNumber()
                 );
             }
 
@@ -231,25 +249,23 @@ class RequestDataMapper
             }
 
             if ($requestExtractor->isPickupLocationDelivery()) {
-                $locationData = $requestExtractor->getPickupLocationDetails();
-
-                if ($locationData['locationType'] === LocationInterface::TYPE_POSTOFFICE) {
+                if ($requestExtractor->getDeliveryLocationType() === LocationInterface::TYPE_POSTOFFICE) {
                     $this->requestBuilder->setPostfiliale(
                         $requestExtractor->getRecipient()->getContactPersonName(),
-                        $locationData[Codes::SHOPFINDER_INPUT_LOCATION_NUMBER],
-                        $locationData[Codes::SHOPFINDER_INPUT_COUNTRY_CODE],
-                        $locationData[Codes::SHOPFINDER_INPUT_POSTAL_CODE],
-                        $locationData[Codes::SHOPFINDER_INPUT_CITY],
-                        $locationData[PaketCodes::CHECKOUT_INPUT_CUSTOMER_POSTNUMBER] ?? null
+                        $requestExtractor->getDeliveryLocationNumber(),
+                        $requestExtractor->getDeliveryLocationCountryCode(),
+                        $requestExtractor->getDeliveryLocationPostalCode(),
+                        $requestExtractor->getDeliveryLocationCity(),
+                        $requestExtractor->getCustomerAccountNumber()
                     );
-                } elseif ($locationData['locationType'] === LocationInterface::TYPE_LOCKER) {
+                } elseif ($requestExtractor->getDeliveryLocationType() === LocationInterface::TYPE_LOCKER) {
                     $this->requestBuilder->setPackstation(
                         $requestExtractor->getRecipient()->getContactPersonName(),
-                        $locationData[PaketCodes::CHECKOUT_INPUT_CUSTOMER_POSTNUMBER],
-                        $locationData[Codes::SHOPFINDER_INPUT_LOCATION_NUMBER],
-                        $locationData[Codes::SHOPFINDER_INPUT_COUNTRY_CODE],
-                        $locationData[Codes::SHOPFINDER_INPUT_POSTAL_CODE],
-                        $locationData[Codes::SHOPFINDER_INPUT_CITY]
+                        $requestExtractor->getCustomerAccountNumber(),
+                        $requestExtractor->getDeliveryLocationNumber(),
+                        $requestExtractor->getDeliveryLocationCountryCode(),
+                        $requestExtractor->getDeliveryLocationPostalCode(),
+                        $requestExtractor->getDeliveryLocationCity()
                     );
                 }
             }
@@ -259,9 +275,9 @@ class RequestDataMapper
                 $this->requestBuilder->setCustomsDetails(
                     $package->getContentType(),
                     $packageExtension->getPlaceOfCommittal(),
-                    $packageExtension->getAdditionalFee(),
+                    $packageExtension->getCustomsFees(),
                     $package->getContentExplanation(),
-                    $package->getTermsOfTrade(),
+                    $packageExtension->getTermsOfTrade(),
                     null,
                     $packageExtension->getPermitNumber(),
                     $packageExtension->getAttestationNumber(),
@@ -270,6 +286,7 @@ class RequestDataMapper
                     $packageExtension->getAddresseesCustomsReference()
                 );
 
+                /** @var PackageItemInterface $packageItem */
                 foreach ($requestExtractor->getPackageItems() as $packageItem) {
                     $this->requestBuilder->addExportItem(
                         (int)round($packageItem->getQty()),

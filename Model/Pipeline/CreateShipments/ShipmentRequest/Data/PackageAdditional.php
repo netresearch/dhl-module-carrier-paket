@@ -8,14 +8,19 @@ declare(strict_types=1);
 
 namespace Dhl\Paket\Model\Pipeline\CreateShipments\ShipmentRequest\Data;
 
-use Dhl\ShippingCore\Api\Data\Pipeline\ShipmentRequest\PackageAdditionalInterface;
+use Netresearch\ShippingCore\Api\Data\Pipeline\ShipmentRequest\PackageAdditionalInterface;
 
 class PackageAdditional implements PackageAdditionalInterface
 {
     /**
+     * @var string
+     */
+    private $termsOfTrade;
+
+    /**
      * @var float
      */
-    private $additionalFee;
+    private $customsFees;
 
     /**
      * @var string
@@ -47,19 +52,9 @@ class PackageAdditional implements PackageAdditionalInterface
      */
     private $addresseesCustomsReference;
 
-    /**
-     * PackageExtension constructor.
-     *
-     * @param float $additionalFee
-     * @param string $placeOfCommittal
-     * @param string $permitNumber
-     * @param string $attestationNumber
-     * @param bool $electronicExportNotification
-     * @param string $sendersCustomsReference
-     * @param string $addresseesCustomsReference
-     */
     public function __construct(
-        float $additionalFee = 0,
+        string $termsOfTrade = '',
+        float $customsFees = 0,
         string $placeOfCommittal = '',
         string $permitNumber = '',
         string $attestationNumber = '',
@@ -67,7 +62,8 @@ class PackageAdditional implements PackageAdditionalInterface
         string $sendersCustomsReference = '',
         string $addresseesCustomsReference = ''
     ) {
-        $this->additionalFee = $additionalFee;
+        $this->termsOfTrade = $termsOfTrade;
+        $this->customsFees = $customsFees;
         $this->placeOfCommittal = $placeOfCommittal;
         $this->permitNumber = $permitNumber;
         $this->attestationNumber = $attestationNumber;
@@ -77,13 +73,23 @@ class PackageAdditional implements PackageAdditionalInterface
     }
 
     /**
+     * Obtain customs terms of trade (optional).
+     *
+     * @return string
+     */
+    public function getTermsOfTrade(): string
+    {
+        return $this->termsOfTrade;
+    }
+
+    /**
      * Obtain customs additional fee (optional).
      *
      * @return float
      */
-    public function getAdditionalFee(): float
+    public function getCustomsFees(): float
     {
-        return $this->additionalFee;
+        return $this->customsFees;
     }
 
     /**

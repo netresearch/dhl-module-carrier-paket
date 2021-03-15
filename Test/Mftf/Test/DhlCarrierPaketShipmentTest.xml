@@ -41,14 +41,14 @@
             <actionGroup ref="AdminSystemConfigSectionSaveActionGroup" stepKey="saveAdminSystemConfigSection1"/>
 
             <!-- Carriers configuration -->
-            <actionGroup ref="NavigateToCarrierSettingsPageActionGroup" stepKey="navigateToCarrierSettingsConfig"/>
+            <actionGroup ref="AdminSystemConfigCarriersActionGroup" stepKey="navigateToCarrierSettingsConfig"/>
             <actionGroup ref="FlatRateCarrierSettingsOpenActionGroup" stepKey="openCarrierSettingsFlatRate"/>
             <actionGroup ref="FlatRateCarrierSettingsConfigurationActiveActionGroup" stepKey="configureFlatRateCarrier">
                 <argument name="CarriersFlatRateSettings" value="CarriersFlatRateSettings_DhlPaketPerOrder"/>
             </actionGroup>
             <actionGroup ref="AdminSystemConfigSectionSaveActionGroup" stepKey="saveAdminSystemConfigSection2"/>
 
-            <actionGroup ref="NavigateToShippingCoreSectionActionGroup" stepKey="navigateToShippingCoreSettingsConfig"/>
+            <actionGroup ref="NavigateToShippingSolutionsSectionActionGroup" stepKey="navigateToShippingCoreSettingsConfig"/>
             <actionGroup ref="DhlPaketCarrierSettingsOpenActionGroup" stepKey="openCarrierSettingsDhlPaket"/>
 
             <actionGroup ref="DhlPaketCarrierSettingsExpandGeneralTabActionGroup" stepKey="expandCarrierSettingsDhlPaketGeneralTab"/>
@@ -77,11 +77,11 @@
             <actionGroup ref="AdminSetDefaultCountryInactiveActionGroup" stepKey="resetDefaultCountry"/>
 
             <!-- Unset carrier settings to restore initial state -->
-            <actionGroup ref="NavigateToCarrierSettingsPageActionGroup" stepKey="navigateToCarrierSettingsConfig"/>
+            <actionGroup ref="AdminSystemConfigCarriersActionGroup" stepKey="navigateToCarrierSettingsConfig"/>
             <actionGroup ref="FlatRateCarrierSettingsOpenActionGroup" stepKey="openCarrierSettingsFlatRate"/>
             <actionGroup ref="FlatRateCarrierSettingsConfigurationInactiveActionGroup" stepKey="configureFlatRateCarrier"/>
             <actionGroup ref="AdminSystemConfigSectionSaveActionGroup" stepKey="saveAdminSystemConfigSection4"/>
-            <actionGroup ref="NavigateToShippingCoreSectionActionGroup" stepKey="navigateToShippingCoreSettingsConfig"/>
+            <actionGroup ref="NavigateToShippingSolutionsSectionActionGroup" stepKey="navigateToShippingCoreSettingsConfig"/>
             <actionGroup ref="DhlPaketCarrierSettingsOpenActionGroup" stepKey="openCarrierSettingsDhlPaket"/>
             <actionGroup ref="DhlPaketCarrierSettingsExpandGeneralTabActionGroup" stepKey="expandCarrierSettingsDhlPaketGeneralTab"/>
             <actionGroup ref="DhlPaketResetCarrierSettingsActionGroup" stepKey="resetCarrierSettingsDhlPaketAfter"/>

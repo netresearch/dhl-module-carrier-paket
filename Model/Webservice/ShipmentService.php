@@ -1,7 +1,9 @@
 <?php
+
 /**
  * See LICENSE.md for license details.
  */
+
 declare(strict_types=1);
 
 namespace Dhl\Paket\Model\Webservice;
@@ -45,15 +47,6 @@ class ShipmentService implements ShipmentServiceInterface
      */
     private $shipmentService;
 
-    /**
-     * ShipmentService constructor.
-     *
-     * @param AuthenticationStorageInterfaceFactory $authStorageFactory
-     * @param ModuleConfig $moduleConfig
-     * @param ServiceFactoryInterface $serviceFactory
-     * @param LoggerInterface $logger
-     * @param \int $storeId
-     */
     public function __construct(
         AuthenticationStorageInterfaceFactory $authStorageFactory,
         ModuleConfig $moduleConfig,

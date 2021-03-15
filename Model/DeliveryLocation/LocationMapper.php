@@ -1,22 +1,24 @@
 <?php
+
 /**
  * See LICENSE.md for license details.
  */
+
 declare(strict_types=1);
 
 namespace Dhl\Paket\Model\DeliveryLocation;
 
 use Dhl\Sdk\UnifiedLocationFinder\Api\Data\LocationInterface as SdkLocationInterface;
 use Dhl\Sdk\UnifiedLocationFinder\Api\Data\OpeningHoursInterface as SdkOpeningHoursInterface;
-use Dhl\ShippingCore\Api\Data\DeliveryLocation\AddressInterface;
-use Dhl\ShippingCore\Api\Data\DeliveryLocation\AddressInterfaceFactory;
-use Dhl\ShippingCore\Api\Data\DeliveryLocation\LocationInterface;
-use Dhl\ShippingCore\Api\Data\DeliveryLocation\LocationInterfaceFactory;
-use Dhl\ShippingCore\Api\Data\DeliveryLocation\OpeningHoursInterface;
-use Dhl\ShippingCore\Api\Data\DeliveryLocation\OpeningHoursInterfaceFactory;
-use Dhl\ShippingCore\Api\Data\DeliveryLocation\TimeFrameInterface;
-use Dhl\ShippingCore\Api\Data\DeliveryLocation\TimeFrameInterfaceFactory;
-use Dhl\ShippingCore\Api\Util\AssetUrlInterface;
+use Netresearch\ShippingCore\Api\Data\DeliveryLocation\AddressInterface;
+use Netresearch\ShippingCore\Api\Data\DeliveryLocation\AddressInterfaceFactory;
+use Netresearch\ShippingCore\Api\Data\DeliveryLocation\LocationInterface;
+use Netresearch\ShippingCore\Api\Data\DeliveryLocation\LocationInterfaceFactory;
+use Netresearch\ShippingCore\Api\Data\DeliveryLocation\OpeningHoursInterface;
+use Netresearch\ShippingCore\Api\Data\DeliveryLocation\OpeningHoursInterfaceFactory;
+use Netresearch\ShippingCore\Api\Data\DeliveryLocation\TimeFrameInterface;
+use Netresearch\ShippingCore\Api\Data\DeliveryLocation\TimeFrameInterfaceFactory;
+use Netresearch\ShippingCore\Api\Util\AssetUrlInterface;
 
 /**
  * Map SDK locations into objects suitable for the Shopfinder REST endpoint.
@@ -62,15 +64,6 @@ class LocationMapper
         SdkLocationInterface::TYPE_SERVICEPOINT => self::ICON_PAKETSHOP_PATH,
     ];
 
-    /**
-     * LocationMapper constructor.
-     *
-     * @param AssetUrlInterface $assetUrl
-     * @param AddressInterfaceFactory $addressFactory
-     * @param TimeFrameInterfaceFactory $timeFrameFactory
-     * @param OpeningHoursInterfaceFactory $openingHoursFactory
-     * @param LocationInterfaceFactory $locationFactory
-     */
     public function __construct(
         AssetUrlInterface $assetUrl,
         AddressInterfaceFactory $addressFactory,

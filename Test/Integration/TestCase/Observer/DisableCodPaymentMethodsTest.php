@@ -1,16 +1,14 @@
 <?php
+
 /**
  * See LICENSE.md for license details.
  */
+
 declare(strict_types=1);
 
 namespace Dhl\Paket\Test\Integration\TestCase\Observer;
 
 use Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes;
-use Dhl\ShippingCore\Api\Data\ShippingSettings\ShippingOption\Selection\AssignedSelectionInterface;
-use Dhl\ShippingCore\Model\ShippingSettings\ShippingOption\Selection\QuoteSelection;
-use Dhl\ShippingCore\Model\ShippingSettings\ShippingOption\Selection\QuoteSelectionRepository;
-use Dhl\ShippingCore\Observer\DisableCodPaymentMethods;
 use Magento\Checkout\Model\Cart;
 use Magento\Customer\Api\AddressRepositoryInterface;
 use Magento\Customer\Model\Session;
@@ -21,6 +19,10 @@ use Magento\OfflinePayments\Model\Cashondelivery;
 use Magento\OfflinePayments\Model\Checkmo;
 use Magento\Quote\Model\Quote;
 use Magento\TestFramework\Helper\Bootstrap;
+use Netresearch\ShippingCore\Api\Data\ShippingSettings\ShippingOption\Selection\AssignedSelectionInterface;
+use Netresearch\ShippingCore\Model\ShippingSettings\ShippingOption\Selection\QuoteSelection;
+use Netresearch\ShippingCore\Model\ShippingSettings\ShippingOption\Selection\QuoteSelectionRepository;
+use Netresearch\ShippingCore\Observer\DisableCodPaymentMethods;
 use PHPUnit\Framework\TestCase;
 use TddWizard\Fixtures\Catalog\ProductBuilder;
 use TddWizard\Fixtures\Catalog\ProductFixture;
@@ -105,7 +107,7 @@ class DisableCodPaymentMethodsTest extends TestCase
      * Set up data fixture.
      *
      * @param string $locale
-     * @param QuoteSelection $serviceSelection
+     * @param QuoteSelection|null $serviceSelection
      * @throws \Exception
      */
     private static function quoteFixture($locale = 'de_DE', QuoteSelection $serviceSelection = null)
@@ -118,7 +120,7 @@ class DisableCodPaymentMethodsTest extends TestCase
         self::$productFixture = new ProductFixture(ProductBuilder::aSimpleProduct()->build());
         self::$customerFixture = new CustomerFixture(
             CustomerBuilder::aCustomer()
-                ->withAddresses(AddressBuilder::anAddress(null, $locale)->asDefaultBilling()->asDefaultShipping())
+                ->withAddresses(AddressBuilder::anAddress($locale)->asDefaultBilling()->asDefaultShipping())
                 ->build()
         );
         self::$customerFixture->login();
@@ -165,7 +167,7 @@ class DisableCodPaymentMethodsTest extends TestCase
     {
         $serviceSelection = Bootstrap::getObjectManager()->create(QuoteSelection::class);
         $serviceSelection->setData([
-            AssignedSelectionInterface::SHIPPING_OPTION_CODE => Codes::CHECKOUT_SERVICE_PREFERRED_DAY,
+            AssignedSelectionInterface::SHIPPING_OPTION_CODE => Codes::SERVICE_OPTION_PREFERRED_DAY,
             AssignedSelectionInterface::INPUT_CODE => 'date',
             AssignedSelectionInterface::INPUT_VALUE => '2019-07-11'
         ]);
@@ -180,7 +182,7 @@ class DisableCodPaymentMethodsTest extends TestCase
     {
         $serviceSelection = Bootstrap::getObjectManager()->create(QuoteSelection::class);
         $serviceSelection->setData([
-            AssignedSelectionInterface::SHIPPING_OPTION_CODE => Codes::CHECKOUT_SERVICE_DROPOFF_DELIVERY,
+            AssignedSelectionInterface::SHIPPING_OPTION_CODE => Codes::SERVICE_OPTION_DROPOFF_DELIVERY,
             AssignedSelectionInterface::INPUT_CODE => 'details',
             AssignedSelectionInterface::INPUT_VALUE => 'Garage'
         ]);
@@ -243,7 +245,7 @@ class DisableCodPaymentMethodsTest extends TestCase
      *
      * @test
      * @dataProvider dataProvider
-     * @magentoConfigFixture current_store dhlshippingsolutions/dhlglobalwebservices/cod_methods cashondelivery
+     * @magentoConfigFixture current_store shipping/parcel_processing/cod_methods cashondelivery
      * @magentoConfigFixture current_store shipping/origin/country_id DE
      *
      * @param string $methodClass
@@ -274,7 +276,7 @@ class DisableCodPaymentMethodsTest extends TestCase
      *
      * @test
      * @dataProvider dataProvider
-     * @magentoConfigFixture current_store dhlshippingsolutions/dhlglobalwebservices/cod_methods cashondelivery
+     * @magentoConfigFixture current_store shipping/parcel_processing/cod_methods cashondelivery
      * @magentoConfigFixture current_store shipping/origin/country_id DE
      *
      * @param string $methodClass
@@ -285,17 +287,11 @@ class DisableCodPaymentMethodsTest extends TestCase
         $checkResult = new DataObject();
         $checkResult->setData('is_available', $before);
 
-        $quote = $this->getMockBuilder(Quote::class)
-                      ->setMethods(['isVirtual'])
-                      ->disableOriginalConstructor()
-                      ->getMock();
-        $quote->expects($this->any())->method('isVirtual')->willReturn(true);
-
         $this->observer->setData(
             [
                 'result' => $checkResult,
                 'method_instance' => Bootstrap::getObjectManager()->create($methodClass),
-                'quote' => $quote
+                'quote' => $this->createConfiguredMock(Quote::class, ['isVirtual' => true])
             ]
         );
 
@@ -313,7 +309,7 @@ class DisableCodPaymentMethodsTest extends TestCase
      * @test
      * @dataProvider dataProvider
      * @magentoDataFixture deQuoteFixture
-     * @magentoConfigFixture current_store dhlshippingsolutions/dhlglobalwebservices/cod_methods cashondelivery
+     * @magentoConfigFixture current_store shipping/parcel_processing/cod_methods cashondelivery
      * @magentoConfigFixture current_store shipping/origin/country_id DE
      *
      * @param string $methodClass
@@ -350,7 +346,7 @@ class DisableCodPaymentMethodsTest extends TestCase
      * @test
      * @dataProvider dataProvider
      * @magentoDataFixture deQuoteFixture
-     * @magentoConfigFixture current_store dhlshippingsolutions/dhlglobalwebservices/cod_methods cashondelivery
+     * @magentoConfigFixture current_store shipping/parcel_processing/cod_methods cashondelivery
      * @magentoConfigFixture current_store shipping/origin/country_id DE
      *
      * @param string $methodClass
@@ -385,7 +381,7 @@ class DisableCodPaymentMethodsTest extends TestCase
      * @test
      * @dataProvider dataProvider
      * @magentoDataFixture usQuoteFixture
-     * @magentoConfigFixture current_store dhlshippingsolutions/dhlglobalwebservices/cod_methods cashondelivery
+     * @magentoConfigFixture current_store shipping/parcel_processing/cod_methods cashondelivery
      * @magentoConfigFixture current_store shipping/origin/country_id DE
      *
      * @param string $methodClass
@@ -421,7 +417,7 @@ class DisableCodPaymentMethodsTest extends TestCase
      * @test
      * @dataProvider dataProvider
      * @magentoDataFixture deQuoteFixtureWithCodCompatibleService
-     * @magentoConfigFixture current_store dhlshippingsolutions/dhlglobalwebservices/cod_methods cashondelivery
+     * @magentoConfigFixture current_store shipping/parcel_processing/cod_methods cashondelivery
      * @magentoConfigFixture current_store shipping/origin/country_id DE
      *
      * @param string $methodClass
@@ -456,7 +452,7 @@ class DisableCodPaymentMethodsTest extends TestCase
      * @test
      * @dataProvider dataProvider
      * @magentoDataFixture deQuoteFixtureWithCodIncompatibleService
-     * @magentoConfigFixture current_store dhlshippingsolutions/dhlglobalwebservices/cod_methods cashondelivery
+     * @magentoConfigFixture current_store shipping/parcel_processing/cod_methods cashondelivery
      * @magentoConfigFixture current_store shipping/origin/country_id DE
      *
      * @param string $methodClass

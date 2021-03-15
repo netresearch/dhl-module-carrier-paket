@@ -24,7 +24,7 @@
         <field id="emulated_carrier" showInDefault="1" showInStore="0" showInWebsite="1" sortOrder="30"
                translate="label comment tooltip" type="select">
             <label>Use rates from</label>
-            <source_model>Dhl\ShippingCore\Model\Config\Source\OfflineCarriers</source_model>
+            <source_model>Netresearch\ShippingCore\Model\Config\Source\OfflineCarriers</source_model>
             <can_be_empty>0</can_be_empty>
             <comment>Select the offline shipping method that gets used to provide rates in checkout.</comment>
             <tooltip>The rates will get used even if the selected shipping method is disabled. The available method names will also be those of the selected shipping method.</tooltip>
@@ -34,7 +34,7 @@
         <field id="showmethod" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="40"
                translate="label" type="Netresearch\ConfigFields\Model\Type\Radioset">
             <label>Behavior in Cases of Unavailability</label>
-            <source_model>Dhl\ShippingCore\Model\Config\Source\ShowIfNotApplicable</source_model>
+            <source_model>Netresearch\ShippingCore\Model\Config\Source\ShowIfNotApplicable</source_model>
             <config_path>carriers/dhlpaket/showmethod</config_path>
         </field>
         <field id="specificerrmsg" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="50"

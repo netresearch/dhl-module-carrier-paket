@@ -1,15 +1,17 @@
 <?php
+
 /**
  * See LICENSE.md for license details.
  */
+
 declare(strict_types=1);
 
 namespace Dhl\Paket\Model\Rate;
 
 use Dhl\Paket\Model\Config\ModuleConfig;
-use Dhl\ShippingCore\Api\Rate\RateRequestEmulationInterface;
 use Magento\Quote\Model\Quote\Address\RateRequest;
 use Magento\Shipping\Model\Rate\Result;
+use Netresearch\ShippingCore\Api\Rate\RateRequestEmulationInterface;
 
 /**
  * Abstraction layer for providing the carrier with rates
@@ -26,12 +28,6 @@ class RatesManagement
      */
     private $moduleConfig;
 
-    /**
-     * RatesManagement constructor.
-     *
-     * @param RateRequestEmulationInterface $rateRequestService
-     * @param ModuleConfig $moduleConfig
-     */
     public function __construct(RateRequestEmulationInterface $rateRequestService, ModuleConfig $moduleConfig)
     {
         $this->rateRequestService = $rateRequestService;

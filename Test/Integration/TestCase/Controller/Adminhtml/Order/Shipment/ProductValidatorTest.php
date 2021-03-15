@@ -10,10 +10,10 @@ use Dhl\Paket\Model\Carrier\Paket;
 use Dhl\Paket\Model\Pipeline\CreateShipments\Stage\SendRequestStage as CreationStage;
 use Dhl\Paket\Test\Integration\Provider\Controller\SaveShipment\PostDataProvider;
 use Dhl\Paket\Test\Integration\TestDouble\Pipeline\CreateShipments\Stage\SendRequestStageStub;
-use Dhl\ShippingCore\Api\LabelStatus\LabelStatusManagementInterface;
-use Dhl\ShippingCore\Model\LabelStatus\LabelStatusProvider;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Sales\Model\ResourceModel\Order\Shipment\Collection;
+use Netresearch\ShippingCore\Api\LabelStatus\LabelStatusManagementInterface;
+use Netresearch\ShippingCore\Model\LabelStatus\LabelStatusProvider;
 use TddWizard\Fixtures\Catalog\ProductBuilder;
 use TddWizard\Fixtures\Sales\OrderBuilder;
 use TddWizard\Fixtures\Sales\OrderFixture;
@@ -96,8 +96,8 @@ class ProductValidatorTest extends SaveShipmentTest
      * @magentoConfigFixture default_store shipping/origin/street_line1 Nonnenstraße 11
      *
      * @magentoConfigFixture current_store carriers/dhlpaket/active 1
+     * @magentoConfigFixture current_store shipping/parcel_processing/cod_methods cashondelivery
      * @magentoConfigFixture current_store dhlshippingsolutions/dhlpaket/checkout_settings/emulated_carrier flatrate
-     * @magentoConfigFixture current_store dhlshippingsolutions/dhlglobalwebservices/cod_methods cashondelivery
      *
      * @magentoConfigFixture current_store carriers/flatrate/type O
      * @magentoConfigFixture current_store carriers/flatrate/handling_type F

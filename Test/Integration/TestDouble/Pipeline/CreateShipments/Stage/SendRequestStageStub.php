@@ -1,7 +1,9 @@
 <?php
+
 /**
  * See LICENSE.md for license details.
  */
+
 declare(strict_types=1);
 
 namespace Dhl\Paket\Test\Integration\TestDouble\Pipeline\CreateShipments\Stage;
@@ -10,8 +12,8 @@ use Dhl\Paket\Model\Pipeline\CreateShipments\ArtifactsContainer;
 use Dhl\Paket\Model\Pipeline\CreateShipments\Stage\SendRequestStage;
 use Dhl\Sdk\Paket\Bcs\Api\Data\ShipmentInterface;
 use Dhl\Sdk\Paket\Bcs\Service\ShipmentService\Shipment;
-use Dhl\ShippingCore\Api\Data\Pipeline\ArtifactsContainerInterface;
 use Magento\Shipping\Model\Shipment\Request;
+use Netresearch\ShippingCore\Api\Data\Pipeline\ArtifactsContainerInterface;
 
 class SendRequestStageStub extends SendRequestStage
 {

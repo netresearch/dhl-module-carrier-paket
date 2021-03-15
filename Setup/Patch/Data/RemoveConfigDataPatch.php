@@ -1,12 +1,15 @@
 <?php
+
 /**
  * See LICENSE.md for license details.
  */
+
 declare(strict_types=1);
 
 namespace Dhl\Paket\Setup\Patch\Data;
 
 use Magento\Framework\App\ResourceConnection;
+use Magento\Framework\Module\Setup;
 use Magento\Framework\Setup\Patch\DataPatchInterface;
 use Magento\Framework\Setup\Patch\PatchRevertableInterface;
 use Magento\Framework\Setup\SchemaSetupInterface;
@@ -14,7 +17,7 @@ use Magento\Framework\Setup\SchemaSetupInterface;
 class RemoveConfigDataPatch implements DataPatchInterface, PatchRevertableInterface
 {
     /**
-     * @var SchemaSetupInterface
+     * @var SchemaSetupInterface|Setup
      */
     private $schemaSetup;
 
@@ -35,8 +38,9 @@ class RemoveConfigDataPatch implements DataPatchInterface, PatchRevertableInterf
 
     public function apply()
     {
-        return;
+        return $this;
     }
+
     /**
      * Remove data that was created during module installation.
      *

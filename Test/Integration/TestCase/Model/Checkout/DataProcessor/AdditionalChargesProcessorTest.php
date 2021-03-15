@@ -1,7 +1,9 @@
 <?php
+
 /**
  * See LICENSE.md for license details.
  */
+
 declare(strict_types=1);
 
 namespace Dhl\Paket\Test\Integration\TestCase\Model\Checkout\DataProcessor;
@@ -10,12 +12,12 @@ use Dhl\Paket\Model\Carrier\Paket;
 use Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes;
 use Dhl\Paket\Test\Integration\TestDouble\CheckoutServiceStub;
 use Dhl\Sdk\Paket\ParcelManagement\Service\ServiceFactory;
-use Dhl\ShippingCore\Model\ShippingSettings\CheckoutManagement;
-use Dhl\ShippingCore\Model\ShippingSettings\Data\CarrierData;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\ObjectManagerInterface;
 use Magento\TestFramework\Helper\Bootstrap;
 use Magento\TestFramework\ObjectManager;
+use Netresearch\ShippingCore\Model\ShippingSettings\CheckoutManagement;
+use Netresearch\ShippingCore\Model\ShippingSettings\Data\CarrierData;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -35,12 +37,10 @@ class AdditionalChargesProcessorTest extends TestCase
         $this->objectManager = Bootstrap::getObjectManager();
 
         // suppress calls to the parcel management api
-        $checkoutService = new CheckoutServiceStub();
-        $checkoutServiceFactory = $this->getMockBuilder(ServiceFactory::class)
-                                       ->setMethods(['createCheckoutService'])
-                                       ->disableOriginalConstructor()
-                                       ->getMock();
-        $checkoutServiceFactory->method('createCheckoutService')->willReturn($checkoutService);
+        $checkoutServiceFactory = $this->createConfiguredMock(
+            ServiceFactory::class,
+            ['createCheckoutService' => new CheckoutServiceStub()]
+        );
 
         $this->objectManager->addSharedInstance($checkoutServiceFactory, ServiceFactory::class);
     }
@@ -62,8 +62,8 @@ class AdditionalChargesProcessorTest extends TestCase
      *
      * @magentoConfigFixture current_store carriers/dhlpaket/active 1
      * @magentoConfigFixture current_store dhlshippingsolutions/dhlpaket/checkout_settings/emulated_carrier flatrate
-     * @magentoConfigFixture current_store dhlshippingsolutions/dhlpaket/additional_services/services_group/preferredday 1
-     * @magentoConfigFixture current_store dhlshippingsolutions/dhlpaket/additional_services/services_group/preferredDayCharge 100.00
+     * @magentoConfigFixture current_store dhlshippingsolutions/dhlpaket/additional_services/preferredday 1
+     * @magentoConfigFixture current_store dhlshippingsolutions/dhlpaket/additional_services/preferredday_charge 100.00
      *
      * @magentoConfigFixture current_store carriers/flatrate/type O
      * @magentoConfigFixture current_store carriers/flatrate/handling_type F
@@ -85,7 +85,7 @@ class AdditionalChargesProcessorTest extends TestCase
         $options = $carrier->getServiceOptions();
         self::assertNotFalse(
             strpos(
-                $options[Codes::CHECKOUT_SERVICE_PREFERRED_DAY]->getInputs()['date']->getComment()->getContent(),
+                $options[Codes::SERVICE_OPTION_PREFERRED_DAY]->getInputs()['date']->getComment()->getContent(),
                 '$100.00'
             )
         );
@@ -108,8 +108,8 @@ class AdditionalChargesProcessorTest extends TestCase
      *
      * @magentoConfigFixture current_store carriers/dhlpaket/active 1
      * @magentoConfigFixture current_store dhlshippingsolutions/dhlpaket/checkout_settings/emulated_carrier flatrate
-     * @magentoConfigFixture current_store dhlshippingsolutions/dhlpaket/additional_services/services_group/preferredday 1
-     * @magentoConfigFixture current_store dhlshippingsolutions/dhlpaket/additional_services/services_group/preferredDayCharge 100.00
+     * @magentoConfigFixture current_store dhlshippingsolutions/dhlpaket/additional_services/preferredday 1
+     * @magentoConfigFixture current_store dhlshippingsolutions/dhlpaket/additional_services/preferredday_charge 100.00
      *
      * @magentoConfigFixture current_store carriers/flatrate/type O
      * @magentoConfigFixture current_store carriers/flatrate/handling_type F
@@ -133,7 +133,7 @@ class AdditionalChargesProcessorTest extends TestCase
         $serviceOptions = $carrier->getServiceOptions();
         self::assertNotFalse(
             strpos(
-                $serviceOptions[Codes::CHECKOUT_SERVICE_PREFERRED_DAY]->getInputs()['date']->getComment()->getContent(),
+                $serviceOptions[Codes::SERVICE_OPTION_PREFERRED_DAY]->getInputs()['date']->getComment()->getContent(),
                 ' €70.67'
             )
         );

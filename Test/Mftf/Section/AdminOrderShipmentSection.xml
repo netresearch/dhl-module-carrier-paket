@@ -6,6 +6,6 @@
 -->
 <sections xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:mftf:Page/etc/SectionObject.xsd">
     <section name="AdminOrderShipmentSection">
-        <element name="dhlRecipientStreetContainer" type="text" selector=".dhl-recipient-address"/>
+        <element name="dhlRecipientStreetContainer" type="text" selector=".nrshipping-recipient-address"/>
     </section>
 </sections>

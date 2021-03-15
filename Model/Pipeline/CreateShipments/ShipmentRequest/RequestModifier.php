@@ -1,22 +1,20 @@
 <?php
+
 /**
  * See LICENSE.md for license details.
  */
+
 declare(strict_types=1);
 
 namespace Dhl\Paket\Model\Pipeline\CreateShipments\ShipmentRequest;
 
-use Dhl\ShippingCore\Api\ConfigInterface;
-use Dhl\ShippingCore\Api\Pipeline\ShipmentRequest\RequestModifier\PackagingOptionReaderInterfaceFactory;
-use Dhl\ShippingCore\Api\Pipeline\ShipmentRequest\RequestModifierInterface;
 use Magento\Framework\DataObjectFactory;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Shipping\Model\Shipment\Request;
+use Netresearch\ShippingCore\Api\Config\ShippingConfigInterface;
+use Netresearch\ShippingCore\Api\Pipeline\ShipmentRequest\RequestModifier\PackagingOptionReaderInterfaceFactory;
+use Netresearch\ShippingCore\Api\Pipeline\ShipmentRequest\RequestModifierInterface;
 
-/**
- * Class RequestModifier
- *
- */
 class RequestModifier implements RequestModifierInterface
 {
     /**
@@ -25,7 +23,7 @@ class RequestModifier implements RequestModifierInterface
     private $coreModifier;
 
     /**
-     * @var ConfigInterface
+     * @var ShippingConfigInterface
      */
     private $config;
 
@@ -39,17 +37,9 @@ class RequestModifier implements RequestModifierInterface
      */
     private $dataObjectFactory;
 
-    /**
-     * RequestModifier constructor.
-     *
-     * @param RequestModifierInterface $coreModifier
-     * @param ConfigInterface $config
-     * @param PackagingOptionReaderInterfaceFactory $packagingOptionReaderFactory
-     * @param DataObjectFactory $dataObjectFactory
-     */
     public function __construct(
         RequestModifierInterface $coreModifier,
-        ConfigInterface $config,
+        ShippingConfigInterface $config,
         PackagingOptionReaderInterfaceFactory $packagingOptionReaderFactory,
         DataObjectFactory $dataObjectFactory
     ) {
@@ -79,8 +69,8 @@ class RequestModifier implements RequestModifierInterface
 
         $packages = [];
         foreach ($shipmentRequest->getData('packages') as $packageId => $package) {
-            $package['params']['customs']['additionalFee']
-                = $reader->getPackageOptionValue('packageCustoms', 'additionalFee');
+            $package['params']['customs']['customsFees']
+                = $reader->getPackageOptionValue('packageCustoms', 'customsFees');
             $package['params']['customs']['placeOfCommittal']
                 = $reader->getPackageOptionValue('packageCustoms', 'placeOfCommittal');
             $package['params']['customs']['electronicExportNotification']
@@ -106,7 +96,7 @@ class RequestModifier implements RequestModifierInterface
      * @param Request $shipmentRequest
      * @throws LocalizedException
      */
-    public function modify(Request $shipmentRequest)
+    public function modify(Request $shipmentRequest): void
     {
         // add carrier-agnostic data
         $this->coreModifier->modify($shipmentRequest);

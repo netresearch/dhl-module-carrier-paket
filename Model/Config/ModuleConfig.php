@@ -1,70 +1,71 @@
 <?php
+
 /**
  * See LICENSE.md for license details.
  */
+
 declare(strict_types=1);
 
 namespace Dhl\Paket\Model\Config;
 
 use Magento\Framework\App\Config\ScopeConfigInterface;
+use Magento\Framework\Stdlib\DateTime\TimezoneInterface;
 use Magento\Store\Model\ScopeInterface;
+use Netresearch\ShippingCore\Api\InfoBox\VersionInterface;
 
-class ModuleConfig
+class ModuleConfig implements VersionInterface
 {
+    // phpcs:disable Generic.Files.LineLength.TooLong
+
     // Defaults
     const CONFIG_PATH_VERSION = 'carriers/dhlpaket/version';
 
     // 100_general_settings.xml
-    const CONFIG_PATH_ENABLE_LOGGING = 'dhlshippingsolutions/dhlpaket/general_shipping_settings/logging';
-    const CONFIG_PATH_LOGLEVEL = 'dhlshippingsolutions/dhlpaket/general_shipping_settings/logging_group/loglevel';
+    public const CONFIG_PATH_CUT_OFF_TIMES = 'dhlshippingsolutions/dhlpaket/general_shipping_settings/cut_off_times';
+    public const CONFIG_PATH_ENABLE_LOGGING = 'dhlshippingsolutions/dhlpaket/general_shipping_settings/logging';
+    public const CONFIG_PATH_LOGLEVEL = 'dhlshippingsolutions/dhlpaket/general_shipping_settings/logging_group/loglevel';
 
     // 200_dhl_paket_account.xml
-    const CONFIG_PATH_SANDBOX_MODE = 'dhlshippingsolutions/dhlpaket/account_settings/sandboxmode';
-    const CONFIG_PATH_USER = 'dhlshippingsolutions/dhlpaket/account_settings/sandboxmode_group/api_username';
-    const CONFIG_PATH_SIGNATURE = 'dhlshippingsolutions/dhlpaket/account_settings/sandboxmode_group/api_password';
-    const CONFIG_PATH_EKP = 'dhlshippingsolutions/dhlpaket/account_settings/sandboxmode_group/account_number';
-    const CONFIG_PATH_PARTICIPATIONS = 'dhlshippingsolutions/dhlpaket/account_settings/sandboxmode_group/account_participations';
+    public const CONFIG_PATH_SANDBOX_MODE = 'dhlshippingsolutions/dhlpaket/account_settings/sandboxmode';
+    public const CONFIG_PATH_USER = 'dhlshippingsolutions/dhlpaket/account_settings/sandboxmode_group/api_username';
+    public const CONFIG_PATH_SIGNATURE = 'dhlshippingsolutions/dhlpaket/account_settings/sandboxmode_group/api_password';
+    public const CONFIG_PATH_EKP = 'dhlshippingsolutions/dhlpaket/account_settings/sandboxmode_group/account_number';
+    public const CONFIG_PATH_PARTICIPATIONS = 'dhlshippingsolutions/dhlpaket/account_settings/sandboxmode_group/account_participations';
 
-    const CONFIG_PATH_AUTH_USERNAME = 'dhlshippingsolutions/dhlpaket/account_settings/auth_username';
-    const CONFIG_PATH_AUTH_PASSWORD = 'dhlshippingsolutions/dhlpaket/account_settings/auth_password';
-    const CONFIG_PATH_SANDBOX_AUTH_USERNAME = 'dhlshippingsolutions/dhlpaket/account_settings/sandbox_auth_username';
-    const CONFIG_PATH_SANDBOX_AUTH_PASSWORD = 'dhlshippingsolutions/dhlpaket/account_settings/sandbox_auth_password';
-    const CONFIG_PATH_SANDBOX_USER = 'dhlshippingsolutions/dhlpaket/account_settings/sandbox_username';
-    const CONFIG_PATH_SANDBOX_SIGNATURE = 'dhlshippingsolutions/dhlpaket/account_settings/sandbox_password';
-    const CONFIG_PATH_SANDBOX_EKP = 'dhlshippingsolutions/dhlpaket/account_settings/sandbox_account_number';
-    const CONFIG_PATH_SANDBOX_PARTICIPATIONS = 'dhlshippingsolutions/dhlpaket/account_settings/sandbox_account_participations';
+    public const CONFIG_PATH_AUTH_USERNAME = 'dhlshippingsolutions/dhlpaket/account_settings/auth_username';
+    public const CONFIG_PATH_AUTH_PASSWORD = 'dhlshippingsolutions/dhlpaket/account_settings/auth_password';
+    public const CONFIG_PATH_SANDBOX_AUTH_USERNAME = 'dhlshippingsolutions/dhlpaket/account_settings/sandbox_auth_username';
+    public const CONFIG_PATH_SANDBOX_AUTH_PASSWORD = 'dhlshippingsolutions/dhlpaket/account_settings/sandbox_auth_password';
+    public const CONFIG_PATH_SANDBOX_USER = 'dhlshippingsolutions/dhlpaket/account_settings/sandbox_username';
+    public const CONFIG_PATH_SANDBOX_SIGNATURE = 'dhlshippingsolutions/dhlpaket/account_settings/sandbox_password';
+    public const CONFIG_PATH_SANDBOX_EKP = 'dhlshippingsolutions/dhlpaket/account_settings/sandbox_account_number';
+    public const CONFIG_PATH_SANDBOX_PARTICIPATIONS = 'dhlshippingsolutions/dhlpaket/account_settings/sandbox_account_participations';
 
     // 400_checkout_presentation.xml
-    const CONFIG_PATH_PROXY_CARRIER = 'dhlshippingsolutions/dhlpaket/checkout_settings/emulated_carrier';
+    public const CONFIG_PATH_PROXY_CARRIER = 'dhlshippingsolutions/dhlpaket/checkout_settings/emulated_carrier';
 
     // 500_shipment_defaults.xml
-    const CONFIG_PATH_PRINT_ONLY_IF_CODEABLE = 'dhlshippingsolutions/dhlpaket/shipment_defaults/print_only_if_codeable';
-    const CONFIG_PATH_PRINT_RECEIVER_CONTACT = 'dhlshippingsolutions/dhlpaket/shipment_defaults/print_receiver_contact';
-    const CONFIG_PATH_DEFAULT_SHIPPING_PRODUCT = 'dhlshippingsolutions/dhlpaket/shipment_defaults/shipping_products';
-    const CONFIG_PATH_CUSTOMS_REFERENCE_NUMBER = 'dhlshippingsolutions/dhlpaket/shipment_defaults/customs_reference_numbers';
-    const CONFIG_PATH_PLACE_OF_COMMITTAL = 'dhlshippingsolutions/dhlpaket/shipment_defaults/place_of_committal';
-    const CONFIG_PATH_EXCLUDED_DROPOFFDAYS = 'dhlshippingsolutions/dhlpaket/shipment_defaults/drop_off_days';
-    const CONFIG_PATH_DEFAULT_PRODUCTS = 'dhlshippingsolutions/dhlpaket/shipment_defaults/shipping_products';
-    const CONFIG_PATH_ELECTRONIC_EXPORT_NOTIFICATION = 'dhlshippingsolutions/dhlpaket/shipment_defaults/electronic_export_notification';
-    const CONFIG_PATH_VISUAL_CHECK_OF_AGE = 'dhlshippingsolutions/dhlpaket/shipment_defaults/services_group/visual_check_of_age';
-    const CONFIG_PATH_RETURN_SHIPMENT = 'dhlshippingsolutions/dhlpaket/shipment_defaults/services_group/return_shipment';
-    const CONFIG_PATH_ADDITIONAL_INSURANCE = 'dhlshippingsolutions/dhlpaket/shipment_defaults/services_group/additional_insurance';
-    const CONFIG_PATH_BULKY_GOODS = 'dhlshippingsolutions/dhlpaket/shipment_defaults/services_group/bulky_goods';
-    const CONFIG_PATH_PARCEL_OUTLET = 'dhlshippingsolutions/dhlpaket/shipment_defaults/services_group/parcel_outlet';
-    const CONFIG_PATH_PARCEL_OUTLET_NOTIFICATION_EMAIL = 'dhlshippingsolutions/dhlpaket/shipment_defaults/services_group/parcel_outlet_notification_email';
-    const CONFIG_PATH_COD_REASON_FOR_PAYMENT = 'dhlshippingsolutions/dhlpaket/shipment_defaults/cod_reason_for_payment';
+    public const CONFIG_PATH_PRINT_ONLY_IF_CODEABLE = 'dhlshippingsolutions/dhlpaket/shipment_defaults/print_only_if_codeable';
+    public const CONFIG_PATH_PRINT_RECEIVER_CONTACT = 'dhlshippingsolutions/dhlpaket/shipment_defaults/print_receiver_contact';
+    public const CONFIG_PATH_SHIPPING_PRODUCTS = 'dhlshippingsolutions/dhlpaket/shipment_defaults/shipping_products';
+    public const CONFIG_PATH_CUSTOMS_REFERENCE_NUMBERS = 'dhlshippingsolutions/dhlpaket/shipment_defaults/customs/reference_numbers';
+    public const CONFIG_PATH_PLACE_OF_COMMITTAL = 'dhlshippingsolutions/dhlpaket/shipment_defaults/customs/place_of_committal';
+    public const CONFIG_PATH_ELECTRONIC_EXPORT_NOTIFICATION = 'dhlshippingsolutions/dhlpaket/shipment_defaults/customs/electronic_export_notification';
+    public const CONFIG_PATH_VISUAL_CHECK_OF_AGE = 'dhlshippingsolutions/dhlpaket/shipment_defaults/services/visual_check_of_age';
+    public const CONFIG_PATH_RETURN_SHIPMENT = 'dhlshippingsolutions/dhlpaket/shipment_defaults/services/return_shipment';
+    public const CONFIG_PATH_RETURN_RECEIVER = 'dhlshippingsolutions/dhlpaket/shipment_defaults/services/return_shipment_receiver';
+    public const CONFIG_PATH_ADDITIONAL_INSURANCE = 'dhlshippingsolutions/dhlpaket/shipment_defaults/services/additional_insurance';
+    public const CONFIG_PATH_BULKY_GOODS = 'dhlshippingsolutions/dhlpaket/shipment_defaults/services/bulky_goods';
+    public const CONFIG_PATH_PARCEL_OUTLET = 'dhlshippingsolutions/dhlpaket/shipment_defaults/services/parcel_outlet';
+    public const CONFIG_PATH_PARCEL_OUTLET_NOTIFICATION_EMAIL = 'dhlshippingsolutions/dhlpaket/shipment_defaults/services/parcel_outlet_notification_email';
 
     // 600_additional_services.xml
-    const CONFIG_PATH_ADDITIONAL_SERVICES = 'dhlshippingsolutions/dhlpaket/additional_services/services_group';
-    const CONFIG_PATH_PARCEL_ANNOUNCEMENT = 'dhlshippingsolutions/dhlpaket/additional_services/services_group/parcelannouncement';
-    const CONFIG_PATH_PARCEL_STATION_DELIVERY = 'dhlshippingsolutions/dhlpaket/additional_services/services_group/parcelshopFinder';
-    const CONFIG_PATH_PREFERRED_LOCATION = 'dhlshippingsolutions/dhlpaket/additional_services/services_group/preferredlocation';
-    const CONFIG_PATH_PREFERRED_NEIGHBOR = 'dhlshippingsolutions/dhlpaket/additional_services/services_group/preferredneighbour';
-    const CONFIG_PATH_PREFERRED_DAY_ = 'dhlshippingsolutions/dhlpaket/additional_services/services_group/preferredday';
-    const CONFIG_PATH_DAY_CHARGE = 'dhlshippingsolutions/dhlpaket/additional_services/services_group/preferredDayCharge';
-
-    // location finder
-    const CONFIG_PATH_LOCATION_FINDER_CONSUMER_KEY = 'dhlshippingsolutions/location_finder/consumer_key';
+    public const CONFIG_PATH_PARCEL_ANNOUNCEMENT = 'dhlshippingsolutions/dhlpaket/additional_services/parcelannouncement';
+    public const CONFIG_PATH_PARCEL_STATION_DELIVERY = 'dhlshippingsolutions/dhlpaket/additional_services/deliverylocation';
+    public const CONFIG_PATH_PREFERRED_LOCATION = 'dhlshippingsolutions/dhlpaket/additional_services/preferredlocation';
+    public const CONFIG_PATH_PREFERRED_NEIGHBOR = 'dhlshippingsolutions/dhlpaket/additional_services/preferredneighbour';
+    public const CONFIG_PATH_PREFERRED_DAY = 'dhlshippingsolutions/dhlpaket/additional_services/preferredday';
+    public const CONFIG_PATH_PREFERRED_DAY_CHARGE = 'dhlshippingsolutions/dhlpaket/additional_services/preferredday_charge';
 
     /**
      * @var ScopeConfigInterface
@@ -72,21 +73,38 @@ class ModuleConfig
     private $scopeConfig;
 
     /**
-     * ModuleConfig constructor.
-     *
-     * @param ScopeConfigInterface $scopeConfig
+     * @var TimezoneInterface
      */
-    public function __construct(ScopeConfigInterface $scopeConfig)
-    {
+    private $timezone;
+
+    public function __construct(
+        ScopeConfigInterface $scopeConfig,
+        TimezoneInterface $timezone
+    ) {
         $this->scopeConfig = $scopeConfig;
+        $this->timezone = $timezone;
     }
 
-    /**
-     * @return string
-     */
     public function getModuleVersion(): string
     {
         return $this->scopeConfig->getValue(self::CONFIG_PATH_VERSION);
+    }
+
+    /**
+     * Obtain the list of cut-off times.
+     *
+     * @param mixed $store
+     * @return string[] Times (H:i), indexed by ISO-8601 day of week
+     */
+    public function getCutOffTimes($store = null): array
+    {
+        $cutOffTimes = $this->scopeConfig->getValue(
+            self::CONFIG_PATH_CUT_OFF_TIMES,
+            ScopeInterface::SCOPE_STORE,
+            $store
+        );
+
+        return array_column($cutOffTimes, 'time', 'day');
     }
 
     /**
@@ -340,27 +358,12 @@ class ModuleConfig
     }
 
     /**
-     * Returns TRUE if the "print only if codeable" service should be used.
-     *
-     * @param mixed $store
-     * @return bool
-     */
-    public function printOnlyIfCodeable($store = null): bool
-    {
-        return (bool) $this->scopeConfig->getValue(
-            self::CONFIG_PATH_PRINT_ONLY_IF_CODEABLE,
-            ScopeInterface::SCOPE_STORE,
-            $store
-        );
-    }
-
-    /**
      * Check if the receiver phone number should be printed on the shipping label.
      *
      * @param mixed $store
      * @return bool
      */
-    public function isContactDataPrintingEnabled($store = null): bool
+    public function isContactPrintingEnabled($store = null): bool
     {
         return $this->scopeConfig->isSetFlag(
             self::CONFIG_PATH_PRINT_RECEIVER_CONTACT,
@@ -380,7 +383,7 @@ class ModuleConfig
     public function getDefaultProducts($store = null): array
     {
         $products = $this->scopeConfig->getValue(
-            self::CONFIG_PATH_DEFAULT_SHIPPING_PRODUCT,
+            self::CONFIG_PATH_SHIPPING_PRODUCTS,
             ScopeInterface::SCOPE_STORE,
             $store
         );
@@ -396,115 +399,35 @@ class ModuleConfig
     }
 
     /**
-
-     * Returns TRUE if the Parcelshop Finder service should be available in checkout.
+     * Obtain address to be used for enclosed return shipment labels.
+     *
+     * - company
+     * - country_id
+     * - postcode
+     * - city
+     * - street_name
+     * - street_number
      *
      * @param mixed $store
-     *
-     * @return bool
+     * @return string[] Address details if ALL values are configured, empty array otherwise.
      */
-    public function isParcelStationDeliveryEnabled($store = null): bool
+    public function getReturnAddress($store = null): array
     {
-        return (bool) $this->scopeConfig->getValue(
-            self::CONFIG_PATH_PARCEL_STATION_DELIVERY,
-            ScopeInterface::SCOPE_STORE,
-            $store
+        $fields = ['company', 'country_id', 'postcode', 'city', 'street_name', 'street_number'];
+        $address = array_filter(
+            (array)$this->scopeConfig->getValue(
+                self::CONFIG_PATH_RETURN_RECEIVER,
+                ScopeInterface::SCOPE_STORE,
+                $store
+            )
         );
-    }
 
-    /**
-     * Returns the selected "visual check of age" service which should be used.
-     *
-     * @param mixed $store
-     *
-     * @return string
-     */
-    public function visualCheckOfAge($store = null): string
-    {
-        return $this->scopeConfig->getValue(
-            self::CONFIG_PATH_VISUAL_CHECK_OF_AGE,
-            ScopeInterface::SCOPE_STORE,
-            $store
-        );
-    }
+        $diff = array_diff($fields, array_keys($address));
+        if (empty($diff)) {
+            return $address;
+        }
 
-    /**
-     * Returns TRUE if the "return shipment" service should be used or not.
-     *
-     * @param mixed $store
-     *
-     * @return bool
-     */
-    public function returnShipment($store = null): bool
-    {
-        return (bool) $this->scopeConfig->getValue(
-            self::CONFIG_PATH_RETURN_SHIPMENT,
-            ScopeInterface::SCOPE_STORE,
-            $store
-        );
-    }
-
-    /**
-     * Returns TRUE if the "additional insurance" service should be used or not.
-     *
-     * @param mixed $store
-     *
-     * @return bool
-     */
-    public function additionalInsurance($store = null): bool
-    {
-        return (bool) $this->scopeConfig->getValue(
-            self::CONFIG_PATH_ADDITIONAL_INSURANCE,
-            ScopeInterface::SCOPE_STORE,
-            $store
-        );
-    }
-
-    /**
-     * Returns TRUE if the "bulky goods" service should be used or not.
-     *
-     * @param mixed $store
-     *
-     * @return bool
-     */
-    public function bulkyGoods($store = null): bool
-    {
-        return (bool) $this->scopeConfig->getValue(
-            self::CONFIG_PATH_BULKY_GOODS,
-            ScopeInterface::SCOPE_STORE,
-            $store
-        );
-    }
-
-    /**
-     * Get enable config values for all checkout services
-     *
-     * @param mixed $store
-     * @return array
-     */
-    public function getCheckoutServices($store = null): array
-    {
-        return $this->scopeConfig->getValue(
-            self::CONFIG_PATH_ADDITIONAL_SERVICES,
-            ScopeInterface::SCOPE_STORE,
-            $store
-        );
-    }
-
-    /**
-     * Returns TRUE if the "parcel outlet" service should be used or not.
-     *
-     * @param mixed $store
-     *
-     * @return bool
-     */
-    public function parcelOutlet($store = null): bool
-    {
-        return (bool) $this->scopeConfig->getValue(
-            self::CONFIG_PATH_PARCEL_OUTLET,
-            ScopeInterface::SCOPE_STORE,
-            $store
-        );
+        return [];
     }
 
     /**
@@ -517,37 +440,11 @@ class ModuleConfig
             ',',
             '.',
             $this->scopeConfig->getValue(
-                self::CONFIG_PATH_DAY_CHARGE,
+                self::CONFIG_PATH_PREFERRED_DAY_CHARGE,
                 ScopeInterface::SCOPE_STORE,
                 $store
             )
         );
-    }
-
-    /**
-     * Obtain drop off days from config.
-     *
-     * @param mixed $store
-     *
-     * @return string[]
-     */
-    public function getExcludedDropOffDays($store = null): array
-    {
-        $dropOffDays = $this->scopeConfig->getValue(
-            self::CONFIG_PATH_EXCLUDED_DROPOFFDAYS,
-            ScopeInterface::SCOPE_STORE,
-            $store
-        );
-
-        return $dropOffDays === null ? [] : explode(',', $dropOffDays);
-    }
-
-    /**
-     * @return string
-     */
-    public function getLocationFinderConsumerKey(): string
-    {
-        return (string) $this->scopeConfig->getValue(self::CONFIG_PATH_LOCATION_FINDER_CONSUMER_KEY);
     }
 
     /**
@@ -561,7 +458,7 @@ class ModuleConfig
     public function getCustomsReferenceNumbers($store = null): array
     {
         $customsReferences = $this->scopeConfig->getValue(
-            self::CONFIG_PATH_CUSTOMS_REFERENCE_NUMBER,
+            self::CONFIG_PATH_CUSTOMS_REFERENCE_NUMBERS,
             ScopeInterface::SCOPE_STORE,
             $store
         );

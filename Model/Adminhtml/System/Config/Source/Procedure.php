@@ -1,12 +1,14 @@
 <?php
+
 /**
  * See LICENSE.md for license details.
  */
+
 declare(strict_types=1);
 
 namespace Dhl\Paket\Model\Adminhtml\System\Config\Source;
 
-use Dhl\Paket\Util\ShippingProducts;
+use Dhl\Paket\Model\Util\ShippingProducts;
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\App\RequestInterface;
 use Magento\Framework\Data\OptionSourceInterface;
@@ -30,12 +32,6 @@ class Procedure implements OptionSourceInterface
      */
     private $shippingProducts;
 
-    /**
-     * Procedure constructor.
-     * @param RequestInterface $request
-     * @param ScopeConfigInterface $scopeConfig
-     * @param ShippingProducts $shippingProducts
-     */
     public function __construct(
         RequestInterface $request,
         ScopeConfigInterface $scopeConfig,

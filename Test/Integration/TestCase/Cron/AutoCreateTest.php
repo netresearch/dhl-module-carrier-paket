@@ -1,7 +1,9 @@
 <?php
+
 /**
  * See LICENSE.md for license details.
  */
+
 declare(strict_types=1);
 
 namespace Dhl\Paket\Test\Integration\TestCase\Cron;
@@ -13,16 +15,16 @@ use Dhl\Paket\Model\Webservice\ShipmentServiceFactory;
 use Dhl\Paket\Test\Integration\TestDouble\Pipeline\CreateShipments\Stage\SendRequestStageStub;
 use Dhl\Paket\Test\Integration\TestDouble\ShipmentServiceStub;
 use Dhl\Sdk\Paket\Bcs\Exception\DetailedServiceException;
-use Dhl\ShippingCore\Api\LabelStatus\LabelStatusManagementInterface;
-use Dhl\ShippingCore\Cron\AutoCreate;
-use Dhl\ShippingCore\Model\LabelStatus\LabelStatusProvider;
-use Dhl\ShippingCore\Test\Integration\Fixture\OrderBuilder;
 use Magento\Sales\Api\Data\OrderInterface;
 use Magento\Sales\Api\Data\OrderStatusHistoryInterface;
 use Magento\Sales\Model\Order;
 use Magento\Sales\Model\Order\Shipment;
 use Magento\Sales\Model\ResourceModel\Order\Shipment\Collection;
 use Magento\TestFramework\Helper\Bootstrap;
+use Netresearch\ShippingCore\Api\LabelStatus\LabelStatusManagementInterface;
+use Netresearch\ShippingCore\Cron\AutoCreate;
+use Netresearch\ShippingCore\Model\LabelStatus\LabelStatusProvider;
+use Netresearch\ShippingCore\Test\Integration\Fixture\OrderBuilder;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\Test\TestLogger;
 use TddWizard\Fixtures\Catalog\ProductBuilder;
@@ -175,7 +177,7 @@ class AutoCreateTest extends TestCase
      * @param Order $order
      * @return Collection
      */
-    private function getShipmentsCollection(Order $order)
+    private function getShipmentsCollection(Order $order): Collection
     {
         /** @var Collection $collection */
         $collection = Bootstrap::getObjectManager()->create(Collection::class);
@@ -209,8 +211,7 @@ class AutoCreateTest extends TestCase
      *
      * @magentoConfigFixture default_store catalog/price/scope 0
      * @magentoConfigFixture default_store currency/options/base EUR
-     * @magentoConfigFixture default_store dhlshippingsolutions/dhlglobalwebservices/bulk_settings/cron_enabled 0
-     * @magentoConfigFixture default_store dhlshippingsolutions/dhlglobalwebservices/bulk_settings/retry_failed_shipments 0
+     * @magentoConfigFixture default_store shipping/batch_processing/shipping_label/cron_enabled 0
      *
      * @magentoConfigFixture current_store carriers/flatrate/type O
      * @magentoConfigFixture current_store carriers/flatrate/handling_type F
@@ -218,7 +219,8 @@ class AutoCreateTest extends TestCase
      * @magentoConfigFixture current_store carriers/dhlpaket/active 1
      * @magentoConfigFixture current_store dhlshippingsolutions/dhlpaket/checkout_settings/emulated_carrier flatrate
      *
-     * @magentoConfigFixture default/dhlshippingsolutions/dhlglobalwebservices/bulk_settings/cron_order_status processing
+     * @magentoConfigFixture default/shipping/batch_processing/shipping_label/cron_order_status processing
+     * @magentoConfigFixture default/shipping/batch_processing/shipping_label/retry_failed_shipments 0
      */
     public function cronTerminatesWhenDisabledViaConfig()
     {
@@ -258,8 +260,7 @@ class AutoCreateTest extends TestCase
      *
      * @magentoConfigFixture default_store catalog/price/scope 0
      * @magentoConfigFixture default_store currency/options/base EUR
-     * @magentoConfigFixture default_store dhlshippingsolutions/dhlglobalwebservices/bulk_settings/cron_enabled 1
-     * @magentoConfigFixture default_store dhlshippingsolutions/dhlglobalwebservices/bulk_settings/retry_failed_shipments 0
+     * @magentoConfigFixture default_store shipping/batch_processing/shipping_label/cron_enabled 1
      *
      * @magentoConfigFixture current_store carriers/flatrate/type O
      * @magentoConfigFixture current_store carriers/flatrate/handling_type F
@@ -267,7 +268,8 @@ class AutoCreateTest extends TestCase
      * @magentoConfigFixture current_store carriers/dhlpaket/active 1
      * @magentoConfigFixture current_store dhlshippingsolutions/dhlpaket/checkout_settings/emulated_carrier flatrate
      *
-     * @magentoConfigFixture default/dhlshippingsolutions/dhlglobalwebservices/bulk_settings/cron_order_status processing
+     * @magentoConfigFixture default/shipping/batch_processing/shipping_label/cron_order_status processing
+     * @magentoConfigFixture default/shipping/batch_processing/shipping_label/retry_failed_shipments 0
      */
     public function orderWithDeselectedStatusIsNotProcessed()
     {
@@ -370,8 +372,7 @@ class AutoCreateTest extends TestCase
      *
      * @magentoConfigFixture default_store catalog/price/scope 0
      * @magentoConfigFixture default_store currency/options/base EUR
-     * @magentoConfigFixture default_store dhlshippingsolutions/dhlglobalwebservices/bulk_settings/cron_enabled 1
-     * @magentoConfigFixture default_store dhlshippingsolutions/dhlglobalwebservices/bulk_settings/retry_failed_shipments 1
+     * @magentoConfigFixture default_store shipping/batch_processing/shipping_label/cron_enabled 1
      *
      * @magentoConfigFixture current_store carriers/flatrate/type O
      * @magentoConfigFixture current_store carriers/flatrate/handling_type F
@@ -379,7 +380,8 @@ class AutoCreateTest extends TestCase
      * @magentoConfigFixture current_store carriers/dhlpaket/active 1
      * @magentoConfigFixture current_store dhlshippingsolutions/dhlpaket/checkout_settings/emulated_carrier flatrate
      *
-     * @magentoConfigFixture default/dhlshippingsolutions/dhlglobalwebservices/bulk_settings/cron_order_status processing
+     * @magentoConfigFixture default/shipping/batch_processing/shipping_label/cron_order_status processing
+     * @magentoConfigFixture default/shipping/batch_processing/shipping_label/retry_failed_shipments 1
      */
     public function partialShipmentIsProcessed()
     {
@@ -451,8 +453,7 @@ class AutoCreateTest extends TestCase
      *
      * @magentoConfigFixture default_store catalog/price/scope 0
      * @magentoConfigFixture default_store currency/options/base EUR
-     * @magentoConfigFixture default_store dhlshippingsolutions/dhlglobalwebservices/bulk_settings/cron_enabled 1
-     * @magentoConfigFixture default_store dhlshippingsolutions/dhlglobalwebservices/bulk_settings/retry_failed_shipments 0
+     * @magentoConfigFixture default_store shipping/batch_processing/shipping_label/cron_enabled 1
      *
      * @magentoConfigFixture current_store carriers/flatrate/type O
      * @magentoConfigFixture current_store carriers/flatrate/handling_type F
@@ -460,7 +461,8 @@ class AutoCreateTest extends TestCase
      * @magentoConfigFixture current_store carriers/dhlpaket/active 1
      * @magentoConfigFixture current_store dhlshippingsolutions/dhlpaket/checkout_settings/emulated_carrier flatrate
      *
-     * @magentoConfigFixture default/dhlshippingsolutions/dhlglobalwebservices/bulk_settings/cron_order_status processing
+     * @magentoConfigFixture default/shipping/batch_processing/shipping_label/cron_order_status processing
+     * @magentoConfigFixture default/shipping/batch_processing/shipping_label/retry_failed_shipments 0
      */
     public function skipFailedShipment()
     {
@@ -473,17 +475,8 @@ class AutoCreateTest extends TestCase
         self::assertEquals('processing', $order->getStatus());
 
         // assert "createShipments" is not called
-        $serviceMock = $this->getMockBuilder(ShipmentService::class)
-                            ->disableOriginalConstructor()
-                            ->setMethods(['createShipments'])
-                            ->getMock();
-        $serviceMock->expects($this->never())->method('createShipments');
-
-        $serviceFactoryMock = $this->getMockBuilder(ShipmentServiceFactory::class)
-                                   ->disableOriginalConstructor()
-                                   ->setMethods(['create'])
-                                   ->getMock();
-        $serviceFactoryMock->method('create')->willReturn($serviceMock);
+        $serviceMock = $this->createMock(ShipmentService::class)->expects($this->never())->method('createShipments');
+        $serviceFactoryMock = $this->createConfiguredMock(ShipmentServiceFactory::class, ['create' => $serviceMock]);
 
         Bootstrap::getObjectManager()->addSharedInstance($serviceFactoryMock, ShipmentServiceFactory::class);
 
@@ -522,8 +515,7 @@ class AutoCreateTest extends TestCase
      *
      * @magentoConfigFixture default_store catalog/price/scope 0
      * @magentoConfigFixture default_store currency/options/base EUR
-     * @magentoConfigFixture default_store dhlshippingsolutions/dhlglobalwebservices/bulk_settings/cron_enabled 1
-     * @magentoConfigFixture default_store dhlshippingsolutions/dhlglobalwebservices/bulk_settings/retry_failed_shipments 1
+     * @magentoConfigFixture default_store shipping/batch_processing/shipping_label/cron_enabled 1
      *
      * @magentoConfigFixture current_store carriers/flatrate/type O
      * @magentoConfigFixture current_store carriers/flatrate/handling_type F
@@ -531,7 +523,8 @@ class AutoCreateTest extends TestCase
      * @magentoConfigFixture current_store carriers/dhlpaket/active 1
      * @magentoConfigFixture current_store dhlshippingsolutions/dhlpaket/checkout_settings/emulated_carrier flatrate
      *
-     * @magentoConfigFixture default/dhlshippingsolutions/dhlglobalwebservices/bulk_settings/cron_order_status processing
+     * @magentoConfigFixture default/shipping/batch_processing/shipping_label/cron_order_status processing
+     * @magentoConfigFixture default/shipping/batch_processing/shipping_label/retry_failed_shipments 1
      */
     public function retryFailedShipment()
     {

@@ -19,10 +19,10 @@
             <comment userInput="-> Run required steps before starting with the test" stepKey="setupTestComment"/>
 
             <actionGroup ref="AdminLoginActionGroup" stepKey="loginAsAdmin"/>
-            <actionGroup ref="NavigateToShippingCoreSectionActionGroup" stepKey="navigateToShippingSettingsConfigInTest"/>
-            <actionGroup ref="ScrollToAndExpandGroupActionGroup" stepKey="navigateToShippingCoreGroup">
-                <argument name="groupName" value="{{AdminSystemConfigShippingCoreSection.shippingCoreGroup}}"/>
-                <argument name="groupNameExpanded" value="{{AdminSystemConfigShippingCoreSection.shippingCoreGroupExpanded}}"/>
+            <actionGroup ref="NavigateToShippingSolutionsSectionActionGroup" stepKey="navigateToShippingSettingsConfigInTest"/>
+            <actionGroup ref="ScrollToAndExpandConfigActionGroup" stepKey="navigateToShippingCoreGroup">
+                <argument name="groupName" value="{{AdminSystemConfigShippingSolutionsSection.shippingCoreGroup}}"/>
+                <argument name="groupNameExpanded" value="{{AdminSystemConfigShippingSolutionsSection.shippingCoreGroupExpanded}}"/>
             </actionGroup>
         </before>
         <after>

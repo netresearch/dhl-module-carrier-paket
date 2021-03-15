@@ -1,7 +1,9 @@
 <?php
+
 /**
  * See LICENSE.md for license details.
  */
+
 declare(strict_types=1);
 
 namespace Dhl\Paket\Test\Integration\TestCase\Controller\Adminhtml\Shipment;
@@ -12,21 +14,19 @@ use Dhl\Paket\Model\Webservice\ShipmentService;
 use Dhl\Paket\Test\Integration\TestDouble\Pipeline\DeleteShipments\Stage\SendRequestStageStub;
 use Dhl\Paket\Test\Integration\TestDouble\ShipmentServiceStub;
 use Dhl\Sdk\Paket\Bcs\Exception\ServiceException;
-use Dhl\ShippingCore\Api\LabelStatus\LabelStatusManagementInterface;
-use Dhl\ShippingCore\Model\LabelStatus\LabelStatusProvider;
-use Dhl\ShippingCore\Test\Integration\Fixture\OrderBuilder;
 use Magento\Sales\Api\Data\OrderInterface;
 use Magento\Sales\Api\Data\ShipmentInterface;
 use Magento\Sales\Api\Data\TrackInterface;
 use Magento\Sales\Api\ShipmentRepositoryInterface;
 use Magento\Sales\Model\Order\Shipment;
 use Magento\TestFramework\TestCase\AbstractBackendController;
+use Netresearch\ShippingCore\Api\LabelStatus\LabelStatusManagementInterface;
+use Netresearch\ShippingCore\Model\LabelStatus\LabelStatusProvider;
+use Netresearch\ShippingCore\Test\Integration\Fixture\OrderBuilder;
 use TddWizard\Fixtures\Catalog\ProductBuilder;
 use TddWizard\Fixtures\Sales\ShipmentBuilder;
 
 /**
- * Class CancelTest
- *
  * @magentoAppArea adminhtml
  * @magentoDbIsolation enabled
  */
@@ -49,7 +49,7 @@ class CancelTest extends AbstractBackendController
      *
      * @var string
      */
-    protected $uri = 'backend/dhl/shipment/cancel';
+    protected $uri = 'backend/nrshipping/shipment/cancel';
 
     /**
      * @var OrderInterface[]

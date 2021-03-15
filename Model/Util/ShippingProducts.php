@@ -1,10 +1,12 @@
 <?php
+
 /**
  * See LICENSE.md for license details.
  */
+
 declare(strict_types=1);
 
-namespace Dhl\Paket\Util;
+namespace Dhl\Paket\Model\Util;
 
 use Dhl\Paket\Model\Config\ModuleConfig;
 
@@ -68,11 +70,6 @@ class ShippingProducts
      */
     private $config;
 
-    /**
-     * ShippingProducts constructor.
-     *
-     * @param ModuleConfig $config
-     */
     public function __construct(ModuleConfig $config)
     {
         $this->config = $config;

@@ -8,10 +8,10 @@ declare(strict_types=1);
 
 namespace Dhl\Paket\Model\SplitAddress;
 
-use Dhl\ShippingCore\Api\Data\RecipientStreetInterface;
-use Dhl\ShippingCore\Api\SplitAddress\RecipientStreetLoaderInterface;
-use Dhl\ShippingCore\Model\SplitAddress\RecipientStreet;
 use Magento\Sales\Api\Data\OrderAddressInterface;
+use Netresearch\ShippingCore\Api\Data\RecipientStreetInterface;
+use Netresearch\ShippingCore\Api\SplitAddress\RecipientStreetLoaderInterface;
+use Netresearch\ShippingCore\Model\SplitAddress\RecipientStreet;
 
 /**
  * Wrapper around the original street loader to apply country-based rules after splitting.

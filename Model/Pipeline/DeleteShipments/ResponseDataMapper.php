@@ -1,18 +1,20 @@
 <?php
+
 /**
  * See LICENSE.md for license details.
  */
+
 declare(strict_types=1);
 
 namespace Dhl\Paket\Model\Pipeline\DeleteShipments;
 
-use Dhl\ShippingCore\Api\Data\Pipeline\TrackResponse\TrackErrorResponseInterface;
-use Dhl\ShippingCore\Api\Data\Pipeline\TrackResponse\TrackErrorResponseInterfaceFactory;
-use Dhl\ShippingCore\Api\Data\Pipeline\TrackResponse\TrackResponseInterface;
-use Dhl\ShippingCore\Api\Data\Pipeline\TrackResponse\TrackResponseInterfaceFactory;
 use Magento\Framework\Phrase;
 use Magento\Sales\Api\Data\ShipmentInterface;
 use Magento\Sales\Api\Data\ShipmentTrackInterface;
+use Netresearch\ShippingCore\Api\Data\Pipeline\TrackResponse\TrackErrorResponseInterface;
+use Netresearch\ShippingCore\Api\Data\Pipeline\TrackResponse\TrackErrorResponseInterfaceFactory;
+use Netresearch\ShippingCore\Api\Data\Pipeline\TrackResponse\TrackResponseInterface;
+use Netresearch\ShippingCore\Api\Data\Pipeline\TrackResponse\TrackResponseInterfaceFactory;
 
 /**
  * Convert API response into the carrier response format that the shipping module understands.
@@ -29,12 +31,6 @@ class ResponseDataMapper
      */
     private $errorResponseFactory;
 
-    /**
-     * ResponseDataMapper constructor.
-     *
-     * @param TrackResponseInterfaceFactory $trackResponseFactory
-     * @param TrackErrorResponseInterfaceFactory $errorResponseFactory
-     */
     public function __construct(
         TrackResponseInterfaceFactory $trackResponseFactory,
         TrackErrorResponseInterfaceFactory $errorResponseFactory

@@ -1,8 +1,8 @@
 <?xml version="1.0" ?>
-<carriers xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Dhl_ShippingCore/etc/shipping_settings.xsd">
+<carriers xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Netresearch_ShippingCore/etc/shipping_settings.xsd">
     <carrier code="dhlpaket">
         <serviceOptions>
-            <shippingOption code="Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::CHECKOUT_SERVICE_PREFERRED_DAY">
+            <shippingOption code="Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::SERVICE_OPTION_PREFERRED_DAY">
                 <inputs>
                     <input code="date">
                         <options>
@@ -15,77 +15,77 @@
             </shippingOption>
         </serviceOptions>
         <compatibilityData>
-            <rule id="preferredLocationAndNeighbourExclusion">
+            <rule id="disableNeighborDeliveryIfParcelDropOffIsSelected">
                 <triggerValue>*</triggerValue>
                 <action>disable</action>
                 <masters>
-                    <master>Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::CHECKOUT_SERVICE_DROPOFF_DELIVERY</master>
+                    <master>Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::SERVICE_OPTION_DROPOFF_DELIVERY</master>
                 </masters>
                 <subjects>
-                    <subject>Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::CHECKOUT_SERVICE_NEIGHBOR_DELIVERY</subject>
+                    <subject>Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::SERVICE_OPTION_NEIGHBOR_DELIVERY</subject>
                 </subjects>
                 <errorMessage translate="true">Please choose only one of %1.</errorMessage>
             </rule>
-            <rule id="preferredLocationAndNeighbourExclusion2">
+            <rule id="disableParcelDropOffIfNeighborDeliveryIsSelected">
                 <triggerValue>*</triggerValue>
                 <action>disable</action>
                 <masters>
-                    <master>Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::CHECKOUT_SERVICE_NEIGHBOR_DELIVERY</master>
+                    <master>Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::SERVICE_OPTION_NEIGHBOR_DELIVERY</master>
                 </masters>
                 <subjects>
-                    <subject>Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::CHECKOUT_SERVICE_DROPOFF_DELIVERY</subject>
+                    <subject>Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::SERVICE_OPTION_DROPOFF_DELIVERY</subject>
                 </subjects>
                 <errorMessage translate="true">Please choose only one of %1.</errorMessage>
             </rule>
-            <rule id="preferredNeighbourRequireChildren">
+            <rule id="requireNameAndAddressIfEitherIsGiven">
                 <triggerValue>*</triggerValue>
                 <action>require</action>
                 <subjects>
-                    <subject>Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::CHECKOUT_SERVICE_NEIGHBOR_DELIVERY.name</subject>
-                    <subject>Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::CHECKOUT_SERVICE_NEIGHBOR_DELIVERY.address</subject>
+                    <subject>Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::SERVICE_OPTION_NEIGHBOR_DELIVERY.name</subject>
+                    <subject>Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::SERVICE_OPTION_NEIGHBOR_DELIVERY.address</subject>
                 </subjects>
                 <errorMessage translate="true">Some values for neighbor delivery are missing.</errorMessage>
             </rule>
-            <rule id="parcelshopFinderInclude">
+            <rule id="hideOtherServicesIfDeliveryLocationIsSelected">
                 <masters>
-                    <master>Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::CHECKOUT_SERVICE_PARCELSHOP_FINDER.enabled</master>
+                    <master>Netresearch\ShippingCore\Model\ShippingSettings\ShippingOption\Codes::SERVICE_OPTION_DELIVERY_LOCATION.enabled</master>
                 </masters>
                 <subjects>
-                    <subject>Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::CHECKOUT_SERVICE_PARCELSHOP_FINDER.customerPostnumber</subject>
+                    <subject>Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::SERVICE_OPTION_PREFERRED_DAY</subject>
+                    <subject>Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::SERVICE_OPTION_DROPOFF_DELIVERY</subject>
+                    <subject>Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::SERVICE_OPTION_NEIGHBOR_DELIVERY</subject>
+                </subjects>
+                <triggerValue>*</triggerValue>
+                <action>hide</action>
+            </rule>
+            <rule id="hideDeliveryLocationIfOtherServicesAreSelected">
+                <masters>
+                    <master>Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::SERVICE_OPTION_PREFERRED_DAY</master>
+                    <master>Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::SERVICE_OPTION_DROPOFF_DELIVERY</master>
+                    <master>Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::SERVICE_OPTION_NEIGHBOR_DELIVERY</master>
+                </masters>
+                <subjects>
+                    <subject>Netresearch\ShippingCore\Model\ShippingSettings\ShippingOption\Codes::SERVICE_OPTION_DELIVERY_LOCATION</subject>
+                </subjects>
+                <triggerValue>*</triggerValue>
+                <action>hide</action>
+            </rule>
+            <rule id="showCustomerAccountNumberIfDeliveryLocationIsSelected">
+                <masters>
+                    <master>Netresearch\ShippingCore\Model\ShippingSettings\ShippingOption\Codes::SERVICE_OPTION_DELIVERY_LOCATION.enabled</master>
+                </masters>
+                <subjects>
+                    <subject>Netresearch\ShippingCore\Model\ShippingSettings\ShippingOption\Codes::SERVICE_OPTION_DELIVERY_LOCATION.customerPostnumber</subject>
                 </subjects>
                 <action>show</action>
                 <triggerValue>*</triggerValue>
             </rule>
-            <rule id="parcelshopFinderExcludeAllOthers">
+            <rule id="requireCustomerAccountNumberIfDeliveryLocationTypeIsLocker">
                 <masters>
-                    <master>Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::CHECKOUT_SERVICE_PARCELSHOP_FINDER.enabled</master>
+                    <master>Netresearch\ShippingCore\Model\ShippingSettings\ShippingOption\Codes::SERVICE_OPTION_DELIVERY_LOCATION.type</master>
                 </masters>
                 <subjects>
-                    <subject>Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::CHECKOUT_SERVICE_PREFERRED_DAY</subject>
-                    <subject>Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::CHECKOUT_SERVICE_DROPOFF_DELIVERY</subject>
-                    <subject>Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::CHECKOUT_SERVICE_NEIGHBOR_DELIVERY</subject>
-                </subjects>
-                <triggerValue>*</triggerValue>
-                <action>hide</action>
-            </rule>
-            <rule id="allOthersExcludeParcelshopFinder">
-                <masters>
-                    <master>Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::CHECKOUT_SERVICE_PREFERRED_DAY</master>
-                    <master>Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::CHECKOUT_SERVICE_DROPOFF_DELIVERY</master>
-                    <master>Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::CHECKOUT_SERVICE_NEIGHBOR_DELIVERY</master>
-                </masters>
-                <subjects>
-                    <subject>Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::CHECKOUT_SERVICE_PARCELSHOP_FINDER</subject>
-                </subjects>
-                <triggerValue>*</triggerValue>
-                <action>hide</action>
-            </rule>
-            <rule id="parcelshopFinderRequirePostNumber">
-                <masters>
-                    <master>Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::CHECKOUT_SERVICE_PARCELSHOP_FINDER.locationType</master>
-                </masters>
-                <subjects>
-                    <subject>Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::CHECKOUT_SERVICE_PARCELSHOP_FINDER.customerPostnumber</subject>
+                    <subject>Netresearch\ShippingCore\Model\ShippingSettings\ShippingOption\Codes::SERVICE_OPTION_DELIVERY_LOCATION.customerPostnumber</subject>
                 </subjects>
                 <triggerValue>locker</triggerValue>
                 <action>require</action>

@@ -7,44 +7,38 @@
 <include xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_include.xsd">
     <group id="additional_services" translate="label" sortOrder="600" showInDefault="1" showInWebsite="1" showInStore="0">
         <label>Shipping Services in Checkout</label>
-
-        <group id="services_group" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="10"
-               translate="label">
-            <label>Additional Services</label>
-            <attribute type="expanded">1</attribute>
-            <field id="parcelannouncement" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="10"
-                   translate="label comment" type="Netresearch\ConfigFields\Model\Type\Checkbox">
-                <label>Offer DHL Parcel Announcement</label>
-                <comment>Allow customers to request parcel notification updates via e-mail by DHL during checkout.</comment>
-            </field>
-            <field id="parcelshopFinder" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="20"
-                translate="label comment" type="Netresearch\ConfigFields\Model\Type\Checkbox">
-                <label>Offer Parcel Station Delivery</label>
-                <comment>Allow customers to get shipments delivered to a parcel station.</comment>
-            </field>
-            <field id="preferredlocation" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="30"
-                   translate="label comment" type="Netresearch\ConfigFields\Model\Type\Checkbox">
-                <label>Offer Drop-off Location Delivery</label>
-                <comment>Allow customers to declare a deposit location during checkout.</comment>
-            </field>
-            <field id="preferredneighbour" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="40"
-                   translate="label comment" type="Netresearch\ConfigFields\Model\Type\Checkbox">
-                <label>Offer Neighbor Delivery</label>
-                <comment>Allow customers to name a preferred neighbor during checkout.</comment>
-            </field>
-            <field id="preferredday" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="50"
-                   translate="label comment" type="Netresearch\ConfigFields\Model\Type\Checkbox">
-                <label>Offer Delivery Day Service</label>
-                <comment>Allow customers to select a delivery day.</comment>
-            </field>
-            <field id="preferredDayCharge" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="55"
-                    translate="label comment" type="text">
-                <depends>
-                    <field id="preferredday">1</field>
-                </depends>
-                <label>Delivery Day Additional Charge</label>
-                <comment>The given additional charge will be applied to the shipping costs at checkout. Set to "0" to offer service for free.</comment>
-            </field>
-        </group>
+        <field id="parcelannouncement" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="10"
+               translate="label comment" type="Netresearch\ConfigFields\Model\Type\Checkbox">
+            <label>Offer DHL Parcel Announcement</label>
+            <comment>Allow customers to request parcel notification updates via e-mail by DHL during checkout.</comment>
+        </field>
+        <field id="deliverylocation" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="20"
+            translate="label comment" type="Netresearch\ConfigFields\Model\Type\Checkbox">
+            <label>Offer Parcel Station Delivery</label>
+            <comment>Allow customers to get shipments delivered to a parcel station.</comment>
+        </field>
+        <field id="preferredlocation" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="30"
+               translate="label comment" type="Netresearch\ConfigFields\Model\Type\Checkbox">
+            <label>Offer Drop-off Location Delivery</label>
+            <comment>Allow customers to declare a deposit location during checkout.</comment>
+        </field>
+        <field id="preferredneighbour" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="40"
+               translate="label comment" type="Netresearch\ConfigFields\Model\Type\Checkbox">
+            <label>Offer Neighbor Delivery</label>
+            <comment>Allow customers to name a preferred neighbor during checkout.</comment>
+        </field>
+        <field id="preferredday" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="50"
+               translate="label comment" type="Netresearch\ConfigFields\Model\Type\Checkbox">
+            <label>Offer Delivery Day Service</label>
+            <comment>Allow customers to select a delivery day.</comment>
+        </field>
+        <field id="preferredday_charge" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="55"
+                translate="label comment" type="text">
+            <depends>
+                <field id="preferredday">1</field>
+            </depends>
+            <label>Delivery Day Additional Charge</label>
+            <comment>The given additional charge will be applied to the shipping costs at checkout. Set to "0" to offer service for free.</comment>
+        </field>
     </group>
 </include>

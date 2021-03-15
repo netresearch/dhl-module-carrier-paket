@@ -1,12 +1,12 @@
 <?xml version="1.0" ?>
-<carriers xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Dhl_ShippingCore/etc/shipping_settings.xsd">
+<carriers xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Netresearch_ShippingCore/etc/shipping_settings.xsd">
     <carrier code="dhlpaket">
         <itemOptions>
-            <itemShippingOptions itemId ="0">
+            <itemShippingOptions itemId="0">
                 <shippingOptions>
-                    <shippingOption code="Dhl\ShippingCore\Model\ShippingSettings\ShippingOption\Codes::ITEM_OPTION_ITEM_CUSTOMS">
+                    <shippingOption code="Netresearch\ShippingCore\Model\ShippingSettings\ShippingOption\Codes::ITEM_OPTION_CUSTOMS">
                         <inputs>
-                            <input code="Dhl\ShippingCore\Model\ShippingSettings\ShippingOption\Codes::ITEM_INPUT_EXPORT_DESCRIPTION">
+                            <input code="Netresearch\ShippingCore\Model\ShippingSettings\ShippingOption\Codes::ITEM_INPUT_EXPORT_DESCRIPTION">
                                 <validationRules>
                                     <rule name="required"/>
                                 </validationRules>
@@ -17,9 +17,14 @@
              </itemShippingOptions>
         </itemOptions>
         <packageOptions>
-            <shippingOption code="Dhl\ShippingCore\Model\ShippingSettings\ShippingOption\Codes::PACKAGING_OPTION_PACKAGE_CUSTOMS">
+            <shippingOption code="Netresearch\ShippingCore\Model\ShippingSettings\ShippingOption\Codes::PACKAGE_OPTION_CUSTOMS">
                 <inputs>
-                    <input code="additionalFee">
+                    <input code="Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::PACKAGE_INPUT_TERMS_OF_TRADE" defaultConfigValue="Dhl\ShippingCore\Model\Config\ModuleConfig::CONFIG_PATH_TERMS_OF_TRADE">
+                        <label translate="true">Terms of Trade</label>
+                        <inputType>select</inputType>
+                        <sortOrder>15</sortOrder>
+                    </input>
+                    <input code="customsFees">
                         <label translate="true">Postal Charges / Fees</label>
                         <inputType>prefixed</inputType>
                         <sortOrder>1010</sortOrder>
@@ -71,19 +76,19 @@
             </shippingOption>
         </packageOptions>
         <serviceOptions>
-            <shippingOption code="Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::CHECKOUT_SERVICE_PARCELSHOP_FINDER">
+            <shippingOption code="Netresearch\ShippingCore\Model\ShippingSettings\ShippingOption\Codes::SERVICE_OPTION_DELIVERY_LOCATION">
                 <label translate="true">Parcel Station</label>
                 <sortOrder>1010</sortOrder>
                 <inputs>
                     <input code="enabled">
                         <label translate="true">Parcel Station Delivery</label>
                     </input>
-                    <input code="Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::CHECKOUT_INPUT_CUSTOMER_POSTNUMBER">
+                    <input code="Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::SERVICE_INPUT_DELIVERY_LOCATION_ACCOUNT_NUMBER">
                         <inputType>static</inputType>
                     </input>
                 </inputs>
             </shippingOption>
-            <shippingOption code="Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::CHECKOUT_PARCEL_ANNOUNCEMENT">
+            <shippingOption code="Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::SERVICE_OPTION_PARCEL_ANNOUNCEMENT">
                 <sortOrder>1020</sortOrder>
                 <inputs>
                     <input code="enabled">
@@ -91,7 +96,7 @@
                     </input>
                 </inputs>
             </shippingOption>
-            <shippingOption code="Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::PACKAGING_PRINT_ONLY_IF_CODEABLE">
+            <shippingOption code="Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::SERVICE_OPTION_PRINT_ONLY_IF_CODEABLE">
                 <label translate="true">Routing Code</label>
                 <sortOrder>1030</sortOrder>
                 <inputs>
@@ -101,7 +106,7 @@
                     </input>
                 </inputs>
             </shippingOption>
-            <shippingOption code="Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::PACKAGING_SERVICE_RETURN_SHIPMENT">
+            <shippingOption code="Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::SERVICE_OPTION_RETURN_SHIPMENT">
                 <label translate="true">Return Shipment</label>
                 <sortOrder>1040</sortOrder>
                 <inputs>
@@ -119,7 +124,7 @@
                     </route>
                 </routes>
             </shippingOption>
-            <shippingOption code="Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::PACKAGING_SERVICE_INSURANCE">
+            <shippingOption code="Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::SERVICE_OPTION_INSURANCE">
                 <label translate="true">Additional Insurance</label>
                 <sortOrder>1050</sortOrder>
                 <inputs>
@@ -129,7 +134,7 @@
                     </input>
                 </inputs>
             </shippingOption>
-            <shippingOption code="Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::PACKAGING_SERVICE_PARCEL_OUTLET_ROUTING">
+            <shippingOption code="Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::SERVICE_OPTION_PARCEL_OUTLET_ROUTING">
                 <label translate="true">Parcel Routing</label>
                 <sortOrder>1060</sortOrder>
                 <routes>
@@ -150,7 +155,7 @@
                     </input>
                 </inputs>
             </shippingOption>
-            <shippingOption code="Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::PACKAGING_SERVICE_BULKY_GOODS">
+            <shippingOption code="Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::SERVICE_OPTION_BULKY_GOODS">
                 <label translate="true">Bulky Goods</label>
                 <sortOrder>1070</sortOrder>
                 <inputs>
@@ -168,16 +173,16 @@
                     </route>
                 </routes>
             </shippingOption>
-            <shippingOption code="Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::PACKAGING_SERVICE_CHECK_OF_AGE">
+            <shippingOption code="Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::SERVICE_OPTION_CHECK_OF_AGE">
                 <label translate="true">Visual Check of Age</label>
                 <sortOrder>1080</sortOrder>
                 <inputs>
-                    <input code="enabled" defaultConfigValue="Dhl\Paket\Model\Config\ModuleConfig::CONFIG_PATH_VISUAL_CHECK_OF_AGE">
+                    <input code="details" defaultConfigValue="Dhl\Paket\Model\Config\ModuleConfig::CONFIG_PATH_VISUAL_CHECK_OF_AGE">
                         <inputType>radioset</inputType>
                         <options>
                             <option id="no">
                                 <label>No</label>
-                                <value>0</value>
+                                <value>A00</value>
                             </option>
                             <option id="A16">
                                 <label>A16</label>
@@ -199,7 +204,7 @@
                     </route>
                 </routes>
             </shippingOption>
-            <shippingOption code="Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::CHECKOUT_SERVICE_PREFERRED_DAY">
+            <shippingOption code="Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::SERVICE_OPTION_PREFERRED_DAY">
                 <label translate="true">Delivery Day</label>
                 <sortOrder>1090</sortOrder>
                 <inputs>
@@ -214,7 +219,7 @@
                     </input>
                 </inputs>
             </shippingOption>
-            <shippingOption code="Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::CHECKOUT_SERVICE_NEIGHBOR_DELIVERY">
+            <shippingOption code="Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::SERVICE_OPTION_NEIGHBOR_DELIVERY">
                 <label translate="true">Preferred Neighbor Delivery</label>
                 <sortOrder>1110</sortOrder>
                 <inputs>
@@ -233,7 +238,7 @@
                     </input>
                 </inputs>
             </shippingOption>
-            <shippingOption code="Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::CHECKOUT_SERVICE_DROPOFF_DELIVERY">
+            <shippingOption code="Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::SERVICE_OPTION_DROPOFF_DELIVERY">
                 <label translate="true">Drop-off Location Delivery</label>
                 <sortOrder>1120</sortOrder>
                 <inputs>
@@ -248,39 +253,11 @@
                     </input>
                 </inputs>
             </shippingOption>
-            <shippingOption code="Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::CHECKOUT_SERVICE_CASH_ON_DELIVERY">
-                <label translate="true">Cash on Delivery</label>
+            <shippingOption code="Netresearch\ShippingCore\Model\ShippingSettings\ShippingOption\Codes::SERVICE_OPTION_CASH_ON_DELIVERY">
                 <sortOrder>1010</sortOrder>
-                <inputs>
-                    <input code="enabled">
-                        <label translate="true">Cash on Delivery</label>
-                        <inputType>checkbox</inputType>
-                        <disabled>true</disabled>
-                        <defaultValue>false</defaultValue>
-                    </input>
-                    <input code="reasonForPayment" defaultConfigValue="Dhl\Paket\Model\Config\ModuleConfig::CONFIG_PATH_COD_REASON_FOR_PAYMENT">
-                        <label translate="true">Reason for Payment</label>
-                        <inputType>text</inputType>
-                        <validationRules>
-                            <rule name="max_text_length">
-                                <param>70</param>
-                            </rule>
-                        </validationRules>
-                    </input>
-                </inputs>
             </shippingOption>
         </serviceOptions>
         <compatibilityData>
-            <rule id="cashOnDeliveryDependency">
-                <masters>
-                    <master>Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::CHECKOUT_SERVICE_CASH_ON_DELIVERY.enabled</master>
-                </masters>
-                <triggerValue>*</triggerValue>
-                <action>show</action>
-                <subjects>
-                    <subject>Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::CHECKOUT_SERVICE_CASH_ON_DELIVERY.reasonForPayment</subject>
-                </subjects>
-            </rule>
             <rule id="disableNotSupportedWarenpostServices">
                 <masters>
                     <master>packageDetails.productCode</master>
@@ -288,9 +265,9 @@
                 <triggerValue>V62WP</triggerValue>
                 <action>disable</action>
                 <subjects>
-                    <subject>Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::PACKAGING_SERVICE_BULKY_GOODS</subject>
-                    <subject>Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::PACKAGING_SERVICE_CHECK_OF_AGE</subject>
-                    <subject>Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::PACKAGING_SERVICE_INSURANCE</subject>
+                    <subject>Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::SERVICE_OPTION_BULKY_GOODS</subject>
+                    <subject>Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::SERVICE_OPTION_CHECK_OF_AGE</subject>
+                    <subject>Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::SERVICE_OPTION_INSURANCE</subject>
                 </subjects>
             </rule>
         </compatibilityData>

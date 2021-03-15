@@ -1,7 +1,9 @@
 <?php
+
 /**
  * See LICENSE.md for license details.
  */
+
 declare(strict_types=1);
 
 namespace Dhl\Paket\Model\Pipeline\CreateShipments\ShipmentRequest;
@@ -9,19 +11,21 @@ namespace Dhl\Paket\Model\Pipeline\CreateShipments\ShipmentRequest;
 use Dhl\Paket\Model\Config\ModuleConfig;
 use Dhl\Paket\Model\Pipeline\CreateShipments\ShipmentRequest\Data\PackageAdditionalFactory;
 use Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes;
-use Dhl\Paket\Util\ShippingProducts;
+use Dhl\Paket\Model\Util\ShippingProducts;
 use Dhl\Sdk\UnifiedLocationFinder\Api\Data\LocationInterface;
-use Dhl\ShippingCore\Api\Data\Pipeline\ShipmentRequest\PackageInterface;
-use Dhl\ShippingCore\Api\Data\Pipeline\ShipmentRequest\PackageInterfaceFactory;
-use Dhl\ShippingCore\Api\Data\Pipeline\ShipmentRequest\PackageItemInterface;
-use Dhl\ShippingCore\Api\Data\Pipeline\ShipmentRequest\RecipientInterface;
-use Dhl\ShippingCore\Api\Data\Pipeline\ShipmentRequest\ShipperInterface;
-use Dhl\ShippingCore\Api\Pipeline\ShipmentRequest\RequestExtractorInterface;
-use Dhl\ShippingCore\Api\Pipeline\ShipmentRequest\RequestExtractorInterfaceFactory;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Sales\Model\Order;
 use Magento\Sales\Model\Order\Shipment;
 use Magento\Shipping\Model\Shipment\Request;
+use Netresearch\ShippingCore\Api\Data\Pipeline\ShipmentRequest\PackageInterface;
+use Netresearch\ShippingCore\Api\Data\Pipeline\ShipmentRequest\PackageInterfaceFactory;
+use Netresearch\ShippingCore\Api\Data\Pipeline\ShipmentRequest\RecipientInterface;
+use Netresearch\ShippingCore\Api\Data\Pipeline\ShipmentRequest\ShipperInterface;
+use Netresearch\ShippingCore\Api\Data\Pipeline\ShipmentRequest\ShipperInterfaceFactory;
+use Netresearch\ShippingCore\Api\Pipeline\ShipmentRequest\RequestExtractor\ServiceOptionReaderInterface;
+use Netresearch\ShippingCore\Api\Pipeline\ShipmentRequest\RequestExtractor\ServiceOptionReaderInterfaceFactory;
+use Netresearch\ShippingCore\Api\Pipeline\ShipmentRequest\RequestExtractorInterface;
+use Netresearch\ShippingCore\Api\Pipeline\ShipmentRequest\RequestExtractorInterfaceFactory;
 use Zend\Hydrator\Reflection;
 
 /**
@@ -34,9 +38,24 @@ use Zend\Hydrator\Reflection;
 class RequestExtractor implements RequestExtractorInterface
 {
     /**
+     * @var Request
+     */
+    private $shipmentRequest;
+
+    /**
      * @var RequestExtractorInterfaceFactory
      */
     private $requestExtractorFactory;
+
+    /**
+     * @var ServiceOptionReaderInterfaceFactory
+     */
+    private $serviceOptionReaderFactory;
+
+    /**
+     * @var ShipperInterfaceFactory
+     */
+    private $shipperFactory;
 
     /**
      * @var PackageAdditionalFactory
@@ -47,11 +66,6 @@ class RequestExtractor implements RequestExtractorInterface
      * @var PackageInterfaceFactory
      */
     private $packageFactory;
-
-    /**
-     * @var Request
-     */
-    private $shipmentRequest;
 
     /**
      * @var ModuleConfig
@@ -74,29 +88,32 @@ class RequestExtractor implements RequestExtractorInterface
     private $coreExtractor;
 
     /**
-     * RequestExtractor constructor.
-     *
-     * @param RequestExtractorInterfaceFactory $requestExtractorFactory
-     * @param PackageAdditionalFactory $packageAdditionalFactory
-     * @param PackageInterfaceFactory $packageFactory
-     * @param Request $shipmentRequest
-     * @param ModuleConfig $moduleConfig
-     * @param ShippingProducts $shippingProducts
-     * @param Reflection $hydrator
+     * @var ServiceOptionReaderInterface
      */
+    private $serviceOptionReader;
+
+    /**
+     * @var ShipperInterface
+     */
+    private $returnRecipient;
+
     public function __construct(
+        Request $shipmentRequest,
         RequestExtractorInterfaceFactory $requestExtractorFactory,
+        ServiceOptionReaderInterfaceFactory $serviceOptionReaderFactory,
+        ShipperInterfaceFactory $shipperFactory,
         PackageAdditionalFactory $packageAdditionalFactory,
         PackageInterfaceFactory $packageFactory,
-        Request $shipmentRequest,
         ModuleConfig $moduleConfig,
         ShippingProducts $shippingProducts,
         Reflection $hydrator
     ) {
+        $this->shipmentRequest = $shipmentRequest;
         $this->requestExtractorFactory = $requestExtractorFactory;
+        $this->serviceOptionReaderFactory = $serviceOptionReaderFactory;
+        $this->shipperFactory = $shipperFactory;
         $this->packageAdditionalFactory = $packageAdditionalFactory;
         $this->packageFactory = $packageFactory;
-        $this->shipmentRequest = $shipmentRequest;
         $this->moduleConfig = $moduleConfig;
         $this->shippingProducts = $shippingProducts;
         $this->hydrator = $hydrator;
@@ -119,79 +136,94 @@ class RequestExtractor implements RequestExtractorInterface
     }
 
     /**
-     * @inheritdoc
+     * Obtain service option reader to read carrier specific service data.
+     *
+     * @return ServiceOptionReaderInterface
      */
+    private function getServiceOptionReader(): ServiceOptionReaderInterface
+    {
+        if (empty($this->serviceOptionReader)) {
+            $this->serviceOptionReader = $this->serviceOptionReaderFactory->create(
+                ['shipmentRequest' => $this->shipmentRequest]
+            );
+        }
+
+        return $this->serviceOptionReader;
+    }
+
     public function isReturnShipmentRequest(): bool
     {
         return $this->getCoreExtractor()->isReturnShipmentRequest();
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getStoreId(): int
     {
         return $this->getCoreExtractor()->getStoreId();
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getBaseCurrencyCode(): string
     {
         return $this->getCoreExtractor()->getBaseCurrencyCode();
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getOrder(): Order
     {
         return $this->getCoreExtractor()->getOrder();
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getShipment(): Shipment
     {
         return $this->getCoreExtractor()->getShipment();
     }
 
-    /**
-     * Extract shipper from shipment request.
-     *
-     * @return ShipperInterface
-     */
     public function getShipper(): ShipperInterface
     {
         return $this->getCoreExtractor()->getShipper();
     }
 
-    /**
-     * Extract recipient from shipment request.
-     *
-     * @return RecipientInterface
-     */
+    public function getReturnRecipient(): ShipperInterface
+    {
+        if (!empty($this->returnRecipient)) {
+            return $this->returnRecipient;
+        }
+
+        $returnAddress = $this->moduleConfig->getReturnAddress($this->getStoreId());
+        if (empty($returnAddress)) {
+            $this->returnRecipient = $this->getCoreExtractor()->getReturnRecipient();
+        } else {
+            $this->returnRecipient = $this->shipperFactory->create(
+                [
+                    'contactPersonName' => '',
+                    'contactPersonFirstName' => '',
+                    'contactPersonLastName' => '',
+                    'contactCompanyName' => $returnAddress['company'],
+                    'contactEmail' => '',
+                    'contactPhoneNumber' => '',
+                    'street' => [$returnAddress['street_name'] . ' ' . $returnAddress['street_number']],
+                    'city' => $returnAddress['city'],
+                    'state' => '',
+                    'postalCode' => $returnAddress['postcode'],
+                    'countryCode' => $returnAddress['country_id'],
+                    'streetName' => $returnAddress['street_name'],
+                    'streetNumber' => $returnAddress['street_number'],
+                    'addressAddition' => '',
+                ]
+            );
+        }
+
+        return $this->returnRecipient;
+    }
+
     public function getRecipient(): RecipientInterface
     {
         return $this->getCoreExtractor()->getRecipient();
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getPackageWeight(): float
     {
         return $this->getCoreExtractor()->getPackageWeight();
     }
 
-    /**
-     * Extract packages from shipment request.
-     *
-     * @return PackageInterface[]
-     * @throws LocalizedException
-     */
     public function getPackages(): array
     {
         $packages = $this->getCoreExtractor()->getPackages();
@@ -206,7 +238,8 @@ class RequestExtractor implements RequestExtractorInterface
             $customsParams = $packageParams['customs'] ?? [];
 
             // add paket-specific export data to package data
-            $additionalData['additionalFee'] = (float) ($customsParams['additionalFee'] ?? '');
+            $additionalData['termsOfTrade'] = $customsParams['termsOfTrade'] ?? '';
+            $additionalData['customsFees'] = (float)($customsParams['customsFees'] ?? '');
             $additionalData['placeOfCommittal'] = $customsParams['placeOfCommittal'] ?? '';
             $additionalData['permitNumber'] = $customsParams['permitNumber'] ?? '';
             $additionalData['attestationNumber'] = $customsParams['attestationNumber'] ?? '';
@@ -228,24 +261,64 @@ class RequestExtractor implements RequestExtractorInterface
         return $paketPackages;
     }
 
-    /**
-     * Obtain all items from all packages.
-     *
-     * @return PackageItemInterface[]
-     */
     public function getAllItems(): array
     {
         return $this->getCoreExtractor()->getAllItems();
     }
 
-    /**
-     * Obtain all items for the current package.
-     *
-     * @return PackageItemInterface[]
-     */
     public function getPackageItems(): array
     {
         return $this->getCoreExtractor()->getPackageItems();
+    }
+
+    public function isCashOnDelivery(): bool
+    {
+        return $this->coreExtractor->isCashOnDelivery();
+    }
+
+    public function getCodReasonForPayment(): string
+    {
+        return $this->coreExtractor->getCodReasonForPayment();
+    }
+
+    public function isPickupLocationDelivery(): bool
+    {
+        return $this->getCoreExtractor()->isPickupLocationDelivery();
+    }
+
+    public function getDeliveryLocationType(): string
+    {
+        return $this->coreExtractor->getDeliveryLocationType();
+    }
+
+    public function getDeliveryLocationId(): string
+    {
+        return $this->coreExtractor->getDeliveryLocationId();
+    }
+
+    public function getDeliveryLocationNumber(): string
+    {
+        return $this->coreExtractor->getDeliveryLocationNumber();
+    }
+
+    public function getDeliveryLocationCountryCode(): string
+    {
+        return $this->coreExtractor->getDeliveryLocationCountryCode();
+    }
+
+    public function getDeliveryLocationPostalCode(): string
+    {
+        return $this->coreExtractor->getDeliveryLocationPostalCode();
+    }
+
+    public function getDeliveryLocationCity(): string
+    {
+        return $this->coreExtractor->getDeliveryLocationCity();
+    }
+
+    public function getDeliveryLocationStreet(): string
+    {
+        return $this->coreExtractor->getDeliveryLocationStreet();
     }
 
     /**
@@ -302,28 +375,12 @@ class RequestExtractor implements RequestExtractorInterface
         }
     }
 
-    /**
-     * Obtain shipment date.
-     *
-     * @return \DateTime
-     * @throws \RuntimeException
-     */
-    public function getShipmentDate(): \DateTime
+    public function getCustomerAccountNumber(): string
     {
-        return $this->getCoreExtractor()->getShipmentDate();
-    }
-
-    /**
-     * Obtain the service data array.
-     *
-     * @param string $serviceName
-     * @return string[]
-     */
-    private function getServiceData(string $serviceName): array
-    {
-        $packages = $this->shipmentRequest->getData('packages');
-        $packageId = $this->shipmentRequest->getData('package_id');
-        return $packages[$packageId]['params']['services'][$serviceName] ?? [];
+        return (string) $this->getServiceOptionReader()->getServiceOptionValue(
+            \Netresearch\ShippingCore\Model\ShippingSettings\ShippingOption\Codes::SERVICE_OPTION_DELIVERY_LOCATION,
+            Codes::SERVICE_INPUT_DELIVERY_LOCATION_ACCOUNT_NUMBER
+        );
     }
 
     /**
@@ -341,13 +398,14 @@ class RequestExtractor implements RequestExtractorInterface
             return true;
         }
 
-        $pickupLocationData = $this->getServiceData(Codes::CHECKOUT_SERVICE_PARCELSHOP_FINDER);
-        if (!empty($pickupLocationData['enabled'])
-            && ($pickupLocationData['locationType'] === LocationInterface::TYPE_POSTOFFICE)
-            && empty($pickupLocationData[Codes::CHECKOUT_INPUT_CUSTOMER_POSTNUMBER])
-        ) {
-            // Postfiliale delivery with no post number requires email address
-            return true;
+        if ($this->isPickupLocationDelivery()) {
+            $postNumber = $this->getCustomerAccountNumber();
+            $locationType = $this->getDeliveryLocationType();
+
+            if (empty($postNumber) && ($locationType === LocationInterface::TYPE_POSTOFFICE)) {
+                // Postfiliale delivery with no post number requires email address
+                return true;
+            }
         }
 
         return false;
@@ -360,17 +418,7 @@ class RequestExtractor implements RequestExtractorInterface
      */
     public function isRecipientPhoneRequired(): bool
     {
-        return $this->moduleConfig->isContactDataPrintingEnabled($this->getStoreId());
-    }
-
-    /**
-     * Check if "cash on delivery" was chosen for the current shipment request.
-     *
-     * @return bool
-     */
-    public function isCashOnDelivery(): bool
-    {
-        return (bool) ($this->getServiceData(Codes::CHECKOUT_SERVICE_CASH_ON_DELIVERY)['enabled'] ?? false);
+        return $this->moduleConfig->isContactPrintingEnabled($this->getCoreExtractor()->getStoreId());
     }
 
     /**
@@ -380,7 +428,7 @@ class RequestExtractor implements RequestExtractorInterface
      */
     public function isBulkyGoods(): bool
     {
-        return (bool) ($this->getServiceData(Codes::PACKAGING_SERVICE_BULKY_GOODS)['enabled'] ?? false);
+        return $this->getServiceOptionReader()->isServiceEnabled(Codes::SERVICE_OPTION_BULKY_GOODS);
     }
 
     /**
@@ -390,7 +438,7 @@ class RequestExtractor implements RequestExtractorInterface
      */
     public function isAdditionalInsurance(): bool
     {
-        return (bool) ($this->getServiceData(Codes::PACKAGING_SERVICE_INSURANCE)['enabled'] ?? false);
+        return $this->getServiceOptionReader()->isServiceEnabled(Codes::SERVICE_OPTION_INSURANCE);
     }
 
     /**
@@ -400,7 +448,7 @@ class RequestExtractor implements RequestExtractorInterface
      */
     public function hasPreferredDay(): bool
     {
-        return (bool) ($this->getServiceData(Codes::CHECKOUT_SERVICE_PREFERRED_DAY)['enabled'] ?? false);
+        return $this->getServiceOptionReader()->isServiceEnabled(Codes::SERVICE_OPTION_PREFERRED_DAY);
     }
 
     /**
@@ -410,7 +458,10 @@ class RequestExtractor implements RequestExtractorInterface
      */
     public function getPreferredDay(): string
     {
-        return $this->getServiceData(Codes::CHECKOUT_SERVICE_PREFERRED_DAY)['date'] ?? '';
+        return (string)$this->getServiceOptionReader()->getServiceOptionValue(
+            Codes::SERVICE_OPTION_PREFERRED_DAY,
+            'date'
+        );
     }
 
     /**
@@ -420,8 +471,7 @@ class RequestExtractor implements RequestExtractorInterface
      */
     public function hasNeighborDelivery(): bool
     {
-        $serviceData = $this->getServiceData(Codes::CHECKOUT_SERVICE_NEIGHBOR_DELIVERY);
-        return (bool) ($serviceData['enabled'] ?? false);
+        return $this->getServiceOptionReader()->isServiceEnabled(Codes::SERVICE_OPTION_NEIGHBOR_DELIVERY);
     }
 
     /**
@@ -431,8 +481,14 @@ class RequestExtractor implements RequestExtractorInterface
      */
     public function getNeighborDetails(): string
     {
-        $name = $this->getServiceData(Codes::CHECKOUT_SERVICE_NEIGHBOR_DELIVERY)['name'] ?? '';
-        $address = $this->getServiceData(Codes::CHECKOUT_SERVICE_NEIGHBOR_DELIVERY)['address'] ?? '';
+        $name = (string)$this->getServiceOptionReader()->getServiceOptionValue(
+            Codes::SERVICE_OPTION_NEIGHBOR_DELIVERY,
+            'name'
+        );
+        $address = (string)$this->getServiceOptionReader()->getServiceOptionValue(
+            Codes::SERVICE_OPTION_NEIGHBOR_DELIVERY,
+            'address'
+        );
 
         return trim("$name $address");
     }
@@ -444,8 +500,7 @@ class RequestExtractor implements RequestExtractorInterface
      */
     public function hasDropOffLocation(): bool
     {
-        $serviceData = $this->getServiceData(Codes::CHECKOUT_SERVICE_DROPOFF_DELIVERY);
-        return (bool) ($serviceData['enabled'] ?? false);
+        return $this->getServiceOptionReader()->isServiceEnabled(Codes::SERVICE_OPTION_DROPOFF_DELIVERY);
     }
 
     /**
@@ -455,7 +510,10 @@ class RequestExtractor implements RequestExtractorInterface
      */
     public function getDropOffLocation(): string
     {
-        return $this->getServiceData(Codes::CHECKOUT_SERVICE_DROPOFF_DELIVERY)['details'] ?? '';
+        return (string)$this->getServiceOptionReader()->getServiceOptionValue(
+            Codes::SERVICE_OPTION_DROPOFF_DELIVERY,
+            'details'
+        );
     }
 
     /**
@@ -465,17 +523,7 @@ class RequestExtractor implements RequestExtractorInterface
      */
     public function isPrintOnlyIfCodeable(): bool
     {
-        return (bool) ($this->getServiceData(Codes::PACKAGING_PRINT_ONLY_IF_CODEABLE)['enabled'] ?? false);
-    }
-
-    /**
-     * Obtain the "visualCheckOfAge" flag for the current package.
-     *
-     * @return bool
-     */
-    public function isVisualCheckOfAge(): bool
-    {
-        return (bool) ($this->getServiceData(Codes::PACKAGING_SERVICE_CHECK_OF_AGE)['enabled'] ?? false);
+        return $this->getServiceOptionReader()->isServiceEnabled(Codes::SERVICE_OPTION_PRINT_ONLY_IF_CODEABLE);
     }
 
     /**
@@ -485,7 +533,10 @@ class RequestExtractor implements RequestExtractorInterface
      */
     public function getVisualCheckOfAge(): string
     {
-        return $this->getServiceData(Codes::PACKAGING_SERVICE_CHECK_OF_AGE)['enabled'];
+        return $this->getServiceOptionReader()->getServiceOptionValue(
+            Codes::SERVICE_OPTION_CHECK_OF_AGE,
+            'details'
+        );
     }
 
     /**
@@ -495,7 +546,7 @@ class RequestExtractor implements RequestExtractorInterface
      */
     public function isParcelAnnouncement(): bool
     {
-        return (bool) ($this->getServiceData(Codes::CHECKOUT_PARCEL_ANNOUNCEMENT)['enabled'] ?? false);
+        return $this->getServiceOptionReader()->isServiceEnabled(Codes::SERVICE_OPTION_PARCEL_ANNOUNCEMENT);
     }
 
     /**
@@ -505,29 +556,7 @@ class RequestExtractor implements RequestExtractorInterface
      */
     public function isReturnShipment(): bool
     {
-        $serviceData = $this->getServiceData(Codes::PACKAGING_SERVICE_RETURN_SHIPMENT);
-        return (bool) ($serviceData['enabled'] ?? false);
-    }
-
-    /**
-     * Obtain the "parcelshopFinder" flag for the current package.
-     *
-     * @return bool
-     */
-    public function isPickupLocationDelivery(): bool
-    {
-        $serviceData = $this->getServiceData(Codes::CHECKOUT_SERVICE_PARCELSHOP_FINDER);
-        return (bool) ($serviceData['enabled'] ?? false);
-    }
-
-    /**
-     * Obtain the id value of "parcelshopFinder" value for the current package.
-     *
-     * @return string[]
-     */
-    public function getPickupLocationDetails(): array
-    {
-        return $this->getServiceData(Codes::CHECKOUT_SERVICE_PARCELSHOP_FINDER) ?? [];
+        return $this->getServiceOptionReader()->isServiceEnabled(Codes::SERVICE_OPTION_RETURN_SHIPMENT);
     }
 
     /**
@@ -537,33 +566,15 @@ class RequestExtractor implements RequestExtractorInterface
      */
     public function getParcelOutletRoutingEmail(): string
     {
-        $serviceData = $this->getServiceData(Codes::PACKAGING_SERVICE_PARCEL_OUTLET_ROUTING);
-        if (empty($serviceData['enabled'])) {
+        if (!$this->getServiceOptionReader()->isServiceEnabled(Codes::SERVICE_OPTION_PARCEL_OUTLET_ROUTING)) {
             return '';
         }
 
-        $email = $serviceData[Codes::PACKAGING_INPUT_PARCEL_OUTLET_ROUTING_NOTIFICATION_EMAIL] ?? '';
+        $email = $this->getServiceOptionReader()->getServiceOptionValue(
+            Codes::SERVICE_OPTION_PARCEL_OUTLET_ROUTING,
+            Codes::SERVICE_INPUT_PARCEL_OUTLET_ROUTING_NOTIFICATION_EMAIL
+        );
+
         return $email ?: $this->getRecipient()->getContactEmail();
-    }
-
-    /**
-     * Obtain the "reasonForPayment" value for the current package.
-     *
-     * @return string[] Array of maximum two lines.
-     */
-    public function getCodReasonForPayment(): array
-    {
-        $reasonForPayment = $this->getServiceData(Codes::CHECKOUT_SERVICE_CASH_ON_DELIVERY)['reasonForPayment'] ?? '';
-
-        // try splitting the string between words first
-        $lines = explode("\n", wordwrap($reasonForPayment, 35));
-        if (count($lines) < 3) {
-            return $lines;
-        }
-
-        // if that did not succeed, split hard
-        $lines = str_split($reasonForPayment, 35);
-        array_splice($lines, 2);
-        return $lines;
     }
 }

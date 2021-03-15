@@ -1,20 +1,23 @@
 <?php
+
 /**
  * See LICENSE.md for license details.
  */
+
 declare(strict_types=1);
 
 namespace Dhl\Paket\Model\DeliveryLocation;
 
 use Dhl\Paket\Model\Carrier\Paket;
-use Dhl\Paket\Model\Webservice\LocationFinderService;
+use Dhl\Paket\Model\Webservice\LocationFinderServiceFactory;
 use Dhl\Sdk\UnifiedLocationFinder\Api\Data\LocationInterface as ApiLocation;
+use Dhl\Sdk\UnifiedLocationFinder\Api\LocationFinderServiceInterface;
 use Dhl\Sdk\UnifiedLocationFinder\Exception\ServiceException;
-use Dhl\ShippingCore\Api\Data\DeliveryLocation\AddressInterface;
-use Dhl\ShippingCore\Api\Data\DeliveryLocation\LocationInterface;
-use Dhl\ShippingCore\Api\DeliveryLocation\LocationProviderInterface;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Exception\NoSuchEntityException;
+use Netresearch\ShippingCore\Api\Data\DeliveryLocation\AddressInterface;
+use Netresearch\ShippingCore\Api\Data\DeliveryLocation\LocationInterface;
+use Netresearch\ShippingCore\Api\DeliveryLocation\LocationProviderInterface;
 
 /**
  * Handles communication with LocationFinder SDK and transforms results into internal format.
@@ -22,26 +25,20 @@ use Magento\Framework\Exception\NoSuchEntityException;
 class LocationProvider implements LocationProviderInterface
 {
     /**
-     * @var LocationFinderService
+     * @var LocationFinderServiceFactory
      */
-    private $locationFinderService;
+    private $locationFinderServiceFactory;
 
     /**
      * @var LocationMapper
      */
     private $locationMapper;
 
-    /**
-     * LocationProvider constructor.
-     *
-     * @param LocationFinderService $locationFinderService
-     * @param LocationMapper $locationMapper
-     */
     public function __construct(
-        LocationFinderService $locationFinderService,
+        LocationFinderServiceFactory $locationFinderServiceFactory,
         LocationMapper $locationMapper
     ) {
-        $this->locationFinderService = $locationFinderService;
+        $this->locationFinderServiceFactory = $locationFinderServiceFactory;
         $this->locationMapper = $locationMapper;
     }
 
@@ -59,11 +56,15 @@ class LocationProvider implements LocationProviderInterface
     public function getLocationsByAddress(AddressInterface $address): array
     {
         try {
-            $locations = $this->locationFinderService->getPickUpLocations(
+            $service = $this->locationFinderServiceFactory->create();
+            $locations = $service->getPickUpLocations(
                 $address->getCountryCode(),
                 $address->getPostalCode(),
                 $address->getCity(),
-                $address->getStreet()
+                $address->getStreet(),
+                LocationFinderServiceInterface::SERVICE_PARCEL,
+                15000,
+                50
             );
         } catch (ServiceException $exception) {
             throw new NoSuchEntityException(

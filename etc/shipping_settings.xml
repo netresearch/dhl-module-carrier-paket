@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
-<carriers xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Dhl_ShippingCore/etc/shipping_settings.xsd">
+<carriers xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Netresearch_ShippingCore/etc/shipping_settings.xsd">
     <carrier code="dhlpaket">
         <serviceOptions>
-            <shippingOption code="Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::CHECKOUT_PARCEL_ANNOUNCEMENT" available="dhlshippingsolutions/dhlpaket/additional_services/services_group/parcelannouncement">
+            <shippingOption code="Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::SERVICE_OPTION_PARCEL_ANNOUNCEMENT" available="dhlshippingsolutions/dhlpaket/additional_services/parcelannouncement">
                 <label translate="true">Parcel Announcement</label>
                 <sortOrder>10</sortOrder>
                 <inputs>
@@ -13,7 +13,7 @@
                     </input>
                 </inputs>
             </shippingOption>
-            <shippingOption code="Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::CHECKOUT_SERVICE_PARCELSHOP_FINDER" available="dhlshippingsolutions/dhlpaket/additional_services/services_group/parcelshopFinder">
+            <shippingOption code="Netresearch\ShippingCore\Model\ShippingSettings\ShippingOption\Codes::SERVICE_OPTION_DELIVERY_LOCATION" available="dhlshippingsolutions/dhlpaket/additional_services/deliverylocation">
                 <label translate="true">Parcel Station Delivery</label>
                 <routes>
                     <route>
@@ -24,13 +24,13 @@
                 </routes>
                 <inputs>
                     <input code="enabled">
-                        <inputType>shopfinder</inputType>
+                        <inputType>locationfinder</inputType>
                         <sortOrder>10</sortOrder>
                         <label translate="true">Find Parcel Station</label>
                         <labelVisible>false</labelVisible>
                         <tooltip translate="true">Adjust your parcel delivery flexibly to your schedule. Receive your packages while on the go at one of over 28,000 pickup locations in Germany - at a DHL parcel station or post office. Wherever it best suits your needs.</tooltip>
                     </input>
-                    <input code="Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::CHECKOUT_INPUT_CUSTOMER_POSTNUMBER">
+                    <input code="Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::SERVICE_INPUT_DELIVERY_LOCATION_ACCOUNT_NUMBER">
                         <sortOrder>20</sortOrder>
                         <label translate="true">DHL Post Number</label>
                         <tooltip translate="true">The post number is your personal identification code that you receive with your registration at DHL.</tooltip>
@@ -48,7 +48,7 @@
                     </input>
                 </inputs>
             </shippingOption>
-            <shippingOption code="Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::CHECKOUT_SERVICE_PREFERRED_DAY" available="dhlshippingsolutions/dhlpaket/additional_services/services_group/preferredday">
+            <shippingOption code="Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::SERVICE_OPTION_PREFERRED_DAY" available="dhlshippingsolutions/dhlpaket/additional_services/preferredday">
                 <label translate="true">Delivery Day: Delivery on your preferred day</label>
                 <sortOrder>30</sortOrder>
                 <routes>
@@ -72,7 +72,7 @@
                     </input>
                 </inputs>
             </shippingOption>
-            <shippingOption code="Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::CHECKOUT_SERVICE_DROPOFF_DELIVERY" available="dhlshippingsolutions/dhlpaket/additional_services/services_group/preferredlocation">
+            <shippingOption code="Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::SERVICE_OPTION_DROPOFF_DELIVERY" available="dhlshippingsolutions/dhlpaket/additional_services/preferredlocation">
                 <label translate="true">Drop-off Location: Delivery to your preferred drop-off location</label>
                 <sortOrder>50</sortOrder>
                 <routes>
@@ -97,13 +97,13 @@
                                 <param>40</param>
                             </rule>
                             <rule name="validate-no-html-tags"/>
-                            <rule name="dhl_filter_special_chars"/>
-                            <rule name="dhl_filter_packing_station"/>
+                            <rule name="nrshipping-validate-no-special-chars"/>
+                            <rule name="nrshipping-validate-no-pickup-address"/>
                         </validationRules>
                     </input>
                 </inputs>
             </shippingOption>
-            <shippingOption code="Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::CHECKOUT_SERVICE_NEIGHBOR_DELIVERY" available="dhlshippingsolutions/dhlpaket/additional_services/services_group/preferredneighbour">
+            <shippingOption code="Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::SERVICE_OPTION_NEIGHBOR_DELIVERY" available="dhlshippingsolutions/dhlpaket/additional_services/preferredneighbour">
                 <label translate="true">Preferred Neighbor: Delivery to a neighbor of your choice</label>
                 <sortOrder>60</sortOrder>
                 <routes>
@@ -127,8 +127,8 @@
                                 <param>40</param>
                             </rule>
                             <rule name="validate-no-html-tags"/>
-                            <rule name="dhl_filter_special_chars"/>
-                            <rule name="dhl_filter_packing_station"/>
+                            <rule name="nrshipping-validate-no-special-chars"/>
+                            <rule name="nrshipping-validate-no-pickup-address"/>
                         </validationRules>
                     </input>
                     <input code="address">
@@ -141,13 +141,14 @@
                                 <param>40</param>
                             </rule>
                             <rule name="validate-no-html-tags"/>
-                            <rule name="dhl_filter_special_chars"/>
+                            <rule name="nrshipping-validate-no-special-chars"/>
                         </validationRules>
                     </input>
                 </inputs>
             </shippingOption>
         </serviceOptions>
         <metadata>
+            <color>#fc0</color>
             <title translate="true">DHL Preferred Delivery. Delivered just the way you want.</title>
             <commentsBefore>
                 <comment>

@@ -19,7 +19,7 @@
         <field id="sallowspecific" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="20"
                translate="label" type="Netresearch\ConfigFields\Model\Type\Radioset">
             <label>Applicable Countries</label>
-            <source_model>Dhl\ShippingCore\Model\Config\Source\CustomizeApplicableCountries</source_model>
+            <source_model>Netresearch\ShippingCore\Model\Config\Source\CustomizeApplicableCountries</source_model>
             <config_path>carriers/dhlpaket/sallowspecific</config_path>
             <!-- frontend_class "shipping-applicable-country" intentionally omitted. -->
         </field>
@@ -32,16 +32,26 @@
             </depends>
             <source_model>Magento\Directory\Model\Config\Source\Country</source_model>
             <config_path>carriers/dhlpaket/specificcountry</config_path>
+            <backend_model>Netresearch\ShippingCore\Model\Config\Backend\AllowedCountries</backend_model>
+        </field>
+
+        <!-- Cut-off times -->
+        <field id="cut_off_times" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="40"
+               translate="label comment" type="select">
+            <label>Order Cut-off Times</label>
+            <frontend_model>Netresearch\ShippingCore\Block\Adminhtml\System\Config\Form\Field\CutOffTimes</frontend_model>
+            <backend_model>Netresearch\ShippingCore\Model\Config\Backend\ArraySerialized</backend_model>
+            <comment>All orders that are placed after the configured time are assumed to be handed over to DHL Paket on the next business day. All orders that are placed before that time are expected to be handed over to DHL Paket on the same day. Value is interpreted as in the timezone configured for the current website.</comment>
         </field>
 
         <!-- Logging -->
-        <field id="logging" showInDefault="1" showInWebsite="0" showInStore="0" sortOrder="40"
+        <field id="logging" showInDefault="1" showInWebsite="0" showInStore="0" sortOrder="50"
                translate="label comment button_label" type="Netresearch\ConfigFields\Model\Type\Checkbox">
             <label>Logging</label>
             <button_label>Record communication with the DHL web services.</button_label>
             <comment>You must also have Magento general logging enabled.</comment>
         </field>
-        <group id="logging_group" showInDefault="1" showInWebsite="0" showInStore="0" sortOrder="50"
+        <group id="logging_group" showInDefault="1" showInWebsite="0" showInStore="0" sortOrder="60"
                translate="label">
             <fieldset_css>simple</fieldset_css>
             <attribute type="expanded">1</attribute>

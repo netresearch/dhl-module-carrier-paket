@@ -18,6 +18,9 @@ use Magento\Sales\Model\Order;
 
 /**
  * Base test to build various shipment creation scenarios on.
+ *
+ * @method \Magento\Framework\App\Request\Http getRequest()
+ * @method \Magento\Framework\App\Response\Http getResponse()
  */
 abstract class SaveShipmentTest extends ControllerTest
 {
@@ -33,7 +36,7 @@ abstract class SaveShipmentTest extends ControllerTest
      *
      * @var string
      */
-    protected $uri = 'backend/dhl/order_shipment/save';
+    protected $uri = 'backend/nrshipping/order_shipment/save';
 
     /**
      * The order to create the shipment request for.

@@ -1,7 +1,9 @@
 <?php
+
 /**
  * See LICENSE.md for license details.
  */
+
 declare(strict_types=1);
 
 namespace Dhl\Paket\Model\Adminhtml\System\Config\Source;
@@ -10,8 +12,9 @@ use Magento\Framework\Data\OptionSourceInterface;
 
 class VisualCheckOfAge implements OptionSourceInterface
 {
-    const OPTION_A16 = 'A16';
-    const OPTION_A18 = 'A18';
+    public const OPTION_OFF = 'A00';
+    public const OPTION_A16 = 'A16';
+    public const OPTION_A18 = 'A18';
 
     /**
      * Return array of options as value-label pairs
@@ -22,7 +25,7 @@ class VisualCheckOfAge implements OptionSourceInterface
     {
         return [
             [
-                'value' => 0,
+                'value' => self::OPTION_OFF,
                 'label' => __('No')
             ],
             [

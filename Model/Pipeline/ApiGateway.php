@@ -1,22 +1,24 @@
 <?php
+
 /**
  * See LICENSE.md for license details.
  */
+
 declare(strict_types=1);
 
 namespace Dhl\Paket\Model\Pipeline;
 
 use Dhl\Paket\Model\Pipeline\CreateShipments\ArtifactsContainer as CreateArtifactsContainer;
 use Dhl\Paket\Model\Pipeline\DeleteShipments\ArtifactsContainer as DeleteArtifactsContainer;
-use Dhl\ShippingCore\Api\Data\Pipeline\ShipmentResponse\LabelResponseInterface;
-use Dhl\ShippingCore\Api\Data\Pipeline\ShipmentResponse\ShipmentErrorResponseInterface;
-use Dhl\ShippingCore\Api\Data\Pipeline\TrackRequest\TrackRequestInterface;
-use Dhl\ShippingCore\Api\Data\Pipeline\TrackResponse\TrackResponseInterface;
-use Dhl\ShippingCore\Api\Pipeline\CreateShipmentsPipelineInterface;
-use Dhl\ShippingCore\Api\Pipeline\RequestTracksPipelineInterface;
-use Dhl\ShippingCore\Api\Pipeline\ShipmentResponseProcessorInterface;
-use Dhl\ShippingCore\Api\Pipeline\TrackResponseProcessorInterface;
 use Magento\Shipping\Model\Shipment\Request;
+use Netresearch\ShippingCore\Api\Data\Pipeline\ShipmentResponse\LabelResponseInterface;
+use Netresearch\ShippingCore\Api\Data\Pipeline\ShipmentResponse\ShipmentErrorResponseInterface;
+use Netresearch\ShippingCore\Api\Data\Pipeline\TrackRequest\TrackRequestInterface;
+use Netresearch\ShippingCore\Api\Data\Pipeline\TrackResponse\TrackResponseInterface;
+use Netresearch\ShippingCore\Api\Pipeline\CreateShipmentsPipelineInterface;
+use Netresearch\ShippingCore\Api\Pipeline\RequestTracksPipelineInterface;
+use Netresearch\ShippingCore\Api\Pipeline\ShipmentResponseProcessorInterface;
+use Netresearch\ShippingCore\Api\Pipeline\TrackResponseProcessorInterface;
 
 /**
  * Magento carrier-aware wrapper around the DHL Paket API SDK.
@@ -48,15 +50,6 @@ class ApiGateway
      */
     private $storeId;
 
-    /**
-     * ApiGateway constructor.
-     *
-     * @param CreateShipmentsPipelineInterface $creationPipeline
-     * @param RequestTracksPipelineInterface $deletionPipeline
-     * @param ShipmentResponseProcessorInterface $createResponseProcessor
-     * @param TrackResponseProcessorInterface $deleteResponseProcessor
-     * @param int $storeId
-     */
     public function __construct(
         CreateShipmentsPipelineInterface $creationPipeline,
         RequestTracksPipelineInterface $deletionPipeline,

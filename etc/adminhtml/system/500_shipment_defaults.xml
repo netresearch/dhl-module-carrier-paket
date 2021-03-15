@@ -9,7 +9,7 @@
         <label>Shipment Defaults</label>
         <comment>These settings will be used for automatic shipping label creation. If a label cannot be created with your configured defaults, the order must be processed manually. Use the DHL Label Status Column in the Order list to identify those orders.</comment>
         <field id="print_only_if_codeable" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="10"
-               translate="label comment" type="Netresearch\ConfigFields\Model\Type\Checkbox">
+               translate="label comment" type="Netresearch\ConfigFields\Model\Type\Toggle">
             <label>Print Only If Codeable</label>
             <comment>If enabled, shipment orders will only return a label if the DHL delivery address verification succeeds.</comment>
         </field>
@@ -18,42 +18,38 @@
             <label>Print Receiver Contact Details</label>
             <comment>If enabled, the receiver phone number will be printed on the shipping label.</comment>
         </field>
-        <field id="shipping_products" translate="label comment tooltip" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="0">
+        <field id="shipping_products" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="30"
+               translate="label comment tooltip">
             <label>Shipping Products</label>
-            <frontend_model>Dhl\Paket\Block\Adminhtml\System\Config\Form\Field\DefaultProduct</frontend_model>
-            <backend_model>Dhl\Paket\Model\Adminhtml\System\Config\Backend\ArraySerialized</backend_model>
             <comment>Selected products will be pre-selected for automatic shipping label creation. You can still select another product when creating shipping labels manually.</comment>
+            <frontend_model>Dhl\Paket\Block\Adminhtml\System\Config\Form\Field\DefaultProduct</frontend_model>
+            <backend_model>Netresearch\ShippingCore\Model\Config\Backend\ArraySerialized</backend_model>
             <tooltip>Select "Merchandise Shipment" only if you ship all or most of your orders as Merchandise Shipments. Otherwise, choose "DHL Paket".</tooltip>
         </field>
-        <field id="drop_off_days" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="40"
-                translate="label comment" type="Netresearch\ConfigFields\Model\Type\Checkboxset">
-            <label>Days excluded from drop-off</label>
-            <comment>On the working days checked, there is no transfer of parcels to DHL (in addition to sundays and public holidays). This information influences the options offered as delivery day in checkout.</comment>
-            <source_model>Dhl\ShippingCore\Model\Config\Source\DropOffDays</source_model>
-            <backend_model>Dhl\ShippingCore\Model\Config\Backend\DropOffDays</backend_model>
-        </field>
-        <field id="customs_reference_numbers" translate="label comment" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="0">
-            <label>Customs Reference Numbers</label>
-            <comment>A sender's reference number can be configured per destination country. It is used by customs authorities to identify economics operators an/or other persons involved.</comment>
-            <frontend_model>Dhl\Paket\Block\Adminhtml\System\Config\Form\Field\CustomsReference</frontend_model>
-            <backend_model>Dhl\Paket\Model\Adminhtml\System\Config\Backend\ArraySerialized</backend_model>
-        </field>
-        <field id="place_of_committal" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="60"
-               translate="label comment" type="text">
-            <label>Place of Committal</label>
-            <comment>Specification for customs form.</comment>
-        </field>
-        <field id="electronic_export_notification" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="70"
-               translate="label comment" type="Netresearch\ConfigFields\Model\Type\Checkbox">
-            <label>Electronic Export Notification</label>
-            <comment>If enabled, DHL will automatically send a customs declaration electronically to the customs offices for dutiable shipments.</comment>
-        </field>
-        <field id="cod_reason_for_payment" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="80" translate="label comment">
-            <label>Cash on Delivery Reason for Payment</label>
-            <comment><![CDATA[The money transfer purpose for cash on delivery payments can include the following placeholders: {{entity_id}}, {{increment_id}}, {{firstname}}, {{lastname}}. They will be replaced by the respective order's values.]]></comment>
-        </field>
 
-        <group id="services_group" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="90"
+        <group id="customs" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="40"
+               translate="label">
+            <label>Customs Settings</label>
+            <field id="reference_numbers" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="10"
+                   translate="label comment">
+                <label>Customs Reference Numbers</label>
+                <comment>A sender's reference number can be configured per destination country. It is used by customs authorities to identify economics operators an/or other persons involved.</comment>
+                <frontend_model>Dhl\Paket\Block\Adminhtml\System\Config\Form\Field\CustomsReference</frontend_model>
+                <backend_model>Netresearch\ShippingCore\Model\Config\Backend\ArraySerialized</backend_model>
+            </field>
+            <field id="place_of_committal" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="20"
+                   translate="label comment">
+                <label>Place of Committal</label>
+                <comment>Specification for customs form.</comment>
+            </field>
+            <field id="electronic_export_notification" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="40"
+                   translate="label comment" type="Netresearch\ConfigFields\Model\Type\Checkbox">
+                <label>Electronic Export Notification</label>
+                <comment>If enabled, DHL will automatically send a customs declaration electronically to the customs offices for dutiable shipments.</comment>
+            </field>
+        </group>
+
+        <group id="services" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="50"
                translate="label comment">
             <comment>Here you can define default values for additional shipping services. Please note that selected options are only applied if they are valid for the given order. Incompatible services, e.g. domestic-only services for a cross-border order, will be omitted when booking a shipping label.</comment>
             <label>Additional Services</label>
@@ -64,31 +60,25 @@
                 <comment>If enabled, the visual age check service will be booked during shipment orders.</comment>
                 <source_model>Dhl\Paket\Model\Adminhtml\System\Config\Source\VisualCheckOfAge</source_model>
             </field>
-
-            <!-- Return Shipment -->
-            <field id="return_shipment" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="20"
-                   translate="label comment" type="Netresearch\ConfigFields\Model\Type\Checkbox">
-                <label>Use Return Shipment Service</label>
-                <comment>If enabled, a return shipment label will be requested from the webservice.</comment>
-            </field>
             <!-- Additional Insurance -->
-            <field id="additional_insurance" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="30"
+            <field id="additional_insurance" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="20"
                    translate="label comment" type="Netresearch\ConfigFields\Model\Type\Checkbox">
                 <label>Use Additional Insurance Service</label>
                 <comment>If enabled, shipments will be insured with higher than standard amount.</comment>
             </field>
             <!-- Bulky Goods -->
-            <field id="bulky_goods" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="40"
+            <field id="bulky_goods" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="30"
                    translate="label comment" type="Netresearch\ConfigFields\Model\Type\Checkbox">
                 <label>Use Bulky Goods Service</label>
                 <comment>If enabled, shipments will be marked as bulk freight.</comment>
             </field>
-            <field id="parcel_outlet" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="50"
+            <!-- Parcel Outlet Routing -->
+            <field id="parcel_outlet" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="40"
                    translate="label comment" type="Netresearch\ConfigFields\Model\Type\Checkbox">
                 <label>Use Retail Outlet Routing Service</label>
                 <comment>If enabled, your undeliverable packages will be held at the nearest parcel collection point for collection by the recipient rather than being returned immediately to you.</comment>
             </field>
-            <field id="parcel_outlet_notification_email" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="50"
+            <field id="parcel_outlet_notification_email" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="41"
                    translate="label comment tooltip" type="text">
                 <label>Alternative Email Address</label>
                 <validate>validate-email</validate>
@@ -98,6 +88,45 @@
                     <field id="parcel_outlet">1</field>
                 </depends>
             </field>
+            <!-- Return Shipment -->
+            <field id="return_shipment" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="50"
+                   translate="label comment" type="Netresearch\ConfigFields\Model\Type\Checkbox">
+                <label>Use Return Shipment Service</label>
+                <comment><![CDATA[If enabled, a return shipment label will be requested from the webservice. A return address other than the <em>Shipping Origin</em> can be configured below.]]></comment>
+            </field>
+            <group id="return_shipment_receiver" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="51"
+                   translate="label">
+                <label>Return Shipment Address</label>
+                <fieldset_css>simple</fieldset_css>
+                <attribute type="expanded">1</attribute>
+
+                <field id="company" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="10"
+                       translate="label" type="text">
+                    <label>Company</label>
+                </field>
+                <field id="country_id" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="11"
+                       translate="label" type="select">
+                    <label>Country</label>
+                    <frontend_class>countries</frontend_class>
+                    <source_model>Magento\Directory\Model\Config\Source\Country</source_model>
+                </field>
+                <field id="postcode" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="12"
+                       translate="label" type="text">
+                    <label>Postal Code</label>
+                </field>
+                <field id="city" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="13"
+                       translate="label" type="text">
+                    <label>City</label>
+                </field>
+                <field id="street_name" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="14"
+                       translate="label" type="text">
+                    <label>Street Name</label>
+                </field>
+                <field id="street_number" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="15"
+                       translate="label" type="text">
+                    <label>Street Number</label>
+                </field>
+            </group>
         </group>
     </group>
 </include>

@@ -1,25 +1,28 @@
 <?php
+
 /**
  * See LICENSE.md for license details.
  */
+
 declare(strict_types=1);
 
 namespace Dhl\Paket\Model\Carrier;
 
-use Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes;
-use Dhl\ShippingCore\Api\ConfigInterface;
-use Dhl\ShippingCore\Api\Data\ShippingSettings\ShippingOption\Selection\AssignedSelectionInterface;
-use Dhl\ShippingCore\Api\PaymentMethod\MethodAvailabilityInterface;
-use Dhl\ShippingCore\Api\ShippingSettings\CodSelectorInterface;
-use Dhl\ShippingCore\Model\ShippingSettings\ShippingOption\Selection\QuoteSelectionRepository;
+use Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes as ServiceCodes;
 use Magento\Framework\Api\FilterBuilder;
 use Magento\Framework\Api\Search\SearchCriteriaBuilderFactory;
 use Magento\Quote\Model\Quote;
+use Netresearch\ShippingCore\Api\Config\ShippingConfigInterface;
+use Netresearch\ShippingCore\Api\Data\ShippingSettings\ShippingOption\Selection\AssignedSelectionInterface;
+use Netresearch\ShippingCore\Api\PaymentMethod\MethodAvailabilityInterface;
+use Netresearch\ShippingCore\Api\ShippingSettings\CodSelectorInterface;
+use Netresearch\ShippingCore\Model\ShippingSettings\ShippingOption\Codes;
+use Netresearch\ShippingCore\Model\ShippingSettings\ShippingOption\Selection\QuoteSelectionRepository;
 
 class CodSupportHandler implements MethodAvailabilityInterface, CodSelectorInterface
 {
     /**
-     * @var ConfigInterface
+     * @var ShippingConfigInterface
      */
     private $config;
 
@@ -38,19 +41,11 @@ class CodSupportHandler implements MethodAvailabilityInterface, CodSelectorInter
      */
     private $searchCriteriaBuilderFactory;
 
-    /**
-     * CodSupportHandler constructor.
-     *
-     * @param SearchCriteriaBuilderFactory $searchCriteriaBuilderFactory
-     * @param FilterBuilder $filterBuilder
-     * @param QuoteSelectionRepository $quoteSelectionRepository
-     * @param ConfigInterface $config
-     */
     public function __construct(
         SearchCriteriaBuilderFactory $searchCriteriaBuilderFactory,
         FilterBuilder $filterBuilder,
         QuoteSelectionRepository $quoteSelectionRepository,
-        ConfigInterface $config
+        ShippingConfigInterface $config
     ) {
         $this->searchCriteriaBuilderFactory = $searchCriteriaBuilderFactory;
         $this->filterBuilder                = $filterBuilder;
@@ -95,9 +90,9 @@ class CodSupportHandler implements MethodAvailabilityInterface, CodSelectorInter
                 implode(
                     ',',
                     [
-                        Codes::CHECKOUT_SERVICE_DROPOFF_DELIVERY,
-                        Codes::CHECKOUT_SERVICE_NEIGHBOR_DELIVERY,
-                        Codes::CHECKOUT_SERVICE_PARCELSHOP_FINDER,
+                        ServiceCodes::SERVICE_OPTION_DROPOFF_DELIVERY,
+                        ServiceCodes::SERVICE_OPTION_NEIGHBOR_DELIVERY,
+                        Codes::SERVICE_OPTION_DELIVERY_LOCATION,
                     ]
                 )
             )
@@ -140,7 +135,7 @@ class CodSupportHandler implements MethodAvailabilityInterface, CodSelectorInter
      */
     public function assignCodSelection(AssignedSelectionInterface $selection)
     {
-        $selection->setShippingOptionCode(Codes::CHECKOUT_SERVICE_CASH_ON_DELIVERY);
+        $selection->setShippingOptionCode(Codes::SERVICE_OPTION_CASH_ON_DELIVERY);
         $selection->setInputCode('enabled');
         $selection->setInputValue((string) true);
     }

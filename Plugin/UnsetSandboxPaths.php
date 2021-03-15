@@ -1,7 +1,9 @@
 <?php
+
 /**
  * See LICENSE.md for license details.
  */
+
 declare(strict_types=1);
 
 namespace Dhl\Paket\Plugin;
@@ -26,7 +28,7 @@ class UnsetSandboxPaths
      * @param string[][][][][] $result
      * @return string[][][][][]
      */
-    public function afterGet(DumpConfigSourceAggregated $subject, $result)
+    public function afterGet(DumpConfigSourceAggregated $subject, array $result): array
     {
         unset($result['default']['dhlshippingsolutions']['dhlpaket']['account_settings']['sandbox_auth_username']);
         unset($result['default']['dhlshippingsolutions']['dhlpaket']['account_settings']['sandbox_auth_password']);

@@ -6,16 +6,11 @@ declare(strict_types=1);
 
 namespace Dhl\Paket\Test\Integration\TestCase\Util;
 
-use Dhl\Paket\Util\ShippingProducts;
-use Dhl\ShippingCore\Api\ConfigInterface;
+use Dhl\Paket\Model\Util\ShippingProducts;
 use Magento\TestFramework\Helper\Bootstrap;
+use Netresearch\ShippingCore\Api\Config\ShippingConfigInterface;
 use PHPUnit\Framework\TestCase;
 
-/**
- * Class ShippingProductsTest
- *
- * @link http://www.netresearch.de/
- */
 class ShippingProductsTest extends TestCase
 {
     /**
@@ -33,11 +28,8 @@ class ShippingProductsTest extends TestCase
      */
     public static function setUpBeforeClass(): void
     {
-        $objectManager = Bootstrap::getObjectManager();
-        $config        = $objectManager->get(ConfigInterface::class);
-
-        self::$shippingProducts = $objectManager->get(ShippingProducts::class);
-        self::$euCountries      = $config->getEuCountries();
+        self::$shippingProducts = Bootstrap::getObjectManager()->get(ShippingProducts::class);
+        self::$euCountries = Bootstrap::getObjectManager()->get(ShippingConfigInterface::class)->getEuCountries();
     }
 
     /**

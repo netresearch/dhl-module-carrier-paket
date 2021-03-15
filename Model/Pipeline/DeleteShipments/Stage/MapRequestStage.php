@@ -1,16 +1,18 @@
 <?php
+
 /**
  * See LICENSE.md for license details.
  */
+
 declare(strict_types=1);
 
 namespace Dhl\Paket\Model\Pipeline\DeleteShipments\Stage;
 
 use Dhl\Paket\Model\Pipeline\DeleteShipments\ArtifactsContainer;
 use Dhl\Paket\Model\Pipeline\DeleteShipments\RequestDataMapper;
-use Dhl\ShippingCore\Api\Data\Pipeline\ArtifactsContainerInterface;
-use Dhl\ShippingCore\Api\Data\Pipeline\TrackRequest\TrackRequestInterface;
-use Dhl\ShippingCore\Api\Pipeline\RequestTracksStageInterface;
+use Netresearch\ShippingCore\Api\Data\Pipeline\ArtifactsContainerInterface;
+use Netresearch\ShippingCore\Api\Data\Pipeline\TrackRequest\TrackRequestInterface;
+use Netresearch\ShippingCore\Api\Pipeline\RequestTracksStageInterface;
 
 class MapRequestStage implements RequestTracksStageInterface
 {
@@ -19,11 +21,6 @@ class MapRequestStage implements RequestTracksStageInterface
      */
     private $requestDataMapper;
 
-    /**
-     * MapRequestStage constructor.
-     *
-     * @param RequestDataMapper $requestDataMapper
-     */
     public function __construct(RequestDataMapper $requestDataMapper)
     {
         $this->requestDataMapper = $requestDataMapper;

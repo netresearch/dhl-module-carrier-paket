@@ -1,7 +1,9 @@
 <?php
+
 /**
  * See LICENSE.md for license details.
  */
+
 declare(strict_types=1);
 
 namespace Dhl\Paket\Model\Carrier;
@@ -9,11 +11,7 @@ namespace Dhl\Paket\Model\Carrier;
 use Dhl\Paket\Model\BulkShipment\ShipmentManagement;
 use Dhl\Paket\Model\Config\ModuleConfig;
 use Dhl\Paket\Model\Rate\RatesManagement;
-use Dhl\Paket\Util\ShippingProducts;
-use Dhl\ShippingCore\Api\Data\Pipeline\TrackRequest\TrackRequestInterfaceFactory;
-use Dhl\ShippingCore\Api\Data\Pipeline\TrackResponse\TrackErrorResponseInterface;
-use Dhl\ShippingCore\Api\Data\Pipeline\TrackResponse\TrackResponseInterface;
-use Dhl\ShippingCore\Model\Rate\Emulation\ProxyCarrierFactory;
+use Dhl\Paket\Model\Util\ShippingProducts;
 use Dhl\UnifiedTracking\Api\TrackingInfoProviderInterface;
 use Dhl\UnifiedTracking\Exception\TrackingException;
 use Magento\CatalogInventory\Api\StockRegistryInterface;
@@ -38,6 +36,10 @@ use Magento\Shipping\Model\Tracking\Result\ErrorFactory as TrackErrorFactory;
 use Magento\Shipping\Model\Tracking\Result\Status;
 use Magento\Shipping\Model\Tracking\Result\StatusFactory;
 use Magento\Shipping\Model\Tracking\ResultFactory as TrackResultFactory;
+use Netresearch\ShippingCore\Api\Data\Pipeline\TrackRequest\TrackRequestInterfaceFactory;
+use Netresearch\ShippingCore\Api\Data\Pipeline\TrackResponse\TrackErrorResponseInterface;
+use Netresearch\ShippingCore\Api\Data\Pipeline\TrackResponse\TrackResponseInterface;
+use Netresearch\ShippingCore\Model\Rate\Emulation\ProxyCarrierFactory;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -45,9 +47,9 @@ use Psr\Log\LoggerInterface;
  */
 class Paket extends AbstractCarrierOnline implements CarrierInterface
 {
-    const CARRIER_CODE = 'dhlpaket';
+    public const CARRIER_CODE = 'dhlpaket';
 
-    const TRACKING_URL_TEMPLATE = 'https://www.dhl.de/de/privatkunden/pakete-empfangen/verfolgen.html?lang=de&idc=%s';
+    public const TRACKING_URL_TEMPLATE = 'https://www.dhl.de/de/privatkunden/pakete-empfangen/verfolgen.html?lang=de&idc=%s';
 
     /**
      * @var string

@@ -1,16 +1,17 @@
 <?php
+
 /**
  * See LICENSE.md for license details.
  */
+
 declare(strict_types=1);
 
 namespace Dhl\Paket\Test\Integration\TestDouble\Pipeline\DeleteShipments\Stage;
 
 use Dhl\Paket\Model\Pipeline\DeleteShipments\ArtifactsContainer;
 use Dhl\Paket\Model\Pipeline\DeleteShipments\Stage\SendRequestStage;
-use Dhl\Sdk\Paket\Bcs\Api\Data\ShipmentInterface;
-use Dhl\ShippingCore\Api\Data\Pipeline\ArtifactsContainerInterface;
-use Dhl\ShippingCore\Api\Data\Pipeline\TrackRequest\TrackRequestInterface;
+use Netresearch\ShippingCore\Api\Data\Pipeline\ArtifactsContainerInterface;
+use Netresearch\ShippingCore\Api\Data\Pipeline\TrackRequest\TrackRequestInterface;
 
 class SendRequestStageStub extends SendRequestStage
 {

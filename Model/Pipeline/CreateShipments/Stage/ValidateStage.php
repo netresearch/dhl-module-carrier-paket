@@ -1,17 +1,19 @@
 <?php
+
 /**
  * See LICENSE.md for license details.
  */
+
 declare(strict_types=1);
 
 namespace Dhl\Paket\Model\Pipeline\CreateShipments\Stage;
 
 use Dhl\Paket\Model\Pipeline\CreateShipments\ArtifactsContainer;
-use Dhl\ShippingCore\Api\Data\Pipeline\ArtifactsContainerInterface;
-use Dhl\ShippingCore\Api\Pipeline\CreateShipmentsStageInterface;
-use Dhl\ShippingCore\Api\Pipeline\ShipmentRequest\RequestValidatorInterface;
 use Magento\Framework\Exception\ValidatorException;
 use Magento\Shipping\Model\Shipment\Request;
+use Netresearch\ShippingCore\Api\Data\Pipeline\ArtifactsContainerInterface;
+use Netresearch\ShippingCore\Api\Pipeline\CreateShipmentsStageInterface;
+use Netresearch\ShippingCore\Api\Pipeline\ShipmentRequest\RequestValidatorInterface;
 
 class ValidateStage implements CreateShipmentsStageInterface
 {
@@ -20,11 +22,6 @@ class ValidateStage implements CreateShipmentsStageInterface
      */
     private $requestValidator;
 
-    /**
-     * ValidateStage constructor.
-     *
-     * @param RequestValidatorInterface $requestValidator
-     */
     public function __construct(RequestValidatorInterface $requestValidator)
     {
         $this->requestValidator = $requestValidator;

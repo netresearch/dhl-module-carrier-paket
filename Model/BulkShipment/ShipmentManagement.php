@@ -1,27 +1,26 @@
 <?php
+
 /**
  * See LICENSE.md for license details.
  */
+
 declare(strict_types=1);
 
 namespace Dhl\Paket\Model\BulkShipment;
 
 use Dhl\Paket\Model\Pipeline\ApiGateway;
 use Dhl\Paket\Model\Pipeline\ApiGatewayFactory;
-use Dhl\ShippingCore\Api\BulkShipment\BulkLabelCancellationInterface;
-use Dhl\ShippingCore\Api\BulkShipment\BulkLabelCreationInterface;
-use Dhl\ShippingCore\Api\Data\Pipeline\ShipmentResponse\ShipmentResponseInterface;
-use Dhl\ShippingCore\Api\Data\Pipeline\TrackRequest\TrackRequestInterface;
-use Dhl\ShippingCore\Api\Data\Pipeline\TrackResponse\TrackResponseInterface;
-use Dhl\ShippingCore\Api\Pipeline\ShipmentResponseProcessorInterface;
-use Dhl\ShippingCore\Api\Pipeline\TrackResponseProcessorInterface;
 use Magento\Shipping\Model\Shipment\Request;
+use Netresearch\ShippingCore\Api\BulkShipment\BulkLabelCancellationInterface;
+use Netresearch\ShippingCore\Api\BulkShipment\BulkLabelCreationInterface;
+use Netresearch\ShippingCore\Api\Data\Pipeline\ShipmentResponse\ShipmentResponseInterface;
+use Netresearch\ShippingCore\Api\Data\Pipeline\TrackRequest\TrackRequestInterface;
+use Netresearch\ShippingCore\Api\Data\Pipeline\TrackResponse\TrackResponseInterface;
+use Netresearch\ShippingCore\Api\Pipeline\ShipmentResponseProcessorInterface;
+use Netresearch\ShippingCore\Api\Pipeline\TrackResponseProcessorInterface;
 
 /**
- * Class ShipmentManagement
- *
  * Central entrypoint for creating and deleting shipments.
- *
  */
 class ShipmentManagement implements BulkLabelCreationInterface, BulkLabelCancellationInterface
 {
@@ -45,13 +44,6 @@ class ShipmentManagement implements BulkLabelCreationInterface, BulkLabelCancell
      */
     private $apiGateways;
 
-    /**
-     * ShipmentManagement constructor.
-     *
-     * @param ApiGatewayFactory $apiGatewayFactory
-     * @param ShipmentResponseProcessorInterface $createResponseProcessor
-     * @param TrackResponseProcessorInterface $deleteResponseProcessor
-     */
     public function __construct(
         ApiGatewayFactory $apiGatewayFactory,
         ShipmentResponseProcessorInterface $createResponseProcessor,

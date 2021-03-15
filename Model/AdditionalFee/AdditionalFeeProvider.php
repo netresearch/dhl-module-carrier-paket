@@ -1,0 +1,33 @@
+<?php
+
+/**
+ * See LICENSE.md for license details.
+ */
+
+declare(strict_types=1);
+
+namespace Dhl\Paket\Model\AdditionalFee;
+
+use Dhl\Paket\Model\Config\ModuleConfig;
+use Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes;
+use Netresearch\ShippingCore\Api\AdditionalFee\AdditionalFeeProviderInterface;
+
+class AdditionalFeeProvider implements AdditionalFeeProviderInterface
+{
+    /**
+     * @var ModuleConfig
+     */
+    private $config;
+
+    public function __construct(ModuleConfig $config)
+    {
+        $this->config = $config;
+    }
+
+    public function getAmounts(int $storeId): array
+    {
+        $amounts = [Codes::SERVICE_OPTION_PREFERRED_DAY => $this->config->getPreferredDayAdditionalCharge($storeId)];
+
+        return array_filter($amounts);
+    }
+}

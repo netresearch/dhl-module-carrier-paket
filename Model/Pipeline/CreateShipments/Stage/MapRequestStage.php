@@ -1,17 +1,19 @@
 <?php
+
 /**
  * See LICENSE.md for license details.
  */
+
 declare(strict_types=1);
 
 namespace Dhl\Paket\Model\Pipeline\CreateShipments\Stage;
 
 use Dhl\Paket\Model\Pipeline\CreateShipments\ArtifactsContainer;
 use Dhl\Paket\Model\Pipeline\CreateShipments\RequestDataMapper;
-use Dhl\ShippingCore\Api\Data\Pipeline\ArtifactsContainerInterface;
-use Dhl\ShippingCore\Api\Pipeline\CreateShipmentsStageInterface;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Shipping\Model\Shipment\Request;
+use Netresearch\ShippingCore\Api\Data\Pipeline\ArtifactsContainerInterface;
+use Netresearch\ShippingCore\Api\Pipeline\CreateShipmentsStageInterface;
 
 class MapRequestStage implements CreateShipmentsStageInterface
 {
@@ -20,10 +22,6 @@ class MapRequestStage implements CreateShipmentsStageInterface
      */
     private $requestDataMapper;
 
-    /**
-     * MapRequestStage constructor.
-     * @param RequestDataMapper $requestDataMapper
-     */
     public function __construct(RequestDataMapper $requestDataMapper)
     {
         $this->requestDataMapper = $requestDataMapper;

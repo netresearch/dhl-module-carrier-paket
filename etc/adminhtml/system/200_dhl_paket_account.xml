@@ -49,7 +49,7 @@
                 <label>Participation Numbers</label>
                 <comment>The participation number enables invoices to be subdivided according to location, seasonal business or different conditions. The participation number consists of 2 alphanumeric characters. It is allocated by DHL Sales.</comment>
                 <frontend_model>Dhl\Paket\Block\Adminhtml\System\Config\Form\Field\Participation</frontend_model>
-                <backend_model>Dhl\Paket\Model\Adminhtml\System\Config\Backend\ArraySerialized</backend_model>
+                <backend_model>Netresearch\ShippingCore\Model\Config\Backend\ArraySerialized</backend_model>
             </field>
         </group>
     </group>

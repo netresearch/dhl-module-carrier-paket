@@ -15,6 +15,8 @@ use Magento\Framework\Exception\AuthenticationException;
 
 /**
  * Base controller test for the auto-create route.
+ *
+ * @method \Magento\Framework\App\Request\Http getRequest()
  */
 abstract class AutoCreateTest extends ControllerTest
 {
@@ -30,7 +32,7 @@ abstract class AutoCreateTest extends ControllerTest
      *
      * @var string
      */
-    protected $uri = 'backend/dhl/shipment/autocreate';
+    protected $uri = 'backend/nrshipping/shipment/autocreate';
 
     /**
      * The actual test to be implemented.
@@ -67,13 +69,14 @@ abstract class AutoCreateTest extends ControllerTest
      *
      * @magentoConfigFixture default_store catalog/price/scope 0
      * @magentoConfigFixture default_store currency/options/base EUR
-     * @magentoConfigFixture default_store dhlshippingsolutions/dhlglobalwebservices/bulk_settings/retry_failed_shipments 0
      *
      * @magentoConfigFixture current_store carriers/flatrate/type O
      * @magentoConfigFixture current_store carriers/flatrate/handling_type F
      * @magentoConfigFixture current_store carriers/flatrate/price 5.00
      * @magentoConfigFixture current_store carriers/dhlpaket/active 1
      * @magentoConfigFixture current_store dhlshippingsolutions/dhlpaket/checkout_settings/emulated_carrier flatrate
+     *
+     * @magentoConfigFixture default/shipping/batch_processing/shipping_label/retry_failed_shipments 0
      */
     public function testAclHasAccess()
     {

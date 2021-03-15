@@ -1,7 +1,9 @@
 <?php
+
 /**
  * See LICENSE.md for license details.
  */
+
 declare(strict_types=1);
 
 namespace Dhl\Paket\Model\Pipeline\CreateShipments\Stage;
@@ -11,9 +13,9 @@ use Dhl\Paket\Model\Webservice\ShipmentServiceFactory;
 use Dhl\Sdk\Paket\Bcs\Api\Data\ShipmentInterface;
 use Dhl\Sdk\Paket\Bcs\Exception\DetailedServiceException;
 use Dhl\Sdk\Paket\Bcs\Exception\ServiceException;
-use Dhl\ShippingCore\Api\Data\Pipeline\ArtifactsContainerInterface;
-use Dhl\ShippingCore\Api\Pipeline\CreateShipmentsStageInterface;
 use Magento\Shipping\Model\Shipment\Request;
+use Netresearch\ShippingCore\Api\Data\Pipeline\ArtifactsContainerInterface;
+use Netresearch\ShippingCore\Api\Pipeline\CreateShipmentsStageInterface;
 
 class SendRequestStage implements CreateShipmentsStageInterface
 {
@@ -22,10 +24,6 @@ class SendRequestStage implements CreateShipmentsStageInterface
      */
     private $shipmentServiceFactory;
 
-    /**
-     * SendRequestStage constructor.
-     * @param ShipmentServiceFactory $shipmentServiceFactory
-     */
     public function __construct(ShipmentServiceFactory $shipmentServiceFactory)
     {
         $this->shipmentServiceFactory = $shipmentServiceFactory;

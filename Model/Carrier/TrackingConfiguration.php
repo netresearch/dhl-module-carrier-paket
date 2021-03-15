@@ -1,7 +1,9 @@
 <?php
+
 /**
  * See LICENSE.md for license details.
  */
+
 declare(strict_types=1);
 
 namespace Dhl\Paket\Model\Carrier;
@@ -17,14 +19,8 @@ class TrackingConfiguration implements TrackingConfigurationInterface
      */
     private $logger;
 
-    /**
-     * TrackingConfiguration constructor.
-     *
-     * @param LoggerInterface $logger
-     */
-    public function __construct(
-        LoggerInterface $logger
-    ) {
+    public function __construct(LoggerInterface $logger)
+    {
         $this->logger = $logger;
     }
 

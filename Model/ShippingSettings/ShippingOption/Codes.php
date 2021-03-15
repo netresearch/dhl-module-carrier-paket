@@ -1,7 +1,9 @@
 <?php
+
 /**
  * See LICENSE.md for license details.
  */
+
 declare(strict_types=1);
 
 namespace Dhl\Paket\Model\ShippingSettings\ShippingOption;
@@ -11,27 +13,24 @@ namespace Dhl\Paket\Model\ShippingSettings\ShippingOption;
  */
 class Codes
 {
-    /**
-     * Packaging services.
-     */
-    const PACKAGING_SERVICE_CHECK_OF_AGE = 'visualCheckOfAge';
-    const PACKAGING_SERVICE_RETURN_SHIPMENT = 'returnShipment';
-    const PACKAGING_SERVICE_INSURANCE = 'additionalInsurance';
-    const PACKAGING_SERVICE_BULKY_GOODS = 'bulkyGoods';
-    const PACKAGING_SERVICE_PARCEL_OUTLET_ROUTING = 'parcelOutletRouting';
-    const PACKAGING_PRINT_ONLY_IF_CODEABLE = 'printOnlyIfCodeable';
+    // package customs
+    public const PACKAGE_INPUT_TERMS_OF_TRADE = 'termsOfTrade';
 
-    const PACKAGING_INPUT_PARCEL_OUTLET_ROUTING_NOTIFICATION_EMAIL = 'emailAddress';
+    // packaging services
+    public const SERVICE_OPTION_CHECK_OF_AGE = 'visualCheckOfAge';
+    public const SERVICE_OPTION_RETURN_SHIPMENT = 'returnShipment';
+    public const SERVICE_OPTION_INSURANCE = 'additionalInsurance';
+    public const SERVICE_OPTION_BULKY_GOODS = 'bulkyGoods';
+    public const SERVICE_OPTION_PRINT_ONLY_IF_CODEABLE = 'printOnlyIfCodeable';
 
-    /**
-     * Checkout services.
-     */
-    const CHECKOUT_PARCEL_ANNOUNCEMENT = 'parcelAnnouncement';
-    const CHECKOUT_SERVICE_PREFERRED_DAY = 'preferredDay';
-    const CHECKOUT_SERVICE_NEIGHBOR_DELIVERY = 'preferredNeighbour';
-    const CHECKOUT_SERVICE_DROPOFF_DELIVERY = 'preferredLocation';
-    const CHECKOUT_SERVICE_PARCELSHOP_FINDER = 'parcelshopFinder';
-    const CHECKOUT_SERVICE_CASH_ON_DELIVERY = 'cashOnDelivery';
+    public const SERVICE_OPTION_PARCEL_OUTLET_ROUTING = 'parcelOutletRouting';
+    public const SERVICE_INPUT_PARCEL_OUTLET_ROUTING_NOTIFICATION_EMAIL = 'emailAddress';
 
-    const CHECKOUT_INPUT_CUSTOMER_POSTNUMBER = 'customerPostnumber';
+    // checkout services
+    public const SERVICE_OPTION_PARCEL_ANNOUNCEMENT = 'parcelAnnouncement';
+    public const SERVICE_OPTION_PREFERRED_DAY = 'preferredDay';
+    public const SERVICE_OPTION_NEIGHBOR_DELIVERY = 'preferredNeighbour';
+    public const SERVICE_OPTION_DROPOFF_DELIVERY = 'preferredLocation';
+
+    public const SERVICE_INPUT_DELIVERY_LOCATION_ACCOUNT_NUMBER = 'customerPostnumber';
 }

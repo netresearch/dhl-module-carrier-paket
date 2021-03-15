@@ -1,7 +1,9 @@
 <?php
+
 /**
  * See LICENSE.md for license details.
  */
+
 declare(strict_types=1);
 
 namespace Dhl\Paket\Model\AdditionalFee;
@@ -9,20 +11,16 @@ namespace Dhl\Paket\Model\AdditionalFee;
 use Dhl\Paket\Model\Carrier\Paket;
 use Dhl\Paket\Model\Config\ModuleConfig;
 use Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes;
-use Dhl\ShippingCore\Api\AdditionalFee\AdditionalFeeConfigurationInterface;
-use Dhl\ShippingCore\Api\Data\ShippingSettings\ShippingOption\Selection\AssignedSelectionInterface;
-use Dhl\ShippingCore\Api\Data\ShippingSettings\ShippingOption\Selection\SelectionInterface;
-use Dhl\ShippingCore\Model\ResourceModel\Quote\Address\ShippingOptionSelectionCollection;
-use Dhl\ShippingCore\Model\ShippingSettings\ShippingOption\Selection\QuoteSelectionRepository;
 use Magento\Framework\Api\FilterBuilder;
 use Magento\Framework\Api\Search\SearchCriteriaBuilderFactory;
 use Magento\Framework\Phrase;
 use Magento\Quote\Model\Quote;
+use Netresearch\ShippingCore\Api\AdditionalFee\AdditionalFeeConfigurationInterface;
+use Netresearch\ShippingCore\Api\Data\ShippingSettings\ShippingOption\Selection\AssignedSelectionInterface;
+use Netresearch\ShippingCore\Api\Data\ShippingSettings\ShippingOption\Selection\SelectionInterface;
+use Netresearch\ShippingCore\Model\ResourceModel\Quote\Address\ShippingOptionSelectionCollection;
+use Netresearch\ShippingCore\Model\ShippingSettings\ShippingOption\Selection\QuoteSelectionRepository;
 
-/**
- * Class AdditionalFeeConfiguration
- *
- */
 class AdditionalFeeConfiguration implements AdditionalFeeConfigurationInterface
 {
     /**
@@ -50,14 +48,6 @@ class AdditionalFeeConfiguration implements AdditionalFeeConfigurationInterface
      */
     private $config;
 
-    /**
-     * AdditionalFeeConfiguration constructor.
-     *
-     * @param QuoteSelectionRepository $quoteSelectionRepository
-     * @param FilterBuilder $filterBuilder
-     * @param SearchCriteriaBuilderFactory $searchCriteriaBuilderFactory
-     * @param ModuleConfig $config
-     */
     public function __construct(
         QuoteSelectionRepository $quoteSelectionRepository,
         FilterBuilder $filterBuilder,
@@ -98,7 +88,7 @@ class AdditionalFeeConfiguration implements AdditionalFeeConfigurationInterface
 
         /** @var SelectionInterface $selectedService */
         $selectedService = $serviceSelections->getFirstItem();
-        if ($selectedService->getShippingOptionCode() === Codes::CHECKOUT_SERVICE_PREFERRED_DAY) {
+        if ($selectedService->getShippingOptionCode() === Codes::SERVICE_OPTION_PREFERRED_DAY) {
             $fee = $this->config->getPreferredDayAdditionalCharge($quote->getStoreId());
         }
 
@@ -127,7 +117,7 @@ class AdditionalFeeConfiguration implements AdditionalFeeConfigurationInterface
                 ->create();
             $optionCodeFilter = $this->filterBuilder
                 ->setField(SelectionInterface::SHIPPING_OPTION_CODE)
-                ->setValue(Codes::CHECKOUT_SERVICE_PREFERRED_DAY)
+                ->setValue(Codes::SERVICE_OPTION_PREFERRED_DAY)
                 ->setConditionType('eq')
                 ->create();
 

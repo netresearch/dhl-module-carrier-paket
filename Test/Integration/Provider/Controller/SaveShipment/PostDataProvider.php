@@ -1,14 +1,16 @@
 <?php
+
 /**
  * See LICENSE.md for license details.
  */
+
 declare(strict_types=1);
 
 namespace Dhl\Paket\Test\Integration\Provider\Controller\SaveShipment;
 
-use Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes;
 use Magento\Sales\Api\Data\OrderInterface;
 use Magento\Sales\Api\Data\OrderItemInterface;
+use Netresearch\ShippingCore\Model\ShippingSettings\ShippingOption\Codes;
 
 /**
  * Prepare POST data as sent to the `admin/order_shipment/save` controller
@@ -101,7 +103,7 @@ class PostDataProvider
         }
 
         $package['package']['packageDetails']['weight'] += $package['package']['packageDetails']['packagingWeight'];
-        $package['service'][Codes::CHECKOUT_SERVICE_CASH_ON_DELIVERY] = [
+        $package['service'][Codes::SERVICE_OPTION_CASH_ON_DELIVERY] = [
             'enabled' => true,
             'codAmount' => $codAmount,
             'addCodFee' => null
@@ -193,7 +195,7 @@ class PostDataProvider
             ];
 
             $services = [
-                Codes::CHECKOUT_SERVICE_CASH_ON_DELIVERY => [
+                Codes::SERVICE_OPTION_CASH_ON_DELIVERY => [
                     'enabled' => true,
                     'codAmount' => $order->getBaseShippingAmount() + $orderItem->getBasePrice(),
                     'addCodFee' => null

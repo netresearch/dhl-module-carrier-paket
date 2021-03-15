@@ -12,7 +12,7 @@
         <seeElement selector="{{AdminShipmentPackagingPopupSection.exportContentType}}" stepKey="seeExportContentType"/>
         <seeElement selector="{{AdminShipmentPackagingPopupSection.explanation}}" stepKey="seeExplanation"/>
         <seeElement selector="{{AdminShipmentPackagingPopupSection.packageDescription}}" stepKey="seePackageDescription"/>
-        <seeElement selector="{{AdminShipmentPackagingPopupSection.additionalFee}}" stepKey="seeAdditionalFee"/>
+        <seeElement selector="{{AdminShipmentPackagingPopupSection.customsFees}}" stepKey="seeCustomsFees"/>
         <seeElement selector="{{AdminShipmentPackagingPopupSection.placeOfCommittal}}" stepKey="seePlaceOfCommittal"/>
         <seeElement selector="{{AdminShipmentPackagingPopupSection.permitNumber}}" stepKey="seePermitNumber"/>
         <seeElement selector="{{AdminShipmentPackagingPopupSection.attestationNumber}}" stepKey="seeAttestationNumber"/>

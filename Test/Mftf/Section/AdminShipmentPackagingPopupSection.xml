@@ -9,11 +9,11 @@
     <!-- Extend section with DHL Paket specific service and package data-->
     <section name="AdminShipmentPackagingPopupSection">
         <!-- Package level selectors -->
-        <element name="additionalFee" type="input" selector=".dhl-fieldset.package .field.additionalFee input.additionalFee"/>
-        <element name="placeOfCommittal" type="input" selector=".dhl-fieldset.package .field.placeOfCommittal input.placeOfCommittal"/>
-        <element name="permitNumber" type="input" selector=".dhl-fieldset.package .field.permitNumber input.permitNumber"/>
-        <element name="attestationNumber" type="input" selector=".dhl-fieldset.package .field.attestationNumber input.attestationNumber"/>
-        <element name="electronicExportNotification" type="checkbox" selector=".dhl-fieldset.package .field.electronicExportNotification input"/>
+        <element name="customsFees" type="input" selector=".nrshipping-fieldset.package .field.customsFees input.customsFees"/>
+        <element name="placeOfCommittal" type="input" selector=".nrshipping-fieldset.package .field.placeOfCommittal input.placeOfCommittal"/>
+        <element name="permitNumber" type="input" selector=".nrshipping-fieldset.package .field.permitNumber input.permitNumber"/>
+        <element name="attestationNumber" type="input" selector=".nrshipping-fieldset.package .field.attestationNumber input.attestationNumber"/>
+        <element name="electronicExportNotification" type="checkbox" selector=".nrshipping-fieldset.package .field.electronicExportNotification input"/>
         <!-- Service level selectors -->
      </section>
 </sections>
