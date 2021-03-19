@@ -93,6 +93,14 @@
             </argument>
         </arguments>
     </virtualType>
+    <virtualType name="Dhl\Paket\Model\SplitAddress\RecipientStreetLoader\Virtual" type="Netresearch\ShippingCore\Model\SplitAddress\RecipientStreetLoader">
+        <arguments>
+            <argument name="rules" xsi:type="array">
+                <item name="IT" xsi:type="object">Dhl\Paket\Model\SplitAddress\SplittingRule\RejoinSupplementRule</item>
+                <item name="DE-BAW" xsi:type="object">Dhl\Paket\Model\SplitAddress\SplittingRule\RejoinSupplementRule</item>
+            </argument>
+        </arguments>
+    </virtualType>
     <virtualType name="Dhl\Paket\ViewModel\Adminhtml\System\InfoBox\Virtual" type="Netresearch\ShippingCore\ViewModel\Adminhtml\System\InfoBox">
         <arguments>
             <argument name="version" xsi:type="object">Dhl\Paket\Model\Config\ModuleConfig</argument>
@@ -231,7 +239,7 @@
     <type name="Netresearch\ShippingCore\Observer\SplitAddress">
         <arguments>
             <argument name="streetLoaders" xsi:type="array">
-                <item name="dhlpaket" xsi:type="object">Dhl\Paket\Model\SplitAddress\RecipientStreetLoader</item>
+                <item name="dhlpaket" xsi:type="object">Dhl\Paket\Model\SplitAddress\RecipientStreetLoader\Virtual</item>
             </argument>
         </arguments>
     </type>
