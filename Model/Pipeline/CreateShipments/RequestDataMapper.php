@@ -188,12 +188,16 @@ class RequestDataMapper
             $length = $package->getLength();
             $height = $package->getHeight();
 
-            if ($width && $length && $height) {
+            if ($width || $length || $height) {
                 $targetUom = \Zend_Measure_Length::CENTIMETER;
                 $widthInCm = $this->unitConverter->convertDimension($width, $dimensionsUom, $targetUom);
                 $lengthInCm = $this->unitConverter->convertDimension($length, $dimensionsUom, $targetUom);
                 $heightInCm = $this->unitConverter->convertDimension($height, $dimensionsUom, $targetUom);
-                $this->requestBuilder->setPackageDimensions((int)$widthInCm, (int)$lengthInCm, (int)$heightInCm);
+                $this->requestBuilder->setPackageDimensions(
+                    (int) round($widthInCm),
+                    (int) round($lengthInCm),
+                    (int) round($heightInCm)
+                );
             }
 
             if ($requestExtractor->isPrintOnlyIfCodeable()) {
