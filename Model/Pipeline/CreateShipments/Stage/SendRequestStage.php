@@ -64,12 +64,15 @@ class SendRequestStage implements CreateShipmentsStageInterface
             } catch (ServiceException $exception) {
                 // mark all requests as failed
                 foreach ($requests as $requestIndex => $shipmentRequest) {
-                    $artifactsContainer->addError(
-                        (string) $requestIndex,
-                        $shipmentRequest->getOrderShipment(),
-                        'No response received from web service. If a label was created '
-                        . 'in the DHL Business Customer Portal, please cancel it and try again.'
-                    );
+                    if ($exception->getPrevious() instanceof \SoapFault
+                        && $exception->getPrevious()->faultcode === 'HTTP') {
+                        $msg = 'No response received from web service. If a label was created'
+                            . ' in the DHL Business Customer Portal, please cancel it and try again.';
+                    } else {
+                        $msg = 'Web service request failed.';
+                    }
+
+                    $artifactsContainer->addError((string) $requestIndex, $shipmentRequest->getOrderShipment(), $msg);
                 }
 
                 // no requests passed the stage
