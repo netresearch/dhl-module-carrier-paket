@@ -322,6 +322,24 @@ class RequestExtractor implements RequestExtractorInterface
     }
 
     /**
+     * Obtain the merchant's DHL address book reference for the shipment sender.
+     *
+     * In sandbox mode, a sandbox account is used that has no address book
+     * or at least we are not aware of the available entries.
+     *
+     * @return string
+     */
+    public function getSenderReference(): string
+    {
+        $storeId = $this->getStoreId();
+        if ($this->moduleConfig->isSandboxMode($storeId)) {
+            return '';
+        }
+
+        return $this->moduleConfig->getSenderReference($storeId);
+    }
+
+    /**
      * Obtain the 14-digit billing number for the current package.
      *
      * @return string

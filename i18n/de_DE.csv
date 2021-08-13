@@ -139,6 +139,7 @@ Participation,Teilnahme
 Procedure,Verfahren
 Product,Produkt
 "Record communication with the DHL web services.","Kommunikation mit den DHL-Webservices aufzeichnen."
+"Reference an entry from your DHL Business Customer Portal address book. If left blank, the origin address configured in <em>Shipping Settings</em> will be used. Using an entry from the DHL sender address book allows to print your logo on the label. This setting is ignored in sandbox mode.","Verweisen Sie auf einen Eintrag im Absenderadressbuch des DHL-Geschäftskundenportals. Wenn Sie dieses Feld leer lassen, dann wird die Absenderadresse verwendet, die in den Versandeinstellungen als Versandursprung konfiguriert ist. Einen Eintrag aus dem DHL-Adressbuch zu wählen ermöglicht es, ein Logo auf das Versandetikett zu drucken. Im Sandbox-Modus wird diese Einstellung nicht verwendet."
 "Retoure DHL Paket: V07PAK","Retoure DHL Paket: V07PAK"
 "Return Shipment",Beilegeretoure
 "Return Shipment Address",Rücksendeadresse
@@ -151,6 +152,7 @@ Sat,Sa
 "Select Route","Route wählen"
 "Select the offline shipping method that gets used to provide rates in checkout.","Wählen Sie die Offline-Versandmethode aus, die für die Bereitstellung von Tarifen im Checkout verwendet werden soll."
 "Selected products will be pre-selected for automatic shipping label creation. You can still select another product when creating shipping labels manually.","Ausgewählte Produkte werden für die automatische Erstellung von Versandetiketten vorausgewählt. Sie können weiterhin ein anderes Produkt auswählen, wenn Sie Versandetiketten manuell erstellen."
+"Sender Address Book Reference","Absenderreferenz im DHL-Adressbuch"
 "Sender's Customs Reference","Zollreferenz des Absenders"
 "Shipment %1 could not be cancelled.","Der Versandauftrag %1 konnte nicht storniert werden."
 "Shipment %1 could not be cancelled: %2","Der Versandauftrag %1 konnte nicht storniert werden: %2"

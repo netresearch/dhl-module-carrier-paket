@@ -46,6 +46,7 @@ class ModuleConfig implements VersionInterface
 
     // 500_shipment_defaults.xml
     public const CONFIG_PATH_PRINT_ONLY_IF_CODEABLE = 'dhlshippingsolutions/dhlpaket/shipment_defaults/print_only_if_codeable';
+    public const CONFIG_PATH_SENDER_REFERENCE = 'dhlshippingsolutions/dhlpaket/shipment_defaults/sender_address_book_reference';
     public const CONFIG_PATH_PRINT_RECEIVER_CONTACT = 'dhlshippingsolutions/dhlpaket/shipment_defaults/print_receiver_contact';
     public const CONFIG_PATH_SHIPPING_PRODUCTS = 'dhlshippingsolutions/dhlpaket/shipment_defaults/shipping_products';
     public const CONFIG_PATH_CUSTOMS_REFERENCE_NUMBERS = 'dhlshippingsolutions/dhlpaket/shipment_defaults/customs/reference_numbers';
@@ -355,6 +356,26 @@ class ModuleConfig implements VersionInterface
         );
 
         return array_column($participations, 'participation', 'procedure');
+    }
+
+    /**
+     * Get the sender address book reference.
+     *
+     * The DHL Business Customer Portal sender address book reference can be
+     * transferred during label requests instead of a shipper address. If no
+     * reference is set, then the shipping origin address from the
+     * "Shipping Settings" section would typically be used.
+     *
+     * @param mixed $store
+     * @return string
+     */
+    public function getSenderReference($store = null): string
+    {
+        return (string)$this->scopeConfig->getValue(
+            self::CONFIG_PATH_SENDER_REFERENCE,
+            ScopeInterface::SCOPE_STORE,
+            $store
+        );
     }
 
     /**

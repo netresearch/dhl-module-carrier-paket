@@ -139,6 +139,7 @@ Participation,Participation
 Procedure,Procedure
 Product,Product
 "Record communication with the DHL web services.","Record communication with the DHL web services."
+"Reference an entry from your DHL Business Customer Portal address book. If left blank, the origin address configured in <em>Shipping Settings</em> will be used. Using an entry from the DHL sender address book allows to print your logo on the label. This setting is ignored in sandbox mode.","Reference an entry from your DHL Business Customer Portal address book. If left blank, the origin address configured in <em>Shipping Settings</em> will be used. Using an entry from the DHL sender address book allows to print your logo on the label. This setting is ignored in sandbox mode."
 "Retoure DHL Paket: V07PAK","Retoure DHL Paket: V07PAK"
 "Return Shipment","Return Shipment"
 "Return Shipment Address","Return Shipment Address"
@@ -151,6 +152,7 @@ Sat,Sat
 "Select Route","Select Route"
 "Select the offline shipping method that gets used to provide rates in checkout.","Select the offline shipping method that gets used to provide rates in checkout."
 "Selected products will be pre-selected for automatic shipping label creation. You can still select another product when creating shipping labels manually.","Selected products will be pre-selected for automatic shipping label creation. You can still select another product when creating shipping labels manually."
+"Sender Address Book Reference","Sender Address Book Reference"
 "Sender's Customs Reference","Sender's Customs Reference"
 "Shipment %1 could not be cancelled.","Shipment %1 could not be cancelled."
 "Shipment %1 could not be cancelled: %2","Shipment %1 could not be cancelled: %2"

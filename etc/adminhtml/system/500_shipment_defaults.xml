@@ -13,12 +13,17 @@
             <label>Print Only If Codeable</label>
             <comment>If enabled, shipment orders will only return a label if the DHL delivery address verification succeeds.</comment>
         </field>
-        <field id="print_receiver_contact" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="20"
+        <field id="sender_address_book_reference" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="20"
+               translate="label comment" type="text">
+            <label>Sender Address Book Reference</label>
+            <comment><![CDATA[Reference an entry from your DHL Business Customer Portal address book. If left blank, the origin address configured in <em>Shipping Settings</em> will be used. Using an entry from the DHL sender address book allows to print your logo on the label. This setting is ignored in sandbox mode.]]></comment>
+        </field>
+        <field id="print_receiver_contact" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="30"
                translate="label comment" type="Netresearch\ConfigFields\Model\Type\Toggle">
             <label>Print Receiver Contact Details</label>
             <comment>If enabled, the receiver phone number will be printed on the shipping label.</comment>
         </field>
-        <field id="shipping_products" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="30"
+        <field id="shipping_products" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="40"
                translate="label comment tooltip">
             <label>Shipping Products</label>
             <comment>Selected products will be pre-selected for automatic shipping label creation. You can still select another product when creating shipping labels manually.</comment>
@@ -27,7 +32,7 @@
             <tooltip>Select "Merchandise Shipment" only if you ship all or most of your orders as Merchandise Shipments. Otherwise, choose "DHL Paket".</tooltip>
         </field>
 
-        <group id="customs" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="40"
+        <group id="customs" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="50"
                translate="label">
             <label>Customs Settings</label>
             <field id="reference_numbers" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="10"
@@ -49,7 +54,7 @@
             </field>
         </group>
 
-        <group id="services" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="50"
+        <group id="services" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="60"
                translate="label comment">
             <comment>Here you can define default values for additional shipping services. Please note that selected options are only applied if they are valid for the given order. Incompatible services, e.g. domestic-only services for a cross-border order, will be omitted when booking a shipping label.</comment>
             <label>Additional Services</label>

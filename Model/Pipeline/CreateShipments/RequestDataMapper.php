@@ -119,20 +119,25 @@ class RequestDataMapper
             $requestExtractor->isReturnShipment() ? $requestExtractor->getReturnShipmentAccountNumber() : null
         );
 
-        $this->requestBuilder->setShipperAddress(
-            $requestExtractor->getShipper()->getContactCompanyName(),
-            $requestExtractor->getShipper()->getCountryCode(),
-            $requestExtractor->getShipper()->getPostalCode(),
-            $requestExtractor->getShipper()->getCity(),
-            $requestExtractor->getShipper()->getStreetName(),
-            $requestExtractor->getShipper()->getStreetNumber(),
-            null,
-            null,
-            null,
-            null,
-            null,
-            $requestExtractor->getShipper()->getState()
-        );
+        $senderReference = $requestExtractor->getSenderReference();
+        if ($senderReference) {
+            $this->requestBuilder->setShipperReference($senderReference);
+        } else {
+            $this->requestBuilder->setShipperAddress(
+                $requestExtractor->getShipper()->getContactCompanyName(),
+                $requestExtractor->getShipper()->getCountryCode(),
+                $requestExtractor->getShipper()->getPostalCode(),
+                $requestExtractor->getShipper()->getCity(),
+                $requestExtractor->getShipper()->getStreetName(),
+                $requestExtractor->getShipper()->getStreetNumber(),
+                null,
+                null,
+                null,
+                null,
+                null,
+                $requestExtractor->getShipper()->getState()
+            );
+        }
 
         if ($requestExtractor->isRecipientEmailRequired()) {
             $recipientEmail = $requestExtractor->getRecipient()->getContactEmail();
