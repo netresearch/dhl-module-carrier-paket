@@ -12,6 +12,11 @@
             <label>Offer DHL Parcel Announcement</label>
             <comment>Allow customers to request parcel notification updates via e-mail by DHL during checkout.</comment>
         </field>
+        <field id="parcelannouncement_info" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="15">
+            <frontend_model>Dhl\Paket\Block\Adminhtml\System\Config\Form\Field\CommentInfo</frontend_model>
+            <attribute type="body_template">Dhl_Paket::system/config/commentinfobody.phtml</attribute>
+        </field>
+
         <field id="deliverylocation" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="20"
             translate="label comment" type="Netresearch\ConfigFields\Model\Type\Checkbox">
             <label>Offer Parcel Station Delivery</label>

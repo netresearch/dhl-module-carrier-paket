@@ -194,6 +194,8 @@ User,User
 Warnings,Warnings
 "Web service request could not be created: %1","Web service request could not be created: %1"
 Wed,Wed
+"Would you like to individualize the DHL parcel announcement?","Would you like to individualize the DHL parcel announcement?"
+"You can now display your logo and the desired store name in the parcel notification. Use the following <a href=""https://www.dhl.de/de/geschaeftskunden/paket/versandsoftware/dhl-paketankuendigung/formular.html"" target=""_blank"">form</a> to do so.","You can now display your logo and the desired store name in the parcel notification. Use the following <a href=""https://www.dhl.de/de/geschaeftskunden/paket/versandsoftware/dhl-paketankuendigung/formular.html"" target=""_blank"">form</a> to do so."
 "You decide when and where you want to receive your parcels with the recipient services of DHL.","You decide when and where you want to receive your parcels with the recipient services of DHL."
 "You must also have Magento general logging enabled.","You must also have Magento general logging enabled."
 "You must enter your post number when sending to a parcel station. For post office delivery, the post number is optional.","You must enter your post number when sending to a parcel station. For post office delivery, the post number is optional."

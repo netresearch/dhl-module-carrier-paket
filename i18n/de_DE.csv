@@ -194,6 +194,8 @@ User,Benutzername
 Warnings,Warnungen
 "Web service request could not be created: %1","Die Webservice-Anfrage konnte nicht erstellt werden: %1"
 Wed,Mi
+"Would you like to individualize the DHL parcel announcement?","Möchten Sie die DHL Paketankündigung individualisieren?"
+"You can now display your logo and the desired store name in the parcel notification. Use the following <a href=""https://www.dhl.de/de/geschaeftskunden/paket/versandsoftware/dhl-paketankuendigung/formular.html"" target=""_blank"">form</a> to do so.","Sie können ab sofort Ihr Logo und den gewünschten Shop-Namen in der Paketankündigung anzeigen lassen. Nutzen Sie dafür das folgende <a href=""https://www.dhl.de/de/geschaeftskunden/paket/versandsoftware/dhl-paketankuendigung/formular.html"" target=""_blank"">Formular</a>."
 "You decide when and where you want to receive your parcels with the recipient services of DHL.","Mit den Services von DHL-Wunschzustellung entscheiden Sie, wann und wo Sie Ihre Pakete empfangen."
 "You must also have Magento general logging enabled.","Die allgemeine Protokollierung muss in Magento aktiviert sein, damit die modulspezifische Protokollierung funktioniert."
 "You must enter your post number when sending to a parcel station. For post office delivery, the post number is optional.","Sie müssen Ihre Postnummer für den Versand an eine Packstation angeben. Für den Versand an eine Postfiliale ist diese optional."
