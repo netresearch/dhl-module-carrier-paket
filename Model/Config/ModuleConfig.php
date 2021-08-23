@@ -9,7 +9,6 @@ declare(strict_types=1);
 namespace Dhl\Paket\Model\Config;
 
 use Magento\Framework\App\Config\ScopeConfigInterface;
-use Magento\Framework\Stdlib\DateTime\TimezoneInterface;
 use Magento\Store\Model\ScopeInterface;
 use Netresearch\ShippingCore\Api\InfoBox\VersionInterface;
 
@@ -55,6 +54,7 @@ class ModuleConfig implements VersionInterface
     public const CONFIG_PATH_VISUAL_CHECK_OF_AGE = 'dhlshippingsolutions/dhlpaket/shipment_defaults/services/visual_check_of_age';
     public const CONFIG_PATH_RETURN_SHIPMENT = 'dhlshippingsolutions/dhlpaket/shipment_defaults/services/return_shipment';
     public const CONFIG_PATH_RETURN_RECEIVER = 'dhlshippingsolutions/dhlpaket/shipment_defaults/services/return_shipment_receiver';
+    public const CONFIG_PATH_PREMIUM = 'dhlshippingsolutions/dhlpaket/shipment_defaults/services/premium';
     public const CONFIG_PATH_ADDITIONAL_INSURANCE = 'dhlshippingsolutions/dhlpaket/shipment_defaults/services/additional_insurance';
     public const CONFIG_PATH_BULKY_GOODS = 'dhlshippingsolutions/dhlpaket/shipment_defaults/services/bulky_goods';
     public const CONFIG_PATH_PARCEL_OUTLET = 'dhlshippingsolutions/dhlpaket/shipment_defaults/services/parcel_outlet';
@@ -73,17 +73,9 @@ class ModuleConfig implements VersionInterface
      */
     private $scopeConfig;
 
-    /**
-     * @var TimezoneInterface
-     */
-    private $timezone;
-
-    public function __construct(
-        ScopeConfigInterface $scopeConfig,
-        TimezoneInterface $timezone
-    ) {
+    public function __construct(ScopeConfigInterface $scopeConfig)
+    {
         $this->scopeConfig = $scopeConfig;
-        $this->timezone = $timezone;
     }
 
     public function getModuleVersion(): string

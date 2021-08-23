@@ -279,6 +279,10 @@ class RequestDataMapper
                 }
             }
 
+            if ($requestExtractor->isPremium()) {
+                $this->requestBuilder->setPremium();
+            }
+
             if ($package->getCustomsValue() !== null) {
                 // customs value indicates cross-border shipment
                 $this->requestBuilder->setCustomsDetails(

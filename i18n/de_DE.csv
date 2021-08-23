@@ -61,6 +61,7 @@ EU,"Versand innerhalb Europas"
 "Enable DHL drop-off location delivery","Lieferung an Ablageort aktivieren"
 "Enable DHL neighbor delivery","Lieferung an Nachbar aktivieren"
 "Enable DHL parcel notification","DHL Paketankündigung aktivieren"
+"Enable DHL premium service","DHL Premium Service aktivieren"
 "Enable DHL print only if codeable service","Nur leitkodierbare Versandaufträge erteilen"
 "Enable DHL retail outlet routing service","Filial-Routing aktivieren"
 "Enable DHL return shipment service","DHL Retourenbeileger anfordern"
@@ -110,6 +111,7 @@ Number,Nummer
 "Offer Drop-off Location Delivery","Ablageort anbieten"
 "Offer Neighbor Delivery","Nachbarschaftszustellung anbieten"
 "Offer Parcel Station Delivery","Lieferung an Packstation anbieten"
+"On routes that require the <em>Premium</em> service, it will be booked implicitly regardless of this setting.","Auf Routen, die den <em>Premium</em>-Service erfordern, wird dieser unabhängig von der Einstellung implizit gebucht."
 "Order Cut-off Times",Bestellabschlusszeiten
 "Parcel Announcement",Paketankündigung
 "Parcel Routing",Paket-Routing
@@ -136,6 +138,7 @@ Participation,Teilnahme
 "Preferred Neighbor: Delivery to a neighbor of your choice","Nachbarschaftszustellung: Lieferung an den Nachbarn Ihrer Wahl"
 "Print Only If Codeable","Nur leitkodierbare Versandaufträge erteilen"
 "Print Receiver Contact Details","Kontaktdaten des Empfängers drucken"
+"Priority Shipping","Bevorzugter Transport"
 Procedure,Verfahren
 Product,Produkt
 "Record communication with the DHL web services.","Kommunikation mit den DHL-Webservices aufzeichnen."
@@ -184,6 +187,7 @@ Tue,Di
 "Unable to determine return shipment billing number.","Die Abrechnungsnummer für Rücksendungen konnte nicht ermittelt werden."
 "Use Additional Insurance Service","Erweiterte Transportversicherung aktivieren"
 "Use Bulky Goods Service","Sperrgutservice aktivieren"
+"Use Premium Service","Service Premium aktivieren"
 "Use Retail Outlet Routing Service","Filial-Routing aktivieren"
 "Use Return Shipment Service","Beilegeretoure aktivieren"
 "Use Visual Check of Age Service","Alterssichtprüfung aktivieren"

@@ -61,6 +61,7 @@ EU,EU
 "Enable DHL drop-off location delivery","Enable DHL drop-off location delivery"
 "Enable DHL neighbor delivery","Enable DHL neighbor delivery"
 "Enable DHL parcel notification","Enable DHL parcel notification"
+"Enable DHL premium service","Enable DHL premium service"
 "Enable DHL print only if codeable service","Enable DHL print only if codeable service"
 "Enable DHL retail outlet routing service","Enable DHL retail outlet routing service"
 "Enable DHL return shipment service","Enable DHL return shipment service"
@@ -110,6 +111,7 @@ Number,Number
 "Offer Drop-off Location Delivery","Offer Drop-off Location Delivery"
 "Offer Neighbor Delivery","Offer Neighbor Delivery"
 "Offer Parcel Station Delivery","Offer Parcel Station Delivery"
+"On routes that require the <em>Premium</em> service, it will be booked implicitly regardless of this setting.","On routes that require the <em>Premium</em> service, it will be booked implicitly regardless of this setting."
 "Order Cut-off Times","Order Cut-off Times"
 "Parcel Announcement","Parcel Announcement"
 "Parcel Routing","Parcel Routing"
@@ -136,6 +138,7 @@ Participation,Participation
 "Preferred Neighbor: Delivery to a neighbor of your choice","Preferred Neighbor: Delivery to a neighbor of your choice"
 "Print Only If Codeable","Print Only If Codeable"
 "Print Receiver Contact Details","Print Receiver Contact Details"
+"Priority Shipping","Priority Shipping"
 Procedure,Procedure
 Product,Product
 "Record communication with the DHL web services.","Record communication with the DHL web services."
@@ -184,6 +187,7 @@ Tue,Tue
 "Unable to determine return shipment billing number.","Unable to determine return shipment billing number."
 "Use Additional Insurance Service","Use Additional Insurance Service"
 "Use Bulky Goods Service","Use Bulky Goods Service"
+"Use Premium Service","Use Premium Service"
 "Use Retail Outlet Routing Service","Use Retail Outlet Routing Service"
 "Use Return Shipment Service","Use Return Shipment Service"
 "Use Visual Check of Age Service","Use Visual Check of Age Service"

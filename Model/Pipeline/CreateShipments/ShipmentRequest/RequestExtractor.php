@@ -595,4 +595,14 @@ class RequestExtractor implements RequestExtractorInterface
 
         return $email ?: $this->getRecipient()->getContactEmail();
     }
+
+    /**
+     * Obtain the "premium" flag for the current package.
+     *
+     * @return bool
+     */
+    public function isPremium(): bool
+    {
+        return $this->getServiceOptionReader()->isServiceEnabled(Codes::SERVICE_OPTION_PREMIUM);
+    }
 }

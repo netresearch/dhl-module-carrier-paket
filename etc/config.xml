@@ -96,7 +96,8 @@
                         <reference_numbers backend_model="Netresearch\ShippingCore\Model\Config\Backend\ArraySerialized">[]</reference_numbers>
                     </customs>
                     <services>
-                        <visual_check_of_age>0</visual_check_of_age>
+                        <visual_check_of_age>A00</visual_check_of_age>
+                        <premium>0</premium>
                         <additional_insurance>0</additional_insurance>
                         <bulky_goods>0</bulky_goods>
                         <parcel_outlet>0</parcel_outlet>

@@ -65,25 +65,31 @@
                 <comment>If enabled, the visual age check service will be booked during shipment orders.</comment>
                 <source_model>Dhl\Paket\Model\Adminhtml\System\Config\Source\VisualCheckOfAge</source_model>
             </field>
+            <!-- Premium -->
+            <field id="premium" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="20"
+                   translate="label comment" type="Netresearch\ConfigFields\Model\Type\Checkbox">
+                <label>Use Premium Service</label>
+                <comment><![CDATA[On routes that require the <em>Premium</em> service, it will be booked implicitly regardless of this setting.]]></comment>
+            </field>
             <!-- Additional Insurance -->
-            <field id="additional_insurance" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="20"
+            <field id="additional_insurance" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="30"
                    translate="label comment" type="Netresearch\ConfigFields\Model\Type\Checkbox">
                 <label>Use Additional Insurance Service</label>
                 <comment>If enabled, shipments will be insured with higher than standard amount.</comment>
             </field>
             <!-- Bulky Goods -->
-            <field id="bulky_goods" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="30"
+            <field id="bulky_goods" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="40"
                    translate="label comment" type="Netresearch\ConfigFields\Model\Type\Checkbox">
                 <label>Use Bulky Goods Service</label>
                 <comment>If enabled, shipments will be marked as bulk freight.</comment>
             </field>
             <!-- Parcel Outlet Routing -->
-            <field id="parcel_outlet" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="40"
+            <field id="parcel_outlet" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="50"
                    translate="label comment" type="Netresearch\ConfigFields\Model\Type\Checkbox">
                 <label>Use Retail Outlet Routing Service</label>
                 <comment>If enabled, your undeliverable packages will be held at the nearest parcel collection point for collection by the recipient rather than being returned immediately to you.</comment>
             </field>
-            <field id="parcel_outlet_notification_email" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="41"
+            <field id="parcel_outlet_notification_email" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="51"
                    translate="label comment tooltip" type="text">
                 <label>Alternative Email Address</label>
                 <validate>validate-email</validate>
@@ -94,12 +100,12 @@
                 </depends>
             </field>
             <!-- Return Shipment -->
-            <field id="return_shipment" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="50"
+            <field id="return_shipment" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="60"
                    translate="label comment" type="Netresearch\ConfigFields\Model\Type\Checkbox">
                 <label>Use Return Shipment Service</label>
                 <comment><![CDATA[If enabled, a return shipment label will be requested from the webservice. A return address other than the <em>Shipping Origin</em> can be configured below.]]></comment>
             </field>
-            <group id="return_shipment_receiver" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="51"
+            <group id="return_shipment_receiver" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="61"
                    translate="label">
                 <label>Return Shipment Address</label>
                 <fieldset_css>simple</fieldset_css>

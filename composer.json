@@ -1,57 +1,62 @@
 {
-  "name": "dhl/module-carrier-paket",
-  "version": "2.0.1",
-  "type": "magento2-module",
-  "description": "Carrier implementation for DHL Business Customer Shipping",
-  "license": "OSL-3.0",
-  "authors": [
-    {
-      "email": "plugins@netresearch.de",
-      "name": "Netresearch DTT GmbH",
-      "role": "Manufacturer",
-      "homepage": "https://www.netresearch.de/"
-    }
-  ],
-  "autoload": {
-    "psr-4": {
-      "Dhl\\Paket\\": ""
+    "name": "dhl/module-carrier-paket",
+    "version": "2.0.1",
+    "type": "magento2-module",
+    "description": "Carrier implementation for DHL Business Customer Shipping",
+    "license": "OSL-3.0",
+    "authors": [
+        {
+            "email": "plugins@netresearch.de",
+            "name": "Netresearch DTT GmbH",
+            "role": "Manufacturer",
+            "homepage": "https://www.netresearch.de/"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Dhl\\Paket\\": ""
+        },
+        "files": [
+            "registration.php"
+        ]
     },
-    "files": [
-      "registration.php"
-    ]
-  },
-  "require": {
-    "php": "^7.1.3",
-    "ext-json": "*",
-    "dhl/module-shipping-core": "^2.0.0",
-    "dhl/module-unified-tracking": "^2.0.1",
-    "dhl/sdk-api-bcs": "^1.1.0",
-    "dhl/sdk-api-parcel-management": "^3.0.0",
-    "dhl/sdk-api-unified-location-finder": "^2.0.0",
-    "magento/framework": "^102.0.0 || ^103.0.0",
-    "magento/module-backend": "^101.0.0 || ^102.0.0",
-    "magento/module-bundle": "^100.3.0 || ^101.0.0",
-    "magento/module-catalog": "^103.0.0 || ^104.0.0",
-    "magento/module-catalog-inventory": "^100.3.0",
-    "magento/module-checkout": "^100.3.0",
-    "magento/module-config": "^101.1.0",
-    "magento/module-configurable-product": "^100.3.0",
-    "magento/module-directory": "^100.3.0",
-    "magento/module-quote": "^101.1.0",
-    "magento/module-sales": "^102.0.0 || ^103.0.0",
-    "magento/module-shipping": "^100.3.0",
-    "magento/module-store": "^101.0.0",
-    "magento/zendframework1": "^1.14.0",
-    "monolog/monolog": "^1.17",
-    "netresearch/config-fields-m2": "^1.2.2",
-    "netresearch/module-shipping-core": "^2.2.0",
-    "zendframework/zend-servicemanager": "^2.7.5 || ^3.0.3",
-    "zendframework/zend-hydrator": "^1.1 || ^2.1 || ^3.0"
-  },
-  "require-dev": {
-    "magento/module-customer": "^102.0.0 || ^103.0.0 ",
-    "magento/module-offline-payments": "^100.3.0",
-    "phpunit/phpunit": "^6.5.0 || ^9.0.0",
-    "tddwizard/magento2-fixtures": "^0.12.0"
-  }
+    "require": {
+        "php": "^7.1.3",
+        "ext-json": "*",
+        "dhl/module-shipping-core": "^2.0.0",
+        "dhl/module-unified-tracking": "^2.0.1",
+        "dhl/sdk-api-bcs": "^1.1.0",
+        "dhl/sdk-api-parcel-management": "^3.0.0",
+        "dhl/sdk-api-unified-location-finder": "^2.0.0",
+        "magento/framework": "^102.0.0 || ^103.0.0",
+        "magento/module-backend": "^101.0.0 || ^102.0.0",
+        "magento/module-bundle": "^100.3.0 || ^101.0.0",
+        "magento/module-catalog": "^103.0.0 || ^104.0.0",
+        "magento/module-catalog-inventory": "^100.3.0",
+        "magento/module-checkout": "^100.3.0",
+        "magento/module-config": "^101.1.0",
+        "magento/module-configurable-product": "^100.3.0",
+        "magento/module-directory": "^100.3.0",
+        "magento/module-quote": "^101.1.0",
+        "magento/module-sales": "^102.0.0 || ^103.0.0",
+        "magento/module-shipping": "^100.3.0",
+        "magento/module-store": "^101.0.0",
+        "magento/zendframework1": "^1.14.0",
+        "monolog/monolog": "^1.17",
+        "netresearch/config-fields-m2": "^1.2.2",
+        "netresearch/module-shipping-core": "^2.2.0",
+        "zendframework/zend-servicemanager": "^2.7.5 || ^3.0.3",
+        "zendframework/zend-hydrator": "^1.1 || ^2.1 || ^3.0"
+    },
+    "require-dev": {
+        "magento/module-customer": "^102.0.0 || ^103.0.0 ",
+        "magento/module-offline-payments": "^100.3.0",
+        "phpunit/phpunit": "^6.5.0 || ^9.0.0",
+        "tddwizard/magento2-fixtures": "^0.12.0"
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-develop": "2.1.x-dev"
+        }
+    }
 }
