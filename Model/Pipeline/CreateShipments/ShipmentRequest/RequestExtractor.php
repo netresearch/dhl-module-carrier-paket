@@ -26,7 +26,6 @@ use Netresearch\ShippingCore\Api\Pipeline\ShipmentRequest\RequestExtractor\Servi
 use Netresearch\ShippingCore\Api\Pipeline\ShipmentRequest\RequestExtractor\ServiceOptionReaderInterfaceFactory;
 use Netresearch\ShippingCore\Api\Pipeline\ShipmentRequest\RequestExtractorInterface;
 use Netresearch\ShippingCore\Api\Pipeline\ShipmentRequest\RequestExtractorInterfaceFactory;
-use Zend\Hydrator\Reflection;
 
 /**
  * Class RequestExtractor
@@ -78,11 +77,6 @@ class RequestExtractor implements RequestExtractorInterface
     private $shippingProducts;
 
     /**
-     * @var Reflection
-     */
-    private $hydrator;
-
-    /**
      * @var RequestExtractorInterface
      */
     private $coreExtractor;
@@ -105,8 +99,7 @@ class RequestExtractor implements RequestExtractorInterface
         PackageAdditionalFactory $packageAdditionalFactory,
         PackageInterfaceFactory $packageFactory,
         ModuleConfig $moduleConfig,
-        ShippingProducts $shippingProducts,
-        Reflection $hydrator
+        ShippingProducts $shippingProducts
     ) {
         $this->shipmentRequest = $shipmentRequest;
         $this->requestExtractorFactory = $requestExtractorFactory;
@@ -116,7 +109,6 @@ class RequestExtractor implements RequestExtractorInterface
         $this->packageFactory = $packageFactory;
         $this->moduleConfig = $moduleConfig;
         $this->shippingProducts = $shippingProducts;
-        $this->hydrator = $hydrator;
     }
 
     /**
@@ -248,11 +240,23 @@ class RequestExtractor implements RequestExtractorInterface
             $additionalData['addresseesCustomsReference'] = $customsParams['addresseesCustomsReference'] ?? '';
 
             try {
-                $packageData = $this->hydrator->extract($package);
-                $packageData['packageAdditional'] = $this->packageAdditionalFactory->create($additionalData);
-
                 // create new extended package instance with paket-specific export data
-                $paketPackages[$packageId] = $this->packageFactory->create($packageData);
+                $paketPackages[$packageId] = $this->packageFactory->create(
+                    [
+                        'productCode' => $package->getProductCode(),
+                        'containerType' => $package->getContainerType(),
+                        'weightUom' => $package->getWeightUom(),
+                        'dimensionsUom' => $package->getDimensionsUom(),
+                        'weight' => $package->getWeight(),
+                        'length' => $package->getLength(),
+                        'width' => $package->getWidth(),
+                        'height' => $package->getHeight(),
+                        'customsValue' => $package->getCustomsValue(),
+                        'contentType' => $package->getContentType(),
+                        'contentExplanation' => $package->getContentExplanation(),
+                        'packageAdditional' => $this->packageAdditionalFactory->create($additionalData),
+                    ]
+                );
             } catch (\Exception $exception) {
                 throw new LocalizedException(__('An error occurred while preparing package data.'), $exception);
             }
