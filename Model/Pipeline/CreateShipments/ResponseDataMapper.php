@@ -13,8 +13,13 @@ use Magento\Framework\Exception\RuntimeException;
 use Magento\Framework\Phrase;
 use Netresearch\ShippingCore\Api\Data\Pipeline\ShipmentResponse\LabelResponseInterface;
 use Netresearch\ShippingCore\Api\Data\Pipeline\ShipmentResponse\LabelResponseInterfaceFactory;
+use Netresearch\ShippingCore\Api\Data\Pipeline\ShipmentResponse\ReturnShipmentDocumentInterface;
+use Netresearch\ShippingCore\Api\Data\Pipeline\ShipmentResponse\ReturnShipmentDocumentInterfaceFactory;
+use Netresearch\ShippingCore\Api\Data\Pipeline\ShipmentResponse\ShipmentDocumentInterface;
+use Netresearch\ShippingCore\Api\Data\Pipeline\ShipmentResponse\ShipmentDocumentInterfaceFactory;
 use Netresearch\ShippingCore\Api\Data\Pipeline\ShipmentResponse\ShipmentErrorResponseInterface;
 use Netresearch\ShippingCore\Api\Data\Pipeline\ShipmentResponse\ShipmentErrorResponseInterfaceFactory;
+use Netresearch\ShippingCore\Api\Data\Pipeline\ShipmentResponse\ShipmentResponseInterface;
 use Netresearch\ShippingCore\Api\Util\PdfCombinatorInterface;
 use Psr\Log\LoggerInterface;
 
@@ -36,6 +41,16 @@ class ResponseDataMapper
     private $logger;
 
     /**
+     * @var ShipmentDocumentInterfaceFactory
+     */
+    private $shipmentDocumentFactory;
+
+    /**
+     * @var ReturnShipmentDocumentInterfaceFactory
+     */
+    private $returnDocumentFactory;
+
+    /**
      * @var LabelResponseInterfaceFactory
      */
     private $shipmentResponseFactory;
@@ -47,12 +62,71 @@ class ResponseDataMapper
 
     public function __construct(
         PdfCombinatorInterface $pdfCombinator,
+        LoggerInterface $logger,
+        ShipmentDocumentInterfaceFactory $shipmentDocumentFactory,
+        ReturnShipmentDocumentInterfaceFactory $returnDocumentFactory,
         LabelResponseInterfaceFactory $shipmentResponseFactory,
         ShipmentErrorResponseInterfaceFactory $errorResponseFactory
     ) {
         $this->pdfCombinator = $pdfCombinator;
+        $this->logger = $logger;
+        $this->shipmentDocumentFactory = $shipmentDocumentFactory;
+        $this->returnDocumentFactory = $returnDocumentFactory;
         $this->shipmentResponseFactory = $shipmentResponseFactory;
         $this->errorResponseFactory = $errorResponseFactory;
+    }
+
+    /**
+     * @param ShipmentInterface $shipment
+     * @return ShipmentDocumentInterface[]
+     */
+    private function createDocuments(ShipmentInterface $shipment): array
+    {
+        $documents = [];
+
+        if ($shipment->getShipmentLabel()) {
+            $documents[] = $this->shipmentDocumentFactory->create([
+                'data' => [
+                    ShipmentDocumentInterface::TITLE => 'PDF Label',
+                    ShipmentDocumentInterface::MIME_TYPE => 'application/pdf',
+                    ShipmentDocumentInterface::LABEL_DATA => $shipment->getShipmentLabel(),
+                    ReturnShipmentDocumentInterface::TRACKING_NUMBER => $shipment->getShipmentNumber(),
+                ]
+            ]);
+        }
+
+        if ($shipment->getReturnLabel()) {
+            $documents[] = $this->returnDocumentFactory->create([
+                'data' => [
+                    ShipmentDocumentInterface::TITLE => __('Return Shipment')->render(),
+                    ShipmentDocumentInterface::MIME_TYPE => 'application/pdf',
+                    ShipmentDocumentInterface::LABEL_DATA => $shipment->getReturnLabel(),
+                    ReturnShipmentDocumentInterface::TRACKING_NUMBER => $shipment->getReturnShipmentNumber(),
+                ]
+            ]);
+        }
+
+        if ($shipment->getExportLabel()) {
+            $documents[] = $this->shipmentDocumentFactory->create([
+                'data' => [
+                    ShipmentDocumentInterface::TITLE => 'Export Label',
+                    ShipmentDocumentInterface::MIME_TYPE => 'application/pdf',
+                    ShipmentDocumentInterface::LABEL_DATA => $shipment->getExportLabel(),
+                ]
+            ]);
+        }
+
+        if ($shipment->getCodLabel()) {
+            $documents[] = $this->shipmentDocumentFactory->create([
+                'data' => [
+                    ShipmentDocumentInterface::TITLE => 'COD Label',
+                    ShipmentDocumentInterface::MIME_TYPE => 'application/pdf',
+                    ShipmentDocumentInterface::LABEL_DATA => $shipment->getCodLabel(),
+                ]
+            ]);
+        }
+
+        return $documents;
     }
 
     /**
@@ -86,10 +160,11 @@ class ResponseDataMapper
         }
 
         $responseData = [
-            LabelResponseInterface::REQUEST_INDEX => $shipment->getSequenceNumber(),
-            LabelResponseInterface::SALES_SHIPMENT => $salesShipment,
+            ShipmentResponseInterface::REQUEST_INDEX => $shipment->getSequenceNumber(),
+            ShipmentResponseInterface::SALES_SHIPMENT => $salesShipment,
             LabelResponseInterface::TRACKING_NUMBER => $shipment->getShipmentNumber(),
             LabelResponseInterface::SHIPPING_LABEL_CONTENT => $shippingLabelContent,
+            LabelResponseInterface::DOCUMENTS => $this->createDocuments($shipment),
         ];
 
         return $this->shipmentResponseFactory->create(['data' => $responseData]);
@@ -109,9 +184,9 @@ class ResponseDataMapper
         \Magento\Sales\Api\Data\ShipmentInterface $salesShipment
     ): ShipmentErrorResponseInterface {
         $responseData = [
-            ShipmentErrorResponseInterface::REQUEST_INDEX => $requestIndex,
+            ShipmentResponseInterface::REQUEST_INDEX => $requestIndex,
+            ShipmentResponseInterface::SALES_SHIPMENT => $salesShipment,
             ShipmentErrorResponseInterface::ERRORS => $message,
-            ShipmentErrorResponseInterface::SALES_SHIPMENT => $salesShipment,
         ];
 
         return $this->errorResponseFactory->create(['data' => $responseData]);

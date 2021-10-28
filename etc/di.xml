@@ -148,6 +148,7 @@
     </type>
     <type name="Dhl\Paket\Model\BulkShipment\ShipmentManagement">
         <arguments>
+            <argument name="createResponseProcessor" xsi:type="object">Netresearch\ShippingCore\Model\Pipeline\Shipment\CreateLabelResponseProcessor\Virtual</argument>
             <argument name="deleteResponseProcessor" xsi:type="object">Netresearch\ShippingCore\Model\Pipeline\BulkShipment\CancelLabelResponseProcessor\Virtual</argument>
         </arguments>
     </type>
