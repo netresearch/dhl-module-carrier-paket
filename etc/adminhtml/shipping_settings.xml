@@ -288,6 +288,16 @@
                     <subject>Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::SERVICE_OPTION_INSURANCE</subject>
                 </subjects>
             </rule>
+            <rule id="disablePremiumServiceForEuropaketShipments">
+                <masters>
+                    <master>packageDetails.productCode</master>
+                </masters>
+                <triggerValue>V54EPAK</triggerValue>
+                <action>disable</action>
+                <subjects>
+                    <subject>Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::SERVICE_OPTION_PREMIUM</subject>
+                </subjects>
+            </rule>
         </compatibilityData>
     </carrier>
 </carriers>

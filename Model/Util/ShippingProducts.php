@@ -33,11 +33,29 @@ class ShippingProducts
     const COUNTRY_CODE_GERMANY        = 'DE';
     const COUNTRY_CODE_AUSTRIA        = 'AT';
     const COUNTRY_CODE_BELGIUM        = 'BE';
+    const COUNTRY_CODE_BULGARIA       = 'BG';
+    const COUNTRY_CODE_CZECH_REPUBLIC = 'CZ';
+    const COUNTRY_CODE_DENMARK        = 'DK';
+    const COUNTRY_CODE_ESTONIA        = 'EE';
+    const COUNTRY_CODE_FINLAND        = 'FI';
+    const COUNTRY_CODE_FRANCE         = 'FR';
+    const COUNTRY_CODE_GREECE         = 'GR';
+    const COUNTRY_CODE_GREAT_BRITAIN  = 'GB';
+    const COUNTRY_CODE_HUNGARY        = 'HU';
+    const COUNTRY_CODE_IRELAND        = 'IR';
+    const COUNTRY_CODE_ITALY          = 'IT';
+    const COUNTRY_CODE_LATVIA         = 'LV';
+    const COUNTRY_CODE_LITHUANIA      = 'LT';
     const COUNTRY_CODE_LUXEMBURG      = 'LU';
     const COUNTRY_CODE_NETHERLANDS    = 'NL';
+    const COUNTRY_CODE_NORWAY         = 'NO';
     const COUNTRY_CODE_POLAND         = 'PL';
+    const COUNTRY_CODE_PORTUGAL       = 'PT';
+    const COUNTRY_CODE_ROMANIA        = 'RO';
     const COUNTRY_CODE_SLOVAKIA       = 'SK';
-    const COUNTRY_CODE_CZECH_REPUBLIC = 'CZ';
+    const COUNTRY_CODE_SPAIN          = 'ES';
+    const COUNTRY_CODE_SWEDEN         = 'SE';
+    const COUNTRY_CODE_SWITZERLAND    = 'CH';
 
     /**
      * Product codes.
@@ -88,8 +106,9 @@ class ShippingProducts
                     self::CODE_NATIONAL,
                     self::CODE_WARENPOST_NATIONAL
                 ],
-                self::REGION_EU            => [
+                self::REGION_EU => [
                     self::CODE_INTERNATIONAL,
+                    self::CODE_EUROPAKET,
                 ],
                 self::REGION_INTERNATIONAL => [
                     self::CODE_INTERNATIONAL,
