@@ -9,14 +9,14 @@ declare(strict_types=1);
 namespace Dhl\Paket\Model\Webservice;
 
 use Dhl\Sdk\UnifiedLocationFinder\Api\LocationFinderServiceInterface;
+use Dhl\Sdk\UnifiedLocationFinder\Api\ServiceFactoryInterface;
 use Dhl\Sdk\UnifiedLocationFinder\Exception\ServiceException;
-use Dhl\Sdk\UnifiedLocationFinder\Service\ServiceFactory;
 use Psr\Log\LoggerInterface;
 
 class LocationFinderServiceFactory
 {
     /**
-     * @var ServiceFactory
+     * @var ServiceFactoryInterface
      */
     private $serviceFactory;
 
@@ -25,7 +25,7 @@ class LocationFinderServiceFactory
      */
     private $logger;
 
-    public function __construct(ServiceFactory $serviceFactory, LoggerInterface $logger)
+    public function __construct(ServiceFactoryInterface $serviceFactory, LoggerInterface $logger)
     {
         $this->serviceFactory = $serviceFactory;
         $this->logger = $logger;
