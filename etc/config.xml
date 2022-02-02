@@ -49,11 +49,12 @@
                         <account_participations backend_model="Netresearch\ShippingCore\Model\Config\Backend\ArraySerialized">
                             <![CDATA[
                                 {
-                                    "_1485789382230_230":{"procedure":"01","participation":"01"},
-                                    "_1508418821593_593":{"procedure":"62","participation":"01"},
-                                    "_1485789931170_170":{"procedure":"54","participation":"01"},
-                                    "_1485789933729_729":{"procedure":"53","participation":"01"},
-                                    "_1636732646440_440":{"procedure":"07","participation":"01"}
+                                    "_1641301591217_217":{"procedure":"01","participation":"01"},
+                                    "_1641301595612_612":{"procedure":"62","participation":"01"},
+                                    "_1641301596191_191":{"procedure":"54","participation":"01"},
+                                    "_1641301596765_765":{"procedure":"53","participation":"01"},
+                                    "_1641301597313_313":{"procedure":"66","participation":"01"},
+                                    "_1641301618680_680":{"procedure":"07","participation":"01"}
                                 }
                             ]]>
                         </account_participations>
@@ -72,11 +73,12 @@
                     <sandbox_account_participations backend_model="Netresearch\ShippingCore\Model\Config\Backend\ArraySerialized">
                         <![CDATA[
                             {
-                                "_1485789382230_230":{"procedure":"01","participation":"04"},
-                                "_1508418821593_593":{"procedure":"62","participation":"01"},
-                                "_1485789931170_170":{"procedure":"54","participation":"01"},
-                                "_1485789933729_729":{"procedure":"53","participation":"01"},
-                                "_1636732646440_440":{"procedure":"07","participation":"01"}
+                                "_1641301591217_217":{"procedure":"01","participation":"04"},
+                                "_1641301595612_612":{"procedure":"62","participation":"01"},
+                                "_1641301596191_191":{"procedure":"54","participation":"01"},
+                                "_1641301596765_765":{"procedure":"53","participation":"01"},
+                                "_1641301597313_313":{"procedure":"66","participation":"01"},
+                                "_1641301618680_680":{"procedure":"07","participation":"01"}
                             }
                         ]]>
                     </sandbox_account_participations>

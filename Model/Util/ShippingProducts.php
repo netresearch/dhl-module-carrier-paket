@@ -60,15 +60,16 @@ class ShippingProducts
     /**
      * Product codes.
      */
-    const CODE_NATIONAL           = 'V01PAK';
-    const CODE_WARENPOST_NATIONAL = 'V62WP';
-    const CODE_NATIONAL_PRIO      = 'V01PRIO';
-    const CODE_NATIONAL_TAGGLEICH = 'V06PAK';
-    const CODE_INTERNATIONAL      = 'V53WPAK';
-    const CODE_EUROPAKET          = 'V54EPAK';
-    const CODE_TAGGLEICH          = 'V06PAK';
-    const CODE_KURIER_TAGGLEICH   = 'V06TG';
-    const CODE_KURIER_WUNSCHZEIT  = 'V06WZ';
+    const CODE_NATIONAL                = 'V01PAK';
+    const CODE_WARENPOST_NATIONAL      = 'V62WP';
+    const CODE_NATIONAL_PRIO           = 'V01PRIO';
+    const CODE_NATIONAL_TAGGLEICH      = 'V06PAK';
+    const CODE_INTERNATIONAL           = 'V53WPAK';
+    const CODE_WARENPOST_INTERNATIONAL = 'V66WPI';
+    const CODE_EUROPAKET               = 'V54EPAK';
+    const CODE_TAGGLEICH               = 'V06PAK';
+    const CODE_KURIER_TAGGLEICH        = 'V06TG';
+    const CODE_KURIER_WUNSCHZEIT       = 'V06WZ';
 
     /**
      * Procedure codes.
@@ -78,6 +79,7 @@ class ShippingProducts
     const PROCEDURE_NATIONAL_PRIO           = '01';
     const PROCEDURE_NATIONAL_TAGGLEICH      = '06';
     const PROCEDURE_INTERNATIONAL           = '53';
+    const PROCEDURE_WARENPOST_INTERNATIONAL = '66';
     const PROCEDURE_EUROPAKET               = '54';
     const PROCEDURE_KURIER_TAGGLEICH        = '01';
     const PROCEDURE_KURIER_WUNSCHZEIT       = '01';
@@ -108,10 +110,12 @@ class ShippingProducts
                 ],
                 self::REGION_EU => [
                     self::CODE_INTERNATIONAL,
+                    self::CODE_WARENPOST_INTERNATIONAL,
                     self::CODE_EUROPAKET,
                 ],
                 self::REGION_INTERNATIONAL => [
                     self::CODE_INTERNATIONAL,
+                    self::CODE_WARENPOST_INTERNATIONAL,
                 ],
             ],
         ];
@@ -130,6 +134,7 @@ class ShippingProducts
             self::CODE_NATIONAL_PRIO => self::PROCEDURE_NATIONAL_PRIO,
             self::CODE_NATIONAL_TAGGLEICH => self::PROCEDURE_NATIONAL_TAGGLEICH,
             self::CODE_INTERNATIONAL => self::PROCEDURE_INTERNATIONAL,
+            self::CODE_WARENPOST_INTERNATIONAL => self::PROCEDURE_WARENPOST_INTERNATIONAL,
             self::CODE_EUROPAKET => self::PROCEDURE_EUROPAKET,
             self::CODE_KURIER_TAGGLEICH => self::PROCEDURE_KURIER_TAGGLEICH,
             self::CODE_KURIER_WUNSCHZEIT => self::PROCEDURE_KURIER_WUNSCHZEIT,
@@ -159,13 +164,14 @@ class ShippingProducts
     public function getProductName(string $productCode): string
     {
         $names = [
-            self::CODE_NATIONAL           => 'DHL Paket',
-            self::CODE_WARENPOST_NATIONAL => 'DHL Warenpost National',
-            self::CODE_EUROPAKET          => 'DHL Europaket',
-            self::CODE_TAGGLEICH          => 'DHL Paket Taggleich',
-            self::CODE_KURIER_TAGGLEICH   => 'DHL Kurier Taggleich,',
-            self::CODE_KURIER_WUNSCHZEIT  => 'DHL Kurier Wunschzeit',
-            self::CODE_INTERNATIONAL      => 'DHL Paket International',
+            self::CODE_NATIONAL                => 'DHL Paket',
+            self::CODE_WARENPOST_NATIONAL      => 'DHL Warenpost National',
+            self::CODE_EUROPAKET               => 'DHL Europaket',
+            self::CODE_TAGGLEICH               => 'DHL Paket Taggleich',
+            self::CODE_KURIER_TAGGLEICH        => 'DHL Kurier Taggleich,',
+            self::CODE_KURIER_WUNSCHZEIT       => 'DHL Kurier Wunschzeit',
+            self::CODE_INTERNATIONAL           => 'DHL Paket International',
+            self::CODE_WARENPOST_INTERNATIONAL => 'DHL Warenpost International',
         ];
 
         if (!isset($names[$productCode])) {
