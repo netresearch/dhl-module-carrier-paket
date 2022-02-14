@@ -424,8 +424,9 @@ class RequestExtractor implements RequestExtractorInterface
             $postNumber = $this->getCustomerAccountNumber();
             $locationType = $this->getDeliveryLocationType();
 
-            if (empty($postNumber) && ($locationType === LocationInterface::TYPE_POSTOFFICE)) {
-                // Postfiliale delivery with no post number requires email address
+            $locationTypes = [LocationInterface::TYPE_POSTOFFICE, LocationInterface::TYPE_SERVICEPOINT];
+            if (empty($postNumber) && in_array($locationType, $locationTypes)) {
+                // Postal Office and Parcel Shop delivery with no post number require email address
                 return true;
             }
         }

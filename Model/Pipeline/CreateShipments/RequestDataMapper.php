@@ -258,16 +258,7 @@ class RequestDataMapper
             }
 
             if ($requestExtractor->isPickupLocationDelivery()) {
-                if ($requestExtractor->getDeliveryLocationType() === LocationInterface::TYPE_POSTOFFICE) {
-                    $this->requestBuilder->setPostfiliale(
-                        $requestExtractor->getRecipient()->getContactPersonName(),
-                        $requestExtractor->getDeliveryLocationNumber(),
-                        $requestExtractor->getDeliveryLocationCountryCode(),
-                        $requestExtractor->getDeliveryLocationPostalCode(),
-                        $requestExtractor->getDeliveryLocationCity(),
-                        $requestExtractor->getCustomerAccountNumber()
-                    );
-                } elseif ($requestExtractor->getDeliveryLocationType() === LocationInterface::TYPE_LOCKER) {
+                if ($requestExtractor->getDeliveryLocationType() === LocationInterface::TYPE_LOCKER) {
                     $this->requestBuilder->setPackstation(
                         $requestExtractor->getRecipient()->getContactPersonName(),
                         $requestExtractor->getCustomerAccountNumber(),
@@ -275,6 +266,15 @@ class RequestDataMapper
                         $requestExtractor->getDeliveryLocationCountryCode(),
                         $requestExtractor->getDeliveryLocationPostalCode(),
                         $requestExtractor->getDeliveryLocationCity()
+                    );
+                } else {
+                    $this->requestBuilder->setPostfiliale(
+                        $requestExtractor->getRecipient()->getContactPersonName(),
+                        $requestExtractor->getDeliveryLocationNumber(),
+                        $requestExtractor->getDeliveryLocationCountryCode(),
+                        $requestExtractor->getDeliveryLocationPostalCode(),
+                        $requestExtractor->getDeliveryLocationCity(),
+                        $requestExtractor->getCustomerAccountNumber()
                     );
                 }
             }

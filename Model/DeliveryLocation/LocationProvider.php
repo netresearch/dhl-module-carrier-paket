@@ -75,7 +75,7 @@ class LocationProvider implements LocationProviderInterface
         $locations = array_filter(
             $locations,
             static function (ApiLocation $location) {
-                return ($location->getType() !== ApiLocation::TYPE_SERVICEPOINT) && $location->getNumber();
+                return (bool) $location->getNumber();
             }
         );
 
