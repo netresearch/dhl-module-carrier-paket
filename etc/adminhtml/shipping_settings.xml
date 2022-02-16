@@ -172,7 +172,11 @@
                         <label translate="true">Enable DHL retail outlet routing service</label>
                     </input>
                     <input code="emailAddress" defaultConfigValue="Dhl\Paket\Model\Config\ModuleConfig::CONFIG_PATH_PARCEL_OUTLET_NOTIFICATION_EMAIL">
-                        <inputType>hidden</inputType>
+                        <inputType>text</inputType>
+                        <placeholder translate="true">Alternative Email Address</placeholder>
+                        <validationRules>
+                            <rule name="validate-email"/>
+                        </validationRules>
                     </input>
                 </inputs>
             </shippingOption>
@@ -297,6 +301,16 @@
                 <subjects>
                     <subject>Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::SERVICE_OPTION_PREMIUM</subject>
                 </subjects>
+            </rule>
+            <rule id="showParcelRoutingEmailIfServiceIsSelected">
+                <masters>
+                    <master>Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::SERVICE_OPTION_PARCEL_OUTLET_ROUTING.enabled</master>
+                </masters>
+                <subjects>
+                    <subject>Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::SERVICE_OPTION_PARCEL_OUTLET_ROUTING.emailAddress</subject>
+                </subjects>
+                <action>show</action>
+                <triggerValue>*</triggerValue>
             </rule>
         </compatibilityData>
     </carrier>
