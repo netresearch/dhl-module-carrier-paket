@@ -37,7 +37,7 @@
             <label>Offer Delivery Day Service</label>
             <comment>Allow customers to select a delivery day.</comment>
         </field>
-        <field id="preferredday_charge" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="55"
+        <field id="preferredday_charge" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="55" canRestore="1"
                 translate="label comment" type="text">
             <depends>
                 <field id="preferredday">1</field>
