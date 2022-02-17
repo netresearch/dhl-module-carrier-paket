@@ -11,6 +11,7 @@
                 <label>DHL Parcel Germany</label>
                 <field id="infoBox" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1"
                        extends="dhlshippingsolutions/dhlglobalwebservices/shippingCoreInfoBox">
+                    <attribute type="header_template">Netresearch_ShippingCore::system/config/infoBoxHeader.phtml</attribute>
                     <attribute type="body_template">Dhl_Paket::system/config/infobox.phtml</attribute>
                     <attribute type="view_model">Dhl\Paket\ViewModel\Adminhtml\System\InfoBox\Virtual</attribute>
                 </field>
