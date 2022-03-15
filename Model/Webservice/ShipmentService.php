@@ -10,8 +10,11 @@ namespace Dhl\Paket\Model\Webservice;
 
 use Dhl\Paket\Model\Config\ModuleConfig;
 use Dhl\Sdk\Paket\Bcs\Api\Data\AuthenticationStorageInterfaceFactory;
+use Dhl\Sdk\Paket\Bcs\Api\Data\ValidationResultInterface;
 use Dhl\Sdk\Paket\Bcs\Api\ServiceFactoryInterface;
 use Dhl\Sdk\Paket\Bcs\Api\ShipmentServiceInterface;
+use Dhl\Sdk\Paket\Bcs\Exception\AuthenticationException;
+use Dhl\Sdk\Paket\Bcs\Exception\DetailedServiceException;
 use Dhl\Sdk\Paket\Bcs\Exception\ServiceException;
 use Psr\Log\LoggerInterface;
 
@@ -87,6 +90,11 @@ class ShipmentService implements ShipmentServiceInterface
         }
 
         return $this->shipmentService;
+    }
+
+    public function validateShipments(array $shipmentOrders): array
+    {
+        return $this->getService()->validateShipments($shipmentOrders);
     }
 
     public function createShipments(array $shipmentOrders): array

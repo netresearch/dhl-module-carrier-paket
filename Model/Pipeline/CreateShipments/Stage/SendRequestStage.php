@@ -43,7 +43,6 @@ class SendRequestStage implements CreateShipmentsStageInterface
             $shipmentService = $this->shipmentServiceFactory->create(['storeId' => $artifactsContainer->getStoreId()]);
 
             try {
-                /** @var ShipmentInterface[] $shipments */
                 $shipments = $shipmentService->createShipments($apiRequests);
                 // add request id as response index
                 foreach ($shipments as $shipment) {

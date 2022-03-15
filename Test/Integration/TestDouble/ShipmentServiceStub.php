@@ -9,6 +9,7 @@ namespace Dhl\Paket\Test\Integration\TestDouble;
 use Dhl\Paket\Test\Integration\TestDouble\Pipeline\CreateShipments\Stage\SendRequestStageStub as CreationStage;
 use Dhl\Paket\Test\Integration\TestDouble\Pipeline\DeleteShipments\Stage\SendRequestStageStub as CancellationStage;
 use Dhl\Sdk\Paket\Bcs\Api\Data\ShipmentInterface;
+use Dhl\Sdk\Paket\Bcs\Api\Data\ValidationResultInterface;
 use Dhl\Sdk\Paket\Bcs\Api\ShipmentServiceInterface;
 use Dhl\Sdk\Paket\Bcs\Exception\ServiceException;
 
@@ -39,6 +40,17 @@ class ShipmentServiceStub implements ShipmentServiceInterface
     ) {
         $this->createShipmentsStage = $createShipmentsStage;
         $this->deleteShipmentsStage = $deleteShipmentsStage;
+    }
+
+    /**
+     * Not implemented.
+     *
+     * @param \stdClass[] $shipmentOrders
+     * @return ValidationResultInterface[]
+     */
+    public function validateShipments(array $shipmentOrders): array
+    {
+        return [];
     }
 
     /**

@@ -199,6 +199,22 @@
             </argument>
         </arguments>
     </type>
+    <type name="Netresearch\ShippingCore\Model\Config\Validator">
+        <arguments>
+            <argument name="itemValidators" xsi:type="array">
+                <item name="dhlpaket_mode" xsi:type="object" sortOrder="1001">Dhl\Paket\Model\Config\ItemValidator\ModeValidator</item>
+                <item name="dhlpaket_shipping_origin" xsi:type="object" sortOrder="1002">Dhl\Paket\Model\Config\ItemValidator\ShippingOriginValidator</item>
+                <item name="dhlpaket_store_information" xsi:type="object" sortOrder="1003">Dhl\Paket\Model\Config\ItemValidator\StoreInformationValidator</item>
+                <item name="dhlpaket_billing_number" xsi:type="object" sortOrder="1004">Dhl\Paket\Model\Config\ItemValidator\BillingNumberValidator</item>
+                <item name="dhlpaket_active" xsi:type="object" sortOrder="1005">Dhl\Paket\Model\Config\ItemValidator\EnabledForCheckoutValidator</item>
+                <item name="dhlpaket_rates" xsi:type="object" sortOrder="1006">Dhl\Paket\Model\Config\ItemValidator\RatesProviderValidator</item>
+                <item name="dhlpaket_map_token" xsi:type="object" sortOrder="1007">Dhl\Paket\Model\Config\ItemValidator\MapBoxValidator</item>
+                <item name="dhlpaket_bcs_api_credentials" xsi:type="object" sortOrder="1010">Dhl\Paket\Model\Config\ItemValidator\BcsApiCredentialsValidator</item>
+                <item name="dhlpaket_bcs_api" xsi:type="object" sortOrder="1011">Dhl\Paket\Model\Config\ItemValidator\BcsApiValidator</item>
+                <item name="dhlpaket_pm_api" xsi:type="object" sortOrder="1012">Dhl\Paket\Model\Config\ItemValidator\ParcelManagementApiValidator</item>
+            </argument>
+        </arguments>
+    </type>
     <type name="Netresearch\ShippingCore\Model\LabelStatus\LabelStatusManagement">
         <arguments>
             <argument name="carrierCodes" xsi:type="array">
