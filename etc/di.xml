@@ -223,6 +223,13 @@
             </argument>
         </arguments>
     </type>
+    <type name="Netresearch\ShippingCore\Model\Shipping\GetProductName">
+        <arguments>
+            <argument name="nameProviders" xsi:type="array">
+                <item name="dhlpaket" xsi:type="object" sortOrder="1001">Dhl\Paket\Model\Shipping\ProductNameProvider</item>
+            </argument>
+        </arguments>
+    </type>
     <type name="Netresearch\ShippingCore\Model\ShippingSettings\PackagingPopup">
         <arguments>
             <argument name="supportMap" xsi:type="array">
