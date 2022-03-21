@@ -51,12 +51,13 @@ Country,Country
 "DHL Warenpost National: V62WP","DHL Warenpost National: V62WP"
 "DHL contract customers receive the access data to the DHL Business Customer Portal via <em>DHL Paket</em> sales.","DHL contract customers receive the access data to the DHL Business Customer Portal via <em>DHL Paket</em> sales."
 "Declare a person in your immediate neighborhood whom we can hand out your parcel. This person should live in the same building, directly opposite or next door.","Declare a person in your immediate neighborhood whom we can hand out your parcel. This person should live in the same building, directly opposite or next door."
+"Define the carrier name for the shipping rate in checkout.","Define the carrier name for the shipping rate in checkout."
+"Define the method name for the shipping rate in checkout.","Define the method name for the shipping rate in checkout."
 "Delivery Day","Delivery Day"
 "Delivery Day Additional Charge","Delivery Day Additional Charge"
 "Delivery Day: Delivery on your preferred day","Delivery Day: Delivery on your preferred day"
 "Destination Country","Destination Country"
 "Disability Access","Disability Access"
-"Displayed Text","Displayed Text"
 Domestic,Domestic
 "Drop-off Location","Drop-off Location"
 "Drop-off Location Delivery","Drop-off Location Delivery"
@@ -113,6 +114,7 @@ Fri,Fri
 Logging,Logging
 "MapBox API token is available.","MapBox API token is available."
 "MapBox API token is not configured.","MapBox API token is not configured."
+"Method Name","Method Name"
 "Minimum age +16 years","Minimum age +16 years"
 "Minimum age +18 years","Minimum age +18 years"
 Mon,Mon
@@ -213,6 +215,7 @@ Sun,Sun
 "This field determines where <em>DHL Paket</em> will be displayed on the Checkout page. To display after <em>Flat Rate</em> or <em>Free Shipping</em>, enter a number just higher than the sort order value configured for those shipping methods.","This field determines where <em>DHL Paket</em> will be displayed on the Checkout page. To display after <em>Flat Rate</em> or <em>Free Shipping</em>, enter a number just higher than the sort order value configured for those shipping methods."
 "This service will incur additional shipping costs of $1 including VAT.","This service will incur additional shipping costs of $1 including VAT."
 Thu,Thu
+Title,Title
 "To get started:","To get started:"
 Tue,Tue
 "Unable to determine return shipment billing number.","Unable to determine return shipment billing number."

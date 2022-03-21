@@ -21,7 +21,7 @@
 "Application Mode",Umgebung
 "Attestation Number",Bescheinigungs-Nummer
 "Behavior in Cases of Unavailability","Verhalten bei Nichtverfügbarkeit"
-"Billing Number","Abrechnungsnummer"
+"Billing Number",Abrechnungsnummer
 "Bulky Goods",Sperrgut
 "Business Customer Shipping",Geschäftskundenversand
 Checkout,Checkout
@@ -51,12 +51,13 @@ Country,Land
 "DHL Warenpost National: V62WP","DHL Warenpost National: V62WP"
 "DHL contract customers receive the access data to the DHL Business Customer Portal via <em>DHL Paket</em> sales.","DHL-Vertragskunden erhalten die Zugangsdaten zum DHL-Geschäftskundenportal durch einen <em>DHL Paket</em>-Vertriebsmitarbeiter."
 "Declare a person in your immediate neighborhood whom we can hand out your parcel. This person should live in the same building, directly opposite or next door.","Bestimmen Sie eine Person in Ihrer unmittelbaren Nachbarschaft, bei der wir Ihr Paket abgeben dürfen. Diese sollte im gleichen Haus, direkt gegenüber oder nebenan wohnen."
+"Define the carrier name for the shipping rate in checkout.","Definieren Sie den Namen des Versanddienstleisters im Checkout."
+"Define the method name for the shipping rate in checkout.","Definieren Sie den Namen der Versandart im Checkout."
 "Delivery Day",Liefertag
 "Delivery Day Additional Charge","Liefertag Aufpreis"
 "Delivery Day: Delivery on your preferred day","Liefertag: Lieferung an Ihrem bevorzugten Tag"
 "Destination Country",Bestimmungsland
 "Disability Access","Barrierefreier Zugang"
-"Displayed Text","Angezeigter Text"
 Domestic,Inlandsversand
 "Drop-off Location",Ablageort
 "Drop-off Location Delivery",Ablageort
@@ -113,6 +114,7 @@ Fri,Fr
 Logging,Protokollierung
 "MapBox API token is available.","MapBox API-Token ist hinterlegt."
 "MapBox API token is not configured.","MapBox API-Token ist nicht hinterlegt."
+"Method Name","Name der Versandart"
 "Minimum age +16 years","Mindestalter 16 Jahre"
 "Minimum age +18 years","Mindestalter 18 Jahre"
 Mon,Mo
@@ -213,6 +215,7 @@ Sun,So
 "This field determines where <em>DHL Paket</em> will be displayed on the Checkout page. To display after <em>Flat Rate</em> or <em>Free Shipping</em>, enter a number just higher than the sort order value configured for those shipping methods.","Dieses Feld legt fest, wo <em>DHL Paket</em> auf der Checkout-Seite angezeigt wird. Um es z.B. nach <em>Flat Rate</em> oder <em>Gratisversand</em> anzuzeigen, geben Sie eine Zahl ein, die größer ist als die Sortierreihenfolge, die für diese Versandarten konfiguriert ist."
 "This service will incur additional shipping costs of $1 including VAT.","Für diesen Service fallen zusätzliche Versandkosten in Höhe von $1 inkl. MwSt. an."
 Thu,Do
+Title,Versanddienstleister
 "To get started:","Was Sie brauchen:"
 Tue,Di
 "Unable to determine return shipment billing number.","Die Abrechnungsnummer für Rücksendungen konnte nicht ermittelt werden."

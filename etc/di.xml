@@ -46,6 +46,7 @@
         <arguments>
             <argument name="processors" xsi:type="array">
                 <item name="carrierDetails" xsi:type="object">Netresearch\ShippingCore\Model\Pipeline\Rate\ResponseProcessor\CarrierDetails</item>
+                <item name="methodTitle" xsi:type="object">Dhl\Paket\Model\Pipeline\Rate\ResponseProcessor\MethodTitle</item>
                 <item name="freeShipping" xsi:type="object">Netresearch\ShippingCore\Model\Pipeline\Rate\ResponseProcessor\FreeShipping</item>
             </argument>
         </arguments>

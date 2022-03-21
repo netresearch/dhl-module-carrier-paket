@@ -41,6 +41,7 @@ class ModuleConfig implements VersionInterface
     public const CONFIG_PATH_SANDBOX_PARTICIPATIONS = 'dhlshippingsolutions/dhlpaket/account_settings/sandbox_account_participations';
 
     // 400_checkout_presentation.xml
+    public const CONFIG_PATH_METHOD_NAME = 'carriers/dhlpaket/name';
     public const CONFIG_PATH_PROXY_CARRIER = 'dhlshippingsolutions/dhlpaket/checkout_settings/emulated_carrier';
 
     // 500_shipment_defaults.xml
@@ -81,6 +82,21 @@ class ModuleConfig implements VersionInterface
     public function getModuleVersion(): string
     {
         return $this->scopeConfig->getValue(self::CONFIG_PATH_VERSION);
+    }
+
+    /**
+     * Obtain the carrier method name for checkout presentation.
+     *
+     * @param mixed $store
+     * @return string
+     */
+    public function getMethodName($store = null): string
+    {
+        return (string) $this->scopeConfig->getValue(
+            self::CONFIG_PATH_METHOD_NAME,
+            ScopeInterface::SCOPE_STORE,
+            $store
+        );
     }
 
     /**
