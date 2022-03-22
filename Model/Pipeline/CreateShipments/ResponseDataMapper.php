@@ -98,7 +98,7 @@ class ResponseDataMapper
         if ($shipment->getReturnLabel()) {
             $documents[] = $this->returnDocumentFactory->create([
                 'data' => [
-                    ShipmentDocumentInterface::TITLE => __('Return Shipment')->render(),
+                    ShipmentDocumentInterface::TITLE => 'Beilegeretoure',
                     ShipmentDocumentInterface::MIME_TYPE => 'application/pdf',
                     ShipmentDocumentInterface::LABEL_DATA => $shipment->getReturnLabel(),
                     ReturnShipmentDocumentInterface::TRACKING_NUMBER => $shipment->getReturnShipmentNumber(),
