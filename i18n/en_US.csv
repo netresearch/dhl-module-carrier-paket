@@ -53,6 +53,7 @@ Country,Country
 "Declare a person in your immediate neighborhood whom we can hand out your parcel. This person should live in the same building, directly opposite or next door.","Declare a person in your immediate neighborhood whom we can hand out your parcel. This person should live in the same building, directly opposite or next door."
 "Define the carrier name for the shipping rate in checkout.","Define the carrier name for the shipping rate in checkout."
 "Define the method name for the shipping rate in checkout.","Define the method name for the shipping rate in checkout."
+"Deliver to a DHL parcel station, parcel shop or postal outlet","Deliver to a DHL parcel station, parcel shop or postal outlet"
 "Delivery Day","Delivery Day"
 "Delivery Day Additional Charge","Delivery Day Additional Charge"
 "Delivery Day: Delivery on your preferred day","Delivery Day: Delivery on your preferred day"
@@ -86,7 +87,7 @@ Enabled,Enabled
 Errors,Errors
 "Failed to calculate next possible shipment date. Please revise your cut-off times setting.","Failed to calculate next possible shipment date. Please revise your cut-off times setting."
 "Field %1 is required.","Field %1 is required."
-"Find Parcel Station","Find Parcel Station"
+"Find DHL Pickup Location","Find DHL Pickup Location"
 "First name, last name of neighbor","First name, last name of neighbor"
 Fri,Fri
 "Furthermore, the DHL Paket module allows to request shipping labels for incoming orders directly within your Magento suite.","Furthermore, the DHL Paket module allows to request shipping labels for incoming orders directly within your Magento suite."
@@ -239,7 +240,7 @@ Wed,Wed
 "You can now display your logo and the desired store name in the parcel notification. Use the following <a href=""https://www.dhl.de/de/geschaeftskunden/paket/versandsoftware/dhl-paketankuendigung/formular.html"" target=""_blank"">form</a> to do so.","You can now display your logo and the desired store name in the parcel notification. Use the following <a href=""https://www.dhl.de/de/geschaeftskunden/paket/versandsoftware/dhl-paketankuendigung/formular.html"" target=""_blank"">form</a> to do so."
 "You decide when and where you want to receive your parcels with the recipient services of DHL.","You decide when and where you want to receive your parcels with the recipient services of DHL."
 "You must also have Magento general logging enabled.","You must also have Magento general logging enabled."
-"You must enter your post number when sending to a parcel station. For post office delivery, the post number is optional.","You must enter your post number when sending to a parcel station. For post office delivery, the post number is optional."
+"You must enter your DHL post number when sending it to a DHL parcel station. For DHL postal outlet or parcel shop delivery, the DHL post number is optional.","You must enter your DHL post number when sending it to a DHL parcel station. For DHL postal outlet or parcel shop delivery, the DHL post number is optional."
 "You need to have a valid DHL Paket business account number (EKP)","You need to have a valid DHL Paket business account number (EKP)"
 "Your e-mail address will be sent to DHL upon enabling, after which DHL will trigger a package announcement for your shipment. The e-mail address will exclusively be used for the announcement of this shipment.","Your e-mail address will be sent to DHL upon enabling, after which DHL will trigger a package announcement for your shipment. The e-mail address will exclusively be used for the announcement of this shipment."
 "Your personal post number","Your personal post number"

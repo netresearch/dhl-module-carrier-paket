@@ -14,7 +14,7 @@
                 </inputs>
             </shippingOption>
             <shippingOption code="Netresearch\ShippingCore\Model\ShippingSettings\ShippingOption\Codes::SERVICE_OPTION_DELIVERY_LOCATION" available="dhlshippingsolutions/dhlpaket/additional_services/deliverylocation">
-                <label translate="true">Parcel Station Delivery</label>
+                <label translate="true">Deliver to a DHL parcel station, parcel shop or postal outlet</label>
                 <routes>
                     <route>
                         <includeDestinations>
@@ -26,7 +26,7 @@
                     <input code="enabled">
                         <inputType>locationfinder</inputType>
                         <sortOrder>10</sortOrder>
-                        <label translate="true">Find Parcel Station</label>
+                        <label translate="true">Find DHL Pickup Location</label>
                         <labelVisible>false</labelVisible>
                         <tooltip translate="true">Adjust your parcel delivery flexibly to your schedule. Receive your packages while on the go at one of over 28,000 pickup locations in Germany - at a DHL parcel station or post office. Wherever it best suits your needs.</tooltip>
                     </input>
@@ -35,7 +35,7 @@
                         <label translate="true">DHL Post Number</label>
                         <tooltip translate="true">The post number is your personal identification code that you receive with your registration at DHL.</tooltip>
                         <comment>
-                            <content translate="true">You must enter your post number when sending to a parcel station. For post office delivery, the post number is optional.</content>
+                            <content translate="true">You must enter your DHL post number when sending it to a DHL parcel station. For DHL postal outlet or parcel shop delivery, the DHL post number is optional.</content>
                         </comment>
                         <placeholder translate="true">Your personal post number</placeholder>
                         <inputType>text</inputType>

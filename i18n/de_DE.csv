@@ -53,6 +53,7 @@ Country,Land
 "Declare a person in your immediate neighborhood whom we can hand out your parcel. This person should live in the same building, directly opposite or next door.","Bestimmen Sie eine Person in Ihrer unmittelbaren Nachbarschaft, bei der wir Ihr Paket abgeben dürfen. Diese sollte im gleichen Haus, direkt gegenüber oder nebenan wohnen."
 "Define the carrier name for the shipping rate in checkout.","Definieren Sie den Namen des Versanddienstleisters im Checkout."
 "Define the method name for the shipping rate in checkout.","Definieren Sie den Namen der Versandart im Checkout."
+"Deliver to a DHL parcel station, parcel shop or postal outlet","An eine DHL Packstation, einen Paketshop oder eine Postfiliale liefern"
 "Delivery Day",Liefertag
 "Delivery Day Additional Charge","Liefertag Aufpreis"
 "Delivery Day: Delivery on your preferred day","Liefertag: Lieferung an Ihrem bevorzugten Tag"
@@ -86,7 +87,7 @@ Enabled,Aktiviert
 Errors,Fehler
 "Failed to calculate next possible shipment date. Please revise your cut-off times setting.","Das nächstmögliche Versanddatum konnte nicht berechnet werden. Bitte überprüfen Sie die Konfiguration der Bestellabschlusszeiten."
 "Field %1 is required.","Feld %1 is erforderlich."
-"Find Parcel Station","Packstation finden"
+"Find DHL Pickup Location","DHL Standorte finden"
 "First name, last name of neighbor","Vorname, Nachname des Nachbarn"
 Fri,Fr
 "Furthermore, the DHL Paket module allows to request shipping labels for incoming orders directly within your Magento suite.","Mit der DHL Paket Versandmethode können Sie Versandscheine für eingehende Bestellungen direkt in Ihrer Magento-Instanz anlegen."
@@ -239,7 +240,7 @@ Wed,Mi
 "You can now display your logo and the desired store name in the parcel notification. Use the following <a href=""https://www.dhl.de/de/geschaeftskunden/paket/versandsoftware/dhl-paketankuendigung/formular.html"" target=""_blank"">form</a> to do so.","Sie können ab sofort Ihr Logo und den gewünschten Shop-Namen in der Paketankündigung anzeigen lassen. Nutzen Sie dafür das folgende <a href=""https://www.dhl.de/de/geschaeftskunden/paket/versandsoftware/dhl-paketankuendigung/formular.html"" target=""_blank"">Formular</a>."
 "You decide when and where you want to receive your parcels with the recipient services of DHL.","Mit den Services von DHL-Wunschzustellung entscheiden Sie, wann und wo Sie Ihre Pakete empfangen."
 "You must also have Magento general logging enabled.","Die allgemeine Protokollierung muss in Magento aktiviert sein, damit die modulspezifische Protokollierung funktioniert."
-"You must enter your post number when sending to a parcel station. For post office delivery, the post number is optional.","Sie müssen Ihre Postnummer für den Versand an eine Packstation angeben. Für den Versand an eine Postfiliale ist diese optional."
+"You must enter your DHL post number when sending it to a DHL parcel station. For DHL postal outlet or parcel shop delivery, the DHL post number is optional.","Sie müssen Ihre DHL Postnummer für den Versand an eine DHL Packstation angeben. Für den Versand an einen DHL Paketshop oder eine Postfiliale ist diese optional."
 "You need to have a valid DHL Paket business account number (EKP)","Sie brauchen eine gültige DHL Paket Geschäftskundennummer (EKP)"
 "Your e-mail address will be sent to DHL upon enabling, after which DHL will trigger a package announcement for your shipment. The e-mail address will exclusively be used for the announcement of this shipment.","Ihre E-Mail-Adresse wird nach der Aktivierung an DHL gesendet. Danach löst DHL eine Paketankündigung für Ihre Sendung aus. Die E-Mail-Adresse wird ausschließlich für die Bekanntgabe dieser Sendung verwendet."
 "Your personal post number","Ihre persönliche Postnummer"
