@@ -4,6 +4,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## 2.5.0
+
+### Added
+
+- Select and book delivery to DHL Parcel Shops.
+- Set or change the _DHL Paket Parcel Outlet Routing_ email notification address individually per shipment.
+- Reset service fee configuration setting to module default ("use system value").
+- Set shipping product name as track title.
+
+### Changed
+
+- Configure checkout shipping method name in module configuration.
+
 ## 2.4.0
 
 ### Added
