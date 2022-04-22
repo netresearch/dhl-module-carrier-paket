@@ -80,7 +80,7 @@
                 <sortOrder>1010</sortOrder>
             </shippingOption>
             <shippingOption code="Netresearch\ShippingCore\Model\ShippingSettings\ShippingOption\Codes::SERVICE_OPTION_DELIVERY_LOCATION">
-                <label translate="true">Parcel Station</label>
+                <label translate="true">Delivery Location</label>
                 <sortOrder>1020</sortOrder>
                 <inputs>
                     <input code="enabled">

@@ -57,6 +57,7 @@ Country,Land
 "Delivery Day",Liefertag
 "Delivery Day Additional Charge","Liefertag Aufpreis"
 "Delivery Day: Delivery on your preferred day","Liefertag: Lieferung an Ihrem bevorzugten Tag"
+"Delivery Location","Zustellung an Abholort"
 "Destination Country",Bestimmungsland
 "Disability Access","Barrierefreier Zugang"
 Domestic,Inlandsversand
@@ -139,7 +140,6 @@ Number,Nummer
 "Parcel Management Web Service","Paketsteuerung Webservice"
 "Parcel Routing",Paket-Routing
 "Parcel Shop %1","Paketshop %1"
-"Parcel Station",Packstation
 "Parcel Station %1","Packstation %1"
 "Parcel Station Delivery","An eine Packstation liefern"
 "Parking available","Parkplätze vorhanden"

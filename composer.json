@@ -44,7 +44,7 @@
         "magento/zendframework1": "^1.14.0",
         "monolog/monolog": "^1.17",
         "netresearch/config-fields-m2": "^1.2.4",
-        "netresearch/module-shipping-core": "^2.7.0"
+        "netresearch/module-shipping-core": "^2.7.2"
     },
     "require-dev": {
         "magento/module-customer": "^102.0.0 || ^103.0.0 ",

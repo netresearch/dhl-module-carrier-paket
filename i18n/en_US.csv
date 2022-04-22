@@ -57,6 +57,7 @@ Country,Country
 "Delivery Day","Delivery Day"
 "Delivery Day Additional Charge","Delivery Day Additional Charge"
 "Delivery Day: Delivery on your preferred day","Delivery Day: Delivery on your preferred day"
+"Delivery Location","Delivery Location"
 "Destination Country","Destination Country"
 "Disability Access","Disability Access"
 Domestic,Domestic
@@ -139,7 +140,6 @@ Number,Number
 "Parcel Management Web Service","Parcel Management Web Service"
 "Parcel Routing","Parcel Routing"
 "Parcel Shop %1","Parcel Shop %1"
-"Parcel Station","Parcel Station"
 "Parcel Station %1","Parcel Station %1"
 "Parcel Station Delivery","Parcel Station Delivery"
 "Parking available","Parking available"
