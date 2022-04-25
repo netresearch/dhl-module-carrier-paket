@@ -25,9 +25,9 @@ use Netresearch\ShippingCore\Api\Util\AssetUrlInterface;
  */
 class LocationMapper
 {
-    const ICON_PACKSTATION_PATH = 'Dhl_Paket::images/icon-packstation.png';
-    const ICON_PAKETSHOP_PATH = 'Dhl_Paket::images/icon-parcelshop.png';
-    const ICON_POSTFILIALE_PATH = 'Dhl_Paket::images/icon-postoffice.png';
+    public const ICON_PACKSTATION_PATH = 'Dhl_Paket::images/icon-packstation.png';
+    public const ICON_PAKETSHOP_PATH = 'Dhl_Paket::images/icon-parcelshop.png';
+    public const ICON_POSTFILIALE_PATH = 'Dhl_Paket::images/icon-postoffice.png';
 
     /**
      * @var AddressInterfaceFactory
@@ -177,7 +177,7 @@ class LocationMapper
             usort(
                 $timeFrames,
                 static function (TimeFrameInterface $a, TimeFrameInterface $b) {
-                    return (float)$a->getOpens() > (float)$b->getOpens();
+                    return (float)$a->getOpens() <=> (float)$b->getOpens();
                 }
             );
             $timeFramesMap[$day] = $timeFrames;

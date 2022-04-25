@@ -13,6 +13,8 @@
         <includePath>../../../../../dev/tests/integration/</includePath>
         <includePath>../../../../../dev/tests/integration/testsuite/</includePath>
 
+        <!-- temporary workaround for the error thrown in the magento/zendframework1:1.15.0 package -->
+        <ini name="error_reporting" value="24575" />
         <ini name="date.timezone" value="Europe/Berlin" />
         <ini name="xdebug.max_nesting_level" value="200" />
 

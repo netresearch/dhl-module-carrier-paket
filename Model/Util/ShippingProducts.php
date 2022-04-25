@@ -24,66 +24,66 @@ class ShippingProducts
     /**
      * Destination regions.
      */
-    const REGION_EU            = 'EU';
-    const REGION_INTERNATIONAL = 'INTL';
+    public const REGION_EU            = 'EU';
+    public const REGION_INTERNATIONAL = 'INTL';
 
     /**
      * Destination country codes.
      */
-    const COUNTRY_CODE_GERMANY        = 'DE';
-    const COUNTRY_CODE_AUSTRIA        = 'AT';
-    const COUNTRY_CODE_BELGIUM        = 'BE';
-    const COUNTRY_CODE_BULGARIA       = 'BG';
-    const COUNTRY_CODE_CZECH_REPUBLIC = 'CZ';
-    const COUNTRY_CODE_DENMARK        = 'DK';
-    const COUNTRY_CODE_ESTONIA        = 'EE';
-    const COUNTRY_CODE_FINLAND        = 'FI';
-    const COUNTRY_CODE_FRANCE         = 'FR';
-    const COUNTRY_CODE_GREECE         = 'GR';
-    const COUNTRY_CODE_GREAT_BRITAIN  = 'GB';
-    const COUNTRY_CODE_HUNGARY        = 'HU';
-    const COUNTRY_CODE_IRELAND        = 'IR';
-    const COUNTRY_CODE_ITALY          = 'IT';
-    const COUNTRY_CODE_LATVIA         = 'LV';
-    const COUNTRY_CODE_LITHUANIA      = 'LT';
-    const COUNTRY_CODE_LUXEMBURG      = 'LU';
-    const COUNTRY_CODE_NETHERLANDS    = 'NL';
-    const COUNTRY_CODE_NORWAY         = 'NO';
-    const COUNTRY_CODE_POLAND         = 'PL';
-    const COUNTRY_CODE_PORTUGAL       = 'PT';
-    const COUNTRY_CODE_ROMANIA        = 'RO';
-    const COUNTRY_CODE_SLOVAKIA       = 'SK';
-    const COUNTRY_CODE_SPAIN          = 'ES';
-    const COUNTRY_CODE_SWEDEN         = 'SE';
-    const COUNTRY_CODE_SWITZERLAND    = 'CH';
+    public const COUNTRY_CODE_GERMANY        = 'DE';
+    public const COUNTRY_CODE_AUSTRIA        = 'AT';
+    public const COUNTRY_CODE_BELGIUM        = 'BE';
+    public const COUNTRY_CODE_BULGARIA       = 'BG';
+    public const COUNTRY_CODE_CZECH_REPUBLIC = 'CZ';
+    public const COUNTRY_CODE_DENMARK        = 'DK';
+    public const COUNTRY_CODE_ESTONIA        = 'EE';
+    public const COUNTRY_CODE_FINLAND        = 'FI';
+    public const COUNTRY_CODE_FRANCE         = 'FR';
+    public const COUNTRY_CODE_GREECE         = 'GR';
+    public const COUNTRY_CODE_GREAT_BRITAIN  = 'GB';
+    public const COUNTRY_CODE_HUNGARY        = 'HU';
+    public const COUNTRY_CODE_IRELAND        = 'IR';
+    public const COUNTRY_CODE_ITALY          = 'IT';
+    public const COUNTRY_CODE_LATVIA         = 'LV';
+    public const COUNTRY_CODE_LITHUANIA      = 'LT';
+    public const COUNTRY_CODE_LUXEMBURG      = 'LU';
+    public const COUNTRY_CODE_NETHERLANDS    = 'NL';
+    public const COUNTRY_CODE_NORWAY         = 'NO';
+    public const COUNTRY_CODE_POLAND         = 'PL';
+    public const COUNTRY_CODE_PORTUGAL       = 'PT';
+    public const COUNTRY_CODE_ROMANIA        = 'RO';
+    public const COUNTRY_CODE_SLOVAKIA       = 'SK';
+    public const COUNTRY_CODE_SPAIN          = 'ES';
+    public const COUNTRY_CODE_SWEDEN         = 'SE';
+    public const COUNTRY_CODE_SWITZERLAND    = 'CH';
 
     /**
      * Product codes.
      */
-    const CODE_NATIONAL                = 'V01PAK';
-    const CODE_WARENPOST_NATIONAL      = 'V62WP';
-    const CODE_NATIONAL_PRIO           = 'V01PRIO';
-    const CODE_NATIONAL_TAGGLEICH      = 'V06PAK';
-    const CODE_INTERNATIONAL           = 'V53WPAK';
-    const CODE_WARENPOST_INTERNATIONAL = 'V66WPI';
-    const CODE_EUROPAKET               = 'V54EPAK';
-    const CODE_TAGGLEICH               = 'V06PAK';
-    const CODE_KURIER_TAGGLEICH        = 'V06TG';
-    const CODE_KURIER_WUNSCHZEIT       = 'V06WZ';
+    public const CODE_NATIONAL                = 'V01PAK';
+    public const CODE_WARENPOST_NATIONAL      = 'V62WP';
+    public const CODE_NATIONAL_PRIO           = 'V01PRIO';
+    public const CODE_NATIONAL_TAGGLEICH      = 'V06PAK';
+    public const CODE_INTERNATIONAL           = 'V53WPAK';
+    public const CODE_WARENPOST_INTERNATIONAL = 'V66WPI';
+    public const CODE_EUROPAKET               = 'V54EPAK';
+    public const CODE_TAGGLEICH               = 'V06PAK';
+    public const CODE_KURIER_TAGGLEICH        = 'V06TG';
+    public const CODE_KURIER_WUNSCHZEIT       = 'V06WZ';
 
     /**
      * Procedure codes.
      */
-    const PROCEDURE_NATIONAL                = '01';
-    const PROCEDURE_WARENPOST_NATIONAL      = '62';
-    const PROCEDURE_NATIONAL_PRIO           = '01';
-    const PROCEDURE_NATIONAL_TAGGLEICH      = '06';
-    const PROCEDURE_INTERNATIONAL           = '53';
-    const PROCEDURE_WARENPOST_INTERNATIONAL = '66';
-    const PROCEDURE_EUROPAKET               = '54';
-    const PROCEDURE_KURIER_TAGGLEICH        = '01';
-    const PROCEDURE_KURIER_WUNSCHZEIT       = '01';
-    const PROCEDURE_RETURNSHIPMENT_NATIONAL = '07';
+    public const PROCEDURE_NATIONAL                = '01';
+    public const PROCEDURE_WARENPOST_NATIONAL      = '62';
+    public const PROCEDURE_NATIONAL_PRIO           = '01';
+    public const PROCEDURE_NATIONAL_TAGGLEICH      = '06';
+    public const PROCEDURE_INTERNATIONAL           = '53';
+    public const PROCEDURE_WARENPOST_INTERNATIONAL = '66';
+    public const PROCEDURE_EUROPAKET               = '54';
+    public const PROCEDURE_KURIER_TAGGLEICH        = '01';
+    public const PROCEDURE_KURIER_WUNSCHZEIT       = '01';
+    public const PROCEDURE_RETURNSHIPMENT_NATIONAL = '07';
 
     /**
      * @var ModuleConfig

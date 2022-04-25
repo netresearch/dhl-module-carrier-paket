@@ -17,7 +17,7 @@ class ModuleConfig implements VersionInterface
     // phpcs:disable Generic.Files.LineLength.TooLong
 
     // Defaults
-    const CONFIG_PATH_VERSION = 'carriers/dhlpaket/version';
+    public const CONFIG_PATH_VERSION = 'carriers/dhlpaket/version';
 
     // 100_general_settings.xml
     public const CONFIG_PATH_CUT_OFF_TIMES = 'dhlshippingsolutions/dhlpaket/general_shipping_settings/cut_off_times';
