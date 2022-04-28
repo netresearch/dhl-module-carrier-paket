@@ -216,6 +216,13 @@
             </argument>
         </arguments>
     </type>
+    <type name="Netresearch\ShippingCore\Observer\EmailShippingLabel">
+        <arguments>
+            <argument name="carrierCodes" xsi:type="array">
+                <item name="dhlpaket" xsi:type="const">Dhl\Paket\Model\Carrier\Paket::CARRIER_CODE</item>
+            </argument>
+        </arguments>
+    </type>
     <type name="Netresearch\ShippingCore\Model\LabelStatus\LabelStatusManagement">
         <arguments>
             <argument name="carrierCodes" xsi:type="array">
