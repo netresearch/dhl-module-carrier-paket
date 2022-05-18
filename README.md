@@ -11,7 +11,7 @@ via the [DHL Business Customer Shipping API](https://entwickler.dhl.de/en/) (DHL
 
 Requirements
 ------------
-* PHP >= 7.1.3
+* PHP >= 7.2
 * PHP SOAP extension
 
 Compatibility

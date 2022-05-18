@@ -51,5 +51,10 @@
         "magento/module-offline-payments": "^100.3.0",
         "phpunit/phpunit": "^6.5.0 || ^9.0.0",
         "tddwizard/magento2-fixtures": "^0.12.0"
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-develop": "2.6.1.x-dev"
+        }
     }
 }
