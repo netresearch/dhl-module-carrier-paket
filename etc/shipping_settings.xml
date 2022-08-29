@@ -40,6 +40,9 @@
                         <placeholder translate="true">Your personal post number</placeholder>
                         <inputType>text</inputType>
                         <validationRules>
+                            <rule name="minLength">
+                                <param>6</param>
+                            </rule>
                             <rule name="maxLength">
                                 <param>10</param>
                             </rule>
