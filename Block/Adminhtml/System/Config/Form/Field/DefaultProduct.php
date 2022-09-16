@@ -41,7 +41,7 @@ class DefaultProduct extends AbstractFieldArray
                 ['data' => ['is_render_to_js_template' => true]]
             );
 
-            $this->routeRenderer->setClass('route');
+            $this->routeRenderer->setClass('select admin__control-select');
         }
 
         return $this->routeRenderer;
@@ -63,7 +63,7 @@ class DefaultProduct extends AbstractFieldArray
                 ['data' => ['is_render_to_js_template' => true]]
             );
 
-            $this->productRenderer->setClass('route');
+            $this->productRenderer->setClass('select admin__control-select');
         }
 
         return $this->productRenderer;

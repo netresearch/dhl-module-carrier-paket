@@ -42,7 +42,7 @@ class Participation extends AbstractFieldArray
                 ['data' => ['is_render_to_js_template' => true]]
             );
 
-            $this->templateRenderer->setClass('procedure');
+            $this->templateRenderer->setClass('select admin__control-select');
         }
 
         return $this->templateRenderer;
@@ -84,7 +84,7 @@ class Participation extends AbstractFieldArray
         $this->addColumn('participation', [
             'label' => __('Participation'),
             'style' => 'width: 80px',
-            'class' => 'validate-no-empty validate-length maximum-length-2 minimum-length-2 validate-alphanum',
+            'class' => 'validate-no-empty validate-length maximum-length-2 minimum-length-2 validate-alphanum input-text admin__control-text',
         ]);
 
         // Hide "Add after" button

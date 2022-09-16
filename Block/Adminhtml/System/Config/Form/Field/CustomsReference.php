@@ -42,7 +42,7 @@ class CustomsReference extends AbstractFieldArray
                 ['data' => ['is_render_to_js_template' => true]]
             );
 
-            $this->templateRenderer->setClass('country');
+            $this->templateRenderer->setClass('select admin__control-select');
         }
 
         return $this->templateRenderer;
@@ -84,7 +84,7 @@ class CustomsReference extends AbstractFieldArray
         $this->addColumn('customs_reference', [
             'label' => __('Number'),
             'style' => 'width: 80px',
-            'class' => 'validate-no-empty validate-length maximum-length-35',
+            'class' => 'validate-no-empty validate-length maximum-length-35 input-text admin__control-text',
         ]);
 
         // Hide "Add after" button
