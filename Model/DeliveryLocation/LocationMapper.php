@@ -129,7 +129,12 @@ class LocationMapper
         $address->setCity($ApiAddress->getCity());
         $address->setStreet($ApiAddress->getStreet());
         $address->setPostalCode($ApiAddress->getPostalCode());
-        $address->setCompany($data->getType() !== SdkLocationInterface::TYPE_LOCKER ? $data->getName() : '');
+
+        if ($data->getType() !== SdkLocationInterface::TYPE_LOCKER) {
+            $address->setCompany($data->getName());
+        } else {
+            $address->setCompany($data->getPlace());
+        }
 
         return $address;
     }

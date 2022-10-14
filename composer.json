@@ -27,7 +27,7 @@
         "dhl/module-unified-tracking": "^2.1.0",
         "dhl/sdk-api-bcs": "^1.3.0",
         "dhl/sdk-api-parcel-management": "^3.1.0",
-        "dhl/sdk-api-unified-location-finder": "^2.1.0",
+        "dhl/sdk-api-unified-location-finder": "^3.0.0",
         "magento/framework": "^102.0.0 || ^103.0.0",
         "magento/module-backend": "^101.0.0 || ^102.0.0",
         "magento/module-bundle": "^100.3.0 || ^101.0.0",
@@ -51,5 +51,10 @@
         "magento/module-offline-payments": "^100.3.0",
         "phpunit/phpunit": "^6.5.0 || ^9.0.0",
         "tddwizard/magento2-fixtures": "^0.12.0"
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-develop": "2.7.0.x-dev"
+        }
     }
 }
