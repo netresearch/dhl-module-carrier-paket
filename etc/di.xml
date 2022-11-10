@@ -14,6 +14,7 @@
 
     <!-- # service interface preferences -->
     <preference for="Dhl\Paket\Api\ShipmentDateInterface" type="Dhl\Paket\Model\ShipmentDate\ShipmentDate"/>
+    <preference for="Dhl\Sdk\Paket\Bcs\Api\Data\OrderConfigurationInterface" type="Dhl\Paket\Model\Webservice\ShipmentOrderConfig"/>
 
     <!-- # virtual types -->
     <virtualType name="Dhl\Paket\Model\BulkShipment\BulkShipmentManagement\Virtual" type="Dhl\Paket\Model\BulkShipment\ShipmentManagement">

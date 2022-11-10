@@ -8,6 +8,7 @@ namespace Dhl\Paket\Test\Integration\TestDouble;
 
 use Dhl\Paket\Test\Integration\TestDouble\Pipeline\CreateShipments\Stage\SendRequestStageStub as CreationStage;
 use Dhl\Paket\Test\Integration\TestDouble\Pipeline\DeleteShipments\Stage\SendRequestStageStub as CancellationStage;
+use Dhl\Sdk\Paket\Bcs\Api\Data\OrderConfigurationInterface;
 use Dhl\Sdk\Paket\Bcs\Api\Data\ShipmentInterface;
 use Dhl\Sdk\Paket\Bcs\Api\Data\ValidationResultInterface;
 use Dhl\Sdk\Paket\Bcs\Api\ShipmentServiceInterface;
@@ -45,10 +46,21 @@ class ShipmentServiceStub implements ShipmentServiceInterface
     /**
      * Not implemented.
      *
+     * @return string
+     */
+    public function getVersion(): string
+    {
+        return '';
+    }
+
+    /**
+     * Not implemented.
+     *
      * @param \stdClass[] $shipmentOrders
+     * @param OrderConfigurationInterface|null $configuration
      * @return ValidationResultInterface[]
      */
-    public function validateShipments(array $shipmentOrders): array
+    public function validateShipments(array $shipmentOrders, OrderConfigurationInterface $configuration = null): array
     {
         return [];
     }
@@ -57,12 +69,13 @@ class ShipmentServiceStub implements ShipmentServiceInterface
      * Return a fake web service response pre-defined via CreateShipmentsStageInterface
      *
      * @param \stdClass[] $shipmentOrders
+     * @param OrderConfigurationInterface|null $configuration
      * @return ShipmentInterface[]
      * @throws ServiceException
      * @see \Dhl\Paket\Test\Integration\TestDouble\Pipeline\CreateShipments\Stage\SendRequestStageStub
      *
      */
-    public function createShipments(array $shipmentOrders): array
+    public function createShipments(array $shipmentOrders, OrderConfigurationInterface $configuration = null): array
     {
         $callback = $this->createShipmentsStage->responseCallback;
         if (is_callable($callback)) {

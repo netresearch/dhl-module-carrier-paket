@@ -10,7 +10,7 @@ namespace Dhl\Paket\Model\Pipeline\CreateShipments\Stage;
 
 use Dhl\Paket\Model\Pipeline\CreateShipments\ArtifactsContainer;
 use Dhl\Paket\Model\Webservice\ShipmentServiceFactory;
-use Dhl\Sdk\Paket\Bcs\Api\Data\ShipmentInterface;
+use Dhl\Sdk\Paket\Bcs\Api\Data\OrderConfigurationInterfaceFactory;
 use Dhl\Sdk\Paket\Bcs\Exception\DetailedServiceException;
 use Dhl\Sdk\Paket\Bcs\Exception\ServiceException;
 use Magento\Shipping\Model\Shipment\Request;
@@ -24,9 +24,17 @@ class SendRequestStage implements CreateShipmentsStageInterface
      */
     private $shipmentServiceFactory;
 
-    public function __construct(ShipmentServiceFactory $shipmentServiceFactory)
-    {
+    /**
+     * @var OrderConfigurationInterfaceFactory
+     */
+    private $orderConfigFactory;
+
+    public function __construct(
+        ShipmentServiceFactory $shipmentServiceFactory,
+        OrderConfigurationInterfaceFactory $orderConfigFactory
+    ) {
         $this->shipmentServiceFactory = $shipmentServiceFactory;
+        $this->orderConfigFactory = $orderConfigFactory;
     }
 
     /**
@@ -41,9 +49,10 @@ class SendRequestStage implements CreateShipmentsStageInterface
         $apiRequests = $artifactsContainer->getApiRequests();
         if (!empty($apiRequests)) {
             $shipmentService = $this->shipmentServiceFactory->create(['storeId' => $artifactsContainer->getStoreId()]);
+            $orderConfig = $this->orderConfigFactory->create(['storeId' => $artifactsContainer->getStoreId()]);
 
             try {
-                $shipments = $shipmentService->createShipments($apiRequests);
+                $shipments = $shipmentService->createShipments($apiRequests, $orderConfig);
                 // add request id as response index
                 foreach ($shipments as $shipment) {
                     $artifactsContainer->addApiResponse($shipment->getSequenceNumber(), $shipment);

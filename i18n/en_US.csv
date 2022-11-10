@@ -79,7 +79,6 @@ EU,EU
 "Enable DHL neighbor delivery","Enable DHL neighbor delivery"
 "Enable DHL parcel notification","Enable DHL parcel notification"
 "Enable DHL premium service","Enable DHL premium service"
-"Enable DHL print only if codeable service","Enable DHL print only if codeable service"
 "Enable DHL retail outlet routing service","Enable DHL retail outlet routing service"
 "Enable DHL return shipment service","Enable DHL return shipment service"
 "Enable No Neighbor Delivery","Enable No Neighbor Delivery"
@@ -184,7 +183,6 @@ Product,Product
 "Return Shipment Address","Return Shipment Address"
 "Return immediately","Return immediately"
 Route,Route
-"Routing Code","Routing Code"
 Sat,Sat
 "Select ""Merchandise Shipment"" only if you ship all or most of your orders as Merchandise Shipments. Otherwise, choose ""DHL Paket"".","Select ""Merchandise Shipment"" only if you ship all or most of your orders as Merchandise Shipments. Otherwise, choose ""DHL Paket""."
 "Select Procedure","Select Procedure"

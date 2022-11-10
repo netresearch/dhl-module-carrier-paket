@@ -206,10 +206,6 @@ class RequestDataMapper
                 );
             }
 
-            if ($requestExtractor->isPrintOnlyIfCodeable()) {
-                $this->requestBuilder->setPrintOnlyIfCodeable();
-            }
-
             $baseTotal = round((float) $requestExtractor->getOrder()->getBaseGrandTotal(), 2);
             if ($requestExtractor->isCashOnDelivery()) {
                 $notes = $this->wrapReasonForPayment($requestExtractor->getCodReasonForPayment());

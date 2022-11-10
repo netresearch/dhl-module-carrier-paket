@@ -79,7 +79,6 @@ EU,"Versand innerhalb der EU"
 "Enable DHL neighbor delivery","Lieferung an Nachbar aktivieren"
 "Enable DHL parcel notification","DHL Paketankündigung aktivieren"
 "Enable DHL premium service","DHL Premium Service aktivieren"
-"Enable DHL print only if codeable service","Nur leitkodierbare Versandaufträge erteilen"
 "Enable DHL retail outlet routing service","Filial-Routing aktivieren"
 "Enable DHL return shipment service","DHL Retourenbeileger anfordern"
 "Enable No Neighbor Delivery","Keine Nachbarschaftszustellung aktivieren"
@@ -184,7 +183,6 @@ Product,Produkt
 "Return Shipment Address",Rücksendeadresse
 "Return immediately","Sofortige Rücksendung an den Absender"
 Route,Route
-"Routing Code",Leitcodierung
 Sat,Sa
 "Select ""Merchandise Shipment"" only if you ship all or most of your orders as Merchandise Shipments. Otherwise, choose ""DHL Paket"".","Wählen Sie ""DHL Warenpost"" nur, wenn Sie alle oder die meisten Ihrer Bestellungen als Warenpost versenden. Ansonsten wählen Sie ""DHL Paket""."
 "Select Procedure","Verfahren auswählen"

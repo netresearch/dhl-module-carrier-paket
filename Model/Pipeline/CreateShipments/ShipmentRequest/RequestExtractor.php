@@ -545,16 +545,6 @@ class RequestExtractor implements RequestExtractorInterface
     }
 
     /**
-     * Obtain the "printOnlyIfCodeable" flag for the current package.
-     *
-     * @return bool
-     */
-    public function isPrintOnlyIfCodeable(): bool
-    {
-        return $this->getServiceOptionReader()->isServiceEnabled(Codes::SERVICE_OPTION_PRINT_ONLY_IF_CODEABLE);
-    }
-
-    /**
      * Obtain the "visualCheckOfAge" value for the current package.
      *
      * @return string

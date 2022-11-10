@@ -371,6 +371,15 @@ class ModuleConfig implements VersionInterface
         return array_column($participations, 'participation', 'procedure');
     }
 
+    public function isPrintOnlyIfCodeable($store = null): bool
+    {
+        return $this->scopeConfig->isSetFlag(
+            self::CONFIG_PATH_PRINT_ONLY_IF_CODEABLE,
+            ScopeInterface::SCOPE_STORE,
+            $store
+        );
+    }
+
     /**
      * Get the sender address book reference.
      *

@@ -23,7 +23,6 @@ class Codes
     public const SERVICE_OPTION_ENDORSEMENT = 'endorsement';
     public const SERVICE_OPTION_INSURANCE = 'additionalInsurance';
     public const SERVICE_OPTION_BULKY_GOODS = 'bulkyGoods';
-    public const SERVICE_OPTION_PRINT_ONLY_IF_CODEABLE = 'printOnlyIfCodeable';
 
     public const SERVICE_OPTION_PARCEL_OUTLET_ROUTING = 'parcelOutletRouting';
     public const SERVICE_INPUT_PARCEL_OUTLET_ROUTING_NOTIFICATION_EMAIL = 'emailAddress';
@@ -37,4 +36,9 @@ class Codes
     public const SERVICE_OPTION_NO_NEIGHBOR_DELIVERY = 'noNeighbourDelivery';
 
     public const SERVICE_INPUT_DELIVERY_LOCATION_ACCOUNT_NUMBER = 'customerPostnumber';
+
+    /**
+     * @deprecated | no longer a shipping setting, only global configuration
+     */
+    public const SERVICE_OPTION_PRINT_ONLY_IF_CODEABLE = 'printOnlyIfCodeable';
 }

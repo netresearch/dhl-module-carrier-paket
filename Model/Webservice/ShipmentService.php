@@ -10,6 +10,7 @@ namespace Dhl\Paket\Model\Webservice;
 
 use Dhl\Paket\Model\Config\ModuleConfig;
 use Dhl\Sdk\Paket\Bcs\Api\Data\AuthenticationStorageInterfaceFactory;
+use Dhl\Sdk\Paket\Bcs\Api\Data\OrderConfigurationInterface;
 use Dhl\Sdk\Paket\Bcs\Api\Data\ValidationResultInterface;
 use Dhl\Sdk\Paket\Bcs\Api\ServiceFactoryInterface;
 use Dhl\Sdk\Paket\Bcs\Api\ShipmentServiceInterface;
@@ -92,14 +93,19 @@ class ShipmentService implements ShipmentServiceInterface
         return $this->shipmentService;
     }
 
-    public function validateShipments(array $shipmentOrders): array
+    public function getVersion(): string
     {
-        return $this->getService()->validateShipments($shipmentOrders);
+        return $this->getService()->getVersion();
     }
 
-    public function createShipments(array $shipmentOrders): array
+    public function validateShipments(array $shipmentOrders, OrderConfigurationInterface $configuration = null): array
     {
-        return $this->getService()->createShipments($shipmentOrders);
+        return $this->getService()->validateShipments($shipmentOrders, $configuration);
+    }
+
+    public function createShipments(array $shipmentOrders, OrderConfigurationInterface $configuration = null): array
+    {
+        return $this->getService()->createShipments($shipmentOrders, $configuration);
     }
 
     public function cancelShipments(array $shipmentNumbers): array
