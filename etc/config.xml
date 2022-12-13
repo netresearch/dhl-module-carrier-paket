@@ -44,6 +44,84 @@
                 </general_shipping_settings>
 
                 <account_settings>
+                    <sandboxmode>1</sandboxmode>
+                    <api_type>soap</api_type>
+                    <soap_prod_group>
+                        <app_auth_username>M2_SHIPPING_1</app_auth_username>
+                        <app_auth_password>pMnRHKfNMw9O3qKMLAUhFT4cBbwotp</app_auth_password>
+                        <user_auth_password backend_model="Magento\Config\Model\Config\Backend\Encrypted"/>
+                        <participations backend_model="Netresearch\ShippingCore\Model\Config\Backend\ArraySerialized">
+                            <![CDATA[
+                                {
+                                    "_1641301591217_217":{"procedure":"01","participation":"01"},
+                                    "_1641301595612_612":{"procedure":"62","participation":"01"},
+                                    "_1641301596191_191":{"procedure":"54","participation":"01"},
+                                    "_1641301596765_765":{"procedure":"53","participation":"01"},
+                                    "_1641301597313_313":{"procedure":"66","participation":"01"},
+                                    "_1641301618680_680":{"procedure":"07","participation":"01"}
+                                }
+                            ]]>
+                        </participations>
+                    </soap_prod_group>
+                    <soap_sandbox_group>
+                        <app_auth_username>magento_1</app_auth_username>
+                        <app_auth_password>2de26b775e59279464d1c2f8546432e62413372421c672db36eaacfc2f</app_auth_password>
+                        <user_auth_username>2222222222_01</user_auth_username>
+                        <user_auth_password>pass</user_auth_password>
+                        <account_number>2222222222</account_number>
+                        <participations backend_model="Netresearch\ShippingCore\Model\Config\Backend\ArraySerialized">
+                            <![CDATA[
+                                    {
+                                        "_1641301591217_217":{"procedure":"01","participation":"04"},
+                                        "_1641301595612_612":{"procedure":"62","participation":"01"},
+                                        "_1641301596191_191":{"procedure":"54","participation":"01"},
+                                        "_1641301596765_765":{"procedure":"53","participation":"01"},
+                                        "_1641301597313_313":{"procedure":"66","participation":"01"},
+                                        "_1641301618680_680":{"procedure":"07","participation":"01"}
+                                    }
+                                ]]>
+                        </participations>
+                    </soap_sandbox_group>
+
+                    <rest_prod_group>
+                        <app_auth_password>pJDOxtJt03guK5eXKYcZt9Ez1bPi2Xvm</app_auth_password>
+                        <user_auth_password backend_model="Magento\Config\Model\Config\Backend\Encrypted"/>
+                        <participations backend_model="Netresearch\ShippingCore\Model\Config\Backend\ArraySerialized">
+                            <![CDATA[
+                                {
+                                    "_1641301591217_217":{"procedure":"01","participation":"01"},
+                                    "_1641301595612_612":{"procedure":"62","participation":"01"},
+                                    "_1641301596191_191":{"procedure":"54","participation":"01"},
+                                    "_1641301596765_765":{"procedure":"53","participation":"01"},
+                                    "_1641301597313_313":{"procedure":"66","participation":"01"},
+                                    "_1641301618680_680":{"procedure":"07","participation":"01"}
+                                }
+                            ]]>
+                        </participations>
+                    </rest_prod_group>
+                    <rest_sandbox_group>
+                        <app_auth_password>pJDOxtJt03guK5eXKYcZt9Ez1bPi2Xvm</app_auth_password>
+                        <user_auth_username>3333333333_01</user_auth_username>
+                        <user_auth_password>pass</user_auth_password>
+                        <account_number>3333333333</account_number>
+                        <participations backend_model="Netresearch\ShippingCore\Model\Config\Backend\ArraySerialized">
+                            <![CDATA[
+                                    {
+                                        "_1641301591217_217":{"procedure":"01","participation":"02"},
+                                        "_1641301595612_612":{"procedure":"62","participation":"01"},
+                                        "_1641301596191_191":{"procedure":"54","participation":"01"},
+                                        "_1641301596765_765":{"procedure":"53","participation":"01"},
+                                        "_1641301597313_313":{"procedure":"66","participation":"01"},
+                                        "_1641301618680_680":{"procedure":"07","participation":"01"}
+                                    }
+                                ]]>
+                        </participations>
+                    </rest_sandbox_group>
+
+
+
+
+
                     <sandboxmode_group>
                         <api_password backend_model="Magento\Config\Model\Config\Backend\Encrypted"/>
 
