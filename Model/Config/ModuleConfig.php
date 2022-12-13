@@ -16,6 +16,9 @@ class ModuleConfig implements VersionInterface
 {
     // phpcs:disable Generic.Files.LineLength.TooLong
 
+    public const SHIPPING_API_REST = 'REST';
+    public const SHIPPING_API_SOAP = 'SOAP';
+
     // Defaults
     public const CONFIG_PATH_VERSION = 'carriers/dhlpaket/version';
 
@@ -26,19 +29,13 @@ class ModuleConfig implements VersionInterface
 
     // 200_dhl_paket_account.xml
     public const CONFIG_PATH_SANDBOX_MODE = 'dhlshippingsolutions/dhlpaket/account_settings/sandboxmode';
-    public const CONFIG_PATH_USER = 'dhlshippingsolutions/dhlpaket/account_settings/sandboxmode_group/api_username';
-    public const CONFIG_PATH_SIGNATURE = 'dhlshippingsolutions/dhlpaket/account_settings/sandboxmode_group/api_password';
-    public const CONFIG_PATH_EKP = 'dhlshippingsolutions/dhlpaket/account_settings/sandboxmode_group/account_number';
-    public const CONFIG_PATH_PARTICIPATIONS = 'dhlshippingsolutions/dhlpaket/account_settings/sandboxmode_group/account_participations';
+    public const CONFIG_PATH_API_TYPE = 'dhlshippingsolutions/dhlpaket/account_settings/api_type';
 
-    public const CONFIG_PATH_AUTH_USERNAME = 'dhlshippingsolutions/dhlpaket/account_settings/auth_username';
-    public const CONFIG_PATH_AUTH_PASSWORD = 'dhlshippingsolutions/dhlpaket/account_settings/auth_password';
-    public const CONFIG_PATH_SANDBOX_AUTH_USERNAME = 'dhlshippingsolutions/dhlpaket/account_settings/sandbox_auth_username';
-    public const CONFIG_PATH_SANDBOX_AUTH_PASSWORD = 'dhlshippingsolutions/dhlpaket/account_settings/sandbox_auth_password';
-    public const CONFIG_PATH_SANDBOX_USER = 'dhlshippingsolutions/dhlpaket/account_settings/sandbox_username';
-    public const CONFIG_PATH_SANDBOX_SIGNATURE = 'dhlshippingsolutions/dhlpaket/account_settings/sandbox_password';
-    public const CONFIG_PATH_SANDBOX_EKP = 'dhlshippingsolutions/dhlpaket/account_settings/sandbox_account_number';
-    public const CONFIG_PATH_SANDBOX_PARTICIPATIONS = 'dhlshippingsolutions/dhlpaket/account_settings/sandbox_account_participations';
+    // production settings
+    public const CONFIG_PATH_USER = 'dhlshippingsolutions/dhlpaket/account_settings/production_group/auth_username';
+    public const CONFIG_PATH_PASS = 'dhlshippingsolutions/dhlpaket/account_settings/production_group/auth_password';
+    public const CONFIG_PATH_EKP = 'dhlshippingsolutions/dhlpaket/account_settings/production_group/account_number';
+    public const CONFIG_PATH_PARTICIPATIONS = 'dhlshippingsolutions/dhlpaket/account_settings/production_group/participations';
 
     // 400_checkout_presentation.xml
     public const CONFIG_PATH_METHOD_NAME = 'carriers/dhlpaket/name';
@@ -152,38 +149,18 @@ class ModuleConfig implements VersionInterface
     }
 
     /**
-     * Get the HTTP basic authentication username (CIG application authentication).
+     * Get the configured shipping API.
+     *
+     * @see self::SHIPPING_API_REST
+     * @see self::SHIPPING_API_SOAP
      *
      * @param mixed $store
      * @return string
      */
-    public function getAuthUsername($store = null): string
+    public function getShippingApiType($store = null): string
     {
-        if ($this->isSandboxMode($store)) {
-            return $this->getSandboxAuthUsername($store);
-        }
-
         return (string) $this->scopeConfig->getValue(
-            self::CONFIG_PATH_AUTH_USERNAME,
-            ScopeInterface::SCOPE_STORE,
-            $store
-        );
-    }
-
-    /**
-     * Get the HTTP basic authentication password (CIG application authentication).
-     *
-     * @param mixed $store
-     * @return string
-     */
-    public function getAuthPassword($store = null): string
-    {
-        if ($this->isSandboxMode($store)) {
-            return $this->getSandboxAuthPassword($store);
-        }
-
-        return (string) $this->scopeConfig->getValue(
-            self::CONFIG_PATH_AUTH_PASSWORD,
+            self::CONFIG_PATH_API_TYPE,
             ScopeInterface::SCOPE_STORE,
             $store
         );
@@ -197,10 +174,6 @@ class ModuleConfig implements VersionInterface
      */
     public function getUser($store = null): string
     {
-        if ($this->isSandboxMode($store)) {
-            return $this->getSandboxUser($store);
-        }
-
         return (string) $this->scopeConfig->getValue(
             self::CONFIG_PATH_USER,
             ScopeInterface::SCOPE_STORE,
@@ -216,12 +189,8 @@ class ModuleConfig implements VersionInterface
      */
     public function getSignature($store = null): string
     {
-        if ($this->isSandboxMode($store)) {
-            return $this->getSandboxSignature($store);
-        }
-
         return (string) $this->scopeConfig->getValue(
-            self::CONFIG_PATH_SIGNATURE,
+            self::CONFIG_PATH_PASS,
             ScopeInterface::SCOPE_STORE,
             $store
         );
@@ -235,10 +204,6 @@ class ModuleConfig implements VersionInterface
      */
     public function getEkp($store = null): string
     {
-        if ($this->isSandboxMode($store)) {
-            return $this->getSandboxEkp($store);
-        }
-
         return (string) $this->scopeConfig->getValue(
             self::CONFIG_PATH_EKP,
             ScopeInterface::SCOPE_STORE,
@@ -254,116 +219,8 @@ class ModuleConfig implements VersionInterface
      */
     public function getParticipations($store = null): array
     {
-        if ($this->isSandboxMode($store)) {
-            return $this->getSandboxParticipations($store);
-        }
-
         $participations = $this->scopeConfig->getValue(
             self::CONFIG_PATH_PARTICIPATIONS,
-            ScopeInterface::SCOPE_STORE,
-            $store
-        );
-
-        return array_column($participations, 'participation', 'procedure');
-    }
-
-    /**
-     * Get the user's participation number for a given procedure.
-     *
-     * @param string $procedure
-     * @param mixed $store
-     * @return string
-     */
-    public function getParticipation(string $procedure, $store = null): string
-    {
-        return $this->getParticipations($store)[$procedure] ?? '';
-    }
-
-    /**
-     * Get the HTTP basic sandbox authentication username (CIG application authentication).
-     *
-     * @param mixed $store
-     * @return string
-     */
-    private function getSandboxAuthUsername($store = null): string
-    {
-        return (string) $this->scopeConfig->getValue(
-            self::CONFIG_PATH_SANDBOX_AUTH_USERNAME,
-            ScopeInterface::SCOPE_STORE,
-            $store
-        );
-    }
-
-    /**
-     * Get the HTTP basic sandbox authentication password (CIG application authentication).
-     *
-     * @param mixed $store
-     * @return string
-     */
-    private function getSandboxAuthPassword($store = null): string
-    {
-        return (string) $this->scopeConfig->getValue(
-            self::CONFIG_PATH_SANDBOX_AUTH_PASSWORD,
-            ScopeInterface::SCOPE_STORE,
-            $store
-        );
-    }
-
-    /**
-     * Get the user's name (API user sandbox credentials).
-     *
-     * @param mixed $store
-     * @return string
-     */
-    private function getSandboxUser($store = null): string
-    {
-        return (string) $this->scopeConfig->getValue(
-            self::CONFIG_PATH_SANDBOX_USER,
-            ScopeInterface::SCOPE_STORE,
-            $store
-        );
-    }
-
-    /**
-     * Get the user's password (API user sandbox credentials).
-     *
-     * @param mixed $store
-     * @return string
-     */
-    private function getSandboxSignature($store = null): string
-    {
-        return (string) $this->scopeConfig->getValue(
-            self::CONFIG_PATH_SANDBOX_SIGNATURE,
-            ScopeInterface::SCOPE_STORE,
-            $store
-        );
-    }
-
-    /**
-     * Get the user's sandbox EKP (standardized customer and product number).
-     *
-     * @param mixed $store
-     * @return string
-     */
-    private function getSandboxEkp($store = null): string
-    {
-        return (string) $this->scopeConfig->getValue(
-            self::CONFIG_PATH_SANDBOX_EKP,
-            ScopeInterface::SCOPE_STORE,
-            $store
-        );
-    }
-
-    /**
-     * Get the user's sandbox participation numbers (partner IDs).
-     *
-     * @param mixed $store
-     * @return string[]
-     */
-    private function getSandboxParticipations($store = null): array
-    {
-        $participations = $this->scopeConfig->getValue(
-            self::CONFIG_PATH_SANDBOX_PARTICIPATIONS,
             ScopeInterface::SCOPE_STORE,
             $store
         );

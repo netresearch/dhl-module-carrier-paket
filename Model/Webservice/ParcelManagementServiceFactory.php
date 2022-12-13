@@ -50,12 +50,24 @@ class ParcelManagementServiceFactory
      */
     public function create(int $storeId): CheckoutServiceInterface
     {
+        $sandboxMode = $this->moduleConfig->isSandboxMode($storeId);
+
+        if ($sandboxMode) {
+            $appId = 'magento_1';
+            $appToken = '2de26b775e59279464d1c2f8546432e62413372421c672db36eaacfc2f';
+            $ekp = '2222222222';
+        } else {
+            $appId = 'M2_SHIPPING_1';
+            $appToken = 'pMnRHKfNMw9O3qKMLAUhFT4cBbwotp';
+            $ekp = $this->moduleConfig->getEkp($storeId);
+        }
+
         return $this->checkoutServiceFactory->createCheckoutService(
-            $this->moduleConfig->getAuthUsername(),
-            $this->moduleConfig->getAuthPassword(),
-            $this->moduleConfig->getEkp($storeId),
+            $appId,
+            $appToken,
+            $ekp,
             $this->logger,
-            $this->moduleConfig->isSandboxMode($storeId)
+            $sandboxMode
         );
     }
 }

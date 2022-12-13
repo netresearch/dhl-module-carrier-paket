@@ -10,10 +10,12 @@ namespace Dhl\Paket\Model\Config\ItemValidator;
 
 use Dhl\Paket\Model\Config\ModuleConfig;
 use Dhl\Paket\Model\Util\ShippingProducts;
+use Dhl\Paket\Model\Webservice\ShipmentOrderRequestBuilderFactory;
 use Dhl\Paket\Model\Webservice\ShipmentServiceFactory;
 use Dhl\Sdk\Paket\Bcs\Api\ShipmentOrderRequestBuilderInterface;
 use Dhl\Sdk\Paket\Bcs\Exception\RequestValidatorException;
 use Dhl\Sdk\Paket\Bcs\Exception\ServiceException;
+use Dhl\Sdk\Paket\Bcs\RequestBuilder\ShipmentOrderRequestBuilder;
 use Dhl\ShippingCore\Model\Config\ItemValidator\DhlSection;
 use Magento\Framework\Phrase;
 use Netresearch\ShippingCore\Api\Config\ItemValidatorInterface;
@@ -41,9 +43,9 @@ class BcsApiValidator implements ItemValidatorInterface
     private $shippingProducts;
 
     /**
-     * @var ShipmentOrderRequestBuilderInterface
+     * @var ShipmentOrderRequestBuilderFactory
      */
-    private $requestBuilder;
+    private $requestBuilderFactory;
 
     /**
      * @var ShipmentServiceFactory
@@ -54,13 +56,13 @@ class BcsApiValidator implements ItemValidatorInterface
         ResultInterfaceFactory $resultFactory,
         ModuleConfig $config,
         ShippingProducts $shippingProducts,
-        ShipmentOrderRequestBuilderInterface $requestBuilder,
+        ShipmentOrderRequestBuilderFactory $requestBuilderFactory,
         ShipmentServiceFactory $shipmentServiceFactory
     ) {
         $this->resultFactory = $resultFactory;
         $this->config = $config;
         $this->shippingProducts = $shippingProducts;
-        $this->requestBuilder = $requestBuilder;
+        $this->requestBuilderFactory = $requestBuilderFactory;
         $this->shipmentServiceFactory = $shipmentServiceFactory;
     }
 
@@ -79,27 +81,46 @@ class BcsApiValidator implements ItemValidatorInterface
         );
     }
 
-    public function execute(int $storeId): ResultInterface
+    /**
+     * Build request for the configured API type.
+     *
+     * @param int $storeId
+     * @throws RequestValidatorException
+     * @return object
+     */
+    private function createRequest(int $storeId)
     {
-        try {
-            $productCode = 'V01PAK'; // DHL Paket National
-            $tsShip = time() + 60 * 60 * 24; // tomorrow
+        $requestBuilder = $this->requestBuilderFactory->create($storeId);
+        $productCode = 'V01PAK'; // DHL Paket National
+        $procedure = $this->shippingProducts->getProcedure($productCode);
+        $tsShip = time() + 60 * 60 * 24; // tomorrow
 
-            $procedure = $this->shippingProducts->getProcedure($productCode);
+        if (!$this->config->isSandboxMode($storeId)) {
             $ekp = $this->config->getEkp($storeId);
 
             $participations = $this->config->getParticipations($storeId);
             $participation = $participations[$procedure] ?? '';
 
             $billingNumber = $ekp . $procedure . $participation;
+        } elseif ($this->config->getShippingApiType($storeId) === ModuleConfig::SHIPPING_API_SOAP) {
+            $billingNumber = "2222222222{$procedure}04";
+        } else {
+            $billingNumber = "3333333333{$procedure}02";
+        }
 
-            $this->requestBuilder->setShipperAccount($billingNumber);
-            $this->requestBuilder->setShipperAddress('Netresearch GmbH & Co.KG', 'DE', '04229', 'Leipzig', 'Nonnenstraße', '11d');
-            $this->requestBuilder->setRecipientAddress('John Doe', 'DE', '53113', 'Bonn', 'Charles-de-Gaulle-Straße', '20');
-            $this->requestBuilder->setShipmentDetails($productCode, new \DateTime(date('Y-m-d', $tsShip)));
-            $this->requestBuilder->setPackageDetails(2.4);
+        $requestBuilder->setShipperAccount($billingNumber);
+        $requestBuilder->setShipperAddress('Netresearch GmbH & Co.KG', 'DE', '04229', 'Leipzig', 'Nonnenstraße', '11d');
+        $requestBuilder->setRecipientAddress('John Doe', 'DE', '53113', 'Bonn', 'Charles-de-Gaulle-Straße', '20');
+        $requestBuilder->setShipmentDetails($productCode, new \DateTime(date('Y-m-d', $tsShip)));
+        $requestBuilder->setPackageDetails(2.4);
 
-            $apiRequest = $this->requestBuilder->create();
+        return $requestBuilder->create();
+    }
+
+    public function execute(int $storeId): ResultInterface
+    {
+        try {
+            $apiRequest = $this->createRequest($storeId);
         } catch (RequestValidatorException $exception) {
             $message = __('Invalid request: %1', $exception->getMessage());
             return $this->createResult(ResultInterface::ERROR, $message);

@@ -359,10 +359,19 @@ class RequestExtractor implements RequestExtractorInterface
         $storeId = $this->getCoreExtractor()->getStoreId();
         $productCode = $package->getProductCode();
         $procedure = $this->shippingProducts->getProcedure($productCode);
-        $ekp = $this->moduleConfig->getEkp($storeId);
 
-        $participations = $this->moduleConfig->getParticipations($storeId);
-        $participation = $participations[$procedure] ?? '';
+        if (!$this->moduleConfig->isSandboxMode($storeId)) {
+            $ekp = $this->moduleConfig->getEkp($storeId);
+
+            $participations = $this->moduleConfig->getParticipations($storeId);
+            $participation = $participations[$procedure] ?? '';
+        } elseif ($this->moduleConfig->getShippingApiType($storeId) === ModuleConfig::SHIPPING_API_SOAP) {
+            $ekp = '2222222222';
+            $participation = ($productCode === ShippingProducts::CODE_NATIONAL) ? '04' : '01';
+        } else {
+            $ekp = '3333333333';
+            $participation = ($productCode === ShippingProducts::CODE_NATIONAL) ? '02' : '01';
+        }
 
         return $ekp . $procedure . $participation;
     }
@@ -375,26 +384,29 @@ class RequestExtractor implements RequestExtractorInterface
      */
     public function getReturnShipmentAccountNumber(): string
     {
-        try {
-            $packages = $this->getPackages();
+        $packages = $this->getPackages();
 
-            /** @var PackageInterface $package */
-            $package = array_shift($packages);
+        /** @var PackageInterface $package */
+        $package = array_shift($packages);
 
-            $storeId = $this->getCoreExtractor()->getStoreId();
-            $productCode = $package->getProductCode();
-            $procedure = $this->shippingProducts->getReturnProcedure($productCode);
-            if ($procedure) {
-                $ekp = $this->moduleConfig->getEkp($storeId);
-                $participation = $this->moduleConfig->getParticipations($storeId)[$procedure] ?? '';
+        $storeId = $this->getCoreExtractor()->getStoreId();
+        $productCode = $package->getProductCode();
+        $procedure = $this->shippingProducts->getReturnProcedure($productCode);
 
-                return $ekp . $procedure . $participation;
-            }
+        if (!$this->moduleConfig->isSandboxMode($storeId)) {
+            $ekp = $this->moduleConfig->getEkp($storeId);
 
-            return '';
-        } catch (LocalizedException $exception) {
-            throw new LocalizedException(__('Unable to determine return shipment billing number.'), $exception);
+            $participations = $this->moduleConfig->getParticipations($storeId);
+            $participation = $participations[$procedure] ?? '';
+
+            $billingNumber = $ekp . $procedure . $participation;
+        } elseif ($this->moduleConfig->getShippingApiType($storeId) === ModuleConfig::SHIPPING_API_SOAP) {
+            $billingNumber = "2222222222{$procedure}01";
+        } else {
+            $billingNumber = "3333333333{$procedure}01";
         }
+
+        return $billingNumber;
     }
 
     public function getCustomerAccountNumber(): string

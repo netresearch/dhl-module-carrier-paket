@@ -84,7 +84,7 @@ EU,EU
 "Enable No Neighbor Delivery","Enable No Neighbor Delivery"
 "Enable Sandbox Mode","Enable Sandbox Mode"
 Enabled,Enabled
-"Enter your API user name, lower case only. Please talk to your account representative to add API access to your business account.","Enter your API user name, lower case only. Please talk to your account representative to add API access to your business account."
+"Enter your API username, lower case only. Please talk to your account representative to add API access to your business account.","Enter your API username, lower case only. Please talk to your account representative to add API access to your business account."
 "Enter your email address here if you, as the sender, would like to receive the collection information.","Enter your email address here if you, as the sender, would like to receive the collection information."
 "Error Logging Level","Error Logging Level"
 "Error: %1","Error: %1"

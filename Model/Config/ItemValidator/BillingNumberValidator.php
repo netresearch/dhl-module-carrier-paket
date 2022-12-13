@@ -53,18 +53,21 @@ class BillingNumberValidator implements ItemValidatorInterface
 
     public function execute(int $storeId): ResultInterface
     {
-        $ekp = $this->config->getEkp($storeId);
-        if (!$ekp) {
-            $status = ResultInterface::ERROR;
-            $message = __('EKP (customer number) is not configured. Please review your %1.', __('Account Settings'));
-            return $this->createResult($status, $message);
-        }
+        $sandboxMode = $this->config->isSandboxMode($storeId);
+        if (!$sandboxMode) {
+            $ekp = $this->config->getEkp($storeId);
+            if (!$ekp) {
+                $status = ResultInterface::ERROR;
+                $message = __('EKP (customer number) is not configured. Please review your %1.', __('Account Settings'));
+                return $this->createResult($status, $message);
+            }
 
-        $participationNumbers = $this->config->getParticipations($storeId);
-        if (empty($participationNumbers)) {
-            $status = ResultInterface::ERROR;
-            $message = __('Participation numbers are not configured. Please review your %1.', __('Account Settings'));
-            return $this->createResult($status, $message);
+            $participationNumbers = $this->config->getParticipations($storeId);
+            if (empty($participationNumbers)) {
+                $status = ResultInterface::ERROR;
+                $message = __('Participation numbers are not configured. Please review your %1.', __('Account Settings'));
+                return $this->createResult($status, $message);
+            }
         }
 
         $status = ResultInterface::OK;

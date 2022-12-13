@@ -9,12 +9,13 @@
         <label>Account Settings</label>
         <comment><![CDATA[DHL contract customers receive the access data to the DHL Business Customer Portal via <em>DHL Paket</em> sales.]]></comment>
 
-        <field id="sandboxmode" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="30"
+        <field id="sandboxmode" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="10"
                translate="label comment" type="Netresearch\ConfigFields\Model\Type\Checkbox">
             <label>Enable Sandbox Mode</label>
             <comment>The customer integration gateway of DHL provides generic test endpoints for the calling APIs. Select this option to use the test environment.</comment>
         </field>
-        <group id="sandboxmode_group" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="50"
+
+        <group id="production_group" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="20"
                translate="label">
             <fieldset_css>simple</fieldset_css>
             <attribute type="expanded">1</attribute>
@@ -23,12 +24,13 @@
             </depends>
             <label>Account Settings</label>
 
-            <field id="api_username" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="40"
+            <!-- User auth -->
+            <field id="auth_username" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="10"
                    translate="label comment" type="text">
                 <label>User</label>
-                <comment>Enter your API user name, lower case only. Please talk to your account representative to add API access to your business account.</comment>
+                <comment>Enter your API username, lower case only. Please talk to your account representative to add API access to your business account.</comment>
             </field>
-            <field id="api_password" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="50"
+            <field id="auth_password" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="20"
                    translate="label" type="obscure">
                 <label>Password (Signature)</label>
                 <comment>Observe upper and lower case when handing over the password.</comment>
@@ -36,7 +38,7 @@
             </field>
 
             <!-- EKP -->
-            <field id="account_number" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="60"
+            <field id="account_number" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="30"
                    translate="label comment" type="text">
                 <label>DHL Customer Number (EKP)</label>
                 <comment>The EKP number (standardized customer and product number) is the key to using the products of Deutsche Post DHL. It is 10 digits and is allocated by DHL Sales.</comment>
@@ -44,7 +46,7 @@
             </field>
 
             <!-- Participation numbers -->
-            <field id="account_participations" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="70"
+            <field id="participations" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="40"
                    translate="label comment tooltip" type="select">
                 <label>Participation Numbers</label>
                 <comment>The participation number enables invoices to be subdivided according to location, seasonal business or different conditions. The participation number consists of 2 alphanumeric characters. It is allocated by DHL Sales.</comment>

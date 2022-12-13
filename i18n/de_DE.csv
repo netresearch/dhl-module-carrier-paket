@@ -84,7 +84,7 @@ EU,"Versand innerhalb der EU"
 "Enable No Neighbor Delivery","Keine Nachbarschaftszustellung aktivieren"
 "Enable Sandbox Mode","Sandbox-Modus aktivieren"
 Enabled,Aktiviert
-"Enter your API user name, lower case only. Please talk to your account representative to add API access to your business account.","Geben Sie Ihren API Benutzernamen an (keine Großbuchstaben). Bitte sprechen Sie mit Ihrem DHL-Ansprechpartner, um API-Zugang für Ihren Geschäftskunden-Account freizuschalten."
+"Enter your API username, lower case only. Please talk to your account representative to add API access to your business account.","Geben Sie Ihren API Benutzernamen an (keine Großbuchstaben). Bitte sprechen Sie mit Ihrem DHL-Ansprechpartner, um API-Zugang für Ihren Geschäftskunden-Account freizuschalten."
 "Enter your email address here if you, as the sender, would like to receive the collection information.","Geben Sie hier Ihre E-Mail-Adresse an, wenn Sie als Versender die Abholinformation erhalten möchten."
 "Error Logging Level","Stufe der Fehlerprotokollierung"
 "Error: %1","Fehler: %1"

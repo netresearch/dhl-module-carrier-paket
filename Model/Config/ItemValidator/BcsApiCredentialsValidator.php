@@ -39,15 +39,16 @@ class BcsApiCredentialsValidator implements ItemValidatorInterface
 
     public function execute(int $storeId): ResultInterface
     {
-        if (!$this->config->getUser($storeId) || !$this->config->getSignature($storeId)) {
+        $sandboxMode = $this->config->isSandboxMode($storeId);
+        if ($sandboxMode || ($this->config->getUser($storeId) && $this->config->getSignature($storeId))) {
+            $status = ResultInterface::OK;
+            $message = __('Web service credentials are configured.');
+        } else {
             $status = ResultInterface::ERROR;
             $message = __(
                 'Web service credentials are incomplete. Please review your %1.',
                 __('Account Settings')
             );
-        } else {
-            $status = ResultInterface::OK;
-            $message = __('Web service credentials are configured.');
         }
 
         return $this->resultFactory->create(

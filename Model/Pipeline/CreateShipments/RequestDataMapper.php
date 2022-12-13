@@ -13,7 +13,7 @@ use Dhl\Paket\Model\Adminhtml\System\Config\Source\Endorsement;
 use Dhl\Paket\Model\Adminhtml\System\Config\Source\VisualCheckOfAge;
 use Dhl\Paket\Model\Pipeline\CreateShipments\ShipmentRequest\Data\PackageAdditional;
 use Dhl\Paket\Model\Pipeline\CreateShipments\ShipmentRequest\RequestExtractorFactory;
-use Dhl\Sdk\Paket\Bcs\Api\ShipmentOrderRequestBuilderInterface;
+use Dhl\Paket\Model\Webservice\ShipmentOrderRequestBuilderFactory;
 use Dhl\Sdk\Paket\Bcs\Exception\RequestValidatorException;
 use Dhl\Sdk\UnifiedLocationFinder\Api\Data\LocationInterface;
 use Magento\Framework\Exception\LocalizedException;
@@ -34,9 +34,9 @@ class RequestDataMapper
     /**
      * The shipment request builder.
      *
-     * @var ShipmentOrderRequestBuilderInterface
+     * @var ShipmentOrderRequestBuilderFactory
      */
-    private $requestBuilder;
+    private $requestBuilderFactory;
 
     /**
      * @var ShipmentDateInterface
@@ -49,12 +49,12 @@ class RequestDataMapper
     private $unitConverter;
 
     public function __construct(
-        ShipmentOrderRequestBuilderInterface $requestBuilder,
+        ShipmentOrderRequestBuilderFactory $requestBuilderFactory,
         RequestExtractorFactory $requestExtractorFactory,
         ShipmentDateInterface $shipmentDate,
         UnitConverterInterface $unitConverter
     ) {
-        $this->requestBuilder = $requestBuilder;
+        $this->requestBuilderFactory = $requestBuilderFactory;
         $this->requestExtractorFactory = $requestExtractorFactory;
         $this->shipmentDate = $shipmentDate;
         $this->unitConverter = $unitConverter;
@@ -113,18 +113,19 @@ class RequestDataMapper
     {
         $requestExtractor = $this->requestExtractorFactory->create(['shipmentRequest' => $request]);
 
-        $this->requestBuilder->setSequenceNumber($sequenceNumber);
+        $requestBuilder = $this->requestBuilderFactory->create($requestExtractor->getStoreId());
+        $requestBuilder->setSequenceNumber($sequenceNumber);
 
-        $this->requestBuilder->setShipperAccount(
+        $requestBuilder->setShipperAccount(
             $requestExtractor->getBillingNumber(),
             $requestExtractor->isReturnShipment() ? $requestExtractor->getReturnShipmentAccountNumber() : null
         );
 
         $senderReference = $requestExtractor->getSenderReference();
         if ($senderReference) {
-            $this->requestBuilder->setShipperReference($senderReference);
+            $requestBuilder->setShipperReference($senderReference);
         } else {
-            $this->requestBuilder->setShipperAddress(
+            $requestBuilder->setShipperAddress(
                 $requestExtractor->getShipper()->getContactCompanyName(),
                 $requestExtractor->getShipper()->getCountryCode(),
                 $requestExtractor->getShipper()->getPostalCode(),
@@ -152,7 +153,7 @@ class RequestDataMapper
             $recipientPhone = null;
         }
 
-        $this->requestBuilder->setRecipientAddress(
+        $requestBuilder->setRecipientAddress(
             $requestExtractor->getRecipient()->getContactPersonName(),
             $requestExtractor->getRecipient()->getCountryCode(),
             $requestExtractor->getRecipient()->getPostalCode(),
@@ -177,7 +178,7 @@ class RequestDataMapper
             //fixme(nr): request data are overridden silently for shipment requests with multiple packages
             $this->addSequenceNumber($request, $packageId, $sequenceNumber);
 
-            $this->requestBuilder->setShipmentDetails(
+            $requestBuilder->setShipmentDetails(
                 $package->getProductCode(),
                 $this->shipmentDate->getDate($requestExtractor->getStoreId()),
                 $requestExtractor->getOrder()->getIncrementId()
@@ -187,7 +188,7 @@ class RequestDataMapper
             $weightUom = $package->getWeightUom();
             $weightInKg = $this->unitConverter->convertWeight($weight, $weightUom, \Zend_Measure_Weight::KILOGRAM);
 
-            $this->requestBuilder->setPackageDetails($weightInKg);
+            $requestBuilder->setPackageDetails($weightInKg);
 
             $dimensionsUom = $package->getDimensionsUom();
             $width = $package->getWidth();
@@ -199,7 +200,7 @@ class RequestDataMapper
                 $widthInCm = $this->unitConverter->convertDimension($width, $dimensionsUom, $targetUom);
                 $lengthInCm = $this->unitConverter->convertDimension($length, $dimensionsUom, $targetUom);
                 $heightInCm = $this->unitConverter->convertDimension($height, $dimensionsUom, $targetUom);
-                $this->requestBuilder->setPackageDimensions(
+                $requestBuilder->setPackageDimensions(
                     (int) round($widthInCm),
                     (int) round($lengthInCm),
                     (int) round($heightInCm)
@@ -209,41 +210,45 @@ class RequestDataMapper
             $baseTotal = round((float) $requestExtractor->getOrder()->getBaseGrandTotal(), 2);
             if ($requestExtractor->isCashOnDelivery()) {
                 $notes = $this->wrapReasonForPayment($requestExtractor->getCodReasonForPayment());
-                $this->requestBuilder->setShipperBankData(null, null, null, null, null, $notes);
-                $this->requestBuilder->setCodAmount($baseTotal);
+                $requestBuilder->setShipperBankData(null, null, null, null, null, $notes);
+                $requestBuilder->setCodAmount($baseTotal);
             }
 
             if ($requestExtractor->isAdditionalInsurance()) {
-                $this->requestBuilder->setInsuredValue($baseTotal);
+                $requestBuilder->setInsuredValue($baseTotal);
             }
 
             $visualCheckOfAge = $requestExtractor->getVisualCheckOfAge();
             if (in_array($visualCheckOfAge, [VisualCheckOfAge::OPTION_A16, VisualCheckOfAge::OPTION_A18], true)) {
-                $this->requestBuilder->setVisualCheckOfAge($visualCheckOfAge);
+                $requestBuilder->setVisualCheckOfAge($visualCheckOfAge);
             }
 
             if ($requestExtractor->isNamedPersonOnly()) {
-                $this->requestBuilder->setNamedPersonOnly();
+                $requestBuilder->setNamedPersonOnly();
+            }
+
+            if ($requestExtractor->isNoNeighborDelivery()) {
+                $requestBuilder->setNoNeighbourDelivery();
             }
 
             if ($requestExtractor->isBulkyGoods()) {
-                $this->requestBuilder->setBulkyGoods();
+                $requestBuilder->setBulkyGoods();
             }
 
             if ($requestExtractor->hasPreferredDay()) {
-                $this->requestBuilder->setPreferredDay($requestExtractor->getPreferredDay());
+                $requestBuilder->setPreferredDay($requestExtractor->getPreferredDay());
             }
 
             if ($requestExtractor->hasNeighborDelivery()) {
-                $this->requestBuilder->setPreferredNeighbour($requestExtractor->getNeighborDetails());
+                $requestBuilder->setPreferredNeighbour($requestExtractor->getNeighborDetails());
             }
 
             if ($requestExtractor->hasDropOffLocation()) {
-                $this->requestBuilder->setPreferredLocation($requestExtractor->getDropOffLocation());
+                $requestBuilder->setPreferredLocation($requestExtractor->getDropOffLocation());
             }
 
             if ($requestExtractor->isReturnShipment()) {
-                $this->requestBuilder->setReturnAddress(
+                $requestBuilder->setReturnAddress(
                     $requestExtractor->getReturnRecipient()->getContactCompanyName(),
                     $requestExtractor->getReturnRecipient()->getCountryCode(),
                     $requestExtractor->getReturnRecipient()->getPostalCode(),
@@ -255,12 +260,12 @@ class RequestDataMapper
 
             $nonDeliveryNoticeEmail = $requestExtractor->getParcelOutletRoutingEmail();
             if ($nonDeliveryNoticeEmail) {
-                $this->requestBuilder->setParcelOutletRouting($nonDeliveryNoticeEmail);
+                $requestBuilder->setParcelOutletRouting($nonDeliveryNoticeEmail);
             }
 
             if ($requestExtractor->isPickupLocationDelivery()) {
                 if ($requestExtractor->getDeliveryLocationType() === LocationInterface::TYPE_LOCKER) {
-                    $this->requestBuilder->setPackstation(
+                    $requestBuilder->setPackstation(
                         $requestExtractor->getRecipient()->getContactPersonName(),
                         $requestExtractor->getCustomerAccountNumber(),
                         $requestExtractor->getDeliveryLocationNumber(),
@@ -269,7 +274,7 @@ class RequestDataMapper
                         $requestExtractor->getDeliveryLocationCity()
                     );
                 } else {
-                    $this->requestBuilder->setPostfiliale(
+                    $requestBuilder->setPostfiliale(
                         $requestExtractor->getRecipient()->getContactPersonName(),
                         $requestExtractor->getDeliveryLocationNumber(),
                         $requestExtractor->getDeliveryLocationCountryCode(),
@@ -282,22 +287,18 @@ class RequestDataMapper
 
             $endorsement = $requestExtractor->getEndorsement();
             if ($endorsement === Endorsement::OPTION_ABANDON) {
-                $this->requestBuilder->setShipmentEndorsementType('ABANDONMENT');
+                $requestBuilder->setShipmentEndorsementType('ABANDONMENT');
             } elseif ($endorsement === Endorsement::OPTION_RETURN) {
-                $this->requestBuilder->setShipmentEndorsementType('IMMEDIATE');
+                $requestBuilder->setShipmentEndorsementType('IMMEDIATE');
             }
 
             if ($requestExtractor->isPremium()) {
-                $this->requestBuilder->setPremium();
-            }
-
-            if ($requestExtractor->isNoNeighborDelivery()) {
-                $this->requestBuilder->setNoNeighbourDelivery();
+                $requestBuilder->setPremium();
             }
 
             if ($package->getCustomsValue() !== null) {
                 // customs value indicates cross-border shipment
-                $this->requestBuilder->setCustomsDetails(
+                $requestBuilder->setCustomsDetails(
                     $package->getContentType(),
                     $packageExtension->getPlaceOfCommittal(),
                     $packageExtension->getCustomsFees(),
@@ -313,7 +314,7 @@ class RequestDataMapper
 
                 /** @var PackageItemInterface $packageItem */
                 foreach ($requestExtractor->getPackageItems() as $packageItem) {
-                    $this->requestBuilder->addExportItem(
+                    $requestBuilder->addExportItem(
                         (int)round($packageItem->getQty()),
                         $packageItem->getExportDescription(),
                         $packageItem->getCustomsValue(),
@@ -326,7 +327,7 @@ class RequestDataMapper
         }
 
         try {
-            return $this->requestBuilder->create();
+            return $requestBuilder->create();
         } catch (RequestValidatorException $exception) {
             $message = __('Web service request could not be created: %1', $exception->getMessage());
             throw new LocalizedException($message);
