@@ -26,6 +26,8 @@ use Netresearch\ShippingCore\Api\Pipeline\ShipmentRequest\RequestExtractor\Servi
 use Netresearch\ShippingCore\Api\Pipeline\ShipmentRequest\RequestExtractor\ServiceOptionReaderInterfaceFactory;
 use Netresearch\ShippingCore\Api\Pipeline\ShipmentRequest\RequestExtractorInterface;
 use Netresearch\ShippingCore\Api\Pipeline\ShipmentRequest\RequestExtractorInterfaceFactory;
+use Netresearch\ShippingCore\Model\Util\Alpha2Converter;
+use Netresearch\ShippingCore\Model\Util\Alpha3Converter;
 
 /**
  * Class RequestExtractor
@@ -40,6 +42,16 @@ class RequestExtractor implements RequestExtractorInterface
      * @var Request
      */
     private $shipmentRequest;
+
+    /**
+     * @var Alpha2Converter
+     */
+    private $alpha2Converter;
+
+    /**
+     * @var Alpha3Converter
+     */
+    private $alpha3Converter;
 
     /**
      * @var RequestExtractorInterfaceFactory
@@ -93,6 +105,8 @@ class RequestExtractor implements RequestExtractorInterface
 
     public function __construct(
         Request $shipmentRequest,
+        Alpha2Converter $alpha2Converter,
+        Alpha3Converter $alpha3Converter,
         RequestExtractorInterfaceFactory $requestExtractorFactory,
         ServiceOptionReaderInterfaceFactory $serviceOptionReaderFactory,
         ShipperInterfaceFactory $shipperFactory,
@@ -102,6 +116,8 @@ class RequestExtractor implements RequestExtractorInterface
         ShippingProducts $shippingProducts
     ) {
         $this->shipmentRequest = $shipmentRequest;
+        $this->alpha2Converter = $alpha2Converter;
+        $this->alpha3Converter = $alpha3Converter;
         $this->requestExtractorFactory = $requestExtractorFactory;
         $this->serviceOptionReaderFactory = $serviceOptionReaderFactory;
         $this->shipperFactory = $shipperFactory;
@@ -109,6 +125,15 @@ class RequestExtractor implements RequestExtractorInterface
         $this->packageFactory = $packageFactory;
         $this->moduleConfig = $moduleConfig;
         $this->shippingProducts = $shippingProducts;
+    }
+
+    private function getCountryCodeConverter()
+    {
+        if ($this->moduleConfig->getShippingApiType() === ModuleConfig::SHIPPING_API_SOAP) {
+            return $this->alpha2Converter;
+        } else {
+            return $this->alpha3Converter;
+        }
     }
 
     /**
@@ -120,7 +145,10 @@ class RequestExtractor implements RequestExtractorInterface
     {
         if (empty($this->coreExtractor)) {
             $this->coreExtractor = $this->requestExtractorFactory->create(
-                ['shipmentRequest' => $this->shipmentRequest]
+                [
+                    'shipmentRequest' => $this->shipmentRequest,
+                    'countryCodeConverter' => $this->getCountryCodeConverter(),
+                ]
             );
         }
 
@@ -195,7 +223,7 @@ class RequestExtractor implements RequestExtractorInterface
                     'city' => $returnAddress['city'],
                     'state' => '',
                     'postalCode' => $returnAddress['postcode'],
-                    'countryCode' => $returnAddress['country_id'],
+                    'countryCode' => $this->getCountryCodeConverter()->convert($returnAddress['country_id']),
                     'streetName' => $returnAddress['street_name'],
                     'streetNumber' => $returnAddress['street_number'],
                     'addressAddition' => '',
@@ -365,7 +393,7 @@ class RequestExtractor implements RequestExtractorInterface
 
             $participations = $this->moduleConfig->getParticipations($storeId);
             $participation = $participations[$procedure] ?? '';
-        } elseif ($this->moduleConfig->getShippingApiType($storeId) === ModuleConfig::SHIPPING_API_SOAP) {
+        } elseif ($this->moduleConfig->getShippingApiType() === ModuleConfig::SHIPPING_API_SOAP) {
             $ekp = '2222222222';
             $participation = ($productCode === ShippingProducts::CODE_NATIONAL) ? '04' : '01';
         } else {
@@ -400,7 +428,7 @@ class RequestExtractor implements RequestExtractorInterface
             $participation = $participations[$procedure] ?? '';
 
             $billingNumber = $ekp . $procedure . $participation;
-        } elseif ($this->moduleConfig->getShippingApiType($storeId) === ModuleConfig::SHIPPING_API_SOAP) {
+        } elseif ($this->moduleConfig->getShippingApiType() === ModuleConfig::SHIPPING_API_SOAP) {
             $billingNumber = "2222222222{$procedure}01";
         } else {
             $billingNumber = "3333333333{$procedure}01";

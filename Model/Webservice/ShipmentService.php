@@ -113,7 +113,7 @@ class ShipmentService implements ShipmentServiceInterface
     private function getService(): ShipmentServiceInterface
     {
         if ($this->shipmentService === null) {
-            if ($this->moduleConfig->getShippingApiType($this->storeId) === ModuleConfig::SHIPPING_API_SOAP) {
+            if ($this->moduleConfig->getShippingApiType() === ModuleConfig::SHIPPING_API_SOAP) {
                 $this->shipmentService = $this->createSoapService();
             } else {
                 $this->shipmentService = $this->createRestService();

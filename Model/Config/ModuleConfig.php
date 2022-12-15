@@ -154,16 +154,11 @@ class ModuleConfig implements VersionInterface
      * @see self::SHIPPING_API_REST
      * @see self::SHIPPING_API_SOAP
      *
-     * @param mixed $store
      * @return string
      */
-    public function getShippingApiType($store = null): string
+    public function getShippingApiType(): string
     {
-        return (string) $this->scopeConfig->getValue(
-            self::CONFIG_PATH_API_TYPE,
-            ScopeInterface::SCOPE_STORE,
-            $store
-        );
+        return (string) $this->scopeConfig->getValue(self::CONFIG_PATH_API_TYPE);
     }
 
     /**

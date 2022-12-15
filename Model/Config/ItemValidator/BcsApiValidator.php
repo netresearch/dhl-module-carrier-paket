@@ -102,7 +102,7 @@ class BcsApiValidator implements ItemValidatorInterface
             $participation = $participations[$procedure] ?? '';
 
             $billingNumber = $ekp . $procedure . $participation;
-        } elseif ($this->config->getShippingApiType($storeId) === ModuleConfig::SHIPPING_API_SOAP) {
+        } elseif ($this->config->getShippingApiType() === ModuleConfig::SHIPPING_API_SOAP) {
             $billingNumber = "2222222222{$procedure}04";
         } else {
             $billingNumber = "3333333333{$procedure}02";

@@ -29,7 +29,7 @@ class ShipmentOrderRequestBuilderFactory
 
     public function create(int $storeId): ShipmentOrderRequestBuilderInterface
     {
-        if ($this->config->getShippingApiType($storeId) === ModuleConfig::SHIPPING_API_SOAP) {
+        if ($this->config->getShippingApiType() === ModuleConfig::SHIPPING_API_SOAP) {
             return new ShipmentOrderRequestBuilder(ShipmentOrderRequestBuilderInterface::REQUEST_TYPE_SOAP);
         } else {
             return new ShipmentOrderRequestBuilder(ShipmentOrderRequestBuilderInterface::REQUEST_TYPE_REST);
