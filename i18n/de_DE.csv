@@ -2,6 +2,7 @@
 "%1 provides rates for DHL Parcel Germany.","%1 stellt Versandkosten für DHL Paket bereit."
 "%1DHL Parcel Germany%2 is an ideal complement to the AUTOCOMPLETE and ADDRESSFACTORY services of Deutsche Post Direkt.","%1DHL Paket%2 ist eine ideale Ergänzung zu den Services AUTOCOMPLETE und ADDRESSFACTORY der Deutschen Post Direkt."
 "A sender's reference number can be configured per destination country. It is used by customs authorities to identify economics operators an/or other persons involved.","Je Zielland kann eine Absender-Kennnummer hinterlegt werden. Sie wird durch die Zollbehörden zur Identifikation der Wirtschaftsbeteiligten verwendet."
+"Abandon (free of charge)","Preisgabe des Paketes (entgeltfrei)"
 "Account Settings",Kontoeinstellungen
 "Additional Insurance",Transportversicherung
 "Additional Services","Zusätzliche Dienstleistungen"
@@ -126,6 +127,7 @@ Mon,Mo
 No,Nein
 "No locations found for the given address. Please try another address.","Für die angegebene Adresse wurden keine Standorte gefunden. Bitte versuchen Sie eine andere Adresse."
 "No offline shipping method is configured to provide rates in checkout. Please review your %1 settings.","Es wurde keine Versandart für die Ermittlung von Versandkosten konfiguriert. Bitte prüfen Sie Ihre %1 Einstellungen."
+"Non-delivery Instruction","Vorausverfügung bei Unzustellbarkeit"
 "Non-delivery notice will be sent to this email address. If left empty, the customer's email address is used. In this case, you must make sure to obtain data privacy consent from your customers.","Eine Benachrichtigung über die Unzustellbarkeit wird an diese E-Mail-Adresse gesendet. Wenn leer, wird die E-Mail-Adresse des Kunden verwendet. Bitte beachten Sie, dass Sie in diesem Fall Ihre Kunden über die Datenschutzbestimmungen informieren müssen."
 Number,Nummer
 "Offer DHL Parcel Announcement","Paketankündigung anbieten"
@@ -171,6 +173,7 @@ Product,Produkt
 "Retoure DHL Paket: V07PAK","Retoure DHL Paket: V07PAK"
 "Return Shipment",Beilegeretoure
 "Return Shipment Address",Rücksendeadresse
+"Return immediately","Sofortige Rücksendung an den Absender"
 Route,Route
 "Routing Code",Leitcodierung
 Sat,Sa
@@ -178,6 +181,7 @@ Sat,Sa
 "Select Procedure","Verfahren auswählen"
 "Select Product","Produkt wählen"
 "Select Route","Route wählen"
+"Select how to treat international parcels that cannot be delivered. They can either be abandoned (free of charge) or returned to the sender.","Legen Sie fest, wie bei internationalen Sendungen im Falle der Unzustellbarkeit verfahren werden soll. Das Paket kann entweder (entgeltfrei) vernichtet oder umgehend an den Absender zurückgesendet werden."
 "Select the offline shipping method that gets used to provide rates in checkout.","Wählen Sie die Offline-Versandmethode aus, die für die Bereitstellung von Tarifen im Checkout verwendet werden soll."
 "Selected products will be pre-selected for automatic shipping label creation. You can still select another product when creating shipping labels manually.","Ausgewählte Produkte werden für die automatische Erstellung von Versandetiketten vorausgewählt. Sie können weiterhin ein anderes Produkt auswählen, wenn Sie Versandetiketten manuell erstellen."
 "Sender Address Book Reference","Absenderreferenz im DHL-Adressbuch"

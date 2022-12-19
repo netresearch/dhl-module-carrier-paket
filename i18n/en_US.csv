@@ -2,6 +2,7 @@
 "%1 provides rates for DHL Parcel Germany.","%1 provides rates for DHL Parcel Germany."
 "%1DHL Parcel Germany%2 is an ideal complement to the AUTOCOMPLETE and ADDRESSFACTORY services of Deutsche Post Direkt.","%1DHL Parcel Germany%2 is an ideal complement to the AUTOCOMPLETE and ADDRESSFACTORY services of Deutsche Post Direkt."
 "A sender's reference number can be configured per destination country. It is used by customs authorities to identify economics operators an/or other persons involved.","A sender's reference number can be configured per destination country. It is used by customs authorities to identify economics operators an/or other persons involved."
+"Abandon (free of charge)","Abandon (free of charge)"
 "Account Settings","Account Settings"
 "Additional Insurance","Additional Insurance"
 "Additional Services","Additional Services"
@@ -126,6 +127,7 @@ Mon,Mon
 No,No
 "No locations found for the given address. Please try another address.","No locations found for the given address. Please try another address."
 "No offline shipping method is configured to provide rates in checkout. Please review your %1 settings.","No offline shipping method is configured to provide rates in checkout. Please review your %1 settings."
+"Non-delivery Instruction","Non-delivery Instruction"
 "Non-delivery notice will be sent to this email address. If left empty, the customer's email address is used. In this case, you must make sure to obtain data privacy consent from your customers.","Non-delivery notice will be sent to this email address. If left empty, the customer's email address is used. In this case, you must make sure to obtain data privacy consent from your customers."
 Number,Number
 "Offer DHL Parcel Announcement","Offer DHL Parcel Announcement"
@@ -171,6 +173,7 @@ Product,Product
 "Retoure DHL Paket: V07PAK","Retoure DHL Paket: V07PAK"
 "Return Shipment","Return Shipment"
 "Return Shipment Address","Return Shipment Address"
+"Return immediately","Return immediately"
 Route,Route
 "Routing Code","Routing Code"
 Sat,Sat
@@ -178,6 +181,7 @@ Sat,Sat
 "Select Procedure","Select Procedure"
 "Select Product","Select Product"
 "Select Route","Select Route"
+"Select how to treat international parcels that cannot be delivered. They can either be abandoned (free of charge) or returned to the sender.","Select how to treat international parcels that cannot be delivered. They can either be abandoned (free of charge) or returned to the sender."
 "Select the offline shipping method that gets used to provide rates in checkout.","Select the offline shipping method that gets used to provide rates in checkout."
 "Selected products will be pre-selected for automatic shipping label creation. You can still select another product when creating shipping labels manually.","Selected products will be pre-selected for automatic shipping label creation. You can still select another product when creating shipping labels manually."
 "Sender Address Book Reference","Sender Address Book Reference"

@@ -145,9 +145,36 @@
                     </route>
                 </routes>
             </shippingOption>
+            <shippingOption code="Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::SERVICE_OPTION_ENDORSEMENT">
+                <label translate="true">Non-delivery Instruction</label>
+                <sortOrder>1070</sortOrder>
+                <inputs>
+                    <input code="details" defaultConfigValue="Dhl\Paket\Model\Config\ModuleConfig::CONFIG_PATH_ENDORSEMENT">
+                        <inputType>radioset</inputType>
+                        <options>
+                            <option id="RETURN">
+                                <label>Return immediately</label>
+                                <value>RETURN</value>
+                            </option>
+                            <option id="ABANDON">
+                                <label>Abandon (free of charge)</label>
+                                <value>ABANDON</value>
+                            </option>
+                        </options>
+                    </input>
+                </inputs>
+                <routes>
+                    <route>
+                        <origin>DE</origin>
+                        <excludeDestinations>
+                            <destination>domestic</destination>
+                        </excludeDestinations>
+                    </route>
+                </routes>
+            </shippingOption>
             <shippingOption code="Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::SERVICE_OPTION_INSURANCE">
                 <label translate="true">Additional Insurance</label>
-                <sortOrder>1070</sortOrder>
+                <sortOrder>1080</sortOrder>
                 <inputs>
                     <input code="enabled" defaultConfigValue="Dhl\Paket\Model\Config\ModuleConfig::CONFIG_PATH_ADDITIONAL_INSURANCE">
                         <inputType>checkbox</inputType>
@@ -157,7 +184,7 @@
             </shippingOption>
             <shippingOption code="Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::SERVICE_OPTION_PARCEL_OUTLET_ROUTING">
                 <label translate="true">Parcel Routing</label>
-                <sortOrder>1080</sortOrder>
+                <sortOrder>1090</sortOrder>
                 <routes>
                     <route>
                         <origin>DE</origin>
@@ -182,7 +209,7 @@
             </shippingOption>
             <shippingOption code="Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::SERVICE_OPTION_BULKY_GOODS">
                 <label translate="true">Bulky Goods</label>
-                <sortOrder>1090</sortOrder>
+                <sortOrder>1100</sortOrder>
                 <inputs>
                     <input code="enabled" defaultConfigValue="Dhl\Paket\Model\Config\ModuleConfig::CONFIG_PATH_BULKY_GOODS">
                         <inputType>checkbox</inputType>
@@ -200,7 +227,7 @@
             </shippingOption>
             <shippingOption code="Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::SERVICE_OPTION_CHECK_OF_AGE">
                 <label translate="true">Visual Check of Age</label>
-                <sortOrder>1100</sortOrder>
+                <sortOrder>1110</sortOrder>
                 <inputs>
                     <input code="details" defaultConfigValue="Dhl\Paket\Model\Config\ModuleConfig::CONFIG_PATH_VISUAL_CHECK_OF_AGE">
                         <inputType>radioset</inputType>
@@ -231,7 +258,7 @@
             </shippingOption>
             <shippingOption code="Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::SERVICE_OPTION_PREFERRED_DAY">
                 <label translate="true">Delivery Day</label>
-                <sortOrder>1110</sortOrder>
+                <sortOrder>1120</sortOrder>
                 <inputs>
                     <input code="enabled">
                         <sortOrder>10</sortOrder>
@@ -246,7 +273,7 @@
             </shippingOption>
             <shippingOption code="Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::SERVICE_OPTION_NEIGHBOR_DELIVERY">
                 <label translate="true">Preferred Neighbor Delivery</label>
-                <sortOrder>1120</sortOrder>
+                <sortOrder>1130</sortOrder>
                 <inputs>
                     <input code="enabled">
                         <sortOrder>10</sortOrder>
@@ -265,7 +292,7 @@
             </shippingOption>
             <shippingOption code="Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::SERVICE_OPTION_DROPOFF_DELIVERY">
                 <label translate="true">Drop-off Location Delivery</label>
-                <sortOrder>1130</sortOrder>
+                <sortOrder>1140</sortOrder>
                 <inputs>
                     <input code="enabled">
                         <sortOrder>10</sortOrder>

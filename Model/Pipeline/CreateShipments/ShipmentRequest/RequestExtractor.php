@@ -610,4 +610,17 @@ class RequestExtractor implements RequestExtractorInterface
     {
         return $this->getServiceOptionReader()->isServiceEnabled(Codes::SERVICE_OPTION_PREMIUM);
     }
+
+    /**
+     * Obtain the shipment endorsement type for the current package.
+     *
+     * @return string
+     */
+    public function getEndorsement(): string
+    {
+        return $this->getServiceOptionReader()->getServiceOptionValue(
+            Codes::SERVICE_OPTION_ENDORSEMENT,
+            'details'
+        );
+    }
 }

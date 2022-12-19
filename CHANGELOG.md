@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 
 - Display additional locker location information on the map in checkout.
+- Select endorsement (abandon, return) for international, undeliverable shipments.
 
 ## 2.6.2
 

@@ -19,6 +19,7 @@ class Codes
     // packaging services
     public const SERVICE_OPTION_CHECK_OF_AGE = 'visualCheckOfAge';
     public const SERVICE_OPTION_RETURN_SHIPMENT = 'returnShipment';
+    public const SERVICE_OPTION_ENDORSEMENT = 'endorsement';
     public const SERVICE_OPTION_INSURANCE = 'additionalInsurance';
     public const SERVICE_OPTION_BULKY_GOODS = 'bulkyGoods';
     public const SERVICE_OPTION_PRINT_ONLY_IF_CODEABLE = 'printOnlyIfCodeable';

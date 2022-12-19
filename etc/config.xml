@@ -103,6 +103,7 @@
                     <services>
                         <visual_check_of_age>A00</visual_check_of_age>
                         <premium>0</premium>
+                        <endorsement>RETURN</endorsement>
                         <additional_insurance>0</additional_insurance>
                         <bulky_goods>0</bulky_goods>
                         <parcel_outlet>0</parcel_outlet>

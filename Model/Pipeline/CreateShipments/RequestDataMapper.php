@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace Dhl\Paket\Model\Pipeline\CreateShipments;
 
 use Dhl\Paket\Api\ShipmentDateInterface;
+use Dhl\Paket\Model\Adminhtml\System\Config\Source\Endorsement;
 use Dhl\Paket\Model\Adminhtml\System\Config\Source\VisualCheckOfAge;
 use Dhl\Paket\Model\Pipeline\CreateShipments\ShipmentRequest\Data\PackageAdditional;
 use Dhl\Paket\Model\Pipeline\CreateShipments\ShipmentRequest\RequestExtractorFactory;
@@ -277,6 +278,13 @@ class RequestDataMapper
                         $requestExtractor->getCustomerAccountNumber()
                     );
                 }
+            }
+
+            $endorsement = $requestExtractor->getEndorsement();
+            if ($endorsement === Endorsement::OPTION_ABANDON) {
+                $this->requestBuilder->setShipmentEndorsementType('ABANDONMENT');
+            } elseif ($endorsement === Endorsement::OPTION_RETURN) {
+                $this->requestBuilder->setShipmentEndorsementType('IMMEDIATE');
             }
 
             if ($requestExtractor->isPremium()) {
