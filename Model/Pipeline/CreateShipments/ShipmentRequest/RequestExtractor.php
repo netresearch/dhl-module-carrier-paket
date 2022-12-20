@@ -372,6 +372,28 @@ class RequestExtractor implements RequestExtractorInterface
     }
 
     /**
+     * Obtain the user's Business Customer Portal bank account reference.
+     *
+     * A merchant may configure multiple sets of bank account data in Business Customer Portal.
+     * Usually, the default set will be used for Cash on Delivery payments. If no bank account
+     * is marked as default, which is the case for the REST API sandbox user, then we explicitly
+     * reference it.
+     *
+     * @return string
+     */
+    public function getAccountReference(): string
+    {
+        $storeId = $this->getStoreId();
+        if ($this->moduleConfig->isSandboxMode($storeId)
+            && ($this->moduleConfig->getShippingApiType() === ModuleConfig::SHIPPING_API_REST)
+        ) {
+            return 'Sandbox3';
+        }
+
+        return '';
+    }
+
+    /**
      * Obtain the 14-digit billing number for the current package.
      *
      * @return string

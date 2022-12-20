@@ -210,7 +210,8 @@ class RequestDataMapper
             $baseTotal = round((float) $requestExtractor->getOrder()->getBaseGrandTotal(), 2);
             if ($requestExtractor->isCashOnDelivery()) {
                 $notes = $this->wrapReasonForPayment($requestExtractor->getCodReasonForPayment());
-                $requestBuilder->setShipperBankData(null, null, null, null, null, $notes);
+                $accountReference = $requestExtractor->getAccountReference();
+                $requestBuilder->setShipperBankData(null, null, null, null, $accountReference, $notes);
                 $requestBuilder->setCodAmount($baseTotal);
             }
 
