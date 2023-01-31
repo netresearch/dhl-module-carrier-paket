@@ -441,7 +441,12 @@ class RequestExtractor implements RequestExtractorInterface
      */
     public function isRecipientPhoneRequired(): bool
     {
-        return $this->moduleConfig->isContactPrintingEnabled($this->getCoreExtractor()->getStoreId());
+        $recipientCountry = $this->getDeliveryLocationCountryCode() ?: $this->getRecipient()->getCountryCode();
+        if ($recipientCountry !== $this->getShipper()->getCountryCode()) {
+            return $this->moduleConfig->isPhoneNumberTransmissionEnabled($this->getCoreExtractor()->getStoreId());
+        }
+
+        return false;
     }
 
     /**

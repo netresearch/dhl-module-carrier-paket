@@ -101,7 +101,7 @@ Fri,Fr
 "If enabled, shipment orders will only return a label if the DHL delivery address verification succeeds.","Wenn diese Option aktiviert ist, werden Paketaufkleber nur erstellt, wenn die DHL-Überprüfung der Empfängeradresse im Versandauftrag erfolgreich war."
 "If enabled, shipments will be insured with higher than standard amount.","Wenn diese Option aktiviert ist, werden Sendungen mit einem höheren als dem Standardbetrag versichert."
 "If enabled, shipments will be marked as bulk freight.","Wenn diese Option aktiviert ist, werden Sendungen als Sperrgut markiert."
-"If enabled, the receiver phone number will be printed on the shipping label.","Wenn diese Option aktiviert ist, dann wird die Telefonnummer des Empfängers auf das Versandetikett gedruckt."
+"If enabled, the consignee's phone number will be forwarded to DHL on international shipments.","Wenn diese Option aktiviert ist, dann wird die Telefonnummer des Empfängers bei internationalen Sendungen an DHL weitergeleitet."
 "If enabled, the visual age check service will be booked during shipment orders.","Wenn diese Option aktiviert ist, wird der Service Alterssichtprüfung bei Versandaufträgen gebucht."
 "If enabled, your undeliverable packages will be held at the nearest parcel collection point for collection by the recipient rather than being returned immediately to you.","Wenn diese Option aktiviert ist, werden unzustellbare Sendungen nicht direkt an Sie zurückgeschickt, sondern zunächst in der nächstgelegenen Filiale zur Abholung hinterlegt."
 "If you do not have a DHL Paket account, <a href=""https://www.dhl.de/en/geschaeftskunden/paket/kunde-werden/angebot-dhl-geschaeftskunden-online.html"" target=""_blank"">please contact DHL Paket</a> to establish or expand your relationship","Wenn Sie kein Konto haben oder Ihr Konto bei einer anderen DHL-Abteilung ist, <a href=""https://www.dhl.de/en/geschaeftskunden/paket/kunde-werden/angebot-dhl-geschaeftskunden-online.html"" target=""_blank"">wenden Sie sich bitte an DHL Paket</a>, um Ihren Vertrag zu erweitern"
@@ -163,7 +163,7 @@ Participation,Teilnahme
 "Preferred Neighbor Delivery",Nachbarschaftszustellung
 "Preferred Neighbor: Delivery to a neighbor of your choice","Nachbarschaftszustellung: Lieferung an den Nachbarn Ihrer Wahl"
 "Print Only If Codeable","Nur leitkodierbare Versandaufträge erteilen"
-"Print Receiver Contact Details","Kontaktdaten des Empfängers drucken"
+"Send Receiver Phone Number","Telefonnummer des Empfängers übermitteln"
 "Priority Shipping","Bevorzugter Transport"
 Procedure,Verfahren
 Product,Produkt

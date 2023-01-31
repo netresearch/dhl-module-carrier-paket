@@ -47,7 +47,7 @@ class ModuleConfig implements VersionInterface
     // 500_shipment_defaults.xml
     public const CONFIG_PATH_PRINT_ONLY_IF_CODEABLE = 'dhlshippingsolutions/dhlpaket/shipment_defaults/print_only_if_codeable';
     public const CONFIG_PATH_SENDER_REFERENCE = 'dhlshippingsolutions/dhlpaket/shipment_defaults/sender_address_book_reference';
-    public const CONFIG_PATH_PRINT_RECEIVER_CONTACT = 'dhlshippingsolutions/dhlpaket/shipment_defaults/print_receiver_contact';
+    public const CONFIG_PATH_SEND_RECEIVER_PHONE_NUMBER = 'dhlshippingsolutions/dhlpaket/shipment_defaults/send_receiver_phone_number';
     public const CONFIG_PATH_SHIPPING_PRODUCTS = 'dhlshippingsolutions/dhlpaket/shipment_defaults/shipping_products';
     public const CONFIG_PATH_CUSTOMS_REFERENCE_NUMBERS = 'dhlshippingsolutions/dhlpaket/shipment_defaults/customs/reference_numbers';
     public const CONFIG_PATH_PLACE_OF_COMMITTAL = 'dhlshippingsolutions/dhlpaket/shipment_defaults/customs/place_of_committal';
@@ -388,15 +388,15 @@ class ModuleConfig implements VersionInterface
     }
 
     /**
-     * Check if the receiver phone number should be printed on the shipping label.
+     * Check if the receiver phone number should be sent to DHL.
      *
      * @param mixed $store
      * @return bool
      */
-    public function isContactPrintingEnabled($store = null): bool
+    public function isPhoneNumberTransmissionEnabled($store = null): bool
     {
         return $this->scopeConfig->isSetFlag(
-            self::CONFIG_PATH_PRINT_RECEIVER_CONTACT,
+            self::CONFIG_PATH_SEND_RECEIVER_PHONE_NUMBER,
             ScopeInterface::SCOPE_STORE,
             $store
         );

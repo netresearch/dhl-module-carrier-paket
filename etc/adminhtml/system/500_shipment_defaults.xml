@@ -18,10 +18,10 @@
             <label>Sender Address Book Reference</label>
             <comment><![CDATA[Reference an entry from your DHL Business Customer Portal address book. If left blank, the origin address configured in <em>Shipping Settings</em> will be used. Using an entry from the DHL sender address book allows to print your logo on the label. This setting is ignored in sandbox mode.]]></comment>
         </field>
-        <field id="print_receiver_contact" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="30"
+        <field id="send_receiver_phone_number" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="30"
                translate="label comment" type="Netresearch\ConfigFields\Model\Type\Toggle">
-            <label>Print Receiver Contact Details</label>
-            <comment>If enabled, the receiver phone number will be printed on the shipping label.</comment>
+            <label>Send Receiver Phone Number</label>
+            <comment>If enabled, the consignee's phone number will be forwarded to DHL on international shipments.</comment>
         </field>
         <field id="shipping_products" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="40"
                translate="label comment tooltip">

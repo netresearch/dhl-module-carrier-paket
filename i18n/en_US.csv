@@ -101,7 +101,7 @@ Fri,Fri
 "If enabled, shipment orders will only return a label if the DHL delivery address verification succeeds.","If enabled, shipment orders will only return a label if the DHL delivery address verification succeeds."
 "If enabled, shipments will be insured with higher than standard amount.","If enabled, shipments will be insured with higher than standard amount."
 "If enabled, shipments will be marked as bulk freight.","If enabled, shipments will be marked as bulk freight."
-"If enabled, the receiver phone number will be printed on the shipping label.","If enabled, the receiver phone number will be printed on the shipping label."
+"If enabled, the consignee's phone number will be forwarded to DHL on international shipments.","If enabled, the consignee's phone number will be forwarded to DHL on international shipments."
 "If enabled, the visual age check service will be booked during shipment orders.","If enabled, the visual age check service will be booked during shipment orders."
 "If enabled, your undeliverable packages will be held at the nearest parcel collection point for collection by the recipient rather than being returned immediately to you.","If enabled, your undeliverable packages will be held at the nearest parcel collection point for collection by the recipient rather than being returned immediately to you."
 "If you do not have a DHL Paket account, <a href=""https://www.dhl.de/en/geschaeftskunden/paket/kunde-werden/angebot-dhl-geschaeftskunden-online.html"" target=""_blank"">please contact DHL Paket</a> to establish or expand your relationship","If you do not have a DHL Paket account, <a href=""https://www.dhl.de/en/geschaeftskunden/paket/kunde-werden/angebot-dhl-geschaeftskunden-online.html"" target=""_blank"">please contact DHL Paket</a> to establish or expand your relationship"
@@ -163,7 +163,7 @@ Participation,Participation
 "Preferred Neighbor Delivery","Preferred Neighbor Delivery"
 "Preferred Neighbor: Delivery to a neighbor of your choice","Preferred Neighbor: Delivery to a neighbor of your choice"
 "Print Only If Codeable","Print Only If Codeable"
-"Print Receiver Contact Details","Print Receiver Contact Details"
+"Send Receiver Phone Number","Send Receiver Phone Number"
 "Priority Shipping","Priority Shipping"
 Procedure,Procedure
 Product,Product
