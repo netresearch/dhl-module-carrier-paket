@@ -181,7 +181,7 @@ class RequestDataMapper
             $requestBuilder->setShipmentDetails(
                 $package->getProductCode(),
                 $this->shipmentDate->getDate($requestExtractor->getStoreId()),
-                $requestExtractor->getOrder()->getIncrementId()
+                str_pad($requestExtractor->getOrder()->getIncrementId(), 8, "0", STR_PAD_LEFT)
             );
 
             $weight = $package->getWeight();
