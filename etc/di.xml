@@ -98,8 +98,18 @@
     <virtualType name="Dhl\Paket\Model\SplitAddress\RecipientStreetLoader\Virtual" type="Netresearch\ShippingCore\Model\SplitAddress\RecipientStreetLoader">
         <arguments>
             <argument name="rules" xsi:type="array">
-                <item name="IT" xsi:type="object">Dhl\Paket\Model\SplitAddress\SplittingRule\RejoinSupplementRule</item>
+                <item name="ES" xsi:type="object">Dhl\Paket\Model\SplitAddress\SplittingRule\ApartmentRule</item>
+                <item name="PT" xsi:type="object">Dhl\Paket\Model\SplitAddress\SplittingRule\ApartmentRule</item>
+                <item name="IT" xsi:type="object">Dhl\Paket\Model\SplitAddress\SplittingRule\ItalyCompositeRule\Virtual</item>
                 <item name="DE-BAW" xsi:type="object">Dhl\Paket\Model\SplitAddress\SplittingRule\RejoinSupplementRule</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Dhl\Paket\Model\SplitAddress\SplittingRule\ItalyCompositeRule\Virtual" type="Netresearch\ShippingCore\Model\SplitAddress\SplittingRule\CompositeRule">
+        <arguments>
+            <argument name="rules" xsi:type="array">
+                <item name="exponent" xsi:type="object">Dhl\Paket\Model\SplitAddress\SplittingRule\RejoinSupplementRule</item>
+                <item name="apartment" xsi:type="object">Dhl\Paket\Model\SplitAddress\SplittingRule\ApartmentRule</item>
             </argument>
         </arguments>
     </virtualType>
