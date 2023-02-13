@@ -219,9 +219,6 @@
                 <routes>
                     <route>
                         <origin>DE</origin>
-                        <includeDestinations>
-                            <destination>DE</destination>
-                        </includeDestinations>
                     </route>
                 </routes>
             </shippingOption>
@@ -314,7 +311,6 @@
                 <triggerValue>V62WP</triggerValue>
                 <action>disable</action>
                 <subjects>
-                    <subject>Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::SERVICE_OPTION_BULKY_GOODS</subject>
                     <subject>Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::SERVICE_OPTION_CHECK_OF_AGE</subject>
                     <subject>Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::SERVICE_OPTION_INSURANCE</subject>
                 </subjects>
@@ -328,6 +324,16 @@
                 <subjects>
                     <subject>Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::SERVICE_OPTION_PREMIUM</subject>
                 </subjects>
+            </rule>
+            <rule id="enableBulkyGoodsForPaket">
+                <masters>
+                    <master>packageDetails.productCode</master>
+                </masters>
+                <subjects>
+                    <subject>Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::SERVICE_OPTION_BULKY_GOODS</subject>
+                </subjects>
+                <action>enable</action>
+                <triggerValue>/^(V01PAK|V53WPAK)$/</triggerValue>
             </rule>
             <rule id="showParcelRoutingEmailIfServiceIsSelected">
                 <masters>
