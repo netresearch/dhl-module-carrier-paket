@@ -104,7 +104,7 @@ Fri,Fr
 "If enabled, the consignee's phone number will be forwarded to DHL on international shipments.","Wenn diese Option aktiviert ist, dann wird die Telefonnummer des Empfängers bei internationalen Sendungen an DHL weitergeleitet."
 "If enabled, the visual age check service will be booked during shipment orders.","Wenn diese Option aktiviert ist, wird der Service Alterssichtprüfung bei Versandaufträgen gebucht."
 "If enabled, your undeliverable packages will be held at the nearest parcel collection point for collection by the recipient rather than being returned immediately to you.","Wenn diese Option aktiviert ist, werden unzustellbare Sendungen nicht direkt an Sie zurückgeschickt, sondern zunächst in der nächstgelegenen Filiale zur Abholung hinterlegt."
-"If you do not have a DHL Paket account, <a href=""https://www.dhl.de/en/geschaeftskunden/paket/kunde-werden/angebot-dhl-geschaeftskunden-online.html"" target=""_blank"">please contact DHL Paket</a> to establish or expand your relationship","Wenn Sie kein Konto haben oder Ihr Konto bei einer anderen DHL-Abteilung ist, <a href=""https://www.dhl.de/en/geschaeftskunden/paket/kunde-werden/angebot-dhl-geschaeftskunden-online.html"" target=""_blank"">wenden Sie sich bitte an DHL Paket</a>, um Ihren Vertrag zu erweitern"
+"If you do not have an account or your account is with another DHL division, %1please contact DHL Parcel Germany%2 to establish or expand your relationship.","Wenn Sie kein Konto haben oder Ihr Konto mit einer anderen DHL-Abteilung abgeschlossen wurde, dann wenden Sie sich bitte an %1DHL Paket%2, um Ihren Vertrag zu erweitern."
 "In addition to your account number you need your 2-digit Procedure and Participation number","Zusätzlich zur Ihrer Kundennummer benötigen Sie noch die Verfahren- und Teilnahmenummer (jeweils 2-stellig)"
 "Info (All API Activities)","Info (alle API-Aktivitäten)"
 "International (excl. EU)","Grenzüberschreitender Versand (ohne EU)"
@@ -250,3 +250,4 @@ Wed,Mi
 "Your personal post number","Ihre persönliche Postnummer"
 dhl.support@netresearch.de,dhl.support@netresearch.de
 none,keiner
+https://www.dhl.de/en/geschaeftskunden/paket/kunde-werden/angebot-dhl-geschaeftskunden-online.html?source=magento&cid=c_dhloka_de_magento,https://www.dhl.de/dhl-kundewerden?source=magento&cid=c_dhloka_de_magento

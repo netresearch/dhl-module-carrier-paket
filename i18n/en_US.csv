@@ -104,7 +104,7 @@ Fri,Fri
 "If enabled, the consignee's phone number will be forwarded to DHL on international shipments.","If enabled, the consignee's phone number will be forwarded to DHL on international shipments."
 "If enabled, the visual age check service will be booked during shipment orders.","If enabled, the visual age check service will be booked during shipment orders."
 "If enabled, your undeliverable packages will be held at the nearest parcel collection point for collection by the recipient rather than being returned immediately to you.","If enabled, your undeliverable packages will be held at the nearest parcel collection point for collection by the recipient rather than being returned immediately to you."
-"If you do not have a DHL Paket account, <a href=""https://www.dhl.de/en/geschaeftskunden/paket/kunde-werden/angebot-dhl-geschaeftskunden-online.html"" target=""_blank"">please contact DHL Paket</a> to establish or expand your relationship","If you do not have a DHL Paket account, <a href=""https://www.dhl.de/en/geschaeftskunden/paket/kunde-werden/angebot-dhl-geschaeftskunden-online.html"" target=""_blank"">please contact DHL Paket</a> to establish or expand your relationship"
+"If you do not have an account or your account is with another DHL division, %1please contact DHL Parcel Germany%2 to establish or expand your relationship.","If you do not have an account or your account is with another DHL division, %1please contact DHL Parcel Germany%2 to establish or expand your relationship."
 "In addition to your account number you need your 2-digit Procedure and Participation number","In addition to your account number you need your 2- digit Procedure and Participation number"
 "Info (All API Activities)","Info (All API Activities)"
 "International (excl. EU)","International (excl. EU)"
@@ -250,3 +250,4 @@ Wed,Wed
 "Your personal post number","Your personal post number"
 dhl.support@netresearch.de,dhl.support@netresearch.de
 none,none
+https://www.dhl.de/en/geschaeftskunden/paket/kunde-werden/angebot-dhl-geschaeftskunden-online.html?source=magento&cid=c_dhloka_de_magento,https://www.dhl.de/en/geschaeftskunden/paket/kunde-werden/angebot-dhl-geschaeftskunden-online.html?source=magento&cid=c_dhloka_de_magento

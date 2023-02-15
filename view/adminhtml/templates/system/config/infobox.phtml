@@ -18,7 +18,14 @@
             <br/>
             <em>
                 <small>
-                    <?= /* @noEscape */ __('If you do not have a DHL Paket account, <a href="https://www.dhl.de/en/geschaeftskunden/paket/kunde-werden/angebot-dhl-geschaeftskunden-online.html" target="_blank">please contact DHL Paket</a> to establish or expand your relationship') ?>
+                    <?php $contactUrl = __('https://www.dhl.de/en/geschaeftskunden/paket/kunde-werden/angebot-dhl-geschaeftskunden-online.html?source=magento&cid=c_dhloka_de_magento') ?>
+                    <?= /* @noEscape */
+                        __(
+                            'If you do not have an account or your account is with another DHL division, %1please contact DHL Parcel Germany%2 to establish or expand your relationship.',
+                            '<a href="' . $block->escapeUrl($contactUrl) . '" target="_blank" rel="noreferrer">',
+                            '</a>'
+                        );
+                     ?>
                 </small>
             </em>
         </li>
