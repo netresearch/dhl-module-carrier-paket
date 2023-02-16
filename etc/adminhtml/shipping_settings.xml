@@ -302,6 +302,24 @@
                     </input>
                 </inputs>
             </shippingOption>
+            <shippingOption code="Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::SERVICE_OPTION_NAMED_PERSON_ONLY">
+                <label translate="true">Named Person Only</label>
+                <sortOrder>1150</sortOrder>
+                <inputs>
+                    <input code="enabled" defaultConfigValue="Dhl\Paket\Model\Config\ModuleConfig::CONFIG_PATH_NAMED_PERSON_ONLY">
+                        <inputType>checkbox</inputType>
+                        <label translate="true">Delivery only to recipient or authorized person</label>
+                    </input>
+                </inputs>
+                <routes>
+                    <route>
+                        <origin>DE</origin>
+                        <includeDestinations>
+                            <destination>DE</destination>
+                        </includeDestinations>
+                    </route>
+                </routes>
+            </shippingOption>
         </serviceOptions>
         <compatibilityData>
             <rule id="disableNotSupportedWarenpostServices">
@@ -344,6 +362,16 @@
                 </subjects>
                 <action>show</action>
                 <triggerValue>*</triggerValue>
+            </rule>
+            <rule id="enableNamedPersonOnlyForPaket">
+                <masters>
+                    <master>packageDetails.productCode</master>
+                </masters>
+                <triggerValue>V01PAK</triggerValue>
+                <action>enable</action>
+                <subjects>
+                    <subject>Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::SERVICE_OPTION_NAMED_PERSON_ONLY</subject>
+                </subjects>
             </rule>
         </compatibilityData>
     </carrier>

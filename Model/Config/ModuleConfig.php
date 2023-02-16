@@ -53,14 +53,15 @@ class ModuleConfig implements VersionInterface
     public const CONFIG_PATH_PLACE_OF_COMMITTAL = 'dhlshippingsolutions/dhlpaket/shipment_defaults/customs/place_of_committal';
     public const CONFIG_PATH_ELECTRONIC_EXPORT_NOTIFICATION = 'dhlshippingsolutions/dhlpaket/shipment_defaults/customs/electronic_export_notification';
     public const CONFIG_PATH_VISUAL_CHECK_OF_AGE = 'dhlshippingsolutions/dhlpaket/shipment_defaults/services/visual_check_of_age';
-    public const CONFIG_PATH_RETURN_SHIPMENT = 'dhlshippingsolutions/dhlpaket/shipment_defaults/services/return_shipment';
-    public const CONFIG_PATH_RETURN_RECEIVER = 'dhlshippingsolutions/dhlpaket/shipment_defaults/services/return_shipment_receiver';
-    public const CONFIG_PATH_PREMIUM = 'dhlshippingsolutions/dhlpaket/shipment_defaults/services/premium';
-    public const CONFIG_PATH_ENDORSEMENT = 'dhlshippingsolutions/dhlpaket/shipment_defaults/services/endorsement';
-    public const CONFIG_PATH_ADDITIONAL_INSURANCE = 'dhlshippingsolutions/dhlpaket/shipment_defaults/services/additional_insurance';
-    public const CONFIG_PATH_BULKY_GOODS = 'dhlshippingsolutions/dhlpaket/shipment_defaults/services/bulky_goods';
+    public const CONFIG_PATH_NAMED_PERSON_ONLY = 'dhlshippingsolutions/dhlpaket/shipment_defaults/services/named_person_only';
     public const CONFIG_PATH_PARCEL_OUTLET = 'dhlshippingsolutions/dhlpaket/shipment_defaults/services/parcel_outlet';
     public const CONFIG_PATH_PARCEL_OUTLET_NOTIFICATION_EMAIL = 'dhlshippingsolutions/dhlpaket/shipment_defaults/services/parcel_outlet_notification_email';
+    public const CONFIG_PATH_ADDITIONAL_INSURANCE = 'dhlshippingsolutions/dhlpaket/shipment_defaults/services/additional_insurance';
+    public const CONFIG_PATH_BULKY_GOODS = 'dhlshippingsolutions/dhlpaket/shipment_defaults/services/bulky_goods';
+    public const CONFIG_PATH_PREMIUM = 'dhlshippingsolutions/dhlpaket/shipment_defaults/services/premium';
+    public const CONFIG_PATH_ENDORSEMENT = 'dhlshippingsolutions/dhlpaket/shipment_defaults/services/endorsement';
+    public const CONFIG_PATH_RETURN_SHIPMENT = 'dhlshippingsolutions/dhlpaket/shipment_defaults/services/return_shipment';
+    public const CONFIG_PATH_RETURN_RECEIVER = 'dhlshippingsolutions/dhlpaket/shipment_defaults/services/return_shipment_receiver';
 
     // 600_additional_services.xml
     public const CONFIG_PATH_PARCEL_ANNOUNCEMENT = 'dhlshippingsolutions/dhlpaket/additional_services/parcelannouncement';

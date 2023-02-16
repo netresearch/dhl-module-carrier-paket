@@ -226,6 +226,10 @@ class RequestDataMapper
                 $this->requestBuilder->setVisualCheckOfAge($visualCheckOfAge);
             }
 
+            if ($requestExtractor->isNamedPersonOnly()) {
+                $this->requestBuilder->setNamedPersonOnly();
+            }
+
             if ($requestExtractor->isBulkyGoods()) {
                 $this->requestBuilder->setBulkyGoods();
             }

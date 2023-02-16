@@ -568,6 +568,16 @@ class RequestExtractor implements RequestExtractorInterface
     }
 
     /**
+     * Obtain the "personally" flag for the package.
+     *
+     * @return bool
+     */
+    public function isNamedPersonOnly(): bool
+    {
+        return $this->getServiceOptionReader()->isServiceEnabled(Codes::SERVICE_OPTION_NAMED_PERSON_ONLY);
+    }
+
+    /**
      * Obtain the "parcelAnnouncement" flag for the current package.
      *
      * @return bool

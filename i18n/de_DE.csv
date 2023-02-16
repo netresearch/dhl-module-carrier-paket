@@ -60,6 +60,7 @@ Country,Land
 "Delivery Day: Delivery on your preferred day","Liefertag: Lieferung an Ihrem bevorzugten Tag"
 "Delivery Location","Zustellung an Abholort"
 "Destination Country",Bestimmungsland
+"Delivery only to recipient or authorized person","Lieferung nur an Empfänger oder bevollmächtigte Person"
 "Disability Access","Barrierefreier Zugang"
 Domestic,Inlandsversand
 "Drop-off Location",Ablageort
@@ -97,6 +98,7 @@ Fri,Fr
 "Having issues configuring the extension? Contact our support desk:","Haben Sie Probleme beim Konfigurieren der Extension? Wenden Sie sich an unser Support-Team:"
 "Here you can define default values for additional shipping services. Please note that selected options are only applied if they are valid for the given order. Incompatible services, e.g. domestic-only services for a cross-border order, will be omitted when booking a shipping label.","Hier können Sie Standardwerte für zusätzliche Lieferoptionen setzen. Bitte beachten Sie, dass Ihre Auswahl nur soweit angewendet wird, wie sie für die jeweilige Bestellung gültig ist. Nationale Services werden beispielsweise beim Buchen eines internationalen Versandetiketts nicht angewählt."
 "If enabled, DHL will be notified that an electronic export declaration was completed by the merchant and that an Export Accompanying Document (EAD) is attached to the parcel. See also <a href=""https://www.dhl.de/de/geschaeftskunden/paket/leistungen-und-produkte/internationaler-versand/paket-international/zollinformationen.html"" target=""_blank"">Customs Information</a>.","Wenn diese Option aktiviert ist, wird DHL mitgeteilt, dass eine elektronische Ausfuhranmeldung beim Zoll durchgeführt worden ist und dem Paket ein Ausfuhrbegleitdokument (ABD) beiliegt. Siehe auch <a href=""https://www.dhl.de/de/geschaeftskunden/paket/leistungen-und-produkte/internationaler-versand/paket-international/zollinformationen.html"" target=""_blank"">Zollinformationen</a>."
+"If enabled, DHL will hand over the parcel only to the recipient or to an authorized person.","Wenn diese Option aktiviert ist, dann übergibt DHL das Paket nur an den Empfänger oder eine bevollmächtigte Person."
 "If enabled, a return shipment label will be requested from the webservice. A return address other than the <em>Shipping Origin</em> can be configured below.","Wenn diese Option aktiviert ist, wird ein Rücksendeetikett vom Webservice angefordert. Ein vom Versandursprung abweichender Retourenempfänger kann nachfolgend konfiguriert werden."
 "If enabled, shipment orders will only return a label if the DHL delivery address verification succeeds.","Wenn diese Option aktiviert ist, werden Paketaufkleber nur erstellt, wenn die DHL-Überprüfung der Empfängeradresse im Versandauftrag erfolgreich war."
 "If enabled, shipments will be insured with higher than standard amount.","Wenn diese Option aktiviert ist, werden Sendungen mit einem höheren als dem Standardbetrag versichert."
@@ -122,6 +124,7 @@ Logging,Protokollierung
 "Minimum age +18 years","Mindestalter 18 Jahre"
 Mon,Mo
 "Multi package shipments are not supported.","Mehrpaketsendungen werden nicht unterstützt."
+"Named Person Only","Persönliche Übergabe"
 "Neighbor address","Adresse des Nachbarn"
 "Neighbor name","Name des Nachbarn"
 No,Nein
@@ -163,7 +166,6 @@ Participation,Teilnahme
 "Preferred Neighbor Delivery",Nachbarschaftszustellung
 "Preferred Neighbor: Delivery to a neighbor of your choice","Nachbarschaftszustellung: Lieferung an den Nachbarn Ihrer Wahl"
 "Print Only If Codeable","Nur leitkodierbare Versandaufträge erteilen"
-"Send Receiver Phone Number","Telefonnummer des Empfängers übermitteln"
 "Priority Shipping","Bevorzugter Transport"
 Procedure,Verfahren
 Product,Produkt
@@ -184,6 +186,7 @@ Sat,Sa
 "Select how to treat international parcels that cannot be delivered. They can either be abandoned (free of charge) or returned to the sender.","Legen Sie fest, wie bei internationalen Sendungen im Falle der Unzustellbarkeit verfahren werden soll. Das Paket kann entweder (entgeltfrei) vernichtet oder umgehend an den Absender zurückgesendet werden."
 "Select the offline shipping method that gets used to provide rates in checkout.","Wählen Sie die Offline-Versandmethode aus, die für die Bereitstellung von Tarifen im Checkout verwendet werden soll."
 "Selected products will be pre-selected for automatic shipping label creation. You can still select another product when creating shipping labels manually.","Ausgewählte Produkte werden für die automatische Erstellung von Versandetiketten vorausgewählt. Sie können weiterhin ein anderes Produkt auswählen, wenn Sie Versandetiketten manuell erstellen."
+"Send Receiver Phone Number","Telefonnummer des Empfängers übermitteln"
 "Sender Address Book Reference","Absenderreferenz im DHL-Adressbuch"
 "Sender's Customs Reference","Zollreferenz des Absenders"
 "Shipment %1 could not be cancelled.","Der Versandauftrag %1 konnte nicht storniert werden."
@@ -226,6 +229,7 @@ Tue,Di
 "Unable to determine return shipment billing number.","Die Abrechnungsnummer für Rücksendungen konnte nicht ermittelt werden."
 "Use Additional Insurance Service","Erweiterte Transportversicherung aktivieren"
 "Use Bulky Goods Service","Sperrgutservice aktivieren"
+"Use Named Person Only Service","Persönliche Übergabe aktivieren"
 "Use Premium Service","Service Premium aktivieren"
 "Use Retail Outlet Routing Service","Filial-Routing aktivieren"
 "Use Return Shipment Service","Beilegeretoure aktivieren"
@@ -249,5 +253,5 @@ Wed,Mi
 "Your e-mail address will be sent to DHL upon enabling, after which DHL will trigger a package announcement for your shipment. The e-mail address will exclusively be used for the announcement of this shipment.","Ihre E-Mail-Adresse wird nach der Aktivierung an DHL gesendet. Danach löst DHL eine Paketankündigung für Ihre Sendung aus. Die E-Mail-Adresse wird ausschließlich für die Bekanntgabe dieser Sendung verwendet."
 "Your personal post number","Ihre persönliche Postnummer"
 dhl.support@netresearch.de,dhl.support@netresearch.de
-none,keiner
 https://www.dhl.de/en/geschaeftskunden/paket/kunde-werden/angebot-dhl-geschaeftskunden-online.html?source=magento&cid=c_dhloka_de_magento,https://www.dhl.de/dhl-kundewerden?source=magento&cid=c_dhloka_de_magento
+none,keiner
