@@ -26,6 +26,17 @@
                 </subjects>
                 <errorMessage translate="true">Please choose only one of %1.</errorMessage>
             </rule>
+            <rule id="disableNeighborDeliveryIfNoNeighborDeliveryIsSelected">
+                <triggerValue>*</triggerValue>
+                <action>disable</action>
+                <masters>
+                    <master>Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::SERVICE_OPTION_NO_NEIGHBOR_DELIVERY</master>
+                </masters>
+                <subjects>
+                    <subject>Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::SERVICE_OPTION_NEIGHBOR_DELIVERY</subject>
+                </subjects>
+                <errorMessage translate="true">Please choose only one of %1.</errorMessage>
+            </rule>
             <rule id="disableParcelDropOffIfNeighborDeliveryIsSelected">
                 <triggerValue>*</triggerValue>
                 <action>disable</action>
@@ -34,6 +45,17 @@
                 </masters>
                 <subjects>
                     <subject>Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::SERVICE_OPTION_DROPOFF_DELIVERY</subject>
+                </subjects>
+                <errorMessage translate="true">Please choose only one of %1.</errorMessage>
+            </rule>
+            <rule id="disableNoNeighborDeliveryIfNeighborDeliveryIsSelected">
+                <triggerValue>*</triggerValue>
+                <action>disable</action>
+                <masters>
+                    <master>Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::SERVICE_OPTION_NEIGHBOR_DELIVERY</master>
+                </masters>
+                <subjects>
+                    <subject>Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::SERVICE_OPTION_NO_NEIGHBOR_DELIVERY</subject>
                 </subjects>
                 <errorMessage translate="true">Please choose only one of %1.</errorMessage>
             </rule>
@@ -54,6 +76,7 @@
                     <subject>Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::SERVICE_OPTION_PREFERRED_DAY</subject>
                     <subject>Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::SERVICE_OPTION_DROPOFF_DELIVERY</subject>
                     <subject>Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::SERVICE_OPTION_NEIGHBOR_DELIVERY</subject>
+                    <subject>Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::SERVICE_OPTION_NO_NEIGHBOR_DELIVERY</subject>
                 </subjects>
                 <triggerValue>*</triggerValue>
                 <action>hide</action>
@@ -63,6 +86,7 @@
                     <master>Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::SERVICE_OPTION_PREFERRED_DAY</master>
                     <master>Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::SERVICE_OPTION_DROPOFF_DELIVERY</master>
                     <master>Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::SERVICE_OPTION_NEIGHBOR_DELIVERY</master>
+                    <master>Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::SERVICE_OPTION_NO_NEIGHBOR_DELIVERY</master>
                 </masters>
                 <subjects>
                     <subject>Netresearch\ShippingCore\Model\ShippingSettings\ShippingOption\Codes::SERVICE_OPTION_DELIVERY_LOCATION</subject>

@@ -67,7 +67,7 @@ class RequestDataMapper
      * @param int $packageId
      * @param string $sequenceNumber
      */
-    private function addSequenceNumber(Request $request, int $packageId, string $sequenceNumber)
+    private function addSequenceNumber(Request $request, int $packageId, string $sequenceNumber): void
     {
         $packages = $request->getData('packages');
 
@@ -293,6 +293,10 @@ class RequestDataMapper
 
             if ($requestExtractor->isPremium()) {
                 $this->requestBuilder->setPremium();
+            }
+
+            if ($requestExtractor->isNoNeighborDelivery()) {
+                $this->requestBuilder->setNoNeighbourDelivery();
             }
 
             if ($package->getCustomsValue() !== null) {

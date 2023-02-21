@@ -32,12 +32,24 @@
             <label>Offer Neighbor Delivery</label>
             <comment>Allow customers to name a preferred neighbor during checkout.</comment>
         </field>
-        <field id="preferredday" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="50"
+        <field id="no_neighbor_delivery" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="50"
+               translate="label comment" type="Netresearch\ConfigFields\Model\Type\Checkbox">
+            <label>Offer No Neighbor Delivery Service</label>
+            <comment>Allow customers to exclude delivery to a neighbor.</comment>
+        </field>
+        <field id="no_neighbor_delivery_charge" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="55" canRestore="1"
+               translate="label comment tooltip" type="text">
+            <label>No Neighbor Additional Charge</label>
+            <depends>
+                <field id="no_neighbor_delivery">1</field>
+            </depends>
+        </field>
+        <field id="preferredday" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="60"
                translate="label comment" type="Netresearch\ConfigFields\Model\Type\Checkbox">
             <label>Offer Delivery Day Service</label>
             <comment>Allow customers to select a delivery day.</comment>
         </field>
-        <field id="preferredday_charge" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="55" canRestore="1"
+        <field id="preferredday_charge" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="65" canRestore="1"
                 translate="label comment" type="text">
             <depends>
                 <field id="preferredday">1</field>

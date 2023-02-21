@@ -54,6 +54,7 @@ class ModuleConfig implements VersionInterface
     public const CONFIG_PATH_ELECTRONIC_EXPORT_NOTIFICATION = 'dhlshippingsolutions/dhlpaket/shipment_defaults/customs/electronic_export_notification';
     public const CONFIG_PATH_VISUAL_CHECK_OF_AGE = 'dhlshippingsolutions/dhlpaket/shipment_defaults/services/visual_check_of_age';
     public const CONFIG_PATH_NAMED_PERSON_ONLY = 'dhlshippingsolutions/dhlpaket/shipment_defaults/services/named_person_only';
+    public const CONFIG_PATH_EXCLUDE_NEIGHBOR_DELIVERY = 'dhlshippingsolutions/dhlpaket/shipment_defaults/services/no_neighbor_delivery';
     public const CONFIG_PATH_PARCEL_OUTLET = 'dhlshippingsolutions/dhlpaket/shipment_defaults/services/parcel_outlet';
     public const CONFIG_PATH_PARCEL_OUTLET_NOTIFICATION_EMAIL = 'dhlshippingsolutions/dhlpaket/shipment_defaults/services/parcel_outlet_notification_email';
     public const CONFIG_PATH_ADDITIONAL_INSURANCE = 'dhlshippingsolutions/dhlpaket/shipment_defaults/services/additional_insurance';
@@ -70,6 +71,8 @@ class ModuleConfig implements VersionInterface
     public const CONFIG_PATH_PREFERRED_NEIGHBOR = 'dhlshippingsolutions/dhlpaket/additional_services/preferredneighbour';
     public const CONFIG_PATH_PREFERRED_DAY = 'dhlshippingsolutions/dhlpaket/additional_services/preferredday';
     public const CONFIG_PATH_PREFERRED_DAY_CHARGE = 'dhlshippingsolutions/dhlpaket/additional_services/preferredday_charge';
+    public const CONFIG_PATH_NO_NEIGHBOR_DELIVERY = 'dhlshippingsolutions/dhlpaket/additional_services/no_neighbor_delivery';
+    public const CONFIG_PATH_NO_NEIGHBOR_DELIVERY_CHARGE = 'dhlshippingsolutions/dhlpaket/additional_services/no_neighbor_delivery_charge';
 
     /**
      * @var ScopeConfigInterface
@@ -472,6 +475,38 @@ class ModuleConfig implements VersionInterface
             '.',
             $this->scopeConfig->getValue(
                 self::CONFIG_PATH_PREFERRED_DAY_CHARGE,
+                ScopeInterface::SCOPE_STORE,
+                $store
+            )
+        );
+    }
+
+    /**
+     * Check if No Neighbor Delivery service is enabled for checkout.
+     *
+     * @param mixed $store
+     * @return bool
+     */
+    public function isNoNeighborDeliveryEnabled($store = null): bool
+    {
+        return $this->scopeConfig->isSetFlag(
+            self::CONFIG_PATH_NO_NEIGHBOR_DELIVERY,
+            ScopeInterface::SCOPE_STORE,
+            $store
+        );
+    }
+
+    /**
+     * @param mixed $store
+     * @return float
+     */
+    public function getNoNeighborDeliveryAdditionalCharge($store = null): float
+    {
+        return (float) str_replace(
+            ',',
+            '.',
+            $this->scopeConfig->getValue(
+                self::CONFIG_PATH_NO_NEIGHBOR_DELIVERY_CHARGE,
                 ScopeInterface::SCOPE_STORE,
                 $store
             )

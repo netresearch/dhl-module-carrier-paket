@@ -11,6 +11,7 @@
 "All orders that are placed after the configured time are assumed to be handed over to DHL Paket on the next business day. All orders that are placed before that time are expected to be handed over to DHL Paket on the same day. Value is interpreted as in the timezone configured for the current website.","Es wird davon ausgegangen, dass Bestellungen, die nach der konfigurierten Zeit eingehen, am nachfolgend konfigurierten Tag an DHL übergeben werden. Diese Einstellung beeinflusst das bei der Label-Buchung übergebene Datum sowie die Verfügbarkeit von Services im Checkout."
 "Allow customers to check out with <em>DHL Paket</em> shipping methods.","<em>DHL Paket</em> als Versandart im Checkout anbieten."
 "Allow customers to declare a deposit location during checkout.","Lassen Sie Kunden im Checkout einen bevorzugten Ablageort bestimmen."
+"Allow customers to exclude delivery to a neighbor.","Lassen Sie Kunden im Checkout ausschließen, dass die Sendung an einen Nachbarn zugestellt wird."
 "Allow customers to get shipments delivered to a parcel station.","Lassen Sie Kunden Sendungen an eine Packstation liefern."
 "Allow customers to name a preferred neighbor during checkout.","Lassen Sie Kunden im Checkout einen bevorzugten Nachbar für die Zustellung bestimmen."
 "Allow customers to request parcel notification updates via e-mail by DHL during checkout.","Lassen Sie Kunden im Checkout die Paketankündigung aktivieren. Die E-Mail-Adresse des Kunden wird von DHL ausschließlich für die Ankündigung zu dieser Sendung verwendet."
@@ -46,8 +47,8 @@ Country,Land
 "DHL Parcel Germany is enabled for checkout.","DHL Paket ist für den Checkout aktiviert."
 "DHL Parcel Germany is not enabled for checkout.","DHL Paket ist nicht für den Checkout aktiviert."
 "DHL Post Number","DHL Postnummer"
-"DHL Preferred Delivery","DHL Wunschzustellung"
 "DHL Preferred Delivery. Delivered just the way you want.","DHL Wunschzustellung. Geliefert wie gewünscht."
+"DHL Shipping Service Adjustment","Gebühr DHL Versand-Services"
 "DHL Warenpost International: V66WPI","DHL Warenpost International: V66WPI"
 "DHL Warenpost National: V62WP","DHL Warenpost National: V62WP"
 "DHL contract customers receive the access data to the DHL Business Customer Portal via <em>DHL Paket</em> sales.","DHL-Vertragskunden erhalten die Zugangsdaten zum DHL-Geschäftskundenportal durch einen <em>DHL Paket</em>-Vertriebsmitarbeiter."
@@ -56,11 +57,11 @@ Country,Land
 "Define the method name for the shipping rate in checkout.","Definieren Sie den Namen der Versandart im Checkout."
 "Deliver to a DHL parcel station, parcel shop or postal outlet","An eine DHL Packstation, einen Paketshop oder eine Postfiliale liefern"
 "Delivery Day",Liefertag
-"Delivery Day Additional Charge","Liefertag Aufpreis"
+"Delivery Day Additional Charge","Aufpreis Liefertag"
 "Delivery Day: Delivery on your preferred day","Liefertag: Lieferung an Ihrem bevorzugten Tag"
 "Delivery Location","Zustellung an Abholort"
-"Destination Country",Bestimmungsland
 "Delivery only to recipient or authorized person","Lieferung nur an Empfänger oder bevollmächtigte Person"
+"Destination Country",Bestimmungsland
 "Disability Access","Barrierefreier Zugang"
 Domestic,Inlandsversand
 "Drop-off Location",Ablageort
@@ -81,6 +82,7 @@ EU,"Versand innerhalb der EU"
 "Enable DHL print only if codeable service","Nur leitkodierbare Versandaufträge erteilen"
 "Enable DHL retail outlet routing service","Filial-Routing aktivieren"
 "Enable DHL return shipment service","DHL Retourenbeileger anfordern"
+"Enable No Neighbor Delivery","Keine Nachbarschaftszustellung aktivieren"
 "Enable Sandbox Mode","Sandbox-Modus aktivieren"
 Enabled,Aktiviert
 "Enter your API user name, lower case only. Please talk to your account representative to add API access to your business account.","Geben Sie Ihren API Benutzernamen an (keine Großbuchstaben). Bitte sprechen Sie mit Ihrem DHL-Ansprechpartner, um API-Zugang für Ihren Geschäftskunden-Account freizuschalten."
@@ -88,6 +90,7 @@ Enabled,Aktiviert
 "Error Logging Level","Stufe der Fehlerprotokollierung"
 "Error: %1","Fehler: %1"
 Errors,Fehler
+"Exclude an alternative delivery to the neighbor if you are not available when the delivery is made.","Schließen Sie eine Ersatzzustellung beim Nachbarn aus, falls Sie bei der Zustellung nicht angetroffen werden."
 "Failed to calculate next possible shipment date. Please revise your cut-off times setting.","Das nächstmögliche Versanddatum konnte nicht berechnet werden. Bitte überprüfen Sie die Konfiguration der Bestellabschlusszeiten."
 "Field %1 is required.","Feld %1 is erforderlich."
 "Find DHL Pickup Location","DHL Standorte finden"
@@ -99,6 +102,7 @@ Fri,Fr
 "Here you can define default values for additional shipping services. Please note that selected options are only applied if they are valid for the given order. Incompatible services, e.g. domestic-only services for a cross-border order, will be omitted when booking a shipping label.","Hier können Sie Standardwerte für zusätzliche Lieferoptionen setzen. Bitte beachten Sie, dass Ihre Auswahl nur soweit angewendet wird, wie sie für die jeweilige Bestellung gültig ist. Nationale Services werden beispielsweise beim Buchen eines internationalen Versandetiketts nicht angewählt."
 "If enabled, DHL will be notified that an electronic export declaration was completed by the merchant and that an Export Accompanying Document (EAD) is attached to the parcel. See also <a href=""https://www.dhl.de/de/geschaeftskunden/paket/leistungen-und-produkte/internationaler-versand/paket-international/zollinformationen.html"" target=""_blank"">Customs Information</a>.","Wenn diese Option aktiviert ist, wird DHL mitgeteilt, dass eine elektronische Ausfuhranmeldung beim Zoll durchgeführt worden ist und dem Paket ein Ausfuhrbegleitdokument (ABD) beiliegt. Siehe auch <a href=""https://www.dhl.de/de/geschaeftskunden/paket/leistungen-und-produkte/internationaler-versand/paket-international/zollinformationen.html"" target=""_blank"">Zollinformationen</a>."
 "If enabled, DHL will hand over the parcel only to the recipient or to an authorized person.","Wenn diese Option aktiviert ist, dann übergibt DHL das Paket nur an den Empfänger oder eine bevollmächtigte Person."
+"If enabled, DHL will not attempt to make delivery to a neighbor. If the customer is not available, then the parcel will be delivered to a retail outlet or locker instead.","Wenn diese Option aktiviert ist, dann wird die Sendung, falls Ihr Kunde zum Zeitpunkt der Zustellung nicht zu Hause ist, in einer Postfiliale oder Packstation zur Abholung bereitgehalten und nicht an einen Nachbarn zugestellt."
 "If enabled, a return shipment label will be requested from the webservice. A return address other than the <em>Shipping Origin</em> can be configured below.","Wenn diese Option aktiviert ist, wird ein Rücksendeetikett vom Webservice angefordert. Ein vom Versandursprung abweichender Retourenempfänger kann nachfolgend konfiguriert werden."
 "If enabled, shipment orders will only return a label if the DHL delivery address verification succeeds.","Wenn diese Option aktiviert ist, werden Paketaufkleber nur erstellt, wenn die DHL-Überprüfung der Empfängeradresse im Versandauftrag erfolgreich war."
 "If enabled, shipments will be insured with higher than standard amount.","Wenn diese Option aktiviert ist, werden Sendungen mit einem höheren als dem Standardbetrag versichert."
@@ -128,6 +132,8 @@ Mon,Mo
 "Neighbor address","Adresse des Nachbarn"
 "Neighbor name","Name des Nachbarn"
 No,Nein
+"No Neighbor Additional Charge","Aufpreis Keine Nachbarschaftszustellung"
+"No Neighbor Delivery: Discreet Dispatch","Keine Nachbarschaftszustellung: Diskreter Versand"
 "No locations found for the given address. Please try another address.","Für die angegebene Adresse wurden keine Standorte gefunden. Bitte versuchen Sie eine andere Adresse."
 "No offline shipping method is configured to provide rates in checkout. Please review your %1 settings.","Es wurde keine Versandart für die Ermittlung von Versandkosten konfiguriert. Bitte prüfen Sie Ihre %1 Einstellungen."
 "Non-delivery Instruction","Vorausverfügung bei Unzustellbarkeit"
@@ -135,8 +141,9 @@ No,Nein
 Number,Nummer
 "Offer DHL Parcel Announcement","Paketankündigung anbieten"
 "Offer Delivery Day Service","Liefertagservice anbieten"
-"Offer Drop-off Location Delivery","Ablageort anbieten"
-"Offer Neighbor Delivery","Nachbarschaftszustellung anbieten"
+"Offer Drop-off Location Delivery","Zustellung an Ablageort anbieten"
+"Offer Neighbor Delivery","Zustellung an Wunschnachbar anbieten"
+"Offer No Neighbor Delivery Service","Keine Nachbarschaftszustellung anbieten"
 "Offer Parcel Station Delivery","Lieferung an Packstation anbieten"
 "On routes that require the <em>Premium</em> service, it will be booked implicitly regardless of this setting.","Auf Routen, die den <em>Premium</em>-Service erfordern, wird dieser unabhängig von der Einstellung implizit gebucht."
 "Order Cut-off Times",Bestellabschlusszeiten
@@ -230,6 +237,7 @@ Tue,Di
 "Use Additional Insurance Service","Erweiterte Transportversicherung aktivieren"
 "Use Bulky Goods Service","Sperrgutservice aktivieren"
 "Use Named Person Only Service","Persönliche Übergabe aktivieren"
+"Use No Neighbour Delivery Service","Keine Nachbarschaftszustellung aktivieren"
 "Use Premium Service","Service Premium aktivieren"
 "Use Retail Outlet Routing Service","Filial-Routing aktivieren"
 "Use Return Shipment Service","Beilegeretoure aktivieren"

@@ -9,55 +9,61 @@ declare(strict_types=1);
 namespace Dhl\Paket\Model\AdditionalFee;
 
 use Dhl\Paket\Model\Carrier\Paket;
-use Dhl\Paket\Model\Config\ModuleConfig;
-use Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes;
-use Magento\Framework\Api\FilterBuilder;
-use Magento\Framework\Api\Search\SearchCriteriaBuilderFactory;
 use Magento\Framework\Phrase;
 use Magento\Quote\Model\Quote;
 use Netresearch\ShippingCore\Api\AdditionalFee\AdditionalFeeConfigurationInterface;
-use Netresearch\ShippingCore\Api\Data\ShippingSettings\ShippingOption\Selection\AssignedSelectionInterface;
 use Netresearch\ShippingCore\Api\Data\ShippingSettings\ShippingOption\Selection\SelectionInterface;
-use Netresearch\ShippingCore\Model\ResourceModel\Quote\Address\ShippingOptionSelectionCollection;
-use Netresearch\ShippingCore\Model\ShippingSettings\ShippingOption\Selection\QuoteSelectionRepository;
+use Netresearch\ShippingCore\Model\ShippingSettings\ShippingOption\Selection\QuoteSelectionManager;
 
 class AdditionalFeeConfiguration implements AdditionalFeeConfigurationInterface
 {
     /**
-     * @var QuoteSelectionRepository
+     * @var QuoteSelectionManager
      */
-    private $quoteSelectionRepository;
+    private $quoteSelectionManager;
 
     /**
-     * @var FilterBuilder
+     * @var AdditionalFeeProvider
      */
-    private $filterBuilder;
+    private $feeProvider;
 
     /**
-     * @var SearchCriteriaBuilderFactory
+     * @var float
      */
-    private $searchCriteriaBuilderFactory;
-
-    /**
-     * @var ShippingOptionSelectionCollection | null
-     */
-    private $serviceSelection = null;
-
-    /**
-     * @var ModuleConfig
-     */
-    private $config;
+    private $serviceAdjustment;
 
     public function __construct(
-        QuoteSelectionRepository $quoteSelectionRepository,
-        FilterBuilder $filterBuilder,
-        SearchCriteriaBuilderFactory $searchCriteriaBuilderFactory,
-        ModuleConfig $config
+        QuoteSelectionManager $quoteSelectionManager,
+        AdditionalFeeProvider $feeProvider
     ) {
-        $this->quoteSelectionRepository = $quoteSelectionRepository;
-        $this->filterBuilder = $filterBuilder;
-        $this->searchCriteriaBuilderFactory = $searchCriteriaBuilderFactory;
-        $this->config = $config;
+        $this->quoteSelectionManager = $quoteSelectionManager;
+        $this->feeProvider = $feeProvider;
+    }
+
+    private function calculateAdjustmentAmount(Quote $quote): float
+    {
+        if (!is_float($this->serviceAdjustment)) {
+            $fees = $this->feeProvider->getAmounts($quote->getStoreId());
+
+            $selections = $this->quoteSelectionManager->load((int) $quote->getShippingAddress()->getId());
+            $serviceCodes = array_unique(
+                array_map(
+                    static function (SelectionInterface $selection) {
+                        return $selection->getShippingOptionCode();
+                    },
+                    $selections
+                )
+            );
+
+            $serviceAdjustment = 0;
+            foreach ($serviceCodes as $serviceCode) {
+                $serviceAdjustment += $fees[$serviceCode] ?? 0;
+            }
+
+            $this->serviceAdjustment = round($serviceAdjustment, 2);
+        }
+
+        return $this->serviceAdjustment;
     }
 
     /**
@@ -74,7 +80,8 @@ class AdditionalFeeConfiguration implements AdditionalFeeConfigurationInterface
      */
     public function isActive(Quote $quote): bool
     {
-        return $this->getServiceCharge($quote) !== 0.0;
+        $adjustment = $this->calculateAdjustmentAmount($quote);
+        return !empty($adjustment);
     }
 
     /**
@@ -83,16 +90,7 @@ class AdditionalFeeConfiguration implements AdditionalFeeConfigurationInterface
      */
     public function getServiceCharge(Quote $quote): float
     {
-        $fee = 0.0;
-        $serviceSelections = $this->getPreferredDaySelection($quote);
-
-        /** @var SelectionInterface $selectedService */
-        $selectedService = $serviceSelections->getFirstItem();
-        if ($selectedService->getShippingOptionCode() === Codes::SERVICE_OPTION_PREFERRED_DAY) {
-            $fee = $this->config->getPreferredDayAdditionalCharge($quote->getStoreId());
-        }
-
-        return $fee;
+        return $this->calculateAdjustmentAmount($quote);
     }
 
     /**
@@ -100,36 +98,6 @@ class AdditionalFeeConfiguration implements AdditionalFeeConfigurationInterface
      */
     public function getLabel(): Phrase
     {
-        return __('DHL Preferred Delivery');
-    }
-
-    /**
-     * @param Quote $quote
-     * @return ShippingOptionSelectionCollection
-     */
-    private function getPreferredDaySelection(Quote $quote): ShippingOptionSelectionCollection
-    {
-        if ($this->serviceSelection === null) {
-            $addressFilter = $this->filterBuilder
-                ->setField(AssignedSelectionInterface::PARENT_ID)
-                ->setValue($quote->getShippingAddress()->getId())
-                ->setConditionType('eq')
-                ->create();
-            $optionCodeFilter = $this->filterBuilder
-                ->setField(SelectionInterface::SHIPPING_OPTION_CODE)
-                ->setValue(Codes::SERVICE_OPTION_PREFERRED_DAY)
-                ->setConditionType('eq')
-                ->create();
-
-            $searchCriteriaBuilder = $this->searchCriteriaBuilderFactory->create();
-            $searchCriteria = $searchCriteriaBuilder
-                ->addFilter($addressFilter)
-                ->addFilter($optionCodeFilter)
-                ->create();
-
-            $this->serviceSelection = $this->quoteSelectionRepository->getList($searchCriteria);
-        }
-
-        return $this->serviceSelection;
+        return __('DHL Shipping Service Adjustment');
     }
 }

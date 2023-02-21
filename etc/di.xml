@@ -129,13 +129,17 @@
     </virtualType>
     <virtualType name="Netresearch\ShippingCore\Model\ShippingSettings\Packaging\ShippingDataProcessor\Virtual">
         <arguments>
-            <argument name="carrierDataProcessors" xsi:type="array">
-                <item name="dhlPaketFilterShippingProducts" xsi:type="object" sortOrder="1000">Dhl\Paket\Model\ShippingSettings\TypeProcessor\Carrier\ShippingProductProcessor</item>
-            </argument>
             <argument name="shippingOptionsProcessors" xsi:type="array">
                 <item name="dhlPaketUpdatePreferredDayLabelsProcessor" xsi:type="object" sortOrder="1010">Dhl\Paket\Model\ShippingSettings\TypeProcessor\ShippingOptions\UpdatePreferredDayOptionLabelProcessor</item>
-                <item name="dhlPaketAddShippingProductOptionsProcessor" xsi:type="object" sortOrder="1020">Dhl\Paket\Model\ShippingSettings\TypeProcessor\ShippingOptions\AddShippingProductOptionsProcessor</item>
-                <item name="dhlPaketCustomsInputProcessor" xsi:type="object" sortOrder="1020">Dhl\Paket\Model\ShippingSettings\TypeProcessor\ShippingOptions\CustomsInputsProcessor</item>
+                <item name="dhlPaketAddShippingProductsProcessor" xsi:type="object" sortOrder="1020">Dhl\Paket\Model\ShippingSettings\TypeProcessor\ShippingOptions\AddShippingProductOptionsProcessor</item>
+                <item name="dhlPaketCustomsInputProcessor" xsi:type="object" sortOrder="1030">Dhl\Paket\Model\ShippingSettings\TypeProcessor\ShippingOptions\CustomsInputsProcessor</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Netresearch\ShippingCore\Model\ShippingSettings\Packaging\ShippingSettingsProcessor\Virtual">
+        <arguments>
+            <argument name="processors" xsi:type="array">
+                <item name="dhlPaketSetNoNeighborDefaultConfigValue" xsi:type="object" sortOrder="29">Dhl\Paket\Model\ShippingSettings\ArrayProcessor\NoNeighborDeliveryDefaultConfigValueProcessor</item>
             </argument>
         </arguments>
     </virtualType>

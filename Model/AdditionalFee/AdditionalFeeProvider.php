@@ -26,8 +26,9 @@ class AdditionalFeeProvider implements AdditionalFeeProviderInterface
 
     public function getAmounts(int $storeId): array
     {
-        $amounts = [Codes::SERVICE_OPTION_PREFERRED_DAY => $this->config->getPreferredDayAdditionalCharge($storeId)];
-
-        return array_filter($amounts);
+        return [
+            Codes::SERVICE_OPTION_PREFERRED_DAY => $this->config->getPreferredDayAdditionalCharge($storeId),
+            Codes::SERVICE_OPTION_NO_NEIGHBOR_DELIVERY => $this->config->getNoNeighborDeliveryAdditionalCharge($storeId)
+        ];
     }
 }

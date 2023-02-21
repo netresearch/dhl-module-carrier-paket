@@ -47,7 +47,7 @@ class UpdatePreferredDayOptionLabelProcessor implements ShippingOptionsProcessor
     }
 
     /**
-     * Create human readable labels for the preferred day options.
+     * Create human-readable labels for the preferred day options.
      *
      * Option labels are derived either from the Parcel Management API or from
      * the shipping option selection in database. In both cases, the values
@@ -98,7 +98,7 @@ class UpdatePreferredDayOptionLabelProcessor implements ShippingOptionsProcessor
                 continue;
             }
 
-            // set human readable label for all options
+            // set human-readable label for all options
             $dateFormatted = $this->timezone->formatDate($option->getValue(), \IntlDateFormatter::MEDIUM);
             $option->setLabel($dateFormatted);
         }

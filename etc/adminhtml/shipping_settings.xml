@@ -320,6 +320,9 @@
                     </route>
                 </routes>
             </shippingOption>
+            <shippingOption code="Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::SERVICE_OPTION_NO_NEIGHBOR_DELIVERY">
+                <sortOrder>1160</sortOrder>
+            </shippingOption>
         </serviceOptions>
         <compatibilityData>
             <rule id="disableNotSupportedWarenpostServices">
@@ -331,6 +334,7 @@
                 <subjects>
                     <subject>Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::SERVICE_OPTION_CHECK_OF_AGE</subject>
                     <subject>Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::SERVICE_OPTION_INSURANCE</subject>
+                    <subject>Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::SERVICE_OPTION_NO_NEIGHBOR_DELIVERY</subject>
                 </subjects>
             </rule>
             <rule id="disablePremiumServiceForEuropaketShipments">

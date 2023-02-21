@@ -638,4 +638,14 @@ class RequestExtractor implements RequestExtractorInterface
             'details'
         );
     }
+
+    /**
+     * Check if no neighbor delivery was booked.
+     *
+     * @return bool
+     */
+    public function isNoNeighborDelivery(): bool
+    {
+        return $this->getServiceOptionReader()->isServiceEnabled(Codes::SERVICE_OPTION_NO_NEIGHBOR_DELIVERY);
+    }
 }

@@ -47,16 +47,15 @@ class AdditionalFeeProcessor implements ShippingOptionsProcessorInterface
             return;
         }
 
-        $amount = $this->currencyConverter->currencyByStore($amount, $storeId, true, false);
-
+        $formattedAmount = $this->currencyConverter->currencyByStore($amount, $storeId, true, false);
         $translation = __($comment->getContent())->render();
-        $comment->setContent(str_replace('$1', $amount, $translation));
+        $comment->setContent(str_replace('$1', $formattedAmount, $translation));
     }
 
     /**
-     * Set the Preferred Day service fee amount to the service comment.
+     * Set service fee amount's to the service comment.
      *
-     * The input comment contains a placeholder that is to be replace by the actual configured value.
+     * The input comment contains a placeholder that is to be replaced by the actual configured value.
      *
      * @param string $carrierCode
      * @param ShippingOptionInterface[] $shippingOptions
@@ -80,17 +79,16 @@ class AdditionalFeeProcessor implements ShippingOptionsProcessorInterface
             return $shippingOptions;
         }
 
-        $serviceCode = Codes::SERVICE_OPTION_PREFERRED_DAY;
-        $preferredDayOption = $shippingOptions[$serviceCode] ?? false;
-        if (!$preferredDayOption instanceof ShippingOptionInterface) {
-            return $shippingOptions;
-        }
+        $fees = $this->feeProvider->getAmounts($storeId);
+        foreach ($shippingOptions as $shippingOption) {
+            if (!array_key_exists($shippingOption->getCode(), $fees)) {
+                continue;
+            }
 
-        $serviceFees = $this->feeProvider->getAmounts($storeId);
-        foreach ($preferredDayOption->getInputs() as $input) {
-            if (($input->getCode() === 'date')) {
-                $this->updateInputComment($input, $serviceFees[$serviceCode] ?? 0, $storeId);
-                break;
+            foreach ($shippingOption->getInputs() as $input) {
+                if (in_array($input->getCode(),['date', 'enabled'])) {
+                    $this->updateInputComment($input, $fees[$shippingOption->getCode()], $storeId);
+                }
             }
         }
 

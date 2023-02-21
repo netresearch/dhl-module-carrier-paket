@@ -9,15 +9,17 @@ declare(strict_types=1);
 namespace Dhl\Paket\Model\ShippingSettings\TypeProcessor\ShippingOptions;
 
 use Dhl\Paket\Model\Carrier\Paket;
+use Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes as ServiceCodes;
 use Dhl\Paket\Model\Util\ShippingProducts;
 use Magento\Sales\Api\Data\ShipmentInterface;
-use Netresearch\ShippingCore\Api\Config\ParcelProcessingConfigInterface;
 use Netresearch\ShippingCore\Api\Config\ShippingConfigInterface;
 use Netresearch\ShippingCore\Api\Data\ShippingSettings\ShippingOption\InputInterface;
 use Netresearch\ShippingCore\Api\Data\ShippingSettings\ShippingOption\OptionInterfaceFactory;
+use Netresearch\ShippingCore\Api\Data\ShippingSettings\ShippingOption\Selection\SelectionInterface;
 use Netresearch\ShippingCore\Api\Data\ShippingSettings\ShippingOptionInterface;
 use Netresearch\ShippingCore\Api\ShippingSettings\TypeProcessor\ShippingOptionsProcessorInterface;
 use Netresearch\ShippingCore\Model\ShippingSettings\ShippingOption\Codes;
+use Netresearch\ShippingCore\Model\ShippingSettings\ShippingOption\Selection\OrderSelectionManager;
 
 class AddShippingProductOptionsProcessor implements ShippingOptionsProcessorInterface
 {
@@ -27,14 +29,14 @@ class AddShippingProductOptionsProcessor implements ShippingOptionsProcessorInte
     private $shippingConfig;
 
     /**
-     * @var ParcelProcessingConfigInterface
-     */
-    private $parcelConfig;
-
-    /**
      * @var ShippingProducts
      */
     private $shippingProducts;
+
+    /**
+     * @var OrderSelectionManager
+     */
+    private $selectionManager;
 
     /**
      * @var OptionInterfaceFactory
@@ -43,13 +45,13 @@ class AddShippingProductOptionsProcessor implements ShippingOptionsProcessorInte
 
     public function __construct(
         ShippingConfigInterface $shippingConfig,
-        ParcelProcessingConfigInterface $parcelConfig,
         ShippingProducts $shippingProducts,
+        OrderSelectionManager $selectionManager,
         OptionInterfaceFactory $optionFactory
     ) {
         $this->shippingConfig = $shippingConfig;
-        $this->parcelConfig = $parcelConfig;
         $this->shippingProducts = $shippingProducts;
+        $this->selectionManager = $selectionManager;
         $this->optionFactory = $optionFactory;
     }
 
@@ -62,6 +64,47 @@ class AddShippingProductOptionsProcessor implements ShippingOptionsProcessorInte
         }
 
         return null;
+    }
+
+    /**
+     * Remove the products that are available for the route but do not support selected customer services.
+     *
+     * @param int $shippingAddressId
+     * @param string[][] $shippingProducts
+     * @return string[][]
+     */
+    private function filterByServiceSelection(int $shippingAddressId, array $shippingProducts): array
+    {
+        $selectedPaketOnlyServices = array_filter(
+            $this->selectionManager->load($shippingAddressId),
+            static function (SelectionInterface $selection) {
+                return in_array(
+                    $selection->getShippingOptionCode(),
+                    [
+                        Codes::SERVICE_OPTION_CASH_ON_DELIVERY,
+                        ServiceCodes::SERVICE_OPTION_PREFERRED_DAY,
+                        ServiceCodes::SERVICE_OPTION_NO_NEIGHBOR_DELIVERY,
+                    ],
+                    true
+                );
+            }
+        );
+
+        if (!empty($selectedPaketOnlyServices)) {
+            $shippingProducts = array_map(
+                function (array $regionProducts) {
+                    return array_filter(
+                        $regionProducts,
+                        function (string $product) {
+                            return ($product !== ShippingProducts::CODE_WARENPOST_NATIONAL);
+                        }
+                    );
+                },
+                $shippingProducts
+            );
+        }
+
+        return $shippingProducts;
     }
 
     /**
@@ -94,10 +137,7 @@ class AddShippingProductOptionsProcessor implements ShippingOptionsProcessorInte
             return $shippingOptions;
         }
 
-        $order = $shipment->getOrder();
-        $optionCode = Codes::PACKAGE_OPTION_DETAILS;
-
-        $packageDetails = $shippingOptions[$optionCode] ?? false;
+        $packageDetails = $shippingOptions[Codes::PACKAGE_OPTION_DETAILS] ?? false;
         if (!$packageDetails instanceof ShippingOptionInterface) {
             // not the package details option, proceed.
             return $shippingOptions;
@@ -120,17 +160,8 @@ class AddShippingProductOptionsProcessor implements ShippingOptionsProcessorInte
         );
 
         // remove products based on conditions other than route
-        $paymentMethod = $order->getPayment()->getMethod();
-        $isCodPayment = $this->parcelConfig->isCodPaymentMethod($paymentMethod, $storeId);
-        $applicableProducts = array_map(
-            function (array $regionProducts) use ($isCodPayment) {
-                return array_filter(
-                    $regionProducts,
-                    function (string $product) use ($isCodPayment) {
-                        return (!$isCodPayment || $product !== ShippingProducts::CODE_WARENPOST_NATIONAL);
-                    }
-                );
-            },
+        $applicableProducts = $this->filterByServiceSelection(
+            (int) $shipment->getShippingAddressId(),
             $applicableProducts
         );
 
