@@ -4,16 +4,25 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## Unreleased
+## 2.7.0
 
 ### Added
 
 - Display additional locker location information on the map in checkout.
 - Select endorsement (abandon, return) for international, undeliverable shipments.
+- Select _Bulky Goods_ service with DHL Paket International shipments.
+- Select _Named Person Only_ service with DHL Paket National shipments.
+- Select _No Neighbor Delivery_ service with DHL Paket National shipments.
+
+### Changed
+
+- The _Print Receiver Contact Details_ configuration setting is replaced by a
+  _Send Receiver Phone Number_ setting that applies to cross-border shipments only.
 
 ### Fixed
 
 - Improve handling of apartment addresses when splitting the recipient street.
+- Prevent broken styling in module configuration, reported via [#50](https://github.com/netresearch/dhl-shipping-m2/issues/50).
 
 ## 2.6.2
 
