@@ -153,11 +153,11 @@
                         <inputType>radioset</inputType>
                         <options>
                             <option id="RETURN">
-                                <label>Return immediately</label>
+                                <label translate="true">Return immediately</label>
                                 <value>RETURN</value>
                             </option>
                             <option id="ABANDON">
-                                <label>Abandon (free of charge)</label>
+                                <label translate="true">Abandon (free of charge)</label>
                                 <value>ABANDON</value>
                             </option>
                         </options>
