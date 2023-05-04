@@ -679,6 +679,16 @@ class RequestExtractor implements RequestExtractorInterface
     }
 
     /**
+     * Obtain the "PDDP" flag for the current package.
+     *
+     * @return bool
+     */
+    public function isDeliveryDutyPaid(): bool
+    {
+        return $this->getServiceOptionReader()->isServiceEnabled(Codes::SERVICE_OPTION_PDDP);
+    }
+
+    /**
      * Obtain the shipment endorsement type for the current package.
      *
      * @return string

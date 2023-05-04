@@ -113,6 +113,7 @@
                     </shipping_products>
                     <customs>
                         <reference_numbers backend_model="Netresearch\ShippingCore\Model\Config\Backend\ArraySerialized">[]</reference_numbers>
+                        <electronic_export_notification>0</electronic_export_notification>
                     </customs>
                     <services>
                         <visual_check_of_age>A00</visual_check_of_age>
@@ -120,6 +121,7 @@
                         <endorsement>RETURN</endorsement>
                         <additional_insurance>0</additional_insurance>
                         <bulky_goods>0</bulky_goods>
+                        <delivery_duty_paid>0</delivery_duty_paid>
                         <parcel_outlet>0</parcel_outlet>
                         <return_shipment>0</return_shipment>
                         <return_shipment_receiver>

@@ -47,7 +47,7 @@
                 <label>Place of Committal</label>
                 <comment>Specification for customs form.</comment>
             </field>
-            <field id="electronic_export_notification" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="40"
+            <field id="electronic_export_notification" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="30"
                    translate="label comment" type="Netresearch\ConfigFields\Model\Type\Checkbox">
                 <label>Electronic Export Notification</label>
                 <comment><![CDATA[If enabled, DHL will be notified that an electronic export declaration was completed by the merchant and that an Export Accompanying Document (EAD) is attached to the parcel. See also <a href="https://www.dhl.de/de/geschaeftskunden/paket/leistungen-und-produkte/internationaler-versand/paket-international/zollinformationen.html" target="_blank">Customs Information</a>.]]></comment>
@@ -111,20 +111,26 @@
                 <label>Use Premium Service</label>
                 <comment><![CDATA[On routes that require the <em>Premium</em> service, it will be booked implicitly regardless of this setting.]]></comment>
             </field>
+            <!-- PDDP -->
+            <field id="delivery_duty_paid" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="80"
+                   translate="label comment" type="Netresearch\ConfigFields\Model\Type\Checkbox">
+                <label>Use Postal Delivery Duty Paid Service</label>
+                <comment>If enabled, DHL and sender handle import duties. When using this service, it is mandatory to provide customs tariff numbers per line item.</comment>
+            </field>
             <!-- Endorsement -->
-            <field id="endorsement" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="80"
+            <field id="endorsement" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="90"
                    translate="label comment" type="Netresearch\ConfigFields\Model\Type\Radioset">
                 <label>Non-delivery Instruction</label>
                 <comment>Select how to treat international parcels that cannot be delivered. They can either be abandoned (free of charge) or returned to the sender.</comment>
                 <source_model>Dhl\Paket\Model\Adminhtml\System\Config\Source\Endorsement</source_model>
             </field>
             <!-- Return Shipment -->
-            <field id="return_shipment" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="90"
+            <field id="return_shipment" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="100"
                    translate="label comment" type="Netresearch\ConfigFields\Model\Type\Checkbox">
                 <label>Use Return Shipment Service</label>
                 <comment><![CDATA[If enabled, a return shipment label will be requested from the webservice. A return address other than the <em>Shipping Origin</em> can be configured below.]]></comment>
             </field>
-            <group id="return_shipment_receiver" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="91"
+            <group id="return_shipment_receiver" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="101"
                    translate="label">
                 <label>Return Shipment Address</label>
                 <fieldset_css>simple</fieldset_css>

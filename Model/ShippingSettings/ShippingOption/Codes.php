@@ -23,6 +23,8 @@ class Codes
     public const SERVICE_OPTION_ENDORSEMENT = 'endorsement';
     public const SERVICE_OPTION_INSURANCE = 'additionalInsurance';
     public const SERVICE_OPTION_BULKY_GOODS = 'bulkyGoods';
+    public const SERVICE_OPTION_PREMIUM = 'premium';
+    public const SERVICE_OPTION_PDDP = 'deliveryDutyPaid';
 
     public const SERVICE_OPTION_PARCEL_OUTLET_ROUTING = 'parcelOutletRouting';
     public const SERVICE_INPUT_PARCEL_OUTLET_ROUTING_NOTIFICATION_EMAIL = 'emailAddress';
@@ -32,7 +34,6 @@ class Codes
     public const SERVICE_OPTION_PREFERRED_DAY = 'preferredDay';
     public const SERVICE_OPTION_NEIGHBOR_DELIVERY = 'preferredNeighbour';
     public const SERVICE_OPTION_DROPOFF_DELIVERY = 'preferredLocation';
-    public const SERVICE_OPTION_PREMIUM = 'premium';
     public const SERVICE_OPTION_NO_NEIGHBOR_DELIVERY = 'noNeighbourDelivery';
 
     public const SERVICE_INPUT_DELIVERY_LOCATION_ACCOUNT_NUMBER = 'customerPostnumber';

@@ -14,8 +14,10 @@ use Dhl\Paket\Model\Adminhtml\System\Config\Source\VisualCheckOfAge;
 use Dhl\Paket\Model\Pipeline\CreateShipments\ShipmentRequest\Data\PackageAdditional;
 use Dhl\Paket\Model\Pipeline\CreateShipments\ShipmentRequest\RequestExtractorFactory;
 use Dhl\Paket\Model\Webservice\ShipmentOrderRequestBuilderFactory;
+use Dhl\Sdk\Paket\Bcs\Api\ShipmentOrderRequestBuilderInterface;
 use Dhl\Sdk\Paket\Bcs\Exception\RequestValidatorException;
 use Dhl\Sdk\UnifiedLocationFinder\Api\Data\LocationInterface;
+use Dhl\ShippingCore\Model\Config\Source\TermsOfTrade;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Shipping\Model\Shipment\Request;
 use Netresearch\ShippingCore\Api\Data\Pipeline\ShipmentRequest\PackageInterface;
@@ -297,14 +299,29 @@ class RequestDataMapper
                 $requestBuilder->setPremium();
             }
 
+            if ($requestExtractor->isDeliveryDutyPaid()) {
+                $requestBuilder->setDeliveryDutyPaid();
+            }
+
+            // customs value indicates cross-border shipment
             if ($package->getCustomsValue() !== null) {
-                // customs value indicates cross-border shipment
+                switch ($packageExtension->getTermsOfTrade()) {
+                    case TermsOfTrade::DDU:
+                        $termsOfTrade = ShipmentOrderRequestBuilderInterface::INCOTERM_CODE_DAP;
+                        break;
+                    case TermsOfTrade::DDP:
+                        $termsOfTrade = ShipmentOrderRequestBuilderInterface::INCOTERM_CODE_DDP;
+                        break;
+                    default:
+                        $termsOfTrade = '';
+                }
+
                 $requestBuilder->setCustomsDetails(
                     $package->getContentType(),
                     $packageExtension->getPlaceOfCommittal(),
                     $packageExtension->getCustomsFees(),
                     $package->getContentExplanation(),
-                    $packageExtension->getTermsOfTrade(),
+                    $termsOfTrade,
                     null,
                     $packageExtension->getPermitNumber(),
                     $packageExtension->getAttestationNumber(),

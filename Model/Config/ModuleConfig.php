@@ -56,6 +56,7 @@ class ModuleConfig implements VersionInterface
     public const CONFIG_PATH_PARCEL_OUTLET_NOTIFICATION_EMAIL = 'dhlshippingsolutions/dhlpaket/shipment_defaults/services/parcel_outlet_notification_email';
     public const CONFIG_PATH_ADDITIONAL_INSURANCE = 'dhlshippingsolutions/dhlpaket/shipment_defaults/services/additional_insurance';
     public const CONFIG_PATH_BULKY_GOODS = 'dhlshippingsolutions/dhlpaket/shipment_defaults/services/bulky_goods';
+    public const CONFIG_PATH_PDDP = 'dhlshippingsolutions/dhlpaket/shipment_defaults/services/delivery_duty_paid';
     public const CONFIG_PATH_PREMIUM = 'dhlshippingsolutions/dhlpaket/shipment_defaults/services/premium';
     public const CONFIG_PATH_ENDORSEMENT = 'dhlshippingsolutions/dhlpaket/shipment_defaults/services/endorsement';
     public const CONFIG_PATH_RETURN_SHIPMENT = 'dhlshippingsolutions/dhlpaket/shipment_defaults/services/return_shipment';
