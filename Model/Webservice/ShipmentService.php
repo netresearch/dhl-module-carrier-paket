@@ -138,8 +138,10 @@ class ShipmentService implements ShipmentServiceInterface
         return $this->getService()->createShipments($shipmentOrders, $configuration);
     }
 
-    public function cancelShipments(array $shipmentNumbers): array
-    {
-        return $this->getService()->cancelShipments($shipmentNumbers);
+    public function cancelShipments(
+        array $shipmentNumbers,
+        string $profile = OrderConfigurationInterface::DEFAULT_PROFILE
+    ): array {
+        return $this->getService()->cancelShipments($shipmentNumbers, $profile);
     }
 }

@@ -98,13 +98,16 @@ class ShipmentServiceStub implements ShipmentServiceInterface
      * Return a fake web service response pre-defined via RequestTracksStageInterface
      *
      * @param string[] $shipmentNumbers
+     * @param string $profile
      * @return string[]
      * @throws ServiceException
      * @see \Dhl\Paket\Test\Integration\TestDouble\Pipeline\DeleteShipments\Stage\SendRequestStageStub
      *
      */
-    public function cancelShipments(array $shipmentNumbers): array
-    {
+    public function cancelShipments(
+        array $shipmentNumbers,
+        string $profile = OrderConfigurationInterface::DEFAULT_PROFILE
+    ): array {
         $callback = $this->deleteShipmentsStage->responseCallback;
         if (is_callable($callback)) {
             // cancelled shipment numbers or exception

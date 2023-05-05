@@ -106,10 +106,10 @@ Fri,Fri
 "General Settings","General Settings"
 "Having issues configuring the extension? Contact our support desk:","Having issues configuring the extension? Contact our support desk:"
 "Here you can define default values for additional shipping services. Please note that selected options are only applied if they are valid for the given order. Incompatible services, e.g. domestic-only services for a cross-border order, will be omitted when booking a shipping label.","Here you can define default values for additional shipping services. Please note that selected options are only applied if they are valid for the given order. Incompatible services, e.g. domestic-only services for a cross-border order, will be omitted when booking a shipping label."
+"If enabled, DHL and sender handle import duties. When using this service, it is mandatory to provide customs tariff numbers per line item.","If enabled, DHL and sender handle import duties. When using this service, it is mandatory to provide customs tariff numbers per line item."
 "If enabled, DHL will be notified that an electronic export declaration was completed by the merchant and that an Export Accompanying Document (EAD) is attached to the parcel. See also <a href=""https://www.dhl.de/de/geschaeftskunden/paket/leistungen-und-produkte/internationaler-versand/paket-international/zollinformationen.html"" target=""_blank"">Customs Information</a>.","If enabled, DHL will be notified that an electronic export declaration was completed by the merchant and that an Export Accompanying Document (EAD) is attached to the parcel. See also <a href=""https://www.dhl.de/de/geschaeftskunden/paket/leistungen-und-produkte/internationaler-versand/paket-international/zollinformationen.html"" target=""_blank"">Customs Information</a>."
 "If enabled, DHL will hand over the parcel only to the recipient or to an authorized person.","If enabled, DHL will hand over the parcel only to the recipient or to an authorized person."
 "If enabled, DHL will not attempt to make delivery to a neighbor. If the customer is not available, then the parcel will be delivered to a retail outlet or locker instead.","If enabled, DHL will not attempt to make delivery to a neighbor. If the customer is not available, then the parcel will be delivered to a retail outlet or locker instead."
-"If enabled, DHL and sender handle import duties. When using this service, it is mandatory to provide customs tariff numbers per line item.","If enabled, DHL and sender handle import duties. When using this service, it is mandatory to provide customs tariff numbers per line item."
 "If enabled, a return shipment label will be requested from the webservice. A return address other than the <em>Shipping Origin</em> can be configured below.","If enabled, a return shipment label will be requested from the webservice. A return address other than the <em>Shipping Origin</em> can be configured below."
 "If enabled, shipment orders will only return a label if the DHL delivery address verification succeeds.","If enabled, shipment orders will only return a label if the DHL delivery address verification succeeds."
 "If enabled, shipments will be insured with higher than standard amount.","If enabled, shipments will be insured with higher than standard amount."
@@ -119,6 +119,7 @@ Fri,Fri
 "If enabled, your undeliverable packages will be held at the nearest parcel collection point for collection by the recipient rather than being returned immediately to you.","If enabled, your undeliverable packages will be held at the nearest parcel collection point for collection by the recipient rather than being returned immediately to you."
 "If you do not have an account or your account is with another DHL division, %1please contact DHL Parcel Germany%2 to establish or expand your relationship.","If you do not have an account or your account is with another DHL division, %1please contact DHL Parcel Germany%2 to establish or expand your relationship."
 "In addition to your account number you need your 2-digit Procedure and Participation number","In addition to your account number you need your 2- digit Procedure and Participation number"
+"In case user groups are defined in your DHL Business Customer Portal account, you can set the desired group name here.","In case user groups are defined in your DHL Business Customer Portal account, you can set the desired group name here."
 "Info (All API Activities)","Info (All API Activities)"
 "International (excl. EU)","International (excl. EU)"
 "Invalid request: %1","Invalid request: %1"
@@ -251,6 +252,7 @@ Tue,Tue
 "Use Visual Check of Age Service","Use Visual Check of Age Service"
 "Use rates from","Use rates from"
 User,User
+"User Group","User Group"
 "Visual Check of Age","Visual Check of Age"
 "Warenpost does not support Cash on Delivery or Delivery Day service. Please change the shipping product or deselect the service(s).","Warenpost does not support Cash on Delivery or Delivery Day service. Please change the shipping product or deselect the service(s)."
 Warnings,Warnings

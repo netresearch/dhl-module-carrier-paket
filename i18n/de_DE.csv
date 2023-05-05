@@ -106,10 +106,10 @@ Fri,Fr
 "General Settings","Allgemeine Einstellungen"
 "Having issues configuring the extension? Contact our support desk:","Haben Sie Probleme beim Konfigurieren der Extension? Wenden Sie sich an unser Support-Team:"
 "Here you can define default values for additional shipping services. Please note that selected options are only applied if they are valid for the given order. Incompatible services, e.g. domestic-only services for a cross-border order, will be omitted when booking a shipping label.","Hier können Sie Standardwerte für zusätzliche Lieferoptionen setzen. Bitte beachten Sie, dass Ihre Auswahl nur soweit angewendet wird, wie sie für die jeweilige Bestellung gültig ist. Nationale Services werden beispielsweise beim Buchen eines internationalen Versandetiketts nicht angewählt."
+"If enabled, DHL and sender handle import duties. When using this service, it is mandatory to provide customs tariff numbers per line item.","Wenn diese Option aktiviert ist, dann bezahlt der Versender alle Einfuhrabgaben für den Empfänger. Beachten Sie, dass in diesem Fall die Zolltarifnummer für alle Versandpositionen übermittelt werden muss."
 "If enabled, DHL will be notified that an electronic export declaration was completed by the merchant and that an Export Accompanying Document (EAD) is attached to the parcel. See also <a href=""https://www.dhl.de/de/geschaeftskunden/paket/leistungen-und-produkte/internationaler-versand/paket-international/zollinformationen.html"" target=""_blank"">Customs Information</a>.","Wenn diese Option aktiviert ist, wird DHL mitgeteilt, dass eine elektronische Ausfuhranmeldung beim Zoll durchgeführt worden ist und dem Paket ein Ausfuhrbegleitdokument (ABD) beiliegt. Siehe auch <a href=""https://www.dhl.de/de/geschaeftskunden/paket/leistungen-und-produkte/internationaler-versand/paket-international/zollinformationen.html"" target=""_blank"">Zollinformationen</a>."
 "If enabled, DHL will hand over the parcel only to the recipient or to an authorized person.","Wenn diese Option aktiviert ist, dann übergibt DHL das Paket nur an den Empfänger oder eine bevollmächtigte Person."
 "If enabled, DHL will not attempt to make delivery to a neighbor. If the customer is not available, then the parcel will be delivered to a retail outlet or locker instead.","Wenn diese Option aktiviert ist, dann wird die Sendung, falls Ihr Kunde zum Zeitpunkt der Zustellung nicht zu Hause ist, in einer Postfiliale oder Packstation zur Abholung bereitgehalten und nicht an einen Nachbarn zugestellt."
-"If enabled, DHL and sender handle import duties. When using this service, it is mandatory to provide customs tariff numbers per line item.","Wenn diese Option aktiviert ist, dann bezahlt der Versender alle Einfuhrabgaben für den Empfänger. Beachten Sie, dass in diesem Fall die Zolltarifnummer für alle Versandpositionen übermittelt werden muss."
 "If enabled, a return shipment label will be requested from the webservice. A return address other than the <em>Shipping Origin</em> can be configured below.","Wenn diese Option aktiviert ist, wird ein Rücksendeetikett vom Webservice angefordert. Ein vom Versandursprung abweichender Retourenempfänger kann nachfolgend konfiguriert werden."
 "If enabled, shipment orders will only return a label if the DHL delivery address verification succeeds.","Wenn diese Option aktiviert ist, werden Paketaufkleber nur erstellt, wenn die DHL-Überprüfung der Empfängeradresse im Versandauftrag erfolgreich war."
 "If enabled, shipments will be insured with higher than standard amount.","Wenn diese Option aktiviert ist, werden Sendungen mit einem höheren als dem Standardbetrag versichert."
@@ -119,6 +119,7 @@ Fri,Fr
 "If enabled, your undeliverable packages will be held at the nearest parcel collection point for collection by the recipient rather than being returned immediately to you.","Wenn diese Option aktiviert ist, werden unzustellbare Sendungen nicht direkt an Sie zurückgeschickt, sondern zunächst in der nächstgelegenen Filiale zur Abholung hinterlegt."
 "If you do not have an account or your account is with another DHL division, %1please contact DHL Parcel Germany%2 to establish or expand your relationship.","Wenn Sie kein Konto haben oder Ihr Konto mit einer anderen DHL-Abteilung abgeschlossen wurde, dann wenden Sie sich bitte an %1DHL Paket%2, um Ihren Vertrag zu erweitern."
 "In addition to your account number you need your 2-digit Procedure and Participation number","Zusätzlich zur Ihrer Kundennummer benötigen Sie noch die Verfahren- und Teilnahmenummer (jeweils 2-stellig)"
+"In case user groups are defined in your DHL Business Customer Portal account, you can set the desired group name here.","Falls Sie im Geschäftskundenportal Nutzergruppen verwalten, können Sie hier den Namen der zu verwendenden Nutzergruppe hinterlegen."
 "Info (All API Activities)","Info (alle API-Aktivitäten)"
 "International (excl. EU)","Grenzüberschreitender Versand (ohne EU)"
 "Invalid request: %1","Ungültige Anfrage: %1"
@@ -251,6 +252,7 @@ Tue,Di
 "Use Visual Check of Age Service","Alterssichtprüfung aktivieren"
 "Use rates from","Verwende Tarife von"
 User,Benutzername
+"User Group",Nutzergruppe
 "Visual Check of Age",Alterssichtprüfung
 "Warenpost does not support Cash on Delivery or Delivery Day service. Please change the shipping product or deselect the service(s).","Warenpost unterstützt keine Nachnahme oder Lieferung am Tag. Bitte ändern Sie das Versandprodukt oder deaktivieren Sie die Dienstleistung (en)."
 Warnings,Warnungen

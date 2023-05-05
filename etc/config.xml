@@ -102,6 +102,7 @@
 
                 <shipment_defaults>
                     <print_only_if_codeable>1</print_only_if_codeable>
+                    <group_profile>STANDARD_GRUPPENPROFIL</group_profile>
                     <shipping_products backend_model="Netresearch\ShippingCore\Model\Config\Backend\ArraySerialized">
                         <![CDATA[
                             {

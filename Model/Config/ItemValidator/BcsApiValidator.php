@@ -12,6 +12,7 @@ use Dhl\Paket\Model\Config\ModuleConfig;
 use Dhl\Paket\Model\Util\ShippingProducts;
 use Dhl\Paket\Model\Webservice\ShipmentOrderRequestBuilderFactory;
 use Dhl\Paket\Model\Webservice\ShipmentServiceFactory;
+use Dhl\Sdk\Paket\Bcs\Api\Data\OrderConfigurationInterfaceFactory;
 use Dhl\Sdk\Paket\Bcs\Api\ShipmentOrderRequestBuilderInterface;
 use Dhl\Sdk\Paket\Bcs\Exception\RequestValidatorException;
 use Dhl\Sdk\Paket\Bcs\Exception\ServiceException;
@@ -52,18 +53,25 @@ class BcsApiValidator implements ItemValidatorInterface
      */
     private $shipmentServiceFactory;
 
+    /**
+     * @var OrderConfigurationInterfaceFactory
+     */
+    private $orderConfigFactory;
+
     public function __construct(
         ResultInterfaceFactory $resultFactory,
         ModuleConfig $config,
         ShippingProducts $shippingProducts,
         ShipmentOrderRequestBuilderFactory $requestBuilderFactory,
-        ShipmentServiceFactory $shipmentServiceFactory
+        ShipmentServiceFactory $shipmentServiceFactory,
+        OrderConfigurationInterfaceFactory $orderConfigFactory
     ) {
         $this->resultFactory = $resultFactory;
         $this->config = $config;
         $this->shippingProducts = $shippingProducts;
         $this->requestBuilderFactory = $requestBuilderFactory;
         $this->shipmentServiceFactory = $shipmentServiceFactory;
+        $this->orderConfigFactory = $orderConfigFactory;
     }
 
     private function createResult(string $status, Phrase $message): ResultInterface
@@ -95,6 +103,14 @@ class BcsApiValidator implements ItemValidatorInterface
         $procedure = $this->shippingProducts->getProcedure($productCode);
         $tsShip = time() + 60 * 60 * 24; // tomorrow
 
+        if ($this->config->getShippingApiType() === ModuleConfig::SHIPPING_API_SOAP) {
+            $billingNumber = "2222222222{$procedure}04";
+            $countryCode = 'DE';
+        } else {
+            $billingNumber = "3333333333{$procedure}02";
+            $countryCode = 'DEU';
+        }
+
         if (!$this->config->isSandboxMode($storeId)) {
             $ekp = $this->config->getEkp($storeId);
 
@@ -102,15 +118,25 @@ class BcsApiValidator implements ItemValidatorInterface
             $participation = $participations[$procedure] ?? '';
 
             $billingNumber = $ekp . $procedure . $participation;
-        } elseif ($this->config->getShippingApiType() === ModuleConfig::SHIPPING_API_SOAP) {
-            $billingNumber = "2222222222{$procedure}04";
-        } else {
-            $billingNumber = "3333333333{$procedure}02";
         }
 
         $requestBuilder->setShipperAccount($billingNumber);
-        $requestBuilder->setShipperAddress('Netresearch GmbH & Co.KG', 'DE', '04229', 'Leipzig', 'Nonnenstraße', '11d');
-        $requestBuilder->setRecipientAddress('John Doe', 'DE', '53113', 'Bonn', 'Charles-de-Gaulle-Straße', '20');
+        $requestBuilder->setShipperAddress(
+            'Netresearch DTT GmbH',
+            $countryCode,
+            '04229',
+            'Leipzig',
+            'Nonnenstraße',
+            '11 c'
+        );
+        $requestBuilder->setRecipientAddress(
+            'John Doe',
+            $countryCode,
+            '53113',
+            'Bonn',
+            'Charles-de-Gaulle-Straße',
+            '20'
+        );
         $requestBuilder->setShipmentDetails($productCode, new \DateTime(date('Y-m-d', $tsShip)));
         $requestBuilder->setPackageDetails(2.4);
 
@@ -127,9 +153,10 @@ class BcsApiValidator implements ItemValidatorInterface
         }
 
         $shipmentService = $this->shipmentServiceFactory->create(['storeId' => $storeId]);
+        $orderConfig = $this->orderConfigFactory->create(['storeId' => $storeId]);
 
         try {
-            $shipmentService->validateShipments([$apiRequest]);
+            $shipmentService->validateShipments([$apiRequest], $orderConfig);
 
             $status = ResultInterface::OK;
             $message = __('Label API connection established successfully.');

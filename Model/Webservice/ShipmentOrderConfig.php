@@ -54,8 +54,8 @@ class ShipmentOrderConfig implements OrderConfigurationInterface
         return null;
     }
 
-    public function getProfile(): ?string
+    public function getProfile(): string
     {
-        return null;
+        return $this->moduleConfig->getGroupProfile($this->storeId);
     }
 }

@@ -43,6 +43,7 @@ class ModuleConfig implements VersionInterface
 
     // 500_shipment_defaults.xml
     public const CONFIG_PATH_PRINT_ONLY_IF_CODEABLE = 'dhlshippingsolutions/dhlpaket/shipment_defaults/print_only_if_codeable';
+    public const CONFIG_PATH_GROUP_PROFILE = 'dhlshippingsolutions/dhlpaket/shipment_defaults/group_profile';
     public const CONFIG_PATH_SENDER_REFERENCE = 'dhlshippingsolutions/dhlpaket/shipment_defaults/sender_address_book_reference';
     public const CONFIG_PATH_SEND_RECEIVER_PHONE_NUMBER = 'dhlshippingsolutions/dhlpaket/shipment_defaults/send_receiver_phone_number';
     public const CONFIG_PATH_SHIPPING_PRODUCTS = 'dhlshippingsolutions/dhlpaket/shipment_defaults/shipping_products';
@@ -237,6 +238,24 @@ class ModuleConfig implements VersionInterface
     }
 
     /**
+     * Get the group profile name.
+     *
+     * The selected group profile defines the billing numbers that are available for creating shipments.
+     * Group profiles can be created in the DHL Business Customer Portal.
+     *
+     * @param mixed $store
+     * @return string
+     */
+    public function getGroupProfile($store = null): string
+    {
+        return (string) $this->scopeConfig->getValue(
+            self::CONFIG_PATH_GROUP_PROFILE,
+            ScopeInterface::SCOPE_STORE,
+            $store
+        );
+    }
+
+    /**
      * Get the sender address book reference.
      *
      * The DHL Business Customer Portal sender address book reference can be
@@ -249,7 +268,7 @@ class ModuleConfig implements VersionInterface
      */
     public function getSenderReference($store = null): string
     {
-        return (string)$this->scopeConfig->getValue(
+        return (string) $this->scopeConfig->getValue(
             self::CONFIG_PATH_SENDER_REFERENCE,
             ScopeInterface::SCOPE_STORE,
             $store

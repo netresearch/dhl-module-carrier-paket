@@ -26,7 +26,7 @@
         "ext-json": "*",
         "dhl/module-shipping-core": "^2.3.0",
         "dhl/module-unified-tracking": "^2.1.0",
-        "dhl/sdk-api-bcs": "^3.1.0",
+        "dhl/sdk-api-bcs": "^3.0.0",
         "dhl/sdk-api-parcel-management": "^3.1.0",
         "dhl/sdk-api-unified-location-finder": "^3.0.0",
         "magento/framework": "^102.0.0 || ^103.0.0",
@@ -55,7 +55,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-DHLGW-1257": "2.8.0.x-dev"
+            "dev-DHLGW-1275": "2.8.0.x-dev"
         }
     }
 }
