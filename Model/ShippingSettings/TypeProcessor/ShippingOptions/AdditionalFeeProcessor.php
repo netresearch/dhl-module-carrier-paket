@@ -86,7 +86,7 @@ class AdditionalFeeProcessor implements ShippingOptionsProcessorInterface
             }
 
             foreach ($shippingOption->getInputs() as $input) {
-                if (in_array($input->getCode(),['date', 'enabled'])) {
+                if (in_array($input->getCode(), ['date', 'enabled', 'details'])) {
                     $this->updateInputComment($input, $fees[$shippingOption->getCode()], $storeId);
                 }
             }

@@ -117,13 +117,26 @@
                     </route>
                 </routes>
             </shippingOption>
-            <shippingOption code="Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::SERVICE_OPTION_PREMIUM">
-                <label translate="true">Priority Shipping</label>
+            <shippingOption code="Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::SERVICE_OPTION_DELIVERY_TYPE">
+                <label translate="true">Delivery Type</label>
                 <sortOrder>1050</sortOrder>
                 <inputs>
-                    <input code="enabled" defaultConfigValue="Dhl\Paket\Model\Config\ModuleConfig::CONFIG_PATH_PREMIUM">
-                        <inputType>checkbox</inputType>
-                        <label translate="true">Enable DHL premium service</label>
+                    <input code="details" defaultConfigValue="Dhl\Paket\Model\Config\ModuleConfig::CONFIG_PATH_DELIVERY_TYPE">
+                        <inputType>radioset</inputType>
+                        <options>
+                            <option id="ECONOMY">
+                                <label>Economy</label>
+                                <value>ECONOMY</value>
+                            </option>
+                            <option id="PREMIUM">
+                                <label>Premium</label>
+                                <value>PREMIUM</value>
+                            </option>
+                            <option id="CDP">
+                                <label>Closest Dropoff Point</label>
+                                <value>CDP</value>
+                            </option>
+                        </options>
                     </input>
                 </inputs>
                 <routes>
@@ -344,7 +357,7 @@
                 <subjects>
                     <subject>Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::SERVICE_OPTION_ENDORSEMENT</subject>
                     <subject>Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::SERVICE_OPTION_BULKY_GOODS</subject>
-                    <subject>Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::SERVICE_OPTION_PREMIUM</subject>
+                    <subject>Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::SERVICE_OPTION_DELIVERY_TYPE</subject>
                     <subject>Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::SERVICE_OPTION_PDDP</subject>
                 </subjects>
                 <triggerValue>V54EPAK</triggerValue>

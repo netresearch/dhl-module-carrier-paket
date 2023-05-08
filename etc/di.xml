@@ -131,9 +131,10 @@
     <virtualType name="Netresearch\ShippingCore\Model\ShippingSettings\Packaging\ShippingDataProcessor\Virtual">
         <arguments>
             <argument name="shippingOptionsProcessors" xsi:type="array">
-                <item name="dhlPaketUpdatePreferredDayLabelsProcessor" xsi:type="object" sortOrder="1010">Dhl\Paket\Model\ShippingSettings\TypeProcessor\ShippingOptions\UpdatePreferredDayOptionLabelProcessor</item>
-                <item name="dhlPaketAddShippingProductsProcessor" xsi:type="object" sortOrder="1020">Dhl\Paket\Model\ShippingSettings\TypeProcessor\ShippingOptions\AddShippingProductOptionsProcessor</item>
-                <item name="dhlPaketCustomsInputProcessor" xsi:type="object" sortOrder="1030">Dhl\Paket\Model\ShippingSettings\TypeProcessor\ShippingOptions\CustomsInputsProcessor</item>
+                <item name="dhlPaketUpdatePreferredDayLabels" xsi:type="object" sortOrder="1010">Dhl\Paket\Model\ShippingSettings\TypeProcessor\ShippingOptions\UpdatePreferredDayOptionLabelProcessor</item>
+                <item name="dhlPaketAddShippingProductOptions" xsi:type="object" sortOrder="1020">Dhl\Paket\Model\ShippingSettings\TypeProcessor\ShippingOptions\AddShippingProductOptionsProcessor</item>
+                <item name="dhlPaketUpdateDeliveryTypeOptions" xsi:type="object" sortOrder="1030">Dhl\Paket\Model\ShippingSettings\TypeProcessor\ShippingOptions\DeliveryTypeServiceProcessor</item>
+                <item name="dhlPaketCustomsInputProcessor" xsi:type="object" sortOrder="1040">Dhl\Paket\Model\ShippingSettings\TypeProcessor\ShippingOptions\CustomsInputsProcessor</item>
             </argument>
         </arguments>
     </virtualType>

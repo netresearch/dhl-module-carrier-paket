@@ -117,7 +117,7 @@
                     </customs>
                     <services>
                         <visual_check_of_age>A00</visual_check_of_age>
-                        <premium>0</premium>
+                        <delivery_type>ECONOMY</delivery_type>
                         <endorsement>RETURN</endorsement>
                         <additional_insurance>0</additional_insurance>
                         <bulky_goods>0</bulky_goods>
@@ -132,6 +132,8 @@
 
                 <additional_services>
                     <parcelannouncement>0</parcelannouncement>
+                    <closestdroppoint>0</closestdroppoint>
+                    <closestdroppoint_charge>0</closestdroppoint_charge>
                     <deliverylocation>0</deliverylocation>
                     <preferredlocation>0</preferredlocation>
                     <preferredneighbour>0</preferredneighbour>

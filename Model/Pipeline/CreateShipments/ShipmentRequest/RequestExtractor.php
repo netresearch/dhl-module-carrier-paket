@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace Dhl\Paket\Model\Pipeline\CreateShipments\ShipmentRequest;
 
+use Dhl\Paket\Model\Adminhtml\System\Config\Source\DeliveryType;
 use Dhl\Paket\Model\Config\ModuleConfig;
 use Dhl\Paket\Model\Pipeline\CreateShipments\ShipmentRequest\Data\PackageAdditionalFactory;
 use Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes;
@@ -482,6 +483,10 @@ class RequestExtractor implements RequestExtractorInterface
             return true;
         }
 
+        if ($this->getDeliveryType() === DeliveryType::OPTION_CDP) {
+            return true;
+        }
+
         if ($this->isPickupLocationDelivery()) {
             $postNumber = $this->getCustomerAccountNumber();
             $locationType = $this->getDeliveryLocationType();
@@ -668,14 +673,12 @@ class RequestExtractor implements RequestExtractorInterface
         return $email ?: $this->getRecipient()->getContactEmail();
     }
 
-    /**
-     * Obtain the "premium" flag for the current package.
-     *
-     * @return bool
-     */
-    public function isPremium(): bool
+    public function getDeliveryType(): string
     {
-        return $this->getServiceOptionReader()->isServiceEnabled(Codes::SERVICE_OPTION_PREMIUM);
+        return (string) $this->getServiceOptionReader()->getServiceOptionValue(
+            Codes::SERVICE_OPTION_DELIVERY_TYPE,
+            'details'
+        );
     }
 
     /**

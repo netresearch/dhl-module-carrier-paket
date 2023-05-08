@@ -50,6 +50,7 @@ class ModuleConfig implements VersionInterface
     public const CONFIG_PATH_PLACE_OF_COMMITTAL = 'dhlshippingsolutions/dhlpaket/shipment_defaults/customs/place_of_committal';
     public const CONFIG_PATH_ELECTRONIC_EXPORT_NOTIFICATION = 'dhlshippingsolutions/dhlpaket/shipment_defaults/customs/electronic_export_notification';
     public const CONFIG_PATH_VISUAL_CHECK_OF_AGE = 'dhlshippingsolutions/dhlpaket/shipment_defaults/services/visual_check_of_age';
+    public const CONFIG_PATH_DELIVERY_TYPE = 'dhlshippingsolutions/dhlpaket/shipment_defaults/services/delivery_type';
     public const CONFIG_PATH_NAMED_PERSON_ONLY = 'dhlshippingsolutions/dhlpaket/shipment_defaults/services/named_person_only';
     public const CONFIG_PATH_EXCLUDE_NEIGHBOR_DELIVERY = 'dhlshippingsolutions/dhlpaket/shipment_defaults/services/no_neighbor_delivery';
     public const CONFIG_PATH_PARCEL_OUTLET = 'dhlshippingsolutions/dhlpaket/shipment_defaults/services/parcel_outlet';
@@ -57,7 +58,6 @@ class ModuleConfig implements VersionInterface
     public const CONFIG_PATH_ADDITIONAL_INSURANCE = 'dhlshippingsolutions/dhlpaket/shipment_defaults/services/additional_insurance';
     public const CONFIG_PATH_BULKY_GOODS = 'dhlshippingsolutions/dhlpaket/shipment_defaults/services/bulky_goods';
     public const CONFIG_PATH_PDDP = 'dhlshippingsolutions/dhlpaket/shipment_defaults/services/delivery_duty_paid';
-    public const CONFIG_PATH_PREMIUM = 'dhlshippingsolutions/dhlpaket/shipment_defaults/services/premium';
     public const CONFIG_PATH_ENDORSEMENT = 'dhlshippingsolutions/dhlpaket/shipment_defaults/services/endorsement';
     public const CONFIG_PATH_RETURN_SHIPMENT = 'dhlshippingsolutions/dhlpaket/shipment_defaults/services/return_shipment';
     public const CONFIG_PATH_RETURN_RECEIVER = 'dhlshippingsolutions/dhlpaket/shipment_defaults/services/return_shipment_receiver';
@@ -65,6 +65,9 @@ class ModuleConfig implements VersionInterface
     // 600_additional_services.xml
     public const CONFIG_PATH_PARCEL_ANNOUNCEMENT = 'dhlshippingsolutions/dhlpaket/additional_services/parcelannouncement';
     public const CONFIG_PATH_PARCEL_STATION_DELIVERY = 'dhlshippingsolutions/dhlpaket/additional_services/deliverylocation';
+    public const CONFIG_PATH_CLOSEST_DROP_POINT = 'dhlshippingsolutions/dhlpaket/additional_services/closestdroppoint';
+    public const CONFIG_PATH_CLOSEST_DROP_POINT_CHARGE = 'dhlshippingsolutions/dhlpaket/additional_services/closestdroppoint_charge';
+
     public const CONFIG_PATH_PREFERRED_LOCATION = 'dhlshippingsolutions/dhlpaket/additional_services/preferredlocation';
     public const CONFIG_PATH_PREFERRED_NEIGHBOR = 'dhlshippingsolutions/dhlpaket/additional_services/preferredneighbour';
     public const CONFIG_PATH_PREFERRED_DAY = 'dhlshippingsolutions/dhlpaket/additional_services/preferredday';
@@ -324,6 +327,23 @@ class ModuleConfig implements VersionInterface
         }
 
         return [];
+    }
+
+    /**
+     * @param mixed $store
+     * @return float
+     */
+    public function getClosestDropPointAdditionalCharge($store = null): float
+    {
+        return (float) str_replace(
+            ',',
+            '.',
+            $this->scopeConfig->getValue(
+                self::CONFIG_PATH_CLOSEST_DROP_POINT_CHARGE,
+                ScopeInterface::SCOPE_STORE,
+                $store
+            )
+        );
     }
 
     /**

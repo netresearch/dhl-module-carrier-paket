@@ -2,6 +2,39 @@
 <carriers xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Netresearch_ShippingCore/etc/shipping_settings.xsd">
     <carrier code="dhlpaket">
         <serviceOptions>
+            <shippingOption code="Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::SERVICE_OPTION_DELIVERY_TYPE" available="dhlshippingsolutions/dhlpaket/additional_services/closestdroppoint">
+                <label translate="true">Delivery Type</label>
+                <sortOrder>20</sortOrder>
+                <routes>
+                    <route>
+                        <includeDestinations>
+                            <destination>AT</destination>
+                            <destination>BE</destination>
+                            <destination>DK</destination>
+                            <destination>FI</destination>
+                            <destination>SE</destination>
+                        </includeDestinations>
+                    </route>
+                </routes>
+                <inputs>
+                    <input code="details">
+                        <inputType>radioset</inputType>
+                        <options>
+                            <option id="none">
+                                <label translate="true">Door Delivery</label>
+                            </option>
+                            <option id="CDP">
+                                <label translate="true">Drop-off Delivery: nearest shop or locker</label>
+                                <value>CDP</value>
+                            </option>
+                        </options>
+                        <tooltip translate="true">When choosing drop-off delivery, then your e-mail address will be sent to DHL to notify about the delivery location. The e-mail address will exclusively be used for the announcement of this shipment.</tooltip>
+                        <comment>
+                            <content translate="true">Choosing drop-off delivery will adjust shipping costs by $1 including VAT.</content>
+                        </comment>
+                    </input>
+                </inputs>
+            </shippingOption>
             <shippingOption code="Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::SERVICE_OPTION_PREFERRED_DAY">
                 <inputs>
                     <input code="date">

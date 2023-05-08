@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace Dhl\Paket\Model\Pipeline\CreateShipments;
 
 use Dhl\Paket\Api\ShipmentDateInterface;
+use Dhl\Paket\Model\Adminhtml\System\Config\Source\DeliveryType;
 use Dhl\Paket\Model\Adminhtml\System\Config\Source\Endorsement;
 use Dhl\Paket\Model\Adminhtml\System\Config\Source\VisualCheckOfAge;
 use Dhl\Paket\Model\Pipeline\CreateShipments\ShipmentRequest\Data\PackageAdditional;
@@ -295,8 +296,16 @@ class RequestDataMapper
                 $requestBuilder->setShipmentEndorsementType('IMMEDIATE');
             }
 
-            if ($requestExtractor->isPremium()) {
-                $requestBuilder->setPremium();
+            switch ($requestExtractor->getDeliveryType()) {
+                case DeliveryType::OPTION_CDP:
+                    $requestBuilder->setDeliveryType(ShipmentOrderRequestBuilderInterface::DELIVERY_TYPE_CDP);
+                    break;
+                case DeliveryType::OPTION_ECONOMY:
+                    $requestBuilder->setDeliveryType(ShipmentOrderRequestBuilderInterface::DELIVERY_TYPE_ECONOMY);
+                    break;
+                case DeliveryType::OPTION_PREMIUM:
+                    $requestBuilder->setDeliveryType(ShipmentOrderRequestBuilderInterface::DELIVERY_TYPE_PREMIUM);
+                    break;
             }
 
             if ($requestExtractor->isDeliveryDutyPaid()) {

@@ -15,6 +15,7 @@
             </shippingOption>
             <shippingOption code="Netresearch\ShippingCore\Model\ShippingSettings\ShippingOption\Codes::SERVICE_OPTION_DELIVERY_LOCATION" available="dhlshippingsolutions/dhlpaket/additional_services/deliverylocation">
                 <label translate="true">Deliver to a DHL parcel station, parcel shop or postal outlet</label>
+                <sortOrder>30</sortOrder>
                 <routes>
                     <route>
                         <includeDestinations>
@@ -53,7 +54,7 @@
             </shippingOption>
             <shippingOption code="Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::SERVICE_OPTION_PREFERRED_DAY" available="dhlshippingsolutions/dhlpaket/additional_services/preferredday">
                 <label translate="true">Delivery Day: Delivery on your preferred day</label>
-                <sortOrder>30</sortOrder>
+                <sortOrder>40</sortOrder>
                 <routes>
                     <route>
                         <origin>DE</origin>

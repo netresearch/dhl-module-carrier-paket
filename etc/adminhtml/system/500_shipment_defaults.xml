@@ -105,11 +105,12 @@
                 <label>Use Bulky Goods Service</label>
                 <comment>If enabled, shipments will be marked as bulk freight.</comment>
             </field>
-            <!-- Premium -->
-            <field id="premium" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="70"
-                   translate="label comment" type="Netresearch\ConfigFields\Model\Type\Checkbox">
-                <label>Use Premium Service</label>
-                <comment><![CDATA[On routes that require the <em>Premium</em> service, it will be booked implicitly regardless of this setting.]]></comment>
+            <!-- Delivery Type -->
+            <field id="delivery_type" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="20"
+                   translate="label comment" type="Netresearch\ConfigFields\Model\Type\Radioset">
+                <label>Select Delivery Service Type</label>
+                <comment><![CDATA[On routes that require the <em>Premium</em> service, it will be booked implicitly regardless of this setting. The <em>Closest Drop Point</em> delivery type, if selected in checkout, always takes precedence.]]></comment>
+                <source_model>Dhl\Paket\Model\Adminhtml\System\Config\Source\DeliveryType</source_model>
             </field>
             <!-- PDDP -->
             <field id="delivery_duty_paid" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="80"

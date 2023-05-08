@@ -13,6 +13,7 @@
 "Allow customers to declare a deposit location during checkout.","Allow customers to declare a deposit location during checkout."
 "Allow customers to exclude delivery to a neighbor.","Allow customers to exclude delivery to a neighbor."
 "Allow customers to get shipments delivered to a parcel station.","Allow customers to get shipments delivered to a parcel station."
+"Allow customers to have their parcel delivered to a drop point closest to their address.","Allow customers to have their parcel delivered to a drop point closest to their address."
 "Allow customers to name a preferred neighbor during checkout.","Allow customers to name a preferred neighbor during checkout."
 "Allow customers to request parcel notification updates via e-mail by DHL during checkout.","Allow customers to request parcel notification updates via e-mail by DHL during checkout."
 "Allow customers to select a delivery day.","Allow customers to select a delivery day."
@@ -30,7 +31,9 @@ Checkout,Checkout
 "Checkout Presentation","Checkout Presentation"
 "Choose a weather-protected and non-visible place on your property where we can deposit the parcel in your absence.","Choose a weather-protected and non-visible place on your property where we can deposit the parcel in your absence."
 "Choose one of the displayed days for your parcel delivery. Other days are not possible due to delivery processes.","Choose one of the displayed days for your parcel delivery. Other days are not possible due to delivery processes."
+"Choosing drop-off delivery will adjust shipping costs by $1 including VAT.","Choosing drop-off delivery will adjust shipping costs by $1 including VAT."
 City,City
+"Closest Drop Point Adjustment Charge","Closest Drop Point Adjustment Charge"
 Company,Company
 Country,Country
 "Create shipping labels & tracking information for your orders directly in the Magento admin panel.","Create shipping labels & tracking information for your orders directly in the Magento admin panel."
@@ -60,10 +63,13 @@ Country,Country
 "Delivery Day Additional Charge","Delivery Day Additional Charge"
 "Delivery Day: Delivery on your preferred day","Delivery Day: Delivery on your preferred day"
 "Delivery Location","Delivery Location"
+"Delivery Type","Delivery Type"
 "Delivery only to recipient or authorized person","Delivery only to recipient or authorized person"
 "Destination Country","Destination Country"
 "Disability Access","Disability Access"
 Domestic,Domestic
+"Door Delivery","Door Delivery"
+"Drop-off Delivery: nearest shop or locker","Drop-off Delivery: nearest shop or locker"
 "Drop-off Location","Drop-off Location"
 "Drop-off Location Delivery","Drop-off Location Delivery"
 "Drop-off Location: Delivery to your preferred drop-off location","Drop-off Location: Delivery to your preferred drop-off location"
@@ -80,7 +86,6 @@ EU,EU
 "Enable DHL neighbor delivery","Enable DHL neighbor delivery"
 "Enable DHL parcel notification","Enable DHL parcel notification"
 "Enable DHL postal delivery duty paid service","Enable DHL postal delivery duty paid service"
-"Enable DHL premium service","Enable DHL premium service"
 "Enable DHL retail outlet routing service","Enable DHL retail outlet routing service"
 "Enable DHL return shipment service","Enable DHL return shipment service"
 "Enable No Neighbor Delivery","Enable No Neighbor Delivery"
@@ -141,13 +146,14 @@ No,No
 "Non-delivery Instruction","Non-delivery Instruction"
 "Non-delivery notice will be sent to this email address. If left empty, the customer's email address is used. In this case, you must make sure to obtain data privacy consent from your customers.","Non-delivery notice will be sent to this email address. If left empty, the customer's email address is used. In this case, you must make sure to obtain data privacy consent from your customers."
 Number,Number
+"Offer Closest Drop Point (CDP) Service","Offer Closest Drop Point (CDP) Service"
 "Offer DHL Parcel Announcement","Offer DHL Parcel Announcement"
 "Offer Delivery Day Service","Offer Delivery Day Service"
 "Offer Drop-off Location Delivery","Offer Drop-off Location Delivery"
 "Offer Neighbor Delivery","Offer Neighbor Delivery"
 "Offer No Neighbor Delivery Service","Offer No Neighbor Delivery Service"
 "Offer Parcel Station Delivery","Offer Parcel Station Delivery"
-"On routes that require the <em>Premium</em> service, it will be booked implicitly regardless of this setting.","On routes that require the <em>Premium</em> service, it will be booked implicitly regardless of this setting."
+"On routes that require the <em>Premium</em> service, it will be booked implicitly regardless of this setting. The <em>Closest Drop Point</em> delivery type, if selected in checkout, always takes precedence.","On routes that require the <em>Premium</em> service, it will be booked implicitly regardless of this setting. The <em>Closest Drop Point</em> delivery type, if selected in checkout, always takes precedence."
 "Order Cut-off Times","Order Cut-off Times"
 "Parcel Announcement","Parcel Announcement"
 "Parcel Management API connection established successfully.","Parcel Management API connection established successfully."
@@ -175,7 +181,6 @@ Participation,Participation
 "Preferred Neighbor Delivery","Preferred Neighbor Delivery"
 "Preferred Neighbor: Delivery to a neighbor of your choice","Preferred Neighbor: Delivery to a neighbor of your choice"
 "Print Only If Codeable","Print Only If Codeable"
-"Priority Shipping","Priority Shipping"
 Procedure,Procedure
 Product,Product
 "Rates in Checkout","Rates in Checkout"
@@ -188,6 +193,7 @@ Product,Product
 Route,Route
 Sat,Sat
 "Select ""Merchandise Shipment"" only if you ship all or most of your orders as Merchandise Shipments. Otherwise, choose ""DHL Paket"".","Select ""Merchandise Shipment"" only if you ship all or most of your orders as Merchandise Shipments. Otherwise, choose ""DHL Paket""."
+"Select Delivery Service Type","Select Delivery Service Type"
 "Select Procedure","Select Procedure"
 "Select Product","Select Product"
 "Select Route","Select Route"
@@ -217,6 +223,7 @@ Sun,Sun
 "The application runs in sandbox mode. Labels cannot be used for shipping.","The application runs in sandbox mode. Labels cannot be used for shipping."
 "The customer integration gateway of DHL provides generic test endpoints for the calling APIs. Select this option to use the test environment.","The customer integration gateway of DHL provides generic test endpoints for the calling APIs. Select this option to use the test environment."
 "The given additional charge will be applied to the shipping costs at checkout. Set to ""0"" to offer service for free.","The given additional charge will be applied to the shipping costs at checkout. Set to ""0"" to offer service for free."
+"The given charge will be applied to the shipping costs at checkout. A negative amount reduces the shipping cost. Set to ""0"" to offer the service for free.","The given charge will be applied to the shipping costs at checkout. A negative amount reduces the shipping cost. Set to ""0"" to offer the service for free."
 "The log level <em>Info</em> should only be set while resolving problems. It may result in very large log files.","The log level <em>Info</em> should only be set while resolving problems. It may result in very large log files."
 "The participation number enables invoices to be subdivided according to location, seasonal business or different conditions. The participation number consists of 2 alphanumeric characters. It is allocated by DHL Sales.","The participation number enables invoices to be subdivided according to location, seasonal business or different conditions. The participation number consists of 2 alphanumeric characters. It is allocated by DHL Sales."
 "The post number is your personal identification code that you receive with your registration at DHL.","The post number is your personal identification code that you receive with your registration at DHL."
@@ -239,7 +246,6 @@ Tue,Tue
 "Use Named Person Only Service","Use Named Person Only Service"
 "Use No Neighbour Delivery Service","Use No Neighbour Delivery Service"
 "Use Postal Delivery Duty Paid Service","Use Postal Delivery Duty Paid Service"
-"Use Premium Service","Use Premium Service"
 "Use Retail Outlet Routing Service","Use Retail Outlet Routing Service"
 "Use Return Shipment Service","Use Return Shipment Service"
 "Use Visual Check of Age Service","Use Visual Check of Age Service"
@@ -253,6 +259,7 @@ Warnings,Warnings
 "Web service error: %1 Please review your %2.","Web service error: %1 Please review your %2."
 "Web service request could not be created: %1","Web service request could not be created: %1"
 Wed,Wed
+"When choosing drop-off delivery, then your e-mail address will be sent to DHL to notify about the delivery location. The e-mail address will exclusively be used for the announcement of this shipment.","When choosing drop-off delivery, then your e-mail address will be sent to DHL to notify about the delivery location. The e-mail address will exclusively be used for the announcement of this shipment."
 "Would you like to individualize the DHL parcel announcement?","Would you like to individualize the DHL parcel announcement?"
 "You can now display your logo and the desired store name in the parcel notification. Use the following <a href=""https://www.dhl.de/de/geschaeftskunden/paket/versandsoftware/dhl-paketankuendigung/formular.html"" target=""_blank"">form</a> to do so.","You can now display your logo and the desired store name in the parcel notification. Use the following <a href=""https://www.dhl.de/de/geschaeftskunden/paket/versandsoftware/dhl-paketankuendigung/formular.html"" target=""_blank"">form</a> to do so."
 "You decide when and where you want to receive your parcels with the recipient services of DHL.","You decide when and where you want to receive your parcels with the recipient services of DHL."
