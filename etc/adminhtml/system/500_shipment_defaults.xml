@@ -38,7 +38,24 @@
             <tooltip>Select "Merchandise Shipment" only if you ship all or most of your orders as Merchandise Shipments. Otherwise, choose "DHL Paket".</tooltip>
         </field>
 
-        <group id="customs" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="60"
+        <group id="print" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="60"
+               translate="label">
+            <label>Printer Setup</label>
+            <field id="format" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="10"
+                   translate="label comment" type="select">
+                <label>Shipment Label Format</label>
+                <comment>Select the size of the PDF print medium. If no selection is made, then the DHL Business Customer Portal setting will be used.</comment>
+                <source_model>Dhl\Paket\Model\Adminhtml\System\Config\Source\LabelFormat</source_model>
+            </field>
+            <field id="format_return" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="20"
+                   translate="label comment" type="select">
+                <label>Return Label Format</label>
+                <comment>Select the size of the PDF print medium. If no selection is made, then the DHL Business Customer Portal setting will be used.</comment>
+                <source_model>Dhl\Paket\Model\Adminhtml\System\Config\Source\LabelFormat</source_model>
+            </field>
+        </group>
+
+        <group id="customs" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="70"
                translate="label">
             <label>Customs Settings</label>
             <field id="reference_numbers" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="10"
@@ -60,7 +77,7 @@
             </field>
         </group>
 
-        <group id="services" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="70"
+        <group id="services" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="80"
                translate="label comment">
             <comment>Here you can define default values for additional shipping services. Please note that selected options are only applied if they are valid for the given order. Incompatible services, e.g. domestic-only services for a cross-border order, will be omitted when booking a shipping label.</comment>
             <label>Additional Services</label>

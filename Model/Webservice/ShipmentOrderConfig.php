@@ -36,7 +36,11 @@ class ShipmentOrderConfig implements OrderConfigurationInterface
 
     public function isCombinedPrinting(): ?bool
     {
-        return true;
+        if ($this->getPrintFormat() !== $this->getPrintFormatReturn()) {
+            return false;
+        }
+
+        return null;
     }
 
     public function getDocFormat(): ?string
@@ -46,12 +50,12 @@ class ShipmentOrderConfig implements OrderConfigurationInterface
 
     public function getPrintFormat(): ?string
     {
-        return null;
+        return $this->moduleConfig->getLabelFormat($this->storeId);
     }
 
     public function getPrintFormatReturn(): ?string
     {
-        return null;
+        return $this->moduleConfig->getLabelFormatReturn($this->storeId);
     }
 
     public function getProfile(): string

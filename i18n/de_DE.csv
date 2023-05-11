@@ -1,6 +1,7 @@
 "%1 is enabled for checkout. This may lead to duplicated rates in checkout.","%1 ist für den Checkout aktiviert. Dies kann zur mehrfachen Anzeige derselben Versandkosten führen."
 "%1 provides rates for DHL Parcel Germany.","%1 stellt Versandkosten für DHL Paket bereit."
 "%1DHL Parcel Germany%2 is an ideal complement to the AUTOCOMPLETE and ADDRESSFACTORY services of Deutsche Post Direkt.","%1DHL Paket%2 ist eine ideale Ergänzung zu den Services AUTOCOMPLETE und ADDRESSFACTORY der Deutschen Post Direkt."
+"--Please Select--","--Bitte wählen--"
 "A sender's reference number can be configured per destination country. It is used by customs authorities to identify economics operators an/or other persons involved.","Je Zielland kann eine Absender-Kennnummer hinterlegt werden. Sie wird durch die Zollbehörden zur Identifikation der Wirtschaftsbeteiligten verwendet."
 "Abandon (free of charge)","Preisgabe des Paketes (entgeltfrei)"
 "Account Settings",Kontoeinstellungen
@@ -34,6 +35,14 @@ Checkout,Checkout
 "Choosing drop-off delivery will adjust shipping costs by $1 including VAT.","Die Auswahl der Droppoint-Zustellung passt die Versandkosten um $1 inkl. MwSt. an."
 City,Stadt
 "Closest Drop Point Adjustment Charge","Preisanpassung Shop-Zustellung"
+"Common label laser printing 105 x 148 mm (DIN A5 standard paper, 910-300-300) without additional barcode labels","Common Label Laserdruck 105 x 148 mm (DIN A5 Normalpapier, 910-300-300) ohne Zusatzetiketten"
+"Common label laser printing 105 x 148 mm (DIN-A5 standard paper, 910-300-300)","Common Label Laserdruck 105 x 148 mm (DIN A5 Normalpapier, 910-300-300)"
+"Common label laser printing 105 x 205 mm (DIN A5 standard paper, 910-300-700)","Common Label Laserdruck 105 x 205 mm (DIN A5 Normalpapier, 910-300-700)"
+"Common label laser printing 105 x 205 mm (DIN A5 standard paper, 910-300-700) without additional barcode labels","Common Label Laserdruck 105 x 205 mm (DIN A5 Normalpapier, 910-300-700) ohne Zusatzetiketten"
+"Common label laser printing 105 x 208 mm (910-300-710)","Common Label Laserdruck 105 x 208 mm (910-300-710)"
+"Common label laser printing A4 standard paper","Common Label Laserdruck A4 Normalpapier"
+"Common label thermal printing 103 x 150 mm (910-300-400, 910-300-410)","Common Label Thermodruck 103 x 150 mm (910-300-400, 910-300-410)"
+"Common label thermal printing 103 x 199 mm (910-300-600, 910-300-610)","Common Label Thermodruck 103 x 199 mm (910-300-600, 910-300-610)"
 Company,Firma
 Country,Land
 "Create shipping labels & tracking information for your orders directly in the Magento admin panel.","Erzeugen Sie Versandetiketten und Tracking-Informationen direkt in Ihrem Magento-System."
@@ -182,12 +191,14 @@ Participation,Teilnahme
 "Preferred Neighbor Delivery",Nachbarschaftszustellung
 "Preferred Neighbor: Delivery to a neighbor of your choice","Nachbarschaftszustellung: Lieferung an den Nachbarn Ihrer Wahl"
 "Print Only If Codeable","Nur leitkodierbare Versandaufträge erteilen"
+"Printer Setup",Druckeinstellungen
 Procedure,Verfahren
 Product,Produkt
 "Rates in Checkout","Versandkosten im Checkout"
 "Record communication with the DHL web services.","Kommunikation mit den DHL-Webservices aufzeichnen."
 "Reference an entry from your DHL Business Customer Portal address book. If left blank, the origin address configured in <em>Shipping Settings</em> will be used. Using an entry from the DHL sender address book allows to print your logo on the label. This setting is ignored in sandbox mode.","Verweisen Sie auf einen Eintrag im Absenderadressbuch des DHL-Geschäftskundenportals. Wenn Sie dieses Feld leer lassen, dann wird die Absenderadresse verwendet, die in den Versandeinstellungen als Versandursprung konfiguriert ist. Einen Eintrag aus dem DHL-Adressbuch zu wählen ermöglicht es, ein Logo auf das Versandetikett zu drucken. Im Sandbox-Modus wird diese Einstellung nicht verwendet."
 "Retoure DHL Paket: V07PAK","Retoure DHL Paket: V07PAK"
+"Return Label Format","Format Retouren-Versandschein"
 "Return Shipment",Beilegeretoure
 "Return Shipment Address",Rücksendeadresse
 "Return immediately","Sofortige Rücksendung an den Absender"
@@ -200,6 +211,7 @@ Sat,Sa
 "Select Route","Route wählen"
 "Select how to treat international parcels that cannot be delivered. They can either be abandoned (free of charge) or returned to the sender.","Legen Sie fest, wie bei internationalen Sendungen im Falle der Unzustellbarkeit verfahren werden soll. Das Paket kann entweder (entgeltfrei) vernichtet oder umgehend an den Absender zurückgesendet werden."
 "Select the offline shipping method that gets used to provide rates in checkout.","Wählen Sie die Offline-Versandmethode aus, die für die Bereitstellung von Tarifen im Checkout verwendet werden soll."
+"Select the size of the PDF print medium. If no selection is made, then the DHL Business Customer Portal setting will be used.","Wählen Sie das Druckformat der PDF-Labels. Wird hier keine Einstellung vorgenommen, dann wird das im Geschäftskundenportal konfigurierte Format verwendet."
 "Selected products will be pre-selected for automatic shipping label creation. You can still select another product when creating shipping labels manually.","Ausgewählte Produkte werden für die automatische Erstellung von Versandetiketten vorausgewählt. Sie können weiterhin ein anderes Produkt auswählen, wenn Sie Versandetiketten manuell erstellen."
 "Send Receiver Phone Number","Telefonnummer des Empfängers übermitteln"
 "Sender Address Book Reference","Absenderreferenz im DHL-Adressbuch"
@@ -207,6 +219,7 @@ Sat,Sa
 "Shipment %1 could not be cancelled.","Der Versandauftrag %1 konnte nicht storniert werden."
 "Shipment %1 could not be cancelled: %2","Der Versandauftrag %1 konnte nicht storniert werden: %2"
 "Shipment Defaults","Voreinstellungen für Lieferungen"
+"Shipment Label Format","Format Versandschein"
 "Shipping Origin",Versandursprung
 "Shipping Products",Versandprodukte
 "Shipping Services in Checkout","Zusätzliche Versandservices im Checkout"

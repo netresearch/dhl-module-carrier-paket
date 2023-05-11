@@ -47,6 +47,8 @@ class ModuleConfig implements VersionInterface
     public const CONFIG_PATH_SENDER_REFERENCE = 'dhlshippingsolutions/dhlpaket/shipment_defaults/sender_address_book_reference';
     public const CONFIG_PATH_SEND_RECEIVER_PHONE_NUMBER = 'dhlshippingsolutions/dhlpaket/shipment_defaults/send_receiver_phone_number';
     public const CONFIG_PATH_SHIPPING_PRODUCTS = 'dhlshippingsolutions/dhlpaket/shipment_defaults/shipping_products';
+    public const CONFIG_PATH_LABEL_FORMAT = 'dhlshippingsolutions/dhlpaket/shipment_defaults/print/format';
+    public const CONFIG_PATH_LABEL_FORMAT_RETURN = 'dhlshippingsolutions/dhlpaket/shipment_defaults/print/format_return';
     public const CONFIG_PATH_CUSTOMS_REFERENCE_NUMBERS = 'dhlshippingsolutions/dhlpaket/shipment_defaults/customs/reference_numbers';
     public const CONFIG_PATH_PLACE_OF_COMMITTAL = 'dhlshippingsolutions/dhlpaket/shipment_defaults/customs/place_of_committal';
     public const CONFIG_PATH_ELECTRONIC_EXPORT_NOTIFICATION = 'dhlshippingsolutions/dhlpaket/shipment_defaults/customs/electronic_export_notification';
@@ -314,6 +316,40 @@ class ModuleConfig implements VersionInterface
         }
 
         return $defaultProducts;
+    }
+
+    /**
+     * Get the shipment label format.
+     *
+     * Sending a print format to the API overwrites the DHL Business Customer Portal group profile setting.
+     *
+     * @param mixed $store
+     * @return string
+     */
+    public function getLabelFormat($store = null): string
+    {
+        return (string) $this->scopeConfig->getValue(
+            self::CONFIG_PATH_LABEL_FORMAT,
+            ScopeInterface::SCOPE_STORE,
+            $store
+        );
+    }
+
+    /**
+     * Get the return shipment label format.
+     *
+     * Sending a print format to the API overwrites the DHL Business Customer Portal group profile setting.
+     *
+     * @param mixed $store
+     * @return string
+     */
+    public function getLabelFormatReturn($store = null): string
+    {
+        return (string) $this->scopeConfig->getValue(
+            self::CONFIG_PATH_LABEL_FORMAT_RETURN,
+            ScopeInterface::SCOPE_STORE,
+            $store
+        );
     }
 
     /**
