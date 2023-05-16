@@ -7,7 +7,7 @@
 <include xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_include.xsd">
     <group id="shipment_defaults" translate="label comment" sortOrder="500" showInDefault="1" showInWebsite="1" showInStore="0">
         <label>Shipment Defaults</label>
-        <comment>These settings will be used for automatic shipping label creation. If a label cannot be created with your configured defaults, the order must be processed manually. Use the DHL Label Status Column in the Order list to identify those orders.</comment>
+        <comment>These are the default settings for manual and automatic shipping label creation. If a label cannot be created with your configured defaults, change the respective setting when processing the order manually. Use the DHL Label Status Column in the Order list to identify those orders.</comment>
         <field id="print_only_if_codeable" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="10"
                translate="label comment" type="Netresearch\ConfigFields\Model\Type\Toggle">
             <label>Print Only If Codeable</label>
