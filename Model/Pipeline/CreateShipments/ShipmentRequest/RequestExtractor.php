@@ -635,6 +635,26 @@ class RequestExtractor implements RequestExtractorInterface
     }
 
     /**
+     * Check if no neighbor delivery was booked.
+     *
+     * @return bool
+     */
+    public function isNoNeighborDelivery(): bool
+    {
+        return $this->getServiceOptionReader()->isServiceEnabled(Codes::SERVICE_OPTION_NO_NEIGHBOR_DELIVERY);
+    }
+
+    /**
+     * Check if "signedForByRecipient" was booked.
+     *
+     * @return bool
+     */
+    public function isRecipientSignature(): bool
+    {
+        return $this->getServiceOptionReader()->isServiceEnabled(Codes::SERVICE_OPTION_RECIPIENT_SIGNATURE);
+    }
+
+    /**
      * Obtain the "parcelAnnouncement" flag for the current package.
      *
      * @return bool
@@ -702,15 +722,5 @@ class RequestExtractor implements RequestExtractorInterface
             Codes::SERVICE_OPTION_ENDORSEMENT,
             'details'
         );
-    }
-
-    /**
-     * Check if no neighbor delivery was booked.
-     *
-     * @return bool
-     */
-    public function isNoNeighborDelivery(): bool
-    {
-        return $this->getServiceOptionReader()->isServiceEnabled(Codes::SERVICE_OPTION_NO_NEIGHBOR_DELIVERY);
     }
 }

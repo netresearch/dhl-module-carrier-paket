@@ -235,6 +235,10 @@ class RequestDataMapper
                 $requestBuilder->setNoNeighbourDelivery();
             }
 
+            if ($requestExtractor->isRecipientSignature()) {
+                $requestBuilder->setSignedForByRecipient();
+            }
+
             if ($requestExtractor->isBulkyGoods()) {
                 $requestBuilder->setBulkyGoods();
             }

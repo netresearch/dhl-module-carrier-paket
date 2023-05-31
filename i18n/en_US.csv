@@ -124,6 +124,7 @@ Fri,Fri
 "If enabled, shipments will be insured with higher than standard amount.","If enabled, shipments will be insured with higher than standard amount."
 "If enabled, shipments will be marked as bulk freight.","If enabled, shipments will be marked as bulk freight."
 "If enabled, the consignee's phone number will be forwarded to DHL on international shipments.","If enabled, the consignee's phone number will be forwarded to DHL on international shipments."
+"If enabled, the recipient must sign for the parcel on delivery.","If enabled, the recipient must sign for the parcel on delivery."
 "If enabled, the visual age check service will be booked during shipment orders.","If enabled, the visual age check service will be booked during shipment orders."
 "If enabled, your undeliverable packages will be held at the nearest parcel collection point for collection by the recipient rather than being returned immediately to you.","If enabled, your undeliverable packages will be held at the nearest parcel collection point for collection by the recipient rather than being returned immediately to you."
 "If you do not have an account or your account is with another DHL division, %1please contact DHL Parcel Germany%2 to establish or expand your relationship.","If you do not have an account or your account is with another DHL division, %1please contact DHL Parcel Germany%2 to establish or expand your relationship."
@@ -195,6 +196,8 @@ Participation,Participation
 Procedure,Procedure
 Product,Product
 "Rates in Checkout","Rates in Checkout"
+"Recipient Signature","Recipient Signature"
+"Recipient must sign for the parcel on delivery","Recipient must sign for the parcel on delivery"
 "Record communication with the DHL web services.","Record communication with the DHL web services."
 "Reference an entry from your DHL Business Customer Portal address book. If left blank, the origin address configured in <em>Shipping Settings</em> will be used. Using an entry from the DHL sender address book allows to print your logo on the label. This setting is ignored in sandbox mode.","Reference an entry from your DHL Business Customer Portal address book. If left blank, the origin address configured in <em>Shipping Settings</em> will be used. Using an entry from the DHL sender address book allows to print your logo on the label. This setting is ignored in sandbox mode."
 "Retoure DHL Paket: V07PAK","Retoure DHL Paket: V07PAK"
@@ -262,6 +265,7 @@ Tue,Tue
 "Use Postal Delivery Duty Paid Service","Use Postal Delivery Duty Paid Service"
 "Use Retail Outlet Routing Service","Use Retail Outlet Routing Service"
 "Use Return Shipment Service","Use Return Shipment Service"
+"Use Signed For By Recipient Service","Use Signed For By Recipient Service"
 "Use Visual Check of Age Service","Use Visual Check of Age Service"
 "Use rates from","Use rates from"
 User,User

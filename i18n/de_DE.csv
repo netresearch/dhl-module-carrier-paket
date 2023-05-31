@@ -124,6 +124,7 @@ Fri,Fr
 "If enabled, shipments will be insured with higher than standard amount.","Wenn diese Option aktiviert ist, werden Sendungen mit einem höheren als dem Standardbetrag versichert."
 "If enabled, shipments will be marked as bulk freight.","Wenn diese Option aktiviert ist, werden Sendungen als Sperrgut markiert."
 "If enabled, the consignee's phone number will be forwarded to DHL on international shipments.","Wenn diese Option aktiviert ist, dann wird die Telefonnummer des Empfängers bei internationalen Sendungen an DHL weitergeleitet."
+"If enabled, the recipient must sign for the parcel on delivery.","Wenn diese Option aktiviert ist, dann muss der Empfänger den Erhalt der Sendung mittels Unterschrift bestätigen."
 "If enabled, the visual age check service will be booked during shipment orders.","Wenn diese Option aktiviert ist, wird der Service Alterssichtprüfung bei Versandaufträgen gebucht."
 "If enabled, your undeliverable packages will be held at the nearest parcel collection point for collection by the recipient rather than being returned immediately to you.","Wenn diese Option aktiviert ist, werden unzustellbare Sendungen nicht direkt an Sie zurückgeschickt, sondern zunächst in der nächstgelegenen Filiale zur Abholung hinterlegt."
 "If you do not have an account or your account is with another DHL division, %1please contact DHL Parcel Germany%2 to establish or expand your relationship.","Wenn Sie kein Konto haben oder Ihr Konto mit einer anderen DHL-Abteilung abgeschlossen wurde, dann wenden Sie sich bitte an %1DHL Paket%2, um Ihren Vertrag zu erweitern."
@@ -195,6 +196,8 @@ Participation,Teilnahme
 Procedure,Verfahren
 Product,Produkt
 "Rates in Checkout","Versandkosten im Checkout"
+"Recipient Signature","Empfängerunterschrift"
+"Recipient must sign for the parcel on delivery","Bestätigung des Erhalts der Sendung durch Empfänger"
 "Record communication with the DHL web services.","Kommunikation mit den DHL-Webservices aufzeichnen."
 "Reference an entry from your DHL Business Customer Portal address book. If left blank, the origin address configured in <em>Shipping Settings</em> will be used. Using an entry from the DHL sender address book allows to print your logo on the label. This setting is ignored in sandbox mode.","Verweisen Sie auf einen Eintrag im Absenderadressbuch des DHL-Geschäftskundenportals. Wenn Sie dieses Feld leer lassen, dann wird die Absenderadresse verwendet, die in den Versandeinstellungen als Versandursprung konfiguriert ist. Einen Eintrag aus dem DHL-Adressbuch zu wählen ermöglicht es, ein Logo auf das Versandetikett zu drucken. Im Sandbox-Modus wird diese Einstellung nicht verwendet."
 "Retoure DHL Paket: V07PAK","Retoure DHL Paket: V07PAK"
@@ -262,6 +265,7 @@ Tue,Di
 "Use Postal Delivery Duty Paid Service","Service Postal Delivery Duty Paid aktivieren"
 "Use Retail Outlet Routing Service","Filial-Routing aktivieren"
 "Use Return Shipment Service","Beilegeretoure aktivieren"
+"Use Signed For By Recipient Service","Empfängerunterschrift aktivieren"
 "Use Visual Check of Age Service","Alterssichtprüfung aktivieren"
 "Use rates from","Verwende Tarife von"
 User,Benutzername

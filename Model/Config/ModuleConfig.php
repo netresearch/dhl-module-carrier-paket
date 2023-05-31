@@ -55,6 +55,7 @@ class ModuleConfig implements VersionInterface
     public const CONFIG_PATH_VISUAL_CHECK_OF_AGE = 'dhlshippingsolutions/dhlpaket/shipment_defaults/services/visual_check_of_age';
     public const CONFIG_PATH_DELIVERY_TYPE = 'dhlshippingsolutions/dhlpaket/shipment_defaults/services/delivery_type';
     public const CONFIG_PATH_NAMED_PERSON_ONLY = 'dhlshippingsolutions/dhlpaket/shipment_defaults/services/named_person_only';
+    public const CONFIG_PATH_RECIPIENT_SIGNATURE = 'dhlshippingsolutions/dhlpaket/shipment_defaults/services/signed_for_by_recipient';
     public const CONFIG_PATH_EXCLUDE_NEIGHBOR_DELIVERY = 'dhlshippingsolutions/dhlpaket/shipment_defaults/services/no_neighbor_delivery';
     public const CONFIG_PATH_PARCEL_OUTLET = 'dhlshippingsolutions/dhlpaket/shipment_defaults/services/parcel_outlet';
     public const CONFIG_PATH_PARCEL_OUTLET_NOTIFICATION_EMAIL = 'dhlshippingsolutions/dhlpaket/shipment_defaults/services/parcel_outlet_notification_email';

@@ -342,8 +342,26 @@
                     </route>
                 </routes>
             </shippingOption>
-            <shippingOption code="Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::SERVICE_OPTION_NO_NEIGHBOR_DELIVERY">
+            <shippingOption code="Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::SERVICE_OPTION_RECIPIENT_SIGNATURE">
+                <label translate="true">Recipient Signature</label>
                 <sortOrder>1160</sortOrder>
+                <inputs>
+                    <input code="enabled" defaultConfigValue="Dhl\Paket\Model\Config\ModuleConfig::CONFIG_PATH_RECIPIENT_SIGNATURE">
+                        <inputType>checkbox</inputType>
+                        <label translate="true">Recipient must sign for the parcel on delivery</label>
+                    </input>
+                </inputs>
+                <routes>
+                    <route>
+                        <origin>DE</origin>
+                        <includeDestinations>
+                            <destination>DE</destination>
+                        </includeDestinations>
+                    </route>
+                </routes>
+            </shippingOption>
+            <shippingOption code="Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::SERVICE_OPTION_NO_NEIGHBOR_DELIVERY">
+                <sortOrder>1170</sortOrder>
             </shippingOption>
         </serviceOptions>
         <compatibilityData>
@@ -374,6 +392,7 @@
                     <subject>Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::SERVICE_OPTION_NO_NEIGHBOR_DELIVERY</subject>
                     <subject>Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::SERVICE_OPTION_INSURANCE</subject>
                     <subject>Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::SERVICE_OPTION_BULKY_GOODS</subject>
+                    <subject>Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::SERVICE_OPTION_RECIPIENT_SIGNATURE</subject>
                 </subjects>
                 <triggerValue>V62WP</triggerValue>
                 <action>disable</action>

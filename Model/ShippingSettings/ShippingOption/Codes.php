@@ -18,7 +18,8 @@ class Codes
 
     // packaging services
     public const SERVICE_OPTION_CHECK_OF_AGE = 'visualCheckOfAge';
-    public const SERVICE_OPTION_NAMED_PERSON_ONLY= 'namedPersonOnly';
+    public const SERVICE_OPTION_NAMED_PERSON_ONLY = 'namedPersonOnly';
+    public const SERVICE_OPTION_RECIPIENT_SIGNATURE = 'signedForByRecipient';
     public const SERVICE_OPTION_RETURN_SHIPMENT = 'returnShipment';
     public const SERVICE_OPTION_ENDORSEMENT = 'endorsement';
     public const SERVICE_OPTION_INSURANCE = 'additionalInsurance';

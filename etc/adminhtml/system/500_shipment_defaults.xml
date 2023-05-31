@@ -94,19 +94,25 @@
                 <label>Use Named Person Only Service</label>
                 <comment>If enabled, DHL will hand over the parcel only to the recipient or to an authorized person.</comment>
             </field>
+            <!-- Signed For By Recipient -->
+            <field id="signed_for_by_recipient" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="30"
+                   translate="label comment" type="Netresearch\ConfigFields\Model\Type\Checkbox">
+                <label>Use Signed For By Recipient Service</label>
+                <comment>If enabled, the recipient must sign for the parcel on delivery.</comment>
+            </field>
             <!-- No Neighbor Delivery -->
-            <field id="no_neighbor_delivery" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="30"
+            <field id="no_neighbor_delivery" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="40"
                    translate="label comment" type="Netresearch\ConfigFields\Model\Type\Checkbox">
                 <label>Use No Neighbour Delivery Service</label>
                 <comment>If enabled, DHL will not attempt to make delivery to a neighbor. If the customer is not available, then the parcel will be delivered to a retail outlet or locker instead.</comment>
             </field>
             <!-- Parcel Outlet Routing -->
-            <field id="parcel_outlet" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="40"
+            <field id="parcel_outlet" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="50"
                    translate="label comment" type="Netresearch\ConfigFields\Model\Type\Checkbox">
                 <label>Use Retail Outlet Routing Service</label>
                 <comment>If enabled, your undeliverable packages will be held at the nearest parcel collection point for collection by the recipient rather than being returned immediately to you.</comment>
             </field>
-            <field id="parcel_outlet_notification_email" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="41"
+            <field id="parcel_outlet_notification_email" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="51"
                    translate="label comment tooltip" type="text">
                 <label>Alternative Email Address</label>
                 <validate>validate-email</validate>
@@ -117,23 +123,16 @@
                 </depends>
             </field>
             <!-- Additional Insurance -->
-            <field id="additional_insurance" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="50"
+            <field id="additional_insurance" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="60"
                    translate="label comment" type="Netresearch\ConfigFields\Model\Type\Checkbox">
                 <label>Use Additional Insurance Service</label>
                 <comment>If enabled, shipments will be insured with higher than standard amount.</comment>
             </field>
             <!-- Bulky Goods -->
-            <field id="bulky_goods" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="60"
+            <field id="bulky_goods" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="70"
                    translate="label comment" type="Netresearch\ConfigFields\Model\Type\Checkbox">
                 <label>Use Bulky Goods Service</label>
                 <comment>If enabled, shipments will be marked as bulk freight.</comment>
-            </field>
-            <!-- Delivery Type -->
-            <field id="delivery_type" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="20"
-                   translate="label comment" type="Netresearch\ConfigFields\Model\Type\Radioset">
-                <label>Select Delivery Service Type</label>
-                <comment><![CDATA[On routes that require the <em>Premium</em> service, it will be booked implicitly regardless of this setting. The <em>Closest Drop Point</em> delivery type, if selected in checkout, always takes precedence.]]></comment>
-                <source_model>Dhl\Paket\Model\Adminhtml\System\Config\Source\DeliveryType</source_model>
             </field>
             <!-- PDDP -->
             <field id="delivery_duty_paid" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="80"
@@ -148,13 +147,20 @@
                 <comment>Select how to treat international parcels that cannot be delivered. They can either be abandoned (free of charge) or returned to the sender.</comment>
                 <source_model>Dhl\Paket\Model\Adminhtml\System\Config\Source\Endorsement</source_model>
             </field>
+            <!-- Delivery Type -->
+            <field id="delivery_type" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="100"
+                   translate="label comment" type="Netresearch\ConfigFields\Model\Type\Radioset">
+                <label>Select Delivery Service Type</label>
+                <comment><![CDATA[On routes that require the <em>Premium</em> service, it will be booked implicitly regardless of this setting. The <em>Closest Drop Point</em> delivery type, if selected in checkout, always takes precedence.]]></comment>
+                <source_model>Dhl\Paket\Model\Adminhtml\System\Config\Source\DeliveryType</source_model>
+            </field>
             <!-- Return Shipment -->
-            <field id="return_shipment" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="100"
+            <field id="return_shipment" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="110"
                    translate="label comment" type="Netresearch\ConfigFields\Model\Type\Checkbox">
                 <label>Use Return Shipment Service</label>
                 <comment><![CDATA[If enabled, a return shipment label will be requested from the webservice. A return address other than the <em>Shipping Origin</em> can be configured below.]]></comment>
             </field>
-            <group id="return_shipment_receiver" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="101"
+            <group id="return_shipment_receiver" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="111"
                    translate="label">
                 <label>Return Shipment Address</label>
                 <fieldset_css>simple</fieldset_css>
