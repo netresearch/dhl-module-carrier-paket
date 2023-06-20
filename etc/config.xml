@@ -64,7 +64,7 @@
                     </production_group>
 
                     <sandbox_unified_group>
-                        <auth_username>3333333333_01</auth_username>
+                        <auth_username>sandy_sandbox</auth_username>
                         <auth_password>pass</auth_password>
                         <account_number>3333333333</account_number>
                         <participations backend_model="Netresearch\ShippingCore\Model\Config\Backend\ArraySerialized">

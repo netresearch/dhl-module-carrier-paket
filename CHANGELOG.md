@@ -6,9 +6,25 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## Unreleased
 
+### Added
+
+- Book _Signed for by recipient_ (Empfängerunterschrift) service.
+- Book _Postal Delivery Duty Paid_ (PDDP) service.
+- Book _Closest Droppoint_ (CDP) service.
+
 ### Changed
 
 - Switch DHL shipping API from SOAP to REST. SDK classes are no longer injected via DI.
+
+### Removed
+
+- The `printOnlyIfCodeable` flag can no longer be set for individual packages.
+  The module configuration setting ("Shipment Defaults") always applies.
+
+### Fixed
+
+- Add DE translation for non-delivery instruction options.
+- Type-cast store ID to `integer`, reported via [#11](https://github.com/netresearch/dhl-module-carrier-paket/issues/11).
 
 ## 2.7.0
 
