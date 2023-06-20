@@ -43,7 +43,7 @@ class AdditionalFeeConfiguration implements AdditionalFeeConfigurationInterface
     private function calculateAdjustmentAmount(Quote $quote): float
     {
         if (!is_float($this->serviceAdjustment)) {
-            $fees = $this->feeProvider->getAmounts($quote->getStoreId());
+            $fees = $this->feeProvider->getAmounts((int) $quote->getStoreId());
 
             $selections = $this->quoteSelectionManager->load((int) $quote->getShippingAddress()->getId());
             $serviceCodes = array_unique(
