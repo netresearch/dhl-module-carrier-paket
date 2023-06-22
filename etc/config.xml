@@ -8,7 +8,7 @@
     <default>
         <carriers>
             <dhlpaket>
-                <version>2.7.0</version>
+                <version>2.8.0</version>
                 <model>Dhl\Paket\Model\Carrier\Paket</model>
                 <is_online>1</is_online>
                 <max_package_weight>1000</max_package_weight>
