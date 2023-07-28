@@ -264,10 +264,12 @@
         <arguments>
             <argument name="patterns" xsi:type="array">
                 <item name="dhlpaketEkp" xsi:type="string"><![CDATA[|EKP: (.+)|]]></item>
+                <item name="dhlpaketApiKey" xsi:type="string"><![CDATA[|dhl-api-key: (.+)|]]></item>
                 <item name="dhlpaketBasicAuth" xsi:type="string"><![CDATA[|Authorization: Basic (.+)|]]></item>
                 <item name="dhlpaketUser" xsi:type="string"><![CDATA[|user>([^<]+)<|]]></item>
                 <item name="dhlpaketPass" xsi:type="string"><![CDATA[|signature>([^<]+)<|]]></item>
-                <item name="dhlpaketBillingNumber" xsi:type="string"><![CDATA[|ccountNumber>([^<]+)<|]]></item>
+                <item name="dhlpaketBillingNumberSoap" xsi:type="string"><![CDATA[|ccountNumber>([^<]+)<|]]></item>
+                <item name="dhlpaketBillingNumberRest" xsi:type="string"><![CDATA[|"billingNumber":"([^"]+)"|]]></item>
             </argument>
         </arguments>
     </type>
