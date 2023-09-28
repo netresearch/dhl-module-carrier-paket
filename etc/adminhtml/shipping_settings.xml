@@ -188,6 +188,7 @@
                     <route>
                         <origin>DE</origin>
                         <includeDestinations>
+                            <destination>CH</destination>
                             <destination>GB</destination>
                             <destination>NO</destination>
                         </includeDestinations>
