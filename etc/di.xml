@@ -6,15 +6,15 @@
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
     <!-- # sdk preferences -->
-    <preference for="Dhl\Sdk\Paket\Bcs\Api\ShipmentOrderRequestBuilderInterface" type="Dhl\Sdk\Paket\Bcs\RequestBuilder\ShipmentOrderRequestBuilder"/>
-    <preference for="Dhl\Sdk\Paket\Bcs\Api\ServiceFactoryInterface" type="Dhl\Sdk\Paket\Bcs\Service\ServiceFactory"/>
+    <preference for="Dhl\Sdk\ParcelDe\Shipping\Api\ShipmentOrderRequestBuilderInterface" type="Dhl\Sdk\ParcelDe\Shipping\RequestBuilder\ShipmentOrderRequestBuilder"/>
+    <preference for="Dhl\Sdk\ParcelDe\Shipping\Api\ServiceFactoryInterface" type="Dhl\Sdk\ParcelDe\Shipping\Service\ServiceFactory"/>
     <preference for="Dhl\Sdk\Paket\ParcelManagement\Api\ServiceFactoryInterface" type="Dhl\Sdk\Paket\ParcelManagement\Service\ServiceFactory"/>
     <preference for="Dhl\Sdk\UnifiedLocationFinder\Api\ServiceFactoryInterface" type="Dhl\Sdk\UnifiedLocationFinder\Service\ServiceFactory"/>
-    <preference for="Dhl\Sdk\Paket\Bcs\Api\Data\AuthenticationStorageInterface" type="Dhl\Sdk\Paket\Bcs\Auth\AuthenticationStorage"/>
+    <preference for="Dhl\Sdk\ParcelDe\Shipping\Api\Data\AuthenticationStorageInterface" type="Dhl\Sdk\ParcelDe\Shipping\Auth\AuthenticationStorage"/>
 
     <!-- # service interface preferences -->
     <preference for="Dhl\Paket\Api\ShipmentDateInterface" type="Dhl\Paket\Model\ShipmentDate\ShipmentDate"/>
-    <preference for="Dhl\Sdk\Paket\Bcs\Api\Data\OrderConfigurationInterface" type="Dhl\Paket\Model\Webservice\ShipmentOrderConfig"/>
+    <preference for="Dhl\Sdk\ParcelDe\Shipping\Api\Data\OrderConfigurationInterface" type="Dhl\Paket\Model\Webservice\ShipmentOrderConfig"/>
 
     <!-- # virtual types -->
     <virtualType name="Dhl\Paket\Model\BulkShipment\BulkShipmentManagement\Virtual" type="Dhl\Paket\Model\BulkShipment\ShipmentManagement">
@@ -226,8 +226,8 @@
                 <item name="dhlpaket_active" xsi:type="object" sortOrder="1005">Dhl\Paket\Model\Config\ItemValidator\EnabledForCheckoutValidator</item>
                 <item name="dhlpaket_rates" xsi:type="object" sortOrder="1006">Dhl\Paket\Model\Config\ItemValidator\RatesProviderValidator</item>
                 <item name="dhlpaket_map_token" xsi:type="object" sortOrder="1007">Dhl\Paket\Model\Config\ItemValidator\MapBoxValidator</item>
-                <item name="dhlpaket_bcs_api_credentials" xsi:type="object" sortOrder="1010">Dhl\Paket\Model\Config\ItemValidator\BcsApiCredentialsValidator</item>
-                <item name="dhlpaket_bcs_api" xsi:type="object" sortOrder="1011">Dhl\Paket\Model\Config\ItemValidator\BcsApiValidator</item>
+                <item name="dhlpaket_parcel_de_api_credentials" xsi:type="object" sortOrder="1010">Dhl\Paket\Model\Config\ItemValidator\ParcelDeApiCredentialsValidator</item>
+                <item name="dhlpaket_parcel_de_api" xsi:type="object" sortOrder="1011">Dhl\Paket\Model\Config\ItemValidator\ParcelDeApiValidator</item>
                 <item name="dhlpaket_pm_api" xsi:type="object" sortOrder="1012">Dhl\Paket\Model\Config\ItemValidator\ParcelManagementApiValidator</item>
             </argument>
         </arguments>
@@ -268,7 +268,6 @@
                 <item name="dhlpaketBasicAuth" xsi:type="string"><![CDATA[|Authorization: Basic (.+)|]]></item>
                 <item name="dhlpaketUser" xsi:type="string"><![CDATA[|user>([^<]+)<|]]></item>
                 <item name="dhlpaketPass" xsi:type="string"><![CDATA[|signature>([^<]+)<|]]></item>
-                <item name="dhlpaketBillingNumberSoap" xsi:type="string"><![CDATA[|ccountNumber>([^<]+)<|]]></item>
                 <item name="dhlpaketBillingNumberRest" xsi:type="string"><![CDATA[|"billingNumber":"([^"]+)"|]]></item>
             </argument>
         </arguments>

@@ -24,10 +24,6 @@ class ApiLogAnonymizerTest extends TestCase
                 ['message' => file_get_contents(__DIR__ . '/../../../Provider/_files/checkout_log_orig.txt')],
                 ['message' => file_get_contents(__DIR__ . '/../../../Provider/_files/checkout_log_anon.txt')],
             ],
-            'label' => [
-                ['message' => file_get_contents(__DIR__ . '/../../../Provider/_files/label_log_orig.txt')],
-                ['message' => file_get_contents(__DIR__ . '/../../../Provider/_files/label_log_anon.txt')],
-            ],
         ];
     }
 

@@ -4,6 +4,25 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## 3.0.0 
+
+Magento 2.4.7 compatibility release
+
+### Added
+
+- Support for Magento 2.4.7
+
+### Changed
+
+- Replace Zend_Measurement with Magento Framework Measurement
+- Use escaper instead of block for escaping in templates
+- replace sdk-api-bcs with the new sdk-api-parcel-de
+
+### Removed
+
+- Support for PHP 7.x
+- Support for PHP 8.1
+
 ## 2.9.0
 
 ### Added 

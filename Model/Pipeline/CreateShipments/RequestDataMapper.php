@@ -15,11 +15,13 @@ use Dhl\Paket\Model\Adminhtml\System\Config\Source\VisualCheckOfAge;
 use Dhl\Paket\Model\Pipeline\CreateShipments\ShipmentRequest\Data\PackageAdditional;
 use Dhl\Paket\Model\Pipeline\CreateShipments\ShipmentRequest\RequestExtractorFactory;
 use Dhl\Paket\Model\Webservice\ShipmentOrderRequestBuilderFactory;
-use Dhl\Sdk\Paket\Bcs\Api\ShipmentOrderRequestBuilderInterface;
-use Dhl\Sdk\Paket\Bcs\Exception\RequestValidatorException;
+use Dhl\Sdk\ParcelDe\Shipping\Api\ShipmentOrderRequestBuilderInterface;
+use Dhl\Sdk\ParcelDe\Shipping\Exception\RequestValidatorException;
 use Dhl\Sdk\UnifiedLocationFinder\Api\Data\LocationInterface;
 use Dhl\ShippingCore\Model\Config\Source\TermsOfTrade;
 use Magento\Framework\Exception\LocalizedException;
+use Magento\Framework\Measure\Length;
+use Magento\Framework\Measure\Weight;
 use Magento\Shipping\Model\Shipment\Request;
 use Netresearch\ShippingCore\Api\Data\Pipeline\ShipmentRequest\PackageInterface;
 use Netresearch\ShippingCore\Api\Data\Pipeline\ShipmentRequest\PackageItemInterface;
@@ -68,15 +70,15 @@ class RequestDataMapper
      *
      * @param Request $request
      * @param int $packageId
-     * @param string $sequenceNumber
+     * @param int $requestIndex
      */
-    private function addSequenceNumber(Request $request, int $packageId, string $sequenceNumber): void
+    private function addRequestIndex(Request $request, int $packageId, int $requestIndex): void
     {
         $packages = $request->getData('packages');
 
         foreach ($packages as $requestPackageId => &$package) {
             if ($requestPackageId === $packageId) {
-                $package['sequence_number'] = $sequenceNumber;
+                $package['request_index'] = $requestIndex;
             }
         }
 
@@ -106,23 +108,27 @@ class RequestDataMapper
     /**
      * Map the Magento shipment request to an SDK request object using the SDK request builder.
      *
-     * @param string $sequenceNumber Request identifier to associate request-response pairs
+     * @param int $requestIndex Request identifier to associate request-response pairs
      * @param Request $request The shipment request
      *
      * @return object
      * @throws LocalizedException
      */
-    public function mapRequest(string $sequenceNumber, Request $request)
+    public function mapRequest(int $requestIndex, Request $request)
     {
         $requestExtractor = $this->requestExtractorFactory->create(['shipmentRequest' => $request]);
 
         $requestBuilder = $this->requestBuilderFactory->create($requestExtractor->getStoreId());
-        $requestBuilder->setSequenceNumber($sequenceNumber);
+        $requestBuilder->setRequestIndex($requestIndex);
 
-        $requestBuilder->setShipperAccount(
-            $requestExtractor->getBillingNumber(),
-            $requestExtractor->isReturnShipment() ? $requestExtractor->getReturnShipmentAccountNumber() : null
-        );
+
+        if ($requestExtractor->isReturnShipment()) {
+            $returnBillingNumber = $requestExtractor->getReturnShipmentAccountNumber();
+        } else {
+            $returnBillingNumber = null;
+        }
+
+        $requestBuilder->setShipperAccount($requestExtractor->getBillingNumber(), $returnBillingNumber);
 
         $senderReference = $requestExtractor->getSenderReference();
         if ($senderReference) {
@@ -178,8 +184,8 @@ class RequestDataMapper
             /** @var PackageAdditional $packageExtension */
             $packageExtension = $package->getPackageAdditional();
 
-            //fixme(nr): request data are overridden silently for shipment requests with multiple packages
-            $this->addSequenceNumber($request, $packageId, $sequenceNumber);
+            $this->addRequestIndex($request, $packageId, $requestIndex);
+            $requestIndex++;
 
             $requestBuilder->setShipmentDetails(
                 $package->getProductCode(),
@@ -189,7 +195,7 @@ class RequestDataMapper
 
             $weight = $package->getWeight();
             $weightUom = $package->getWeightUom();
-            $weightInKg = $this->unitConverter->convertWeight($weight, $weightUom, \Zend_Measure_Weight::KILOGRAM);
+            $weightInKg = $this->unitConverter->convertWeight($weight, $weightUom, Weight::KILOGRAM);
 
             $requestBuilder->setPackageDetails($weightInKg);
 
@@ -199,7 +205,7 @@ class RequestDataMapper
             $height = $package->getHeight();
 
             if ($width || $length || $height) {
-                $targetUom = \Zend_Measure_Length::CENTIMETER;
+                $targetUom = Length::CENTIMETER;
                 $widthInCm = $this->unitConverter->convertDimension($width, $dimensionsUom, $targetUom);
                 $lengthInCm = $this->unitConverter->convertDimension($length, $dimensionsUom, $targetUom);
                 $heightInCm = $this->unitConverter->convertDimension($height, $dimensionsUom, $targetUom);
@@ -283,6 +289,7 @@ class RequestDataMapper
                     );
                 } else {
                     $requestBuilder->setPostfiliale(
+                        $requestExtractor->getRecipient()->getContactEmail(),
                         $requestExtractor->getRecipient()->getContactPersonName(),
                         $requestExtractor->getDeliveryLocationNumber(),
                         $requestExtractor->getDeliveryLocationCountryCode(),

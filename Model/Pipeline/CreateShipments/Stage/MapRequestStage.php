@@ -40,13 +40,13 @@ class MapRequestStage implements CreateShipmentsStageInterface
     {
         $callback = function (Request $request, int $requestIndex) use ($artifactsContainer) {
             try {
-                $shipmentOrder = $this->requestDataMapper->mapRequest((string) $requestIndex, $request);
-                $artifactsContainer->addApiRequest((string) $requestIndex, $shipmentOrder);
+                $shipmentOrder = $this->requestDataMapper->mapRequest($requestIndex, $request);
+                $artifactsContainer->addApiRequest($requestIndex, $shipmentOrder);
 
                 return true;
             } catch (LocalizedException $exception) {
                 $artifactsContainer->addError(
-                    (string) $requestIndex,
+                    $requestIndex,
                     $request->getOrderShipment(),
                     $exception->getMessage()
                 );

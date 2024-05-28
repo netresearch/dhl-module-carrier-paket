@@ -33,11 +33,11 @@ class PostDataProvider
                     'productCode' => 'V01PAK',
                     'packagingWeight' => '0.33',
                     'weight' => '0',
-                    'weightUnit' => \Zend_Measure_Weight::KILOGRAM,
+                    'weightUnit' => \Magento\Framework\Measure\Weight::KILOGRAM,
                     'width' => '20',
                     'height' => '20',
                     'length' => '30',
-                    'sizeUnit' => \Zend_Measure_Length::CENTIMETER,
+                    'sizeUnit' => \Magento\Framework\Measure\Length::CENTIMETER,
                 ]
             ]
         ];
@@ -75,11 +75,11 @@ class PostDataProvider
                     'productCode' => 'V62WP',
                     'packagingWeight' => '0.33',
                     'weight' => '0',
-                    'weightUnit' => \Zend_Measure_Weight::KILOGRAM,
+                    'weightUnit' => \Magento\Framework\Measure\Weight::KILOGRAM,
                     'width' => '20',
                     'height' => '20',
                     'length' => '30',
-                    'sizeUnit' => \Zend_Measure_Length::CENTIMETER,
+                    'sizeUnit' => \Magento\Framework\Measure\Length::CENTIMETER,
                 ]
             ]
         ];
@@ -138,11 +138,11 @@ class PostDataProvider
                 'productCode' => 'V01PAK',
                 'packagingWeight' => $packagingWeight,
                 'weight' => $orderItem->getWeight() * $orderItem->getQtyOrdered() + (float)$packagingWeight,
-                'weightUnit' => \Zend_Measure_Weight::KILOGRAM,
+                'weightUnit' => \Magento\Framework\Measure\Weight::KILOGRAM,
                 'width' => '20',
                 'height' => '20',
                 'length' => '30',
-                'sizeUnit' => \Zend_Measure_Length::CENTIMETER,
+                'sizeUnit' => \Magento\Framework\Measure\Length::CENTIMETER,
             ];
 
             $packages[] = [
@@ -187,11 +187,11 @@ class PostDataProvider
                 'productCode' => 'V01PAK',
                 'packagingWeight' => $packagingWeight,
                 'weight' => $orderItem->getWeight() * $orderItem->getQtyOrdered() + (float)$packagingWeight,
-                'weightUnit' => \Zend_Measure_Weight::KILOGRAM,
+                'weightUnit' => \Magento\Framework\Measure\Weight::KILOGRAM,
                 'width' => '20',
                 'height' => '20',
                 'length' => '30',
-                'sizeUnit' => \Zend_Measure_Length::CENTIMETER,
+                'sizeUnit' => \Magento\Framework\Measure\Length::CENTIMETER,
             ];
 
             $services = [

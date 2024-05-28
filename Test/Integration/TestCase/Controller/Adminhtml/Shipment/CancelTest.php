@@ -13,7 +13,7 @@ use Dhl\Paket\Model\Pipeline\DeleteShipments\Stage\SendRequestStage;
 use Dhl\Paket\Model\Webservice\ShipmentService;
 use Dhl\Paket\Test\Integration\TestDouble\Pipeline\DeleteShipments\Stage\SendRequestStageStub;
 use Dhl\Paket\Test\Integration\TestDouble\ShipmentServiceStub;
-use Dhl\Sdk\Paket\Bcs\Exception\ServiceException;
+use Dhl\Sdk\ParcelDe\Shipping\Exception\ServiceException;
 use Magento\Sales\Api\Data\OrderInterface;
 use Magento\Sales\Api\Data\ShipmentInterface;
 use Magento\Sales\Api\Data\TrackInterface;

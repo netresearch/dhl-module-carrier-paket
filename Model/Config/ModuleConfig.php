@@ -16,9 +16,6 @@ class ModuleConfig implements VersionInterface
 {
     // phpcs:disable Generic.Files.LineLength.TooLong
 
-    public const SHIPPING_API_REST = 'REST';
-    public const SHIPPING_API_SOAP = 'SOAP';
-
     // Defaults
     public const CONFIG_PATH_VERSION = 'carriers/dhlpaket/version';
 
@@ -29,7 +26,6 @@ class ModuleConfig implements VersionInterface
 
     // 200_dhl_paket_account.xml
     public const CONFIG_PATH_SANDBOX_MODE = 'dhlshippingsolutions/dhlpaket/account_settings/sandboxmode';
-    public const CONFIG_PATH_API_TYPE = 'dhlshippingsolutions/dhlpaket/account_settings/api_type';
 
     // production settings
     public const CONFIG_PATH_USER = 'dhlshippingsolutions/dhlpaket/account_settings/production_group/auth_username';
@@ -154,19 +150,6 @@ class ModuleConfig implements VersionInterface
             ScopeInterface::SCOPE_STORE,
             $store
         );
-    }
-
-    /**
-     * Get the configured shipping API.
-     *
-     * @see self::SHIPPING_API_REST
-     * @see self::SHIPPING_API_SOAP
-     *
-     * @return string
-     */
-    public function getShippingApiType(): string
-    {
-        return (string) $this->scopeConfig->getValue(self::CONFIG_PATH_API_TYPE);
     }
 
     /**

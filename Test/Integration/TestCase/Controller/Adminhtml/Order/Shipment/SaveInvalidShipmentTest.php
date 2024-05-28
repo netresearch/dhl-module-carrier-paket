@@ -13,7 +13,7 @@ use Dhl\Paket\Model\Pipeline\CreateShipments\Stage\SendRequestStage as CreationS
 use Dhl\Paket\Model\Pipeline\DeleteShipments\Stage\SendRequestStage as CancellationStage;
 use Dhl\Paket\Test\Integration\TestDouble\Pipeline\CreateShipments\Stage\SendRequestStageStub as CreationStageStub;
 use Dhl\Paket\Test\Integration\TestDouble\Pipeline\DeleteShipments\Stage\SendRequestStageStub as CancellationStageStub;
-use Dhl\Sdk\Paket\Bcs\Exception\ServiceException;
+use Dhl\Sdk\ParcelDe\Shipping\Exception\ServiceException;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Sales\Model\ResourceModel\Order\Shipment\Collection;
 use Netresearch\ShippingCore\Api\LabelStatus\LabelStatusManagementInterface;

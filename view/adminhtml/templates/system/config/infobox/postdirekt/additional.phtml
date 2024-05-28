@@ -7,17 +7,17 @@
 $viewModel = $block->getData('view_model');
 ?>
 <div class="section">
-    <h3><?= $block->escapeHtml(__('Post & DHL Shipping')) ?></h3>
+    <h3><?= $escaper->escapeHtml(__('Post & DHL Shipping')) ?></h3>
     <p>
-        <?= $block->escapeHtml(__('Create shipping labels & tracking information for your orders directly in the Magento admin panel.')) ?>
-        <?= $block->escapeHtml(
-                __(
-                    '%1DHL Parcel Germany%2 is an ideal complement to the AUTOCOMPLETE and ADDRESSFACTORY services of Deutsche Post Direkt.',
-                    '<a href="' . $block->escapeUrl($viewModel->getConfigGroupLink()) . '">',
-                    '</a>'
-                ),
-                ['a']
-            )
-        ?>
+        <?= $escaper->escapeHtml(__('Create shipping labels & tracking information for your orders directly in the Magento admin panel.')) ?>
+        <?= $escaper->escapeHtml(
+            __(
+                '%1DHL Parcel Germany%2 is an ideal complement to the AUTOCOMPLETE and ADDRESSFACTORY services of Deutsche Post Direkt.',
+                '<a href="' . $escaper->escapeUrl($viewModel->getConfigGroupLink()) . '">',
+                '</a>'
+            ),
+            ['a']
+        )
+?>
     </p>
 </div>

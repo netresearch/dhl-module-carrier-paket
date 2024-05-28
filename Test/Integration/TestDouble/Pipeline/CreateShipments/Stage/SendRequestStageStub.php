@@ -10,8 +10,8 @@ namespace Dhl\Paket\Test\Integration\TestDouble\Pipeline\CreateShipments\Stage;
 
 use Dhl\Paket\Model\Pipeline\CreateShipments\ArtifactsContainer;
 use Dhl\Paket\Model\Pipeline\CreateShipments\Stage\SendRequestStage;
-use Dhl\Sdk\Paket\Bcs\Api\Data\ShipmentInterface;
-use Dhl\Sdk\Paket\Bcs\Service\ShipmentService\Shipment;
+use Dhl\Sdk\ParcelDe\Shipping\Api\Data\ShipmentInterface;
+use Dhl\Sdk\ParcelDe\Shipping\Service\ShipmentService\Shipment;
 use Magento\Shipping\Model\Shipment\Request;
 use Netresearch\ShippingCore\Api\Data\Pipeline\ArtifactsContainerInterface;
 
@@ -86,13 +86,13 @@ B64;
 
         foreach ($requests as $shipmentRequest) {
             foreach ($shipmentRequest->getData('packages') as $package) {
-                if (isset($package['sequence_number'])) {
+                if (isset($package['request_index'])) {
                     $orderId = $shipmentRequest->getOrderShipment()->getOrderId();
-                    $sequenceNumber = (string) $package['sequence_number'];
+                    $requestsIndex = $package['request_index'];
 
-                    $this->apiResponses[$sequenceNumber] = new Shipment(
-                        $sequenceNumber,
-                        "{$orderId}-{$sequenceNumber}",
+                    $this->apiResponses[$requestsIndex] = new Shipment(
+                        $requestsIndex,
+                        "{$orderId}-{$requestsIndex}",
                         '',
                         $pdf,
                         '',

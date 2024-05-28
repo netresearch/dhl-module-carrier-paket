@@ -12,11 +12,6 @@ use Magento\Shipping\Model\Rate\Result;
 use Magento\TestFramework\Helper\Bootstrap;
 use PHPUnit\Framework\TestCase;
 
-/**
- * Class RatesTest
- *
- * @link      http://www.netresearch.de/
- */
 class RatesTest extends TestCase
 {
     /**

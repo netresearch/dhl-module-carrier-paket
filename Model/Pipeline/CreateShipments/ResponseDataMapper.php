@@ -8,7 +8,7 @@ declare(strict_types=1);
 
 namespace Dhl\Paket\Model\Pipeline\CreateShipments;
 
-use Dhl\Sdk\Paket\Bcs\Api\Data\ShipmentInterface;
+use Dhl\Sdk\ParcelDe\Shipping\Api\Data\ShipmentInterface;
 use Magento\Framework\Exception\RuntimeException;
 use Magento\Framework\Phrase;
 use Netresearch\ShippingCore\Api\Data\Pipeline\ShipmentResponse\LabelResponseInterface;
@@ -160,7 +160,7 @@ class ResponseDataMapper
         }
 
         $responseData = [
-            ShipmentResponseInterface::REQUEST_INDEX => $shipment->getSequenceNumber(),
+            ShipmentResponseInterface::REQUEST_INDEX => $shipment->getRequestIndex(),
             ShipmentResponseInterface::SALES_SHIPMENT => $salesShipment,
             LabelResponseInterface::TRACKING_NUMBER => $shipment->getShipmentNumber(),
             LabelResponseInterface::SHIPPING_LABEL_CONTENT => $shippingLabelContent,
@@ -173,13 +173,13 @@ class ResponseDataMapper
     /**
      * Map error message into response object as required by the shipping module.
      *
-     * @param string $requestIndex
+     * @param int $requestIndex
      * @param Phrase $message
      * @param \Magento\Sales\Api\Data\ShipmentInterface $salesShipment
      * @return ShipmentErrorResponseInterface
      */
     public function createErrorResponse(
-        string $requestIndex,
+        int $requestIndex,
         Phrase $message,
         \Magento\Sales\Api\Data\ShipmentInterface $salesShipment
     ): ShipmentErrorResponseInterface {

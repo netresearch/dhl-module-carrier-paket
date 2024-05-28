@@ -14,7 +14,7 @@ use Netresearch\ShippingCore\Api\Config\ItemValidatorInterface;
 use Netresearch\ShippingCore\Api\Data\Config\ItemValidator\ResultInterface;
 use Netresearch\ShippingCore\Api\Data\Config\ItemValidator\ResultInterfaceFactory;
 
-class BcsApiCredentialsValidator implements ItemValidatorInterface
+class ParcelDeApiCredentialsValidator implements ItemValidatorInterface
 {
     use DhlSection;
     use DhlPaketGroup;

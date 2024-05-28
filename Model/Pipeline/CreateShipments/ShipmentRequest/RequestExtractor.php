@@ -128,15 +128,6 @@ class RequestExtractor implements RequestExtractorInterface
         $this->shippingProducts = $shippingProducts;
     }
 
-    private function getCountryCodeConverter()
-    {
-        if ($this->moduleConfig->getShippingApiType() === ModuleConfig::SHIPPING_API_SOAP) {
-            return $this->alpha2Converter;
-        } else {
-            return $this->alpha3Converter;
-        }
-    }
-
     /**
      * Obtain core extractor for forwarding generic shipment data calls.
      *
@@ -148,7 +139,7 @@ class RequestExtractor implements RequestExtractorInterface
             $this->coreExtractor = $this->requestExtractorFactory->create(
                 [
                     'shipmentRequest' => $this->shipmentRequest,
-                    'countryCodeConverter' => $this->getCountryCodeConverter(),
+                    'countryCodeConverter' => $this->alpha3Converter
                 ]
             );
         }
@@ -224,7 +215,7 @@ class RequestExtractor implements RequestExtractorInterface
                     'city' => $returnAddress['city'],
                     'state' => '',
                     'postalCode' => $returnAddress['postcode'],
-                    'countryCode' => $this->getCountryCodeConverter()->convert($returnAddress['country_id']),
+                    'countryCode' => $this->alpha3Converter->convert($returnAddress['country_id']),
                     'streetName' => $returnAddress['street_name'],
                     'streetNumber' => $returnAddress['street_number'],
                     'addressAddition' => '',
@@ -385,9 +376,7 @@ class RequestExtractor implements RequestExtractorInterface
     public function getAccountReference(): string
     {
         $storeId = $this->getStoreId();
-        if ($this->moduleConfig->isSandboxMode($storeId)
-            && ($this->moduleConfig->getShippingApiType() === ModuleConfig::SHIPPING_API_REST)
-        ) {
+        if ($this->moduleConfig->isSandboxMode($storeId)) {
             return 'Sandbox3';
         }
 
@@ -416,9 +405,6 @@ class RequestExtractor implements RequestExtractorInterface
 
             $participations = $this->moduleConfig->getParticipations($storeId);
             $participation = $participations[$procedure] ?? '';
-        } elseif ($this->moduleConfig->getShippingApiType() === ModuleConfig::SHIPPING_API_SOAP) {
-            $ekp = '2222222222';
-            $participation = ($productCode === ShippingProducts::CODE_NATIONAL) ? '04' : '01';
         } else {
             $ekp = '3333333333';
             $participation = ($productCode === ShippingProducts::CODE_NATIONAL) ? '02' : '01';
@@ -451,8 +437,6 @@ class RequestExtractor implements RequestExtractorInterface
             $participation = $participations[$procedure] ?? '';
 
             $billingNumber = $ekp . $procedure . $participation;
-        } elseif ($this->moduleConfig->getShippingApiType() === ModuleConfig::SHIPPING_API_SOAP) {
-            $billingNumber = "2222222222{$procedure}01";
         } else {
             $billingNumber = "3333333333{$procedure}01";
         }

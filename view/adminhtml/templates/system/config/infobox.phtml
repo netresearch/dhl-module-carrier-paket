@@ -6,15 +6,15 @@
 ?>
 <div class="col content">
     <p>
-        <?= $block->escapeHtml(__('DHL Paket provides parcel shipping across Germany and to more than 220 countries. ')) ?>
+        <?= $escaper->escapeHtml(__('DHL Paket provides parcel shipping across Germany and to more than 220 countries. ')) ?>
     </p>
     <p>
-        <?= $block->escapeHtml(__('Furthermore, the DHL Paket module allows to request shipping labels for incoming orders directly within your Magento suite.')) ?>
+        <?= $escaper->escapeHtml(__('Furthermore, the DHL Paket module allows to request shipping labels for incoming orders directly within your Magento suite.')) ?>
     </p>
-    <p><?= $block->escapeHtml(__('To get started:')) ?></p>
+    <p><?= $escaper->escapeHtml(__('To get started:')) ?></p>
     <ol>
         <li>
-            <?= $block->escapeHtml(__('You need to have a valid DHL Paket business account number (EKP)')) ?>
+            <?= $escaper->escapeHtml(__('You need to have a valid DHL Paket business account number (EKP)')) ?>
             <br/>
             <em>
                 <small>
@@ -22,15 +22,15 @@
                     <?= /* @noEscape */
                         __(
                             'If you do not have an account or your account is with another DHL division, %1please contact DHL Parcel Germany%2 to establish or expand your relationship.',
-                            '<a href="' . $block->escapeUrl($contactUrl) . '" target="_blank" rel="noreferrer">',
+                            '<a href="' . $escaper->escapeUrl($contactUrl) . '" target="_blank" rel="noreferrer">',
                             '</a>'
                         );
-                     ?>
+                        ?>
                 </small>
             </em>
         </li>
         <li>
-            <?= $block->escapeHtml(__('In addition to your account number you need your 2-digit Procedure and Participation number')) ?>
+            <?= $escaper->escapeHtml(__('In addition to your account number you need your 2-digit Procedure and Participation number')) ?>
 
         </li>
     </ol>
@@ -38,11 +38,11 @@
 <div class="col side">
     <aside>
         <div class="section">
-            <h3><?= $block->escapeHtml(__('Post & DHL and Magento')) ?></h3>
+            <h3><?= $escaper->escapeHtml(__('Post & DHL and Magento')) ?></h3>
             <p>
-                <?= $block->escapeHtml(__('Having issues configuring the extension? Contact our support desk:')) ?>
-                <a href="mailto:<?= $block->escapeHtml(__('dhl.support@netresearch.de'))?>">
-                    <?= $block->escapeHtml(__('dhl.support@netresearch.de'))?>
+                <?= $escaper->escapeHtml(__('Having issues configuring the extension? Contact our support desk:')) ?>
+                <a href="mailto:<?= $escaper->escapeHtml(__('dhl.support@netresearch.de'))?>">
+                    <?= $escaper->escapeHtml(__('dhl.support@netresearch.de'))?>
                 </a>
             </p>
         </div>

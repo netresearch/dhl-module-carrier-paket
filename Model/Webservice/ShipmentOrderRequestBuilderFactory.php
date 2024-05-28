@@ -8,31 +8,17 @@ declare(strict_types=1);
 
 namespace Dhl\Paket\Model\Webservice;
 
-use Dhl\Paket\Model\Config\ModuleConfig;
-use Dhl\Sdk\Paket\Bcs\Api\ShipmentOrderRequestBuilderInterface;
-use Dhl\Sdk\Paket\Bcs\RequestBuilder\ShipmentOrderRequestBuilder;
+use Dhl\Sdk\ParcelDe\Shipping\Api\ShipmentOrderRequestBuilderInterface;
+use Dhl\Sdk\ParcelDe\Shipping\RequestBuilder\ShipmentOrderRequestBuilder;
 
 /**
- * Creates a request builder for the configured shipping API (REST or SOAP)
+ * Creates a request builder for the configured shipping API (REST)
  */
 class ShipmentOrderRequestBuilderFactory
 {
-    /**
-     * @var ModuleConfig
-     */
-    private $config;
-
-    public function __construct(ModuleConfig $config)
-    {
-        $this->config = $config;
-    }
 
     public function create(int $storeId): ShipmentOrderRequestBuilderInterface
     {
-        if ($this->config->getShippingApiType() === ModuleConfig::SHIPPING_API_SOAP) {
-            return new ShipmentOrderRequestBuilder(ShipmentOrderRequestBuilderInterface::REQUEST_TYPE_SOAP);
-        } else {
-            return new ShipmentOrderRequestBuilder(ShipmentOrderRequestBuilderInterface::REQUEST_TYPE_REST);
-        }
+        return new ShipmentOrderRequestBuilder();
     }
 }

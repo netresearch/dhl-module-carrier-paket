@@ -33,7 +33,7 @@ class ValidateStage implements CreateShipmentsStageInterface
      * Invalid requests are removed from shipment requests and instantly added as label failures.
      *
      * @param Request[] $requests
-     * @param ArtifactsContainerInterface|ArtifactsContainer $artifactsContainer
+     * @param ArtifactsContainerInterface $artifactsContainer
      * @return Request[]
      */
     public function execute(array $requests, ArtifactsContainerInterface $artifactsContainer): array
@@ -44,7 +44,7 @@ class ValidateStage implements CreateShipmentsStageInterface
                 return true;
             } catch (ValidatorException $exception) {
                 $artifactsContainer->addError(
-                    (string) $requestIndex,
+                    $requestIndex,
                     $request->getOrderShipment(),
                     $exception->getMessage()
                 );

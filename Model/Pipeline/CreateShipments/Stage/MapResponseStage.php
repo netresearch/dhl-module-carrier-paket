@@ -30,7 +30,7 @@ class MapResponseStage implements CreateShipmentsStageInterface
     /**
      * Transform collected results into response objects suitable for processing by the core.
      *
-     * The `sequence_number` property is set to the shipment request packages during request mapping.
+     * The `request_index` property is set to the shipment request packages during request mapping.
      *
      * @param Request[] $requests
      * @param ArtifactsContainerInterface|ArtifactsContainer $artifactsContainer
@@ -44,11 +44,11 @@ class MapResponseStage implements CreateShipmentsStageInterface
         foreach ($stageErrors as $requestIndex => $details) {
             // no response received from webservice for particular shipment request
             $response = $this->responseDataMapper->createErrorResponse(
-                (string) $requestIndex,
+                $requestIndex,
                 __('Label could not be created: %1', $details['message']),
                 $details['shipment']
             );
-            $artifactsContainer->addErrorResponse((string) $requestIndex, $response);
+            $artifactsContainer->addErrorResponse($requestIndex, $response);
         }
 
         foreach ($requests as $requestIndex => $shipmentRequest) {
@@ -69,24 +69,24 @@ class MapResponseStage implements CreateShipmentsStageInterface
                 }
 
                 // for DHL Paket requests, this is just a consecutive number
-                $sequenceNumber = (string) $package['sequence_number'];
-                if (isset($apiResponses[$sequenceNumber])) {
+                $requestIndex = $package['request_index'];
+                if (isset($apiResponses[$requestIndex])) {
                     // positive response received from webservice
                     $response = $this->responseDataMapper->createShipmentResponse(
-                        $apiResponses[$sequenceNumber],
+                        $apiResponses[$requestIndex],
                         $shipmentRequest->getOrderShipment()
                     );
 
-                    $artifactsContainer->addLabelResponse($sequenceNumber, $response);
+                    $artifactsContainer->addLabelResponse($requestIndex, $response);
                 } else {
                     // negative response received from webservice, details available in api log
                     $response = $this->responseDataMapper->createErrorResponse(
-                        (string) $requestIndex,
+                        $requestIndex,
                         __('Label for order %1, package %2 could not be created.', $orderIncrementId, $packageId),
                         $shipmentRequest->getOrderShipment()
                     );
 
-                    $artifactsContainer->addErrorResponse((string) $requestIndex, $response);
+                    $artifactsContainer->addErrorResponse($requestIndex, $response);
                 }
             }
         }

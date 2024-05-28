@@ -14,7 +14,7 @@ use Dhl\Paket\Model\Webservice\ShipmentService;
 use Dhl\Paket\Model\Webservice\ShipmentServiceFactory;
 use Dhl\Paket\Test\Integration\TestDouble\Pipeline\CreateShipments\Stage\SendRequestStageStub;
 use Dhl\Paket\Test\Integration\TestDouble\ShipmentServiceStub;
-use Dhl\Sdk\Paket\Bcs\Exception\DetailedServiceException;
+use Dhl\Sdk\ParcelDe\Shipping\Exception\DetailedServiceException;
 use Magento\Sales\Api\Data\OrderInterface;
 use Magento\Sales\Api\Data\OrderStatusHistoryInterface;
 use Magento\Sales\Model\Order;

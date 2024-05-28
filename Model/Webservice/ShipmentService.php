@@ -9,12 +9,11 @@ declare(strict_types=1);
 namespace Dhl\Paket\Model\Webservice;
 
 use Dhl\Paket\Model\Config\ModuleConfig;
-use Dhl\Sdk\Paket\Bcs\Api\Data\OrderConfigurationInterface;
-use Dhl\Sdk\Paket\Bcs\Api\ServiceFactoryInterface;
-use Dhl\Sdk\Paket\Bcs\Api\ShipmentServiceInterface;
-use Dhl\Sdk\Paket\Bcs\Auth\AuthenticationStorage;
-use Dhl\Sdk\Paket\Bcs\Exception\ServiceException;
-use Dhl\Sdk\Paket\Bcs\Service\ServiceFactory;
+use Dhl\Sdk\ParcelDe\Shipping\Api\Data\OrderConfigurationInterface;
+use Dhl\Sdk\ParcelDe\Shipping\Api\ShipmentServiceInterface;
+use Dhl\Sdk\ParcelDe\Shipping\Auth\AuthenticationStorage;
+use Dhl\Sdk\ParcelDe\Shipping\Exception\ServiceException;
+use Dhl\Sdk\ParcelDe\Shipping\Service\ServiceFactory;
 use Psr\Log\LoggerInterface;
 
 class ShipmentService implements ShipmentServiceInterface
@@ -50,33 +49,6 @@ class ShipmentService implements ShipmentServiceInterface
     }
 
     /**
-     * Create service instance to connect to the DHL SOAP API.
-     *
-     * @throws ServiceException
-     */
-    private function createSoapService(): ShipmentServiceInterface
-    {
-        $sandboxMode = $this->moduleConfig->isSandboxMode($this->storeId);
-
-        if ($sandboxMode) {
-            $appId = 'magento_1';
-            $appToken = '2de26b775e59279464d1c2f8546432e62413372421c672db36eaacfc2f';
-            $user = '2222222222_01';
-            $pass = 'pass';
-        } else {
-            $appId = 'M2_SHIPPING_1';
-            $appToken = 'pMnRHKfNMw9O3qKMLAUhFT4cBbwotp';
-            $user = $this->moduleConfig->getUser($this->storeId);
-            $pass = $this->moduleConfig->getSignature($this->storeId);
-        }
-
-        $authStorage = new AuthenticationStorage($appId, $appToken, $user, $pass);
-        $serviceFactory = new ServiceFactory(ServiceFactoryInterface::API_TYPE_SOAP);
-
-        return $serviceFactory->createShipmentService($authStorage, $this->logger, $sandboxMode);
-    }
-
-    /**
      * Create service instance to connect to the DHL REST API.
      *
      * @throws ServiceException
@@ -84,7 +56,6 @@ class ShipmentService implements ShipmentServiceInterface
     private function createRestService(): ShipmentServiceInterface
     {
         $sandboxMode = $this->moduleConfig->isSandboxMode($this->storeId);
-        $appId = '';
         $appToken = 'pJDOxtJt03guK5eXKYcZt9Ez1bPi2Xvm';
 
         if ($sandboxMode) {
@@ -95,9 +66,8 @@ class ShipmentService implements ShipmentServiceInterface
             $pass = $this->moduleConfig->getSignature($this->storeId);
         }
 
-        $authStorage = new AuthenticationStorage($appId, $appToken, $user, $pass);
+        $authStorage = new AuthenticationStorage($appToken, $user, $pass);
         $serviceFactory = new ServiceFactory(
-            ServiceFactoryInterface::API_TYPE_REST,
             "dhl-module-carrier-paket/{$this->moduleConfig->getModuleVersion()}"
         );
 
@@ -113,11 +83,7 @@ class ShipmentService implements ShipmentServiceInterface
     private function getService(): ShipmentServiceInterface
     {
         if ($this->shipmentService === null) {
-            if ($this->moduleConfig->getShippingApiType() === ModuleConfig::SHIPPING_API_SOAP) {
-                $this->shipmentService = $this->createSoapService();
-            } else {
-                $this->shipmentService = $this->createRestService();
-            }
+             $this->shipmentService = $this->createRestService();
         }
 
         return $this->shipmentService;

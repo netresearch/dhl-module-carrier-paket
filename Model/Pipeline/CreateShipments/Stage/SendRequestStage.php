@@ -10,9 +10,9 @@ namespace Dhl\Paket\Model\Pipeline\CreateShipments\Stage;
 
 use Dhl\Paket\Model\Pipeline\CreateShipments\ArtifactsContainer;
 use Dhl\Paket\Model\Webservice\ShipmentServiceFactory;
-use Dhl\Sdk\Paket\Bcs\Api\Data\OrderConfigurationInterfaceFactory;
-use Dhl\Sdk\Paket\Bcs\Exception\DetailedServiceException;
-use Dhl\Sdk\Paket\Bcs\Exception\ServiceException;
+use Dhl\Sdk\ParcelDe\Shipping\Api\Data\OrderConfigurationInterfaceFactory;
+use Dhl\Sdk\ParcelDe\Shipping\Exception\DetailedServiceException;
+use Dhl\Sdk\ParcelDe\Shipping\Exception\ServiceException;
 use Magento\Shipping\Model\Shipment\Request;
 use Netresearch\ShippingCore\Api\Data\Pipeline\ArtifactsContainerInterface;
 use Netresearch\ShippingCore\Api\Pipeline\CreateShipmentsStageInterface;
@@ -55,13 +55,13 @@ class SendRequestStage implements CreateShipmentsStageInterface
                 $shipments = $shipmentService->createShipments($apiRequests, $orderConfig);
                 // add request id as response index
                 foreach ($shipments as $shipment) {
-                    $artifactsContainer->addApiResponse($shipment->getSequenceNumber(), $shipment);
+                    $artifactsContainer->addApiResponse($shipment->getRequestIndex(), $shipment);
                 }
             } catch (DetailedServiceException $exception) {
                 // mark all requests as failed
                 foreach ($requests as $requestIndex => $shipmentRequest) {
                     $artifactsContainer->addError(
-                        (string) $requestIndex,
+                        $requestIndex,
                         $shipmentRequest->getOrderShipment(),
                         $exception->getMessage()
                     );
@@ -72,22 +72,13 @@ class SendRequestStage implements CreateShipmentsStageInterface
             } catch (ServiceException $exception) {
                 // mark all requests as failed
                 foreach ($requests as $requestIndex => $shipmentRequest) {
-                    if ($exception->getPrevious() instanceof \SoapFault
-                        && $exception->getPrevious()->faultcode === 'HTTP') {
-                        $msg = 'No response received from web service. If a label was created'
-                            . ' in the DHL Business Customer Portal, please cancel it and try again.';
-                    } else {
-                        $msg = 'Web service request failed.';
-                    }
-
-                    $artifactsContainer->addError((string) $requestIndex, $shipmentRequest->getOrderShipment(), $msg);
+                    $msg = 'Web service request failed.';
+                    $artifactsContainer->addError($requestIndex, $shipmentRequest->getOrderShipment(), $msg);
                 }
-
                 // no requests passed the stage
                 return [];
             }
         }
-
         return $requests;
     }
 }

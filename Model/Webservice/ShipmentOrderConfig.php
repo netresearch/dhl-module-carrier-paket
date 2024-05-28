@@ -9,7 +9,7 @@ declare(strict_types=1);
 namespace Dhl\Paket\Model\Webservice;
 
 use Dhl\Paket\Model\Config\ModuleConfig;
-use Dhl\Sdk\Paket\Bcs\Api\Data\OrderConfigurationInterface;
+use Dhl\Sdk\ParcelDe\Shipping\Api\Data\OrderConfigurationInterface;
 
 class ShipmentOrderConfig implements OrderConfigurationInterface
 {

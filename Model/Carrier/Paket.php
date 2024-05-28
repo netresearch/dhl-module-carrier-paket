@@ -266,7 +266,7 @@ class Paket extends AbstractCarrierOnline implements CarrierInterface
      *
      * In case one request succeeded and another request failed, Magento will
      * discard the successfully created label. That means, labels created through
-     * BCS API must be cancelled.
+     * Parcel DE API must be cancelled.
      *
      * @param string[][] $data Arrays of info data with tracking_number and label_content
      * @return bool

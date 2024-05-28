@@ -8,11 +8,11 @@ namespace Dhl\Paket\Test\Integration\TestDouble;
 
 use Dhl\Paket\Test\Integration\TestDouble\Pipeline\CreateShipments\Stage\SendRequestStageStub as CreationStage;
 use Dhl\Paket\Test\Integration\TestDouble\Pipeline\DeleteShipments\Stage\SendRequestStageStub as CancellationStage;
-use Dhl\Sdk\Paket\Bcs\Api\Data\OrderConfigurationInterface;
-use Dhl\Sdk\Paket\Bcs\Api\Data\ShipmentInterface;
-use Dhl\Sdk\Paket\Bcs\Api\Data\ValidationResultInterface;
-use Dhl\Sdk\Paket\Bcs\Api\ShipmentServiceInterface;
-use Dhl\Sdk\Paket\Bcs\Exception\ServiceException;
+use Dhl\Sdk\ParcelDe\Shipping\Api\Data\OrderConfigurationInterface;
+use Dhl\Sdk\ParcelDe\Shipping\Api\Data\ShipmentInterface;
+use Dhl\Sdk\ParcelDe\Shipping\Api\Data\ValidationResultInterface;
+use Dhl\Sdk\ParcelDe\Shipping\Api\ShipmentServiceInterface;
+use Dhl\Sdk\ParcelDe\Shipping\Exception\ServiceException;
 
 /**
  * Return responses on webservice calls which can be predefined via artifacts containers.

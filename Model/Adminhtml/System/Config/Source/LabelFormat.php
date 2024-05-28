@@ -8,7 +8,7 @@ declare(strict_types=1);
 
 namespace Dhl\Paket\Model\Adminhtml\System\Config\Source;
 
-use Dhl\Sdk\Paket\Bcs\Api\Data\OrderConfigurationInterface;
+use Dhl\Sdk\ParcelDe\Shipping\Api\Data\OrderConfigurationInterface;
 use Magento\Framework\Data\OptionSourceInterface;
 
 class LabelFormat implements OptionSourceInterface

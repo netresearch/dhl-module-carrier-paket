@@ -12,18 +12,18 @@ use Dhl\Paket\Model\Config\ModuleConfig;
 use Dhl\Paket\Model\Util\ShippingProducts;
 use Dhl\Paket\Model\Webservice\ShipmentOrderRequestBuilderFactory;
 use Dhl\Paket\Model\Webservice\ShipmentServiceFactory;
-use Dhl\Sdk\Paket\Bcs\Api\Data\OrderConfigurationInterfaceFactory;
-use Dhl\Sdk\Paket\Bcs\Api\ShipmentOrderRequestBuilderInterface;
-use Dhl\Sdk\Paket\Bcs\Exception\RequestValidatorException;
-use Dhl\Sdk\Paket\Bcs\Exception\ServiceException;
-use Dhl\Sdk\Paket\Bcs\RequestBuilder\ShipmentOrderRequestBuilder;
+use Dhl\Sdk\ParcelDe\Shipping\Api\Data\OrderConfigurationInterfaceFactory;
+use Dhl\Sdk\ParcelDe\Shipping\Api\ShipmentOrderRequestBuilderInterface;
+use Dhl\Sdk\ParcelDe\Shipping\Exception\RequestValidatorException;
+use Dhl\Sdk\ParcelDe\Shipping\Exception\ServiceException;
+use Dhl\Sdk\ParcelDe\Shipping\RequestBuilder\ShipmentOrderRequestBuilder;
 use Dhl\ShippingCore\Model\Config\ItemValidator\DhlSection;
 use Magento\Framework\Phrase;
 use Netresearch\ShippingCore\Api\Config\ItemValidatorInterface;
 use Netresearch\ShippingCore\Api\Data\Config\ItemValidator\ResultInterface;
 use Netresearch\ShippingCore\Api\Data\Config\ItemValidator\ResultInterfaceFactory;
 
-class BcsApiValidator implements ItemValidatorInterface
+class ParcelDeApiValidator implements ItemValidatorInterface
 {
     use DhlSection;
     use DhlPaketGroup;
@@ -102,14 +102,8 @@ class BcsApiValidator implements ItemValidatorInterface
         $productCode = 'V01PAK'; // DHL Paket National
         $procedure = $this->shippingProducts->getProcedure($productCode);
         $tsShip = time() + 60 * 60 * 24; // tomorrow
-
-        if ($this->config->getShippingApiType() === ModuleConfig::SHIPPING_API_SOAP) {
-            $billingNumber = "2222222222{$procedure}04";
-            $countryCode = 'DE';
-        } else {
-            $billingNumber = "3333333333{$procedure}02";
-            $countryCode = 'DEU';
-        }
+        $billingNumber = "3333333333{$procedure}02";
+        $countryCode = 'DEU';
 
         if (!$this->config->isSandboxMode($storeId)) {
             $ekp = $this->config->getEkp($storeId);

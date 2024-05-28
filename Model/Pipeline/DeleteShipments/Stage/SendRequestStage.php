@@ -10,7 +10,7 @@ namespace Dhl\Paket\Model\Pipeline\DeleteShipments\Stage;
 
 use Dhl\Paket\Model\Pipeline\DeleteShipments\ArtifactsContainer;
 use Dhl\Paket\Model\Webservice\ShipmentServiceFactory;
-use Dhl\Sdk\Paket\Bcs\Exception\ServiceException;
+use Dhl\Sdk\ParcelDe\Shipping\Exception\ServiceException;
 use Netresearch\ShippingCore\Api\Data\Pipeline\ArtifactsContainerInterface;
 use Netresearch\ShippingCore\Api\Data\Pipeline\TrackRequest\TrackRequestInterface;
 use Netresearch\ShippingCore\Api\Pipeline\RequestTracksStageInterface;
