@@ -289,12 +289,12 @@ class RequestDataMapper
                     );
                 } else {
                     $requestBuilder->setPostfiliale(
-                        $requestExtractor->getRecipient()->getContactEmail(),
                         $requestExtractor->getRecipient()->getContactPersonName(),
                         $requestExtractor->getDeliveryLocationNumber(),
                         $requestExtractor->getDeliveryLocationCountryCode(),
                         $requestExtractor->getDeliveryLocationPostalCode(),
                         $requestExtractor->getDeliveryLocationCity(),
+                        $requestExtractor->getRecipient()->getContactEmail(),
                         $requestExtractor->getCustomerAccountNumber()
                     );
                 }
