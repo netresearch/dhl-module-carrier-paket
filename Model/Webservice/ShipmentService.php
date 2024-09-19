@@ -59,8 +59,8 @@ class ShipmentService implements ShipmentServiceInterface
         $appToken = 'pJDOxtJt03guK5eXKYcZt9Ez1bPi2Xvm';
 
         if ($sandboxMode) {
-            $user = '3333333333_01';
-            $pass = 'pass';
+            $user = $this->moduleConfig->getSandboxUser($this->storeId);
+            $pass = $this->moduleConfig->getSandboxSignature($this->storeId);
         } else {
             $user = $this->moduleConfig->getUser($this->storeId);
             $pass = $this->moduleConfig->getSignature($this->storeId);

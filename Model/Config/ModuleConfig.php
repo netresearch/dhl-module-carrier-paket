@@ -27,6 +27,10 @@ class ModuleConfig implements VersionInterface
     // 200_dhl_paket_account.xml
     public const CONFIG_PATH_SANDBOX_MODE = 'dhlshippingsolutions/dhlpaket/account_settings/sandboxmode';
 
+    // sandbox settings
+    public const CONFIG_PATH_SANDBOX_USER = 'dhlshippingsolutions/dhlpaket/account_settings/sandbox_dpdhl_group/auth_username';
+    public const CONFIG_PATH_SANDBOX_PASSWORD = 'dhlshippingsolutions/dhlpaket/account_settings/sandbox_dpdhl_group/auth_password';
+
     // production settings
     public const CONFIG_PATH_USER = 'dhlshippingsolutions/dhlpaket/account_settings/production_group/auth_username';
     public const CONFIG_PATH_PASS = 'dhlshippingsolutions/dhlpaket/account_settings/production_group/auth_password';
@@ -153,6 +157,36 @@ class ModuleConfig implements VersionInterface
     }
 
     /**
+     * Get the sandbox user's name (API user credentials).
+     *
+     * @param mixed $store
+     * @return string
+     */
+    public function getSandboxUser($store = null): string
+    {
+        return (string) $this->scopeConfig->getValue(
+            self::CONFIG_PATH_SANDBOX_USER,
+            ScopeInterface::SCOPE_STORE,
+            $store
+        );
+    }
+
+    /**
+     * Get the sandbox user's password (API user credentials).
+     *
+     * @param mixed $store
+     * @return string
+     */
+    public function getSandboxSignature($store = null): string
+    {
+        return (string) $this->scopeConfig->getValue(
+            self::CONFIG_PATH_SANDBOX_PASSWORD,
+            ScopeInterface::SCOPE_STORE,
+            $store
+        );
+    }
+
+    /**
      * Get the user's name (API user credentials).
      *
      * @param mixed $store
@@ -181,6 +215,7 @@ class ModuleConfig implements VersionInterface
             $store
         );
     }
+
 
     /**
      * Get the user's EKP (standardized customer and product number).

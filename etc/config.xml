@@ -82,9 +82,9 @@
                     </sandbox_unified_group>
 
                     <sandbox_dpdhl_group>
-                        <auth_username>2222222222_01</auth_username>
-                        <auth_password>pass</auth_password>
-                        <account_number>2222222222</account_number>
+                        <auth_username>user-valid</auth_username>
+                        <auth_password>SandboxPasswort2023!</auth_password>
+                        <account_number>3333333333</account_number>
                         <participations backend_model="Netresearch\ShippingCore\Model\Config\Backend\ArraySerialized">
                             <![CDATA[
                                     {
