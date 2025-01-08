@@ -61,7 +61,7 @@ class ShippingProducts
      * Product codes.
      */
     public const CODE_NATIONAL                = 'V01PAK';
-    public const CODE_WARENPOST_NATIONAL      = 'V62WP';
+    public const CODE_KLEINPAKET              = 'V62KP';
     public const CODE_NATIONAL_PRIO           = 'V01PRIO';
     public const CODE_NATIONAL_TAGGLEICH      = 'V06PAK';
     public const CODE_INTERNATIONAL           = 'V53WPAK';
@@ -75,7 +75,7 @@ class ShippingProducts
      * Procedure codes.
      */
     public const PROCEDURE_NATIONAL                = '01';
-    public const PROCEDURE_WARENPOST_NATIONAL      = '62';
+    public const PROCEDURE_KLEINPAKET              = '62';
     public const PROCEDURE_NATIONAL_PRIO           = '01';
     public const PROCEDURE_NATIONAL_TAGGLEICH      = '06';
     public const PROCEDURE_INTERNATIONAL           = '53';
@@ -106,7 +106,7 @@ class ShippingProducts
             'DE' => [
                 self::COUNTRY_CODE_GERMANY => [
                     self::CODE_NATIONAL,
-                    self::CODE_WARENPOST_NATIONAL
+                    self::CODE_KLEINPAKET
                 ],
                 self::REGION_EU => [
                     self::CODE_INTERNATIONAL,
@@ -130,7 +130,7 @@ class ShippingProducts
     {
         return [
             self::CODE_NATIONAL => self::PROCEDURE_NATIONAL,
-            self::CODE_WARENPOST_NATIONAL => self::PROCEDURE_WARENPOST_NATIONAL,
+            self::CODE_KLEINPAKET => self::PROCEDURE_KLEINPAKET,
             self::CODE_NATIONAL_PRIO => self::PROCEDURE_NATIONAL_PRIO,
             self::CODE_NATIONAL_TAGGLEICH => self::PROCEDURE_NATIONAL_TAGGLEICH,
             self::CODE_INTERNATIONAL => self::PROCEDURE_INTERNATIONAL,
@@ -150,7 +150,7 @@ class ShippingProducts
     {
         return [
             self::CODE_NATIONAL => self::PROCEDURE_RETURNSHIPMENT_NATIONAL,
-            self::CODE_WARENPOST_NATIONAL => self::PROCEDURE_RETURNSHIPMENT_NATIONAL
+            self::CODE_KLEINPAKET => self::PROCEDURE_RETURNSHIPMENT_NATIONAL
         ];
     }
 
@@ -165,7 +165,7 @@ class ShippingProducts
     {
         $names = [
             self::CODE_NATIONAL                => 'DHL Paket',
-            self::CODE_WARENPOST_NATIONAL      => 'DHL Warenpost National',
+            self::CODE_KLEINPAKET              => 'DHL Kleinpaket',
             self::CODE_EUROPAKET               => 'DHL Europaket',
             self::CODE_TAGGLEICH               => 'DHL Paket Taggleich',
             self::CODE_KURIER_TAGGLEICH        => 'DHL Kurier Taggleich,',

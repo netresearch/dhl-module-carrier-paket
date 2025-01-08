@@ -60,7 +60,7 @@ class Procedure implements OptionSourceInterface
 
         $procedures = [
             ShippingProducts::PROCEDURE_NATIONAL                => __('DHL Paket: V01PAK'),
-            ShippingProducts::PROCEDURE_WARENPOST_NATIONAL      => __('DHL Warenpost National: V62WP'),
+            ShippingProducts::PROCEDURE_KLEINPAKET              => __('DHL Kleinpaket: V62KP'),
             ShippingProducts::PROCEDURE_NATIONAL_TAGGLEICH      => __('DHL Paket Taggleich: V06PAK'),
             ShippingProducts::PROCEDURE_INTERNATIONAL           => __('DHL Paket International: V53WPAK'),
             ShippingProducts::PROCEDURE_WARENPOST_INTERNATIONAL => __('DHL Warenpost International: V66WPI'),

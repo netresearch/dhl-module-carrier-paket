@@ -25,7 +25,7 @@ class ProductValidator implements RequestValidatorInterface
 
         $packages = $request->getData('packages');
         foreach ($packages as $package) {
-            $isWarenpost = $package['params']['shipping_product'] === ShippingProducts::CODE_WARENPOST_NATIONAL;
+            $isWarenpost = $package['params']['shipping_product'] === ShippingProducts::CODE_KLEINPAKET;
 
             $serviceData = $package['params']['services'][ServiceCodes::SERVICE_OPTION_PREFERRED_DAY] ?? [];
             $hasPrefDayService = $hasPrefDayService || ($serviceData['enabled'] ?? false);

@@ -72,7 +72,7 @@ class PostDataProvider
             'items' => [],
             'package' => [
                 'packageDetails' => [
-                    'productCode' => 'V62WP',
+                    'productCode' => 'V62KP',
                     'packagingWeight' => '0.33',
                     'weight' => '0',
                     'weightUnit' => \Magento\Framework\Measure\Weight::KILOGRAM,

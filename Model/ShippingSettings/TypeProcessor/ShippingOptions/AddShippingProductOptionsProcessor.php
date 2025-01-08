@@ -96,7 +96,7 @@ class AddShippingProductOptionsProcessor implements ShippingOptionsProcessorInte
                     return array_filter(
                         $regionProducts,
                         function (string $product) {
-                            return ($product !== ShippingProducts::CODE_WARENPOST_NATIONAL);
+                            return ($product !== ShippingProducts::CODE_KLEINPAKET);
                         }
                     );
                 },

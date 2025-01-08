@@ -382,8 +382,8 @@
                 <triggerValue>V54EPAK</triggerValue>
                 <action>disable</action>
             </rule>
-            <!-- V62WP services: domestic limitations -->
-            <rule id="disableNotSupportedWarenpostServices">
+            <!-- V62KP services: domestic limitations -->
+            <rule id="disableNotSupportedKleinpaketServices">
                 <masters>
                     <master>packageDetails.productCode</master>
                 </masters>
@@ -395,7 +395,7 @@
                     <subject>Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::SERVICE_OPTION_BULKY_GOODS</subject>
                     <subject>Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::SERVICE_OPTION_RECIPIENT_SIGNATURE</subject>
                 </subjects>
-                <triggerValue>V62WP</triggerValue>
+                <triggerValue>V62KP</triggerValue>
                 <action>disable</action>
             </rule>
             <!-- V66WPI services: cross-border limitations -->
