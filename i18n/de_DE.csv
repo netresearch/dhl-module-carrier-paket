@@ -207,7 +207,7 @@ Product,Produkt
 "Return immediately","Sofortige Rücksendung an den Absender"
 Route,Route
 Sat,Sa
-"Select ""Merchandise Shipment"" only if you ship all or most of your orders as Merchandise Shipments. Otherwise, choose ""DHL Paket"".","Wählen Sie ""DHL Warenpost"" nur, wenn Sie alle oder die meisten Ihrer Bestellungen als Warenpost versenden. Ansonsten wählen Sie ""DHL Paket""."
+"Select ""Merchandise Shipment"" only if you ship all or most of your orders as Merchandise Shipments. Otherwise, choose ""DHL Paket"".","Wählen Sie ""DHL Kleinpaket"" nur, wenn Sie alle oder die meisten Ihrer Bestellungen als Kleinpaket versenden. Ansonsten wählen Sie ""DHL Paket""."
 "Select Delivery Service Type","Zustellvariante auswählen"
 "Select Procedure","Verfahren auswählen"
 "Select Product","Produkt wählen"
@@ -271,7 +271,7 @@ Tue,Di
 User,Benutzername
 "User Group",Nutzergruppe
 "Visual Check of Age",Alterssichtprüfung
-"Warenpost does not support Cash on Delivery or Delivery Day service. Please change the shipping product or deselect the service(s).","Warenpost unterstützt keine Nachnahme oder Lieferung am Tag. Bitte ändern Sie das Versandprodukt oder deaktivieren Sie die Dienstleistung (en)."
+"Kleinpaket does not support Cash on Delivery or Delivery Day service. Please change the shipping product or deselect the service(s).","Kleinpaket unterstützt keine Nachnahme oder Lieferung am Tag. Bitte ändern Sie das Versandprodukt oder deaktivieren Sie die Dienstleistung (en)."
 Warnings,Warnungen
 "Web service credentials are configured.","Webservice-Zugangsdaten sind konfiguriert."
 "Web service credentials are incomplete. Please review your %1.","Webservice-Zugangsdaten sind unvollständig. Bitte prüfen Sie die %1."

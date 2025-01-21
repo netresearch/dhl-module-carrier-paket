@@ -20,7 +20,7 @@ use TddWizard\Fixtures\Sales\OrderFixture;
 use TddWizard\Fixtures\Sales\OrderFixtureRollback;
 
 /**
- * Assert that orders with cash on delivery payment cannot be shipped with the Warenpost National shipping product.
+ * Assert that orders with cash on delivery payment cannot be shipped with the Kleinpaket shipping product.
  *
  * @magentoAppArea adminhtml
  * @magentoDbIsolation enabled
@@ -63,14 +63,14 @@ class ProductValidatorTest extends SaveShipmentTest
         return [
             'single_package' => [
                 static function () {
-                    return PostDataProvider::singlePackageDomesticWithCodAndWarenpostProduct(self::$order);
+                    return PostDataProvider::singlePackageDomesticWithCodAndKleinpaketProduct(self::$order);
                 },
             ],
         ];
     }
 
     /**
-     * Scenario: Order is paid with cash on delivery and shipping product is Warenpost.
+     * Scenario: Order is paid with cash on delivery and shipping product is Kleinpaket.
      *
      * - Assert that no api request where made
      * - Assert that controller response contains validation error message

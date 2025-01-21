@@ -17,15 +17,15 @@ use Netresearch\ShippingCore\Model\ShippingSettings\ShippingOption\Codes;
 
 class ProductValidator implements RequestValidatorInterface
 {
-    private function canShipWithWarenpost(Request $request): bool
+    private function canShipWithKleinPaket(Request $request): bool
     {
         $hasPrefDayService = false;
         $hasCodService = false;
-        $isWarenpost = false;
+        $isKleinPaket = false;
 
         $packages = $request->getData('packages');
         foreach ($packages as $package) {
-            $isWarenpost = $package['params']['shipping_product'] === ShippingProducts::CODE_KLEINPAKET;
+            $isKleinPaket = $package['params']['shipping_product'] === ShippingProducts::CODE_KLEINPAKET;
 
             $serviceData = $package['params']['services'][ServiceCodes::SERVICE_OPTION_PREFERRED_DAY] ?? [];
             $hasPrefDayService = $hasPrefDayService || ($serviceData['enabled'] ?? false);
@@ -34,14 +34,14 @@ class ProductValidator implements RequestValidatorInterface
             $hasCodService = $hasCodService || ($serviceData['enabled'] ?? false);
         }
 
-        return !$isWarenpost || (!$hasPrefDayService && !$hasCodService);
+        return !$isKleinPaket || (!$hasPrefDayService && !$hasCodService);
     }
 
     public function validate(Request $shipmentRequest): void
     {
-        if (!$this->canShipWithWarenpost($shipmentRequest)) {
+        if (!$this->canShipWithKleinPaket($shipmentRequest)) {
             throw new ValidatorException(
-                __('Warenpost does not support Cash on Delivery or Delivery Day service. Please change the shipping product or deselect the service(s).')
+                __('Kleinpaket does not support Cash on Delivery or Delivery Day service. Please change the shipping product or deselect the service(s).')
             );
         }
     }

@@ -64,7 +64,7 @@ class PostDataProvider
         return ['packages' => [$package]];
     }
 
-    public static function singlePackageDomesticWithCodAndWarenpostProduct(OrderInterface $order)
+    public static function singlePackageDomesticWithCodAndKleinpaketProduct(OrderInterface $order)
     {
         $codAmount = $order->getBaseShippingAmount();
         $package = [

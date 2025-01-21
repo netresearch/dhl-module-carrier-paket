@@ -91,7 +91,7 @@
     <virtualType name="Dhl\Paket\Model\Pipeline\Shipment\ShipmentRequest\Validator\CompositeValidator\Virtual" type="Netresearch\ShippingCore\Model\Pipeline\Shipment\ShipmentRequest\Validator\CompositeValidator">
         <arguments>
             <argument name="validators" xsi:type="array">
-                <item name="warenpostShipment" xsi:type="object">Dhl\Paket\Model\Pipeline\CreateShipments\ShipmentRequest\Validator\ProductValidator</item>
+                <item name="kleinPaketShipment" xsi:type="object">Dhl\Paket\Model\Pipeline\CreateShipments\ShipmentRequest\Validator\ProductValidator</item>
                 <item name="noPartialShipment" xsi:type="object">Dhl\Paket\Model\Pipeline\CreateShipments\ShipmentRequest\Validator\NoPartialValidator</item>
             </argument>
         </arguments>
