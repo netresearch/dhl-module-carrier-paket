@@ -15,6 +15,8 @@ class Codes
 {
     // package customs
     public const PACKAGE_INPUT_TERMS_OF_TRADE = 'termsOfTrade';
+    public const PACKAGE_INPUT_MRN = 'masterReferenceNumber';
+
 
     // packaging services
     public const SERVICE_OPTION_CHECK_OF_AGE = 'visualCheckOfAge';

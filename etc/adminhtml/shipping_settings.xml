@@ -67,6 +67,17 @@
                             </rule>
                         </validationRules>
                     </input>
+                    <input code="masterReferenceNumber">
+                        <label translate="true">Master Reference Number (MRN)</label>
+                        <inputType>text</inputType>
+                        <sortOrder>35</sortOrder>
+                        <tooltip translate="true">Optional: MRN from your export declaration</tooltip>
+                        <validationRules>
+                            <rule name="maxLength">
+                                <param>18</param>
+                            </rule>
+                        </validationRules>
+                    </input>
                     <input code="electronicExportNotification" defaultConfigValue="Dhl\Paket\Model\Config\ModuleConfig::CONFIG_PATH_ELECTRONIC_EXPORT_NOTIFICATION">
                         <label translate="true">Electronic Export Notification</label>
                         <inputType>checkbox</inputType>
@@ -408,6 +419,16 @@
                     <subject>Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::SERVICE_OPTION_INSURANCE</subject>
                     <subject>Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::SERVICE_OPTION_BULKY_GOODS</subject>
                     <subject>Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::SERVICE_OPTION_PDDP</subject>
+                </subjects>
+                <triggerValue>V66WPI</triggerValue>
+                <action>disable</action>
+            </rule>
+            <rule id="disableNotSupportedWarenpostInternationalMrnInput">
+                <masters>
+                    <master>packageDetails.productCode</master>
+                </masters>
+                <subjects>
+                    <subject>Netresearch\ShippingCore\Model\ShippingSettings\ShippingOption\Codes::PACKAGE_OPTION_CUSTOMS.masterReferenceNumber</subject>
                 </subjects>
                 <triggerValue>V66WPI</triggerValue>
                 <action>disable</action>

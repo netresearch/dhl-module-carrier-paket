@@ -52,6 +52,11 @@ class PackageAdditional implements PackageAdditionalInterface
      */
     private $addresseesCustomsReference;
 
+    /**
+     * @var string
+     */
+    private $masterReferenceNumber;
+
     public function __construct(
         string $termsOfTrade = '',
         float $customsFees = 0,
@@ -60,7 +65,8 @@ class PackageAdditional implements PackageAdditionalInterface
         string $attestationNumber = '',
         bool $electronicExportNotification = false,
         string $sendersCustomsReference = '',
-        string $addresseesCustomsReference = ''
+        string $addresseesCustomsReference = '',
+        string $masterReferenceNumber = ''
     ) {
         $this->termsOfTrade = $termsOfTrade;
         $this->customsFees = $customsFees;
@@ -70,6 +76,7 @@ class PackageAdditional implements PackageAdditionalInterface
         $this->electronicExportNotification = $electronicExportNotification;
         $this->sendersCustomsReference = $sendersCustomsReference;
         $this->addresseesCustomsReference = $addresseesCustomsReference;
+        $this->masterReferenceNumber = $masterReferenceNumber;
     }
 
     /**
@@ -150,6 +157,16 @@ class PackageAdditional implements PackageAdditionalInterface
     public function getAddresseesCustomsReference(): string
     {
         return $this->addresseesCustomsReference;
+    }
+
+    /**
+     * Obtain master reference number (optional).
+     *
+     * @return string
+     */
+    public function getMasterReferenceNumber(): string
+    {
+        return $this->masterReferenceNumber;
     }
 
     /**

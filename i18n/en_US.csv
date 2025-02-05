@@ -141,6 +141,7 @@ Fri,Fri
 Logging,Logging
 "MapBox API token is available.","MapBox API token is available."
 "MapBox API token is not configured.","MapBox API token is not configured."
+"Master Reference Number (MRN)","Master Reference Number (MRN)"
 "Method Name","Method Name"
 "Minimum age +16 years","Minimum age +16 years"
 "Minimum age +18 years","Minimum age +18 years"
@@ -164,6 +165,7 @@ Number,Number
 "Offer Neighbor Delivery","Offer Neighbor Delivery"
 "Offer No Neighbor Delivery Service","Offer No Neighbor Delivery Service"
 "Offer Parcel Station Delivery","Offer Parcel Station Delivery"
+"Optional: MRN from your export declaration","Optional: MRN from your export declaration"
 "On routes that require the <em>Premium</em> service, it will be booked implicitly regardless of this setting. The <em>Closest Drop Point</em> delivery type, if selected in checkout, always takes precedence.","On routes that require the <em>Premium</em> service, it will be booked implicitly regardless of this setting. The <em>Closest Drop Point</em> delivery type, if selected in checkout, always takes precedence."
 "Order Cut-off Times","Order Cut-off Times"
 "Parcel Announcement","Parcel Announcement"

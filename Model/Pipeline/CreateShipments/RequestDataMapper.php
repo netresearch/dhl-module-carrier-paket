@@ -347,7 +347,8 @@ class RequestDataMapper
                     $packageExtension->getAttestationNumber(),
                     $packageExtension->getElectronicExportNotification(),
                     $packageExtension->getSendersCustomsReference(),
-                    $packageExtension->getAddresseesCustomsReference()
+                    $packageExtension->getAddresseesCustomsReference(),
+                    $packageExtension->getMasterReferenceNumber()
                 );
 
                 /** @var PackageItemInterface $packageItem */

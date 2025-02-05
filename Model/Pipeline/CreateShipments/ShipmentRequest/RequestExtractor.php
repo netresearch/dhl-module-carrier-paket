@@ -258,6 +258,7 @@ class RequestExtractor implements RequestExtractorInterface
             $additionalData['electronicExportNotification'] = $customsParams['electronicExportNotification'] ?? false;
             $additionalData['sendersCustomsReference'] = $customsParams['sendersCustomsReference'] ?? '';
             $additionalData['addresseesCustomsReference'] = $customsParams['addresseesCustomsReference'] ?? '';
+            $additionalData['masterReferenceNumber'] = $customsParams['masterReferenceNumber'] ?? '';
 
             try {
                 // create new extended package instance with paket-specific export data
