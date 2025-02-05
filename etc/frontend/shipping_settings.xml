@@ -13,6 +13,9 @@
                             <destination>DK</destination>
                             <destination>FI</destination>
                             <destination>SE</destination>
+                            <destination>PL</destination>
+                            <destination>BG</destination>
+                            <destination>HU</destination>
                         </includeDestinations>
                     </route>
                 </routes>
