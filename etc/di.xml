@@ -136,6 +136,9 @@
                 <item name="dhlPaketUpdateDeliveryTypeOptions" xsi:type="object" sortOrder="1030">Dhl\Paket\Model\ShippingSettings\TypeProcessor\ShippingOptions\DeliveryTypeServiceProcessor</item>
                 <item name="dhlPaketCustomsInputProcessor" xsi:type="object" sortOrder="1040">Dhl\Paket\Model\ShippingSettings\TypeProcessor\ShippingOptions\CustomsInputsProcessor</item>
             </argument>
+            <argument name="itemShippingOptionsProcessors" xsi:type="array">
+                <item name="hsCode" xsi:type="object" sortOrder="10">Dhl\Paket\Model\ShippingSettings\TypeProcessor\ItemShippingOptions\HsCodeValidationRuleProcessor</item>
+            </argument>
         </arguments>
     </virtualType>
     <virtualType name="Netresearch\ShippingCore\Model\ShippingSettings\Packaging\ShippingSettingsProcessor\Virtual">
