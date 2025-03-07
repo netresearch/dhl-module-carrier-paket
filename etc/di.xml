@@ -93,6 +93,7 @@
             <argument name="validators" xsi:type="array">
                 <item name="kleinPaketShipment" xsi:type="object">Dhl\Paket\Model\Pipeline\CreateShipments\ShipmentRequest\Validator\ProductValidator</item>
                 <item name="noPartialShipment" xsi:type="object">Dhl\Paket\Model\Pipeline\CreateShipments\ShipmentRequest\Validator\NoPartialValidator</item>
+                <item name="exportDeclaration" xsi:type="object">Dhl\Paket\Model\Pipeline\CreateShipments\ShipmentRequest\Validator\ExportDeclarationValidator</item>
             </argument>
         </arguments>
     </virtualType>
@@ -135,6 +136,7 @@
                 <item name="dhlPaketAddShippingProductOptions" xsi:type="object" sortOrder="1020">Dhl\Paket\Model\ShippingSettings\TypeProcessor\ShippingOptions\AddShippingProductOptionsProcessor</item>
                 <item name="dhlPaketUpdateDeliveryTypeOptions" xsi:type="object" sortOrder="1030">Dhl\Paket\Model\ShippingSettings\TypeProcessor\ShippingOptions\DeliveryTypeServiceProcessor</item>
                 <item name="dhlPaketCustomsInputProcessor" xsi:type="object" sortOrder="1040">Dhl\Paket\Model\ShippingSettings\TypeProcessor\ShippingOptions\CustomsInputsProcessor</item>
+                <item name="dhlExportNotificationInputProcessor" xsi:type="object" sortOrder="1050">Dhl\Paket\Model\ShippingSettings\TypeProcessor\ShippingOptions\Customs\ExportNotificationInputsProcessor</item>
             </argument>
             <argument name="itemShippingOptionsProcessors" xsi:type="array">
                 <item name="hsCode" xsi:type="object" sortOrder="10">Dhl\Paket\Model\ShippingSettings\TypeProcessor\ItemShippingOptions\HsCodeValidationRuleProcessor</item>

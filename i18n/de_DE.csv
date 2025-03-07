@@ -88,6 +88,8 @@ Domestic,Inlandsversand
 "EKP (customer number) is not configured. Please review your %1.","EKP (Kundennummer) ist nicht hinterlegt. Bitte prüfen Sie Ihre %1."
 EU,"Versand innerhalb der EU"
 "Electronic Export Notification","Sendung mit Ausfuhranmeldung"
+"Export Notification is required for customs value > 1000. Please see the Tooltip for more information.","Für einen Zollwert von mehr als 1000 ist eine Ausfuhranmeldung erforderlich. Bitte sehen Sie sich den Tooltip für weitere Informationen an."
+"<b>Electronic Export Notification</b>","<b>Elektronische Export Ankündigung</b>"
 "Enable DHL additional insurance service","Erweiterte Transportversicherung aktivieren"
 "Enable DHL bulky goods service","Manuelle Einzelbearbeitung von Sperrgut aktivieren"
 "Enable DHL delivery day","Aktivieren Sie den DHL-Liefertag"
@@ -106,6 +108,7 @@ Enabled,Aktiviert
 "Error: %1","Fehler: %1"
 Errors,Fehler
 "Exclude an alternative delivery to the neighbor if you are not available when the delivery is made.","Schließen Sie eine Ersatzzustellung beim Nachbarn aus, falls Sie bei der Zustellung nicht angetroffen werden."
+"<b>Export Declaration Notice</b>","<b>Hinweis Ausfuhranmeldung</b>"
 "Failed to calculate next possible shipment date. Please revise your cut-off times setting.","Das nächstmögliche Versanddatum konnte nicht berechnet werden. Bitte überprüfen Sie die Konfiguration der Bestellabschlusszeiten."
 "Field %1 is required.","Feld %1 is erforderlich."
 "Find DHL Pickup Location","DHL Standorte finden"
@@ -133,6 +136,7 @@ Fri,Fr
 "Info (All API Activities)","Info (alle API-Aktivitäten)"
 "International (excl. EU)","Grenzüberschreitender Versand (ohne EU)"
 "Invalid request: %1","Ungültige Anfrage: %1"
+"<b>Important!</b>","<b>Achtung!</b>"
 "Label API connection established successfully.","Verbindung zur Label-API wurde erfolgreich hergestellt."
 "Label could not be created: %1","Paketaufkleber konnte nicht erzeugt werden: %1"
 "Label for order %1, package %2 could not be created.","Paketaufkleber für Bestellung %1, Paket %2 konnte nicht erzeugt werden."
@@ -185,6 +189,7 @@ Participation,Teilnahme
 "Place of Committal",Einlieferungsstelle
 "Please choose only one of %1.","Bitte wählen Sie nur eins von %1."
 "Please choose your preferred delivery options.","Wählen Sie Ihre bevorzugten Lieferoptionen aus."
+"Please make sure to place the export accompanying document together with the other customs documents in the customs document pouch and affix the sticker <em>Attention Export Declaration</em> - Material No. 915-830-100 near the recipient's address. If the export accompanying document is missing, your shipment cannot be exported and will be returned to you.","Bitte legen Sie das Ausfuhrbegleitdokument unbedingt gemeinsam mit den übrigen Zolldokumenten in die Zolldokumententasche und bringen Sie den Aufkleber <em>Achtung Ausfuhranmeldung</em> – MatNr. 915-830-100 in der Nähe der Empfängeranschrift auf. Fehlt das Ausfuhrbegleitdokument, kann Ihre Sendung nicht exportiert werden und wird an Sie retourniert."
 "Post & DHL Shipping","Versenden mit Post & DHL"
 "Post & DHL and Magento","Versenden mit Post & DHL"
 "Post Bank %1","Postbank Filiale %1"
@@ -225,6 +230,7 @@ Sat,Sa
 "Shipment %1 could not be cancelled: %2","Der Versandauftrag %1 konnte nicht storniert werden: %2"
 "Shipment Defaults","Voreinstellungen für Lieferungen"
 "Shipment Label Format","Format Versandschein"
+"Shipment with export declaration (This option is automatically selected when the goods value of the shipment exceeds 1000 EUR. Please only select this option yourself for goods valued under 1000 EUR if the shipment has been electronically declared for export to customs via ATLAS, IAA PLUS and it is ensured that an export accompanying document is attached to the shipment.)","Sendung mit Ausfuhranmeldung (Diese Option wird automatisch angewählt, wenn der Warenwert der Sendung über 1000 EUR liegt. Bitte wählen Sie diese Option selbst nur aus bei einem Warenwert unter 1000 EUR, wenn die Sendung elektronisch beim Zoll über ATLAS, IAA PLUS zur Ausfuhr angemeldet wurde und sichergestellt ist, dass der Sendung ein Ausfuhrbegleitdokument beigefügt wird.)"
 "Shipping Origin",Versandursprung
 "Shipping Products",Versandprodukte
 "Shipping Services in Checkout","Zusätzliche Versandservices im Checkout"

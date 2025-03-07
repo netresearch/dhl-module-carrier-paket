@@ -70,7 +70,7 @@
                     <input code="masterReferenceNumber">
                         <label translate="true">Master Reference Number (MRN)</label>
                         <inputType>text</inputType>
-                        <sortOrder>35</sortOrder>
+                        <sortOrder>1069</sortOrder>
                         <tooltip translate="true">Optional: MRN from your export declaration</tooltip>
                         <validationRules>
                             <rule name="maxLength">
@@ -442,6 +442,16 @@
                     <subject>Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::SERVICE_OPTION_PARCEL_OUTLET_ROUTING.emailAddress</subject>
                 </subjects>
                 <action>show</action>
+                <triggerValue>*</triggerValue>
+            </rule>
+            <rule id="enableMasterReferenceNumber">
+                <masters>
+                    <master>Netresearch\ShippingCore\Model\ShippingSettings\ShippingOption\Codes::PACKAGE_OPTION_CUSTOMS.electronicExportNotification</master>
+                </masters>
+                <subjects>
+                    <subject>Netresearch\ShippingCore\Model\ShippingSettings\ShippingOption\Codes::PACKAGE_OPTION_CUSTOMS.masterReferenceNumber</subject>
+                </subjects>
+                <action>enable</action>
                 <triggerValue>*</triggerValue>
             </rule>
         </compatibilityData>
