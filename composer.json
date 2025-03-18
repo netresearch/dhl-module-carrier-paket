@@ -1,6 +1,6 @@
 {
     "name": "dhl/module-carrier-paket",
-    "version": "3.2.0",
+    "version": "3.3.0",
     "type": "magento2-module",
     "description": "Carrier implementation for DHL Business Customer Shipping",
     "license": "OSL-3.0",
@@ -26,7 +26,7 @@
         "ext-json": "*",
         "dhl/module-shipping-core": "^2.4.0",
         "dhl/module-unified-tracking": "^2.2.0",
-        "dhl/sdk-api-parcel-de": "^1.0.0",
+        "dhl/sdk-api-parcel-de": "^1.1.0",
         "dhl/sdk-api-parcel-management": "^3.3.0",
         "dhl/sdk-api-unified-location-finder": "^3.2.0",
         "magento/framework": "^103.0.6",
@@ -44,7 +44,7 @@
         "magento/module-store": "^101.1.6",
         "monolog/monolog": " ^2.9",
         "netresearch/config-fields-m2": "^1.3.0",
-        "netresearch/module-shipping-core": "^3.0.0",
+        "netresearch/module-shipping-core": "^3.1.0",
         "psr/log": "^1.1.0 || ^2.0.0 || ^3.0.0"
     },
     "require-dev": {
