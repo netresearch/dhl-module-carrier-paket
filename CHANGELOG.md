@@ -4,6 +4,26 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## 3.4.0
+
+Magento 2.4.8 compatibility release
+
+### Added
+
+- Support for Magento 2.4.8
+- Support for PHP 8.3
+- Support for PHP 8.4
+
+### Changed
+
+- Upgrade to Monolog 3.x logging framework
+- Upgrade to PHPUnit 10 testing framework
+- Improved error handling for Magento 2.4.8 compatibility
+
+### Removed
+
+- Support for PHP 8.2
+
 ## 3.3.0 
 
 ### Added 
