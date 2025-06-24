@@ -25,7 +25,7 @@ use TddWizard\Fixtures\Sales\OrderFixtureRollback;
  * @magentoAppArea adminhtml
  * @magentoDbIsolation enabled
  */
-class ProductValidatorTest extends SaveShipmentTest
+class ProductValidatorTest extends AbstractSaveShipmentController
 {
 
     /**
@@ -58,7 +58,8 @@ class ProductValidatorTest extends SaveShipmentTest
         }
     }
 
-    public function postDataProvider()
+    #[\Override]
+    public static function postDataProvider()
     {
         return [
             'single_package' => [
@@ -77,8 +78,6 @@ class ProductValidatorTest extends SaveShipmentTest
      * - Assert that no shipments are created
      * - Assert that label status is set to "Failed"
      *
-     * @test
-     * @dataProvider postDataProvider
      * @magentoDataFixture createOrder
      *
      * @magentoConfigFixture default_store general/store_information/name NR-Test-Store
@@ -106,6 +105,9 @@ class ProductValidatorTest extends SaveShipmentTest
      * @param callable $getPostData
      * @throws LocalizedException
      */
+    #[\Override]
+    #[\PHPUnit\Framework\Attributes\DataProvider('postDataProvider')]
+    #[\PHPUnit\Framework\Attributes\Test]
     public function saveShipment(callable $getPostData)
     {
         $orderId = self::$order->getEntityId();

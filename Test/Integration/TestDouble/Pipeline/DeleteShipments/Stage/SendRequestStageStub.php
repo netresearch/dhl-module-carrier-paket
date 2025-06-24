@@ -50,6 +50,7 @@ class SendRequestStageStub extends SendRequestStage
      * @param ArtifactsContainerInterface|ArtifactsContainer $artifactsContainer
      * @return TrackRequestInterface[]
      */
+    #[\Override]
     public function execute(array $requests, ArtifactsContainerInterface $artifactsContainer): array
     {
         $this->trackRequests = $requests;

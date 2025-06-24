@@ -100,6 +100,7 @@ class NoPartialValidator implements RequestValidatorInterface
         return !$hasInsuranceService && !$hasCodService;
     }
 
+    #[\Override]
     public function validate(Request $shipmentRequest): void
     {
         if ($this->isPartialShipment($shipmentRequest) && !$this->canShipPartially($shipmentRequest)) {

@@ -76,6 +76,7 @@ class DefaultProduct extends AbstractFieldArray
      *
      * @throws LocalizedException
      */
+    #[\Override]
     protected function _prepareArrayRow(DataObject $row)
     {
         $routeHash = $this->getRouteRenderer()->calcOptionHash($row->getData('route'));
@@ -95,6 +96,7 @@ class DefaultProduct extends AbstractFieldArray
      *
      * @throws LocalizedException
      */
+    #[\Override]
     protected function _prepareToRender()
     {
         $this->addColumn('route', [
@@ -125,6 +127,7 @@ class DefaultProduct extends AbstractFieldArray
      * @return string
      * @throws \Exception
      */
+    #[\Override]
     public function renderCellTemplate($columnName)
     {
         $cellTemplate = parent::renderCellTemplate($columnName);

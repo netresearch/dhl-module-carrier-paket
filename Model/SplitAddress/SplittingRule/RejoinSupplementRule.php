@@ -26,6 +26,7 @@ use Netresearch\ShippingCore\Model\SplitAddress\RecipientStreet;
  */
 class RejoinSupplementRule implements SplittingRuleInterface
 {
+    #[\Override]
     public function apply(OrderAddressInterface $address, RecipientStreetInterface $recipientStreet): void
     {
         /** @var RecipientStreet $recipientStreet */
@@ -37,7 +38,7 @@ class RejoinSupplementRule implements SplittingRuleInterface
 
         foreach ($street as $streetLine) {
             $streetLine = trim($streetLine);
-            if (substr($streetLine, -strlen($streetNumber)) === $streetNumber) {
+            if (str_ends_with($streetLine, $streetNumber)) {
                 $recipientStreet->setData(RecipientStreetInterface::NUMBER, $streetNumber);
                 $recipientStreet->setData(RecipientStreetInterface::SUPPLEMENT, '');
                 return;

@@ -9,7 +9,7 @@ namespace Dhl\Paket\Test\Integration\TestCase\Controller\Adminhtml\Order\Shipmen
 use Dhl\Paket\Model\Pipeline\CreateShipments\Stage\SendRequestStage as CreationStage;
 use Dhl\Paket\Model\Pipeline\DeleteShipments\Stage\SendRequestStage as CancellationStage;
 use Dhl\Paket\Test\Integration\Provider\Controller\SaveShipment\PostDataProvider;
-use Dhl\Paket\Test\Integration\TestCase\Controller\Adminhtml\ControllerTest;
+use Dhl\Paket\Test\Integration\TestCase\Controller\Adminhtml\AbstractController;
 use Dhl\Paket\Test\Integration\TestDouble\Pipeline\CreateShipments\Stage\SendRequestStageStub as CreationStageStub;
 use Dhl\Paket\Test\Integration\TestDouble\Pipeline\DeleteShipments\Stage\SendRequestStageStub as CancellationStageStub;
 use Magento\Framework\Exception\AuthenticationException;
@@ -22,7 +22,8 @@ use Magento\Sales\Model\Order;
  * @method \Magento\Framework\App\Request\Http getRequest()
  * @method \Magento\Framework\App\Response\Http getResponse()
  */
-abstract class SaveShipmentTest extends ControllerTest
+#[\PHPUnit\Framework\Attributes\CoversNothing]
+abstract class AbstractSaveShipmentController extends AbstractController
 {
     /**
      * The resource used to authorize action
@@ -57,6 +58,7 @@ abstract class SaveShipmentTest extends ControllerTest
      *
      * @throws AuthenticationException
      */
+    #[\Override]
     protected function setUp(): void
     {
         parent::setUp();
@@ -72,7 +74,7 @@ abstract class SaveShipmentTest extends ControllerTest
         );
     }
 
-    public function postDataProvider()
+    public static function postDataProvider()
     {
         return [
             'single_package' => [
@@ -117,7 +119,5 @@ abstract class SaveShipmentTest extends ControllerTest
     {
         $this->getRequest()->setParam('order_id', '123456789');
         $this->getRequest()->setParam('data', '[]');
-
-        parent::testAclHasAccess();
     }
 }

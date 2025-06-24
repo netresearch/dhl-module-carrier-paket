@@ -44,6 +44,7 @@ class CommentInfo extends Field
      *
      * @return string
      */
+    #[\Override]
     public function render(AbstractElement $element): string
     {
         $this->element = $element;
@@ -51,6 +52,7 @@ class CommentInfo extends Field
         return $this->toHtml();
     }
 
+    #[\Override]
     public function getTemplate(): string
     {
         return 'Dhl_Paket::system/config/commentinfo.phtml';

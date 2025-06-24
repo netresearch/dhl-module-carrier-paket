@@ -15,6 +15,7 @@ use Dhl\Sdk\Paket\ParcelManagement\Service\CheckoutService\IntervalOption;
 
 class CheckoutServiceStub implements CheckoutServiceInterface
 {
+    #[\Override]
     public function getCarrierServices(
         string $recipientZip,
         \DateTimeInterface $startDate,

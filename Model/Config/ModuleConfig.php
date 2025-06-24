@@ -89,6 +89,7 @@ class ModuleConfig implements VersionInterface
         $this->scopeConfig = $scopeConfig;
     }
 
+    #[\Override]
     public function getModuleVersion(): string
     {
         return $this->scopeConfig->getValue(self::CONFIG_PATH_VERSION);
@@ -97,10 +98,9 @@ class ModuleConfig implements VersionInterface
     /**
      * Obtain the carrier method name for checkout presentation.
      *
-     * @param mixed $store
      * @return string
      */
-    public function getMethodName($store = null): string
+    public function getMethodName(mixed $store = null): string
     {
         return (string) $this->scopeConfig->getValue(
             self::CONFIG_PATH_METHOD_NAME,
@@ -112,10 +112,9 @@ class ModuleConfig implements VersionInterface
     /**
      * Obtain the list of cut-off times.
      *
-     * @param mixed $store
      * @return string[] Times (H:i), indexed by ISO-8601 day of week
      */
-    public function getCutOffTimes($store = null): array
+    public function getCutOffTimes(mixed $store = null): array
     {
         $cutOffTimes = $this->scopeConfig->getValue(
             self::CONFIG_PATH_CUT_OFF_TIMES,
@@ -129,10 +128,9 @@ class ModuleConfig implements VersionInterface
     /**
      * Get the code of the carrier to forward rate requests to.
      *
-     * @param mixed $store
      * @return string
      */
-    public function getProxyCarrierCode($store = null): string
+    public function getProxyCarrierCode(mixed $store = null): string
     {
         return (string) $this->scopeConfig->getValue(
             self::CONFIG_PATH_PROXY_CARRIER,
@@ -144,10 +142,9 @@ class ModuleConfig implements VersionInterface
     /**
      * Returns true if sandbox mode is enabled.
      *
-     * @param mixed $store
      * @return bool
      */
-    public function isSandboxMode($store = null): bool
+    public function isSandboxMode(mixed $store = null): bool
     {
         return (bool) $this->scopeConfig->getValue(
             self::CONFIG_PATH_SANDBOX_MODE,
@@ -159,10 +156,9 @@ class ModuleConfig implements VersionInterface
     /**
      * Get the sandbox user's name (API user credentials).
      *
-     * @param mixed $store
      * @return string
      */
-    public function getSandboxUser($store = null): string
+    public function getSandboxUser(mixed $store = null): string
     {
         return (string) $this->scopeConfig->getValue(
             self::CONFIG_PATH_SANDBOX_USER,
@@ -174,10 +170,9 @@ class ModuleConfig implements VersionInterface
     /**
      * Get the sandbox user's password (API user credentials).
      *
-     * @param mixed $store
      * @return string
      */
-    public function getSandboxSignature($store = null): string
+    public function getSandboxSignature(mixed $store = null): string
     {
         return (string) $this->scopeConfig->getValue(
             self::CONFIG_PATH_SANDBOX_PASSWORD,
@@ -189,10 +184,9 @@ class ModuleConfig implements VersionInterface
     /**
      * Get the user's name (API user credentials).
      *
-     * @param mixed $store
      * @return string
      */
-    public function getUser($store = null): string
+    public function getUser(mixed $store = null): string
     {
         return (string) $this->scopeConfig->getValue(
             self::CONFIG_PATH_USER,
@@ -204,10 +198,9 @@ class ModuleConfig implements VersionInterface
     /**
      * Get the user's password (API user credentials).
      *
-     * @param mixed $store
      * @return string
      */
-    public function getSignature($store = null): string
+    public function getSignature(mixed $store = null): string
     {
         return (string) $this->scopeConfig->getValue(
             self::CONFIG_PATH_PASS,
@@ -220,10 +213,9 @@ class ModuleConfig implements VersionInterface
     /**
      * Get the user's EKP (standardized customer and product number).
      *
-     * @param mixed $store
      * @return string
      */
-    public function getEkp($store = null): string
+    public function getEkp(mixed $store = null): string
     {
         return (string) $this->scopeConfig->getValue(
             self::CONFIG_PATH_EKP,
@@ -235,10 +227,9 @@ class ModuleConfig implements VersionInterface
     /**
      * Get the user's participation numbers (partner IDs).
      *
-     * @param mixed $store
      * @return string[]
      */
-    public function getParticipations($store = null): array
+    public function getParticipations(mixed $store = null): array
     {
         $participations = $this->scopeConfig->getValue(
             self::CONFIG_PATH_PARTICIPATIONS,
@@ -264,10 +255,9 @@ class ModuleConfig implements VersionInterface
      * The selected group profile defines the billing numbers that are available for creating shipments.
      * Group profiles can be created in the DHL Business Customer Portal.
      *
-     * @param mixed $store
      * @return string
      */
-    public function getGroupProfile($store = null): string
+    public function getGroupProfile(mixed $store = null): string
     {
         return (string) $this->scopeConfig->getValue(
             self::CONFIG_PATH_GROUP_PROFILE,
@@ -284,10 +274,9 @@ class ModuleConfig implements VersionInterface
      * reference is set, then the shipping origin address from the
      * "Shipping Settings" section would typically be used.
      *
-     * @param mixed $store
      * @return string
      */
-    public function getSenderReference($store = null): string
+    public function getSenderReference(mixed $store = null): string
     {
         return (string) $this->scopeConfig->getValue(
             self::CONFIG_PATH_SENDER_REFERENCE,
@@ -299,10 +288,9 @@ class ModuleConfig implements VersionInterface
     /**
      * Check if the receiver phone number should be sent to DHL.
      *
-     * @param mixed $store
      * @return bool
      */
-    public function isPhoneNumberTransmissionEnabled($store = null): bool
+    public function isPhoneNumberTransmissionEnabled(mixed $store = null): bool
     {
         return $this->scopeConfig->isSetFlag(
             self::CONFIG_PATH_SEND_RECEIVER_PHONE_NUMBER,
@@ -316,10 +304,9 @@ class ModuleConfig implements VersionInterface
      *
      * - ["DE" => ["DE" => "V01PAK", "EU" => "V53PAK", "INTL" => "V53PAK"]]
      *
-     * @param mixed $store
      * @return string[][]
      */
-    public function getDefaultProducts($store = null): array
+    public function getDefaultProducts(mixed $store = null): array
     {
         $products = $this->scopeConfig->getValue(
             self::CONFIG_PATH_SHIPPING_PRODUCTS,
@@ -342,10 +329,9 @@ class ModuleConfig implements VersionInterface
      *
      * Sending a print format to the API overwrites the DHL Business Customer Portal group profile setting.
      *
-     * @param mixed $store
      * @return string
      */
-    public function getLabelFormat($store = null): string
+    public function getLabelFormat(mixed $store = null): string
     {
         return (string) $this->scopeConfig->getValue(
             self::CONFIG_PATH_LABEL_FORMAT,
@@ -359,10 +345,9 @@ class ModuleConfig implements VersionInterface
      *
      * Sending a print format to the API overwrites the DHL Business Customer Portal group profile setting.
      *
-     * @param mixed $store
      * @return string
      */
-    public function getLabelFormatReturn($store = null): string
+    public function getLabelFormatReturn(mixed $store = null): string
     {
         return (string) $this->scopeConfig->getValue(
             self::CONFIG_PATH_LABEL_FORMAT_RETURN,
@@ -381,10 +366,9 @@ class ModuleConfig implements VersionInterface
      * - street_name
      * - street_number
      *
-     * @param mixed $store
      * @return string[] Address details if ALL values are configured, empty array otherwise.
      */
-    public function getReturnAddress($store = null): array
+    public function getReturnAddress(mixed $store = null): array
     {
         $fields = ['company', 'country_id', 'postcode', 'city', 'street_name', 'street_number'];
         $address = array_filter(
@@ -404,10 +388,9 @@ class ModuleConfig implements VersionInterface
     }
 
     /**
-     * @param mixed $store
      * @return float
      */
-    public function getClosestDropPointAdditionalCharge($store = null): float
+    public function getClosestDropPointAdditionalCharge(mixed $store = null): float
     {
         return (float) str_replace(
             ',',
@@ -421,10 +404,9 @@ class ModuleConfig implements VersionInterface
     }
 
     /**
-     * @param mixed $store
      * @return float
      */
-    public function getPreferredDayAdditionalCharge($store = null): float
+    public function getPreferredDayAdditionalCharge(mixed $store = null): float
     {
         return (float) str_replace(
             ',',
@@ -440,10 +422,9 @@ class ModuleConfig implements VersionInterface
     /**
      * Check if No Neighbor Delivery service is enabled for checkout.
      *
-     * @param mixed $store
      * @return bool
      */
-    public function isNoNeighborDeliveryEnabled($store = null): bool
+    public function isNoNeighborDeliveryEnabled(mixed $store = null): bool
     {
         return $this->scopeConfig->isSetFlag(
             self::CONFIG_PATH_NO_NEIGHBOR_DELIVERY,
@@ -453,10 +434,9 @@ class ModuleConfig implements VersionInterface
     }
 
     /**
-     * @param mixed $store
      * @return float
      */
-    public function getNoNeighborDeliveryAdditionalCharge($store = null): float
+    public function getNoNeighborDeliveryAdditionalCharge(mixed $store = null): float
     {
         return (float) str_replace(
             ',',
@@ -474,10 +454,9 @@ class ModuleConfig implements VersionInterface
      *
      * Example: ["CH" => "123232", "US" => "555666"]
      *
-     * @param mixed $store
      * @return string[]
      */
-    public function getCustomsReferenceNumbers($store = null): array
+    public function getCustomsReferenceNumbers(mixed $store = null): array
     {
         $customsReferences = $this->scopeConfig->getValue(
             self::CONFIG_PATH_CUSTOMS_REFERENCE_NUMBERS,

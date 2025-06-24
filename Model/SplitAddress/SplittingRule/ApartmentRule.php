@@ -21,6 +21,7 @@ class ApartmentRule implements SplittingRuleInterface
      * @param RecipientStreetInterface $recipientStreet
      * @return void
      */
+    #[\Override]
     public function apply(OrderAddressInterface $address, RecipientStreetInterface $recipientStreet): void
     {
         $street = implode(', ', $address->getStreet());

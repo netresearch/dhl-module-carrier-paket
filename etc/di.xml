@@ -6,11 +6,17 @@
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
     <!-- # sdk preferences -->
-    <preference for="Dhl\Sdk\ParcelDe\Shipping\Api\ShipmentOrderRequestBuilderInterface" type="Dhl\Sdk\ParcelDe\Shipping\RequestBuilder\ShipmentOrderRequestBuilder"/>
-    <preference for="Dhl\Sdk\ParcelDe\Shipping\Api\ServiceFactoryInterface" type="Dhl\Sdk\ParcelDe\Shipping\Service\ServiceFactory"/>
-    <preference for="Dhl\Sdk\Paket\ParcelManagement\Api\ServiceFactoryInterface" type="Dhl\Sdk\Paket\ParcelManagement\Service\ServiceFactory"/>
-    <preference for="Dhl\Sdk\UnifiedLocationFinder\Api\ServiceFactoryInterface" type="Dhl\Sdk\UnifiedLocationFinder\Service\ServiceFactory"/>
-    <preference for="Dhl\Sdk\ParcelDe\Shipping\Api\Data\AuthenticationStorageInterface" type="Dhl\Sdk\ParcelDe\Shipping\Auth\AuthenticationStorage"/>
+    <!-- Virtual type for SDK class to ensure proper DI compilation -->
+    <virtualType name="Dhl\Paket\Model\Sdk\ShipmentOrderRequestBuilder\Virtual" type="Dhl\Sdk\ParcelDe\Shipping\RequestBuilder\ShipmentOrderRequestBuilder"/>
+    <preference for="Dhl\Sdk\ParcelDe\Shipping\Api\ShipmentOrderRequestBuilderInterface" type="Dhl\Paket\Model\Sdk\ShipmentOrderRequestBuilder\Virtual"/>
+    <virtualType name="Dhl\Paket\Model\Sdk\ServiceFactory\Virtual" type="Dhl\Sdk\ParcelDe\Shipping\Service\ServiceFactory"/>
+    <preference for="Dhl\Sdk\ParcelDe\Shipping\Api\ServiceFactoryInterface" type="Dhl\Paket\Model\Sdk\ServiceFactory\Virtual"/>
+    <virtualType name="Dhl\Paket\Model\Sdk\ParcelManagementServiceFactory\Virtual" type="Dhl\Sdk\Paket\ParcelManagement\Service\ServiceFactory"/>
+    <preference for="Dhl\Sdk\Paket\ParcelManagement\Api\ServiceFactoryInterface" type="Dhl\Paket\Model\Sdk\ParcelManagementServiceFactory\Virtual"/>
+    <virtualType name="Dhl\Paket\Model\Sdk\UnifiedLocationFinderServiceFactory\Virtual" type="Dhl\Sdk\UnifiedLocationFinder\Service\ServiceFactory"/>
+    <preference for="Dhl\Sdk\UnifiedLocationFinder\Api\ServiceFactoryInterface" type="Dhl\Paket\Model\Sdk\UnifiedLocationFinderServiceFactory\Virtual"/>
+    <virtualType name="Dhl\Paket\Model\Sdk\AuthenticationStorage\Virtual" type="Dhl\Sdk\ParcelDe\Shipping\Auth\AuthenticationStorage"/>
+    <preference for="Dhl\Sdk\ParcelDe\Shipping\Api\Data\AuthenticationStorageInterface" type="Dhl\Paket\Model\Sdk\AuthenticationStorage\Virtual"/>
 
     <!-- # service interface preferences -->
     <preference for="Dhl\Paket\Api\ShipmentDateInterface" type="Dhl\Paket\Model\ShipmentDate\ShipmentDate"/>

@@ -51,6 +51,7 @@ class ShippingOriginValidator implements ItemValidatorInterface
         );
     }
 
+    #[\Override]
     public function execute(int $storeId): ResultInterface
     {
         if (!$this->config->getOriginStreet($storeId)

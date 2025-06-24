@@ -23,7 +23,7 @@ use TddWizard\Fixtures\Sales\OrderFixtureRollback;
  * @magentoAppArea adminhtml
  * @magentoDbIsolation enabled
  */
-class SaveDeDomesticShipmentTest extends SaveShipmentTest
+class SaveDeDomesticShipmentTest extends AbstractSaveShipmentController
 {
     /**
      * Create order fixture for DE recipient address.
@@ -59,8 +59,6 @@ class SaveDeDomesticShipmentTest extends SaveShipmentTest
      * - Assert that one tracking number is created per package
      * - Assert that label status is set to "Processed"
      *
-     * @test
-     * @dataProvider postDataProvider
      * @magentoDataFixture createOrder
      *
      * @magentoConfigFixture default_store general/store_information/name NR-Test-Store
@@ -87,6 +85,9 @@ class SaveDeDomesticShipmentTest extends SaveShipmentTest
      * @param callable $getPostData
      * @throws LocalizedException
      */
+    #[\Override]
+    #[\PHPUnit\Framework\Attributes\DataProvider('postDataProvider')]
+    #[\PHPUnit\Framework\Attributes\Test]
     public function saveShipment(callable $getPostData)
     {
         // create packaging post data from order fixture

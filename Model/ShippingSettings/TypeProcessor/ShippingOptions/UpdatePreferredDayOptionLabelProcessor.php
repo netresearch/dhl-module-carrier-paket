@@ -62,13 +62,14 @@ class UpdatePreferredDayOptionLabelProcessor implements ShippingOptionsProcessor
      *
      * @return ShippingOptionInterface[]
      */
+    #[\Override]
     public function process(
         string $carrierCode,
         array $shippingOptions,
         int $storeId,
         string $countryCode,
         string $postalCode,
-        ShipmentInterface $shipment = null
+        ?ShipmentInterface $shipment = null
     ): array {
         if ($carrierCode !== Paket::CARRIER_CODE) {
             // different carrier, nothing to modify.

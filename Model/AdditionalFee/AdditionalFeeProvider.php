@@ -24,6 +24,7 @@ class AdditionalFeeProvider implements AdditionalFeeProviderInterface
         $this->config = $config;
     }
 
+    #[\Override]
     public function getAmounts(int $storeId): array
     {
         return [

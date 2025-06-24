@@ -49,8 +49,8 @@ class ResponseDataMapper
      */
     public function createTrackResponse(
         string $trackNumber,
-        ShipmentInterface $salesShipment = null,
-        ShipmentTrackInterface $salesTrack = null
+        ?ShipmentInterface $salesShipment = null,
+        ?ShipmentTrackInterface $salesTrack = null
     ): TrackResponseInterface {
         $responseData = [
             TrackResponseInterface::TRACK_NUMBER => $trackNumber,
@@ -73,12 +73,12 @@ class ResponseDataMapper
     public function createErrorResponse(
         string $trackNumber,
         Phrase $message,
-        ShipmentInterface $salesShipment = null,
-        ShipmentTrackInterface $salesTrack = null
+        ?ShipmentInterface $salesShipment = null,
+        ?ShipmentTrackInterface $salesTrack = null
     ): TrackErrorResponseInterface {
         $responseData = [
             TrackErrorResponseInterface::TRACK_NUMBER => $trackNumber,
-            TrackErrorResponseInterface::ERRORS => $message,
+            TrackErrorResponseInterface::ERRORS => [$message],
             TrackErrorResponseInterface::SALES_SHIPMENT => $salesShipment,
             TrackErrorResponseInterface::SALES_TRACK => $salesTrack,
         ];

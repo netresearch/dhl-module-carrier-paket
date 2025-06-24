@@ -23,6 +23,7 @@ class ExportDeclarationValidator implements RequestValidatorInterface
      * @return void
      * @throws ValidatorException If any package validation fails.
      */
+    #[\Override]
     public function validate(Request $shipmentRequest): void
     {
         $packages = $shipmentRequest->getData('packages');

@@ -26,15 +26,14 @@ class ShippingProductsTest extends TestCase
     /**
      * This method is called before the first test of this test class is run.
      */
+    #[\Override]
     public static function setUpBeforeClass(): void
     {
         self::$shippingProducts = Bootstrap::getObjectManager()->get(ShippingProducts::class);
         self::$euCountries = Bootstrap::getObjectManager()->get(ShippingConfigInterface::class)->getEuCountries();
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function getProductName()
     {
         self::assertSame(
@@ -52,9 +51,7 @@ class ShippingProductsTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function getProcedure()
     {
         self::assertSame(
@@ -74,7 +71,7 @@ class ShippingProductsTest extends TestCase
     /**
      * @return mixed[]
      */
-    public function applicableProductsDataProvider(): array
+    public static function applicableProductsDataProvider(): array
     {
         return [
             ['DE', false],
@@ -86,13 +83,13 @@ class ShippingProductsTest extends TestCase
     }
 
     /**
-     * @test
      *
-     * @dataProvider applicableProductsDataProvider
      *
      * @param string $originCountryCode
      * @param bool   $shouldReturnEmptyProductList
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('applicableProductsDataProvider')]
+    #[\PHPUnit\Framework\Attributes\Test]
     public function getApplicableProducts(string $originCountryCode, bool $shouldReturnEmptyProductList)
     {
         $applicableProducts = self::$shippingProducts->getApplicableProducts(
@@ -111,7 +108,7 @@ class ShippingProductsTest extends TestCase
     /**
      * @return mixed[]
      */
-    public function shippingDataProvider(): array
+    public static function shippingDataProvider(): array
     {
         return [
             // $originCountryCode, $destinationCountryCode, $destinationRegion
@@ -128,13 +125,13 @@ class ShippingProductsTest extends TestCase
     /**
      * Verifies that "getShippingProducts" does not throws an exception due an invalid array access.
      *
-     * @test
      *
-     * @dataProvider shippingDataProvider
      *
      * @param string $originCountryCode
      * @param string $destinationCountryCode
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('shippingDataProvider')]
+    #[\PHPUnit\Framework\Attributes\Test]
     public function getShippingProductsThrowsNoException(string $originCountryCode, string $destinationCountryCode)
     {
         try {
@@ -151,14 +148,14 @@ class ShippingProductsTest extends TestCase
     }
 
     /**
-     * @test
      *
-     * @dataProvider shippingDataProvider
      *
      * @param string $originCountryCode
      * @param string $destinationCountryCode
      * @param string $destinationRegion
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('shippingDataProvider')]
+    #[\PHPUnit\Framework\Attributes\Test]
     public function getShippingProductsReturnsArray(
         string $originCountryCode,
         string $destinationCountryCode,
@@ -178,7 +175,7 @@ class ShippingProductsTest extends TestCase
     /**
      * @return mixed[]
      */
-    public function applicableProceduresDataProvider(): array
+    public static function applicableProceduresDataProvider(): array
     {
         return [
             // $originCountryCode, $shouldReturnEmptyProcedureList (true/false whether shipping to this country is possible or not)
@@ -191,13 +188,13 @@ class ShippingProductsTest extends TestCase
     }
 
     /**
-     * @test
      *
-     * @dataProvider applicableProceduresDataProvider
      *
      * @param string $originCountryCode
      * @param bool $shouldReturnEmptyProcedureList
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('applicableProceduresDataProvider')]
+    #[\PHPUnit\Framework\Attributes\Test]
     public function getApplicableProcedures(string $originCountryCode, bool $shouldReturnEmptyProcedureList)
     {
         $applicableProcedures = self::$shippingProducts->getApplicableProcedures(

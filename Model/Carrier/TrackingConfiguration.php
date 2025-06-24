@@ -29,6 +29,7 @@ class TrackingConfiguration implements TrackingConfigurationInterface
      *
      * @return string
      */
+    #[\Override]
     public function getCarrierCode(): string
     {
         return Paket::CARRIER_CODE;
@@ -37,6 +38,7 @@ class TrackingConfiguration implements TrackingConfigurationInterface
     /**
      * @return string
      */
+    #[\Override]
     public function getServiceName(): string
     {
         return TrackingInfoProviderInterface::SERVICE_PARCEL_DE;
@@ -45,6 +47,7 @@ class TrackingConfiguration implements TrackingConfigurationInterface
     /**
      * @return LoggerInterface
      */
+    #[\Override]
     public function getLogger(): LoggerInterface
     {
         return $this->logger;

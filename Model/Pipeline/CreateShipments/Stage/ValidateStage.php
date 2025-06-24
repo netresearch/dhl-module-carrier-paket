@@ -36,6 +36,7 @@ class ValidateStage implements CreateShipmentsStageInterface
      * @param ArtifactsContainerInterface $artifactsContainer
      * @return Request[]
      */
+    #[\Override]
     public function execute(array $requests, ArtifactsContainerInterface $artifactsContainer): array
     {
         $callback = function (Request $request, int $requestIndex) use ($artifactsContainer) {

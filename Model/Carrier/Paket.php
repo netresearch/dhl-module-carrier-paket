@@ -184,6 +184,7 @@ class Paket extends AbstractCarrierOnline implements CarrierInterface
      * @param DataObject $request
      * @return bool|DataObject|AbstractCarrierOnline
      */
+    #[\Override]
     public function processAdditionalValidation(DataObject $request)
     {
         $shippingOrigin = (string) $request->getData('country_id');
@@ -198,6 +199,7 @@ class Paket extends AbstractCarrierOnline implements CarrierInterface
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function collectRates(RateRequest $request)
     {
         $result = $this->_rateFactory->create();
@@ -227,11 +229,12 @@ class Paket extends AbstractCarrierOnline implements CarrierInterface
      *
      * @return string[] Associative array of method names with method code as key.
      */
+    #[\Override]
     public function getAllowedMethods(): array
     {
         try {
             $carrier = $this->getProxyCarrier();
-        } catch (LocalizedException $exception) {
+        } catch (LocalizedException) {
             return [];
         }
 
@@ -253,6 +256,7 @@ class Paket extends AbstractCarrierOnline implements CarrierInterface
      * @see \Magento\Shipping\Model\Carrier\AbstractCarrierOnline::requestToShipment
      * @see \Magento\Shipping\Model\Carrier\AbstractCarrierOnline::returnOfShipment
      */
+    #[\Override]
     protected function _doShipmentRequest(DataObject $request): DataObject
     {
         $apiResult = $this->shipmentManagement->createLabels([$request->getData('package_id') => $request]);
@@ -271,6 +275,7 @@ class Paket extends AbstractCarrierOnline implements CarrierInterface
      * @param string[][] $data Arrays of info data with tracking_number and label_content
      * @return bool
      */
+    #[\Override]
     public function rollBack($data): bool
     {
         if (!is_array($data) || empty($data)) {
@@ -322,11 +327,12 @@ class Paket extends AbstractCarrierOnline implements CarrierInterface
      *
      * @return boolean
      */
+    #[\Override]
     public function isCityRequired(): bool
     {
         try {
             return $this->getProxyCarrier()->isCityRequired();
-        } catch (LocalizedException $exception) {
+        } catch (LocalizedException) {
             return parent::isCityRequired();
         }
     }
@@ -337,11 +343,12 @@ class Paket extends AbstractCarrierOnline implements CarrierInterface
      * @param string|null $countryId
      * @return bool
      */
+    #[\Override]
     public function isZipCodeRequired($countryId = null): bool
     {
         try {
             return $this->getProxyCarrier()->isZipCodeRequired($countryId);
-        } catch (LocalizedException $exception) {
+        } catch (LocalizedException) {
             return parent::isZipCodeRequired($countryId);
         }
     }
@@ -353,11 +360,12 @@ class Paket extends AbstractCarrierOnline implements CarrierInterface
      *
      * @return string|false
      */
+    #[\Override]
     public function getTrackingInfo($tracking)
     {
         try {
             $result = $this->trackingInfoProvider->getTrackingDetails($tracking, $this->getCarrierCode());
-        } catch (TrackingException $exception) {
+        } catch (TrackingException) {
             $result = null;
         }
 

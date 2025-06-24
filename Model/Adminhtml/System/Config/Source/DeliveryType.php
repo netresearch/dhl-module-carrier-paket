@@ -24,6 +24,7 @@ class DeliveryType implements OptionSourceInterface
      *
      * @return string[][]
      */
+    #[\Override]
     public function toOptionArray(): array
     {
         return [

@@ -89,21 +89,25 @@ class ShipmentService implements ShipmentServiceInterface
         return $this->shipmentService;
     }
 
+    #[\Override]
     public function getVersion(): string
     {
         return $this->getService()->getVersion();
     }
 
-    public function validateShipments(array $shipmentOrders, OrderConfigurationInterface $configuration = null): array
+    #[\Override]
+    public function validateShipments(array $shipmentOrders, ?OrderConfigurationInterface $configuration = null): array
     {
         return $this->getService()->validateShipments($shipmentOrders, $configuration);
     }
 
-    public function createShipments(array $shipmentOrders, OrderConfigurationInterface $configuration = null): array
+    #[\Override]
+    public function createShipments(array $shipmentOrders, ?OrderConfigurationInterface $configuration = null): array
     {
         return $this->getService()->createShipments($shipmentOrders, $configuration);
     }
 
+    #[\Override]
     public function cancelShipments(
         array $shipmentNumbers,
         string $profile = OrderConfigurationInterface::DEFAULT_PROFILE

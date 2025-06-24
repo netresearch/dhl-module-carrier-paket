@@ -20,6 +20,7 @@ class Endorsement implements OptionSourceInterface
      *
      * @return string[][]
      */
+    #[\Override]
     public function toOptionArray(): array
     {
         return [

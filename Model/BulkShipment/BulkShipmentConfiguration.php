@@ -40,6 +40,7 @@ class BulkShipmentConfiguration implements BulkShipmentConfigurationInterface
      *
      * @return string
      */
+    #[\Override]
     public function getCarrierCode(): string
     {
         return Paket::CARRIER_CODE;
@@ -50,6 +51,7 @@ class BulkShipmentConfiguration implements BulkShipmentConfigurationInterface
      *
      * @return RequestModifierInterface
      */
+    #[\Override]
     public function getRequestModifier(): RequestModifierInterface
     {
         return $this->requestModifier;
@@ -60,6 +62,7 @@ class BulkShipmentConfiguration implements BulkShipmentConfigurationInterface
      *
      * @return BulkLabelCreationInterface
      */
+    #[\Override]
     public function getLabelService(): BulkLabelCreationInterface
     {
         return $this->shipmentManagement;
@@ -70,6 +73,7 @@ class BulkShipmentConfiguration implements BulkShipmentConfigurationInterface
      *
      * @return BulkLabelCancellationInterface
      */
+    #[\Override]
     public function getCancellationService(): BulkLabelCancellationInterface
     {
         return $this->shipmentManagement;
@@ -80,6 +84,7 @@ class BulkShipmentConfiguration implements BulkShipmentConfigurationInterface
      *
      * @return bool
      */
+    #[\Override]
     public function isSingleTrackDeletionAllowed(): bool
     {
         return false;

@@ -50,7 +50,6 @@ class ShipmentDateCalculatorTest extends TestCase
     }
 
     /**
-     * @test
      * @magentoDataFixture createOrder
      *
      * @magentoConfigFixture default_store shipping/origin/country_id DE
@@ -59,6 +58,7 @@ class ShipmentDateCalculatorTest extends TestCase
      * @magentoConfigFixture default_store shipping/origin/city Leipzig
      * @magentoConfigFixture default_store shipping/origin/street_line1 Nonnenstraße 11
      */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function calculateShipmentDate()
     {
         $sun = new \DateTimeImmutable('2019-12-22 12:00:00');

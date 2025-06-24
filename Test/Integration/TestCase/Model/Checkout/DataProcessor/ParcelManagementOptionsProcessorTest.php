@@ -33,6 +33,7 @@ class ParcelManagementOptionsProcessorTest extends TestCase
      */
     private $objectManager;
 
+    #[\Override]
     protected function setUp(): void
     {
         parent::setUp();
@@ -45,11 +46,10 @@ class ParcelManagementOptionsProcessorTest extends TestCase
             ['createCheckoutService' => new CheckoutServiceStub()]
         );
 
-        $this->objectManager->addSharedInstance($checkoutServiceFactory, ServiceFactory::class);
+        $this->objectManager->addSharedInstance($checkoutServiceFactory, 'Dhl\Paket\Model\Sdk\ParcelManagementServiceFactory\Virtual');
     }
 
     /**
-     * @test
      *
      * @magentoConfigFixture default_store general/store_information/name NR-Test-Store
      * @magentoConfigFixture default_store general/store_information/region_id 91
@@ -74,9 +74,9 @@ class ParcelManagementOptionsProcessorTest extends TestCase
      * @magentoConfigFixture current_store carriers/flatrate/type O
      * @magentoConfigFixture current_store carriers/flatrate/handling_type F
      * @magentoConfigFixture current_store carriers/flatrate/price 5.00
-     *
      * @throws LocalizedException
      */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function processShippingOptions()
     {
         $expectedDayValues = ['', '2019-12-20', '2019-12-21', '2019-12-22'];

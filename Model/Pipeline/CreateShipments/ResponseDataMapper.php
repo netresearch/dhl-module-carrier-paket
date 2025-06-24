@@ -186,7 +186,7 @@ class ResponseDataMapper
         $responseData = [
             ShipmentResponseInterface::REQUEST_INDEX => $requestIndex,
             ShipmentResponseInterface::SALES_SHIPMENT => $salesShipment,
-            ShipmentErrorResponseInterface::ERRORS => $message,
+            ShipmentErrorResponseInterface::ERRORS => [$message],
         ];
 
         return $this->errorResponseFactory->create(['data' => $responseData]);

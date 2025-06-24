@@ -25,11 +25,13 @@ class MigrateConfigPatch implements DataPatchInterface
         $this->config = $config;
     }
 
+    #[\Override]
     public static function getDependencies(): array
     {
         return [];
     }
 
+    #[\Override]
     public function getAliases(): array
     {
         return [];
@@ -43,6 +45,7 @@ class MigrateConfigPatch implements DataPatchInterface
      * @return void
      * @throws \Exception
      */
+    #[\Override]
     public function apply()
     {
         $this->config->migrate([

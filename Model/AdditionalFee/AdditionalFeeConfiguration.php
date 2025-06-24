@@ -69,6 +69,7 @@ class AdditionalFeeConfiguration implements AdditionalFeeConfigurationInterface
     /**
      * @return string
      */
+    #[\Override]
     public function getCarrierCode(): string
     {
         return Paket::CARRIER_CODE;
@@ -78,6 +79,7 @@ class AdditionalFeeConfiguration implements AdditionalFeeConfigurationInterface
      * @param Quote $quote
      * @return bool
      */
+    #[\Override]
     public function isActive(Quote $quote): bool
     {
         $adjustment = $this->calculateAdjustmentAmount($quote);
@@ -88,6 +90,7 @@ class AdditionalFeeConfiguration implements AdditionalFeeConfigurationInterface
      * @param Quote $quote
      * @return float
      */
+    #[\Override]
     public function getServiceCharge(Quote $quote): float
     {
         return $this->calculateAdjustmentAmount($quote);
@@ -96,6 +99,7 @@ class AdditionalFeeConfiguration implements AdditionalFeeConfigurationInterface
     /**
      * @return Phrase
      */
+    #[\Override]
     public function getLabel(): Phrase
     {
         return __('DHL Shipping Service Adjustment');

@@ -1,10 +1,29 @@
 <?xml version="1.0"?>
 <phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:noNamespaceSchemaLocation="http://schema.phpunit.de/6.2/phpunit.xsd"
+         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.5/phpunit.xsd"
          colors="true"
-         bootstrap="../../../../../dev/tests/integration/framework/bootstrap.php">
+         columns="max"
+         beStrictAboutTestsThatDoNotTestAnything="false"
+         bootstrap="../../../../../dev/tests/integration/framework/bootstrap.php"
+         cacheDirectory=".phpunit.cache"
+         beStrictAboutOutputDuringTests="true"
+         failOnRisky="false"
+         failOnWarning="false"
+         displayDetailsOnAllIssues="true"
+>
+
+    <source>
+        <include>
+            <directory suffix=".php">../../</directory>
+        </include>
+        <exclude>
+            <directory>../../build/</directory>
+            <directory>../../Test/</directory>
+            <file>../../registration.php</file>
+        </exclude>
+    </source>
     <testsuites>
-        <testsuite name="DHL Paket Carrier Integration Tests">
+        <testsuite name="DHL Paket Integration Tests">
             <directory>.</directory>
         </testsuite>
     </testsuites>
@@ -12,35 +31,19 @@
         <includePath>.</includePath>
         <includePath>../../../../../dev/tests/integration/</includePath>
         <includePath>../../../../../dev/tests/integration/testsuite/</includePath>
-
-        <!-- temporary workaround for the error thrown in the magento/zendframework1:1.15.0 package -->
-        <ini name="error_reporting" value="24575" />
-        <ini name="date.timezone" value="Europe/Berlin" />
-        <ini name="xdebug.max_nesting_level" value="200" />
-
+        <ini name="date.timezone" value="Europe/Berlin"/>
+        <ini name="xdebug.max_nesting_level" value="200"/>
+        <ini name="xdebug.mode" value="coverage"/>
+        <ini name="memory_limit" value="2G"/>
         <const name="TESTS_INSTALL_CONFIG_FILE" value="etc/install-config-mysql.php"/>
         <const name="TESTS_POST_INSTALL_SETUP_COMMAND_CONFIG_FILE" value="etc/post-install-setup-command-config.php"/>
         <const name="TESTS_GLOBAL_CONFIG_FILE" value="etc/config-global.php"/>
         <const name="TESTS_GLOBAL_CONFIG_DIR" value="../../../app/etc"/>
-
-        <const name="TESTS_CLEANUP" value="disabled" />
-        <const name="TESTS_MAGENTO_MODE" value="developer" />
+        <const name="TESTS_CLEANUP" value="false"/>
+        <const name="TESTS_MAGENTO_MODE" value="developer"/>
+        <const name="TESTS_ERROR_LOG_LISTENER_LEVEL" value="1000"/>
     </php>
-    <filter>
-        <whitelist>
-            <directory suffix=".php">../../</directory>
-            <exclude>
-                <directory>../../Setup/</directory>
-                <directory>../../Test/</directory>
-                <file>../../registration.php</file>
-            </exclude>
-        </whitelist>
-    </filter>
-    <logging>
-        <log type="coverage-text" target="php://stdout" showUncoveredFiles="true"/>
-    </logging>
-    <listeners>
-        <listener class="Magento\TestFramework\Event\PhpUnit"/>
-        <listener class="Magento\TestFramework\ErrorLog\Listener"/>
-    </listeners>
+    <extensions>
+        <bootstrap class="Magento\TestFramework\Event\Subscribers"/>
+    </extensions>
 </phpunit>

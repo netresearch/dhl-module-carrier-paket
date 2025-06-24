@@ -96,6 +96,7 @@ class RequestModifier implements RequestModifierInterface
      * @param Request $shipmentRequest
      * @throws LocalizedException
      */
+    #[\Override]
     public function modify(Request $shipmentRequest): void
     {
         // add carrier-agnostic data

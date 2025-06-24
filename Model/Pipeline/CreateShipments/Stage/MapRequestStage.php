@@ -33,9 +33,10 @@ class MapRequestStage implements CreateShipmentsStageInterface
      * Requests with mapping errors are removed from requests and instantly added as error responses.
      *
      * @param Request[] $requests
-     * @param ArtifactsContainerInterface|ArtifactsContainer $artifactsContainer
+     * @param ArtifactsContainerInterface $artifactsContainer
      * @return Request[]
      */
+    #[\Override]
     public function execute(array $requests, ArtifactsContainerInterface $artifactsContainer): array
     {
         $callback = function (Request $request, int $requestIndex) use ($artifactsContainer) {

@@ -41,7 +41,7 @@ class AdditionalFeeProcessor implements ShippingOptionsProcessorInterface
         $comment = $input->getComment();
         $text = ($comment instanceof CommentInterface) ? $comment->getContent() : '';
 
-        if (empty($amount) && (strpos($text, '$1') !== false)) {
+        if (empty($amount) && (str_contains($text, '$1'))) {
             // no amount given, clear template
             $comment->setContent('');
             return;
@@ -66,13 +66,14 @@ class AdditionalFeeProcessor implements ShippingOptionsProcessorInterface
      *
      * @return ShippingOptionInterface[]
      */
+    #[\Override]
     public function process(
         string $carrierCode,
         array $shippingOptions,
         int $storeId,
         string $countryCode,
         string $postalCode,
-        ShipmentInterface $shipment = null
+        ?ShipmentInterface $shipment = null
     ): array {
         if ($carrierCode !== Paket::CARRIER_CODE) {
             // different carrier, nothing to modify.

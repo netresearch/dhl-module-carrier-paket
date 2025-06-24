@@ -174,6 +174,7 @@ class PackageAdditional implements PackageAdditionalInterface
      *
      * @return mixed[]
      */
+    #[\Override]
     public function getData(): array
     {
         return get_object_vars($this);

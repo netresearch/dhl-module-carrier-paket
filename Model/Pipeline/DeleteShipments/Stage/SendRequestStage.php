@@ -34,6 +34,7 @@ class SendRequestStage implements RequestTracksStageInterface
      * @param ArtifactsContainerInterface|ArtifactsContainer $artifactsContainer
      * @return TrackRequestInterface[]
      */
+    #[\Override]
     public function execute(array $requests, ArtifactsContainerInterface $artifactsContainer): array
     {
         $apiRequests = $artifactsContainer->getApiRequests();

@@ -30,7 +30,7 @@ use TddWizard\Fixtures\Sales\ShipmentBuilder;
  * @magentoAppArea adminhtml
  * @magentoDbIsolation enabled
  */
-class CancelTest extends AbstractBackendController
+class CancelControllerTest extends AbstractBackendController
 {
     /**
      * The resource used to authorize action
@@ -76,7 +76,7 @@ class CancelTest extends AbstractBackendController
         );
     }
 
-    public function shipmentProvider()
+    public static function shipmentProvider()
     {
         return [
             'single_package' => [
@@ -128,8 +128,6 @@ class CancelTest extends AbstractBackendController
      * - Assert that tracks were removed
      * - Assert that label status is set back to pending
      *
-     * @test
-     * @dataProvider shipmentProvider
      * @magentoDataFixture createShipments
      *
      * @magentoConfigFixture default_store general/store_information/name NR-Test-Store
@@ -152,9 +150,10 @@ class CancelTest extends AbstractBackendController
      * @magentoConfigFixture current_store carriers/flatrate/type O
      * @magentoConfigFixture current_store carriers/flatrate/handling_type F
      * @magentoConfigFixture current_store carriers/flatrate/price 5.00
-     *
      * @param callable $getShipment
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('shipmentProvider')]
+    #[\PHPUnit\Framework\Attributes\Test]
     public function trackDeletionSucceeds(callable $getShipment)
     {
         /** @var ShipmentInterface $fixtureShipment */
@@ -195,8 +194,6 @@ class CancelTest extends AbstractBackendController
      * - Assert that no tracks were removed
      * - Assert that label status remains the same
      *
-     * @test
-     * @dataProvider shipmentProvider
      * @magentoDataFixture createShipments
      *
      * @magentoConfigFixture default_store general/store_information/name NR-Test-Store
@@ -219,9 +216,10 @@ class CancelTest extends AbstractBackendController
      * @magentoConfigFixture current_store carriers/flatrate/type O
      * @magentoConfigFixture current_store carriers/flatrate/handling_type F
      * @magentoConfigFixture current_store carriers/flatrate/price 5.00
-     *
      * @param callable $getShipment
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('shipmentProvider')]
+    #[\PHPUnit\Framework\Attributes\Test]
     public function trackDeletionFails(callable $getShipment)
     {
         /** @var ShipmentInterface $fixtureShipment */
@@ -279,7 +277,6 @@ class CancelTest extends AbstractBackendController
      * - Assert that all tracks are removed
      * - Assert that label status is set back to pending
      *
-     * @test
      * @magentoDataFixture createShipments
      *
      * @magentoConfigFixture default_store general/store_information/name NR-Test-Store
@@ -303,6 +300,7 @@ class CancelTest extends AbstractBackendController
      * @magentoConfigFixture current_store carriers/flatrate/handling_type F
      * @magentoConfigFixture current_store carriers/flatrate/price 5.00
      */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function trackDeletionSucceedsPartially()
     {
         $fixtureShipment = self::$shipments['multi_package'];

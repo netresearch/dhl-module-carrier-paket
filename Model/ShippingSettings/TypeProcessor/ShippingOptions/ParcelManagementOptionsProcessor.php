@@ -65,7 +65,7 @@ class ParcelManagementOptionsProcessor implements ShippingOptionsProcessorInterf
 
             $parcelManagementService = $this->serviceFactory->create($storeId);
             $services = $parcelManagementService->getCarrierServices($postalCode, $startDate);
-        } catch (LocalizedException | ServiceException $exception) {
+        } catch (LocalizedException | ServiceException) {
             // unable to determine start date, no valid data can be fetched
             return [];
         }
@@ -97,13 +97,14 @@ class ParcelManagementOptionsProcessor implements ShippingOptionsProcessorInterf
      *
      * @return ShippingOptionInterface[]
      */
+    #[\Override]
     public function process(
         string $carrierCode,
         array $shippingOptions,
         int $storeId,
         string $countryCode,
         string $postalCode,
-        ShipmentInterface $shipment = null
+        ?ShipmentInterface $shipment = null
     ): array {
         if ($carrierCode !== Paket::CARRIER_CODE) {
             // different carrier, nothing to modify.
@@ -131,7 +132,7 @@ class ParcelManagementOptionsProcessor implements ShippingOptionsProcessorInterf
             try {
                 $inputOption = $this->optionFactory->create();
                 $inputOption->setValue((new \DateTime($serviceOption->getStart()))->format('Y-m-d'));
-            } catch (\Exception $exception) {
+            } catch (\Exception) {
                 continue;
             }
 

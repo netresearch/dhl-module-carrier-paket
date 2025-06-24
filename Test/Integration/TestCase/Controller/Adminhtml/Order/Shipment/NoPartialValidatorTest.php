@@ -9,6 +9,7 @@ namespace Dhl\Paket\Test\Integration\TestCase\Controller\Adminhtml\Order\Shipmen
 use Dhl\Paket\Model\Carrier\Paket;
 use Dhl\Paket\Model\Pipeline\CreateShipments\Stage\SendRequestStage as CreationStage;
 use Dhl\Paket\Test\Integration\Provider\Controller\SaveShipment\PostDataProvider;
+use Dhl\Paket\Test\Integration\TestCase\Controller\Adminhtml\AbstractController;
 use Dhl\Paket\Test\Integration\TestDouble\Pipeline\CreateShipments\Stage\SendRequestStageStub;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Sales\Model\ResourceModel\Order\Shipment\Collection;
@@ -25,7 +26,7 @@ use TddWizard\Fixtures\Sales\OrderFixtureRollback;
  * @magentoAppArea adminhtml
  * @magentoDbIsolation enabled
  */
-class NoPartialValidatorTest extends SaveShipmentTest
+class NoPartialValidatorTest extends AbstractSaveShipmentController
 {
 
     /**
@@ -58,7 +59,8 @@ class NoPartialValidatorTest extends SaveShipmentTest
         }
     }
 
-    public function postDataProvider()
+    #[\Override]
+    public static function postDataProvider()
     {
         return [
             'multi_package' => [
@@ -77,8 +79,6 @@ class NoPartialValidatorTest extends SaveShipmentTest
      * - Assert that no shipments are created
      * - Assert that label status is set to "Failed"
      *
-     * @test
-     * @dataProvider postDataProvider
      * @magentoDataFixture createOrder
      *
      * @magentoConfigFixture default_store general/store_information/name NR-Test-Store
@@ -106,6 +106,9 @@ class NoPartialValidatorTest extends SaveShipmentTest
      * @param callable $getPostData
      * @throws LocalizedException
      */
+    #[\Override]
+    #[\PHPUnit\Framework\Attributes\DataProvider('postDataProvider')]
+    #[\PHPUnit\Framework\Attributes\Test]
     public function saveShipment(callable $getPostData)
     {
         $orderId = self::$order->getEntityId();

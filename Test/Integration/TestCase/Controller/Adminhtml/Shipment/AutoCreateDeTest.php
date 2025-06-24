@@ -25,7 +25,7 @@ use TddWizard\Fixtures\Sales\ShipmentBuilder;
  * @magentoAppArea adminhtml
  * @magentoDbIsolation enabled
  */
-class AutoCreateDeTest extends AutoCreateTest
+class AutoCreateDeTest extends AbstractAutoCreate
 {
     /**
      * @var OrderInterface[]|Order[]
@@ -87,7 +87,6 @@ class AutoCreateDeTest extends AutoCreateTest
     }
 
     /**
-     * @test
      * @magentoDataFixture createOrders
      *
      * @magentoConfigFixture default_store general/store_information/name NR-Test-Store
@@ -113,9 +112,10 @@ class AutoCreateDeTest extends AutoCreateTest
      * @magentoConfigFixture current_store carriers/flatrate/price 5.00
      * @magentoConfigFixture current_store carriers/dhlpaket/active 1
      * @magentoConfigFixture current_store dhlshippingsolutions/dhlpaket/checkout_settings/emulated_carrier flatrate
-     *
      * @magentoConfigFixture default/shipping/batch_processing/shipping_label/retry_failed_shipments 0
      */
+    #[\Override]
+    #[\PHPUnit\Framework\Attributes\Test]
     public function createLabels()
     {
         $selectedPendingOrderIds = [
@@ -175,7 +175,6 @@ class AutoCreateDeTest extends AutoCreateTest
     }
 
     /**
-     * @test
      * @magentoDataFixture createOrders
      *
      * @magentoConfigFixture default_store general/store_information/name NR-Test-Store
@@ -201,9 +200,9 @@ class AutoCreateDeTest extends AutoCreateTest
      * @magentoConfigFixture current_store carriers/flatrate/price 5.00
      * @magentoConfigFixture current_store carriers/dhlpaket/active 1
      * @magentoConfigFixture current_store dhlshippingsolutions/dhlpaket/checkout_settings/emulated_carrier flatrate
-     *
      * @magentoConfigFixture default/shipping/batch_processing/shipping_label/retry_failed_shipments 1
      */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function createLabelsWithRetryEnabled()
     {
         $selectedPendingOrderIds = [

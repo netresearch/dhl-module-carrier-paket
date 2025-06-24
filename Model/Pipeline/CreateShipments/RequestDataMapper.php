@@ -325,16 +325,11 @@ class RequestDataMapper
 
             // customs value indicates cross-border shipment
             if ($package->getCustomsValue() !== null) {
-                switch ($packageExtension->getTermsOfTrade()) {
-                    case TermsOfTrade::DDU:
-                        $termsOfTrade = ShipmentOrderRequestBuilderInterface::INCOTERM_CODE_DAP;
-                        break;
-                    case TermsOfTrade::DDP:
-                        $termsOfTrade = ShipmentOrderRequestBuilderInterface::INCOTERM_CODE_DDP;
-                        break;
-                    default:
-                        $termsOfTrade = '';
-                }
+                $termsOfTrade = match ($packageExtension->getTermsOfTrade()) {
+                    TermsOfTrade::DDU => ShipmentOrderRequestBuilderInterface::INCOTERM_CODE_DAP,
+                    TermsOfTrade::DDP => ShipmentOrderRequestBuilderInterface::INCOTERM_CODE_DDP,
+                    default => '',
+                };
 
                 $requestBuilder->setCustomsDetails(
                     $package->getContentType(),

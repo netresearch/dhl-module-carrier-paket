@@ -91,13 +91,14 @@ class ExportNotificationInputsProcessor implements ShippingOptionsProcessorInter
      * @param ShipmentInterface|null $shipment The shipment instance for which the shipping options are being processed, or null if in checkout scope.
      * @return array The modified or original array of shipping options based on the carrier and shipment context.
      */
+    #[\Override]
     public function process(
         string $carrierCode,
         array $shippingOptions,
         int $storeId,
         string $countryCode,
         string $postalCode,
-        ShipmentInterface $shipment = null
+        ?ShipmentInterface $shipment = null
     ): array {
         if ($carrierCode !== Paket::CARRIER_CODE) {
             // different carrier, nothing to modify.

@@ -51,6 +51,7 @@ class BillingNumberValidator implements ItemValidatorInterface
         );
     }
 
+    #[\Override]
     public function execute(int $storeId): ResultInterface
     {
         $sandboxMode = $this->config->isSandboxMode($storeId);

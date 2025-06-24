@@ -37,6 +37,7 @@ class Routes extends Select
      *
      * @return string
      */
+    #[\Override]
     public function _toHtml(): string
     {
         if (!$this->getOptions()) {

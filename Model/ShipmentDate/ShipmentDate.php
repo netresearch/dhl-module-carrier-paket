@@ -49,6 +49,7 @@ class ShipmentDate implements ShipmentDateInterface
         $this->shipmentDateCalculator = $shipmentDateCalculator;
     }
 
+    #[\Override]
     public function getDate($store = null): \DateTimeInterface
     {
         $cutOffTimes = $this->config->getCutOffTimes($store);
@@ -56,7 +57,7 @@ class ShipmentDate implements ShipmentDateInterface
 
         try {
             return $this->shipmentDateCalculator->getDate($cutOffDates, $store);
-        } catch (\RuntimeException $exception) {
+        } catch (\RuntimeException) {
             $message = __('Failed to calculate next possible shipment date. Please revise your cut-off times setting.');
             throw new LocalizedException($message);
         }

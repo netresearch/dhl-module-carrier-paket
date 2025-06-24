@@ -36,7 +36,8 @@ class NoNeighborDeliveryDefaultConfigValueProcessor implements ShippingSettingsP
      *
      * @return mixed[]
      */
-    public function process(array $shippingSettings, int $storeId, ShipmentInterface $shipment = null): array
+    #[\Override]
+    public function process(array $shippingSettings, int $storeId, ?ShipmentInterface $shipment = null): array
     {
         if ($this->config->isNoNeighborDeliveryEnabled($storeId)) {
             // service is available for selection in checkout, not setting admin default config value.

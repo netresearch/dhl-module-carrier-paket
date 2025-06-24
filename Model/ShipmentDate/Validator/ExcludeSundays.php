@@ -12,6 +12,7 @@ use Netresearch\ShippingCore\Api\ShipmentDate\DayValidatorInterface;
 
 class ExcludeSundays implements DayValidatorInterface
 {
+    #[\Override]
     public function validate(\DateTimeInterface $dateTime, $store = null): bool
     {
         $weekDay = $dateTime->format('N');

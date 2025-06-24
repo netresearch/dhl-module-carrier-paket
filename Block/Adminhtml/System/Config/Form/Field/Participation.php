@@ -55,6 +55,7 @@ class Participation extends AbstractFieldArray
      *
      * @throws LocalizedException
      */
+    #[\Override]
     protected function _prepareArrayRow(DataObject $row)
     {
         $hash = $this->getTemplateRenderer()->calcOptionHash(
@@ -74,6 +75,7 @@ class Participation extends AbstractFieldArray
      *
      * @throws LocalizedException
      */
+    #[\Override]
     protected function _prepareToRender()
     {
         $this->addColumn('procedure', [
@@ -105,6 +107,7 @@ class Participation extends AbstractFieldArray
      * @return string
      * @throws \Exception
      */
+    #[\Override]
     public function renderCellTemplate($columnName)
     {
         $cellTemplate = parent::renderCellTemplate($columnName);

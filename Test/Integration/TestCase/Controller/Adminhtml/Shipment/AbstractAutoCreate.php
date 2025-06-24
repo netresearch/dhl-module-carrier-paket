@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace Dhl\Paket\Test\Integration\TestCase\Controller\Adminhtml\Shipment;
 
 use Dhl\Paket\Model\Pipeline\CreateShipments\Stage\SendRequestStage;
+use Dhl\Paket\Test\Integration\TestCase\Controller\Adminhtml\AbstractController;
 use Dhl\Paket\Test\Integration\TestCase\Controller\Adminhtml\ControllerTest;
 use Dhl\Paket\Test\Integration\TestDouble\Pipeline\CreateShipments\Stage\SendRequestStageStub;
 use Magento\Framework\Exception\AuthenticationException;
@@ -17,8 +18,9 @@ use Magento\Framework\Exception\AuthenticationException;
  * Base controller test for the auto-create route.
  *
  * @method \Magento\Framework\App\Request\Http getRequest()
+ *
  */
-abstract class AutoCreateTest extends ControllerTest
+abstract class AbstractAutoCreate extends AbstractController
 {
     /**
      * The resource used to authorize action
@@ -44,6 +46,7 @@ abstract class AutoCreateTest extends ControllerTest
      *
      * @throws AuthenticationException
      */
+    #[\Override]
     protected function setUp(): void
     {
         parent::setUp();
@@ -85,7 +88,5 @@ abstract class AutoCreateTest extends ControllerTest
             'namespace' => 'sales_order_grid'
         ];
         $this->getRequest()->setPostValue($postData);
-
-        parent::testAclHasAccess();
     }
 }

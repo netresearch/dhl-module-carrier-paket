@@ -191,7 +191,6 @@ class AutoCreateTest extends TestCase
      *
      * Assert that the process terminates early.
      *
-     * @test
      * @magentoDataFixture createOrders
      *
      * @magentoConfigFixture default_store general/store_information/name NR-Test-Store
@@ -222,6 +221,7 @@ class AutoCreateTest extends TestCase
      * @magentoConfigFixture default/shipping/batch_processing/shipping_label/cron_order_status processing
      * @magentoConfigFixture default/shipping/batch_processing/shipping_label/retry_failed_shipments 0
      */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function cronTerminatesWhenDisabledViaConfig()
     {
         $logger = new TestLogger();
@@ -240,7 +240,6 @@ class AutoCreateTest extends TestCase
      * - Assert that order comments were added on web service failure.
      * - Assert that label status "Failed" was set on web service failure.
      *
-     * @test
      * @magentoDataFixture createOrders
      *
      * @magentoConfigFixture default_store general/store_information/name NR-Test-Store
@@ -271,6 +270,7 @@ class AutoCreateTest extends TestCase
      * @magentoConfigFixture default/shipping/batch_processing/shipping_label/cron_order_status processing
      * @magentoConfigFixture default/shipping/batch_processing/shipping_label/retry_failed_shipments 0
      */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function orderWithDeselectedStatusIsNotProcessed()
     {
         $pendingOrder = null;
@@ -296,7 +296,6 @@ class AutoCreateTest extends TestCase
         $serviceException = new DetailedServiceException($serviceError);
         $serviceMock = $this->getMockBuilder(ShipmentService::class)
             ->disableOriginalConstructor()
-            ->setMethods(['createShipments'])
             ->getMock();
         $serviceMock
             ->expects($this->once())
@@ -308,7 +307,6 @@ class AutoCreateTest extends TestCase
 
         $serviceFactoryMock = $this->getMockBuilder(ShipmentServiceFactory::class)
             ->disableOriginalConstructor()
-            ->setMethods(['create'])
             ->getMock();
         $serviceFactoryMock->method('create')->willReturn($serviceMock);
 
@@ -352,7 +350,6 @@ class AutoCreateTest extends TestCase
      * - Assert that label pdf was added on web service success.
      * - Assert that label status was switched to "processed" on web service success.
      *
-     * @test
      * @magentoDataFixture createPartialShipments
      *
      * @magentoConfigFixture default_store general/store_information/name NR-Test-Store
@@ -383,6 +380,7 @@ class AutoCreateTest extends TestCase
      * @magentoConfigFixture default/shipping/batch_processing/shipping_label/cron_order_status processing
      * @magentoConfigFixture default/shipping/batch_processing/shipping_label/retry_failed_shipments 1
      */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function partialShipmentIsProcessed()
     {
         $order = self::$orders[0];
@@ -433,7 +431,6 @@ class AutoCreateTest extends TestCase
      *
      * Assert that the order is not sent to the web service again.
      *
-     * @test
      * @magentoDataFixture createFailedShipment
      *
      * @magentoConfigFixture default_store general/store_information/name NR-Test-Store
@@ -464,6 +461,7 @@ class AutoCreateTest extends TestCase
      * @magentoConfigFixture default/shipping/batch_processing/shipping_label/cron_order_status processing
      * @magentoConfigFixture default/shipping/batch_processing/shipping_label/retry_failed_shipments 0
      */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function skipFailedShipment()
     {
         $order = self::$orders[0];
@@ -495,7 +493,6 @@ class AutoCreateTest extends TestCase
      *
      * Assert that the order is sent to the web service again.
      *
-     * @test
      * @magentoDataFixture createFailedShipment
      *
      * @magentoConfigFixture default_store general/store_information/name NR-Test-Store
@@ -526,6 +523,7 @@ class AutoCreateTest extends TestCase
      * @magentoConfigFixture default/shipping/batch_processing/shipping_label/cron_order_status processing
      * @magentoConfigFixture default/shipping/batch_processing/shipping_label/retry_failed_shipments 1
      */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function retryFailedShipment()
     {
         $order = self::$orders[0];
@@ -541,13 +539,11 @@ class AutoCreateTest extends TestCase
         $serviceException = new DetailedServiceException($serviceError);
         $serviceMock = $this->getMockBuilder(ShipmentService::class)
                             ->disableOriginalConstructor()
-                            ->setMethods(['createShipments'])
                             ->getMock();
         $serviceMock->expects($this->once())->method('createShipments')->willThrowException($serviceException);
 
         $serviceFactoryMock = $this->getMockBuilder(ShipmentServiceFactory::class)
                                    ->disableOriginalConstructor()
-                                   ->setMethods(['create'])
                                    ->getMock();
         $serviceFactoryMock->method('create')->willReturn($serviceMock);
 

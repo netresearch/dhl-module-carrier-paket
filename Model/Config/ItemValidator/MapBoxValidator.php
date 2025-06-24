@@ -35,6 +35,7 @@ class MapBoxValidator implements ItemValidatorInterface
         $this->config = $config;
     }
 
+    #[\Override]
     public function execute(int $storeId): ResultInterface
     {
         if ($this->config->getApiToken($storeId)) {

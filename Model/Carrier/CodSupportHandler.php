@@ -122,6 +122,7 @@ class CodSupportHandler implements MethodAvailabilityInterface, CodSelectorInter
      *
      * @return bool
      */
+    #[\Override]
     public function isAvailable(Quote $quote): bool
     {
         return $this->isDomesticShipment($quote)
@@ -133,6 +134,7 @@ class CodSupportHandler implements MethodAvailabilityInterface, CodSelectorInter
      *
      * @param AssignedSelectionInterface $selection
      */
+    #[\Override]
     public function assignCodSelection(AssignedSelectionInterface $selection)
     {
         $selection->setShippingOptionCode(Codes::SERVICE_OPTION_CASH_ON_DELIVERY);

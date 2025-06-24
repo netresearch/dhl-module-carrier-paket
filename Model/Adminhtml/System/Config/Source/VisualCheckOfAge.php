@@ -21,6 +21,7 @@ class VisualCheckOfAge implements OptionSourceInterface
      *
      * @return string[][]
      */
+    #[\Override]
     public function toOptionArray(): array
     {
         return [

@@ -33,9 +33,10 @@ class MapResponseStage implements CreateShipmentsStageInterface
      * The `request_index` property is set to the shipment request packages during request mapping.
      *
      * @param Request[] $requests
-     * @param ArtifactsContainerInterface|ArtifactsContainer $artifactsContainer
+     * @param ArtifactsContainerInterface $artifactsContainer
      * @return Request[]
      */
+    #[\Override]
     public function execute(array $requests, ArtifactsContainerInterface $artifactsContainer): array
     {
         $stageErrors = $artifactsContainer->getErrors();

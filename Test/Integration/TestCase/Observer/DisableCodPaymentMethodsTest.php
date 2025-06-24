@@ -76,6 +76,7 @@ class DisableCodPaymentMethodsTest extends TestCase
     /**
      * Prepare invoker, observer and observer config.
      */
+    #[\Override]
     protected function setUp(): void
     {
         parent::setUp();
@@ -93,7 +94,7 @@ class DisableCodPaymentMethodsTest extends TestCase
      *
      * @return string[][]|bool[][]
      */
-    public function dataProvider()
+    public static function dataProvider()
     {
         return [
             'cod_gets_disabled' => [Cashondelivery::class, true, false],
@@ -110,7 +111,7 @@ class DisableCodPaymentMethodsTest extends TestCase
      * @param QuoteSelection|null $serviceSelection
      * @throws \Exception
      */
-    private static function quoteFixture($locale = 'de_DE', QuoteSelection $serviceSelection = null)
+    private static function quoteFixture($locale = 'de_DE', ?QuoteSelection $serviceSelection = null)
     {
         /** @var AddressRepositoryInterface $customerAddressRepository */
         $customerAddressRepository = Bootstrap::getObjectManager()->get(AddressRepositoryInterface::class);
@@ -243,14 +244,13 @@ class DisableCodPaymentMethodsTest extends TestCase
      * - Observer must not crash.
      * - No changes must be made to the method availability.
      *
-     * @test
-     * @dataProvider dataProvider
      * @magentoConfigFixture current_store shipping/parcel_processing/cod_methods cashondelivery
      * @magentoConfigFixture current_store shipping/origin/country_id DE
-     *
      * @param string $methodClass
      * @param bool $before
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('dataProvider')]
+    #[\PHPUnit\Framework\Attributes\Test]
     public function methodRemainsSameForUnavailableQuote(string $methodClass, bool $before)
     {
         $checkResult = new DataObject();
@@ -274,14 +274,13 @@ class DisableCodPaymentMethodsTest extends TestCase
      *
      * - No changes must be made to the method availability. Order will not be shipped with DHL Paket.
      *
-     * @test
-     * @dataProvider dataProvider
      * @magentoConfigFixture current_store shipping/parcel_processing/cod_methods cashondelivery
      * @magentoConfigFixture current_store shipping/origin/country_id DE
-     *
      * @param string $methodClass
      * @param bool $before
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('dataProvider')]
+    #[\PHPUnit\Framework\Attributes\Test]
     public function methodRemainsSameForVirtualQuote(string $methodClass, bool $before)
     {
         $checkResult = new DataObject();
@@ -306,15 +305,14 @@ class DisableCodPaymentMethodsTest extends TestCase
      * - Observer must not crash.
      * - No changes must be made to the method availability. Order will not be shipped with DHL Paket.
      *
-     * @test
-     * @dataProvider dataProvider
      * @magentoDataFixture deQuoteFixture
      * @magentoConfigFixture current_store shipping/parcel_processing/cod_methods cashondelivery
      * @magentoConfigFixture current_store shipping/origin/country_id DE
-     *
      * @param string $methodClass
      * @param bool $before
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('dataProvider')]
+    #[\PHPUnit\Framework\Attributes\Test]
     public function methodRemainsSameForBrokenQuote(string $methodClass, bool $before)
     {
         $checkResult = new DataObject();
@@ -343,15 +341,14 @@ class DisableCodPaymentMethodsTest extends TestCase
      * - If no COD method is selected and it was available before, then it must remain enabled.
      * - If no COD method is selected and it was unavailable before, then it must remain disabled.
      *
-     * @test
-     * @dataProvider dataProvider
      * @magentoDataFixture deQuoteFixture
      * @magentoConfigFixture current_store shipping/parcel_processing/cod_methods cashondelivery
      * @magentoConfigFixture current_store shipping/origin/country_id DE
-     *
      * @param string $methodClass
      * @param bool $before
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('dataProvider')]
+    #[\PHPUnit\Framework\Attributes\Test]
     public function codIsEnabledForNoServiceSelection(string $methodClass, bool $before)
     {
         $checkResult = new DataObject();
@@ -378,8 +375,6 @@ class DisableCodPaymentMethodsTest extends TestCase
      * - If no COD method is selected and it was available before, then it must remain enabled.
      * - If no COD method is selected and it was unavailable before, then it must remain disabled.
      *
-     * @test
-     * @dataProvider dataProvider
      * @magentoDataFixture usQuoteFixture
      * @magentoConfigFixture current_store shipping/parcel_processing/cod_methods cashondelivery
      * @magentoConfigFixture current_store shipping/origin/country_id DE
@@ -388,6 +383,8 @@ class DisableCodPaymentMethodsTest extends TestCase
      * @param bool $before
      * @param bool $after
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('dataProvider')]
+    #[\PHPUnit\Framework\Attributes\Test]
     public function codIsDisabledForCrossBorderQuote(string $methodClass, bool $before, bool $after)
     {
         $checkResult = new DataObject();
@@ -414,15 +411,14 @@ class DisableCodPaymentMethodsTest extends TestCase
      * - If no COD method is selected and it was available before, then it must remain enabled.
      * - If no COD method is selected and it was unavailable before, then it must remain disabled.
      *
-     * @test
-     * @dataProvider dataProvider
      * @magentoDataFixture deQuoteFixtureWithCodCompatibleService
      * @magentoConfigFixture current_store shipping/parcel_processing/cod_methods cashondelivery
      * @magentoConfigFixture current_store shipping/origin/country_id DE
-     *
      * @param string $methodClass
      * @param bool $before
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('dataProvider')]
+    #[\PHPUnit\Framework\Attributes\Test]
     public function codIsEnabledForCompatibleServiceSelection(string $methodClass, bool $before)
     {
         $checkResult = new DataObject();
@@ -449,8 +445,6 @@ class DisableCodPaymentMethodsTest extends TestCase
      * - If no COD method is selected and it was available before, then it must remain enabled.
      * - If no COD method is selected and it was unavailable before, then it must remain disabled.
      *
-     * @test
-     * @dataProvider dataProvider
      * @magentoDataFixture deQuoteFixtureWithCodIncompatibleService
      * @magentoConfigFixture current_store shipping/parcel_processing/cod_methods cashondelivery
      * @magentoConfigFixture current_store shipping/origin/country_id DE
@@ -459,6 +453,8 @@ class DisableCodPaymentMethodsTest extends TestCase
      * @param bool $before
      * @param bool $after
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('dataProvider')]
+    #[\PHPUnit\Framework\Attributes\Test]
     public function codIsDisabledForIncompatibleServiceSelection(string $methodClass, bool $before, bool $after)
     {
         $checkResult = new DataObject();

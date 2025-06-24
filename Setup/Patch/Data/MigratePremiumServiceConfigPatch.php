@@ -24,11 +24,13 @@ class MigratePremiumServiceConfigPatch implements DataPatchInterface
         $this->resourceConnection = $resourceConnection;
     }
 
+    #[\Override]
     public static function getDependencies(): array
     {
         return [];
     }
 
+    #[\Override]
     public function getAliases(): array
     {
         return [];
@@ -40,6 +42,7 @@ class MigratePremiumServiceConfigPatch implements DataPatchInterface
      * @return void
      * @throws \Exception
      */
+    #[\Override]
     public function apply()
     {
         $oldPath = 'dhlshippingsolutions/dhlpaket/shipment_defaults/services/premium';

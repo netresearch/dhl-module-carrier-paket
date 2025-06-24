@@ -163,36 +163,43 @@ class RequestExtractor implements RequestExtractorInterface
         return $this->serviceOptionReader;
     }
 
+    #[\Override]
     public function isReturnShipmentRequest(): bool
     {
         return $this->getCoreExtractor()->isReturnShipmentRequest();
     }
 
+    #[\Override]
     public function getStoreId(): int
     {
         return $this->getCoreExtractor()->getStoreId();
     }
 
+    #[\Override]
     public function getBaseCurrencyCode(): string
     {
         return $this->getCoreExtractor()->getBaseCurrencyCode();
     }
 
+    #[\Override]
     public function getOrder(): Order
     {
         return $this->getCoreExtractor()->getOrder();
     }
 
+    #[\Override]
     public function getShipment(): Shipment
     {
         return $this->getCoreExtractor()->getShipment();
     }
 
+    #[\Override]
     public function getShipper(): ShipperInterface
     {
         return $this->getCoreExtractor()->getShipper();
     }
 
+    #[\Override]
     public function getReturnRecipient(): ShipperInterface
     {
         if (!empty($this->returnRecipient)) {
@@ -226,16 +233,19 @@ class RequestExtractor implements RequestExtractorInterface
         return $this->returnRecipient;
     }
 
+    #[\Override]
     public function getRecipient(): RecipientInterface
     {
         return $this->getCoreExtractor()->getRecipient();
     }
 
+    #[\Override]
     public function getPackageWeight(): float
     {
         return $this->getCoreExtractor()->getPackageWeight();
     }
 
+    #[\Override]
     public function getPackages(): array
     {
         $packages = $this->getCoreExtractor()->getPackages();
@@ -286,61 +296,73 @@ class RequestExtractor implements RequestExtractorInterface
         return $paketPackages;
     }
 
+    #[\Override]
     public function getAllItems(): array
     {
         return $this->getCoreExtractor()->getAllItems();
     }
 
+    #[\Override]
     public function getPackageItems(): array
     {
         return $this->getCoreExtractor()->getPackageItems();
     }
 
+    #[\Override]
     public function isCashOnDelivery(): bool
     {
         return $this->coreExtractor->isCashOnDelivery();
     }
 
+    #[\Override]
     public function getCodReasonForPayment(): string
     {
         return $this->coreExtractor->getCodReasonForPayment();
     }
 
+    #[\Override]
     public function isPickupLocationDelivery(): bool
     {
         return $this->getCoreExtractor()->isPickupLocationDelivery();
     }
 
+    #[\Override]
     public function getDeliveryLocationType(): string
     {
         return $this->coreExtractor->getDeliveryLocationType();
     }
 
+    #[\Override]
     public function getDeliveryLocationId(): string
     {
         return $this->coreExtractor->getDeliveryLocationId();
     }
 
+    #[\Override]
     public function getDeliveryLocationNumber(): string
     {
         return $this->coreExtractor->getDeliveryLocationNumber();
     }
 
+    #[\Override]
     public function getDeliveryLocationCountryCode(): string
     {
         return $this->coreExtractor->getDeliveryLocationCountryCode();
     }
 
+    #[\Override]
     public function getDeliveryLocationPostalCode(): string
     {
         return $this->coreExtractor->getDeliveryLocationPostalCode();
     }
 
+    #[\Override]
     public function getDeliveryLocationCity(): string
     {
         return $this->coreExtractor->getDeliveryLocationCity();
     }
 
+    #[\Override]
     public function getDeliveryLocationStreet(): string
     {
         return $this->coreExtractor->getDeliveryLocationStreet();

@@ -37,6 +37,7 @@ class ProductValidator implements RequestValidatorInterface
         return !$isKleinPaket || (!$hasPrefDayService && !$hasCodService);
     }
 
+    #[\Override]
     public function validate(Request $shipmentRequest): void
     {
         if (!$this->canShipWithKleinPaket($shipmentRequest)) {

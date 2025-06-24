@@ -53,6 +53,7 @@ class LocationProvider implements LocationProviderInterface
      * @return LocationInterface[]
      * @throws LocalizedException
      */
+    #[\Override]
     public function getLocationsByAddress(AddressInterface $address): array
     {
         try {
@@ -66,7 +67,7 @@ class LocationProvider implements LocationProviderInterface
                 15000,
                 50
             );
-        } catch (ServiceException $exception) {
+        } catch (ServiceException) {
             throw new NoSuchEntityException(
                 __('There was a problem finding locations. Please check if the address is valid.')
             );
@@ -91,6 +92,7 @@ class LocationProvider implements LocationProviderInterface
     /**
      * @return string
      */
+    #[\Override]
     public function getCarrierCode(): string
     {
         return Paket::CARRIER_CODE;

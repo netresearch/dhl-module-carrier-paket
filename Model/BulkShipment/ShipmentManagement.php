@@ -87,6 +87,7 @@ class ShipmentManagement implements BulkLabelCreationInterface, BulkLabelCancell
      * @param Request[] $shipmentRequests
      * @return ShipmentResponseInterface[]
      */
+    #[\Override]
     public function createLabels(array $shipmentRequests): array
     {
         if (empty($shipmentRequests)) {
@@ -97,7 +98,7 @@ class ShipmentManagement implements BulkLabelCreationInterface, BulkLabelCancell
         $apiResults = [];
 
         foreach ($shipmentRequests as $shipmentRequest) {
-            $storeId = (int) $shipmentRequest->getOrderShipment()->getStoreId();
+            $storeId = $shipmentRequest->getOrderShipment()->getStoreId();
             $apiRequests[$storeId][] = $shipmentRequest;
         }
 
@@ -122,6 +123,7 @@ class ShipmentManagement implements BulkLabelCreationInterface, BulkLabelCancell
      * @param TrackRequestInterface[] $cancelRequests
      * @return TrackResponseInterface[]
      */
+    #[\Override]
     public function cancelLabels(array $cancelRequests): array
     {
         if (empty($cancelRequests)) {

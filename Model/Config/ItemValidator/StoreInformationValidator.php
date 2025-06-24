@@ -35,6 +35,7 @@ class StoreInformationValidator implements ItemValidatorInterface
         $this->config = $config;
     }
 
+    #[\Override]
     public function execute(int $storeId): ResultInterface
     {
         $storeInformation = $this->config->getStoreInformation($storeId);

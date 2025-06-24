@@ -48,6 +48,7 @@ class ShipmentServiceStub implements ShipmentServiceInterface
      *
      * @return string
      */
+    #[\Override]
     public function getVersion(): string
     {
         return '';
@@ -60,7 +61,8 @@ class ShipmentServiceStub implements ShipmentServiceInterface
      * @param OrderConfigurationInterface|null $configuration
      * @return ValidationResultInterface[]
      */
-    public function validateShipments(array $shipmentOrders, OrderConfigurationInterface $configuration = null): array
+    #[\Override]
+    public function validateShipments(array $shipmentOrders, ?OrderConfigurationInterface $configuration = null): array
     {
         return [];
     }
@@ -75,7 +77,8 @@ class ShipmentServiceStub implements ShipmentServiceInterface
      * @see \Dhl\Paket\Test\Integration\TestDouble\Pipeline\CreateShipments\Stage\SendRequestStageStub
      *
      */
-    public function createShipments(array $shipmentOrders, OrderConfigurationInterface $configuration = null): array
+    #[\Override]
+    public function createShipments(array $shipmentOrders, ?OrderConfigurationInterface $configuration = null): array
     {
         $callback = $this->createShipmentsStage->responseCallback;
         if (is_callable($callback)) {
@@ -104,6 +107,7 @@ class ShipmentServiceStub implements ShipmentServiceInterface
      * @see \Dhl\Paket\Test\Integration\TestDouble\Pipeline\DeleteShipments\Stage\SendRequestStageStub
      *
      */
+    #[\Override]
     public function cancelShipments(
         array $shipmentNumbers,
         string $profile = OrderConfigurationInterface::DEFAULT_PROFILE

@@ -29,11 +29,13 @@ class ShipmentOrderConfig implements OrderConfigurationInterface
         $this->storeId = $storeId;
     }
 
+    #[\Override]
     public function mustEncode(): ?bool
     {
         return $this->moduleConfig->isPrintOnlyIfCodeable($this->storeId);
     }
 
+    #[\Override]
     public function isCombinedPrinting(): ?bool
     {
         if ($this->getPrintFormat() !== $this->getPrintFormatReturn()) {
@@ -43,21 +45,25 @@ class ShipmentOrderConfig implements OrderConfigurationInterface
         return null;
     }
 
+    #[\Override]
     public function getDocFormat(): ?string
     {
         return OrderConfigurationInterface::DOC_FORMAT_PDF;
     }
 
+    #[\Override]
     public function getPrintFormat(): ?string
     {
         return $this->moduleConfig->getLabelFormat($this->storeId);
     }
 
+    #[\Override]
     public function getPrintFormatReturn(): ?string
     {
         return $this->moduleConfig->getLabelFormatReturn($this->storeId);
     }
 
+    #[\Override]
     public function getProfile(): string
     {
         return $this->moduleConfig->getGroupProfile($this->storeId);

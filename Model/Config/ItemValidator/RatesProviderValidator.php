@@ -45,6 +45,7 @@ class RatesProviderValidator implements ItemValidatorInterface
         $this->carrierConfig = $carrierConfig;
     }
 
+    #[\Override]
     public function execute(int $storeId): ResultInterface
     {
         $carrierCode = $this->config->getProxyCarrierCode($storeId);

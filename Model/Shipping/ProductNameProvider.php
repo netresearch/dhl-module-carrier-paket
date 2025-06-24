@@ -24,11 +24,13 @@ class ProductNameProvider implements ProductNameProviderInterface
         $this->shippingProducts = $shippingProducts;
     }
 
+    #[\Override]
     public function getCarrierCode(): string
     {
         return Paket::CARRIER_CODE;
     }
 
+    #[\Override]
     public function getName(string $productCode): string
     {
         $productName = $this->shippingProducts->getProductName($productCode);

@@ -36,6 +36,7 @@ class EnabledForCheckoutValidator implements ItemValidatorInterface
         $this->config = $config;
     }
 
+    #[\Override]
     public function execute(int $storeId): ResultInterface
     {
         if ($this->config->isActive(Paket::CARRIER_CODE, $storeId)) {

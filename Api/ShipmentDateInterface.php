@@ -20,10 +20,9 @@ interface ShipmentDateInterface
     /**
      * Obtain next possible shipment date.
      *
-     * @param mixed $store
      *
      * @return \DateTimeInterface
      * @throws LocalizedException
      */
-    public function getDate($store = null): \DateTimeInterface;
+    public function getDate(mixed $store = null): \DateTimeInterface;
 }

@@ -30,6 +30,7 @@ class AdditionalChargesProcessorTest extends TestCase
      */
     private $objectManager;
 
+    #[\Override]
     protected function setUp(): void
     {
         parent::setUp();

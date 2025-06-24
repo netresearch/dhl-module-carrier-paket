@@ -39,13 +39,14 @@ class HsCodeValidationRuleProcessor implements ItemShippingOptionsProcessorInter
      * @param ShipmentInterface|null $shipment The shipment instance, optional.
      * @return array The processed item options with updated validation rules.
      */
+    #[\Override]
     public function process(
         string $carrierCode,
         array $itemOptions,
         int $storeId,
         string $countryCode,
         string $postalCode,
-        ShipmentInterface $shipment = null
+        ?ShipmentInterface $shipment = null
     ): array {
 
         foreach ($itemOptions as $itemOption) {

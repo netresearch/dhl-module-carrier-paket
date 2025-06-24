@@ -37,6 +37,7 @@ class ParcelDeApiCredentialsValidator implements ItemValidatorInterface
         $this->config = $config;
     }
 
+    #[\Override]
     public function execute(int $storeId): ResultInterface
     {
         $sandboxMode = $this->config->isSandboxMode($storeId);

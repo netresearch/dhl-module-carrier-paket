@@ -79,6 +79,7 @@ class Procedure implements OptionSourceInterface
      *
      * @return mixed[]
      */
+    #[\Override]
     public function toOptionArray(): array
     {
         $options = [];

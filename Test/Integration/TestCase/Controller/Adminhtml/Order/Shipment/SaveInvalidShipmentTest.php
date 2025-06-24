@@ -29,7 +29,7 @@ use TddWizard\Fixtures\Sales\OrderFixtureRollback;
  * @magentoAppArea adminhtml
  * @magentoDbIsolation enabled
  */
-class SaveInvalidShipmentTest extends SaveShipmentTest
+class SaveInvalidShipmentTest extends AbstractSaveShipmentController
 {
     /**
      * Create an order fixture for DE recipient address with an invalid item.
@@ -73,8 +73,6 @@ class SaveInvalidShipmentTest extends SaveShipmentTest
      * -- Assert that no shipment is created
      * -- Assert that label status is set to "Failed"
      *
-     * @test
-     * @dataProvider postDataProvider
      * @magentoDataFixture createInvalidOrder
      *
      * @magentoConfigFixture default_store general/store_information/name NR-Test-Store
@@ -101,6 +99,9 @@ class SaveInvalidShipmentTest extends SaveShipmentTest
      * @param callable $getPostData
      * @throws LocalizedException
      */
+    #[\Override]
+    #[\PHPUnit\Framework\Attributes\DataProvider('postDataProvider')]
+    #[\PHPUnit\Framework\Attributes\Test]
     public function saveShipment(callable $getPostData)
     {
         $data = $getPostData();

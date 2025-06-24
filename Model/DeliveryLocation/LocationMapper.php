@@ -100,18 +100,13 @@ class LocationMapper
      */
     private function getDisplayName(string $shopType, string $number): string
     {
-        switch ($shopType) {
-            case SdkLocationInterface::TYPE_LOCKER:
-                return __('Parcel Station %1', $number)->render();
-            case SdkLocationInterface::TYPE_POSTBANK:
-                return __('Post Bank %1', $number)->render();
-            case SdkLocationInterface::TYPE_POSTOFFICE:
-                return __('Post Office %1', $number)->render();
-            case SdkLocationInterface::TYPE_SERVICEPOINT:
-                return __('Parcel Shop %1', $number)->render();
-            default:
-                return '';
-        }
+        return match ($shopType) {
+            SdkLocationInterface::TYPE_LOCKER => __('Parcel Station %1', $number)->render(),
+            SdkLocationInterface::TYPE_POSTBANK => __('Post Bank %1', $number)->render(),
+            SdkLocationInterface::TYPE_POSTOFFICE => __('Post Office %1', $number)->render(),
+            SdkLocationInterface::TYPE_SERVICEPOINT => __('Parcel Shop %1', $number)->render(),
+            default => '',
+        };
     }
 
     /**
@@ -199,24 +194,16 @@ class LocationMapper
      */
     private function mapDayOfWeek(string $dayOfWeek): string
     {
-        switch ($dayOfWeek) {
-            case 'Sunday':
-                return __('Sun')->render();
-            case 'Monday':
-                return __('Mon')->render();
-            case 'Tuesday':
-                return __('Tue')->render();
-            case 'Wednesday':
-                return __('Wed')->render();
-            case 'Thursday':
-                return __('Thu')->render();
-            case 'Friday':
-                return __('Fri')->render();
-            case 'Saturday':
-                return __('Sat')->render();
-            default:
-                return '';
-        }
+        return match ($dayOfWeek) {
+            'Sunday' => __('Sun')->render(),
+            'Monday' => __('Mon')->render(),
+            'Tuesday' => __('Tue')->render(),
+            'Wednesday' => __('Wed')->render(),
+            'Thursday' => __('Thu')->render(),
+            'Friday' => __('Fri')->render(),
+            'Saturday' => __('Sat')->render(),
+            default => '',
+        };
     }
 
     /**
