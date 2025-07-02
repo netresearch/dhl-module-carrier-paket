@@ -141,6 +141,7 @@
                     <preferredday>0</preferredday>
                     <preferredday_charge>0.99</preferredday_charge>
                     <no_neighbor_delivery_charge>0.29</no_neighbor_delivery_charge>
+                    <gogreen_plus_charge>0</gogreen_plus_charge>
                 </additional_services>
             </dhlpaket>
         </dhlshippingsolutions>

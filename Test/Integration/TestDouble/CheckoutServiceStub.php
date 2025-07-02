@@ -35,7 +35,7 @@ class CheckoutServiceStub implements CheckoutServiceInterface
                 false
             ),
             new CarrierService(
-                'noNeighbourDelivery',
+                Codes::SERVICE_OPTION_NO_NEIGHBOR_DELIVERY,
                 true
             ),
             new CarrierService(
@@ -56,6 +56,10 @@ class CheckoutServiceStub implements CheckoutServiceInterface
                     ),
 
                 ]
+            ),
+            new CarrierService(
+                Codes::SERVICE_OPTION_GOGREEN_PLUS,
+                true
             )
         ];
     }

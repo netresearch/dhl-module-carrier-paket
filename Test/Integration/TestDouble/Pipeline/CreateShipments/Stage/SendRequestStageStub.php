@@ -106,4 +106,52 @@ B64;
 
         return parent::execute($requests, $artifactsContainer);
     }
+
+    /**
+     * Check if any API request contains GoGreen Plus service parameter.
+     *
+     * @return bool
+     */
+    public function hasGoGreenPlusInApiRequests(): bool
+    {
+        foreach ($this->apiRequests as $apiRequest) {
+            if (method_exists($apiRequest, 'getShipmentOrder') && $apiRequest->getShipmentOrder() !== null) {
+                $shipmentOrder = $apiRequest->getShipmentOrder();
+                if (method_exists($shipmentOrder, 'getShipmentDetails') && $shipmentOrder->getShipmentDetails() !== null) {
+                    $shipmentDetails = $shipmentOrder->getShipmentDetails();
+                    if (method_exists($shipmentDetails, 'getService') && $shipmentDetails->getService() !== null) {
+                        $service = $shipmentDetails->getService();
+                        if (property_exists($service, 'goGreenPlus') && $service->goGreenPlus === true) {
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Check if any API request contains return shipment GoGreen Plus service parameter.
+     *
+     * @return bool
+     */
+    public function hasReturnShipmentGoGreenPlusInApiRequests(): bool
+    {
+        foreach ($this->apiRequests as $apiRequest) {
+            if (method_exists($apiRequest, 'getShipmentOrder') && $apiRequest->getShipmentOrder() !== null) {
+                $shipmentOrder = $apiRequest->getShipmentOrder();
+                if (method_exists($shipmentOrder, 'getShipmentDetails') && $shipmentOrder->getShipmentDetails() !== null) {
+                    $shipmentDetails = $shipmentOrder->getShipmentDetails();
+                    if (method_exists($shipmentDetails, 'getReturnShipment') && $shipmentDetails->getReturnShipment() !== null) {
+                        $returnShipment = $shipmentDetails->getReturnShipment();
+                        if (property_exists($returnShipment, 'goGreenPlus') && $returnShipment->goGreenPlus === true) {
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+        return false;
+    }
 }

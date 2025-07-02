@@ -249,6 +249,10 @@ class RequestDataMapper
                 $requestBuilder->setBulkyGoods();
             }
 
+            if ($requestExtractor->isGoGreenPlusEnabled()) {
+                $requestBuilder->setGoGreenPlus();
+            }
+
             if ($requestExtractor->hasPreferredDay()) {
                 $requestBuilder->setPreferredDay($requestExtractor->getPreferredDay());
             }
@@ -270,6 +274,10 @@ class RequestDataMapper
                     $requestExtractor->getReturnRecipient()->getStreetName(),
                     $requestExtractor->getReturnRecipient()->getStreetNumber()
                 );
+
+                if ($requestExtractor->isGoGreenPlusEnabled()) {
+                    $requestBuilder->setReturnShipmentGoGreenPlus();
+                }
             }
 
             $nonDeliveryNoticeEmail = $requestExtractor->getParcelOutletRoutingEmail();

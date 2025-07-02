@@ -139,4 +139,58 @@ class AdditionalChargesProcessorTest extends TestCase
             )
         );
     }
+
+    /**
+     * Test GoGreen Plus service is available in checkout for domestic routes.
+     *
+     * @magentoConfigFixture default_store general/store_information/name NR-Test-Store
+     * @magentoConfigFixture default_store general/store_information/region_id 91
+     * @magentoConfigFixture default_store general/store_information/phone 000
+     * @magentoConfigFixture default_store general/store_information/country_id DE
+     * @magentoConfigFixture default_store general/store_information/postcode 04229
+     * @magentoConfigFixture default_store general/store_information/city Leipzig
+     * @magentoConfigFixture default_store general/store_information/street_line1 Nonnenstraße 11
+     *
+     * @magentoConfigFixture default_store shipping/origin/country_id DE
+     * @magentoConfigFixture default_store shipping/origin/region_id 91
+     * @magentoConfigFixture default_store shipping/origin/postcode 04229
+     * @magentoConfigFixture default_store shipping/origin/city Leipzig
+     * @magentoConfigFixture default_store shipping/origin/street_line1 Nonnenstraße 11
+     *
+     * @magentoConfigFixture current_store carriers/dhlpaket/active 1
+     * @magentoConfigFixture current_store dhlshippingsolutions/dhlpaket/checkout_settings/emulated_carrier flatrate
+     * @magentoConfigFixture current_store dhlshippingsolutions/dhlpaket/additional_services/gogreen_plus 1
+     * @magentoConfigFixture current_store dhlshippingsolutions/dhlpaket/additional_services/gogreen_plus_charge 2.50
+     *
+     * @magentoConfigFixture current_store carriers/flatrate/type O
+     * @magentoConfigFixture current_store carriers/flatrate/handling_type F
+     * @magentoConfigFixture current_store carriers/flatrate/price 5.00
+     *
+     * @throws LocalizedException
+     */
+    public function testGoGreenPlusServiceAvailableInCheckout()
+    {
+        /** @var CheckoutManagement $checkoutManagement */
+        $checkoutManagement = $this->objectManager->create(CheckoutManagement::class);
+        $checkoutData = $checkoutManagement->getCheckoutData('DE', '04229');
+
+        $carriers = $checkoutData->getCarriers();
+        self::assertArrayHasKey(Paket::CARRIER_CODE, $carriers);
+
+        /** @var CarrierData $carrier */
+        $carrier = $carriers[Paket::CARRIER_CODE];
+        $options = $carrier->getServiceOptions();
+        
+        // Verify GoGreen Plus service is available when API returns it
+        self::assertArrayHasKey(
+            Codes::SERVICE_OPTION_GOGREEN_PLUS, 
+            $options,
+            'GoGreen Plus should be available when returned by API and configured'
+        );
+        
+        // Verify the service has the expected structure
+        $goGreenPlusOption = $options[Codes::SERVICE_OPTION_GOGREEN_PLUS];
+        self::assertNotEmpty($goGreenPlusOption->getInputs(), 'GoGreen Plus should have input fields');
+        self::assertArrayHasKey('enabled', $goGreenPlusOption->getInputs(), 'GoGreen Plus should have enabled input');
+    }
 }

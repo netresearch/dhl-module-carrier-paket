@@ -28,6 +28,7 @@ class Codes
     public const SERVICE_OPTION_BULKY_GOODS = 'bulkyGoods';
     public const SERVICE_OPTION_PDDP = 'deliveryDutyPaid';
     public const SERVICE_OPTION_DELIVERY_TYPE = 'deliveryType';
+    public const SERVICE_OPTION_GOGREEN_PLUS = 'goGreenPlus';
 
     public const SERVICE_OPTION_PARCEL_OUTLET_ROUTING = 'parcelOutletRouting';
     public const SERVICE_INPUT_PARCEL_OUTLET_ROUTING_NOTIFICATION_EMAIL = 'emailAddress';

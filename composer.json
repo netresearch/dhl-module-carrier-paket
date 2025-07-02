@@ -26,7 +26,7 @@
         "ext-json": "*",
         "dhl/module-shipping-core": "^2.5.0",
         "dhl/module-unified-tracking": "^2.3.0",
-        "dhl/sdk-api-parcel-de": "^1.2.0",
+        "dhl/sdk-api-parcel-de": "^1.3.0",
         "dhl/sdk-api-parcel-management": "^3.4.0",
         "dhl/sdk-api-unified-location-finder": "^3.3.0",
         "magento/framework": "^103.0.8",

@@ -169,6 +169,28 @@
                     </input>
                 </inputs>
             </shippingOption>
+            <shippingOption code="Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes::SERVICE_OPTION_GOGREEN_PLUS" available="dhlshippingsolutions/dhlpaket/additional_services/gogreen_plus">
+                <label translate="true">GoGreen Plus: Climate Neutral Shipping</label>
+                <sortOrder>80</sortOrder>
+                <routes>
+                    <route>
+                        <origin>DE</origin>
+                        <includeDestinations>
+                            <destination>DE</destination>
+                        </includeDestinations>
+                    </route>
+                </routes>
+                <inputs>
+                    <input code="enabled">
+                        <label translate="true">Enable GoGreen Plus</label>
+                        <inputType>checkbox</inputType>
+                        <tooltip translate="true">Climate-neutral shipping with DHL GoGreen Plus. Available for domestic German shipments only.</tooltip>
+                        <comment>
+                            <content translate="true"><![CDATA[This service will incur additional shipping costs of $1 including VAT.]]></content>
+                        </comment>
+                    </input>
+                </inputs>
+            </shippingOption>
         </serviceOptions>
         <metadata>
             <color>#fc0</color>

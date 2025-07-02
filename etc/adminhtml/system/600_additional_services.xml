@@ -69,5 +69,19 @@
             <label>Delivery Day Additional Charge</label>
             <comment>The given additional charge will be applied to the shipping costs at checkout. Set to "0" to offer service for free.</comment>
         </field>
+        <field id="gogreen_plus" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="80"
+               translate="label comment" type="Netresearch\ConfigFields\Model\Type\Checkbox">
+            <label>Offer GoGreen Plus Service</label>
+            <comment>Allow customers to select climate-neutral shipping with GoGreen Plus. Note: If default authorization is enabled in the DHL business customer portal, this service will be automatically applied regardless of this store setting.</comment>
+        </field>
+        <field id="gogreen_plus_charge" showInDefault="1" showInWebsite="1" showInStore="0" sortOrder="85" canRestore="1"
+               translate="label comment" type="text">
+            <depends>
+                <field id="gogreen_plus">1</field>
+            </depends>
+            <label>GoGreen Plus Additional Charge</label>
+            <comment>The given additional charge will be applied to the shipping costs at checkout. Set to "0" to offer service for free.</comment>
+            <validate>validate-number</validate>
+        </field>
     </group>
 </include>

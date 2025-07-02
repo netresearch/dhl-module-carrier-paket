@@ -30,7 +30,8 @@ class AdditionalFeeProvider implements AdditionalFeeProviderInterface
         return [
             Codes::SERVICE_OPTION_DELIVERY_TYPE => $this->config->getClosestDropPointAdditionalCharge($storeId),
             Codes::SERVICE_OPTION_PREFERRED_DAY => $this->config->getPreferredDayAdditionalCharge($storeId),
-            Codes::SERVICE_OPTION_NO_NEIGHBOR_DELIVERY => $this->config->getNoNeighborDeliveryAdditionalCharge($storeId)
+            Codes::SERVICE_OPTION_NO_NEIGHBOR_DELIVERY => $this->config->getNoNeighborDeliveryAdditionalCharge($storeId),
+            Codes::SERVICE_OPTION_GOGREEN_PLUS => $this->config->getGoGreenPlusAdditionalCharge($storeId)
         ];
     }
 }

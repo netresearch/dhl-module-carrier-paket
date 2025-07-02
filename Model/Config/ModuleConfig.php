@@ -78,6 +78,8 @@ class ModuleConfig implements VersionInterface
     public const CONFIG_PATH_PREFERRED_DAY_CHARGE = 'dhlshippingsolutions/dhlpaket/additional_services/preferredday_charge';
     public const CONFIG_PATH_NO_NEIGHBOR_DELIVERY = 'dhlshippingsolutions/dhlpaket/additional_services/no_neighbor_delivery';
     public const CONFIG_PATH_NO_NEIGHBOR_DELIVERY_CHARGE = 'dhlshippingsolutions/dhlpaket/additional_services/no_neighbor_delivery_charge';
+    public const CONFIG_PATH_GOGREEN_PLUS = 'dhlshippingsolutions/dhlpaket/additional_services/gogreen_plus';
+    public const CONFIG_PATH_GOGREEN_PLUS_CHARGE = 'dhlshippingsolutions/dhlpaket/additional_services/gogreen_plus_charge';
 
     /**
      * @var ScopeConfigInterface
@@ -465,5 +467,37 @@ class ModuleConfig implements VersionInterface
         );
 
         return array_column($customsReferences, 'customs_reference', 'country');
+    }
+
+    /**
+     * Check if GoGreen Plus service is enabled for checkout.
+     *
+     * @return bool
+     */
+    public function getGoGreenPlusEnabled(mixed $store = null): bool
+    {
+        return $this->scopeConfig->isSetFlag(
+            self::CONFIG_PATH_GOGREEN_PLUS,
+            ScopeInterface::SCOPE_STORE,
+            $store
+        );
+    }
+
+    /**
+     * Get additional charge for GoGreen Plus service.
+     *
+     * @return float
+     */
+    public function getGoGreenPlusAdditionalCharge(mixed $store = null): float
+    {
+        return (float) str_replace(
+            ',',
+            '.',
+            $this->scopeConfig->getValue(
+                self::CONFIG_PATH_GOGREEN_PLUS_CHARGE,
+                ScopeInterface::SCOPE_STORE,
+                $store
+            )
+        );
     }
 }

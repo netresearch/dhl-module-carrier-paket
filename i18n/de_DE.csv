@@ -298,3 +298,10 @@ Wed,Mi
 dhl.support@netresearch.de,dhl.support@netresearch.de
 https://www.dhl.de/en/geschaeftskunden/paket/kunde-werden/angebot-dhl-geschaeftskunden-online.html?source=magento&cid=c_dhloka_de_magento,https://www.dhl.de/dhl-kundewerden?source=magento&cid=c_dhloka_de_magento
 none,keiner
+"Offer GoGreen Plus Service","GoGreen Plus Service anbieten"
+"Allow customers to select climate-neutral shipping with GoGreen Plus. Note: If default authorization is enabled in the DHL business customer portal, this service will be automatically applied regardless of this store setting.","Lassen Sie Kunden klimaneutralen Versand mit GoGreen Plus wählen. Hinweis: Bei aktivierter Standardbeauftragung im DHL Geschäftskundenportal wird dieser Service automatisch angewendet, unabhängig von dieser Shop-Einstellung."
+"GoGreen Plus Additional Charge","GoGreen Plus Aufpreis"
+"The given additional charge will be applied to the shipping costs at checkout. Set to ""0"" to offer service for free.","Der angegebene Aufpreis wird im Checkout zu den Versandkosten hinzugefügt. Geben Sie ""0"" an, um den Service kostenlos anzubieten."
+"GoGreen Plus: Climate Neutral Shipping","GoGreen Plus: Klimaneutraler Versand"
+"Enable GoGreen Plus","GoGreen Plus aktivieren"
+"Climate-neutral shipping with DHL GoGreen Plus. Available for domestic German shipments only.","Klimaneutraler Versand mit DHL GoGreen Plus. Nur für Inlandssendungen innerhalb Deutschlands verfügbar."

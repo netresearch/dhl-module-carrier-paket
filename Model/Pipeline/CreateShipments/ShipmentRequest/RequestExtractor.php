@@ -662,6 +662,16 @@ class RequestExtractor implements RequestExtractorInterface
     }
 
     /**
+     * Check if GoGreen Plus service was booked.
+     *
+     * @return bool
+     */
+    public function isGoGreenPlusEnabled(): bool
+    {
+        return $this->getServiceOptionReader()->isServiceEnabled(Codes::SERVICE_OPTION_GOGREEN_PLUS);
+    }
+
+    /**
      * Obtain the "parcelAnnouncement" flag for the current package.
      *
      * @return bool
