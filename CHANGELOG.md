@@ -6,13 +6,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## 3.4.0
 
-Magento 2.4.8 compatibility release
+Magento 2.4.8 compatibility release + GoGreen Plus support
 
 ### Added
 
 - Support for Magento 2.4.8
-- Support for PHP 8.3
 - Support for PHP 8.4
+- GoGreen Plus service support for climate-neutral shipping
+- GoGreen Plus service support for climate-neutral return shipments
 
 ### Changed
 
