@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## 3.4.1
+
+## Added
+
+- France as allowed country for _Closest Droppoint_ (CDP) service.
+
 ## 3.4.0
 
 Magento 2.4.8 compatibility release + GoGreen Plus support
