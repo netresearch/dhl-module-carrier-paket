@@ -43,7 +43,7 @@ class AdditionalChargesProcessorTest extends TestCase
             ['createCheckoutService' => new CheckoutServiceStub()]
         );
 
-        $this->objectManager->addSharedInstance($checkoutServiceFactory, ServiceFactory::class);
+        $this->objectManager->addSharedInstance($checkoutServiceFactory, 'Dhl\Paket\Model\Sdk\ParcelManagementServiceFactory\Virtual');
     }
 
     /**

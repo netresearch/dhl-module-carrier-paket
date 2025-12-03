@@ -44,7 +44,7 @@
         "magento/module-store": "^101.1.8",
         "monolog/monolog": " ^3.6.0",
         "netresearch/config-fields-m2": "^1.3.0",
-        "netresearch/module-shipping-core": "^4.0.0",
+        "netresearch/module-shipping-core": "^4.0.1",
         "psr/log": "^2.0.0 || ^3.0.0"
     },
     "require-dev": {

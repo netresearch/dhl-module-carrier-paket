@@ -305,3 +305,7 @@ none,none
 "GoGreen Plus: Climate Neutral Shipping","GoGreen Plus: Climate Neutral Shipping"
 "Enable GoGreen Plus","Enable GoGreen Plus"
 "Climate-neutral shipping with DHL GoGreen Plus. Available for domestic German shipments only.","Climate-neutral shipping with DHL GoGreen Plus. Available for domestic German shipments only."
+"For USA shipments: Required when value <= 680 EUR / 800 USD, not allowed when above these thresholds.","For USA shipments: Required when value <= 680 EUR / 800 USD, not allowed when above these thresholds."
+"PDDP is only available for stores with EUR or USD as base currency.","PDDP is only available for stores with EUR or USD as base currency."
+"PDDP is REQUIRED for USA shipments with value <= %1 %2. The DHL API will reject shipments without PDDP enabled.","PDDP is REQUIRED for USA shipments with value <= %1 %2. The DHL API will reject shipments without PDDP enabled."
+"PDDP is NOT allowed for USA shipments with value > %1 %2. The DHL API will reject shipments with PDDP enabled.","PDDP is NOT allowed for USA shipments with value > %1 %2. The DHL API will reject shipments with PDDP enabled."
