@@ -10,13 +10,18 @@
                         <includeDestinations>
                             <destination>AT</destination>
                             <destination>BE</destination>
+                            <destination>BG</destination>
+                            <destination>CY</destination>
+                            <destination>CZ</destination>
                             <destination>DK</destination>
+                            <destination>EE</destination>
                             <destination>FI</destination>
                             <destination>FR</destination>
-                            <destination>SE</destination>
+                            <destination>LT</destination>
+                            <destination>LV</destination>
+                            <destination>NL</destination>
                             <destination>PL</destination>
-                            <destination>BG</destination>
-                            <destination>HU</destination>
+                            <destination>SE</destination>
                         </includeDestinations>
                     </route>
                 </routes>
