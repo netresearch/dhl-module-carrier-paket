@@ -305,9 +305,7 @@ class AutoCreateTest extends TestCase
             }))
             ->willThrowException($serviceException);
 
-        $serviceFactoryMock = $this->getMockBuilder(ShipmentServiceFactory::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $serviceFactoryMock = $this->createStub(ShipmentServiceFactory::class);
         $serviceFactoryMock->method('create')->willReturn($serviceMock);
 
         Bootstrap::getObjectManager()->addSharedInstance($serviceFactoryMock, ShipmentServiceFactory::class);
@@ -474,7 +472,7 @@ class AutoCreateTest extends TestCase
 
         // assert "createShipments" is not called
         $serviceMock = $this->createMock(ShipmentService::class)->expects($this->never())->method('createShipments');
-        $serviceFactoryMock = $this->createConfiguredMock(ShipmentServiceFactory::class, ['create' => $serviceMock]);
+        $serviceFactoryMock = $this->createConfiguredStub(ShipmentServiceFactory::class, ['create' => $serviceMock]);
 
         Bootstrap::getObjectManager()->addSharedInstance($serviceFactoryMock, ShipmentServiceFactory::class);
 
@@ -542,9 +540,7 @@ class AutoCreateTest extends TestCase
                             ->getMock();
         $serviceMock->expects($this->once())->method('createShipments')->willThrowException($serviceException);
 
-        $serviceFactoryMock = $this->getMockBuilder(ShipmentServiceFactory::class)
-                                   ->disableOriginalConstructor()
-                                   ->getMock();
+        $serviceFactoryMock = $this->createStub(ShipmentServiceFactory::class);
         $serviceFactoryMock->method('create')->willReturn($serviceMock);
 
         Bootstrap::getObjectManager()->addSharedInstance($serviceFactoryMock, ShipmentServiceFactory::class);

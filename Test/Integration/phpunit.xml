@@ -33,7 +33,6 @@
         <includePath>../../../../../dev/tests/integration/testsuite/</includePath>
         <ini name="date.timezone" value="Europe/Berlin"/>
         <ini name="xdebug.max_nesting_level" value="200"/>
-        <ini name="xdebug.mode" value="coverage"/>
         <ini name="memory_limit" value="2G"/>
         <const name="TESTS_INSTALL_CONFIG_FILE" value="etc/install-config-mysql.php"/>
         <const name="TESTS_POST_INSTALL_SETUP_COMMAND_CONFIG_FILE" value="etc/post-install-setup-command-config.php"/>

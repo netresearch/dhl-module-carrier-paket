@@ -251,7 +251,7 @@ class DisableCodPaymentMethodsTest extends TestCase
      */
     #[\PHPUnit\Framework\Attributes\DataProvider('dataProvider')]
     #[\PHPUnit\Framework\Attributes\Test]
-    public function methodRemainsSameForUnavailableQuote(string $methodClass, bool $before)
+    public function methodRemainsSameForUnavailableQuote(string $methodClass, bool $before, bool $after)
     {
         $checkResult = new DataObject();
         $checkResult->setData('is_available', $before);
@@ -281,7 +281,7 @@ class DisableCodPaymentMethodsTest extends TestCase
      */
     #[\PHPUnit\Framework\Attributes\DataProvider('dataProvider')]
     #[\PHPUnit\Framework\Attributes\Test]
-    public function methodRemainsSameForVirtualQuote(string $methodClass, bool $before)
+    public function methodRemainsSameForVirtualQuote(string $methodClass, bool $before, bool $after)
     {
         $checkResult = new DataObject();
         $checkResult->setData('is_available', $before);
@@ -290,7 +290,7 @@ class DisableCodPaymentMethodsTest extends TestCase
             [
                 'result' => $checkResult,
                 'method_instance' => Bootstrap::getObjectManager()->create($methodClass),
-                'quote' => $this->createConfiguredMock(Quote::class, ['isVirtual' => true])
+                'quote' => $this->createConfiguredStub(Quote::class, ['isVirtual' => true])
             ]
         );
 
@@ -313,7 +313,7 @@ class DisableCodPaymentMethodsTest extends TestCase
      */
     #[\PHPUnit\Framework\Attributes\DataProvider('dataProvider')]
     #[\PHPUnit\Framework\Attributes\Test]
-    public function methodRemainsSameForBrokenQuote(string $methodClass, bool $before)
+    public function methodRemainsSameForBrokenQuote(string $methodClass, bool $before, bool $after)
     {
         $checkResult = new DataObject();
         $checkResult->setData('is_available', $before);
@@ -349,7 +349,7 @@ class DisableCodPaymentMethodsTest extends TestCase
      */
     #[\PHPUnit\Framework\Attributes\DataProvider('dataProvider')]
     #[\PHPUnit\Framework\Attributes\Test]
-    public function codIsEnabledForNoServiceSelection(string $methodClass, bool $before)
+    public function codIsEnabledForNoServiceSelection(string $methodClass, bool $before, bool $after)
     {
         $checkResult = new DataObject();
         $checkResult->setData('is_available', $before);
@@ -419,7 +419,7 @@ class DisableCodPaymentMethodsTest extends TestCase
      */
     #[\PHPUnit\Framework\Attributes\DataProvider('dataProvider')]
     #[\PHPUnit\Framework\Attributes\Test]
-    public function codIsEnabledForCompatibleServiceSelection(string $methodClass, bool $before)
+    public function codIsEnabledForCompatibleServiceSelection(string $methodClass, bool $before, bool $after)
     {
         $checkResult = new DataObject();
         $checkResult->setData('is_available', $before);

@@ -132,8 +132,11 @@ class ShippingProductsTest extends TestCase
      */
     #[\PHPUnit\Framework\Attributes\DataProvider('shippingDataProvider')]
     #[\PHPUnit\Framework\Attributes\Test]
-    public function getShippingProductsThrowsNoException(string $originCountryCode, string $destinationCountryCode)
-    {
+    public function getShippingProductsThrowsNoException(
+        string $originCountryCode,
+        string $destinationCountryCode,
+        string $destinationRegion
+    ) {
         try {
             self::$shippingProducts->getShippingProducts(
                 $originCountryCode,

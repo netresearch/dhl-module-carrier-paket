@@ -38,7 +38,7 @@ class AdditionalChargesProcessorTest extends TestCase
         $this->objectManager = Bootstrap::getObjectManager();
 
         // suppress calls to the parcel management api
-        $checkoutServiceFactory = $this->createConfiguredMock(
+        $checkoutServiceFactory = $this->createConfiguredStub(
             ServiceFactory::class,
             ['createCheckoutService' => new CheckoutServiceStub()]
         );
