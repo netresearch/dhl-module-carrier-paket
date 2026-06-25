@@ -9,15 +9,24 @@ declare(strict_types=1);
 namespace Dhl\Paket\Model\ShippingSettings\TypeProcessor\ShippingOptions\Customs;
 
 use Dhl\Paket\Model\Carrier\Paket;
-use Magento\Sales\Api\Data\OrderInterface;
 use Magento\Sales\Api\Data\ShipmentInterface;
 use Netresearch\ShippingCore\Api\Data\ShippingSettings\ShippingOption\InputInterface;
 use Netresearch\ShippingCore\Api\Data\ShippingSettings\ShippingOptionInterface;
 use Netresearch\ShippingCore\Api\ShippingSettings\TypeProcessor\ShippingOptionsProcessorInterface;
+use Netresearch\ShippingCore\Model\ItemAttribute\ShipmentItemAttributeReader;
 use Netresearch\ShippingCore\Model\ShippingSettings\ShippingOption\Codes;
 
 class ExportNotificationInputsProcessor implements ShippingOptionsProcessorInterface
 {
+    /**
+     * @var ShipmentItemAttributeReader
+     */
+    private $itemAttributeReader;
+
+    public function __construct(ShipmentItemAttributeReader $itemAttributeReader)
+    {
+        $this->itemAttributeReader = $itemAttributeReader;
+    }
 
     /**
      * Retrieves the input associated with a specific code from the given shipping service option.
@@ -37,30 +46,32 @@ class ExportNotificationInputsProcessor implements ShippingOptionsProcessorInter
     }
 
     /**
-     * Enables the electronic export notification input for the given shipping option and order.
+     * Pre-checks the electronic export notification input when the shipment's customs value reaches the threshold.
+     *
+     * The customs value is the sum of the shipment's items in base currency - the same value the customsValue
+     * input defaults to. It must be derived from the shipment, not the whole-order subtotal, so a partial
+     * shipment below the threshold is not pre-checked (DHLGW-1550).
      *
      * @param ShippingOptionInterface $customsOption The shipping option associated with customs configuration.
-     * @param OrderInterface $order The order whose grand total determines if the notification input is enabled.
+     * @param ShipmentInterface $shipment The shipment whose customs value determines if the notification is pre-checked.
      * @return void
      */
     private function enableElectronicExportNotificationInput(
         ShippingOptionInterface $customsOption,
-        OrderInterface $order
+        ShipmentInterface $shipment
     ): void {
         $input = $this->getOptionInput($customsOption);
         if (!$input instanceof InputInterface) {
             return;
         }
 
-        if ($order->getSubtotal() >= 1000) {
+        if ($this->itemAttributeReader->getTotalPrice($shipment) >= 1000) {
             $input->setDefaultValue('1');
         }
     }
 
-    private function addToolTipContent(
-        ShippingOptionInterface $customsOption,
-        OrderInterface $order
-    ): void {
+    private function addToolTipContent(ShippingOptionInterface $customsOption): void
+    {
         $input = $this->getOptionInput($customsOption);
         if (!$input instanceof InputInterface) {
             return;
@@ -69,7 +80,7 @@ class ExportNotificationInputsProcessor implements ShippingOptionsProcessorInter
         $input->setTooltip(
             __('<b>Electronic Export Notification</b>')->render()
             . '<br><br>'
-            . __("Shipment with export declaration (This option is automatically selected when the goods value of the shipment exceeds 1000 EUR. Please only select this option yourself for goods valued under 1000 EUR if the shipment has been electronically declared for export to customs via ATLAS, IAA PLUS and it is ensured that an export accompanying document is attached to the shipment.)")->render()
+            . __("Shipment with export declaration (This option is automatically selected when the customs value of the package is 1000 EUR or more. Please only select this option yourself for goods valued under 1000 EUR if the shipment has been electronically declared for export to customs via ATLAS, IAA PLUS and it is ensured that an export accompanying document is attached to the shipment.)")->render()
             . '<br><br>'
             . __("<b>Export Declaration Notice</b>")->render()
             . '<br><br>'
@@ -117,9 +128,8 @@ class ExportNotificationInputsProcessor implements ShippingOptionsProcessorInter
             return $shippingOptions;
         }
 
-        $order = $shipment->getOrder();
-        $this->enableElectronicExportNotificationInput($customsOption, $order);
-        $this->addToolTipContent($customsOption, $order);
+        $this->enableElectronicExportNotificationInput($customsOption, $shipment);
+        $this->addToolTipContent($customsOption);
 
         return $shippingOptions;
     }
