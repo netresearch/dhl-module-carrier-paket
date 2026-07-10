@@ -4,6 +4,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## 3.6.0
+
+US customs changes effective 2026-07-24.
+
+### Added
+
+- Require a 10-digit HTSUS customs tariff number per item for USA and Puerto Rico shipments, enforced in the packaging popup and on label requests.
+- Offer the postal delivery duty paid (pDDP) service for Puerto Rico.
+
+### Changed
+
+- pDDP value thresholds switch from 800 USD / 680 EUR to 2,500 USD / 2,125 EUR at the 2026-07-24 cutover.
+- Lock the pDDP checkbox server-side when the service is not permitted for the shipment.
+
 ## 3.5.2
 
 ### Added
