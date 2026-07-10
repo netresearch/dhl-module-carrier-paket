@@ -100,6 +100,7 @@
                 <item name="kleinPaketShipment" xsi:type="object">Dhl\Paket\Model\Pipeline\CreateShipments\ShipmentRequest\Validator\ProductValidator</item>
                 <item name="noPartialShipment" xsi:type="object">Dhl\Paket\Model\Pipeline\CreateShipments\ShipmentRequest\Validator\NoPartialValidator</item>
                 <item name="exportDeclaration" xsi:type="object">Dhl\Paket\Model\Pipeline\CreateShipments\ShipmentRequest\Validator\ExportDeclarationValidator</item>
+                <item name="htsusCode" xsi:type="object">Dhl\Paket\Model\Pipeline\CreateShipments\ShipmentRequest\Validator\HtsusCodeValidator</item>
             </argument>
         </arguments>
     </virtualType>
@@ -147,6 +148,7 @@
             </argument>
             <argument name="itemShippingOptionsProcessors" xsi:type="array">
                 <item name="hsCode" xsi:type="object" sortOrder="10">Dhl\Paket\Model\ShippingSettings\TypeProcessor\ItemShippingOptions\HsCodeValidationRuleProcessor</item>
+                <item name="hsCodeTooltip" xsi:type="object" sortOrder="20">Dhl\Paket\Model\ShippingSettings\TypeProcessor\ItemShippingOptions\HsCodeTooltipProcessor</item>
             </argument>
         </arguments>
     </virtualType>

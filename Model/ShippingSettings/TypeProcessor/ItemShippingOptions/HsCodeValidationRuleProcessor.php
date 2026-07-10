@@ -8,7 +8,9 @@ declare(strict_types=1);
 
 namespace Dhl\Paket\Model\ShippingSettings\TypeProcessor\ItemShippingOptions;
 
+use Dhl\Paket\Model\Util\UsCustomsTerritory;
 use Magento\Sales\Api\Data\ShipmentInterface;
+use Netresearch\ShippingCore\Api\Data\ShippingSettings\ShippingOption\InputInterface;
 use Netresearch\ShippingCore\Api\Data\ShippingSettings\ShippingOption\ValidationRuleInterfaceFactory;
 use Netresearch\ShippingCore\Api\ShippingSettings\TypeProcessor\ItemShippingOptionsProcessorInterface;
 use Netresearch\ShippingCore\Model\ShippingSettings\ShippingOption\Codes;
@@ -57,17 +59,49 @@ class HsCodeValidationRuleProcessor implements ItemShippingOptionsProcessorInter
             }
 
             foreach ($itemCustomsOption->getInputs() as $input) {
-                if ($input->getCode() === Codes::ITEM_INPUT_HS_CODE && $countryCode === 'CH') {
-                    $requiredRule = $this->validationRuleFactory->create();
-                    $requiredRule->setName('required');
-                    $validationRules = $input->getValidationRules();
-                    $validationRules['required'] = $requiredRule;
-                    $input->setValidationRules($validationRules);
+                if ($input->getCode() !== Codes::ITEM_INPUT_HS_CODE) {
+                    continue;
+                }
 
+                if ($countryCode === 'CH') {
+                    $this->addRules($input, ['required' => null]);
+                }
+
+                if (in_array($countryCode, UsCustomsTerritory::COUNTRY_CODES, true)) {
+                    // US CBP requires a 10-digit HTSUS code per item for USA/Puerto Rico
+                    $this->addRules($input, [
+                        'required' => null,
+                        'minLength' => 10,
+                        'maxLength' => 10,
+                        'validate-number' => null,
+                    ]);
                 }
             }
 
         }
         return $itemOptions;
+    }
+
+    /**
+     * Merge validation rules into the input, keeping rules configured elsewhere.
+     *
+     * @param InputInterface $input The input to receive the rules.
+     * @param array<string, mixed> $rules Rule name => rule param (null for parameterless rules).
+     * @return void
+     */
+    private function addRules(InputInterface $input, array $rules): void
+    {
+        $validationRules = $input->getValidationRules();
+
+        foreach ($rules as $name => $param) {
+            $rule = $this->validationRuleFactory->create();
+            $rule->setName($name);
+            if ($param !== null) {
+                $rule->setParam($param);
+            }
+            $validationRules[$name] = $rule;
+        }
+
+        $input->setValidationRules($validationRules);
     }
 }
