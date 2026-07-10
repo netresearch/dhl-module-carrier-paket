@@ -193,7 +193,7 @@
                     <input code="enabled" defaultConfigValue="Dhl\Paket\Model\Config\ModuleConfig::CONFIG_PATH_PDDP">
                         <inputType>checkbox</inputType>
                         <label translate="true">Enable DHL postal delivery duty paid service</label>
-                        <tooltip translate="true">For USA shipments: Required when value &lt;= 680 EUR / 800 USD, not allowed when above these thresholds.</tooltip>
+                        <tooltip translate="true">For USA/Puerto Rico shipments: Required when value &lt;= 680 EUR / 800 USD (from 24 July 2026: 2,125 EUR / 2,500 USD), not allowed when above these thresholds.</tooltip>
                     </input>
                 </inputs>
                 <routes>
@@ -204,6 +204,7 @@
                             <destination>GB</destination>
                             <destination>NO</destination>
                             <destination>US</destination>
+                            <destination>PR</destination>
                         </includeDestinations>
                     </route>
                 </routes>

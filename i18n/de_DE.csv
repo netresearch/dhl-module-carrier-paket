@@ -231,6 +231,8 @@ Sat,Sa
 "Shipment Defaults","Voreinstellungen für Lieferungen"
 "Shipment Label Format","Format Versandschein"
 "Shipment with export declaration (This option is automatically selected when the customs value of the package is 1000 EUR or more. Please only select this option yourself for goods valued under 1000 EUR if the shipment has been electronically declared for export to customs via ATLAS, IAA PLUS and it is ensured that an export accompanying document is attached to the shipment.)","Sendung mit Ausfuhranmeldung (Diese Option wird automatisch angewählt, wenn der Zollwert des Pakets mindestens 1000 EUR beträgt. Bitte wählen Sie diese Option selbst nur aus bei einem Warenwert unter 1000 EUR, wenn die Sendung elektronisch beim Zoll über ATLAS, IAA PLUS zur Ausfuhr angemeldet wurde und sichergestellt ist, dass der Sendung ein Ausfuhrbegleitdokument beigefügt wird.)"
+"Shipments to the USA and Puerto Rico require a 10-digit HTSUS customs tariff number for every item.","Für Sendungen in die USA und nach Puerto Rico ist je Warenposition eine 10-stellige HTSUS-Warentarifnummer erforderlich."
+"Shipments to the USA and Puerto Rico require the 10-digit, US-specific HTSUS code per item. Look it up in the official %1Harmonized Tariff Schedule%2. See also %3dhl.de/us-versand%4.","Für Sendungen in die USA und nach Puerto Rico ist je Warenposition der 10-stellige, US-spezifische HTSUS-Code erforderlich. Schlagen Sie ihn im offiziellen %1Harmonized Tariff Schedule%2 nach. Siehe auch %3dhl.de/us-versand%4."
 "Shipping Origin",Versandursprung
 "Shipping Products",Versandprodukte
 "Shipping Services in Checkout","Zusätzliche Versandservices im Checkout"
@@ -305,7 +307,7 @@ none,keiner
 "GoGreen Plus: Climate Neutral Shipping","GoGreen Plus: Klimaneutraler Versand"
 "Enable GoGreen Plus","GoGreen Plus aktivieren"
 "Climate-neutral shipping with DHL GoGreen Plus. Available for domestic German shipments only.","Klimaneutraler Versand mit DHL GoGreen Plus. Nur für Inlandssendungen innerhalb Deutschlands verfügbar."
-"For USA shipments: Required when value <= 680 EUR / 800 USD, not allowed when above these thresholds.","Für USA-Sendungen: Erforderlich bei Warenwert <= 680 EUR / 800 USD, nicht erlaubt oberhalb dieser Schwellenwerte."
+"For USA/Puerto Rico shipments: Required when value <= 680 EUR / 800 USD (from 24 July 2026: 2,125 EUR / 2,500 USD), not allowed when above these thresholds.","Für USA-/Puerto-Rico-Sendungen: Erforderlich bei Warenwert <= 680 EUR / 800 USD (ab 24. Juli 2026: 2.125 EUR / 2.500 USD), nicht erlaubt oberhalb dieser Schwellenwerte."
 "PDDP is only available for stores with EUR or USD as base currency.","PDDP ist nur für Shops mit EUR oder USD als Basiswährung verfügbar."
-"PDDP is REQUIRED for USA shipments with value <= %1 %2. The DHL API will reject shipments without PDDP enabled.","PDDP ist ERFORDERLICH für USA-Sendungen mit Wert <= %1 %2. Die DHL-API lehnt Sendungen ohne aktiviertes PDDP ab."
-"PDDP is NOT allowed for USA shipments with value > %1 %2. The DHL API will reject shipments with PDDP enabled.","PDDP ist NICHT erlaubt für USA-Sendungen mit Wert > %1 %2. Die DHL-API lehnt Sendungen mit aktiviertem PDDP ab."
+"PDDP is NOT allowed for USA/Puerto Rico shipments with value > %1 %2. The DHL API will reject shipments with PDDP enabled.","PDDP ist NICHT erlaubt für USA-/Puerto-Rico-Sendungen mit Wert > %1 %2. Die DHL-API lehnt Sendungen mit aktiviertem PDDP ab."
+"PDDP is REQUIRED for USA/Puerto Rico shipments with value <= %1 %2. The DHL API will reject shipments without PDDP enabled.","PDDP ist ERFORDERLICH für USA-/Puerto-Rico-Sendungen mit Wert <= %1 %2. Die DHL-API lehnt Sendungen ohne aktiviertes PDDP ab."
