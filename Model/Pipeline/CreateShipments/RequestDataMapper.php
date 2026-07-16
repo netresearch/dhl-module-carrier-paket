@@ -14,6 +14,7 @@ use Dhl\Paket\Model\Adminhtml\System\Config\Source\Endorsement;
 use Dhl\Paket\Model\Adminhtml\System\Config\Source\VisualCheckOfAge;
 use Dhl\Paket\Model\Pipeline\CreateShipments\ShipmentRequest\Data\PackageAdditional;
 use Dhl\Paket\Model\Pipeline\CreateShipments\ShipmentRequest\RequestExtractorFactory;
+use Dhl\Paket\Model\Util\CustomsDeclarationCurrency;
 use Dhl\Paket\Model\Webservice\ShipmentOrderRequestBuilderFactory;
 use Dhl\Sdk\ParcelDe\Shipping\Api\ShipmentOrderRequestBuilderInterface;
 use Dhl\Sdk\ParcelDe\Shipping\Exception\RequestValidatorException;
@@ -53,16 +54,23 @@ class RequestDataMapper
      */
     private $unitConverter;
 
+    /**
+     * @var CustomsDeclarationCurrency
+     */
+    private $customsDeclarationCurrency;
+
     public function __construct(
         ShipmentOrderRequestBuilderFactory $requestBuilderFactory,
         RequestExtractorFactory $requestExtractorFactory,
         ShipmentDateInterface $shipmentDate,
-        UnitConverterInterface $unitConverter
+        UnitConverterInterface $unitConverter,
+        CustomsDeclarationCurrency $customsDeclarationCurrency
     ) {
         $this->requestBuilderFactory = $requestBuilderFactory;
         $this->requestExtractorFactory = $requestExtractorFactory;
         $this->shipmentDate = $shipmentDate;
         $this->unitConverter = $unitConverter;
+        $this->customsDeclarationCurrency = $customsDeclarationCurrency;
     }
 
     /**
@@ -339,10 +347,17 @@ class RequestDataMapper
                     default => '',
                 };
 
+                $baseCurrency = $requestExtractor->getBaseCurrencyCode();
+                $destinationCountry = $requestExtractor->getRecipient()->getCountryCode();
+
                 $requestBuilder->setCustomsDetails(
                     $package->getContentType(),
                     $packageExtension->getPlaceOfCommittal(),
-                    $packageExtension->getCustomsFees(),
+                    $this->customsDeclarationCurrency->convert(
+                        $packageExtension->getCustomsFees(),
+                        $baseCurrency,
+                        $destinationCountry
+                    ),
                     $package->getContentExplanation(),
                     $termsOfTrade,
                     null,
@@ -351,7 +366,8 @@ class RequestDataMapper
                     $packageExtension->getElectronicExportNotification(),
                     $packageExtension->getSendersCustomsReference(),
                     $packageExtension->getAddresseesCustomsReference(),
-                    $packageExtension->getMasterReferenceNumber()
+                    $packageExtension->getMasterReferenceNumber(),
+                    $this->customsDeclarationCurrency->getCurrency($baseCurrency, $destinationCountry)
                 );
 
                 /** @var PackageItemInterface $packageItem */
@@ -359,7 +375,11 @@ class RequestDataMapper
                     $requestBuilder->addExportItem(
                         (int)round($packageItem->getQty()),
                         $packageItem->getExportDescription(),
-                        $packageItem->getCustomsValue(),
+                        $this->customsDeclarationCurrency->convert(
+                            $packageItem->getCustomsValue(),
+                            $baseCurrency,
+                            $destinationCountry
+                        ),
                         $packageItem->getWeight(),
                         $packageItem->getHsCode(),
                         $packageItem->getCountryOfOrigin()

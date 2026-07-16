@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## 3.6.2
+
+### Fixed
+
+- Declare customs values for USA and Puerto Rico shipments in USD, converted from EUR at DHL's fixed rate of 0.85 EUR/USD, so that module, DHL, and US customs evaluate the same value at the pDDP thresholds and shipments near the thresholds are no longer returned.
+
 ## 3.6.1
 
 ### Fixed

@@ -10,6 +10,7 @@ namespace Dhl\Paket\Model\ShippingSettings\TypeProcessor\ShippingOptions;
 
 use Dhl\Paket\Model\Carrier\Paket;
 use Dhl\Paket\Model\ShippingSettings\ShippingOption\Codes;
+use Dhl\Paket\Model\Util\CustomsDeclarationCurrency;
 use Dhl\Paket\Model\Util\UsCustomsTerritory;
 use Magento\Framework\Stdlib\DateTime\DateTime;
 use Magento\Sales\Api\Data\ShipmentInterface;
@@ -31,15 +32,16 @@ class PddpUsaProcessor implements ShippingOptionsProcessorInterface
 {
     /**
      * Thresholds for PDDP requirement until 2026-07-23 (DHL API enforced).
+     * The EUR values derive from the USD thresholds at DHL's fixed rate: 680 EUR = 800 USD x 0.85.
      */
-    private const THRESHOLD_EUR_LEGACY = 680.00;
     private const THRESHOLD_USD_LEGACY = 800.00;
+    private const THRESHOLD_EUR_LEGACY = self::THRESHOLD_USD_LEGACY * CustomsDeclarationCurrency::EUR_PER_USD;
 
     /**
-     * Thresholds for PDDP requirement from 2026-07-24 (DHL API enforced, rate 0.85 EUR/USD).
+     * Thresholds for PDDP requirement from 2026-07-24 (DHL API enforced).
      */
-    private const THRESHOLD_EUR_2026 = 2125.00;
     private const THRESHOLD_USD_2026 = 2500.00;
+    private const THRESHOLD_EUR_2026 = self::THRESHOLD_USD_2026 * CustomsDeclarationCurrency::EUR_PER_USD;
 
     /**
      * The instant the DHL API switches to the new thresholds (Europe/Berlin).

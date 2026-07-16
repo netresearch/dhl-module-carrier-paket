@@ -20,4 +20,9 @@ namespace Dhl\Paket\Model\Util;
 class UsCustomsTerritory
 {
     public const COUNTRY_CODES = ['US', 'PR'];
+
+    /**
+     * The shipment request pipeline carries alpha-3 codes (Alpha3Converter in RequestExtractor).
+     */
+    public const COUNTRY_CODES_ALPHA3 = ['USA', 'PRI'];
 }
