@@ -271,6 +271,22 @@ class PostDataProvider
     }
 
     /**
+     * Pack all order items into one package with enclosed return label and GoGreen Plus service.
+     *
+     * @param OrderInterface $order
+     * @return mixed[]
+     */
+    public static function singlePackageDomesticWithEnclosedReturnAndGoGreenPlus(OrderInterface $order)
+    {
+        $data = self::singlePackageDomesticWithGoGreenPlus($order);
+        $data['packages'][0]['service'][PaketCodes::SERVICE_OPTION_RETURN_SHIPMENT] = [
+            'enabled' => true
+        ];
+
+        return $data;
+    }
+
+    /**
      * Pack each order item into an individual package with GoGreen Plus service.
      *
      * @param OrderInterface $order

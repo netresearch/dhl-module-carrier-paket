@@ -113,6 +113,9 @@ class DisableCodPaymentMethodsTest extends TestCase
      */
     private static function quoteFixture($locale = 'de_DE', ?QuoteSelection $serviceSelection = null)
     {
+        // reset state carried over from a previous test's fixture
+        self::$serviceSelection = null;
+
         /** @var AddressRepositoryInterface $customerAddressRepository */
         $customerAddressRepository = Bootstrap::getObjectManager()->get(AddressRepositoryInterface::class);
         $shippingMethod = 'dhlpaket_flatrate';
@@ -239,6 +242,38 @@ class DisableCodPaymentMethodsTest extends TestCase
     }
 
     /**
+     * Obtain the quote created by this test's data fixture, verifying the fixture actually ran.
+     *
+     * The TestFramework applies data fixtures through its transaction event chain. When an earlier
+     * lifecycle break leaves the transaction open, fixture application is skipped without any
+     * diagnostic and the static properties still hold the previous test's checkout. The observer
+     * then operates on the wrong quote and the test fails with a misleading assertion on the
+     * observer result. Verifying the fixture outcome turns that silent skip into an explicit
+     * precondition failure.
+     */
+    private static function getFixtureQuote(string $expectedCountryId, ?string $expectedServiceCode): Quote
+    {
+        $quote = self::$cart->getQuote();
+        $shippingAddress = $quote->getShippingAddress();
+
+        $message = 'Precondition failed: the data fixture of this test was not applied, '
+            . 'the quote belongs to a previous test (transaction lifecycle break in the TestFramework).';
+
+        self::assertSame($expectedCountryId, $shippingAddress->getCountryId(), $message);
+        self::assertSame('dhlpaket_flatrate', $shippingAddress->getShippingMethod(), $message);
+
+        if ($expectedServiceCode === null) {
+            self::assertNull(self::$serviceSelection, $message);
+        } else {
+            self::assertNotNull(self::$serviceSelection, $message);
+            self::assertSame($expectedServiceCode, self::$serviceSelection->getShippingOptionCode(), $message);
+            self::assertSame((int) $shippingAddress->getId(), self::$serviceSelection->getParentId(), $message);
+        }
+
+        return $quote;
+    }
+
+    /**
      * Test behaviour if no quote is passed to the observer.
      *
      * - Observer must not crash.
@@ -318,13 +353,14 @@ class DisableCodPaymentMethodsTest extends TestCase
         $checkResult = new DataObject();
         $checkResult->setData('is_available', $before);
 
-        self::$cart->getQuote()->getShippingAddress()->setShippingMethod('');
+        $quote = self::getFixtureQuote('DE', null);
+        $quote->getShippingAddress()->setShippingMethod('');
 
         $this->observer->setData(
             [
                 'result' => $checkResult,
                 'method_instance' => Bootstrap::getObjectManager()->create($methodClass),
-                'quote' => self::$cart->getQuote(),
+                'quote' => $quote,
             ]
         );
 
@@ -358,7 +394,7 @@ class DisableCodPaymentMethodsTest extends TestCase
             [
                 'result' => $checkResult,
                 'method_instance' => Bootstrap::getObjectManager()->create($methodClass),
-                'quote' => self::$cart->getQuote(),
+                'quote' => self::getFixtureQuote('DE', null),
             ]
         );
 
@@ -394,7 +430,7 @@ class DisableCodPaymentMethodsTest extends TestCase
             [
                 'result' => $checkResult,
                 'method_instance' => Bootstrap::getObjectManager()->create($methodClass),
-                'quote' => self::$cart->getQuote(),
+                'quote' => self::getFixtureQuote('US', null),
             ]
         );
 
@@ -428,7 +464,7 @@ class DisableCodPaymentMethodsTest extends TestCase
             [
                 'result' => $checkResult,
                 'method_instance' => Bootstrap::getObjectManager()->create($methodClass),
-                'quote' => self::$cart->getQuote(),
+                'quote' => self::getFixtureQuote('DE', Codes::SERVICE_OPTION_PREFERRED_DAY),
             ]
         );
 
@@ -464,7 +500,7 @@ class DisableCodPaymentMethodsTest extends TestCase
             [
                 'result' => $checkResult,
                 'method_instance' => Bootstrap::getObjectManager()->create($methodClass),
-                'quote' => self::$cart->getQuote(),
+                'quote' => self::getFixtureQuote('DE', Codes::SERVICE_OPTION_DROPOFF_DELIVERY),
             ]
         );
 

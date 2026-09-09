@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## Unreleased
+
+### Fixed
+
+- GoGreen Plus for the enclosed return shipment label is now transmitted at the position the DHL Parcel DE
+  Shipping API expects (`services.dhlRetoure.goGreenPlus`, via SDK 1.5.0); previously the service was
+  silently ignored by DHL and enclosed return labels shipped without GoGreen Plus
+
 ## 3.6.2
 
 ### Fixed
